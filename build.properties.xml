@@ -17,13 +17,10 @@
   <!-- ################################ eXist Settings ################################ -->
   <exist>
     <cache-size>256</cache-size>
-    <!-- if there are very large collections in your database, more than 5000 
-      documents per collection, you can try to increase this parameter slightly 
-      for better performance -->
     <collection-cache>256</collection-cache>
     <lucene-buffer>256</lucene-buffer>
     <backup-cron-trigger>0 0 4 * * ?</backup-cron-trigger>
-    <revision>17527</revision>
+    <revision></revision>
   </exist>
 
   <!-- ################################ Jetty Settings ################################ -->
