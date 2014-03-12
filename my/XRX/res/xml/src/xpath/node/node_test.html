@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>XRX++ Unit Tests - xrx.node</title>
+<script src='../../../lib/closure-library/closure/goog/base.js'></script>
+<script src='../../deps.js'></script>
+<script type="text/javascript">
+  goog.require('goog.array');
+  goog.require('goog.dom');
+  goog.require('goog.string');
+  goog.require('goog.testing.jsunit');
+  goog.require('xrx.label');
+  goog.require('xrx.node');
+  goog.require('xrx.nodeS');
+  goog.require('xrx.node.Attribute');
+  goog.require('xrx.node.AttributeS');
+  goog.require('xrx.node.Comment');
+  goog.require('xrx.node.Document');
+  goog.require('xrx.node.DocumentS');
+  goog.require('xrx.node.Element');
+  goog.require('xrx.node.ElementS');
+  goog.require('xrx.node.Namespace');
+  goog.require('xrx.node.ProcessingInstruction');
+  goog.require('xrx.node.Text');
+  goog.require('xrx.node.TextS');
+  goog.require('xrx.instance');
+  goog.require('xrx.token');
+  goog.require('xrx.xdm');
+</script>
+</head>
+<body>
+<script type="text/javascript">
+var xml   = '<a><b att1="attValue1" att2="attValue2"/>1<c>2</c>3</a>';
+
+function test01abstractMethodsXDM() {
+  /*
+  5 Accessors
+  5.1 attributes Accessor
+  5.2 base-uri Accessor
+  5.3 children Accessor
+  5.4 document-uri Accessor
+  5.5 is-id Accessor
+  5.6 is-idrefs Accessor
+  5.8 namespace-nodes Accessor
+  5.9 nilled Accessor
+  5.10 node-kind Accessor
+  5.11 node-name Accessor
+  5.12 parent Accessor
+  5.13 string-value Accessor
+  5.14 type-name Accessor
+  5.15 typed-value Accessor
+  5.16 unparsed-entity-public-id Accessor
+  5.17 unparsed-entity-system-id Accessor
+  */
+  var accessors = ['accAttributes', 'accBaseUri', 'accChildren',
+                   'accDocumentUri', 'accIsId', 'accIsIdrefs',
+                   'accNamespaceNodes', 'accNilled', 'accNodeKind',
+                   'accNodeName', 'accParent', 'accStringValue',
+                   'accTypeName', 'accTypedValue', 
+                   'accUnparsedEntityPublicId',
+                   'accUnparsedEntitySystemId'];
+  goog.array.forEach(accessors, function(acc, index, arr) {
+    
+    assertTrue(typeof xrx.xdm.prototype[acc] == 'function');
+  });
+
+  /*
+  6 Nodes
+  6.1 Document Nodes
+  6.2 Element Nodes
+  6.3 Attribute Nodes
+  6.4 Namespace Nodes
+  6.5 Processing Instruction Nodes
+  6.6 Comment Nodes
+  6.7 Text Nodes
+  */
+  goog.array.forEach(accessors, function(acc, index, arr) {
+
+    assertEquals(false, typeof xrx.node.Attribute.prototype[acc] == goog.abstractMethod);
+  });
+  goog.array.forEach(accessors, function(acc, index, arr) {
+
+    assertEquals(false, typeof xrx.node.Comment.prototype[acc] == goog.abstractMethod);
+  });
+  goog.array.forEach(accessors, function(acc, index, arr) {
+
+    assertEquals(false, typeof xrx.node.Document.prototype[acc] == goog.abstractMethod);
+  });
+  goog.array.forEach(accessors, function(acc, index, arr) {
+
+    assertEquals(false, typeof xrx.node.Element.prototype[acc] == goog.abstractMethod);
+  });
+  goog.array.forEach(accessors, function(acc, index, arr) {
+
+    assertEquals(false, typeof xrx.node.Namespace.prototype[acc] == goog.abstractMethod);
+  });
+  goog.array.forEach(accessors, function(acc, index, arr) {
+
+    assertEquals(false, typeof xrx.node.ProcessingInstruction.prototype[acc] == goog.abstractMethod);
+  });
+  goog.array.forEach(accessors, function(acc, index, arr) {
+
+    assertEquals(false, typeof xrx.node.Text.prototype[acc] == goog.abstractMethod);
+  });
+};
+
+function test02abstractMethods() {
+  var abstractMethods = [];
+  for (var item in xrx.node.prototype) {
+    var itm = item.toString();
+    if (itm != 'constructor') abstractMethods.push(itm);
+  }
+  // xrx.node.DocumentS
+  goog.array.forEach(abstractMethods, function(method, index, arr) {
+
+    assertEquals(false, xrx.node.DocumentS.prototype[method] == goog.abstractMethod);
+  });
+  // xrx.node.ElementS
+  goog.array.forEach(abstractMethods, function(method, index, arr) {
+
+    assertEquals(false, xrx.node.ElementS.prototype[method] == goog.abstractMethod);
+  });
+  // xrx.node.AttributeS
+  goog.array.forEach(abstractMethods, function(method, index, arr) {
+
+    //assertEquals(false, xrx.node.AttributeS.prototype[method] == goog.abstractMethod);
+  });
+  // xrx.node.TextS
+  goog.array.forEach(abstractMethods, function(method, index, arr) {
+
+    assertEquals(false, xrx.node.TextS.prototype[method] == goog.abstractMethod);
+  });
+};
+
+function test03forward() {
+  var element = goog.dom.createElement('div');
+  goog.dom.setTextContent(element, xml);
+  var instance = new xrx.instance(element);
+  var label = new xrx.label([1, 1]);
+  var token = new xrx.token.EmptyTag(label, 3, 38);
+  var elmnt = new xrx.node.ElementS(token, instance);
+  
+  elmnt.nodeElement = function() {};
+  
+  elmnt.nodeText = function() {};
+  
+  elmnt.forward();
+};
+
+</script>
+</body>
+</html>

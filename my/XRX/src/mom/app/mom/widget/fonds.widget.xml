@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml">
+	<xrx:id>tag:www.monasterium.net,2011:/mom/widget/fonds</xrx:id>
+	<xrx:title>
+	 <xrx:i18n>
+	   <xrx:key>fonds</xrx:key>
+	   <xrx:default>Fonds</xrx:default>
+	 </xrx:i18n>
+	</xrx:title>
+	<xrx:subtitle/>
+	<xrx:description/>
+	<xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+	<xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+	</xrx:licence>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/fonds</xrx:portal>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>false</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+	<xrx:csss>
+	  <style type="text/css">
+			
+#fonds{{
+	position:relative;
+	float:left;
+	width:100%;
+}}
+#inner-fonds{{
+  position:relative;
+  float:left;
+  margin:0px;
+  padding:0px;
+}}
+#fonds .country-div{{
+  position:relative;
+	float:left;
+	width:33%;
+  background:rgb(240,240,240);
+  border-left:solid white 2px;
+  border-top:solid white 2px;
+	margin:0px;
+	padding:0px;
+}}
+#fonds .inner-country-div{{
+  position:relative;
+  float:inherit;
+  background:rgb(240,240,240);
+  float:left;
+	margin:10px;
+}}
+#fonds .country-name{{
+	font-size:1.2em;
+	font-weight:bold;
+}}
+#fonds .region-name{{
+	font-size:1.2em;
+}}
+#fonds .draft-marker{{
+ color:red;
+}}
+#fonds .region-link{{
+ font-size:0.6em;
+ color:rgb{conf:param('color3')};
+}}
+#fonds .region-div{{
+  margin-top:10px;
+}}
+#fonds .fonds-list{{
+  list-style-type:circle;
+  margin-top:0px;
+  margin-left:0.6em;
+  padding-left:0.6em;
+}}
+
+    </style>
+  </xrx:csss>
+	<xrx:view>
+	{
+	  let $metadata-charter-import-base-collection :=
+	    metadata:base-collection('charter', 'import')
+	  let $imported-fond := $metadata-charter-import-base-collection/xrx:import[xrx:context = 'fond']
+	  let $count-imported-fond := count($imported-fond)
+	  return
+    <div data-demoid="545e83cc-a170-4e85-a127-b222a13c9aaf" id="dwidget">
+	    <div class="h2" data-demoid="b4e90807-c5fe-45a1-a974-b80c3a605587">
+	      <xrx:i18n>
+	       <xrx:key>archives</xrx:key>
+	       <xrx:default>Archives</xrx:default>
+	      </xrx:i18n>
+	    </div>
+			<div data-demoid="89ea7243-465a-49aa-b99c-d50cd70f2342" id="fonds"><div data-demoid="65974fc9-d8d6-4fa0-ac26-db79c4faa7f2" id="inner-fonds">
+				<xrx:auth>
+				  <xrx:rules>
+				    <xrx:rule>
+					    <xrx:user/>
+					    <xrx:role>metadata-manager</xrx:role>
+					  </xrx:rule>
+				  </xrx:rules>
+				  <xrx:true>
+						<div class="my-functions" data-demoid="2e54ce28-3369-4ebe-86fb-0c1e54d58870">
+							<div class="my-functions-label" data-demoid="e7cb33a3-c7a3-4274-a47b-476e7c71b107">
+								<xrx:i18n>
+								  <xrx:key>my-functions</xrx:key>
+								  <xrx:default>MyFunctions</xrx:default>
+								</xrx:i18n>
+							</div>
+							<div class="function-links" data-demoid="939bebb8-bf52-46a3-a4cc-801ac3001ee7">
+								<div class="function-link" data-demoid="16bf84f5-d16f-45ca-b9df-7a33643c9ee1">
+									<a href="{ conf:param('request-root') }new-archive">
+										<span>‣ </span>
+									  <xrx:i18n>
+									    <xrx:key>new-archive</xrx:key>
+									    <xrx:default>New Archive</xrx:default>
+									  </xrx:i18n>
+									</a>
+								</div>
+                <div class="function-link" data-demoid="f1ca6217-ffbb-4bbe-af36-c95c6f1b23fc">
+                  <a href="{ conf:param('request-root') }publish-fond">
+                    <span>‣ </span>
+                    <xrx:i18n>
+                      <xrx:key>publish-fond</xrx:key>
+                      <xrx:default>Publish fond</xrx:default>
+                    </xrx:i18n>
+                    <span> ({ $count-imported-fond })</span>
+                  </a>
+                </div>
+							</div>
+						</div>
+				  </xrx:true>
+				  <xrx:false>
+				    <span/>
+				  </xrx:false>
+				</xrx:auth>
+				{
+	      (: 
+	        first we define the db scope 
+	        where metadata shall be found
+	      :)
+	      
+	      let $metadata-scope :=
+	       (
+	         if(true()(:xrx:auth-by-role('metadata-manager'):)) then
+	         metadata:base-collection('archive', 'draft')
+	         else(),
+	         metadata:base-collection('archive', 'public')
+	       )
+	      
+				(: 
+				   loop through all countries defined in EAP 
+				:)
+				let $metadata-portal-base-collection :=
+				  metadata:base-collection('portal', '', 'public')
+				
+				for $country-element in $metadata-portal-base-collection/eap:eap//eap:country
+	
+				(: country info :)
+				let $country-id := $country-element/eap:code/text()
+				let $country-name := $country-element/eap:nativeform/text()
+	
+				(: get all regions (subdivisions) of this country defined in EAP :)
+				let $region-elements :=
+				  $country-element/eap:subdivisions/eap:subdivision
+	
+				(: get all archives of this country referenced in EAP :)
+				let $eag-elements-by-country := 
+				  eag:documents-by-country($country-id, $metadata-scope)
+	
+				order by count($eag-elements-by-country) descending
+				return
+				<div class="country-div" data-demoid="428f8875-3ba4-47b1-b9d4-0311c3d434b4">
+					<div class="inner-country-div" data-demoid="9e9759d7-3426-4f70-88bb-c92fff35abc6">
+						<div class="country-name" data-demoid="7f927a8d-1f36-435b-9475-d40ecb1731c2">
+						  <span>{ $country-name } </span>
+						  <a href="{ conf:param('request-root') }{ $country-id }/country">({ $country-id })</a>
+						</div>
+						<div data-demoid="b1d9df00-1171-4643-9f57-af6944ab99d7">
+							<ul class="fonds-list">
+								{
+								(:
+								  get all archives which are not 
+								  ordered by a region
+								:)
+								for $eag-element at $pos in $eag-elements-by-country
+								let $archive-id-element := $eag-element//eag:repositorid
+								let $archive-id := $archive-id-element/text()
+								let $is-draft := contains(util:collection-name($archive-id-element), '/metadata.draft')
+								return
+								if(normalize-space($eag-element//eag:firstdem/text())='') then
+								<li>
+									<a href="{ conf:param('request-root') }{ $archive-id }/archive">
+									 <span>{ $eag-element//eag:autform/text() } ({ $archive-id })</span>
+								  </a>
+								  <span>{ if($is-draft) then <span class="draft-marker"> draft</span> else () }</span>
+								</li>
+								else()
+								}
+							</ul>
+					  </div>
+						{
+					  (:
+							then we get all archives which can be 
+		          ordered by a region
+		        :)
+						for $region-name-element in $region-elements/eap:nativeform
+						let $region-code := $region-name-element/parent::eap:subdivision/eap:code/text()
+						let $eag-elements-by-region := 
+						 eag:documents-by-region($region-name-element/text(), $metadata-scope)
+						order by $region-name-element collation "?lang=de" 
+						return
+						<div class="region-div" data-demoid="c9b7805e-0cac-4f10-9b58-fab81ec0e251">
+							<div class="region-name" data-demoid="87675fa7-cf21-42c7-9de3-9f73fdea44ac">
+							  <span>{ $region-name-element/text() } </span>
+							  <a class="region-link" href="{ conf:param('request-root') }{ $region-code }/subdivision">({ $region-code })</a>
+							</div>
+							<div data-demoid="83d13354-3506-474c-a116-cae1512187b6">
+								<ul class="fonds-list">
+									{ 
+									for $eag-element in $eag-elements-by-region
+									let $archive-id := $eag-element//eag:repositorid/text()
+									let $archive-name := $eag-element//eag:autform/text() 
+									order by $archive-name collation "?lang=de" 
+									return
+									<li>
+										<a href="{ conf:param('request-root') }{ $archive-id }/archive">
+										 <span>{ $archive-name } ({ $archive-id })</span>
+										</a>
+									</li>
+									}
+								</ul>
+						  </div>
+						</div>
+						}
+					</div>
+				</div>
+				}
+			</div></div>
+		</div>
+	}
+	</xrx:view>
+</xrx:widget>

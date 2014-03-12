@@ -1,0 +1,54 @@
+<xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx"
+  xmlns="http://www.w3.org/1999/xhtml">
+  <xrx:id>tag:www.monasterium.net,2011:/core/widget/registration-successful</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>registration-successful</xrx:key>
+      <xrx:default>Registration successful</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>false</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:view>
+    <div>
+      <div class="h2">
+        <xrx:i18n>
+          <xrx:key>welcome</xrx:key>
+          <xrx:default>Welcome</xrx:default>
+        </xrx:i18n>
+      </div>
+      <p>
+        <xrx:i18n>
+          <xrx:key>registration-successful-message</xrx:key>
+          <xrx:default>Your registration was successful. You can login now.</xrx:default>
+        </xrx:i18n>
+      </p>
+    </div>
+  </xrx:view>
+</xrx:widget>

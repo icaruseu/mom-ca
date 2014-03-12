@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/search-result</xrx:id>
+  <xrx:inherits>tag:www.monasterium.net,2011:/mom/widget/charter</xrx:inherits>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>search-results</xrx:key>
+      <xrx:default>Search results</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more
+lenient towards the inclusion of components into other systems, once
+it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>
+    <!-- widget specific -->
+    <xrx:variable>
+      <xrx:name>$wsearch-result:pos</xrx:name>
+      <xrx:expression>xs:integer($xrx:tokenized-uri[(last() - 1)])</xrx:expression>
+    </xrx:variable>
+    <!-- 
+      charter info
+     -->
+    <xrx:variable>
+      <xrx:name>$wcharter:charter</xrx:name>
+      <xrx:expression>session:get-attribute($search:RESULT)[$wsearch-result:pos]</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:atom-id</xrx:name>
+      <xrx:expression>root($wcharter:charter)/atom:entry/atom:id/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:just-linked</xrx:name>
+      <xrx:expression>false()</xrx:expression>
+    </xrx:variable>
+    <!-- 
+      charter context: collection or fond? 
+    -->
+    <xrx:variable>
+      <xrx:name>$wcharter:uri-tokens</xrx:name>
+      <xrx:expression>metadata:uri-tokens($wcharter:atom-id)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:context</xrx:name>
+      <xrx:expression>charter:context($wcharter:atom-id, conf:param('atom-tag-name'))</xrx:expression>
+    </xrx:variable>
+    <!-- 
+      init metadata database collections 
+    -->
+    <xrx:variable>
+      <!-- charter -->
+      <xrx:name>$wcharter:metadata-charter-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('charter', $wcharter:uri-tokens, 'import')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <!-- fond -->
+      <xrx:name>$wcharter:metadata-fond-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('fond', $wcharter:uri-tokens, 'public')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <!-- archive -->
+      <xrx:name>$wcharter:metadata-archive-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('archive', $wcharter:uri-tokens[1], 'public')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <!-- collection -->
+      <xrx:name>$wcharter:metadata-collection-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('collection', $wcharter:uri-tokens, 'public')</xrx:expression>
+    </xrx:variable>
+    <!-- does this charter link a version of a archival charter? -->
+    <xrx:variable>
+      <xrx:name>$wcharter:linked-charter-atomid</xrx:name>
+      <xrx:expression>''</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:metadata-linked-charter-base-collection</xrx:name>
+      <xrx:expression>()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:metadata-linked-charter-fond-collection</xrx:name>
+      <xrx:expression>()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:linked-charter</xrx:name>
+      <xrx:expression>()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:linked-charter-image-base-uri</xrx:name>
+      <xrx:expression>''</xrx:expression>
+    </xrx:variable>
+    <!-- 
+      charter infos
+     -->
+    <xrx:variable>
+      <xrx:name>$wcharter:idno</xrx:name>
+      <xrx:expression>$wcharter:charter//cei:body/cei:idno/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:link-to-charter-in-archive</xrx:name>
+      <xrx:expression>data($wcharter:charter//cei:archIdentifier/cei:ref/@target)</xrx:expression>
+    </xrx:variable>
+    <!-- 
+      the charter and its siblings
+     -->
+    <xrx:variable>
+      <xrx:name>$wcharter:count</xrx:name>
+      <xrx:expression>count(session:get-attribute($search:RESULT))</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:next-and-previous</xrx:name>
+      <xrx:expression>(session:get-attribute($search:RESULT)[$wsearch-result:pos + 1], session:get-attribute($search:RESULT)[$wsearch-result:pos - 1])</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:pos</xrx:name>
+      <xrx:expression>$wsearch-result:pos</xrx:expression>
+    </xrx:variable>
+    <!-- 
+      back link to fond or collection 
+    -->
+    <xrx:variable>
+      <xrx:name>$wcharter:block</xrx:name>
+      <xrx:expression>charter:block(xs:integer($wcharter:pos))</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:anchor</xrx:name>
+      <xrx:expression>charter:anchor(xs:integer($wcharter:pos))</xrx:expression>
+    </xrx:variable>
+    <!-- 
+      status of the charter 
+    -->
+    <xrx:variable>
+      <xrx:name>$wcharter:is-bookmarked</xrx:name>
+      <xrx:expression>false()</xrx:expression>
+    </xrx:variable>
+    <!-- 
+      fond or collection information
+     -->
+    <xrx:variable>
+      <xrx:name>$wcharter:meta</xrx:name>
+      <xrx:expression>if($wcharter:context = 'fond') then $wcharter:metadata-fond-collection//ead:ead//ead:c[@level='fonds']/ead:did else $wcharter:metadata-collection-collection//cei:cei</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$fond</xrx:name>
+      <xrx:expression>if($wcharter:context = 'fond') then $wcharter:meta//ead:unittitle/text() else $wcharter:meta//cei:provenance/text()</xrx:expression>
+    </xrx:variable>
+    <!-- 
+      image access
+     -->
+    <xrx:variable>
+      <xrx:name>$wcharter:preferences</xrx:name>
+      <xrx:expression>($wcharter:metadata-fond-collection/xrx:preferences,$wcharter:metadata-collection-collection/xrx:preferences)[1]</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:image-base-uri</xrx:name>
+      <xrx:expression>if($wcharter:context = 'fond') then concat($wcharter:preferences/xrx:param[@name='image-server-base-url']/text(), '/') else concat('http://', $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(),'/')</xrx:expression>
+    </xrx:variable>
+    <!-- 
+      archive information
+     -->
+    <xrx:variable>
+      <xrx:name>$wcharter:archive</xrx:name>
+      <xrx:expression>$wcharter:metadata-archive-collection//eag:autform/text()</xrx:expression>
+    </xrx:variable>
+    <!-- 
+      XSLT transformation
+     -->
+    <xrx:variable>
+      <xrx:name>$wcharter:xsl</xrx:name>
+      <xrx:expression>$xrx:db-base-collection/xsl:stylesheet[@id='cei2html']</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:params</xrx:name>
+      <xrx:expression>
+        <parameters xmlns="">
+          <param name="image-base-uri" value="{ $wcharter:image-base-uri }"/>
+        </parameters>
+      </xrx:expression>
+    </xrx:variable>
+    <!-- 
+      links
+     -->
+    <xrx:variable>
+      <xrx:name>$wcharter:atom-uri</xrx:name>
+      <xrx:expression>
+        if($wcharter:context = 'fond') then
+          concat(conf:param('request-root'), 'atom/GET', metadata:feed('charter', $wcharter:uri-tokens, 'public'), '/', metadata:objectid($wcharter:atom-id), '.cei.xml')
+        else
+          concat(conf:param('request-root'), 'atom/GET', metadata:feed('charter', $wcharter:uri-tokens, 'public'), '/', metadata:objectid($wcharter:atom-id), '.cei.xml')
+      </xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:charter-context-url</xrx:name>
+      <xrx:expression>concat(conf:param('request-root'), string-join($wcharter:uri-tokens, '/'), '/')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:previous</xrx:name>
+      <xrx:expression>if(($wsearch-result:pos - 1) eq 0) then concat(conf:param('request-root'), '1', '/search-result', '?', request:get-query-string()) else concat(conf:param('request-root'), $wsearch-result:pos - 1, '/search-result', '?', request:get-query-string())</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:next</xrx:name>
+      <xrx:expression>if(($wsearch-result:pos) eq $wcharter:count) then concat(conf:param('request-root'), $wcharter:count, '/search-result', '?', request:get-query-string()) else concat(conf:param('request-root'), $wsearch-result:pos + 1, '/search-result', '?', request:get-query-string())</xrx:expression>
+    </xrx:variable>
+    <!-- 
+      image tools
+    -->
+    <xrx:variable>
+      <xrx:name>$image-tools-base-url</xrx:name>
+      <xrx:expression>
+        if($wcharter:context = 'fond') then
+        concat(conf:param('request-root'), $charter:rarchiveid, '/', $charter:rfondid,'/')
+        else
+        concat(conf:param('request-root'), $charter:rcollectionid,'/')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$image-tools-url</xrx:name>
+      <xrx:expression>concat($image-tools-base-url, $charter:rcharterid, '/image-tools')</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:xformsflag>false</xrx:xformsflag>
+      <xrx:jqueryflag>true</xrx:jqueryflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:divs>
+    <xrx:div>
+      <xrx:key>heading-center-div</xrx:key>
+      <xrx:view>
+        <div class="heading-center h2" data-demoid="98f9a2ae-7f71-44ca-8011-86067b70f67a">
+          <xrx:i18n>
+            <xrx:key>results</xrx:key>
+            <xrx:default>Results</xrx:default>
+          </xrx:i18n>
+        </div>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>breadcrumb</xrx:key>
+      <xrx:view>
+        <div data-demoid="fbc2501c-1c48-443a-982f-112f3301e478">
+          <a href="{ conf:param('request-root') }search2?{ request:get-query-string() }">
+            <xrx:i18n>
+              <xrx:key>results</xrx:key>
+              <xrx:default>Results</xrx:default>
+            </xrx:i18n>
+          </a>
+          <span> &gt; </span>
+          <a href="{ conf:param('request-root') }search2?{ request:get-query-string() }">{ $wsearch-result:pos }</a>
+	        {
+	        if($wcharter:context = 'fond') then
+	        let $archid := charter:archid($wcharter:atom-id)
+	        let $fondid := charter:fondid($wcharter:atom-id)
+	        return
+	        <div data-demoid="90a99a45-5ace-47b2-a71a-97fc6f6cd137">
+	          <b>
+	            <xrx:i18n>
+	              <xrx:key>original-context</xrx:key>
+	              <xrx:default>Original context</xrx:default>
+	            </xrx:i18n>
+	            <span>: </span>
+	          </b>
+	          <a href="{ conf:param('request-root') }fonds">
+	            <xrx:i18n>
+	              <xrx:key>fonds</xrx:key>
+	              <xrx:default>Fonds</xrx:default>
+	            </xrx:i18n>
+	          </a>
+	          <span> &gt; </span>
+	          <a href="{ concat(conf:param('request-root'), $archid, '/archive') }">{ $archid }</a>
+	          <span> &gt; </span>
+	          <a href="{ concat(conf:param('request-root'), $archid, '/', $fondid, '/fond') }">{ $fondid }</a>
+	          <span> &gt; </span>
+	          <a href="{ request:get-url() }?{ request:get-query-string() }">{ $wcharter:idno }</a>
+	        </div>
+	        else
+	        let $collectionid := charter:collectionid($wcharter:atom-id)
+	        return
+	        <div data-demoid="01c788f1-450c-4ac2-82bc-4427d763fe21">
+            <b>
+              <xrx:i18n>
+                <xrx:key>original-context</xrx:key>
+                <xrx:default>Original context</xrx:default>
+              </xrx:i18n>
+              <span>: </span>
+            </b>
+	          <a href="{ conf:param('request-root') }collections">
+	            <xrx:i18n>
+	              <xrx:key>collections</xrx:key>
+	              <xrx:default>Collections</xrx:default>
+	            </xrx:i18n>
+	          </a>
+	          <span> &gt; </span>
+	          <a href="{ concat(conf:param('request-root'), $collectionid, '/collection') }">{ $collectionid }</a>
+	          <span> &gt; </span>
+	          <a href="{ request:get-url() }?{ request:get-query-string() }">{ $wcharter:idno }</a>
+	        </div>
+	        }  
+        </div>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>my-archive</xrx:key>
+      <xrx:view>
+        <div class="actions" data-demoid="b9c37881-e877-4534-9a2c-7cf3a2154db2">
+          <xrx:div>download-xml-link</xrx:div>
+        </div>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>download-xml-link</xrx:key>
+      <xrx:view>
+        <div data-demoid="8834d70a-5a8f-4ce6-8e56-29dbfa97d049">
+          <a href="{ $wcharter:atom-uri }" target="_blank">
+            <xrx:i18n>
+              <xrx:key>download-xml</xrx:key>
+              <xrx:default>Download XML</xrx:default>
+            </xrx:i18n>
+          </a>
+        </div>
+      </xrx:view>
+    </xrx:div>
+  </xrx:divs>
+</xrx:widget>

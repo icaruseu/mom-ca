@@ -1,0 +1,76 @@
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/migrate-i18n-v20</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key></xrx:key>
+      <xrx:default></xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:variables>
+    <xrx:variable>
+      <xrx:name>$old-entries</xrx:name>
+      <xrx:expression>collection(concat(conf:param('atom-db-base-uri'), '/i18n'))/atom:entry</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:translateflag>false</xrx:translateflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:body>
+    {
+    for $entry in $old-entries
+    let $old-message :=
+      $entry//i18n:*
+    let $transformed-message :=
+      element { 'xrx:i18n' }{
+        <xrx:key>{ $old-message/@*:key/string() }</xrx:key>,
+        <xrx:text>{ $old-message/text() }</xrx:text>,
+        <xrx:default>{ $old-message/@*:default/string() }</xrx:default>
+      }
+    let $updated-entry := 
+      upd:replace-node($entry//atom:content/i18n:*, $transformed-message)
+    let $feed :=
+      replace(substring-after(util:collection-name($entry), conf:param('atom-db-base-uri')), '/i18n/', '/xrx.i18n/')
+    let $resource-name :=
+      util:document-name($entry)
+    let $post := 
+      atom:POST(
+        $feed,
+        $resource-name,
+        $updated-entry
+      )
+    let $put-silent := 
+      atom:PUTSILENT(
+        $feed,
+        $resource-name,
+        $updated-entry
+      )
+    return
+    <old>{ $feed }/{ $resource-name }</old>
+    }
+  </xrx:body>
+</xrx:service>

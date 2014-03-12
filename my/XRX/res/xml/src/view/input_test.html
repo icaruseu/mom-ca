@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>XRX++ Unit Tests - xrx.input</title>
+<script src='../../lib/codemirror/lib/codemirror.js'></script>
+<link rel="stylesheet" href="../../lib/codemirror/lib/codemirror.css"/>
+<script src='../../lib/closure-library/closure/goog/base.js'></script>
+<script src='../deps.js'></script>
+<script type="text/javascript">
+  goog.require('goog.testing.jsunit');
+  goog.require('xrx');
+  goog.require('xrx.model');
+  goog.require('xrx.view');
+</script>
+<link rel="stylesheet" type="text/css" href="default.css"/>
+</head>
+<body>
+
+<div id="i1" class="xrx-instance">&lt;data&gt;test&lt;a/&gt;&lt;b&gt;OK!&lt;/b&gt;&lt;c/&gt;&lt;/data&gt;</div>
+<div id="b1" class="xrx-bind" data-xrx-ref="xrx:instance('i1')//b/text()"></div>
+<div id="b2" class="xrx-bind" data-xrx-ref="xrx:instance('i1')/data/text()"></div>
+<div id="b3" class="xrx-bind" data-xrx-ref="xrx:instance('i1')/data/b/text()"></div>
+<textarea id="in1" class="xrx-input" data-xrx-bind="b1"></textarea>
+<textarea id="in2" class="xrx-input" data-xrx-bind="b2"></textarea>
+<textarea id="in3" class="xrx-input" data-xrx-bind="b3"></textarea>
+
+<script type="text/javascript">
+
+function test01basic() {
+  var input = xrx.view.getComponent('in1');
+  assertEquals('OK!', input.getValue());
+};
+
+function test02eventFocus() {
+  var in1 = xrx.view.getComponent('in1');
+  in1.setFocus();
+  assertEquals('OK!', xrx.model.cursor.getNode(0).xml());
+
+  var in2 = xrx.view.getComponent('in2');
+  in2.setFocus();
+  assertEquals('test', xrx.model.cursor.getNode(0).xml());
+};
+
+function test03sequentialModelUpdate() {
+  // first update
+  var in1 = xrx.view.getComponent('in1');
+  var expected1 = '<data>test<a/><b>Updated!</b><c/></data>';
+  in1.setValue('Updated!');
+  assertEquals(expected1, xrx.model.getComponent('i1').xml());
+
+  // second update
+  var in2 = xrx.view.getComponent('in2');
+  var expected2 = '<data>Updated too!<a/><b>Updated!</b><c/></data>';
+  in2.setValue('Updated too!');
+  assertEquals(expected2, xrx.model.getComponent('i1').xml());
+
+  // third update
+  var expected3 = '<data>testtttttttt<a/><b>Updated!</b><c/></data>';
+  in2.setValue('testtttttttt');
+  assertEquals(expected3, xrx.model.getComponent('i1').xml());
+
+  // fourth update
+  var expected4 = '<data>testtttttttt<a/><b>OK!</b><c/></data>';
+  in1.setValue('OK!');
+  assertEquals(expected4, xrx.model.getComponent('i1').xml());
+};
+
+function test04synchronizeSameNodeInputs() {
+  var in1 = xrx.view.getComponent('in1');
+  var in2 = xrx.view.getComponent('in2');
+  var in3 = xrx.view.getComponent('in3');
+
+  assertTrue(in1.getNode().sameAs(in3.getNode()));
+  assertFalse(in1.getNode().sameAs(in2.getNode()));
+};
+
+</script>
+
+<script type="text/javascript">
+  xrx.install();
+</script>
+</body>
+</html>

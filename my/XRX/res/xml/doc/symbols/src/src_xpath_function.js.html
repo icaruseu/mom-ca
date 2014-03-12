@@ -1,0 +1,101 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * @fileoverview An abstract class which allows
+<span class='line'>  3</span>  * custom functions for the XPath processor.
+<span class='line'>  4</span>  */</span><span class="WHIT">
+<span class='line'>  5</span> 
+<span class='line'>  6</span> </span><span class="NAME">goog.provide</span><span class="PUNC">(</span><span class="STRN">'xrx.xpath.Function'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  7</span> 
+<span class='line'>  8</span> 
+<span class='line'>  9</span> 
+<span class='line'> 10</span> </span><span class="COMM">/**
+<span class='line'> 11</span>  * A function in a function call expression.
+<span class='line'> 12</span>  *
+<span class='line'> 13</span>  * @constructor
+<span class='line'> 14</span>  * @param {string} name Name of the function.
+<span class='line'> 15</span>  * @param {xrx.xpath.DataType} dataType Datatype of the function return value.
+<span class='line'> 16</span>  * @param {boolean} needContextPosition Whether the function needs a context
+<span class='line'> 17</span>  *     position.
+<span class='line'> 18</span>  * @param {boolean} needContextNodeWithoutArgs Whether the function needs a
+<span class='line'> 19</span>  *     context node when not given arguments.
+<span class='line'> 20</span>  * @param {boolean} needContextNodeWithArgs Whether the function needs a context
+<span class='line'> 21</span>  *     node when the function is given arguments.
+<span class='line'> 22</span>  * @param {function(!xrx.xpath.Context, ...[!xrx.xpath.Expr]):*} evaluate
+<span class='line'> 23</span>  *     Evaluates the function in a context with any number of expression
+<span class='line'> 24</span>  *     arguments.
+<span class='line'> 25</span>  * @param {number} minArgs Minimum number of arguments accepted by the function.
+<span class='line'> 26</span>  * @param {?number=} opt_maxArgs Maximum number of arguments accepted by the
+<span class='line'> 27</span>  *     function; null means there is no max; defaults to minArgs.
+<span class='line'> 28</span>  * @param {boolean=} opt_nodesetsRequired Whether the args must be nodesets.
+<span class='line'> 29</span>  * @private
+<span class='line'> 30</span>  */</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="NAME">xrx.xpath.Function</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">returnType</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">needContextPosition</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">    </span><span class="NAME">needContextNodeWithoutArgs</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">needContextNodeWithArgs</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">evaluate</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">minArgs</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">    </span><span class="NAME">opt_maxArgs</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opt_nodesetsRequired</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 34</span> 
+<span class='line'> 35</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'> 36</span>    * @type {string}
+<span class='line'> 37</span>    * @private
+<span class='line'> 38</span>    */</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">  </span><span class="NAME">this.name</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 40</span> 
+<span class='line'> 41</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'> 42</span>    * @type {xrx.xpath.DataType}
+<span class='line'> 43</span>    * @private
+<span class='line'> 44</span>    */</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">  </span><span class="NAME">this.returnType</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">returnType</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 46</span> 
+<span class='line'> 47</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'> 48</span>    * @type {boolean}
+<span class='line'> 49</span>    * @private
+<span class='line'> 50</span>    */</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">  </span><span class="NAME">this.needContextPosition_</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">needContextPosition</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span> 
+<span class='line'> 53</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'> 54</span>    * @type {boolean}
+<span class='line'> 55</span>    * @private
+<span class='line'> 56</span>    */</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">  </span><span class="NAME">this.needContextNodeWithoutArgs_</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">needContextNodeWithoutArgs</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 58</span> 
+<span class='line'> 59</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'> 60</span>    * @type {boolean}
+<span class='line'> 61</span>    * @private
+<span class='line'> 62</span>    */</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">  </span><span class="NAME">this.needContextNodeWithArgs_</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">needContextNodeWithArgs</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> 
+<span class='line'> 65</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'> 66</span>    * @type {function(!xrx.xpath.Context, ...[!xrx.xpath.Expr]):*}
+<span class='line'> 67</span>    * @private
+<span class='line'> 68</span>    */</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">  </span><span class="NAME">this.evaluate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">evaluate</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span> 
+<span class='line'> 71</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'> 72</span>    * @type {number}
+<span class='line'> 73</span>    * @private
+<span class='line'> 74</span>    */</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">  </span><span class="NAME">this.minArgs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">minArgs</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 76</span> 
+<span class='line'> 77</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'> 78</span>    * @type {?number}
+<span class='line'> 79</span>    * @private
+<span class='line'> 80</span>    */</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">  </span><span class="NAME">this.maxArgs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">goog.isDef</span><span class="PUNC">(</span><span class="NAME">opt_maxArgs</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">opt_maxArgs</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">minArgs</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 82</span> 
+<span class='line'> 83</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'> 84</span>    * @type {boolean}
+<span class='line'> 85</span>    * @private
+<span class='line'> 86</span>    */</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">  </span><span class="NAME">this.nodesetsRequired_</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="PUNC">!</span><span class="NAME">opt_nodesetsRequired</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 89</span> 
+<span class='line'> 90</span> 
+<span class='line'> 91</span> 
+<span class='line'> 92</span> </span><span class="NAME">xrx.xpath.Function.prototype.toString</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.name_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="PUNC">}</span><span class="PUNC">;</span></pre></body></html>

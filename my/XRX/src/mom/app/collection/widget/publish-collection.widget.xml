@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/publish-collection</xrx:id>
+  <xrx:title>
+   <xrx:i18n>
+     <xrx:key>publish-collection</xrx:key>
+     <xrx:default>Publish collection</xrx:default>
+   </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>true</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:view>
+    {
+    let $metadata-charter-import-base-collection :=
+      metadata:base-collection('charter', 'import')
+    let $import-infos := $metadata-charter-import-base-collection/xrx:import[xrx:context = 'collection']
+    return
+    <div data-demoid="54ab4222-7480-47dd-ae8d-1355fee962cd" id="dpublish-collection">
+      <div class="h2" data-demoid="059e52bb-6e58-403c-9d4a-8ded22814a22">
+        <xrx:i18n>
+          <xrx:key>publish-collection</xrx:key>
+          <xrx:default>Publish collection</xrx:default>
+        </xrx:i18n>
+      </div>
+      {
+      for $import-info at $num in $import-infos
+      
+      (: import info :)
+      let $collectionid := $import-info/xrx:collectionid/text()
+      let $time := $import-info/xrx:time/text()
+      let $userid := $import-info/xrx:userid/text()
+      
+      (: collection info :)
+      let $metadata-collection-db-base-collection :=
+        metadata:base-collection('collection', $collectionid, 'public')      
+      let $cei := $metadata-collection-db-base-collection//cei:cei
+      let $collection-name := normalize-space($cei//cei:provenance/text())
+      
+      (: user info :)
+      let $user-name := user:firstname-name($userid)
+      
+      order by $import-info//xrx:date
+      return
+      <div data-demoid="c929da3e-f33b-4b21-a0a8-8ce97cd56d45">
+        <h3>{ $num }</h3>
+        <table>
+          <tr>
+            <td>
+              <xrx:i18n>
+                <xrx:key>collection-preview</xrx:key>
+                <xrx:default>Collection (preview)</xrx:default>
+              </xrx:i18n>
+              <span>: </span>
+            </td>
+            <td><a href="{ conf:param('request-root') }{ $collectionid }/imported-collection">{ $collection-name } ({ $collectionid })</a></td>
+          </tr>
+          <tr>
+            <td/>
+            <td>
+              <xrx:i18n>
+                <xrx:key>imported</xrx:key>
+                <xrx:default>Imported</xrx:default>
+              </xrx:i18n>
+              <span> { $time } </span>
+              <xrx:i18n>
+                <xrx:key>by</xrx:key>
+                <xrx:default>by</xrx:default>
+              </xrx:i18n>
+              <span> { $user-name }</span>
+            </td>
+          </tr>
+        </table>
+      </div>
+      }
+    </div>
+    }
+  </xrx:view>
+</xrx:widget>

@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/vdu-import</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>xml-import</xrx:key>
+      <xrx:default>XML Import</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>andre.streicher@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:xformsflag>true</xrx:xformsflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <style type="text/css">
+
+#dwizard{{
+  position:relative;
+  float:left;
+  width:600px;
+  margin-left:185px;
+  margin-top:50px;
+  background:rgb(240,240,240);
+}}
+#dinner-wizard{{
+  margin:15px;
+}}
+#dinner-wizard .cell{{
+  position:relative;
+  float:left;
+  width:50%;
+}}
+#dinner-wizard .table{{
+  background:rgb(240,240,240);
+  width:100%;
+  margin-top:20px;
+}}
+#dinner-wizard .previous-next-trigger{{
+  width:100%;
+  text-align:right;
+  margin-top:30px;
+}}
+#reporttable td{{
+  border:none;
+}}
+#reporttable .red *{{
+  color:red;
+}}
+#dpreview-link{{
+  text-align:center;
+}}
+#dpreview-link *{{
+  font-size:30px;
+}}
+#transform-options{{
+  position: relative;
+  top:8px;
+  left:150px;
+}}
+#file-upload{{
+  position: relative;
+  left:90px;
+}}
+#transform-list{{
+  position: relative;
+  top:3px;
+}}
+#upload-button{{
+  position: relative;
+  left:220px;
+}}
+
+    </style>
+  </xrx:csss>
+  <xrx:model>
+    <xf:model id="mimport">
+      <xf:instance>
+        <data xmlns="">
+          <sessionid/>
+          <fileuri/>
+          <archid>{ $xrx:tokenized-uri[1] }</archid>
+          <fondid>{ $xrx:tokenized-uri[2] }</fondid>
+          <transform/>
+          <ctransform>{fn:false()}</ctransform>
+          <extractfond>{fn:false()}</extractfond>
+          <upload>
+            <value ready="no"/>
+          </upload>
+        </data>
+      </xf:instance>
+      <xf:instance id="ivalidation-response">
+        <xrx:response status="">
+          <xrx:message/>
+          <xrx:icon/>
+          <xrx:report>
+            <report xmlns="">
+              <status/>
+              <namespace/>
+              <duration/>
+            </report>
+          </xrx:report>
+        </xrx:response>
+      </xf:instance>
+      <xf:instance id="iupload-response">
+        <xrx:response status="">
+          <xrx:message/>
+          <xrx:icon/>
+          <xrx:data/>
+          <xrx:report>
+            <report xmlns="">
+              <status/>
+              <namespace/>
+              <duration/>
+            </report>
+          </xrx:report>
+          <xrx:sucess>false</xrx:sucess>
+          <xrx:trans-data/>
+        </xrx:response>
+      </xf:instance>
+      <xf:instance xmlns="" id="transformations">
+        <transformationlist>
+          <transformation>
+            <name>Landesarchiv Baden-Württemberg</name>
+            <id>stuttgart</id>
+          </transformation>
+          <transformation>
+            <name>Landeshauptarchiv Koblenz</name>
+            <id>koblenz</id>
+          </transformation>
+        </transformationlist>
+      </xf:instance>
+      <xf:instance id="iimport-response">
+        <xrx:response status=""/>
+      </xf:instance>
+      <xf:submission action="{ conf:param('request-root') }service/vdu-upload-ead2cei" id="supload-cei" instance="iupload-response" method="post" replace="instance">
+        <xf:action ev:event="xforms-submit-done">
+          <xf:message level="ephemeral">Upload completed!</xf:message>
+          <xf:insert nodeset="fileuri" origin="instance('iupload-response')//*:trans-data"/>
+          <xf:insert nodeset="fileuri" origin="instance('iupload-response')//*:fond-infos"/>
+        </xf:action>
+      </xf:submission>
+      <xf:submission action="{ conf:param('request-root') }service/vdu-xml-validate" id="svalidate" instance="ivalidation-response" method="post" ref="instance('iupload-response')" replace="instance"/>
+      <xf:submission action="{ conf:param('request-root') }service/vdu-xml-import" id="simport" instance="iimport-response" method="post" replace="instance">
+        <xf:action ev:event="xforms-submit-error">
+          <xf:message level="ephemeral">ERROR</xf:message>
+        </xf:action>
+        <xf:action ev:event="xforms-submit-done">
+          <xf:message level="ephemeral">Import completed!</xf:message>
+        </xf:action>
+      </xf:submission>
+      <xf:bind nodeset="upload">
+        <xf:bind nodeset="value" type="xs:base64Binary">
+          <xf:bind id="bupload-ready" nodeset="@ready" relevant=". = 'yes'"/>
+        </xf:bind>
+      </xf:bind>
+      <xf:bind nodeset="fileuri" type="xs:anyURI"/>
+      <xf:bind nodeset="ctransform" type="xs:boolean"/>
+      <xf:bind nodeset="extractfond" type="xs:boolean"/>
+      <xf:bind id="bvstatus" nodeset="instance('ivalidation-response')//status"/>
+      <xf:bind id="bvnamespace" nodeset="instance('ivalidation-response')//namespace"/>
+      <xf:bind id="bvmessage" nodeset="instance('ivalidation-response')//message"/>
+
+    <!--
+    Wizard
+    Application data and logic
+     -->
+      <xf:instance id="iwizard">
+        <data xmlns="">
+          <success1>false</success1>
+          <success2>false</success2>
+          <success3>false</success3>
+        </data>
+      </xf:instance>
+      <xf:action ev:event="ewizard1-2">
+        <xf:delete nodeset="instance('ivalidation-response')/*"/>
+        <xf:toggle case="cvalidate-charter"/>
+      </xf:action>
+      <xf:action ev:event="ewizard2-1">
+        <xf:load resource="xml-import?reload=true" show="replace"/>
+      </xf:action>
+      <xf:action ev:event="ewizard2-3">
+        <xf:toggle case="cimport-charter"/>
+      </xf:action>
+    </xf:model>
+  </xrx:model>
+  <xrx:view>
+	  {
+	  (: request parameters :)
+	  let $archid := $xrx:tokenized-uri[1]
+	  let $fondid := $xrx:tokenized-uri[2]
+	
+	    (: get atom info :)
+	    let $archive-atomid :=
+	      metadata:atomid($archive:metadata-object-type, $archid)
+	      
+	  (: view :)
+	  let $back-link := concat(conf:param('request-root'),$archid,'/',$fondid,'/fond')
+	  
+	  (: fond info :)
+	  let $metadata-fond-base-collection :=
+	    metadata:base-collection('fond', ($archid, $fondid), 'public')
+	  let $ead := $metadata-fond-base-collection//cei:cei
+	  let $fond-name := normalize-space($ead//cei:provenance/text())
+	  
+	  return
+    <div data-demoid="1d80ece5-2ed5-480e-b223-b9e65bdbadb3" id="dcharter-import">
+      <a href="{ $back-link }">
+        <span>&lt;&lt;</span>
+        <xrx:i18n>
+          <xrx:key>back-to-fond-view</xrx:key>
+          <xrx:default>Back to fond view</xrx:default>
+        </xrx:i18n>
+      </a>
+      <div class="h2" data-demoid="4174126d-a55b-464f-a8f9-5da11f543be8">
+        <xrx:i18n>
+          <xrx:key>xml-import</xrx:key>
+          <xrx:default>XML Import</xrx:default>
+        </xrx:i18n>
+        <span>: { $fond-name } ({ $fondid })</span>
+      </div>
+      <xrx:auth>
+        <xrx:rules>
+          <xrx:or>
+            <xrx:rule>
+              <xrx:user/>
+              <xrx:role>metadata-manager</xrx:role>
+            </xrx:rule>
+            <xrx:rule>
+              <xrx:user/>
+              <xrx:community>{ $archive-atomid }</xrx:community>
+            </xrx:rule>
+          </xrx:or>
+        </xrx:rules>
+        <xrx:true>
+          <xf:group model="mimport">
+            <div data-demoid="f17b2b8e-674f-42d4-b7db-dc769589e4e7" id="dwizard">
+              <div data-demoid="e04023b1-97bb-4520-bf9e-5e6d97b87e52" id="dinner-wizard">
+                <xf:switch>
+                  <xf:case id="cupload-charter">
+                    <h3>
+                      <span>1. </span>
+                      <xrx:i18n>
+                        <xrx:key>select-file</xrx:key>
+                        <xrx:default>Select a file</xrx:default>
+                      </xrx:i18n>
+                      <span> (</span>
+                      <span>
+                        <xrx:i18n>
+                          <xrx:key>step</xrx:key>
+                          <xrx:default>Step</xrx:default>
+                        </xrx:i18n>
+                        <span> 1 </span>
+                        <xrx:i18n>
+                          <xrx:key>of</xrx:key>
+                          <xrx:default>of</xrx:default>
+                        </xrx:i18n>
+                        <span> 3</span>
+                      </span>
+                      <span>)</span>
+                    </h3>
+                    <br/>
+                    <br/>
+                    <div data-demoid="30a15d1e-78ff-4994-8699-644445f34386" id="file-upload">
+                      <span style="position:relative;top:1px;font-weight:bold;">
+                        <xrx:i18n>
+                          <xrx:key>file</xrx:key>
+                          <xrx:default>File</xrx:default>
+                        </xrx:i18n>: </span>
+                      <xf:upload incremental="true" ref="fileuri"/>
+                    </div>
+                    <div data-demoid="1380e7de-9acf-4522-a8dd-27230233d629" id="transform-list">
+                      <span style="position:relative;font-weight:bold;">
+                        <xrx:i18n>
+                          <xrx:key>transformation</xrx:key>
+                          <xrx:default>Transformation</xrx:default>
+                        </xrx:i18n>: </span>
+                      <xf:select1 incremental="true" ref="transform">
+                        <label/>
+                        <xf:itemset nodeset="instance('transformations')//transformation">
+                          <xf:label ref="name"/>
+                          <xf:value ref="id"/>
+                        </xf:itemset>
+                      </xf:select1>
+                    </div>
+                    <div data-demoid="13481258-9de2-49e4-b759-a44f71cb35d8" id="transform-options">
+                      <xf:input ref="ctransform" value="yes"/> 
+                      <span style="position:relative;top:1px;">
+                        <xrx:i18n>
+                          <xrx:key>no-cei-transformation</xrx:key>
+                          <xrx:default>No CEI-transformation</xrx:default>
+                        </xrx:i18n>
+                      </span>
+                      <br/>
+                      <xf:input ref="extractfond" value="yes"/> 
+                      <span style="position:relative;top:1px;">
+                        <xrx:i18n>
+                          <xrx:key>extract-and-save-fond-information</xrx:key>
+                          <xrx:default>Extract and save fond information</xrx:default>
+                        </xrx:i18n>
+                      </span>
+                    </div>
+                    <br/>
+                    <br/>
+                    <div data-demoid="bb1afb87-f3d4-4b88-bc93-8e3ee3a4282a" id="upload-button">
+                      <xf:trigger>
+                        <xf:label>
+                          <xrx:i18n>
+                            <xrx:key>upload-now</xrx:key>
+                            <xrx:default>Upload now</xrx:default>
+                          </xrx:i18n>
+                          <span>!</span>
+                        </xf:label>
+                        <xf:action ev:event="DOMActivate">
+                          <xf:send submission="supload-cei"/>
+                        </xf:action>
+                      </xf:trigger>
+                    </div>
+                    <div class="previous-next-trigger" data-demoid="3ca7c34d-5751-46e0-871e-5ca756c8c550">
+                      <xf:trigger ref="instance('iupload-response')//*:sucess[.='done']">
+                        <xf:label>
+                          <xrx:i18n>
+                            <xrx:key>next</xrx:key>
+                            <xrx:default>next</xrx:default>
+                          </xrx:i18n>
+                        </xf:label>
+                        <xf:action ev:event="DOMActivate">
+                          <xf:dispatch name="ewizard1-2" targetid="mimport"/>
+                        </xf:action>
+                      </xf:trigger>
+                    </div>
+                  </xf:case>
+                  <xf:case id="cvalidate-charter">
+                    <h3>
+                      <span>2. </span>
+                      <xrx:i18n>
+                        <xrx:key>validate</xrx:key>
+                        <xrx:default>Validate</xrx:default>
+                      </xrx:i18n>
+                      <span> (</span>
+                      <span>
+                        <xrx:i18n>
+                          <xrx:key>step</xrx:key>
+                          <xrx:default>Step</xrx:default>
+                        </xrx:i18n>
+                        <span> 2 </span>
+                        <xrx:i18n>
+                          <xrx:key>of</xrx:key>
+                          <xrx:default>of</xrx:default>
+                        </xrx:i18n>
+                        <span> 3</span>
+                      </span>
+                      <span>)</span>
+                    </h3>
+                    <br/>
+                    <br/>
+                    <xf:trigger>
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>validate-now</xrx:key>
+                          <xrx:default>Validate now</xrx:default>
+                        </xrx:i18n>
+                        <span>!</span>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:send submission="svalidate"/>
+                      </xf:action>
+                    </xf:trigger>
+                    <div class="previous-next-trigger" data-demoid="d427ea0d-0f2e-4f52-a9a2-1cf1a31ea41d">
+                      <xf:trigger>
+                        <xf:label>
+                          <xrx:i18n>
+                            <xrx:key>previous</xrx:key>
+                            <xrx:default>previous</xrx:default>
+                          </xrx:i18n>
+                        </xf:label>
+                        <xf:action ev:event="DOMActivate">
+                          <xf:dispatch name="ewizard2-1" targetid="mimport"/>
+                        </xf:action>
+                      </xf:trigger>
+                      <xf:trigger ref="instance('ivalidation-response')//status[.='valid']">
+                        <xf:label>
+                          <xrx:i18n>
+                            <xrx:key>next</xrx:key>
+                            <xrx:default>next</xrx:default>
+                          </xrx:i18n>
+                        </xf:label>
+                        <xf:action ev:event="DOMActivate">
+                          <xf:dispatch name="ewizard2-3" targetid="mimport"/>
+                        </xf:action>
+                      </xf:trigger>
+                    </div>
+                    <div class="report" data-demoid="d533b474-c23b-40f8-8144-61f6aff0ac9c">
+                      <table id="reporttable">
+                        <tr>
+                          <td>
+                            <xrx:i18n>
+                              <xrx:key>status</xrx:key>
+                              <xrx:default>Status</xrx:default>
+                            </xrx:i18n>
+                            <span>: </span>
+                          </td>
+                          <td>
+                            <xf:output bind="bvstatus"/>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <xrx:i18n>
+                              <xrx:key>namespace</xrx:key>
+                              <xrx:default>Namespace</xrx:default>
+                            </xrx:i18n>
+                            <span>: </span>
+                          </td>
+                          <td>
+                            <xf:output bind="bvnamespace"/>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <xrx:i18n>
+                              <xrx:key>message</xrx:key>
+                              <xrx:default>Message</xrx:default>
+                            </xrx:i18n>
+                            <span>: </span>
+                          </td>
+                          <td>
+                            <xf:repeat bind="bvmessage" id="rmessage">
+                              <span>
+                                <xrx:i18n>
+                                  <xrx:key>column</xrx:key>
+                                  <xrx:default>Column</xrx:default>
+                                </xrx:i18n>
+                                <span> / </span>
+                                <xrx:i18n>
+                                  <xrx:key>line</xrx:key>
+                                  <xrx:default>Line</xrx:default>
+                                </xrx:i18n>
+                                <span>: </span>
+                              </span>
+                              <xf:output value="concat(./@column, ' / ', ./@line)"/>
+                              <xf:output class="red" ref="."/>
+                            </xf:repeat>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </xf:case>
+                  <xf:case id="cimport-charter">
+                    <h3>
+                      <span>3. </span>
+                      <xrx:i18n>
+                        <xrx:key>import</xrx:key>
+                        <xrx:default>Import</xrx:default>
+                      </xrx:i18n>
+                      <span> (</span>
+                      <span>
+                        <xrx:i18n>
+                          <xrx:key>step</xrx:key>
+                          <xrx:default>Step</xrx:default>
+                        </xrx:i18n>
+                        <span> 3 </span>
+                        <xrx:i18n>
+                          <xrx:key>of</xrx:key>
+                          <xrx:default>of</xrx:default>
+                        </xrx:i18n>
+                        <span> 3</span>
+                      </span>
+                      <span>)</span>
+                    </h3>
+                    <br/>
+                    <br/>
+                    <xf:trigger>
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>import-now</xrx:key>
+                          <xrx:default>Import now</xrx:default>
+                        </xrx:i18n>
+                        <span>!</span>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:send submission="simport"/>
+                      </xf:action>
+                    </xf:trigger>
+                    <br/>
+                    <br/>
+                    <div data-demoid="647861f0-bd15-4af9-a38c-c49ab719b094">
+                      <xf:output class="icon" mediatype="image/*" ref="instance('iimport-response')//xrx:icon"/>
+                      <xf:output ref="instance('iimport-response')//xrx:message"/>
+                    </div>
+                    <xf:group ref="instance('iimport-response')//@status[.='1']">
+                      <div data-demoid="1af0ad28-2076-4695-8cda-596f5fd77b3d" id="dpreview-link">
+                        <a href="imported-charters">
+                          <xrx:i18n>
+                            <xrx:key>preview</xrx:key>
+                            <xrx:default>Preview</xrx:default>
+                          </xrx:i18n>
+                        </a>
+                      </div>
+                    </xf:group>
+                  </xf:case>
+                </xf:switch>
+              </div>
+            </div>
+          </xf:group>
+        </xrx:true>
+        <xrx:false>
+          <span>
+            <xrx:i18n>
+              <xrx:key>protected-page-message</xrx:key>
+              <xrx:default>Protected page. Please login first.</xrx:default>
+            </xrx:i18n>
+          </span>
+        </xrx:false>
+      </xrx:auth>
+    </div>
+    }  
+  </xrx:view>
+</xrx:widget>

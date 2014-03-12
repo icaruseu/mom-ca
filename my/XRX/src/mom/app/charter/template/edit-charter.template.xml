@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><cei:text xmlns:cei="http://www.monasterium.net/NS/cei">
+	<cei:front>
+		<cei:sourceDesc>
+			<cei:sourceDescVolltext>
+				<cei:bibl/>
+			</cei:sourceDescVolltext>
+			<cei:sourceDescRegest>
+				<cei:bibl/>
+			</cei:sourceDescRegest>
+		</cei:sourceDesc>
+	</cei:front>
+	<cei:body>
+		<cei:chDesc>
+			<cei:abstract/>
+			<cei:issued>
+				<cei:placeName/>
+				<cei:dateRange from="" to=""/>
+				<cei:date value=""/>
+			</cei:issued>
+			<cei:witnessOrig>
+				<cei:traditioForm/>
+				<cei:archIdentifier/>
+				<cei:physicalDesc>
+					<cei:material/>
+					<cei:dimensions/>
+					<cei:condition/>
+				</cei:physicalDesc>
+				<cei:auth>
+					<cei:sealDesc/>
+					<cei:notariusDesc/>
+				</cei:auth>
+				<cei:nota/>
+			</cei:witnessOrig>
+			<cei:witListPar>
+				<cei:witness>
+					<cei:traditioForm/>
+					<cei:archIdentifier/>
+					<cei:physicalDesc>
+						<cei:material/>
+						<cei:dimensions/>
+						<cei:condition/>
+					</cei:physicalDesc>
+					<cei:auth>
+						<cei:sealDesc/>
+						<cei:notariusDesc/>
+					</cei:auth>
+					<cei:nota/>
+				</cei:witness>
+			</cei:witListPar>
+			<cei:diplomaticAnalysis>
+				<cei:listBibl>
+					<cei:bibl/>
+				</cei:listBibl>
+				<cei:listBiblEdition>
+					<cei:bibl/>
+				</cei:listBiblEdition>
+				<cei:listBiblRegest>
+					<cei:bibl/>
+				</cei:listBiblRegest>
+				<cei:listBiblFaksimile>
+					<cei:bibl/>
+				</cei:listBiblFaksimile>
+				<cei:listBiblErw>
+					<cei:bibl/>
+				</cei:listBiblErw>
+				<cei:quoteOriginaldatierung/>
+				<cei:nota type=""/>
+				<cei:p/>
+			</cei:diplomaticAnalysis>
+			<cei:lang_MOM/>
+		</cei:chDesc>
+		<cei:tenor/>
+	</cei:body>
+	<cei:back>
+		<cei:persName type=""/>
+		<cei:placeName type=""/>
+		<cei:index type=""/>
+		<cei:divNotes>
+			<cei:note n=""/>
+		</cei:divNotes>
+	</cei:back>
+</cei:text>

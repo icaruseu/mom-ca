@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xrx:widget xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns:xf="http://www.w3.org/2002/xforms">
+    <xrx:id>tag:www.monasterium.net,2011:/core/widget/my-account</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key>my-account</xrx:key>
+            <xrx:default>My account</xrx:default>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:subtitle/>
+    <xrx:description/>
+    <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+    <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+    <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/desktop</xrx:portal> 
+    <xrx:init>
+          <xrx:processor>
+                 <xrx:xformsflag>true</xrx:xformsflag> 
+          </xrx:processor>
+    </xrx:init>
+    <xrx:model>
+        {
+            if($xrx:user-id='guest')then ()
+            else
+            
+                    <xf:model id="my-account">
+                        <xf:instance id="user-data">{ user:document($xrx:user-id) }</xf:instance>
+                        <xf:instance id="resp">
+                            <response xmlns="http://www.monasterium.net/NS/xrx" status="">
+                                <message/>
+                                <icon/>
+                            </response>
+                        </xf:instance>
+                        <xf:bind id="bfirstname" nodeset="/xrx:user/xrx:firstname" constraint="string-length(.) &gt; 0" required="true()"/>
+                        <xf:bind id="bname" nodeset="/xrx:user/xrx:name" constraint="string-length(.) &gt; 0" required="true()"/>
+                        <xf:bind id="bemail" nodeset="/xrx:user/xrx:email" readonly="true()"/>
+                        <xf:bind id="bphone" nodeset="/xrx:user/xrx:phone"/>
+                        <xf:bind id="binstitution" nodeset="/xrx:user/xrx:institution"/>
+                        <xf:bind id="bstreet" nodeset="/xrx:user/xrx:street"/>
+                        <xf:bind id="bzip" nodeset="/xrx:user/xrx:zip"/>
+                        <xf:bind id="btown" nodeset="/xrx:user/xrx:town"/>
+                        <!--xf:bind id="bpassword" nodeset="/xrx:user/xrx:password" constraint="string-length(.) &gt;= 6" required="true()"/>
+                        <xf:bind id="brepeat-password" nodeset="/xrx:user/xrx:username" constraint=". = ../xrx:password" required="true()"/-->
+                        <xf:bind id="bmoderator" nodeset="/xrx:user/xrx:moderator" constraint="string-length(.) &gt; 0" required="true()"/>
+                        <xf:bind id="binfo" nodeset="/xrx:user/xrx:info"/>
+                        <xf:submission id="supdate-account" action="{ conf:param('request-root') }service/update-account" method="post" replace="instance" instance="resp">
+                        	<xf:action ev:event="xforms-submit-done">
+                        		<xf:message level="ephemeral">Entry successfully saved.</xf:message>
+                        	</xf:action> 
+                        </xf:submission>
+                    </xf:model>
+        }
+    </xrx:model>
+    <xrx:view>
+      {
+        let $user-roles := role:document($xrx:user-id)/xrx:roles/xrx:role/text()
+        let $moderator-label := concat(user:firstname-name($xrx:user-xml//xrx:moderator/text()), ' (', $xrx:user-id, ')')
+        return
+        <div>
+        <xrx:auth>
+            <xrx:rules>
+                <xrx:rule>
+                    <xrx:user/>
+                    <xrx:dbgroup>atom</xrx:dbgroup>
+                </xrx:rule>
+            </xrx:rules>
+            <xrx:true>
+        <div id="my-account" class="standard-form">
+            <div>
+                <div class="h2">
+                    <xrx:i18n>
+                        <xrx:key>my-account</xrx:key>
+                        <xrx:default>My Account</xrx:default>
+                    </xrx:i18n>
+                </div>
+                <div>
+                    <b>
+                        <xrx:i18n>
+                            <xrx:key>my-roles</xrx:key>
+                            <xrx:default>My Roles</xrx:default>
+                        </xrx:i18n>
+                        <span>: </span>
+						{
+						for $role in $user-roles
+						return
+						<i>{ concat($role, ' ') }</i>
+						}
+					</b>
+                    <br/>
+                    <b>
+                        <xrx:i18n>
+                            <xrx:key>my-moderator</xrx:key>
+                            <xrx:default>My Moderator</xrx:default>
+                        </xrx:i18n>
+                        <span>: </span>
+						<span>{ $moderator-label }</span>
+					</b>
+                </div>
+                <xf:group id="mom-standard-form" model="my-account" appearance="bf:verticalTable" class="InlineRoundBordersAlert">
+                    <div class="delete-account-trigger">
+                        <a href="{ conf:param('request-root') }change-password">
+                            <xrx:i18n>
+                                <xrx:key>change-my-password-message</xrx:key>
+                                <xrx:default>Change my password</xrx:default>
+                            </xrx:i18n>
+                        </a>
+                        <br/>
+                        <!--
+                        <a href="{ conf:param('request-root') }remove-account">
+                            <xrx:i18n>
+                                <xrx:key>remove-my-account-message</xrx:key>
+                                <xrx:default>Remove my account</xrx:default>
+                            </xrx:i18n>
+                        </a>-->
+                    </div>
+                    <xf:input bind="bfirstname">
+                        <xf:label>
+                            <xrx:i18n>
+                                <xrx:key>firstname</xrx:key>
+                                <xrx:default>Firstname</xrx:default>
+                            </xrx:i18n>
+                            <span>*:&#160;</span>
+                        </xf:label>
+                        <xf:hint>
+                            <xrx:i18n>
+                                <xrx:key>enter-your-firstname</xrx:key>
+                                <xrx:default>Enter your Firstname</xrx:default>
+                            </xrx:i18n>
+                            <span>.</span>
+                        </xf:hint>
+                        <xf:alert>
+                            <xrx:i18n>
+                                <xrx:key>required-field</xrx:key>
+                                <xrx:default>Required Field</xrx:default>
+                            </xrx:i18n>
+                            <span>.</span>
+                        </xf:alert>
+                    </xf:input>
+                    <xf:input bind="bname">
+                        <xf:label>
+                            <xrx:i18n>
+                                <xrx:key>lastname</xrx:key>
+                                <xrx:default>Lastname</xrx:default>
+                            </xrx:i18n>
+                            <span>*:&#160;</span>
+                        </xf:label>
+                        <xf:hint>
+                            <xrx:i18n>
+                                <xrx:key>enter-your-lastname</xrx:key>
+                                <xrx:default>Enter your Lastname</xrx:default>
+                            </xrx:i18n>
+                            <span>.</span>
+                        </xf:hint>
+                        <xf:alert>
+                            <xrx:i18n>
+                                <xrx:key>required-field</xrx:key>
+                                <xrx:default>Required Field</xrx:default>
+                            </xrx:i18n>
+                            <span>.</span>
+                        </xf:alert>
+                    </xf:input>
+                    <xf:input bind="bemail">
+                        <xf:label>
+                            <xrx:i18n>
+                                <xrx:key>email</xrx:key>
+                                <xrx:default>Email</xrx:default>
+                            </xrx:i18n>
+                            <span>*:&#160;</span>
+                        </xf:label>
+                    </xf:input>
+                    <!--xf:secret bind="bpassword">
+                        <xf:label>
+                            <xrx:i18n>
+                                <xrx:key>password</xrx:key>
+                                <xrx:default>Password</xrx:default>
+                            </xrx:i18n>
+                            <span>*:&#160;</span>
+                        </xf:label>
+                        <xf:hint>
+                            <xrx:i18n>
+                                <xrx:key>must-be-6-characters</xrx:key>
+                                <xrx:default>Must be at least 6 characters</xrx:default>
+                            </xrx:i18n>
+                            <span>.</span>
+                        </xf:hint>
+                        <xf:alert>
+                            <xrx:i18n>
+                                <xrx:key>enter-your-password</xrx:key>
+                                <xrx:default>Enter your Password</xrx:default>
+                            </xrx:i18n>
+                            <span>.</span>
+                        </xf:alert>
+                    </xf:secret>
+                    <xf:secret bind="brepeat-password">
+                        <xf:label>
+                            <xrx:i18n>
+                                <xrx:key>repeat-password</xrx:key>
+                                <xrx:default>Repeat Password</xrx:default>
+                            </xrx:i18n>
+                            <span>*:&#160;</span>
+                        </xf:label>
+                        <xf:hint>
+                            <xrx:i18n>
+                                <xrx:key>repeat-password</xrx:key>
+                                <xrx:default>Repeat Password</xrx:default>
+                            </xrx:i18n>
+                            <span>.</span>
+                        </xf:hint>
+                        <xf:alert>
+                            <xrx:i18n>
+                                <xrx:key>password-does-not-match</xrx:key>
+                                <xrx:default>Password does not match</xrx:default>
+                            </xrx:i18n>
+                            <span>.</span>
+                        </xf:alert>
+                    </xf:secret-->
+                    <xf:input bind="bphone">
+                        <xf:label>
+                            <xrx:i18n>
+                                <xrx:key>phone</xrx:key>
+                                <xrx:default>Phone</xrx:default>
+                            </xrx:i18n>
+                            <span>:</span>
+                        </xf:label>
+                        <xf:hint>
+                            <xrx:i18n>
+                                <xrx:key>enter-phone-number-message</xrx:key>
+                                <xrx:default>Enter Phone Number</xrx:default>
+                            </xrx:i18n>
+                            <span>.</span>
+                        </xf:hint>
+                    </xf:input>
+                    <xf:input bind="binstitution">
+                        <xf:label>
+                            <xrx:i18n>
+                                <xrx:key>institution</xrx:key>
+                                <xrx:default>Institution</xrx:default>
+                            </xrx:i18n>
+                            <span>:</span>
+                        </xf:label>
+                        <xf:hint>
+                            <xrx:i18n>
+                                <xrx:key>name-of-institution-message</xrx:key>
+                                <xrx:default>The Name of your Insitution</xrx:default>
+                            </xrx:i18n>
+                            <span>.</span>
+                        </xf:hint>
+                    </xf:input>
+                    <xf:input bind="bstreet">
+                        <xf:label>
+                            <xrx:i18n>
+                                <xrx:key>street</xrx:key>
+                                <xrx:default>Street</xrx:default>
+                            </xrx:i18n>
+                            <span>:</span>
+                        </xf:label>
+                        <xf:hint>
+                            <xrx:i18n>
+                                <xrx:key>enter-street-name-message</xrx:key>
+                                <xrx:default>Enter Street Name</xrx:default>
+                            </xrx:i18n>
+                            <span>.</span>
+                        </xf:hint>
+                    </xf:input>
+                    <xf:input bind="bzip">
+                        <xf:label>
+                            <xrx:i18n>
+                                <xrx:key>zip</xrx:key>
+                                <xrx:default>ZIP</xrx:default>
+                            </xrx:i18n>
+                            <span>:</span>
+                        </xf:label>
+                        <xf:hint>
+                            <xrx:i18n>
+                                <xrx:key>enter-zip-code-message</xrx:key>
+                                <xrx:default>Enter ZIP Code</xrx:default>
+                            </xrx:i18n>
+                            <span>.</span>
+                        </xf:hint>
+                    </xf:input>
+                    <xf:input bind="btown">
+                        <xf:label>
+                            <xrx:i18n>
+                                <xrx:key>city</xrx:key>
+                                <xrx:default>City</xrx:default>
+                            </xrx:i18n>
+                            <span>:</span>
+                        </xf:label>
+                        <xf:hint>
+                            <xrx:i18n>
+                                <xrx:key>enter-city-name-message</xrx:key>
+                                <xrx:default>Enter Name of your City</xrx:default>
+                            </xrx:i18n>
+                            <span>.</span>
+                        </xf:hint>
+                    </xf:input>
+                    <xf:textarea bind="binfo">
+                        <xf:label>
+                            <xrx:i18n>
+                                <xrx:key>about-me</xrx:key>
+                                <xrx:default>About me</xrx:default>
+                            </xrx:i18n>
+                            <span>:</span>
+                        </xf:label>
+                    </xf:textarea>
+                </xf:group>
+                <div id="moderator-div" class="moderator-info"/>
+                <br/>
+                <br/>
+                <xf:group model="my-account">
+                    <xf:trigger>
+                        <xf:label>
+                            <xrx:i18n>
+                                <xrx:key>apply-changes</xrx:key>
+                                <xrx:default>Apply Changes</xrx:default>
+                            </xrx:i18n>
+                        </xf:label>
+                        <xf:action ev:event="DOMActivate">
+                            <xf:send submission="supdate-account"/>
+                        </xf:action>
+                    </xf:trigger>
+                </xf:group>
+            </div>
+            <div>
+                <br/>
+                <br/>
+                <br/>
+                <xrx:i18n>
+                    <xrx:key>required-field-message</xrx:key>
+                    <xrx:default>Fields marked with * are required fields.</xrx:default>
+                </xrx:i18n>
+            </div>
+            </div>
+            </xrx:true>
+            <xrx:false>
+                <div>
+                    <div class="h2">
+                        <xrx:i18n>
+                            <xrx:key>my-account</xrx:key>
+                            <xrx:default>My Account</xrx:default>
+                        </xrx:i18n>
+                    </div>
+                    <xrx:i18n>
+                        <xrx:key>protected-page-message</xrx:key>
+                        <xrx:default>Protected page. Please login first.</xrx:default>
+                    </xrx:i18n>
+                    <xrx:subwidget>tag:www.monasterium.net,2011:/core/widget/login2</xrx:subwidget>
+                </div>
+            </xrx:false>
+        </xrx:auth>
+        </div>
+      }
+    </xrx:view>
+</xrx:widget>

@@ -1,0 +1,79 @@
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/core/service/login2</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>login</xrx:key>
+      <xrx:default>Login</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:translateflag>false</xrx:translateflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:body>
+	  {
+	  let $username := request:get-parameter('username', '')
+	  let $password := request:get-parameter('password', '')
+	  let $refer := 
+	    if(matches(request:get-parameter('refer', ''), 'protected-page')) then concat(conf:param('request-root'), 'my-archive')
+	    else if(matches(request:get-parameter('refer', ''), 'registration-successful')) then '/'
+	    else request:get-parameter('refer', conf:param('request-root'))
+	  let $old-user-exists := 
+	   collection(conf:param('old-user-db-base-uri'))/*:user[./*:username=$username]
+	  let $old-firstname := $old-user-exists//*:firstname/text() 
+	  let $old-lastname := $old-user-exists//*:name/text()
+	  let $old-username := 
+	    if($old-user-exists) then $old-user-exists//*:username/text() else()
+	  let $user-exists :=
+	   collection(conf:param('xrx-user-db-base-uri'))/xrx:user[./xrx:email=$username]
+	  let $db-user-exists := system:as-user('admin', conf:param('dba-password'), xmldb:exists-user($username))
+	  let $login := 
+	   if($user-exists) then xmldb:login(conf:param('atom-db-base-uri'), $username, $password, true()) else false()
+	  let $copy-parameters := 
+	    string-join(
+		    for $param in request:get-parameter-names()
+		    return
+		    if (not(matches($param, '(status|old|username|password|service-name|betterform-flag|content|request-relative-path|atomid)'))) then concat('&amp;', $param, '=', request:get-parameter($param, ''))
+		    else ''
+		  , ''
+		  )
+	  return
+	  if($old-user-exists and not($user-exists)) then
+	    response:redirect-to(xs:anyURI(concat(conf:param('request-root'), 'login2?status=1&amp;old=', $old-username, $copy-parameters)))
+	  else if($user-exists and not($db-user-exists)) then
+	    response:redirect-to(xs:anyURI(concat(conf:param('request-root'), 'login2?status=2&amp;old=', $old-username, $copy-parameters)))
+	  else if(not($user-exists)) then
+	    response:redirect-to(xs:anyURI(concat(conf:param('request-root'), 'login2?status=3&amp;old=', $old-username, $copy-parameters)))
+	  else if(not($login)) then
+	    response:redirect-to(xs:anyURI(concat(conf:param('request-root'), 'login2?status=4&amp;old=', $old-username, $copy-parameters)))
+	  else if($login) then
+	    response:redirect-to(xs:anyURI($refer))
+	  else
+	    response:redirect-to(xs:anyURI(concat(conf:param('request-root'), 'login2?status=5&amp;old=', $old-username, $copy-parameters)))
+	  }
+  </xrx:body>
+</xrx:service>

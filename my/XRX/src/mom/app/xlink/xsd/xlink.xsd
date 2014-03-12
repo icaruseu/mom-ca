@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xrxe="http://www.monasterium.net/NS/xrxe" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.w3.org/1999/xlink" elementFormDefault="qualified">
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="../../xml/xsd/xml.xsd"/>
+    <xs:attribute name="href" type="xs:anyURI">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>xlink_href</xrx:key>
+                        <xrx:default>href</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+                <xrxe:relevant context="='dao' or $context='extref'"></xrxe:relevant>
+            </xs:appinfo>
+        </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="role" type="xs:string">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>xlink_role</xrx:key>
+                        <xrx:default>role</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+            </xs:appinfo>
+        </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="arcrole" type="xs:string">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>xlink_arcrole</xrx:key>
+                        <xrx:default>arcrole</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+            </xs:appinfo>
+        </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="title" type="xs:string">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>xlink_title</xrx:key>
+                        <xrx:default>title</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+            </xs:appinfo>
+        </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="show">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>xlink_show</xrx:key>
+                        <xrx:default>show</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="new"/>
+                <xs:enumeration value="replace"/>
+                <xs:enumeration value="embed"/>
+                <xs:enumeration value="other"/>
+                <xs:enumeration value="none"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="actuate">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>xlink_actuate</xrx:key>
+                        <xrx:default>actuate</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="onLoad"/>
+                <xs:enumeration value="onRequest"/>
+                <xs:enumeration value="other"/>
+                <xs:enumeration value="none"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="label" type="xs:string">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>xlink_label</xrx:key>
+                        <xrx:default>label</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+            </xs:appinfo>
+        </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="from" type="xs:string">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>xlink_from</xrx:key>
+                        <xrx:default>from</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+            </xs:appinfo>
+        </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="to" type="xs:string">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>xlink_to</xrx:key>
+                        <xrx:default>to</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+            </xs:appinfo>
+        </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup name="simpleLink">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>xlink_simpleLink</xrx:key>
+                        <xrx:default>simpleLink</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:attribute name="type" type="xs:string" fixed="simple" form="qualified">
+            <xs:annotation>
+                <xs:appinfo source="EditVDU">
+                    <xrxe:label>
+                        <xrx:i18n>
+                            <xrx:key>xlink_type</xrx:key>
+                            <xrx:default>type</xrx:default>
+                        </xrx:i18n>
+                    </xrxe:label>
+                </xs:appinfo>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute ref="xlink:href" use="optional"/>
+        <xs:attribute ref="xlink:role" use="optional"/>
+        <xs:attribute ref="xlink:arcrole" use="optional"/>
+        <xs:attribute ref="xlink:title" use="optional"/>
+        <xs:attribute ref="xlink:show" use="optional"/>
+        <xs:attribute ref="xlink:actuate" use="optional"/>
+    </xs:attributeGroup>
+    <xs:attributeGroup name="extendedLink">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>xlink_extendedLink</xrx:key>
+                        <xrx:default>extendedLink</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:attribute name="type" type="xs:string" fixed="extended" form="qualified">
+            <xs:annotation>
+                <xs:appinfo source="EditVDU">
+                    <xrxe:label>
+                        <xrx:i18n>
+                            <xrx:key>xlink_type</xrx:key>
+                            <xrx:default>type</xrx:default>
+                        </xrx:i18n>
+                    </xrxe:label>
+                </xs:appinfo>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute ref="xlink:role" use="optional"/>
+        <xs:attribute ref="xlink:title" use="optional"/>
+    </xs:attributeGroup>
+    <xs:attributeGroup name="locatorLink">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>xlink_locatorLink</xrx:key>
+                        <xrx:default>locatorLink</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:attribute name="type" type="xs:string" fixed="locator" form="qualified">
+            <xs:annotation>
+                <xs:appinfo source="EditVDU">
+                    <xrxe:label>
+                        <xrx:i18n>
+                            <xrx:key>xlink_type</xrx:key>
+                            <xrx:default>type</xrx:default>
+                        </xrx:i18n>
+                    </xrxe:label>
+                </xs:appinfo>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute ref="xlink:href" use="required"/>
+        <xs:attribute ref="xlink:role" use="optional"/>
+        <xs:attribute ref="xlink:title" use="optional"/>
+        <xs:attribute ref="xlink:label" use="optional"/>
+    </xs:attributeGroup>
+    <xs:attributeGroup name="arcLink">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>xlink_arcLink</xrx:key>
+                        <xrx:default>arcLink</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:attribute name="type" type="xs:string" fixed="arc" form="qualified">
+            <xs:annotation>
+                <xs:appinfo source="EditVDU">
+                    <xrxe:label>
+                        <xrx:i18n>
+                            <xrx:key>xlink_type</xrx:key>
+                            <xrx:default>type</xrx:default>
+                        </xrx:i18n>
+                    </xrxe:label>
+                </xs:appinfo>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute ref="xlink:arcrole" use="optional"/>
+        <xs:attribute ref="xlink:title" use="optional"/>
+        <xs:attribute ref="xlink:show" use="optional"/>
+        <xs:attribute ref="xlink:actuate" use="optional"/>
+        <xs:attribute ref="xlink:from" use="optional"/>
+        <xs:attribute ref="xlink:to" use="optional"/>
+    </xs:attributeGroup>
+    <xs:attributeGroup name="resourceLink">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>xlink_resourceLink</xrx:key>
+                        <xrx:default>resourceLink</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:attribute name="type" type="xs:string" fixed="resource" form="qualified">
+            <xs:annotation>
+                <xs:appinfo source="EditVDU">
+                    <xrxe:label>
+                        <xrx:i18n>
+                            <xrx:key>xlink_type</xrx:key>
+                            <xrx:default>type</xrx:default>
+                        </xrx:i18n>
+                    </xrxe:label>
+                </xs:appinfo>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute ref="xlink:role" use="optional"/>
+        <xs:attribute ref="xlink:title" use="optional"/>
+        <xs:attribute ref="xlink:label" use="optional"/>
+    </xs:attributeGroup>
+    <xs:attributeGroup name="titleLink">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>xlink_titleLink</xrx:key>
+                        <xrx:default>titleLink</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:attribute name="type" type="xs:string" fixed="title" form="qualified"/>
+    </xs:attributeGroup>
+    <xs:attributeGroup name="emptyLink">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>xlink_emptyLink</xrx:key>
+                        <xrx:default>emptyLink</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:attribute name="type" type="xs:string" fixed="none" form="qualified">
+            <xs:annotation>
+                <xs:appinfo source="EditVDU">
+                    <xrxe:label>
+                        <xrx:i18n>
+                            <xrx:key>xlink_type</xrx:key>
+                            <xrx:default>type</xrx:default>
+                        </xrx:i18n>
+                    </xrxe:label>
+                </xs:appinfo>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:attributeGroup>
+</xs:schema>

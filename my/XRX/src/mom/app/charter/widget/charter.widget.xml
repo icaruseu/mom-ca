@@ -1,0 +1,1183 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/charter</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>charter</xrx:key>
+      <xrx:default>Charter</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more
+lenient towards the inclusion of components into other systems, once
+it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>
+    <!-- charter context: collection or fond? -->
+    <xrx:variable>
+      <xrx:name>$wcharter:context</xrx:name>
+      <xrx:expression>if(count($xrx:tokenized-uri) = 2) then 'linked-fond' else if(count($xrx:tokenized-uri) = 3) then 'collection' else 'fond'</xrx:expression>
+    </xrx:variable>
+    <!-- atom ID -->
+    <xrx:variable>
+      <xrx:name>$wcharter:atom-id</xrx:name>
+      <xrx:expression>
+        if($wcharter:context = 'fond') then
+          metadata:atomid('charter', ($charter:rarchiveid, $charter:rfondid, $charter:rcharterid))
+        else if($wcharter:context = 'collection') then
+          metadata:atomid('charter', ($charter:rcollectionid, $charter:rcharterid))
+        else request:get-parameter('atomid', '')
+      </xrx:expression>
+    </xrx:variable>
+    <!-- init metadata database collections -->
+    <xrx:variable>
+      <xrx:name>$wcharter:metadata-fond-collection</xrx:name>
+      <xrx:expression>
+        if($wcharter:context != 'linked-fond') then
+          metadata:base-collection('fond', ($charter:rarchiveid, $charter:rfondid), 'public')
+        else
+          metadata:base-collection('fond', (charter:archid($wcharter:atom-id, conf:param('atom-tag-name')), charter:fondid($wcharter:atom-id, conf:param('atom-tag-name'))), 'public')
+      </xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:metadata-archive-collection</xrx:name>
+      <xrx:expression>
+        if($wcharter:context != 'linked-fond') then
+          metadata:base-collection('archive', $charter:rarchiveid, 'public')
+        else
+          metadata:base-collection('archive', charter:archid($wcharter:atom-id, conf:param('atom-tag-name')), 'public')
+      </xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:metadata-collection-collection</xrx:name>
+      <xrx:expression>(metadata:base-collection('collection', $charter:rcollectionid, 'public')|metadata:base-collection('mycollection', $charter:rcollectionid, 'public'))</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:linked-fond-charter-collection</xrx:name>
+      <xrx:expression>mycollection:linked-fond-charter-base-collection($wcharter:metadata-collection-collection)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:metadata-charter-collection</xrx:name>
+      <xrx:expression>
+        if($wcharter:context = 'fond') then
+          metadata:base-collection('charter', ($charter:rarchiveid, $charter:rfondid), 'public')
+        else if($wcharter:context = 'collection') then
+          metadata:base-collection('charter', $charter:rcollectionid, 'public')
+        else 
+          $wcharter:linked-fond-charter-collection
+      </xrx:expression>
+    </xrx:variable>
+    <!-- is charter in use by any user? if yes, which user did save it? -->
+    <xrx:variable>
+      <xrx:name>$wcharter:charter-in-use-by</xrx:name>
+      <xrx:expression>charter:in-use-by($user:db-base-collection, $wcharter:atom-id, $xrx:user-id)</xrx:expression>
+    </xrx:variable>
+    <!-- status of the charter -->
+    <xrx:variable>
+      <xrx:name>$wcharter:is-bookmarked</xrx:name>
+      <xrx:expression>bookmark:is-bookmarked($xrx:user-xml, $wcharter:atom-id)</xrx:expression>
+    </xrx:variable>
+    <!-- status of user -->
+    <xrx:variable>
+      <xrx:name>$wcharter:is-moderator</xrx:name>
+      <xrx:expression>
+        auth:matches(
+        <xrx:rule>
+          <xrx:user/>
+          <xrx:role>moderator</xrx:role>
+        </xrx:rule>
+        )
+      </xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:saved-by-current-user</xrx:name>
+      <xrx:expression>publication:is-saved($xrx:user-xml, $wcharter:atom-id)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:saved-by-any-user</xrx:name>
+      <xrx:expression>publication:is-saved($user:db-base-collection/xrx:user, $wcharter:atom-id)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:saved-by-user</xrx:name>
+      <xrx:expression>publication:saved-by-user($user:db-base-collection/xrx:user, $wcharter:atom-id)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:saved-by-user-label</xrx:name>
+      <xrx:expression>concat(user:firstname-name($wcharter:saved-by-user), ' (', $wcharter:saved-by-user, ')')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:charter-released</xrx:name>
+      <xrx:expression>false()</xrx:expression>
+    </xrx:variable>
+    <!-- the CEI document -->
+    <xrx:variable>
+      <xrx:name>$wcharter:charter-help</xrx:name>
+      <xrx:expression>root($wcharter:metadata-charter-collection//atom:id[.=$wcharter:atom-id])//cei:text</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:charter</xrx:name>
+      <xrx:expression>if($search:q = '') then $wcharter:charter-help else ft:query($wcharter:charter-help, $search:q, $search:options)</xrx:expression>
+    </xrx:variable>
+    <!-- does this charter link a version of a archival charter? -->
+    <xrx:variable>
+      <xrx:name>$wcharter:linked-charter-atomid</xrx:name>
+      <xrx:expression>$wcharter:charter/ancestor::atom:entry/atom:link[@rel='versionOf']/@ref/string()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:metadata-linked-charter-base-collection</xrx:name>
+      <xrx:expression>if($wcharter:linked-charter-atomid != '') then metadata:base-collection('charter', metadata:uri-tokens($wcharter:linked-charter-atomid), 'public') else()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:metadata-linked-charter-fond-collection</xrx:name>
+      <xrx:expression>if($wcharter:linked-charter-atomid != '') then metadata:base-collection('fond', metadata:uri-tokens($wcharter:linked-charter-atomid), 'public') else()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:linked-charter</xrx:name>
+      <xrx:expression>if($wcharter:linked-charter-atomid != '') then $wcharter:metadata-linked-charter-base-collection//atom:id[.=$wcharter:linked-charter-atomid]/parent::atom:entry else()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:linked-charter-image-base-uri</xrx:name>
+      <xrx:expression>concat($wcharter:metadata-linked-charter-fond-collection/xrx:preferences/xrx:param[@name='image-server-base-url']/text(), '/')</xrx:expression>
+    </xrx:variable>
+    <!-- charter from my collection? -->
+    <xrx:variable>
+      <xrx:name>$wcharter:just-linked-atomid</xrx:name>
+      <xrx:expression>root($wcharter:charter)//atom:content/@src/string()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:linked-atomid</xrx:name>
+      <xrx:expression>root($wcharter:charter)//atom:link[@rel='versionOf']/@ref/string()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:just-linked</xrx:name>
+      <xrx:expression>$wcharter:just-linked-atomid != ''</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:linked</xrx:name>
+      <xrx:expression>$wcharter:linked-atomid != ''</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:public-charter</xrx:name>
+      <xrx:expression>if($wcharter:linked or $wcharter:just-linked) then charter:public-entry($wcharter:linked-atomid)//cei:text else()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:private-charter</xrx:name>
+      <xrx:expression>$wcharter:charter</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:charter</xrx:name>
+      <xrx:expression>if($wcharter:just-linked) then $wcharter:public-charter else $wcharter:charter</xrx:expression>
+    </xrx:variable>
+    <!-- charter infos -->
+    <xrx:variable>
+      <xrx:name>$wcharter:idno</xrx:name>
+      <xrx:expression>$wcharter:charter//cei:body/cei:idno/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:link-to-charter-in-archive</xrx:name>
+      <xrx:expression>data($wcharter:charter//cei:archIdentifier/cei:ref/@target)</xrx:expression>
+    </xrx:variable>
+    <!-- the charter and its siblings -->
+    <xrx:variable>
+      <xrx:name>$wcharter:charters</xrx:name>
+      <xrx:expression>charter:get-charter-list($wcharter:metadata-charter-collection, $xrx:tokenized-uri[last()], $xrx:user-xml)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:count</xrx:name>
+      <xrx:expression>count($wcharter:charters)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:next-and-previous</xrx:name>
+      <xrx:expression>charter:next-and-previous($wcharter:charters, $wcharter:private-charter, $wcharter:count, $wcharter:atom-id, $xrx:tokenized-uri[last()])</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:pos</xrx:name>
+      <xrx:expression>charter:position($wcharter:charters, $wcharter:private-charter, $xrx:user-xml, $wcharter:atom-id, $xrx:tokenized-uri[last()])</xrx:expression>
+    </xrx:variable>
+    <!-- back link to fond or collection -->
+    <xrx:variable>
+      <xrx:name>$wcharter:block</xrx:name>
+      <xrx:expression>if($xrx:tokenized-uri[last()] = 'charter') then charter:block(xs:integer($wcharter:pos)) else 1</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:anchor</xrx:name>
+      <xrx:expression>if($xrx:tokenized-uri[last()] = 'charter') then charter:anchor(xs:integer($wcharter:pos)) else 1</xrx:expression>
+    </xrx:variable>
+    <!-- fond or collection information -->
+    <xrx:variable>
+      <xrx:name>$wcharter:linked-fond-base-collection</xrx:name>
+      <xrx:expression>charter:linked-fond-base-collection($wcharter:charter/root()/atom:entry)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:meta</xrx:name>
+      <xrx:expression>
+        if($wcharter:context = 'fond') then
+          $wcharter:metadata-fond-collection//ead:ead//ead:c[@level='fonds']/ead:did
+        else if($wcharter:context = 'collection') then
+          $wcharter:metadata-collection-collection//cei:cei
+        else
+          $wcharter:linked-fond-base-collection//ead:ead//ead:c[@level='fonds']/ead:did
+      </xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:collection-context</xrx:name>
+      <xrx:expression>metadata:object-type($wcharter:meta/ancestor::atom:entry/atom:id/text())</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:image-base-uri</xrx:name>
+      <xrx:expression>
+        if($wcharter:context = 'fond' or $wcharter:context = 'linked-fond') then
+          concat($wcharter:meta/parent::ead:c/@xml:base/string(), '/') 
+        else
+          concat('http://', $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(), '/')
+      </xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:fond</xrx:name>
+      <xrx:expression>
+        if($wcharter:context = 'fond' or $wcharter:context = 'linked-fond') then
+          $wcharter:meta//ead:unittitle/text() 
+        else 
+          ($wcharter:meta//cei:provenance/text(),$wcharter:meta//cei:titleStmt/cei:title/text())
+      </xrx:expression>
+    </xrx:variable>
+    <!-- image access -->
+    <xrx:variable>
+      <xrx:name>$wcharter:preferences</xrx:name>
+      <xrx:expression>($wcharter:metadata-fond-collection/xrx:preferences,$wcharter:metadata-collection-collection)[1]</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:image-base-uri</xrx:name>
+      <xrx:expression>
+		if($wcharter:context = 'fond' or $wcharter:context = 'linked-fond') then
+			concat($wcharter:preferences/xrx:param[@name='image-server-base-url']/text(), '/') 
+	  else
+			concat('http://', $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(), '/')
+				</xrx:expression>
+    </xrx:variable>
+    <!-- archive information -->
+    <xrx:variable>
+      <xrx:name>$wcharter:archive</xrx:name>
+      <xrx:expression>$wcharter:metadata-archive-collection//eag:autform/text()</xrx:expression>
+    </xrx:variable>
+    <!-- XSLT transformation -->
+    <xrx:variable>
+      <xrx:name>$wcharter:xsl</xrx:name>
+      <xrx:expression>$xrx:db-base-collection/xsl:stylesheet[@id='cei2html']</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:params</xrx:name>
+      <xrx:expression>
+        <parameters xmlns="">
+          <param name="image-base-uri" value="{ $wcharter:image-base-uri }"/>
+        </parameters>
+      </xrx:expression>
+    </xrx:variable>
+    <!-- 
+      links 
+    -->
+    <xrx:variable>
+      <xrx:name>$wcharter:atom-uri</xrx:name>
+      <xrx:expression>
+        if($wcharter:context = 'fond') then
+          concat(conf:param('request-root'), 'atom/GET', metadata:feed('charter', ($charter:rarchiveid, $charter:rfondid), 'public'), '/', $charter:rcharterid, '.cei.xml')
+        else if($wcharter:context = 'collection') then
+          concat(conf:param('request-root'), 'atom/GET', metadata:feed('charter', ($charter:rcollectionid), 'public'), '/', $charter:rcharterid, '.cei.xml') 
+        else
+          concat(conf:param('request-root'), 'atom/GET', metadata:feed('charter', (charter:archid($wcharter:atom-id, conf:param('atom-tag-name')), charter:fondid($wcharter:atom-id, conf:param('atom-tag-name'))), 'public'), '/', metadata:objectid($wcharter:atom-id), '.cei.xml')
+      </xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:charter-context-url</xrx:name>
+      <xrx:expression>
+        if($wcharter:context = 'fond') then
+          concat(conf:param('request-root'), $charter:rarchiveid, '/', xmldb:decode($charter:rfondid),'/')
+        else if($wcharter:context = 'collection') then
+          concat(conf:param('request-root'), xmldb:decode($charter:rcollectionid), '/')
+        else
+          concat(conf:param('request-root'), xmldb:decode($charter:rcollectionid), '/')
+      </xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:previous</xrx:name>
+      <xrx:expression>
+        if($wcharter:context = 'fond' or $wcharter:context = 'collection') then
+          xmldb:encode-uri(concat($wcharter:charter-context-url, $wcharter:next-and-previous[1]//cei:body/cei:idno/@id/string(), '/charter'))
+        else
+          concat('charter?atomid=', $wcharter:next-and-previous[1]/root()//atom:id/text())
+      </xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:next</xrx:name>
+      <xrx:expression>
+        if($wcharter:context = 'fond' or $wcharter:context = 'collection') then
+          xmldb:encode-uri(concat($wcharter:charter-context-url, $wcharter:next-and-previous[2]//cei:body/cei:idno/@id/string(), '/charter'))
+        else
+          concat('charter?atomid=', $wcharter:next-and-previous[2]/root()//atom:id/text())
+      </xrx:expression>
+    </xrx:variable>
+    <!-- 
+      image tools
+    -->
+    <xrx:variable>
+      <xrx:name>$image-tools-base-url</xrx:name>
+      <xrx:expression>
+        if($wcharter:context = 'fond') then
+        concat(conf:param('request-root'), $charter:rarchiveid, '/', $charter:rfondid,'/')
+        else
+        concat(conf:param('request-root'), $charter:rcollectionid,'/')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$image-tools-url</xrx:name>
+      <xrx:expression>concat($image-tools-base-url, $charter:rcharterid, '/image-tools')</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/charter</xrx:portal>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:xformsflag>true</xrx:xformsflag>
+      <xrx:jqueryflag>true</xrx:jqueryflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <link href="{ conf:param('request-root') }jquery/themes/base/jquery.ui.all.css" rel="stylesheet"/>
+    <style type="text/css">
+    
+#charter{{
+  position:relative;
+  width:100%;
+}}
+
+#charter
+  .idno *{{
+  font-size:130%;
+}}
+
+#diplomaticAnalysis, #index, #versions, #tenor, #abstract, .witness {{
+  position:relative;
+  float:left;
+  border:solid rgb(240,243,226) 1px;
+  width:950px;
+  margin-left:5px;
+  margin-right:5px;
+  margin-top:0px;
+  margin-bottom:5px;
+}}
+
+#biblabstract, #bibltenor{{
+  position:relative;
+  text-align:right;
+}}
+
+#tenor, #abstract{{
+  line-height:190%;
+}}
+
+#witList{{
+  float:left;
+  position:relative;
+  width:949px;
+  overflow:auto;
+  margin-top:0px;
+  margin-left:5px;
+  margin-right:5px;
+  margin-bottom:0px;
+  padding:0;
+  border:solid rgb(240,243,226) 1px;
+}}
+
+div.witness-text{{
+  position:relative;
+  float:left;
+  width:51%;
+  font-size:90%;
+  margin:0px;
+  padding:0px;
+  border-top:solid rgb(240,243,226) 1px;
+}}
+
+div.witness-graphic,
+  .witness-graphic img{{
+  overflow:auto;
+  width:49%;
+}}
+
+#graphic{{
+  width:100%;
+}}
+
+#issued{{
+  text-align:right;
+  margin:0px;
+  margin-bottom:10px;
+  padding:0px;
+}}
+
+#placeName, #item, #persName{{
+  position:relative;
+  width:385px;
+  float:left;
+  text-align:left;
+  
+  margin-left:5px;
+  margin-right:5px;
+  margin-top:5px;
+  margin-bottom:5px;
+  padding:0px;
+}}
+
+div.inlinehead, div.greyinlinehead, div.light-green, div.light-green:visited{{
+  position:relative;
+  float:left;
+  font-weight:bold;
+  width:950px;
+  background-color:{ conf:param('color5') };
+  color:rgb(142,163,132);
+  margin: 0px;
+  margin-left: 5px;
+  margin-top: 5px;
+  line-height:200%;
+}}
+
+div.p{{
+  margin:5px;
+  padding:0px;
+}}
+
+div.no-graphic{{
+  position:relative;
+  float:right;
+  right:20px;
+  top:10px;
+  color:rgb(142,163,132);
+  font-weight:bold;
+  bottom:50%;
+  z-index:2;
+}}
+
+span.num{{
+  position:relative;
+  font-weight:bold;
+  font-size:150%;
+  color:rgb(142,163,132);
+}}
+
+div.lang-select{{
+  top:600px;
+}}
+
+#breadcrumb{{
+  float:left;
+  position:relative;
+  width:auto;
+}}
+
+.actions{{
+  position:relative;
+  float:right;
+  width:200px;
+}}
+
+.slider{{
+  float:left;
+}}
+
+#charter .light-grey{{
+  color:rgb(150,150,150);
+}}
+
+#witList a{{
+  float:left;
+}}
+
+.heading-center{{
+  position:relative;
+  text-align:center;
+}}
+
+.heading-center *{{
+  font-size:150%;
+  font-weight:bold;
+  color:#EF6A2F;
+  text-align:center;
+}}
+
+#note-field-1{{
+  position:relative;
+  border:solid #C8C8C8 1px;
+  padding:3px;
+}}
+
+#noteBobble-1 {{
+  display:none;
+  position:fixed;
+  left:400px;
+  bottom:35%;
+  z-index:20;
+  width: 400px;
+  height: 150px;
+  background-color: #F6F6F6;
+  padding:20px;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  -khtml-border-radius:3px;
+  border-radius:3px;
+  -moz-box-shadow:    4px -3px 10px 1px #202020;
+  -webkit-box-shadow: 4px -3px 10px 1px #202020;
+  box-shadow:         4px -3px 10px 1px #202020;
+}}
+
+#noteBobble-1 .xfLabel{{ 
+  color:rgb(142,163,132);
+  font-weight:bold;
+}}   
+
+#noteBobble-1 .xfValue{{ 
+  top: 5px !important;
+  position:relative;
+  width:400px !important;
+  max-height: 100px !important;
+}}
+
+#noteBobble-1 .xfTrigger{{
+  width:30px !important;
+}}  
+
+#edit-box {{
+  border:solid #C8C8C8 1px;
+  padding:3px;
+}}
+
+.ocr-hint {{
+  border: solid #FFCC00 1px;
+  background: rgb(250, 250, 250);
+  margin-top: 20px;
+  margin-bottom: 20px;
+}}
+
+.ocr-hint-inner {{
+  margin: 10px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}}
+
+      </style>
+  </xrx:csss>
+  <xrx:jss>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/charter</xrx:resource>
+  </xrx:jss>
+  <xrx:model>
+    { bookmark:model(conf:param('request-root')) }
+    { publication:model(conf:param('request-root')) }
+  </xrx:model>
+  <xrx:divs>
+    <xrx:div>
+      <xrx:key>breadcrumb</xrx:key>
+      <xrx:view>
+        {
+        if($wcharter:context = 'fond') then 
+        <div data-demoid="c8e3e6bd-5039-4439-9701-507f68dfe46a">
+          <a href="{ conf:param('request-root') }fonds">
+            <xrx:i18n>
+              <xrx:key>fonds</xrx:key>
+              <xrx:default>Fonds</xrx:default>
+            </xrx:i18n>
+          </a>
+          <span> &gt; </span>
+          <a href="{ concat(conf:param('request-root'), $charter:rarchiveid, '/archive') }">{ $charter:rarchiveid }</a>
+          <span> &gt; </span>
+          <a href="{ concat(conf:param('request-root'), $charter:rarchiveid, '/', $charter:rfondid, '/fond?block=', $wcharter:block, '#ch', $wcharter:anchor) }">{ $charter:rfondid }</a>
+          <span> &gt; </span>
+          <a href="{ request:get-url() }?{ request:get-query-string() }">{ $wcharter:idno }</a>
+        </div>
+        else if($wcharter:context = 'collection') then
+        <div data-demoid="7d4563a2-b169-4d83-8133-b7d80ace50c3">
+          <a href="{ conf:param('request-root') }collections">
+            <xrx:i18n>
+              <xrx:key>collections</xrx:key>
+              <xrx:default>Collections</xrx:default>
+            </xrx:i18n>
+          </a>
+          <span> &gt; </span>
+          <a href="{ concat(conf:param('request-root'), $charter:rcollectionid, '/collection') }">{ $wcharter:fond }</a>
+          <span> &gt; </span>
+          <a href="{ request:get-url() }?{ request:get-query-string() }">{ $wcharter:idno }</a>
+        </div>
+        else
+        <div data-demoid="eef00317-36f9-4d2d-9ea8-c17208521543">
+          <a href="{ conf:param('request-root') }collections">
+            <xrx:i18n>
+              <xrx:key>collections</xrx:key>
+              <xrx:default>Collections</xrx:default>
+            </xrx:i18n>
+          </a>
+          <span> &gt; </span>
+          <a href="{ concat(conf:param('request-root'), $charter:rcollectionid, '/collection') }">{ $xrx:tokenized-uri[1] }</a>
+          <span> &gt; </span>
+          <a href="{ request:get-url() }?{ request:get-query-string() }">{ $wcharter:pos }</a>
+          <span style="color:grey">
+            <span> (</span>
+            <xrx:i18n>
+              <xrx:key>sequential-number</xrx:key>
+              <xrx:default>Sequential number</xrx:default>
+            </xrx:i18n>
+            <span>)</span>
+          </span>
+          <br/>
+          <b>
+            <xrx:i18n>
+              <xrx:key>original-context</xrx:key>
+              <xrx:default>Original context</xrx:default>
+            </xrx:i18n>
+            <span>: </span>
+          </b>
+          <a href="{ archive:permalink($wcharter:metadata-archive-collection/atom:entry) }">{ $wcharter:archive }</a>
+          <span> &gt; </span>
+          <a href="{ fond:permalink($wcharter:metadata-fond-collection/atom:entry[.//ead:ead]) }">{ $wcharter:fond }</a>
+          <span> &gt; </span>
+          <a href="{ charter:permalink($wcharter:charter/root()/atom:entry) }">{ $wcharter:idno }</a>
+        </div>
+        }     
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>download-xml-link</xrx:key>
+      <xrx:view>
+        <div data-demoid="a98481f1-817c-429c-b72b-32c2111896f7">
+          <a href="{ $wcharter:atom-uri }" target="_blank">
+            <xrx:i18n>
+              <xrx:key>download-xml</xrx:key>
+              <xrx:default>Download XML</xrx:default>
+            </xrx:i18n>
+          </a>
+          <br/>
+          <a href="{ conf:param('request-root')}service/pdf-export?id={ xmldb:encode($wcharter:atom-id) }&amp;lang={ $xrx:lang }" target="blank">
+            <xrx:i18n>
+              <xrx:key>pdf-export</xrx:key>
+              <xrx:default>PDF- Export</xrx:default>
+            </xrx:i18n>
+          </a>
+        </div>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>my-archive</xrx:key>
+      <xrx:view>
+        <div class="actions" data-demoid="8bc92e08-18f8-4b99-b771-74539a3a1e98">
+          <xrx:auth>
+            <xrx:rules>
+              <xrx:rule>
+                <xrx:user/>
+                <xrx:dbgroup>atom</xrx:dbgroup>
+              </xrx:rule>
+            </xrx:rules>
+            <xrx:true>
+              <div class="fieldset" data-demoid="8a0a3044-e1d4-4a62-b5e6-bbf34b5fa2ec">
+                <div class="inner-fieldset" data-demoid="06a6b548-bcf5-4091-bfc4-919f86c88f7a">
+                  <span>
+                    <xrx:i18n>
+                      <xrx:key>my-archive</xrx:key>
+                      <xrx:default>MyArchive</xrx:default>
+                    </xrx:i18n>
+                  </span>
+                  { 
+                  if($wcharter:context != 'linked-fond') then
+                  bookmark:trigger( 
+                  $wcharter:is-bookmarked, 
+                  $wcharter:atom-id, 
+                  1, 
+                  conf:param('request-root'),
+                  <span>
+                    <xrx:i18n>
+                      <xrx:key>add-bookmark</xrx:key>
+                      <xrx:default>Add bookmark</xrx:default>
+                    </xrx:i18n>
+                  </span>
+                  ,
+                  <span>
+                    <xrx:i18n>
+                      <xrx:key>remove-bookmark</xrx:key>
+                      <xrx:default>Remove bookmark</xrx:default>
+                    </xrx:i18n>
+                  </span>
+                  )
+                  else()
+                  }
+                  {
+                  if($wcharter:context != 'linked-fond') then
+                  <div data-demoid="8389d45d-4c7c-46a8-bbc6-029e86ff3d1e">
+                    <div data-demoid="eaa5e7ae-7b8c-4d79-a32c-f3d669959892" id="note-field-1" style="display:{if($wcharter:is-bookmarked)then 'block' else 'none'};">
+                      {
+                      let $encoded-id := xmldb:encode(metadata:objectid($wcharter:atom-id))
+                      let $note := 
+                      if($wcharter:context = 'fond') then
+                        doc(concat(conf:param('xrx-user-db-base-uri'), xmldb:encode($xrx:user-id), '/metadata.bookmark-notes/', xmldb:decode($charter:rarchiveid), '/', xmldb:decode($charter:rfondid), '/', xmldb:decode($encoded-id), '.xml'))//xrx:bookmark_note
+                      else
+                        doc(concat(conf:param('xrx-user-db-base-uri'), xmldb:encode($xrx:user-id), '/metadata.bookmark-notes/', xmldb:decode($charter:rcollectionid), '/', xmldb:decode($encoded-id), '.xml'))//xrx:bookmark_note
+                      let $note-text := 
+                      if($note//xrx:bookmark/text() = xmldb:encode($wcharter:atom-id))then
+                        $note//xrx:note/text()
+                      else()
+                      return
+                      <div data-demoid="26ee1f24-ae83-4987-917e-6f31472bea62">
+                        <b>
+                          <xrx:i18n>
+                            <xrx:key>bookmark-note</xrx:key>
+                            <xrx:default>Bookmark note</xrx:default>
+                          </xrx:i18n>
+                          <span>: </span>
+                        </b>
+                        <br/>
+                        <span id="note-output-1">{ $note-text } </span>
+                        <div class="edit-box" data-demoid="6429f690-9eca-470b-a673-fcd8681a50cf">
+                          <xf:trigger appearance="minimal" id="note-edit-1">
+                            <xf:label>
+                                            {
+                                            if(string-length($note-text) gt 0)then
+                                            <span>
+                                <xrx:i18n>
+                                  <xrx:key>edit-note</xrx:key>
+                                  <xrx:default>Edit note</xrx:default>
+                                </xrx:i18n>
+                              </span>
+                                            else
+                                            <span>
+                                <xrx:i18n>
+                                  <xrx:key>create-note</xrx:key>
+                                  <xrx:default>Create note</xrx:default>
+                                </xrx:i18n>
+                              </span>
+                                            }
+                                          </xf:label>
+                            <xf:action ev:event="DOMActivate">
+                              <xf:setvalue ref="//xrx:bookmark" value="'{ $wcharter:atom-id }'"/>
+                              <script type="text/javascript">document.getElementById('noteBobble-1').style.display = 'block';document.getElementById('note-textarea-1-value').value = document.getElementById('note-output-1').innerHTML;document.getElementById('note-edit-1-value').innerHTML = 'Edit note';</script>
+                            </xf:action>
+                          </xf:trigger>
+                        </div>
+                      </div>
+                                    }
+                                  </div>
+                  </div>
+                               else()
+                  }
+                  
+                  { 
+                  if($wcharter:collection-context = 'collection' or ($wcharter:collection-context = 'fond' and $xrx:tokenized-uri[last()] = 'charter')) then
+                  publication:user-actions(
+                  $wcharter:saved-by-current-user, 
+                  $wcharter:saved-by-any-user, 
+                  $wcharter:atom-id, 
+                  1, 
+                  conf:param('request-root'),
+                  $wcharter:is-moderator, 
+                  $xrx:tokenized-uri[last()],
+                  <span>
+                    <xrx:i18n>
+                      <xrx:key>save-and-edit-charter</xrx:key>
+                      <xrx:default>Save and edit charter</xrx:default>
+                    </xrx:i18n>
+                  </span>
+                  ,
+                  <span>
+                    <xrx:i18n>
+                      <xrx:key>edit-charter</xrx:key>
+                      <xrx:default>Edit charter</xrx:default>
+                    </xrx:i18n>
+                  </span>
+                  ,
+                  <span>
+                    <xrx:i18n>
+                      <xrx:key>charter-in-use-by</xrx:key>
+                      <xrx:default>Charter in use by</xrx:default>
+                    </xrx:i18n>
+                    <i> { $wcharter:saved-by-user }</i>
+                  </span>
+                  ,
+                  <span>
+                    <xrx:i18n>
+                      <xrx:key>release-charter</xrx:key>
+                      <xrx:default>Release
+                        Charter</xrx:default>
+                    </xrx:i18n>
+                  </span>
+                  ,
+                  <span>
+                    <xrx:i18n>
+                      <xrx:key>remove-charter</xrx:key>
+                      <xrx:default>Remove Charter</xrx:default>
+                    </xrx:i18n>
+                  </span>
+                  ,
+                  <span>
+                    <xrx:i18n>
+                      <xrx:key>publish-charter</xrx:key>
+                      <xrx:default>Publish Charter</xrx:default>
+                    </xrx:i18n>
+                  </span>
+                  )
+                  else()
+                  }
+                </div>
+              </div>
+            </xrx:true>
+            <xrx:false>
+              <div data-demoid="4973eda1-fc0a-4d91-be79-15fe3e92f2e5">
+                <div class="light-grey" data-demoid="f352a230-1b1d-4d9e-82d5-9380c0a2b5f5">
+                  <xrx:i18n>
+                    <xrx:key>add-bookmark</xrx:key>
+                    <xrx:default>Add bookmark</xrx:default>
+                  </xrx:i18n>
+                </div>
+                {
+                if($wcharter:collection-context = 'collection' or ($wcharter:collection-context = 'fond' and $xrx:tokenized-uri[last()] = 'charter')) then
+                <div class="light-grey" data-demoid="acc6d645-c03e-4ed5-9740-53cf839eba4a">
+                  <xrx:i18n>
+                    <xrx:key>edit-charter</xrx:key>
+                    <xrx:default>Edit charter</xrx:default>
+                  </xrx:i18n>
+                </div>
+                else()
+                }
+              </div>
+            </xrx:false>
+          </xrx:auth>
+          <xrx:div>download-xml-link</xrx:div>
+        </div>
+      </xrx:view>
+    </xrx:div>
+  </xrx:divs>
+  <xrx:view>
+    <div data-demoid="0e76cb8a-4a4d-41ac-8736-8fb35a8375e2">
+      <div class="p" data-demoid="58e0a6fc-2d16-48dd-8b29-be19a037b8c7">
+        <!-- 
+        <div id="noteBobble-1">
+            <xrx:resource type="image/png" style="position:absolute;left:417px;top:8px;width:14px;" title="Close note input" onClick="$('#noteBobble-1').css('display', 'none');">tag:www.monasterium.net,2011:/mom/resource/image/button_close</xrx:resource>
+            <div>
+                <xf:group model="mbookmark">
+                  <xf:textarea ref="//xrx:bookmarkNote" id="note-textarea-1">
+                        <xf:label id="note-label">
+                            <xrx:i18n>
+                                <xrx:key>bookmark-note</xrx:key>
+                                <xrx:default>Bookmark note</xrx:default>
+                            </xrx:i18n>:
+                        </xf:label>
+                    </xf:textarea>
+                    <div id="note-save-trigger">
+                        <xf:trigger>
+                            <xf:label>
+                                <xrx:i18n>
+                                    <xrx:key>save</xrx:key>
+                                    <xrx:default>save</xrx:default>
+                                </xrx:i18n>
+                            </xf:label>
+                            <xf:action ev:event="DOMActivate">
+                                <xf:setvalue ref="//xrx:bookmark" value="'{ $wcharter:atom-id }'"/>
+                                <xf:send submission="ssave-note"/>
+                                <script type="text/javascript">document.getElementById('note-field-1').style.display = 'block';document.getElementById('noteBobble-1').style.display = 'none';document.getElementById('note-output-1').innerHTML = document.getElementById('note-textarea-1-value').value;document.getElementById('note-edit-1-value').innerHTML = 'Edit note';</script>
+                            </xf:action>
+                        </xf:trigger>
+                    </div>
+                </xf:group>
+            </div>
+        </div>
+        -->
+        <xrx:div>heading-center-div</xrx:div>
+        <div data-demoid="630465f3-fb15-4bd8-80da-410d8c0b0216">
+          <div data-demoid="ff14a4a2-6b38-464a-be33-28f16d587320" style="position:absolute">
+            <a href="{ $wcharter:previous }">
+              <span>&lt; </span>
+              <xrx:i18n>
+                <xrx:key>previous-charter</xrx:key>
+                <xrx:default>Previous Charter</xrx:default>
+              </xrx:i18n>
+            </a>
+          </div>
+          <div data-demoid="9b2eddc0-a341-4869-b48b-e0992db9f77c" style="position:absolute;right:25px;">
+            <span>{ $wcharter:pos } </span>
+            <xrx:i18n>
+              <xrx:key>of</xrx:key>
+              <xrx:default>of</xrx:default>
+            </xrx:i18n>
+            <span> { $wcharter:count } </span>
+            <!--span>(</span>
+            <xrx:i18n>
+              <xrx:key>by-date</xrx:key>
+              <xrx:default>by date</xrx:default>
+            </xrx:i18n>
+            <span>)</span-->
+            <span>   </span>
+            <a href="{ $wcharter:next }">
+              <xrx:i18n>
+                <xrx:key>next-charter</xrx:key>
+                <xrx:default>Next Charter</xrx:default>
+              </xrx:i18n>
+              <span> &gt;</span>
+            </a>
+          </div>
+        </div>
+        <br/>
+        <br/>
+        <div data-demoid="33f114f7-83e4-48b4-af9b-c2ba8ef8d59c">
+          {
+          if(starts-with($charter:rfondid,'MIB')) then
+          (
+          <div class="idno" data-demoid="6f6cc228-df0d-43ac-91c1-46c7a54a52e7" id="idno-num" style="float:left">
+            {
+            if($wcharter:is-bookmarked) then
+            (
+            <xrx:resource type="image/jpg">tag:www.monasterium.net,2011:/mom/resource/image/button_bookmarkAdd</xrx:resource>
+            ,
+            <span>  </span>
+            )
+            else()
+            }
+            <xrx:i18n>
+              <xrx:key>signature</xrx:key>
+              <xrx:default>Signature</xrx:default>
+            </xrx:i18n>
+            <span>: { $wcharter:idno }</span>
+          </div>
+          ,
+          <div data-demoid="2f369771-f977-4c60-a236-1d10bc16c608" style="position:relative;left:170px;margin-bottom:10px;">
+            <span>
+              <xrx:i18n>
+                <xrx:key>source</xrx:key>
+                <xrx:default>Source</xrx:default>
+              </xrx:i18n>
+              :
+            </span>
+            Institut für Geschichtliche Landeskunde an der Universität Mainz e.V.
+          </div>
+          )
+          else
+          <div class="idno" data-demoid="2cc611f7-5e62-4316-9ee4-6c86edb955f9" id="idno-num">
+            {
+            if($wcharter:is-bookmarked) then
+            (
+            <xrx:resource type="image/jpg">tag:www.monasterium.net,2011:/mom/resource/image/button_bookmarkAdd</xrx:resource>
+            ,
+            <span>  </span>
+            )
+            else()
+            }
+            <xrx:i18n>
+              <xrx:key>signature</xrx:key>
+              <xrx:default>Signature</xrx:default>
+            </xrx:i18n>
+            <span>: { $wcharter:idno }</span>
+          </div>
+          }
+        </div>
+        <xrx:div>breadcrumb</xrx:div>
+      </div>
+      {
+      if($wcharter:metadata-collection-collection//cei:sourceDesc/cei:p/text() = 'Export aus Google Daten') then
+      <div data-demoid="f7495edb-98da-49a6-a16c-ee41e59606d8">
+	      <br/>
+	      <div class="p ocr-hint" data-demoid="38e8611c-6bba-47e9-99c5-61658c9d3d0d">
+	        <div class="ocr-hint-inner" data-demoid="415a1215-9351-451b-90f8-7642bc2d7f95">
+	          <span>
+	            <xrx:i18n>
+	              <xrx:key>ocr-scanned-message</xrx:key>
+	              <xrx:default>The transcription and metadata of this charter are scanned by a OCR tool and thus may have low quality.</xrx:default>
+	            </xrx:i18n>
+	          </span>
+	        </div>
+	      </div>
+	      <br/>
+	    </div>
+		  else()
+		  }
+      <xrx:subwidget>
+        <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/charter-image-viewer</xrx:atomid>
+        <xrx:pass>
+          <xrx:parameter>
+            <xrx:name>$constructor:context</xrx:name>
+            <xrx:expression>$wcharter:context</xrx:expression>
+          </xrx:parameter>
+          <xrx:parameter>
+            <xrx:name>$constructor:charter</xrx:name>
+            <xrx:expression>$wcharter:charter</xrx:expression>
+          </xrx:parameter>
+          <xrx:parameter>
+            <xrx:name>$constructor:image-base-uri</xrx:name>
+            <xrx:expression>$wcharter:image-base-uri</xrx:expression>
+          </xrx:parameter>
+          <xrx:parameter>
+            <xrx:name>$constructor:preferences</xrx:name>
+            <xrx:expression>$wcharter:preferences</xrx:expression>
+          </xrx:parameter>
+          <xrx:parameter>
+            <xrx:name>$constructor:link-to-charter-in-archive</xrx:name>
+            <xrx:expression>$wcharter:link-to-charter-in-archive</xrx:expression>
+          </xrx:parameter>
+          <xrx:parameter>
+            <xrx:name>$constructor:linked-charter</xrx:name>
+            <xrx:expression>$wcharter:linked-charter</xrx:expression>
+          </xrx:parameter>
+          <xrx:parameter>
+            <xrx:name>$constructor:linked-charter-image-base-uri</xrx:name>
+            <xrx:expression>$wcharter:linked-charter-image-base-uri</xrx:expression>
+          </xrx:parameter>
+          <xrx:parameter>
+            <xrx:name>$constructor:just-linked</xrx:name>
+            <xrx:expression>$wcharter:just-linked</xrx:expression>
+          </xrx:parameter>
+        </xrx:pass>
+      </xrx:subwidget>
+      <div data-demoid="71c8ebdc-bd3a-4327-bdda-8d41279c46cc">
+        <div class="p" data-demoid="a16e2589-b000-4e75-8b74-0aebab6ea3d4">
+          <xrx:div>my-archive</xrx:div>
+        </div>
+        { 
+        (: charter view :) 
+        let $page :=
+        <page>
+          { template:get('tag:www.monasterium.net,2011:/mom/template/charter-view', false()) }
+          { util:expand($wcharter:charter) }
+        </page>
+        return 
+        i18n:translate-xml(transform:transform($page, $wcharter:xsl, $wcharter:params)) 
+        }
+      </div>
+      {
+      if($xrx:tokenized-uri[last()] = 'charter') then
+      <div data-demoid="1c49211c-4c33-4899-ae42-afc2d1735340">
+        <div data-demoid="92fc737f-0034-4bbc-8d4c-42038dfded81" id="image-tool-widget">
+          <script type="text/javascript">
+				    $(document).ready(function(){{
+	            jQuery(document).imageTool({{
+	              requestRoot: "{ conf:param('request-root') }",
+	              charter: "{ $charter:rcharterid }",
+	              collection: "{ if($wcharter:context = 'collection') then $charter:rcollectionid else() }",
+	              scope: "public", 
+                servicePrefix: ""
+	            }});
+	            jQuery(document).i18nText({{
+	              lang: "{ $xrx:lang }",
+	     	        requestRoot: "{ conf:param('request-root') }"
+	     	      }});
+				    }});     
+  		    </script>
+          <xrx:resource id="image-tool-widget-close-button" title="Close Image Tool" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/button_close</xrx:resource>
+          <div data-demoid="5c794018-378e-4fc8-bbe1-814cd17977c0" id="image-tool-widget-button-bar">
+            {
+            if($wcharter:context = 'collection')then
+            <button class="image-tool-widget-button" id="show-anno-button">
+              <xrx:i18n>
+                <xrx:key>show-annotation</xrx:key>
+                <xrx:default>Show annotation</xrx:default>
+              </xrx:i18n>
+            </button>
+            else()
+            }
+            <xrx:auth>
+              <xrx:rules>
+                <xrx:rule>
+                  <xrx:user/>
+                  <xrx:dbgroup>atom</xrx:dbgroup>
+                </xrx:rule>
+              </xrx:rules>
+              <xrx:true>
+                <a class="image-tool-widget-button" href="{ $image-tools-url }" id="open-image-editor">
+                  <xrx:i18n>
+                    <xrx:key>open-image-editor</xrx:key>
+                    <xrx:default>Open image editor</xrx:default>
+                  </xrx:i18n>
+                </a>
+              </xrx:true>
+              <xrx:false>
+                <span/>
+              </xrx:false>
+            </xrx:auth>
+            <button class="image-tool-widget-button" id="help-anno-button">
+              <xrx:i18n>
+                <xrx:key>help</xrx:key>
+                <xrx:default>Help</xrx:default>
+              </xrx:i18n>
+            </button>
+          </div>
+          <div data-demoid="e6b96f51-f3ac-437e-8241-2eba72518ca6" id="image-tool-widget-metadata-area">
+            <div data-demoid="ec93c8d0-7dd6-40b7-8a0b-0a81be10f5b7" id="no-annos">
+              <xrx:i18n>
+                <xrx:key>no-annos-available</xrx:key>
+                <xrx:default>There are no annotations available for this image!</xrx:default>
+              </xrx:i18n>
+            </div>
+            <div data-demoid="d9685d34-56bd-4afd-a5d1-6e9cbe1fbe6c" id="broken-anno">
+              <xrx:i18n>
+                <xrx:key>broken-anno</xrx:key>
+                <xrx:default>The annotation you selected is not linked to a markup element!</xrx:default>
+              </xrx:i18n>
+            </div>
+            <div data-demoid="4569a57a-7dc4-4097-b985-cbbfd58f6bc5" id="metadata-field">
+              <span class="meta-caption">
+                <xrx:i18n>
+                  <xrx:key>related-to</xrx:key>
+                  <xrx:default>Related to</xrx:default>
+                </xrx:i18n>:
+              </span>
+              <a href="#" id="related-to"/>
+              <br/>
+              <span class="meta-caption">
+                <xrx:i18n>
+                  <xrx:key>content</xrx:key>
+                  <xrx:default>Content</xrx:default>
+                </xrx:i18n>:
+              </span>
+              <span id="anno-content"/>
+              <br/>
+              <span class="meta-caption">
+                <xrx:i18n>
+                  <xrx:key>additional-description</xrx:key>
+                  <xrx:default>Additional Description</xrx:default>
+                </xrx:i18n>:
+              </span>
+              <br/>
+              <div data-demoid="e1f054fd-0393-4ccd-9132-0cafb10b5d2e" id="anno-desc"/>
+            </div>
+          </div>
+        </div>
+        <div data-demoid="afe59d3b-4453-484b-afe5-f4e4d66adc21" id="bobble">
+          <xrx:resource onClick="$('#bobble').css('display', 'none');" style="position:absolute;right:5px;top:5px;width:14px;" title="Close Help" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/button_close</xrx:resource>
+          <span id="bobbletext" style="position:absolute;">
+            <xrx:i18n>
+              <xrx:key>helptext-bobble</xrx:key>
+              <xrx:default>A click on the button »Show annotation« displays all annotations on the selected charter image. Afterwards you are able to click on single annotations to display their metadata. A click on »Open Image Editor« opens the paleographical editor of the Image Tool.</xrx:default>
+            </xrx:i18n>
+          </span>
+          <div data-demoid="2cc4f3ec-69d4-4742-9ade-98f74bc296f1" id="bobblecorner"/>
+        </div>
+      </div>
+      else()
+      } 
+      </div>
+  </xrx:view>
+</xrx:widget>

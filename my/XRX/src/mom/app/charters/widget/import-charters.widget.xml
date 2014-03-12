@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/import-charters</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>import-charters</xrx:key>
+      <xrx:default>Import charters</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>
+    <!-- request parameters -->
+    <xrx:variable>
+      <xrx:name>$wimport-charters:context</xrx:name>
+      <xrx:expression>if(count($xrx:tokenized-uri) = 1) then 'browse' else if(count($xrx:tokenized-uri) = 2) then 'collection' else 'fond'</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wimport-charters:uri-tokens</xrx:name>
+      <xrx:expression>if($wimport-charters:context = 'fond') then ($charter:rarchiveid, $charter:rfondid) else $charter:rcollectionid</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wimport-charters:jetty-base-url</xrx:name>
+      <xrx:expression>concat($xrx:jetty-request-base-url, string-join($wimport-charters:uri-tokens, '/'), '/')</xrx:expression>
+    </xrx:variable>
+    <!-- archive information -->
+    <xrx:variable>
+      <xrx:name>$wimport-charters:archive-atomid</xrx:name>
+      <xrx:expression>metadata:atomid($archive:metadata-object-type, $charter:rarchiveid)</xrx:expression>
+    </xrx:variable>
+    <!-- import information -->
+    <xrx:variable>
+      <xrx:name>$wimport-charters:base-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('charter', $wimport-charters:uri-tokens, 'import')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wimport-charters:info</xrx:name>
+      <xrx:expression>$wimport-charters:base-collection/xrx:import</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wimport-charters:type</xrx:name>
+      <xrx:expression>$wimport-charters:info/xrx:type/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wimport-charters:time</xrx:name>
+      <xrx:expression>replace(substring-before($wimport-charters:info/xrx:time/text(), '.'), 'T', ' ')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wimport-charters:userid</xrx:name>
+      <xrx:expression>$wimport-charters:info/xrx:userid/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wimport-charters:userlabel</xrx:name>
+      <xrx:expression>concat(user:firstname-name($wimport-charters:userid), ' (', $wimport-charters:userid, ')')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wimport-charters:filename</xrx:name>
+      <xrx:expression>$wimport-charters:info/xrx:filename/text()</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>false</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <style type="text/css">
+    
+#dimport-charters table {{
+  width: 100%;
+}}
+
+#dimport-charters table {{
+  background:#e9eae8;
+  background:rgba(105,115,100,.15);
+  -webkit-border-radius:10px 10px 10px 10px;
+  -moz-border-radius:10px 10px 10px 10px;
+  border-radius:10px 10px 10px 10px;
+  border-collapse:collapse;
+  border-spacing:0;
+  width:100%;
+  margin-top: 30px;
+}}
+
+#dimport-charters td {{
+  padding: 5px;
+}}
+
+#dimport-charters td.icon {{
+  width: 122px;
+}}
+
+#dimport-charters td.info {{
+  padding-left: 20px;
+  width: 50%;
+}}
+
+#dimport-charters img.icon {{
+  margin: 1px;
+}}
+
+#dimport-charters .heading {{
+  font-size: 2em;
+  margin: 5px;
+}}
+
+#dimport-charters td.button {{
+  text-align: right;
+  display: box;
+  width: auto;
+}}
+
+#dimport-charters a.button {{
+  cursor: pointer;
+
+  font-weight: bold;
+  color: #212121;
+
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 1);
+
+  padding: 10px 15px;
+
+  border: 2px solid #ffffff;
+  -moz-border-radius: 8px; -webkit-border-radius: 8px; border-radius: 8px;
+
+  background: rgb(224,224,224);
+  background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0.49, rgb(224,224,224)),
+    color-stop(0.5, rgb(237,237,237))
+  );
+  background-image: -moz-linear-gradient(
+    center bottom,
+    rgb(224,224,224) 49%,
+    rgb(237,237,237) 50%
+  );
+
+  -moz-box-shadow: 0px 0px 3px rgba(0, 0, 0, 1);
+  -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, 1);
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 1);
+}}
+
+#dimport-charters fieldset {{
+  background: #ffe3d9!important;
+  border: solid #ef6a2f 1px;
+}}
+
+#dimport-charters legend {{
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #ef6a2f;
+}}
+
+    </style>
+  </xrx:csss>
+  <xrx:divs>
+    <xrx:div>
+      <xrx:key>recent-import-div</xrx:key>
+      <xrx:view>
+        <div data-demoid="5d82a666-31f3-44cf-9707-354e288d2873">
+          <fieldset>
+            <legend>
+              <xrx:i18n>
+                <xrx:key>recently-imported-file</xrx:key>
+                <xrx:default>Recently imported file</xrx:default>
+              </xrx:i18n>
+            </legend>
+            <div data-demoid="2e9922e9-cea8-41a6-91c0-2abe7c30186d">
+              <a href="recently-imported-file" target="_blank">{ $wimport-charters:filename }</a>
+            </div>
+            <div data-demoid="8447e325-9bc0-4659-b5f6-d40f4a9b1811" style="color:grey">
+              <span>{ $wimport-charters:time } </span>
+              <span>
+                <xrx:i18n>
+                  <xrx:key>by</xrx:key>
+                  <xrx:default>by</xrx:default>
+                </xrx:i18n>
+              </span>
+              <span> { $wimport-charters:userlabel }</span>
+            </div>
+          </fieldset>
+        </div>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>import-charters-div</xrx:key>
+      <xrx:view>
+        <div data-demoid="b174d89d-bdf7-42d9-9e6f-34ba1fc76b71" id="dimport-charters">
+          {
+          if($wimport-charters:context = 'browse') then
+          <a href="/">
+            <span>&lt;&lt;</span>
+            <xrx:i18n>
+              <xrx:key>back</xrx:key>
+              <xrx:default>Back</xrx:default>
+            </xrx:i18n>
+          </a>
+          else if($wimport-charters:context = 'fond') then
+          <a href="{ $wimport-charters:context }">
+            <span>&lt;&lt;</span>
+            <xrx:i18n>
+              <xrx:key>back-to-fond</xrx:key>
+              <xrx:default>Back to fond</xrx:default>
+            </xrx:i18n>
+          </a>
+          else
+          <a href="{ $wimport-charters:context }">
+            <span>&lt;&lt;</span>
+            <xrx:i18n>
+              <xrx:key>back-to-collection</xrx:key>
+              <xrx:default>Back to collection</xrx:default>
+            </xrx:i18n>
+          </a>
+          }
+          <div class="h2" data-demoid="b352845c-ab1e-4c9f-9214-6603f0595189">
+            <xrx:i18n>
+              <xrx:key>import-charters</xrx:key>
+              <xrx:default>Import charters</xrx:default>
+            </xrx:i18n>
+          </div>
+          {
+            if($wimport-charters:context = 'fond') then
+            <div data-demoid="7dd1ba8c-3ece-4413-a82c-1fc250b0dae1">
+              <a href="{ conf:param('request-root') }fonds">
+                <xrx:i18n>
+                  <xrx:key>fonds</xrx:key>
+                  <xrx:default>Fonds</xrx:default>
+                </xrx:i18n>
+              </a>
+              <span> &gt; </span>
+              <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/archive">{ $charter:rarchiveid }</a>
+              <span> &gt; </span>
+              <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ $charter:rfondid }/fond">{ xmldb:decode($charter:rfondid) }</a>
+              <span> &gt; </span>
+              <a href="import-charters">
+                <xrx:i18n>
+                  <xrx:key>import-charters</xrx:key>
+                  <xrx:default>Import charters</xrx:default>
+                </xrx:i18n>
+              </a>
+            </div>
+            else if($wimport-charters:context = 'collection') then
+            <div data-demoid="0cbbf624-810a-45e1-ba1e-a236255f9178">
+              <a href="{ conf:param('request-root') }collections">
+                <xrx:i18n>
+                  <xrx:key>collections</xrx:key>
+                  <xrx:default>Collections</xrx:default>
+                </xrx:i18n>
+              </a>
+              <span> &gt; </span>
+              <a href="{ conf:param('request-root') }{ $charter:rcollectionid }/collection">{ xmldb:decode($charter:rcollectionid) }</a>
+              <span> &gt; </span>
+              <a href="import-charters">
+                <xrx:i18n>
+                  <xrx:key>import-charters</xrx:key>
+                  <xrx:default>Import charters</xrx:default>
+                </xrx:i18n>
+              </a>
+            </div>
+            else()
+          }
+          <xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/import-info-excel</xrx:subwidget>
+          <xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/import-info-cei</xrx:subwidget>
+          <xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/import-info-ead</xrx:subwidget>
+          <xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/import-info-xml</xrx:subwidget>
+          <xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/import-info-oai</xrx:subwidget>
+          <xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/import-info-sql</xrx:subwidget>
+        </div>      
+      </xrx:view>
+    </xrx:div>
+  </xrx:divs>
+  <xrx:view>
+    {
+    if($wimport-charters:context != 'browse') then
+    <div data-demoid="a51a9bbe-a387-48cc-9730-2229b21cf680">
+	    <xrx:auth>
+	      <xrx:rules>
+	        <xrx:or>
+		        <xrx:rule>
+		          <xrx:user/>
+		          <xrx:role>metadata-manager</xrx:role>
+		        </xrx:rule>
+		        <xrx:rule>
+		          <xrx:user/>
+		          <xrx:community>{ $wimport-charters:archive-atomid }</xrx:community>
+		        </xrx:rule>
+		      </xrx:or>
+	      </xrx:rules>
+	      <xrx:true>
+	        <div data-demoid="34cfe165-93eb-460e-b23a-2643130c6283"><xrx:div>import-charters-div</xrx:div></div>
+	      </xrx:true>
+	      <xrx:false>
+	        <div data-demoid="fbe7b7cb-0de6-4a90-bcaa-7620aba9d12f">
+	          {
+	          if($wimport-charters:context = 'fond') then
+	          <a href="{ $wimport-charters:context }">
+	            <span>&lt;&lt;</span>
+	            <xrx:i18n>
+	              <xrx:key>back-to-fond</xrx:key>
+	              <xrx:default>Back to fond</xrx:default>
+	            </xrx:i18n>
+	          </a>
+	          else
+	          <a href="{ $wimport-charters:context }">
+	            <span>&lt;&lt;</span>
+	            <xrx:i18n>
+	              <xrx:key>back-to-collection</xrx:key>
+	              <xrx:default>Back to collection</xrx:default>
+	            </xrx:i18n>
+	          </a>
+	          }
+	          <div class="h2" data-demoid="16d593a2-6593-49ba-9d57-7537b3d73e8e">
+	            <xrx:i18n>
+	              <xrx:key>import-charters</xrx:key>
+	              <xrx:default>Import charters</xrx:default>
+	            </xrx:i18n>
+	          </div>
+						<div data-demoid="a65095da-28c4-4b44-998d-e24fc029c3e3">
+							<xrx:i18n>
+								<xrx:key>protected-page-message</xrx:key>
+								<xrx:default>Protected page. Please login first.</xrx:default>
+							</xrx:i18n>
+						</div>
+						<xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/login2</xrx:subwidget>
+				  </div>
+	      </xrx:false>
+	    </xrx:auth>
+	  </div>
+    else
+    <xrx:div>import-charters-div</xrx:div>
+    }
+  </xrx:view>
+</xrx:widget>

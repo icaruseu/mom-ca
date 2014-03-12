@@ -1,0 +1,94 @@
+<xrx:service xmlns:eag="http://www.archivgut-online.de/eag" xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/remove-metadata</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key></xrx:key>
+      <xrx:default></xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:variables>
+    <xrx:variable>
+      <xrx:name>$url</xrx:name>
+      <xrx:expression>$data//*:url/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$note</xrx:name>
+      <xrx:expression>$data//*:note/text()</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:translateflag>true</xrx:translateflag>
+   </xrx:processor>
+  </xrx:init>  
+  <xrx:emails>
+    <xrx:email>
+      <xrx:key>remove-metadata-mail</xrx:key>
+      <mail xmlns="">
+          <from>{ xs:string(conf:param('platform-browser-title')) }</from>
+          <to>{ xs:string('metadata@monasterium.net') }</to>
+          <cc>{ xs:string($xrx:user-id) }</cc>
+          <bcc></bcc>
+          <subject>MOM-CA - Metadata Service</subject>
+          <message>
+              <text>
+MOM-CA - Metadata Service. A user requests to remove public database entries.
+
+URL: { $url }
+Note: { $note }
+User: { user:firstname-name($xrx:user-id) } ({ $xrx:user-id })
+              </text>
+          </message>
+      </mail>
+    </xrx:email>
+  </xrx:emails>
+  <xrx:body>
+    {
+    let $sendmail := <xrx:sendmail><xrx:key>remove-metadata-mail</xrx:key></xrx:sendmail>
+    return
+    if($sendmail) then
+    <xrx:response status="1">
+      <xrx:message>
+        <xrx:i18n>
+          <xrx:key>request-successfully-sent</xrx:key>
+          <xrx:default>Request successfully sent. We will soon contact you.</xrx:default>
+        </xrx:i18n>
+      </xrx:message>
+      <xrx:icon>{ conf:param('request-root') }face-smile.png</xrx:icon>
+    </xrx:response>
+    else
+    <xrx:response status="-1">
+      <xrx:message>
+        <xrx:i18n>
+          <xrx:key>request-could-not-be-sent</xrx:key>
+          <xrx:default>Request could not be sent.</xrx:default>
+        </xrx:i18n>
+      </xrx:message>
+      <xrx:icon>{ conf:param('request-root') }dialog-warning.png</xrx:icon>
+    </xrx:response>          
+    }
+  </xrx:body>
+</xrx:service>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="instance.xsl" type="text/xsl"?>
+<entities xmlns="">
+  <entity>&quot;</entity>
+  <entity>&amp;</entity>
+  <entity>&lt;</entity>
+  <entity>&gt;</entity>
+  <entity>&apos;</entity>
+</entities>

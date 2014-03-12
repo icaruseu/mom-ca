@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/my-collection-remove</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>my-collection</xrx:key>
+      <xrx:default>My Collection</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>
+    <xrx:variable>
+      <xrx:name>$wmy-collection-remove:collectionid</xrx:name>
+      <xrx:expression>$xrx:tokenized-uri[1]</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wmy-collection-remove:base-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('mycollection', $wmy-collection-remove:collectionid, 'private')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wmy-collection-remove:collection-name</xrx:name>
+      <xrx:expression>$wmy-collection-remove:base-collection//cei:titleStmt/cei:title/text()</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>true</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>  
+  <xrx:csss>
+    <style type="text/css">
+    
+#dremove-trigger {{
+  margin-top: 200px;
+  margin-left: 45%;
+}}
+
+    </style>
+  </xrx:csss>
+  <xrx:model>
+    <xf:model id="mmy-collection-remove">
+      <xf:instance>
+        <data xmlns="">
+          <collectionid>{ $wmy-collection-remove:collectionid }</collectionid>
+        </data>       
+      </xf:instance>
+      <xf:instance id="iresponse">
+        <xrx:response/>
+      </xf:instance>
+      <xf:submission action="{ conf:param('request-root') }service/my-collection-remove" id="smy-collection-remove" instance="iresponse" method="post" replace="instance">
+        <xf:action ev:event="xforms-submit-done">
+          <xf:message level="ephemeral">Done</xf:message>
+        </xf:action>
+        <xf:action ev:event="xforms-submit-error">
+          <xf:message level="ephemeral">Error</xf:message>
+        </xf:action>
+      </xf:submission>
+    </xf:model>
+  </xrx:model>
+  <xrx:view>
+    <div data-demoid="504f1981-b759-45b9-b06c-bad4264b788e">       
+      <div data-demoid="b4b869b9-0f1d-4af7-98f6-21e787ac9e52">
+        <a href="my-collection">
+          <span>&lt;&lt; </span>
+          <xrx:i18n>
+            <xrx:key>back</xrx:key>
+            <xrx:default>back</xrx:default>
+          </xrx:i18n>
+        </a>
+      </div>
+      <div class="h2" data-demoid="db718aee-a535-4714-9a38-40a2bc2f35eb">
+        <xrx:i18n>
+          <xrx:key>remove-my-collection</xrx:key>
+          <xrx:default>Remove My Collection</xrx:default>
+        </xrx:i18n>: { $wmy-collection-remove:collection-name }
+      </div>
+      <xf:group model="mmy-collection-remove">
+	      <div data-demoid="ecb243c2-ce8c-4240-b057-915d15fd6385" id="dremove-trigger">
+	        <xf:trigger>
+	          <xf:label>
+	            <xrx:i18n>
+	              <xrx:key>remove-now</xrx:key>
+	              <xrx:default>Remove now</xrx:default>
+	            </xrx:i18n>!
+	          </xf:label>
+	          <xf:action ev:event="DOMActivate">
+	            <xf:send submission="smy-collection-remove"/>
+	            <xf:load if="instance('iresponse')/@status = '1'" show="replace">
+	              <xf:resource value="'{ conf:param('request-root') }my-collections'"/>
+	            </xf:load>
+	          </xf:action>
+	        </xf:trigger>
+	      </div>
+	    </xf:group>
+    </div>
+  </xrx:view>
+</xrx:widget>

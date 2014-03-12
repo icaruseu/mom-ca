@@ -1,0 +1,55 @@
+
+
+.xrx-bind {
+  display: none;
+}
+
+.xrx-console {
+  white-space: pre-wrap;
+}
+
+.xrx-instance {
+  display: none;
+}
+
+.xrx-output {
+  white-space: pre-wrap;
+}
+
+.CodeMirror {
+  height: auto !important;
+  border: solid rgb(200,200,200) 1px;
+}
+
+.CodeMirror-scroll {
+  overflow-y: hidden !important;
+  overflow-x: auto !important;
+  height: auto !important;
+  /* This is needed to prevent an IE[67] bug where the scrolled content
+     is visible outside of the scrolling box. */
+  position: relative;
+  border:solid white 1px;
+}
+
+.CodeMirror-focused {
+  border: solid black 1px;
+}
+
+.richxml-start-tag-active {
+	color: #F39814;
+  border-bottom: solid #F39814 1px;
+}
+
+.richxml-end-tag-active {
+  color: #F39814;
+  border-bottom: solid #F39814 1px;
+}
+
+.richxml-empty-tag-active {
+  color: #F39814;
+  border-bottom: solid #F39814 1px;
+}
+
+.richxml-not-tag-active {
+  border-bottom: solid #F39814 1px;
+}

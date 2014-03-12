@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:i18n="http://www.monasterium.net/NS/i18n" xmlns:xf="http://www.w3.org/2002/xforms">
+    <xrx:id>tag:www.monasterium.net,2011:/mom/widget/default-header</xrx:id>
+    <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+    <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+	</xrx:licence>
+  <xrx:csss>
+    <style type="text/css">
+
+#header{{
+	position:relative;
+	float:left;
+	width:100%;
+	margin:0px;
+	padding:0px;
+}}
+
+/*
+*
+*   Menu
+*/
+#header .menu{{
+	position:relative;
+	float:left;
+	margin:0px;
+	padding:0px;
+	margin-left:10px;
+}}
+
+#header .inner-menu{{
+  padding:0px;
+  margin:4px;
+}}
+
+#header .menu-item{{
+  position:relative;
+  float:left;
+  margin:0px;
+  margin-right:7px;
+  padding:0px;
+}}
+
+#header .menu-item *{{
+  text-decoration:none;
+	font-size:1.1em;
+	font-weight:bold;
+}}
+
+#header .menu-item a{{
+  margin-right:8px;
+}}
+
+#header .menu-item a:link{{
+	color:{conf:param('color3')};
+}}
+
+#header .menu-item a:hover{{
+  cursor:pointer;
+	color:{conf:param('color6')};
+	text-decoration:none;
+}}
+
+#header .stuff{{
+  position:relative;
+  float:left;
+  width:100%;
+}}
+
+#header .extras{{
+  position:absolute;
+  right:10px;
+  margin:0px;
+  padding:0px;
+}}
+
+#logged-in-info{{
+  position:absolute;
+  left:200px;
+  top:0px;
+  margin:5px;
+  color:grey;
+}}
+
+#header form {{
+  display:inline;
+}}
+
+#dregister-link, #dlogin-link{{
+  position:relative;
+  float:left;
+}}
+
+      </style>
+    </xrx:csss>
+    <xrx:model>
+     {
+      if($xrx:xformsflag) then
+        <xf:model id="mdefault-header">
+            <xf:instance>
+                <xrx:data>
+                    <xrx:lang>{ $xrx:lang }</xrx:lang>
+                </xrx:data>
+            </xf:instance>
+            <xf:instance id="iconfigured-langs">{ conf:param('languages') }</xf:instance>
+            <xf:bind id="blang" nodeset="//xrx:lang"/>
+        </xf:model>
+      else()
+     }
+    </xrx:model>
+    <xrx:view>
+	{
+	  let $register-link-div := 
+    <div data-demoid="e5abcd35-6337-4892-a86d-9e39ad42eb6f" id="dregister-link">
+            <xrx:auth>
+                <xrx:rules>
+                    <xrx:rule>
+                        <xrx:user/>
+                        <xrx:dbgroup>atom</xrx:dbgroup>
+                    </xrx:rule>
+                </xrx:rules>
+                <xrx:true>
+                    <span/>
+                </xrx:true>
+                <xrx:false>
+                    <div data-demoid="b38ec5d1-2510-4b13-ae32-0531e65caa30" id="register-link">
+                        <a href="{ conf:param('request-root') }registration">
+                            <xrx:i18n>
+                                <xrx:key>register</xrx:key>
+                                <xrx:default>Register</xrx:default>
+                            </xrx:i18n>
+                        </a>
+                        <span> </span>
+                    </div>
+                </xrx:false>
+            </xrx:auth>
+            <span> </span>
+        </div>
+    let $login-link-div :=
+    <div data-demoid="bf251b73-1f3f-41bc-8f4f-4c2fba4463a5" id="dlogin-link">
+     {
+     let $refer := xmldb:encode(concat(request:get-uri(), '?',request:get-query-string()))
+     return
+     <span>
+                <xrx:auth>
+                    <xrx:rules>
+                        <xrx:rule>
+                            <xrx:user>{ $xrx:user-id }</xrx:user>
+                            <xrx:dbgroup>atom</xrx:dbgroup>
+                        </xrx:rule>
+                    </xrx:rules>
+                    <xrx:true>
+                        <span id="logging-link">
+                            <a href="{ conf:param('request-root') }service/logout2?refer={ $refer }">
+                                <xrx:i18n>
+                                    <xrx:key>logout</xrx:key>
+                                    <xrx:default>Logout</xrx:default>
+                                </xrx:i18n>
+                            </a>
+                        </span>
+                    </xrx:true>
+                    <xrx:false>
+                        <span id="logging-link">
+                            <a href="{ conf:param('request-root') }login2?refer={ $refer }">
+                                <xrx:i18n>
+                                    <xrx:key>login</xrx:key>
+                                    <xrx:default>Login</xrx:default>
+                                </xrx:i18n>
+                            </a>
+                            <span> </span>
+                        </span>
+                    </xrx:false>
+                </xrx:auth>
+            </span>
+     }
+     <span> </span>
+        </div>  
+    return
+		<div data-demoid="0260507f-0cf8-4426-bc8f-d9cbf1191ebf" id="header">
+            <div data-demoid="7ac5a0f7-19b6-496e-ba61-b95f8a19ff08" id="main-logo">
+                <a href="{ conf:param('request-root') }home">
+	                <xrx:resource alt="Monasterium Logo" type="image/jpg">tag:www.monasterium.net,2011:/mom/resource/image/mom-logo</xrx:resource>
+                </a>
+            </div>
+            <xrx:auth>
+                <xrx:rules>
+                    <xrx:rule>
+                        <xrx:user>{ $xrx:user-id }</xrx:user>
+                        <xrx:dbgroup>atom</xrx:dbgroup>
+                    </xrx:rule>
+                </xrx:rules>
+                <xrx:true>
+                    <div data-demoid="2bb94a3e-ffc4-4864-ad6f-a563c4ae4e95" id="logged-in-info">
+                        <span>
+                            <xrx:i18n>
+                                <xrx:key>logged-in-as</xrx:key>
+                                <xrx:default>Logged in as</xrx:default>
+                            </xrx:i18n>
+                            <span>: </span>
+                        </span>
+                        <a href="{ conf:param('request-root') }my-account">{ user:firstname-name($xrx:user-id) }</a>
+                    </div>
+                </xrx:true>
+                <xrx:false>
+                    <span/>
+                </xrx:false>
+            </xrx:auth>
+            <div class="stuff" data-demoid="6f444c58-9c36-407d-95f0-ce5204cb2921">
+                <div class="menu" data-demoid="0b00adea-7bd3-4eac-a80f-b3d49fb40c91">
+                    <div class="inner-menu" data-demoid="0a3e584b-d303-452f-bea5-51c76cf6542f">
+                        <div class="menu-item" data-demoid="ea89e2d9-5e5b-4a6f-bd8f-64ee92316207">
+                            <a href="{ conf:param('request-root') }home">
+                                <xrx:i18n>
+                                    <xrx:key>home</xrx:key>
+                                    <xrx:default>Home</xrx:default>
+                                </xrx:i18n>
+                            </a>
+                        </div>
+                        <div class="menu-item" data-demoid="90c86749-9600-40c4-b945-f36ebefd1b5e">
+                            <a href="{ conf:param('request-root') }fonds">
+                                <xrx:i18n>
+                                    <xrx:key>fonds</xrx:key>
+                                    <xrx:default>Fonds</xrx:default>
+                                </xrx:i18n>
+                            </a>
+                        </div>
+                        <div class="menu-item" data-demoid="f1022685-cc8c-4149-865a-d0c73b1bfb80">
+                            <a href="{ conf:param('request-root') }collections">
+                                <xrx:i18n>
+                                    <xrx:key>collections</xrx:key>
+                                    <xrx:default>Collections</xrx:default>
+                                </xrx:i18n>
+                            </a>
+                        </div>
+                        <div class="menu-item" data-demoid="82f277c2-4292-4a81-93b2-bb2cc0e7aefa">
+                            <a href="{ conf:param('request-root') }search">
+                                <xrx:i18n>
+                                    <xrx:key>search</xrx:key>
+                                    <xrx:default>Search</xrx:default>
+                                </xrx:i18n>
+                            </a>
+                        </div>
+                        <div class="menu-item" data-demoid="047d9574-6371-46a1-b51e-657fbebb2bf3">
+                            <a href="{ conf:param('request-root') }help">
+                                <xrx:i18n>
+                                    <xrx:key>help</xrx:key>
+                                    <xrx:default>Help</xrx:default>
+                                </xrx:i18n>
+                            </a>
+                        </div>
+                        <div class="menu-item" data-demoid="2c53c505-83d9-4843-b4b7-5033ecd89aeb">
+                            <a href="{ conf:param('request-root') }my-archive">
+                                <xrx:i18n>
+                                    <xrx:key>my-archive</xrx:key>
+                                    <xrx:default>MyArchive</xrx:default>
+                                </xrx:i18n>
+                            </a>
+                        </div>
+                        <xrx:div>demonstrator-menu-link</xrx:div>
+                    </div>
+                </div>
+                <div class="extras" data-demoid="f5446b9e-d957-4fe3-a3d3-751e8c253643">
+                    <div class="lang-select" data-demoid="152cd053-7f3c-43c0-b368-0ef8a4fcfd4e">
+            {
+            if($xrx:xformsflag) then
+            <div data-demoid="56201e27-24eb-4da5-bfee-3f14cacd4199" id="lang-select-form">
+                            <xf:group model="mdefault-header">
+	              { $login-link-div }
+	              { $register-link-div }
+	              <span>
+                                    <xrx:i18n>
+                                        <xrx:key>choose-a-language</xrx:key>
+                                        <xrx:default>Choose a Language</xrx:default>
+                                    </xrx:i18n>
+                                </span>
+                                <xf:select1 bind="blang" incremental="true">
+                                    <xf:itemset nodeset="instance('iconfigured-langs')//xrx:lang">
+                                        <xf:label ref="@name"/>
+                                        <xf:value ref="@key"/>
+                                    </xf:itemset>
+                                    <xf:action ev:event="xforms-value-changed">
+                                        <xf:load show="replace">
+                                            <xf:resource value="concat('{ request:get-url() }{ xrx:request-query-string('', '') }&amp;_lang=', //xrx:lang)"/>
+                                        </xf:load>
+                                    </xf:action>
+                                </xf:select1>
+                            </xf:group>
+                        </div>
+            else
+            <div data-demoid="dc721b5b-a0ad-4ac0-a381-d3cab4a492b3" id="lang-select-form">
+              { $login-link-div }
+              { $register-link-div }
+	            <form method="get" name="langselect-form">
+                                <span>
+                                    <xrx:i18n>
+                                        <xrx:key>choose-a-language</xrx:key>
+                                        <xrx:default>Choose a Language</xrx:default>
+                                    </xrx:i18n>
+                                    <span>: </span>
+                                </span>
+                                <select name="_lang" onchange="this.langselect-form.submit();">
+	                {
+	                for $language in conf:param('languages')//xrx:lang
+	                let $lang-name := data($language/@name)
+	                let $lang-key := $language/@key/string()
+	                return
+	                element option
+	                {
+	                attribute value { $lang-key },
+	                if($lang-key = xs:string($xrx:lang)) then attribute selected {'selected'} else
+	                (),
+	                text { $lang-name }
+	                }
+	                }
+	             </select>
+	              {
+	              for $param in request:get-parameter-names()
+	              return
+	              if(not(starts-with($param, '_'))) then
+	              <input name="{ $param }" type="hidden" value="{ request:get-parameter($param, ()) }"/>
+	              else()
+	              }
+	            </form>
+                        </div>
+            }
+          </div>
+                </div>
+            </div>
+        </div>
+  }
+	</xrx:view>
+</xrx:widget>

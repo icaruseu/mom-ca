@@ -1,0 +1,14 @@
+<xs:schema xmlns="http://www.w3.org/2007/app"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  attributeFormDefault="unqualified" 
+  elementFormDefault="qualified" 
+  targetNamespace="http://www.w3.org/2007/app" 
+  id="app">
+  <xs:element name="control">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="draft" minOccurs="1" maxOccurs="1" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

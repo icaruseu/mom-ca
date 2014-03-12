@@ -1,0 +1,14 @@
+# robots.txt
+# Wed, 06 Mar 2013 14:40:19 +0000
+
+# Exclude Files From All Robots:
+
+User-agent: *
+Disallow: /mom/login2
+Disallow: /augias/
+Disallow: /mom/atom/
+Disallow: /inspector/
+Disallow: /mom/service/
+Disallow: /mom/search
+
+# End robots.txt file

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>XRX++ Unit Tests - xrx.reader</title>
+<script src='../../lib/closure-library/closure/goog/base.js'></script>
+<script src='../deps.js'></script>
+<script type="text/javascript">
+  goog.require('goog.testing.jsunit');
+  goog.require('xrx.reader');
+</script>
+</head>
+<body>
+<script type="text/javascript">
+
+var xml = '<a>1<b>2</b>3<c/>4<d><e>5</e>6</d></a>';
+
+var reader = new xrx.reader(xml);
+
+
+function testFirst() {
+
+  reader.first();
+  assertEquals('<', reader.get());
+};
+
+function testLast() {
+
+  reader.last();
+  assertEquals('>', reader.get());
+};
+
+function testSetAndGet() {
+
+  reader.set(5);
+  assertEquals('b', reader.get());
+};
+
+function testFinished() {
+  
+  reader.first();
+  for (var i = 0; i < xml.length + 5; i++) { reader.next(); }
+  assertEquals(true, reader.finished());
+  
+  reader.first();
+  for (var i = 0; i < xml.length - 5; i++) { reader.next(); }
+  assertEquals(false, reader.finished());
+  
+  reader.last();
+  for (var i = 0; i < xml.length + 5; i++) { reader.previous(); }
+  assertEquals(true, reader.finished());
+};
+
+function testNext() {
+  
+  reader.set(2);
+  reader.next();
+  assertEquals(3, reader.pos_);
+  assertEquals('1', reader.get());
+};
+
+function testPrevious() {
+  
+  reader.set(4);
+  reader.previous();
+  assertEquals(3, reader.pos_);
+  assertEquals('1', reader.get());
+};
+
+function testRight() {
+  
+  reader.first();
+  assertEquals('2', reader.peek(7));
+};
+
+function testLeft() {
+  
+  reader.last();
+  assertEquals('6', reader.peek(-8));
+};
+
+function testForward() {
+  
+  reader.first();
+  reader.forward(7)
+  assertEquals('2', reader.get());
+};
+
+function testBackward() {
+  
+  reader.last();
+  reader.backward(8)
+  assertEquals('6', reader.get());
+};
+
+function testForwardInclusive() {
+  
+  reader.first();
+  reader.forwardInclusive('>');
+  assertEquals(3, reader.pos_);
+  assertEquals('1', reader.get());
+};
+
+function testForwardExclusive() {
+  
+  reader.first();
+  reader.forwardExclusive('>');
+  assertEquals(2, reader.pos_);
+  assertEquals('>', reader.get());
+};
+
+function testBackwardInclusive() {
+  
+  reader.last();
+  reader.backwardInclusive('<');
+  assertEquals('<', reader.get());
+};
+
+function testBackwardExclusive() {
+  
+  reader.last();
+  reader.backwardExclusive('<');
+  assertEquals('/', reader.get());
+  
+  reader.set(1);
+  reader.backwardExclusive('<');
+  assertEquals(1, reader.pos_);
+  assertEquals('a', reader.get());
+};
+
+</script>
+</body>
+</html>

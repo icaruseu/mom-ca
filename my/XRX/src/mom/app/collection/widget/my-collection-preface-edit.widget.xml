@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/my-collection-preface-edit</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/empty</xrx:portal>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>false</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <xrx:css>tag:www.monasterium.net,2011:/mom/css/my-collections</xrx:css>
+    <link href="{ conf:param('request-root') }codemirror/lib/codemirror.css" rel="stylesheet"/>
+    <link href="{ conf:param('request-root') }codemirror/mode/visualxml/visualxml.css" rel="stylesheet"/>
+    <link href="{ conf:param('request-root') }jquery/themes/base/jquery.ui.all.css" rel="stylesheet"/>
+    <style type="text/css">
+
+#dmy-collection-body {{
+  font-family: Courier, monospace;
+  position:relative;
+  float:left;
+  width:100%;
+  background: rgb(230, 230, 230);
+}}
+#dmy-collection-inner-preface {{
+  margin: 3%;
+}}
+#dpreface {{
+  position:relative;
+  float:left;
+  width: 68%;
+  margin: 1%;
+  background: white;
+}}
+#dedit-my-collection-context {{
+  position:relative;
+  float:left;
+  width:26%;
+  margin:1%;
+  padding:1%;
+  background:white;
+}}
+.p {{
+  margin-bottom: 10px;
+}}
+    </style>
+  </xrx:csss>
+  <xrx:jss>
+    <script src="{ conf:param('request-root') }jquery/jquery.js" type="text/javascript"/>
+
+    <script src="{ conf:param('request-root') }jssaxparser/sax.js" type="text/javascript"/>
+    <script src="{ conf:param('request-root') }jssaxparser/DefaultHandlers.js" type="text/javascript"/>
+    <script src="{ conf:param('request-root') }jssaxparser/AttributesImpl.js" type="text/javascript"/>
+    <script src="{ conf:param('request-root') }jssaxparser/NamespaceSupport.js" type="text/javascript"/>
+    <script src="{ conf:param('request-root') }jssaxparser/Reader.js" type="text/javascript"/>
+    <script src="{ conf:param('request-root') }jssaxparser/ReaderWrapper.js" type="text/javascript"/>
+    <script src="{ conf:param('request-root') }jssaxparser/XMLFilterImpls.js" type="text/javascript"/>
+    <script src="{ conf:param('request-root') }jssaxparser/SAXScanner.js" type="text/javascript"/>
+
+    
+    <script src="{ conf:param('request-root') }codemirror/lib/codemirror.js" type="text/javascript"/>
+    <script src="{ conf:param('request-root') }codemirror/mode/visualxml/visualxml.js" type="text/javascript"/>
+    <script src="{ conf:param('request-root') }codemirror/keymap/visualxml.js" type="text/javascript"/>
+          
+    <script src="{ conf:param('request-root') }jquery/external/jquery.mousewheel.js" type="text/javascript"/>
+    <script src="{ conf:param('request-root') }jquery/ui/jquery.ui.core.js" type="text/javascript"/>
+    <script src="{ conf:param('request-root') }jquery/ui/jquery.ui.widget.js" type="text/javascript"/> 
+    <script src="{ conf:param('request-root') }jquery/ui/jquery.ui.mouse.js" type="text/javascript"/>  
+    <script src="{ conf:param('request-root') }jquery/ui/jquery.ui.draggable.js" type="text/javascript"/>
+    <script src="{ conf:param('request-root') }jquery/ui/jquery.ui.resizable.js" type="text/javascript"/>  
+    <script src="{ conf:param('request-root') }jquery/ui/jquery.ui.selectable.js" type="text/javascript"/>
+    <script src="{ conf:param('request-root') }jquery/ui/jquery.ui.button.js" type="text/javascript"/>
+    <script src="{ conf:param('request-root') }jquery/ui/jquery.ui.draggable.js" type="text/javascript"/>
+    <script src="{ conf:param('request-root') }jquery/ui/jquery.ui.droppable.js" type="text/javascript"/>
+    <script src="{ conf:param('request-root') }jquery/ui/jquery.ui.menu.js" type="text/javascript"/>
+
+    <script src="{ conf:param('request-root') }jquery/forms/jquery.formsInstance.js" type="text/javascript"/>
+          
+    <script src="{ conf:param('request-root') }jquery/ui/jquery.ui.formsI18n.js" type="text/javascript"/>
+    <script src="{ conf:param('request-root') }jquery/ui/jquery.ui.formsMessage.js" type="text/javascript"/>
+    <script src="{ conf:param('request-root') }jquery/ui/jquery.ui.formsMixedcontent.js" type="text/javascript"/>
+    <script src="{ conf:param('request-root') }jquery/ui/jquery.ui.formsMixedcontentElements.js" type="text/javascript"/>
+    <script src="{ conf:param('request-root') }jquery/ui/jquery.ui.formsMixedcontentAttributes.js" type="text/javascript"/>
+    <script src="{ conf:param('request-root') }jquery/ui/jquery.ui.formsMixedcontentTagname.js" type="text/javascript"/>
+    
+    <script src="{ conf:param('request-root') }jquery/forms/jquery.forms.js" type="text/javascript"/>
+    
+    <script src="{ conf:param('request-root') }jquery/ui/jquery.ui.xmleditor.js" type="text/javascript"/>
+    
+    <script type="text/javascript">
+    $(document).ready(function(){{
+      jQuery(document).xmleditor({{
+        requestRoot: "{ conf:param('request-root') }"
+      }});
+    }});
+    </script>
+  </xrx:jss>
+  <xrx:view>
+  {
+    (: request parameters :)
+    let $forms-console := 
+      if(request:get-parameter('_formsconsole', '') = 'true') then true() else false()
+    let $rmycollectionid := $xrx:tokenized-uri[2]
+    
+    let $preface-entry := user:home-collection($xrx:user-id)//atom:id[ends-with(.,$rmycollectionid)]/parent::atom:entry
+    let $entry-as-string := util:serialize($preface-entry, ())
+    
+    (: xPath :)
+    let $xpath-title-stmt := '/atom:entry/atom:content/cei:cei/cei:teiHeader/cei:fileDesc/cei:titleStmt'
+    let $xpath-publication-stmt := '/atom:entry/atom:content/cei:cei/cei:teiHeader/cei:fileDesc/cei:publicationStmt'
+    let $xpath-preface := '/atom:entry/atom:content/cei:cei/cei:text/cei:front'
+    
+    (: mixed content :)
+    let $schema := collection('/db/www')/xs:schema[@id='cei']
+    let $xrx-schema := xsd:get('tag:www.monasterium.net,2011:/mom/xsd/cei-collection-editor')
+    let $attribute-suggestions := xmleditor:json-attribute-suggestions($schema)
+    let $element-suggestions := xmleditor:json-element-suggestions($schema)
+    let $topics := xmleditor:json-element-topics($xrx-schema)
+
+    (: i18n support :)
+    let $cei-i18n-messages := collection(concat($i18n:db-base-collection-path, $xrx:lang))//xrx:i18n[starts-with(./xrx:key,'cei_')]
+    let $i18n-messages-as-json :=
+      xmleditor:json-object(
+          for $message in $cei-i18n-messages
+          let $i18n-key := $message/xrx:key/text()
+          return
+          xmleditor:json-pair(
+              xmleditor:json-string($i18n-key),
+              xmleditor:json-string(i18n:translate($message))
+          ) 
+      )
+        
+    return
+    <div data-demoid="4f2fdb0d-52e3-4fda-a456-613bb332fcd6">
+      <div data-demoid="1817f367-b523-4a9f-9274-ab80ff6321cb" id="forms-message"/>
+      <div data-demoid="9fdd39b4-a628-4f74-8e9c-fb8c66b43a31" id="dmy-collection-header">
+        <h2>Edit Preface</h2>
+        <div data-demoid="4ab47817-3818-48a8-b856-89b16f266fd6" id="autoSaveStatus"/>
+        <img id="momlogo" src="{ conf:param('request-root') }mom_logo.gif"/>
+      </div>
+      <div data-demoid="76b748f7-0d38-44c9-8233-75859c0a9b1c" id="dmy-collection-toolbar">
+	      <div data-demoid="122e8344-7f8a-47ef-bb4e-a8e6145f6d8c" id="dmy-collection-inner-toolbar">
+	        <div data-demoid="2cc1881b-f866-4862-a691-f765dc794f30" id="forms-mixedcontent-elements"/>
+	        <div data-demoid="839f75dd-e382-450a-840b-d7478584923a" id="forms-mixedcontent-tagname"/>
+	      </div>
+      </div>
+      <xrx:auth>
+        <xrx:rules>
+          <xrx:rule>
+            <xrx:user/>
+            <xrx:dbgroup>atom</xrx:dbgroup>
+          </xrx:rule>
+        </xrx:rules>
+        <xrx:true>
+		      <div data-demoid="865f84b0-0412-4282-8815-4a4746184fd4" id="dmy-collection-body">
+		        <div class="xrx-forms-instance" data-demoid="b4b6e8cc-662c-4e1a-ba49-85297bf8e981" id="forms-console" style="{ if($forms-console = true()) then 'z-index:9999' else 'display:none' }">{ $entry-as-string }</div>
+			      <div data-demoid="e8c703ce-0f31-48ad-97eb-172e69af5f2c" id="dpreface"><div data-demoid="a4777c8e-cf3b-4f08-b151-3a259b643396" id="dmy-collection-inner-preface">
+		          <div class="p" data-demoid="4646794b-3108-48f2-9560-b8b47516ddd3">
+			          <div data-demoid="91bf105b-7dd7-4949-8271-080067307f92">Title Statement</div>
+		            <textarea class="forms-mixedcontent" name="textarea1" xrx:ref="{ $xpath-title-stmt }"/>
+		          </div>
+		          <div class="p" data-demoid="c8fbc0e7-6f95-4b9a-b436-a1828cc8935e">
+		            <div data-demoid="c3a82db5-845d-4fc6-b92c-2dccf69810a0">Publication Statement</div>
+		            <textarea class="forms-mixedcontent" name="textarea2" xrx:ref="{ $xpath-publication-stmt }"/>
+		          </div>
+		          <div class="p" data-demoid="430419b8-0228-4257-b213-dd64b37c01d7">
+		            <div data-demoid="b26fc483-54dd-4a7c-9b1c-e551b1332950">Preface</div>
+			          <textarea class="forms-mixedcontent" name="textarea3" xrx:ref="{ $xpath-preface }"/>
+			        </div>
+			      </div></div>
+			      <div data-demoid="95625d35-6843-4b2b-b976-b442aaca3728" id="dedit-my-collection-context">
+			        <div data-demoid="1b44ac31-ab03-46bf-b678-22c326d6ff5d" id="forms-mixedcontent-attributes"/>
+			      </div>
+			      <div class="xrx-forms-i18n-catalog" data-demoid="f5743bd9-3137-4631-bd7b-525022950c68" style="display:none">{ $i18n-messages-as-json }</div>
+			      <div class="xrx-forms-json-attribute-suggestions" data-demoid="0322f27d-5e30-47f6-9361-2dbdde6c50ca" style="display:none">{ $attribute-suggestions }</div>
+			      <div class="xrx-forms-json-element-suggestions" data-demoid="2b9f9903-dd61-4c83-bfff-8869c0f44144" style="display:none">{ $element-suggestions }</div>
+			      <div class="xrx-forms-json-topics" data-demoid="ffd4a306-8a0a-4bfe-8150-4e11193f879b" style="display:none">{ $topics }</div>
+		      </div>
+		    </xrx:true>
+		    <xrx:false>
+          <div data-demoid="41adf9ba-11ee-43d8-b3a1-66b9a9e80b47" id="dlogin">
+            <xrx:i18n>
+              <xrx:key>protected-page-message</xrx:key>
+              <xrx:default>Protected page. Please login first.</xrx:default>
+            </xrx:i18n>
+            <xrx:subwidget>tag:www.monasterium.net,2011:/core/widget/login2</xrx:subwidget>
+          </div>
+		    </xrx:false>
+		  </xrx:auth>
+    </div>
+  }
+  </xrx:view>
+</xrx:widget>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/import-info-oai</xrx:id>
+  <xrx:inherits>tag:www.monasterium.net,2011:/mom/widget/import-charters</xrx:inherits>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:view>
+    <table>
+      <tr>
+        <td><span class="heading">OAI</span></td>
+        <td/>
+        <td/>
+      </tr>
+      <tr>
+        <td class="icon"><xrx:resource class="icon" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/OAI</xrx:resource></td>
+        <td class="info">
+          <p><i>
+            <xrx:i18n>
+              <xrx:key>oai-import-info-1</xrx:key>
+              <xrx:default>Import Metadata via your institutions OAI interface.</xrx:default>
+            </xrx:i18n>
+          </i></p> 
+          <p><i>
+            <xrx:i18n>
+              <xrx:key>oai-import-info-2</xrx:key>
+              <xrx:default>To make the import work, you need a XSLT Script which transforms the
+              OAI metadata format - mostly a subset of 'Dublin Core' (DC) - into CEI.</xrx:default>
+            </xrx:i18n>
+          </i></p> 
+          <xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/useful-links-oai</xrx:subwidget>
+        </td>
+        <!--td>{ if(chimport:rinfo()/xrx:type/text() = 'OAI') then <xrx:div>recent-import-div</xrx:div> else() }</td-->
+      </tr>
+      <tr>
+        <td/>
+        <td/>
+        <td class="button">
+          <a class="button">
+            { if($wimport-charters:context = 'browse') then attribute href { 'import-charters-howto?type=OAI' } else attribute href { concat($wimport-charters:jetty-base-url, 'oai-import') } }
+            <xrx:i18n>
+              <xrx:key>oai-import</xrx:key>
+              <xrx:default>OAI import</xrx:default>
+            </xrx:i18n> &gt;&gt;
+          </a>
+        </td>
+      </tr>
+    </table>  
+  </xrx:view>
+</xrx:widget>

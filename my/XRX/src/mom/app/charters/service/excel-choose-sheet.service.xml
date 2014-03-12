@@ -1,0 +1,105 @@
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/excel-choose-sheet</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key></xrx:key>
+      <xrx:default></xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:variables>
+    <xrx:variable>
+      <xrx:name>$sheetnum</xrx:name>
+      <xrx:expression>xs:integer($data//*:sheetnum/text())</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$fileuri</xrx:name>
+      <xrx:expression>xmldb:decode($data//*:fileuri/text())</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$uploadtype</xrx:name>
+      <xrx:expression>$data//*:uploadtype/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$url</xrx:name>
+      <xrx:expression>if($uploadtype = 'recent') then xs:anyURI($fileuri) else xs:anyURI(concat('http://localhost:', conf:param('jetty-port'), $fileuri))</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:translateflag>true</xrx:translateflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:body>
+    {
+    let $sheetinfo := excel:sheetinfo($url, $sheetnum)
+    let $firstrownum-exists := $sheetinfo//excel:firstrownum/@num
+    let $lastrownum-exists := $sheetinfo//excel:lastrownum/@num
+    let $firstrownum := 
+      if($firstrownum-exists) then xs:integer($sheetinfo//excel:firstrownum/@num/string()) else 1
+    let $lastrownum := 
+      if($lastrownum-exists) then xs:integer($sheetinfo//excel:lastrownum/@num/string()) else 0
+    let $numcharters := $lastrownum - $firstrownum + 1
+    
+    return
+    
+    if($sheetinfo//excel:error) then
+    <xrx:response status="-1">
+      <xrx:message>
+        <xrx:i18n>
+          <xrx:key>error</xrx:key>
+          <xrx:default>Error</xrx:default>
+        </xrx:i18n>
+      </xrx:message>
+      <xrx:icon></xrx:icon>
+      <xrx:report>{ $sheetinfo }</xrx:report>
+    </xrx:response>
+    else if($numcharters = 0) then
+    <xrx:response status="0">
+      <xrx:message>
+        <xrx:i18n>
+          <xrx:key>no-rows-with-content</xrx:key>
+          <xrx:default>No rows with content.</xrx:default>
+        </xrx:i18n>
+      </xrx:message>
+      <xrx:icon>{ conf:param('request-root') }dialog-warning.png</xrx:icon>
+      <xrx:report>{ $sheetinfo }</xrx:report>
+    </xrx:response>
+    else
+    <xrx:response status="1">
+      <xrx:message>
+        { $numcharters }&#160;
+        <xrx:i18n>
+          <xrx:key>rows-have-content</xrx:key>
+          <xrx:default>rows have content.</xrx:default>
+        </xrx:i18n>
+      </xrx:message>
+      <xrx:icon>{ conf:param('request-root') }face-smile.png</xrx:icon>
+      <xrx:report>{ $sheetinfo }</xrx:report>
+    </xrx:response>
+
+    }
+  </xrx:body>
+</xrx:service>

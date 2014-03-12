@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="./demo.xsl" type="text/xsl"?>
+<div data-filename="getting-started.xml" 
+    data-relativepath="../" 
+    xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:xrx="http://www.monasterium.net/NS/xrx"
+    xmlns:demo="http://www.monasterium.net/NS/demo">
+  <h2>Getting Started</h2>
+
+
+
+  <demo:heading>Installation</demo:heading>
+  <p>Download XRX++ into a web server of your choice.</p>
+  <demo:source row="2">svn co https://subversion.rrz.uni-koeln.de/svn/eXist-A/trunk/my/XRX/res/xml xrx</demo:source>
+  <p>That's it!</p>
+
+
+
+  <demo:heading>Hello MVC! - A Basic XRX++ Document.</demo:heading>
+  <div>To write a XRX++ application there are three external libraries needed:
+	  <ul>
+	    <li>A XRX ++ Agent</li>
+      <li>The CodeMirror JavaScript Library</li>
+	    <li>The XRX++ JavaScript Library</li>
+	  </ul>
+
+
+  
+    <h4>XRX++ Agent</h4>
+	  <p>XRX++ is designed as an extension for HTML5 documents. It provides intelligent
+	  functionalities for native and visual in-browser XML editing by means of additional 
+	  mark-up tags which are bound to the 'xrx' namespace. The <a href="../src/agent/xrx2html.xsl">
+	  XRX++ Agent</a> does mainly two things: it transforms a XRX++ document into pure 
+	  HTML5 and it does some additional optimizations on XML instances for fast browser-based 
+	  XML processing. At the moment there is only a XSLT agent available. Further versions 
+	  will include a JavaScript and a XQuery agent as well. The agent is included at the 
+    very beginning of the document:</p>
+	  <demo:source rows="5">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;?xml-stylesheet href="../src/agent/xrx2html.xsl" type="text/xsl"?&gt;
+&lt;html xmlns:xrx="http://www.monasterium.net/NS/xrx"&gt;
+...
+	  </demo:source>
+
+
+
+    <h4>CodeMirror</h4>
+    <p>The <a href="http://codemirror.net">CodeMirror</a> library provides the basic widget 
+    for visual in-browser XML editing. The JavaScript library as well as CodeMirror's CSS 
+    file are included in the head of a XRX++ document:</p>
+    <demo:source rows="7">
+&lt;html xmlns:xrx="http://www.monasterium.net/NS/xrx"&gt;
+  &lt;head&gt;
+    &lt;script src="../lib/codemirror/lib/codemirror.js"/&gt;
+    &lt;link rel="stylesheet" type="text/css" href="../lib/codemirror/lib/codemirror.css"/&gt;
+    ...
+    </demo:source>
+
+
+
+    <h4>XRX++ JavaScript Library</h4>
+    <p>XRX++ is a JavaScript Library which itself makes use of the 
+    <a href="https://developers.google.com/closure/library/">Google Closure Library</a>, which
+    is activated in three steps.</p>
+    <p>Link the two JavaScript resources and the CSS file in the HTML head:</p>
+    <demo:source rows="7">
+&lt;html xmlns:xrx="http://www.monasterium.net/NS/xrx"&gt;
+  &lt;head&gt;
+    &lt;script src="../lib/closure-library/closure/goog/base.js"/&gt;
+    &lt;script src="../src/deps.js"/&gt;
+    &lt;link rel="stylesheet" type="text/css" href="../src/view/default.css"/&gt;
+    ...
+    </demo:source>
+    <p>Import the XRX++ Library, again with a script tag in the head of the 
+    document:</p>
+    <demo:source rows="7">
+&lt;html xmlns:xrx="http://www.monasterium.net/NS/xrx"&gt;
+  &lt;head&gt;
+    &lt;script&gt;
+      goog.require('xrx');
+    &lt;/script&gt;
+    ...
+    </demo:source>
+    <p>Install the XRX++ library at the very end of the document:</p>
+    <demo:source rows="6">
+  ...
+  &lt;script&gt;
+    xrx.install();
+  &lt;/script&gt;
+&lt;body&gt;
+    </demo:source>
+
+	</div>
+	<p></p>
+	<h4>A Complete XRX++ Sample Document</h4>
+  <demo:source rows="70">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!-- 
+  Link the XRX++ agent 
+ --&gt;
+&lt;?xml-stylesheet href="../src/agent/xrx2html.xsl" type="text/xsl"?&gt;
+
+
+&lt;html xmlns:xrx="http://www.monasterium.net/NS/xrx"&gt;
+  &lt;head&gt;
+    &lt;title&gt;Hello MVC! - A Basic XRX++ Document.&lt;/title&gt;
+    
+    &lt;!-- 
+      Link the CodeMirror resources 
+     --&gt;
+    &lt;script src="../lib/codemirror/lib/codemirror.js"/&gt;
+    &lt;link rel="stylesheet" type="text/css" href="../lib/codemirror/lib/codemirror.css"/&gt;
+    
+    &lt;!-- 
+      Link the XRX++ resources 
+     --&gt;
+    &lt;script src="../lib/closure-library/closure/goog/base.js"/&gt;
+    &lt;script src="../src/deps.js"/&gt;
+    &lt;link rel="stylesheet" type="text/css" href="../src/view/default.css"/&gt;
+    
+    &lt;!-- 
+      Import the XRX++ library 
+     --&gt;
+    &lt;script&gt;
+      goog.require('xrx');
+    &lt;/script&gt;
+    
+    &lt;!-- 
+      Define a data instance and some data binding controls. Instance 
+      and binding controls can either be placed in the header or in the 
+      body of the HTML document. 
+     --&gt;
+    &lt;xrx:instance id="i1"&gt;
+      &lt;data xmlns=""&gt;
+        &lt;text&gt;Hello MVC!&lt;/text&gt;
+      &lt;/data&gt;
+    &lt;/xrx:instance&gt;
+    &lt;xrx:bind id="b1" ref="xrx:instance('i1')//text/text()"/&gt;
+    &lt;xrx:bind id="b2" ref="xrx:instance('i1')"/&gt;
+
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Hello MVC! - A Basic XRX++ Document.&lt;/h1&gt;
+    
+    &lt;!-- 
+      Define some UI Controls. In contrast to the unvisible xrx instances 
+      and bindings, all visible UI controls are defined in the HTML body.
+     --&gt;
+    &lt;xrx:console bind="b2"/&gt;
+    &lt;xrx:input bind="b1"/&gt;
+    
+    &lt;!-- 
+      Install the model-view-controller.
+      Note: The xrx.install() script MUST be placed at the end of the 
+      document, in any case after all xrx controls. If there appears
+      xrx mark-up behind this script tag, the application may break.
+     --&gt;
+    &lt;script&gt;
+      xrx.install();
+    &lt;/script&gt;
+
+  &lt;/body&gt;
+&lt;/html&gt;
+  </demo:source>
+  <demo:try-it-out-link href="hello-mvc.xml"/>
+</div>

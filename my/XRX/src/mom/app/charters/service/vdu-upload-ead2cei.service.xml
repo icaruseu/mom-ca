@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns:ead="urn:isbn:1-931666-22-9">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/vdu-upload-ead2cei</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>andre.streicher@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:variables>
+    <xrx:variable>
+      <xrx:name>$archid</xrx:name>
+      <xrx:expression>$data//*:archid/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$fondid</xrx:name>
+      <xrx:expression>$data//*:fondid/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$fileuri</xrx:name>
+      <xrx:expression>xmldb:decode($data//*:fileuri/text())</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$url</xrx:name>
+      <xrx:expression>xs:anyURI(concat('http://', request:get-server-name(), ':', conf:param('jetty-port'), $fileuri))</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$xsl-id</xrx:name>
+      <xrx:expression>$data//*:transform/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$cei</xrx:name>
+      <xrx:expression>$data//*:ctransform</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$fondextract</xrx:name>
+      <xrx:expression>$data//*:extractfond</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:translateflag>true</xrx:translateflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:body>
+  {
+  let $data-as-xml := doc($url)
+  let $xsl := 
+    if ($xsl-id!='') then
+    	$xrx:db-base-collection/xsl:stylesheet[@id=$xsl-id]
+    else ()
+  let $fond-xsl := $xrx:db-base-collection/xsl:stylesheet[@id='charters-cut']
+  let $post-xsl := $xrx:db-base-collection/xsl:stylesheet[@id='post-script']
+  let $cei-xsl := $xrx:db-base-collection/xsl:stylesheet[@id='ead2cei']
+  let $params :=   <parameters/>  
+  let $basic-ead :=
+    if($cei = fn:false()) then
+        if ($xsl-id!='') then
+          transform:transform($data-as-xml, $xsl, $params) 
+        else 
+          $data-as-xml
+    else $data-as-xml 
+  let $fond-maybe-without-unitid :=
+    if($fondextract = fn:true()) then
+      transform:transform($basic-ead, $fond-xsl, $params)  
+    else () 
+  let $fond-with-unitid :=
+    if($fondextract = fn:true()) then
+      if (count($fond-maybe-without-unitid//ead:unitid)=0)  then
+        upd:insert-into($fond-maybe-without-unitid/ead:archdesc[1]/ead:dsc[1]/ead:c[1]/ead:did[1], <ead:unitid/>) (: ead einfügen:)   
+      else
+        $fond-maybe-without-unitid 
+    else()
+        
+  (: Der Bestand bekommt in das erste unitid Element das Attribut id als bereinigten Systemschlüssel für Bestände :)
+  let $unitid-with-id := 
+    if($fondextract = fn:true()) then
+        element ead:unitid 
+        {
+        attribute identifier {$fondid },
+        string($fond-with-unitid//ead:unitid[1]//text())
+        }
+     else()
+     
+  let $fondinfos := 
+    if($fondextract = fn:true()) then
+      upd:replace-node($fond-with-unitid//ead:unitid[1], $unitid-with-id)
+    else()
+
+  let $cei-data := 
+    if($cei = fn:false()) then
+       let $post-ead := transform:transform($basic-ead, $post-xsl, $params)
+       return
+       transform:transform($post-ead, $cei-xsl, $params)
+    else $data-as-xml    
+  let $count-charters := count($cei-data//cei:text)
+  return
+  
+  if($count-charters = 0) then
+    <xrx:response status="-1">
+      <xrx:message>
+        <xrx:i18n>
+          <xrx:key>file-not-found</xrx:key>
+          <xrx:default>File not found.</xrx:default>
+        </xrx:i18n>
+      </xrx:message>
+      <xrx:icon>{ conf:param('request-root') }dialog-warning.png</xrx:icon>
+      <xrx:sucess>false</xrx:sucess>
+    </xrx:response>
+  else
+    <xrx:response status="1">
+      <xrx:message>
+        <xrx:i18n>
+          <xrx:key>file-successfully-uploaded-message</xrx:key>
+          <xrx:default>File was successfully uploaded.</xrx:default>
+        </xrx:i18n>
+        <span>&#160;{ $url }</span>
+      </xrx:message>
+      <xrx:icon>{ conf:param('request-root') }face-smile.png</xrx:icon>
+      <xrx:sucess>done</xrx:sucess>
+      <xrx:trans-data>
+        { $cei-data }
+      </xrx:trans-data>
+      <xrx:fond-infos>
+        {  
+          if($fondextract = fn:true()) then
+            $fondinfos
+          else ()
+        }
+      </xrx:fond-infos>
+    </xrx:response>
+
+  }
+  </xrx:body>
+</xrx:service>

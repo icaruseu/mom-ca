@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+	<xrx:id>tag:www.monasterium.net,2011:/mom/widget/fond-preferences</xrx:id>
+	<xrx:title>
+		<xrx:i18n>
+			<xrx:key/>
+			<xrx:default/>
+		</xrx:i18n>
+	</xrx:title>
+	<xrx:subtitle/>
+	<xrx:description/>
+	<xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+	<xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more
+lenient towards the inclusion of components into other systems, once
+it leaves the active development stage.
+  </xrx:licence>
+	<xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+	<xrx:init>
+		<xrx:processor>
+			<xrx:xformsflag>true</xrx:xformsflag>
+		</xrx:processor>
+	</xrx:init>
+	<xrx:csss>
+	  <style type="text/css">
+
+.dpreferences {{
+	background:rgb(245,245,245);
+	padding:15px;
+}}
+
+.dinner-preferences {{
+	background:rgb(245,245,245);
+}}
+
+.doptions {{
+	margin-left:10px;
+}}
+
+.doption {{
+	margin:15px;
+}}
+
+#idummy-url .xfValue, #iimage-server-base-url .xfValue {{
+	width:500px;
+}}
+
+	  </style>
+	</xrx:csss>
+	<xrx:model>
+	{
+		(: request parameter :)
+		let $archiveid := $xrx:tokenized-uri[1]
+		let $fondid := $xrx:tokenized-uri[2]
+		
+		(: fond information :)
+		let $fond-db-base-collection := metadata:base-collection('fond', ($archiveid, $fondid), 'public')
+		let $fond-preferences-template := template:get('tag:www.monasterium.net,2011:/mom/template/fond-preferences')
+		let $fond-preferences := ($fond-db-base-collection/xrx:preferences|$fond-preferences-template)[1]
+		
+    (: atom uri :)
+    let $post-uri :=
+      concat(conf:param('request-root'), 'atom/POST', metadata:feed('fond', ($archiveid, $fondid), 'public'), '/', $fondid, '.preferences.xml')		
+    
+		return
+	  <xf:model id="mfond-preferences">
+	    <!-- instances -->
+	    <xf:instance>{ $fond-preferences }</xf:instance>
+	    
+	    <!-- submissions -->
+	    <xf:submission action="{ $post-uri }" id="ssave" method="post" replace="none">
+	      <xf:action ev:event="xforms-submit-done">
+	        <xf:message level="ephemeral">OK</xf:message>
+	      </xf:action>
+	      <xf:action ev:event="xforms-submit-error">
+	        <xf:message level="ephemeral">Error</xf:message>
+	      </xf:action>
+	    </xf:submission>
+	    
+	    <!-- binds -->
+	    <xf:bind id="bimage-access" nodeset="//xrx:param[@name='image-access']"/>
+	    <xf:bind id="bdummy-image-url" nodeset="//xrx:param[@name='dummy-image-url']"/>
+	    <xf:bind id="bimage-server-base-url" nodeset="//xrx:param[@name='image-server-base-url']"/>
+	    
+	    <!-- actions -->
+	    <xf:action ev:event="xforms-ready">
+	      <xf:toggle case="crestricted" if="//xrx:param[@name='image-access'] = 'restricted'"/>
+	      <xf:toggle case="cfree" if="//xrx:param[@name='image-access'] = 'free'"/>
+	    </xf:action>
+	    
+	  </xf:model>
+	}
+	</xrx:model>
+	<xrx:view>
+	{
+		(: request parameter :)
+		let $archiveid := $xrx:tokenized-uri[1]
+		let $fondid := $xrx:tokenized-uri[2]
+		
+		(: archive information :)
+		let $archive-db-base-collection := metadata:base-collection('archive', $archiveid, 'public')
+		let $archive-name := $archive-db-base-collection//eag:identity/eag:autform/text()
+		let $archive-atomid := $archive-db-base-collection//eag:eag/root(.)//atom:id/text()
+		
+		(: fond information :)
+		let $fond-db-base-collection := metadata:base-collection('fond', ($archiveid, $fondid), 'public')
+		let $fond-name := $fond-db-base-collection//ead:unittitle/text()
+		
+		return
+		<div data-demoid="5dec2d86-f852-4af4-b040-7890b41df661"><xf:group model="mfond-preferences">
+		  <div data-demoid="4f41c98d-29e3-4ae3-b8bc-3ced3eb642a9">
+		    <a href="fond">
+			    <span>&lt;&lt; </span>
+			    <xrx:i18n>
+			      <xrx:key>back</xrx:key>
+			      <xrx:default>back</xrx:default>
+			    </xrx:i18n>
+			  </a>
+		  </div>
+		  <div class="h2" data-demoid="e6b32bd0-d643-4fe5-9565-f55d4235005b">
+		    <xrx:i18n>
+		      <xrx:key>preferences</xrx:key>
+		      <xrx:default>Preferences</xrx:default>
+		    </xrx:i18n>
+		  </div>
+		  <xrx:auth>
+		    <xrx:rules>
+		      <xrx:or>
+		        <xrx:rule>
+		          <xrx:user/>
+		          <xrx:role>metadata-manager</xrx:role>
+		        </xrx:rule>
+		        <xrx:rule>
+		          <xrx:user/>
+		          <xrx:community>{ $archive-atomid }</xrx:community>
+		        </xrx:rule>
+		      </xrx:or>
+		    </xrx:rules>
+		    <xrx:true>
+				  <div data-demoid="1a248ab6-c7ad-466b-bbad-4d9b46385c4f">
+					  <div data-demoid="9601e1fc-be76-4104-8067-8f2df9f6abfe">
+					    <span>{ $archive-name } - { $fond-name }</span>
+					  </div>
+					  <div class="dpreferences" data-demoid="86144711-c5f2-4636-a848-9ac90988e7ae"><div class="dinner-preferences" data-demoid="666168a6-d3e4-4960-b3e6-665a2083e5eb">
+					    <h3>
+					      <xrx:i18n>
+					        <xrx:key>images</xrx:key>
+					        <xrx:default>Images</xrx:default>
+					      </xrx:i18n>
+					    </h3>
+					    <div class="doptions" data-demoid="ccaf7cb1-200c-4a44-bd83-6191237c9c0d">
+					      <div class="doption" data-demoid="154319f8-2cfc-4100-888d-723f7726b8ae">
+						      <span><xrx:i18n>
+						        <xrx:key>image-access</xrx:key>
+						        <xrx:default>Image Access</xrx:default>
+						      </xrx:i18n>: </span>
+						      <xf:select1 appearance="full" bind="bimage-access" incremental="true">
+						        <xf:item>
+						          <xf:label>
+						            <span><xrx:i18n>
+						              <xrx:key>free</xrx:key>
+						              <xrx:default>free</xrx:default>
+						            </xrx:i18n> </span>
+						          </xf:label>
+						          <xf:value>free</xf:value>
+						        </xf:item>
+						        <xf:item>
+						          <xf:label>
+						            <xrx:i18n>
+						              <xrx:key>restricted</xrx:key>
+						              <xrx:default>restricted</xrx:default>
+						            </xrx:i18n>
+						          </xf:label>
+						          <xf:value>restricted</xf:value>
+						        </xf:item>
+						        <xf:action ev:event="xforms-value-changed">
+						          <xf:toggle case="crestricted" if="//xrx:param[@name='image-access'] = 'restricted'"/>
+						          <xf:toggle case="cfree" if="//xrx:param[@name='image-access'] = 'free'"/>
+						        </xf:action>
+						      </xf:select1>
+						    </div>
+						    <div class="doption" data-demoid="a5e11ebf-adf9-4b29-b31f-03c685512ee3">
+						      <xf:switch>
+							      <xf:case id="cfree">
+								      <span><xrx:i18n>
+								        <xrx:key>image-server-base-url</xrx:key>
+								        <xrx:default>Image Server (base URL)</xrx:default>
+								      </xrx:i18n>: </span>
+								      <xf:input bind="bimage-server-base-url" id="iimage-server-base-url">
+								        <xf:hint><xrx:i18n><xrx:key>eg</xrx:key><xrx:default>e.g.</xrx:default></xrx:i18n> 'http://lehre.hki.uni-koeln.de/monasterium/img/StiAA/Urkunden/'</xf:hint>
+								      </xf:input>
+								    </xf:case>
+							      <xf:case id="crestricted">
+								      <span><xrx:i18n>
+								        <xrx:key>dummy-image-url</xrx:key>
+								        <xrx:default>Dummy image (URL)</xrx:default>
+								      </xrx:i18n>: </span>
+								      <xf:input bind="bdummy-image-url" id="idummy-url">
+								        <xf:hint><xrx:i18n><xrx:key>eg</xrx:key><xrx:default>e.g.</xrx:default></xrx:i18n> 'http://www.monasterium.net/Diplomatico_Viewerbild.jpg'</xf:hint>
+								      </xf:input>
+								    </xf:case>
+							    </xf:switch>
+					      </div>
+					    </div>
+					  </div></div>
+					  <div data-demoid="de65c7b8-5b67-435b-b54f-cff57c2fd1c0">
+					    <xf:trigger>
+					      <xf:label>
+					        <xrx:i18n>
+					          <xrx:key>save-changes</xrx:key>
+					          <xrx:default>Save changes</xrx:default>
+					        </xrx:i18n>
+					      </xf:label>
+				        <xf:action ev:event="DOMActivate">
+				          <xf:send submission="ssave"/>
+				        </xf:action>
+					    </xf:trigger>
+					  </div>
+					</div>
+			  </xrx:true>
+			  <xrx:false>
+			    <div data-demoid="2b6795e2-eddc-4d0e-961b-49071e129700">
+			      <xrx:i18n>
+			        <xrx:key>protected-page-message</xrx:key>
+			        <xrx:default>Protected page. Please login first.</xrx:default>
+			      </xrx:i18n>
+			    </div>
+			  </xrx:false>
+		  </xrx:auth>
+		</xf:group></div>
+	}
+	</xrx:view>
+</xrx:widget>

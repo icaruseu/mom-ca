@@ -1,0 +1,201 @@
+<xrx:app xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/core/app/xrx</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:modules>
+    <xrx:module>
+      <xrx:resource>assertion.xqm</xrx:resource>
+      <xrx:prefix>assertion</xrx:prefix>
+      <xrx:uri>http://www.monasterium.net/NS/assertion</xrx:uri>
+    </xrx:module>
+    <xrx:module>
+      <xrx:resource>xsd.xqm</xrx:resource>
+      <xrx:prefix>xsd</xrx:prefix>
+      <xrx:uri>http://www.monasterium.net/NS/xsd</xrx:uri>
+    </xrx:module>
+    <xrx:module>
+      <xrx:resource>xrx.xqm</xrx:resource>
+      <xrx:prefix>xrx</xrx:prefix>
+      <xrx:uri>http://www.monasterium.net/NS/xrx</xrx:uri>
+    </xrx:module>
+    <xrx:module>
+      <xrx:resource>widget.xqm</xrx:resource>
+      <xrx:prefix>widget</xrx:prefix>
+      <xrx:uri>http://www.monasterium.net/NS/widget</xrx:uri>
+    </xrx:module>
+    <xrx:module>
+      <xrx:resource>upd.xqm</xrx:resource>
+      <xrx:prefix>upd</xrx:prefix>
+      <xrx:uri>http://www.monasterium.net/NS/upd</xrx:uri>
+    </xrx:module>
+    <xrx:module>
+      <xrx:resource>template.xqm</xrx:resource>
+      <xrx:prefix>template</xrx:prefix>
+      <xrx:uri>http://www.monasterium.net/NS/template</xrx:uri>
+    </xrx:module>
+    <xrx:module>
+      <xrx:resource>service.xqm</xrx:resource>
+      <xrx:prefix>service</xrx:prefix>
+      <xrx:uri>http://www.monasterium.net/NS/service</xrx:uri>
+    </xrx:module>
+    <xrx:module>
+      <xrx:resource>resolver.xqm</xrx:resource>
+      <xrx:prefix>resolver</xrx:prefix>
+      <xrx:uri>http://www.monasterium.net/NS/resolver</xrx:uri>
+    </xrx:module>
+    <xrx:module>
+      <xrx:resource>resource.xqm</xrx:resource>
+      <xrx:prefix>resource</xrx:prefix>
+      <xrx:uri>http://www.monasterium.net/NS/resource</xrx:uri>
+    </xrx:module>
+    <xrx:module>
+      <xrx:resource>css.xqm</xrx:resource>
+      <xrx:prefix>css</xrx:prefix>
+      <xrx:uri>http://www.monasterium.net/NS/css</xrx:uri>
+    </xrx:module>
+    <xrx:module>
+      <xrx:resource>pdf.xqm</xrx:resource>
+      <xrx:prefix>pdf</xrx:prefix>
+      <xrx:uri>http://www.monasterium.net/NS/pdf</xrx:uri>
+    </xrx:module>
+    <xrx:module>
+      <xrx:resource>conf.xqm</xrx:resource>
+      <xrx:prefix>conf</xrx:prefix>
+      <xrx:uri>http://www.monasterium.net/NS/conf</xrx:uri>
+    </xrx:module>
+    <xrx:module>
+      <xrx:resource>jsonx.xqm</xrx:resource>
+      <xrx:prefix>jsonx</xrx:prefix>
+      <xrx:uri>http://www.monasterium.net/NS/jsonx</xrx:uri>
+    </xrx:module>
+    <xrx:module>
+      <xrx:resource>app.xqm</xrx:resource>
+      <xrx:prefix>app</xrx:prefix>
+      <xrx:uri>http://www.monasterium.net/NS/app</xrx:uri>
+    </xrx:module>
+  </xrx:modules>
+  <xrx:resources>
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/core/resource/xquery/main</xrx:atomid>
+      <xrx:relativepath/>
+      <xrx:name>main.xql</xrx:name>
+    </xrx:resource>
+		<xrx:resource>
+		  <xrx:atomid>tag:www.monasterium.net,2011:/core/resource/jquery/xrx</xrx:atomid>
+		  <xrx:relativepath>js/</xrx:relativepath>
+		  <xrx:name>jquery.xrx.js</xrx:name>
+		</xrx:resource>
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/core/resource/js/codemirror/mode/visualxml</xrx:atomid>
+      <xrx:relativepath>js/</xrx:relativepath>
+      <xrx:name>codemirror.mode.visualxml.js</xrx:name>
+    </xrx:resource>
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/core/resource/css/codemirror/mode/visualxml</xrx:atomid>
+      <xrx:relativepath>css/</xrx:relativepath>
+      <xrx:name>codemirror.mode.visualxml.css</xrx:name>
+    </xrx:resource>
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/core/resource/js/codemirror/keymap/visualxml</xrx:atomid>
+      <xrx:relativepath>js/</xrx:relativepath>
+      <xrx:name>codemirror.keymap.visualxml.js</xrx:name>
+    </xrx:resource>
+		<xrx:resource>
+		  <xrx:atomid>tag:www.monasterium.net,2011:/core/resource/jquery/xrxBind</xrx:atomid>
+		  <xrx:relativepath>js/</xrx:relativepath>
+		  <xrx:name>jquery.xrxBind.js</xrx:name>
+		</xrx:resource>
+		<xrx:resource>
+		  <xrx:atomid>tag:www.monasterium.net,2011:/core/resource/jquery/xrxInstance</xrx:atomid>
+		  <xrx:relativepath>js/</xrx:relativepath>
+		  <xrx:name>jquery.xrxInstance.js</xrx:name>
+		</xrx:resource>
+		<xrx:resource>
+		  <xrx:atomid>tag:www.monasterium.net,2011:/core/resource/jquery/xrxI18n</xrx:atomid>
+		  <xrx:relativepath>js/</xrx:relativepath>
+		  <xrx:name>jquery.xrxI18n.js</xrx:name>
+		</xrx:resource>
+		<xrx:resource>
+		  <xrx:atomid>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxMessage</xrx:atomid>
+		  <xrx:relativepath>js/</xrx:relativepath>
+		  <xrx:name>jquery.ui.xrxMessage.js</xrx:name>
+		</xrx:resource>
+		<xrx:resource>
+		  <xrx:atomid>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxVisualxml</xrx:atomid>
+		  <xrx:relativepath>js/</xrx:relativepath>
+		  <xrx:name>jquery.ui.xrxVisualxml.js</xrx:name>
+		</xrx:resource>
+		<xrx:resource>
+		  <xrx:atomid>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxRepeat</xrx:atomid>
+		  <xrx:relativepath>js/</xrx:relativepath>
+		  <xrx:name>jquery.ui.xrxRepeat.js</xrx:name>
+		</xrx:resource>
+		<xrx:resource>
+		  <xrx:atomid>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrx</xrx:atomid>
+		  <xrx:relativepath>js/</xrx:relativepath>
+		  <xrx:name>jquery.ui.xrx.js</xrx:name>
+		</xrx:resource>
+		<xrx:resource>
+		  <xrx:atomid>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxTabs</xrx:atomid>
+		  <xrx:relativepath>js/</xrx:relativepath>
+		  <xrx:name>jquery.ui.xrxTabs.js</xrx:name>
+		</xrx:resource>
+		<xrx:resource>
+		  <xrx:atomid>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxSelect1</xrx:atomid>
+		  <xrx:relativepath>js/</xrx:relativepath>
+		  <xrx:name>jquery.ui.xrxSelect1.js</xrx:name>
+		</xrx:resource>
+		<xrx:resource>
+		  <xrx:atomid>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxLayout</xrx:atomid>
+		  <xrx:relativepath>js/</xrx:relativepath>
+		  <xrx:name>jquery.ui.xrxLayout.js</xrx:name>
+		</xrx:resource>
+		<xrx:resource>
+		  <xrx:atomid>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxAttributes</xrx:atomid>
+		  <xrx:relativepath>js/</xrx:relativepath>
+		  <xrx:name>jquery.ui.xrxAttributes.js</xrx:name>
+		</xrx:resource>
+		<xrx:resource>
+		  <xrx:atomid>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxElements</xrx:atomid>
+		  <xrx:relativepath>js/</xrx:relativepath>
+		  <xrx:name>jquery.ui.xrxElements.js</xrx:name>
+		</xrx:resource>
+		<xrx:resource>
+		  <xrx:atomid>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxTagname</xrx:atomid>
+		  <xrx:relativepath>js/</xrx:relativepath>
+		  <xrx:name>jquery.ui.xrxTagname.js</xrx:name>
+		</xrx:resource>
+		<xrx:resource>
+		  <xrx:atomid>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxReport</xrx:atomid>
+		  <xrx:relativepath>js/</xrx:relativepath>
+		  <xrx:name>jquery.ui.xrxReport.js</xrx:name>
+		</xrx:resource>
+  </xrx:resources>
+</xrx:app>

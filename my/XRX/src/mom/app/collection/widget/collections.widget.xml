@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/collections</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>collections</xrx:key>
+      <xrx:default>Collections</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>
+    <xrx:variable>
+      <xrx:name>$wcollections:metadata-collection-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('collection', 'public')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcollections:metadata-portal-base-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('portal', '', 'public')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcollections:metadata-mycollection-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('mycollection', 'public')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcollections:countries</xrx:name>
+      <xrx:expression>distinct-values(($wcollections:metadata-collection-collection, $wcollections:metadata-mycollection-collection)//cei:provenance/cei:country/text())</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcollections:categories</xrx:name>
+      <xrx:expression>distinct-values(($wcollections:metadata-collection-collection, $wcollections:metadata-mycollection-collection)//xrx:keyword/text())</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcollections:users</xrx:name>
+      <xrx:expression>distinct-values($wcollections:metadata-mycollection-collection//atom:author/atom:email/text())</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcollections:sort-by-recently-added</xrx:name>
+      <xrx:expression>for $collection in ($wcollections:metadata-collection-collection, $wcollections:metadata-mycollection-collection) order by $collection//atom:published/text() descending return $collection</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcollections:sort-by-name</xrx:name>
+      <xrx:expression>for $collection in ($wcollections:metadata-collection-collection, $wcollections:metadata-mycollection-collection) order by ($collection//cei:titleStmt/cei:title/text(), $collection//cei:provenance/text())[1] ascending return $collection</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcollections:recently-added</xrx:name>
+      <xrx:expression>$wcollections:sort-by-recently-added[position() = 1 to 10]</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>false</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <style type="text/css">
+    
+#collections{{
+  position: relative;
+  display: block;
+  float: left;
+  width: 100%;
+}}    
+#collections .country-name{{
+  font-size: 1.2em;
+  font-weight: bold;
+}}
+#collections .collections-menu{{
+  position: relative;
+  float: right;
+  background: rgb(240,240,240);
+}}
+#collections .collections-menu-block{{
+  border-top: solid grey 1px;
+  background: rgb(240,240,240);
+  max-width: 310px;
+  overflow: hidden;
+}}
+#collections .collections-menu-block-inner{{
+  margin:15px;
+}}
+#collections ul{{
+  margin-left: -10px;
+}}
+#collections .collections-menu-heading{{
+  font-variant: small-caps;
+}}
+#collections .show-link{{
+  width: 100%;
+  text-align: right;
+}}
+#collections .collections-date{{
+  color: grey;
+  font-size: .8em;
+}}
+#collections .nobr{{
+  white-space:nowrap;
+}}
+    </style>
+  </xrx:csss>
+  <xrx:view>
+  {
+    let $metadata-charter-import-base-collection :=
+      metadata:base-collection('charter', 'import')
+    let $imported-collection := $metadata-charter-import-base-collection/xrx:import[xrx:context = 'collection']
+    let $count-imported-collection := count($imported-collection)
+    return
+    <div data-demoid="b2c57ff8-b6db-48da-a814-b5e14bf279c3" id="collections">
+      <div class="h2" data-demoid="7947cef5-4c78-4ad2-9c50-36aee0d799f4">
+        <xrx:i18n>
+          <xrx:key>collections</xrx:key>
+          <xrx:default>Collections</xrx:default>
+        </xrx:i18n>
+        <span> </span>
+        {
+        if($xrx:tokenized-uri[last()] = 'by-country') then
+        <span>
+          <span>(</span>
+          <xrx:i18n>
+            <xrx:key>by-country</xrx:key>
+            <xrx:default>by country</xrx:default>
+          </xrx:i18n>
+          <span>)</span>
+        </span>
+        else if($xrx:tokenized-uri[last()] = 'by-category') then
+        <span>
+          <span>(</span>
+          <xrx:i18n>
+            <xrx:key>by-category</xrx:key>
+            <xrx:default>by category</xrx:default>
+          </xrx:i18n>
+          <span>)</span>
+        </span>
+        else if($xrx:tokenized-uri[last()] = 'by-user') then
+        <span>
+          <span>(</span>
+          <xrx:i18n>
+            <xrx:key>by-user</xrx:key>
+            <xrx:default>by user</xrx:default>
+          </xrx:i18n>
+          <span>)</span>
+        </span>
+        else if($xrx:tokenized-uri[last()] = 'recently-added') then
+        <span>
+          <span>(</span>
+          <xrx:i18n>
+            <xrx:key>recently-added</xrx:key>
+            <xrx:default>recently added</xrx:default>
+          </xrx:i18n>
+          <span>)</span>
+        </span>
+        else ()
+        }
+      </div>
+      <br/>
+      <br/>
+      <xrx:auth>
+        <xrx:rules>
+          <xrx:rule>
+            <xrx:user/>
+            <xrx:dbgroup>atom</xrx:dbgroup>
+          </xrx:rule>
+        </xrx:rules>
+        <xrx:true>
+          <div data-demoid="2e2a6f19-dbb3-4bbf-ab04-da244c08aa16">   
+            <div class="my-functions" data-demoid="eb91e0f2-7de2-4e7c-89ce-85ab8e3a9272">
+              <div class="my-functions-label" data-demoid="44068a0d-70dd-4a5d-a979-d021ae550ea5">
+                <xrx:i18n>
+                  <xrx:key>my-functions</xrx:key>
+                  <xrx:default>MyFunctions</xrx:default>
+                </xrx:i18n>
+              </div>
+              <div class="function-links" data-demoid="34e1a920-68c5-437c-a1b7-351da5af8f41">
+                <div class="function-link" data-demoid="824abf10-36a7-4599-b4d1-9e4139caa542">
+                  <a href="{ conf:param('request-root') }my-collections">
+                    <span>‣ </span>
+                    <xrx:i18n>
+                      <xrx:key>my-collections-preview</xrx:key>
+                      <xrx:default>My Collections (Preview)</xrx:default>
+                    </xrx:i18n>
+                  </a>
+                </div>
+                <div class="function-link" data-demoid="0d0aaee1-7e45-40de-b895-5089a98895cf">
+                  <a href="{ conf:param('request-root') }my-collections-edit">
+                    <span>‣ </span>
+                    <xrx:i18n>
+                      <xrx:key>edit-my-collections</xrx:key>
+                      <xrx:default>Edit my Collections</xrx:default>
+                    </xrx:i18n>
+                  </a>
+                </div>
+                <xrx:auth>
+                  <xrx:rules>
+                    <xrx:rule>
+                      <xrx:user/>
+                      <xrx:role>metadata-manager</xrx:role>
+                    </xrx:rule>
+                  </xrx:rules>
+                  <xrx:true>
+                    <div data-demoid="f6a8fd06-caee-4f12-9a22-7c6b20e7e301">   
+                      <div class="function-link" data-demoid="b1c8521a-e941-4556-a502-15e63cf75864">
+                        <a href="{ conf:param('request-root') }new-collection">
+                         <span>‣ </span>
+                         <xrx:i18n>
+                           <xrx:key>new-collection</xrx:key>
+                           <xrx:default>New collection</xrx:default>
+                         </xrx:i18n>
+                        </a>
+                      </div>
+                      <div class="function-link" data-demoid="754d2457-fa15-4df9-99d8-2cb6ae5ca78e">
+                        <a href="{ conf:param('request-root') }publish-collection">
+                          <span>‣ </span>
+                          <xrx:i18n>
+                            <xrx:key>publish-collection</xrx:key>
+                            <xrx:default>Publish collection</xrx:default>
+                          </xrx:i18n>
+                          <span> ({ $count-imported-collection })</span>
+                        </a>
+                      </div>
+                    </div>
+                  </xrx:true>
+                  <xrx:false>
+                    <div data-demoid="8153658a-72d8-4ad2-badf-458cfffae0b4"/>
+                  </xrx:false>
+                </xrx:auth>
+              </div>
+            </div>
+          </div>
+        </xrx:true>
+        <xrx:false>
+          <div data-demoid="f810bd5a-e723-40e0-9640-6d6b73318c13"/>
+        </xrx:false>
+      </xrx:auth>
+      <div class="collections-menu" data-demoid="cf008430-8405-4972-8db4-550eb08c6d1f">
+        <div class="collections-menu-block" data-demoid="6a5ab6fe-0a61-4f66-afa3-f4e49f638e6c"><div class="collections-menu-block-inner" data-demoid="35261d9f-ae1d-4ffe-93e5-5378adebb689">
+          <span class="collections-menu-heading">
+            <xrx:i18n>
+              <xrx:key>discover-by-country</xrx:key>
+              <xrx:default>Discover by country</xrx:default>
+            </xrx:i18n>
+          </span>
+          <ul class="nostyle">
+            {
+            for $country in $wcollections:countries
+            order by $country
+            return
+            <li>{ $country }</li>
+            }
+          </ul>
+          <div class="show-link" data-demoid="c6283e23-fdab-4232-98cc-9a87ca394a89">
+            <a href="{ conf:param('request-root') }collections/by-country">
+              <xrx:i18n>
+                <xrx:key>show</xrx:key>
+                <xrx:default>show</xrx:default>
+              </xrx:i18n>
+              <span> &gt;&gt;</span>
+            </a>
+          </div>
+        </div></div>
+        <div class="collections-menu-block" data-demoid="2e1542be-2ff4-41ad-bce0-e09d359f0fa3"><div class="collections-menu-block-inner" data-demoid="ea0467c9-9356-401a-bc2f-e6397f8dfae9">
+          <span class="collections-menu-heading">
+            <xrx:i18n>
+              <xrx:key>discover-by-category</xrx:key>
+              <xrx:default>Discover by category</xrx:default>
+            </xrx:i18n>
+          </span>
+          <ul class="nostyle">
+            {
+            for $category in $wcollections:categories
+            order by $category
+            return
+            <li>{ $category }</li>
+            }
+          </ul>
+          <div class="show-link" data-demoid="2a6e1d1a-1e33-47b3-8e8b-d9b2cecf7e06">
+            <a href="{ conf:param('request-root') }collections/by-category">
+              <xrx:i18n>
+                <xrx:key>show</xrx:key>
+                <xrx:default>show</xrx:default>
+              </xrx:i18n>
+              <span> &gt;&gt;</span>
+            </a>
+          </div>
+        </div></div>
+        <div class="collections-menu-block" data-demoid="c6255b0b-d326-43f9-a2e2-f9b1c66478bf"><div class="collections-menu-block-inner" data-demoid="9f92b0c8-b224-40cd-bd17-df7d0fa7192f">
+          <span class="collections-menu-heading">
+            <xrx:i18n>
+              <xrx:key>discover-by-user</xrx:key>
+              <xrx:default>Discover by user</xrx:default>
+            </xrx:i18n>
+          </span>
+          <ul class="nostyle">
+            {
+            for $user in $wcollections:users
+            let $user-name := user:firstname-name($user)
+            order by $user-name
+            return
+            <li>{ $user-name }</li>
+            }
+          </ul>
+          <div class="show-link" data-demoid="a4554326-52ca-435a-8819-9d7afb1a78f7">
+            <a href="{ conf:param('request-root') }collections/by-user">
+              <xrx:i18n>
+                <xrx:key>show</xrx:key>
+                <xrx:default>show</xrx:default>
+              </xrx:i18n>
+              <span> &gt;&gt;</span>
+            </a>
+          </div>
+        </div></div>
+        <div class="collections-menu-block" data-demoid="bb301df8-1c10-4874-9e1a-02b5acb89e9c"><div class="collections-menu-block-inner" data-demoid="2dcb26b9-5ba9-4e63-8809-347f4b96c2b0">
+          <span class="collections-menu-heading">
+            <xrx:i18n>
+              <xrx:key>recently-added</xrx:key>
+              <xrx:default>Recently added</xrx:default>
+            </xrx:i18n>
+          </span>
+          <ul class="nostyle">
+            {
+            for $collection in $wcollections:recently-added
+            let $collection-name := normalize-space(($collection//cei:titleStmt/cei:title/text(),$collection//cei:provenance/text())[1])
+            return
+            <li class="nobr">{ if(string-length($collection-name) gt 30) then concat(substring($collection-name, 1, 30), ' ...') else $collection-name }</li>
+            }
+          </ul>
+          <div class="show-link" data-demoid="42b63389-bc2b-4760-8b5e-ce2bf79bfff1">
+            <a href="{ conf:param('request-root') }collections/recently-added">
+              <xrx:i18n>
+                <xrx:key>show</xrx:key>
+                <xrx:default>show</xrx:default>
+              </xrx:i18n>
+              <span> &gt;&gt;</span>
+            </a>
+          </div>
+        </div></div>
+      </div>
+      {
+      if($xrx:tokenized-uri[last()] = 'by-country') then
+      <div data-demoid="cbf4a338-35b8-405c-a485-f1ffd75217a4">{ collections:by-country(($wcollections:metadata-collection-collection, $wcollections:metadata-mycollection-collection)) }</div>
+      else if($xrx:tokenized-uri[last()] = 'by-category') then
+      <div data-demoid="71d1ed3d-97b7-476b-9e36-a34e7ffd35d4">{ collections:by-category(($wcollections:metadata-collection-collection, $wcollections:metadata-mycollection-collection)) }</div>
+      else if($xrx:tokenized-uri[last()] = 'by-user') then
+      <div data-demoid="030b3b1d-6ea0-45d1-9fa9-86e9474f282b">{ collections:by-user($wcollections:metadata-mycollection-collection) }</div>
+      else if($xrx:tokenized-uri[last()] = 'recently-added') then
+      <div data-demoid="73302fdf-ff6c-4bff-8566-dc0c152ecca2">{ collections:recently-added(($wcollections:metadata-collection-collection, $wcollections:metadata-mycollection-collection)) }</div>
+      else 
+      <div data-demoid="773f1ab3-03ae-4376-a7d0-74099bd29c66">{ collections:list(' ', $wcollections:sort-by-name) }</div>
+      }
+    </div>
+  }
+  </xrx:view>
+</xrx:widget>

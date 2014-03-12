@@ -1,0 +1,22 @@
+<xrx:resources xmlns:xrx="http://www.monasterium.net/NS/xrx">
+	<xrx:resource>
+	  <xrx:atomid>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/lib/codemirror</xrx:atomid>
+	  <xrx:relativepath>lib/</xrx:relativepath>
+	  <xrx:name>codemirror.js</xrx:name>
+	</xrx:resource>
+	<xrx:resource>
+	  <xrx:atomid>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/mode/xml</xrx:atomid>
+	  <xrx:relativepath>mode/xml/</xrx:relativepath>
+	  <xrx:name>xml.js</xrx:name>
+	</xrx:resource>
+  <xrx:resource>
+    <xrx:atomid>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/mode/sql</xrx:atomid>
+    <xrx:relativepath>mode/sql/</xrx:relativepath>
+    <xrx:name>sql.js</xrx:name>
+  </xrx:resource>
+	<xrx:resource>
+	  <xrx:atomid>tag:www.monasterium.net,2011:/xrx/resource/css/codemirror/lib/codemirror</xrx:atomid>
+	  <xrx:relativepath>lib/</xrx:relativepath>
+	  <xrx:name>codemirror.css</xrx:name>
+	</xrx:resource>
+</xrx:resources>

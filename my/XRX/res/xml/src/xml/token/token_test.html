@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>XRX++ Unit Tests - xrx.token</title>
+<script src='../../../lib/closure-library/closure/goog/base.js'></script>
+<script src='../../deps.js'></script>
+<script type="text/javascript">
+  goog.require('goog.testing.jsunit');
+  goog.require('xrx.label');
+  goog.require('xrx.token');
+  goog.require('xrx.token.Attribute');
+  goog.require('xrx.token.AttrName');
+  goog.require('xrx.token.AttrValue');
+  goog.require('xrx.token.EmptyTag');
+  goog.require('xrx.token.EndTag');
+  goog.require('xrx.token.Namespace');
+  goog.require('xrx.token.NotTag');
+  goog.require('xrx.token.NsPrefix');
+  goog.require('xrx.token.NsUri');
+  goog.require('xrx.token.Root');
+  goog.require('xrx.token.StartEmptyTag');
+  goog.require('xrx.token.StartTag');
+  goog.require('xrx.token.Tag');
+  goog.require('xrx.token.TagName');
+</script>
+</head>
+<body>
+<script type="text/javascript">
+
+function testCast() {
+  var label = new xrx.label([1, 1]);
+  var token = new xrx.token(xrx.token.START_TAG, label, 4, 10);
+  var newToken = xrx.token.native(token);
+  
+
+  assertEquals(true, newToken instanceof xrx.token.StartTag);
+  assertEquals(xrx.token.START_TAG, token.type());
+  assertEquals(true, token.label().sameAs(newToken.label()));
+  assertEquals(4, token.offset());
+  assertEquals(10, token.length());
+};
+
+function testSameAs() {
+  var label = new xrx.label([1]);
+  
+  var start = new xrx.token.StartTag(label);
+  var end = new xrx.token.EndTag(label);
+  var empty = new xrx.token.EmptyTag(label);
+  var startEmpty = new xrx.token.StartEmptyTag(label);
+  var tag = new xrx.token.Tag(label);
+  var attribute = new xrx.token.Attribute(label);
+
+  // start tag
+  assertEquals(true, start.sameAs(start, label));
+  assertEquals(false, start.sameAs(end, label));
+  assertEquals(false, start.sameAs(empty, label));
+  assertEquals(true, start.sameAs(startEmpty, label));
+  assertEquals(true, start.sameAs(tag, label));
+  assertEquals(false, start.sameAs(attribute, label));
+  
+  // empty tag
+  assertEquals(false, empty.sameAs(start, label));
+  assertEquals(false, empty.sameAs(end, label));
+  assertEquals(true, empty.sameAs(empty, label));
+  assertEquals(true, empty.sameAs(startEmpty, label));
+  assertEquals(true, empty.sameAs(tag, label));
+  assertEquals(false, empty.sameAs(attribute, label));
+  
+  // end tag
+  assertEquals(false, end.sameAs(start, label));
+  assertEquals(true, end.sameAs(end, label));
+  assertEquals(false, end.sameAs(empty, label));
+  assertEquals(false, end.sameAs(startEmpty, label));
+  assertEquals(true, end.sameAs(tag, label));
+  assertEquals(false, end.sameAs(attribute, label));
+  
+  // start empty tag
+  assertEquals(true, startEmpty.sameAs(start, label));
+  assertEquals(false, startEmpty.sameAs(end, label));
+  assertEquals(true, startEmpty.sameAs(empty, label));
+  assertEquals(true, startEmpty.sameAs(startEmpty, label));
+  assertEquals(true, startEmpty.sameAs(tag, label));
+  assertEquals(false, startEmpty.sameAs(attribute, label));
+
+  // tag
+  assertEquals(true, tag.sameAs(start, label));
+  assertEquals(true, tag.sameAs(end, label));
+  assertEquals(true, tag.sameAs(empty, label));
+  assertEquals(true, tag.sameAs(startEmpty, label));
+  assertEquals(true, tag.sameAs(tag, label));
+  assertEquals(false, tag.sameAs(attribute, label));
+  
+  // attribute
+  assertEquals(true, attribute.sameAs(attribute, label));
+};
+
+function testCompare() {
+  var label = new xrx.label([1]);
+  
+  var start = new xrx.token.StartTag(label);
+  var end = new xrx.token.EndTag(label);
+  var empty = new xrx.token.EmptyTag(label);
+  var startEmpty = new xrx.token.StartEmptyTag(label);
+  var tag = new xrx.token.Tag(label);
+
+  // start tag
+  assertEquals(true, start.compare(xrx.token.START_TAG, label));
+  assertEquals(false, start.compare(xrx.token.END_TAG, label));
+  assertEquals(false, start.compare(xrx.token.EMPTY_TAG, label));
+  assertEquals(true, start.compare(xrx.token.START_EMPTY_TAG, label));
+  assertEquals(true, start.compare(xrx.token.TAG, label));
+  
+  // empty tag
+  assertEquals(false, empty.compare(xrx.token.START_TAG, label));
+  assertEquals(false, empty.compare(xrx.token.END_TAG, label));
+  assertEquals(true, empty.compare(xrx.token.EMPTY_TAG, label));
+  assertEquals(true, empty.compare(xrx.token.START_EMPTY_TAG, label));
+  assertEquals(true, empty.compare(xrx.token.TAG, label));
+  
+  // end tag
+  assertEquals(false, end.compare(xrx.token.START_TAG, label));
+  assertEquals(true, end.compare(xrx.token.END_TAG, label));
+  assertEquals(false, end.compare(xrx.token.EMPTY_TAG, label));
+  assertEquals(false, end.compare(xrx.token.START_EMPTY_TAG, label));
+  assertEquals(true, end.compare(xrx.token.TAG, label));
+  
+  // start empty tag
+  assertEquals(true, startEmpty.compare(xrx.token.START_TAG, label));
+  assertEquals(false, startEmpty.compare(xrx.token.END_TAG, label));
+  assertEquals(true, startEmpty.compare(xrx.token.EMPTY_TAG, label));
+  assertEquals(true, startEmpty.compare(xrx.token.START_EMPTY_TAG, label));
+  assertEquals(true, startEmpty.compare(xrx.token.TAG, label));
+
+  // tag
+  assertEquals(true, tag.compare(xrx.token.START_TAG, label));
+  assertEquals(true, tag.compare(xrx.token.END_TAG, label));
+  assertEquals(true, tag.compare(xrx.token.EMPTY_TAG, label));
+  assertEquals(true, tag.compare(xrx.token.START_EMPTY_TAG, label));
+  assertEquals(true, tag.compare(xrx.token.TAG, label));
+};
+
+function testIsBefore() {
+  var start = new xrx.token.StartTag(new xrx.label([1, 1]));
+  var text = new xrx.token.NotTag(new xrx.label([1, 1]));
+  var attr = new xrx.token.Attribute(new xrx.label([1, 1]));
+
+  assertEquals(true, start.isBefore(text));
+  assertEquals(true, start.isBefore(attr));
+  assertEquals(true, attr.isBefore(text));
+};
+
+function testIsAfter() {
+  var start = new xrx.token.StartTag(new xrx.label([1, 1]));
+  var text = new xrx.token.NotTag(new xrx.label([1, 1]));
+  var attr = new xrx.token.Attribute(new xrx.label([1, 1]));
+
+  assertEquals(true, text.isAfter(attr));
+  assertEquals(true, text.isAfter(start));
+  assertEquals(true, attr.isAfter(start));
+};
+
+</script>
+</body>
+</html>

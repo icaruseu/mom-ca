@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>XRX++ Unit Tests - xrx.richxml</title>
+<script src='../../lib/codemirror/lib/codemirror.js'></script>
+<link rel="stylesheet" href="../../lib/codemirror/lib/codemirror.css"/>
+<script src='../../lib/closure-library/closure/goog/base.js'></script>
+<script src='../deps.js'></script>
+<script type="text/javascript">
+  goog.require('goog.dom');
+  goog.require('goog.testing.jsunit');
+  goog.require('xrx');
+  goog.require('xrx.view');
+</script>
+<link rel="stylesheet" href="default.css"/>
+<style>
+textarea, .CodeMirror {
+  display: nnone;
+}
+</style>
+</head>
+<body>
+
+<textarea id="x1" class="xrx-richxml" data-xrx-bind="b1"></textarea>
+<div id="i1" class="xrx-instance">&lt;data&gt;1&lt;a/&gt;2&lt;b&gt;3&lt;/b&gt;4&lt;c/&gt;5&lt;/data&gt;</div>
+<div id="b1" class="xrx-bind" data-xrx-ref="xrx:instance('i1')/data"></div>
+
+<script type="text/javascript">
+
+function test01() {
+  var richxml = xrx.view.getComponent('x1');
+};
+
+</script>
+<script type="text/javascript">
+  xrx.install();
+</script>
+</body>
+</html>

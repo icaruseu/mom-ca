@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/import-info-excel</xrx:id>
+  <xrx:inherits>tag:www.monasterium.net,2011:/mom/widget/import-charters</xrx:inherits>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:view>
+    <table>
+      <tr>
+        <td><span class="heading">Excel</span></td>
+        <td/>
+        <td/>
+      </tr>
+      <tr>
+        <td class="icon"><xrx:resource class="icon" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/Excel</xrx:resource></td>
+        <td class="info">
+          <p><i>
+            <xrx:i18n>
+              <xrx:key>excel-import-info-1</xrx:key>
+              <xrx:default>Import Metadata via a standardized Excel Sheet. Excel is the most easy way
+                to import charter descriptions into MOM-CA.
+              </xrx:default>
+            </xrx:i18n>
+          </i></p> 
+          <p><i>
+            <xrx:i18n>
+              <xrx:key>excel-import-info-2</xrx:key>
+              <xrx:default>The import works smoothly if you use one of the recommended Excel Sheets
+                below and in particular if you adhere the column names as they are defined in the 
+                recommended Excel Sheets.
+              </xrx:default>
+            </xrx:i18n>
+          </i></p>
+          <xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/useful-links-excel</xrx:subwidget>
+        </td>
+        <td>{ if(chimport:rinfo()/xrx:type/text() = 'Excel') then <xrx:div>recent-import-div</xrx:div> else() }</td>
+      </tr>
+      <tr>
+        <td/>
+        <td/>
+        <td class="button">
+          <a class="button">
+            { if($wimport-charters:context = 'browse') then attribute href { 'import-charters-howto?type=Excel' } else attribute href { concat($wimport-charters:jetty-base-url, 'excel-import') } }
+            <xrx:i18n>
+              <xrx:key>excel-import</xrx:key>
+              <xrx:default>Excel import</xrx:default>
+            </xrx:i18n> &gt;&gt;
+          </a>
+        </td>
+      </tr>
+    </table>  
+  </xrx:view>
+</xrx:widget>

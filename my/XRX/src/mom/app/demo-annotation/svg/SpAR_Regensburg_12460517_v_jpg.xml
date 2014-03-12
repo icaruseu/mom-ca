@@ -1,0 +1,19 @@
+<atom:entry xmlns:atom="http://www.w3.org/2005/Atom">
+  <atom:id>tag:www.monasterium.net,2011:/demo-svg/SpAR_Regensburg_12460517_v_jpg</atom:id>
+  <atom:title/>
+  <atom:published>2013-11-21T11:34:10.441+01:00</atom:published>
+  <atom:updated>2013-11-21T11:34:10.441+01:00</atom:updated>
+  <atom:author>
+    <atom:email>andre.streicher@uni-koeln.de</atom:email>
+  </atom:author>
+  <app:control xmlns:app="http://www.w3.org/2007/app">
+    <app:draft>no</app:draft>
+  </app:control>
+  <atom:content type="application/xml">
+    <svg xmlns="http://www.w3.org/2000/svg" id="SpAR_Regensburg_12460517_v_jpg" class="zoomable" style="width:100%;height:100%;" version="1.0" viewBox="0 0 2765 3468" preserveAspectRatio="xMinYMin slice">
+      <image xmlns:xlink="http://www.w3.org/1999/xlink" id="svg_img" x="0" y="0" width="100%" height="100%" xlink:href="http://lehre.hki.uni-koeln.de/monasterium/pics/DE-AKR/Katharinenspital/SpAR-Regensburg_12460517_v.jpg">
+        <title>SpAR_Regensburg_12460517_v_jpg</title>
+      </image>
+    </svg>
+  </atom:content>
+</atom:entry>

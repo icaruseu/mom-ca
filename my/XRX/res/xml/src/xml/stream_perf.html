@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>XRX++ Performance Tests - xrx.stream</title>
+<script src='../lib/closure-library/closure/goog/base.js'></script>
+<link rel="stylesheet" type="text/css" 
+    href="../closure-library/closure/goog/testing/performancetable.css" />
+<script src='./deps.js'></script>
+<script type="text/javascript">
+  goog.require('xrx.stream');
+  goog.require('goog.testing.jsunit');
+  goog.require('goog.testing.PerformanceTable');
+  goog.require('goog.userAgent.product');
+</script>
+
+<script>
+  if (goog.userAgent.product.CHROME &&
+      window.location.toString().indexOf('file:') == 0) {
+    document.write(
+        '<div class="warning">' +
+        'WARNING: Due to Chrome\'s security restrictions ' +
+        'this test will not be able to load files off your local disk ' +
+        'unless you start Chrome with:<br>' +
+        '<code>--allow-file-access-from-files</code></div><br>');
+  }
+</script>
+
+</head>
+<body>
+<div id="perfTable"></div>
+<iframe id="data-350kb" style="display:none" src="../data/hamlet.xml"></iframe>
+<iframe id="data-3.5MB" style="display:none" src="../data/CSGIII.xml"></iframe>
+<iframe id="data-6.5MB" style="display:none" src="../data/bench6MB.xml"></iframe>
+<script type="text/javascript">
+var table = new goog.testing.PerformanceTable(
+    goog.dom.getElement('perfTable'));
+
+function getData(id) {
+  var ifrm = goog.dom.getElement(id);
+  var dcmnt = goog.dom.getFrameContentDocument(ifrm);
+  var htm = goog.dom.getChildren(dcmnt)[0];
+  var bdy = goog.dom.getChildren(htm)[1];
+
+  return goog.dom.getRawTextContent(bdy);
+};
+
+function streamForward(xml) {
+  var stream = new xrx.stream(xml);
+
+  stream.rowStartTag = function(offset, length) {};
+  stream.rowEndTag = function(offset, length) {};
+  stream.rowEmptyTag = function(offset, length) {};
+
+  stream.forward();
+};
+
+function streamBackward(xml) {
+  var stream = new xrx.stream(xml);
+
+  stream.rowStartTag = function(offset, length) {};
+  stream.rowEndTag = function(offset, length) {};
+  stream.rowEmptyTag = function(offset, length) {};
+
+  stream.backward();
+};
+
+function test1Forward350kb() {
+
+  table.run(
+      goog.partial(streamForward, getData('data-350kb')),
+      'Forward 350kb');
+};
+
+function test2Backward350kb() {
+
+  table.run(
+      goog.partial(streamBackward, getData('data-350kb')),
+      'Backward 350kb');
+};
+
+function test3Forward35MB() {
+
+  table.run(
+      goog.partial(streamForward, getData('data-3.5MB')),
+      'Forward 3.5MB');
+};
+
+function test4Backward35MB() {
+
+  table.run(
+      goog.partial(streamBackward, getData('data-3.5MB')),
+      'Backward 3.5MB');
+};
+
+function test5Forward65MB() {
+
+  table.run(
+      goog.partial(streamForward, getData('data-6.5MB')),
+      'Forward 6.5MB');
+};
+
+function test6Backward65MB() {
+
+  table.run(
+      goog.partial(streamBackward, getData('data-6.5MB')),
+      'Backward 6.5MB');
+};
+
+</script>
+</body>
+</html>
+

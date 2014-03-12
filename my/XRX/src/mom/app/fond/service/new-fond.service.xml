@@ -1,0 +1,106 @@
+<xrx:service xmlns:eag="http://www.archivgut-online.de/eag" xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/new-fond</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key></xrx:key>
+      <xrx:default></xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:variables>
+    <xrx:variable>
+      <xrx:name>$archid</xrx:name>
+      <xrx:expression>$data//*:archid/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$fondid</xrx:name>
+      <xrx:expression>$data//*:fondid/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$feed</xrx:name>
+      <xrx:expression>metadata:feed('fond', ($archid, $fondid), 'public')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$entry-name</xrx:name>
+      <xrx:expression>concat($fondid, '.ead.xml')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$atom-id</xrx:name>
+      <xrx:expression>metadata:atomid('fond', ($archid, $fondid))</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$template</xrx:name>
+      <xrx:expression>template:get('tag:www.monasterium.net,2011:/mom/template/fond')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$updated-entry</xrx:name>
+      <xrx:expression>fond:new($template, $atom-id, $fondid)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$metadata-fond-db-base-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('fond', ($archid, $fondid), 'public')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$fond-exists</xrx:name>
+      <xrx:expression>exists($metadata-fond-db-base-collection//atom:id[.=$atom-id])</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:translateflag>true</xrx:translateflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:body>
+    {
+    
+    (: POST entry if not exists :)
+    let $post-entry := 
+      if(not($fond-exists)) then atom:POST($feed, $entry-name, $updated-entry)
+      else()
+      
+    return
+    if($fond-exists) then
+    <xrx:response status="0">
+      <xrx:message>
+        <xrx:i18n>
+          <xrx:key>fond-already-exists-message</xrx:key>
+          <xrx:default>Fond does already exist. Please choose another ID.</xrx:default>
+        </xrx:i18n>
+      </xrx:message>
+      <xrx:icon>{ conf:param('request-root') }dialog-warning.png</xrx:icon>
+    </xrx:response>  
+    else
+    <xrx:response status="1">
+      <xrx:message>
+        <xrx:i18n>
+          <xrx:key>entry-successfully-created</xrx:key>
+          <xrx:default>Entry successfully created.</xrx:default>
+        </xrx:i18n>
+      </xrx:message>
+      <xrx:icon>{ conf:param('request-root') }face-smile.png</xrx:icon>
+    </xrx:response>       
+    }
+  </xrx:body>
+</xrx:service>

@@ -1,0 +1,5 @@
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+  <uri name="http://www.monasterium.net/NS/cei" uri="xmldb:exist:///db/XRX.live/mom/app/cei/xsd/cei10.xsd" />
+  <uri name="http://www.w3.org/2005/Atom" uri="xmldb:exist:///db/XRX.live/mom/app/data/xsd/atom.xsd" />
+  <uri name="http://www.w3.org/2007/app" uri="xmldb:exist:///db/XRX.live/mom/app/data/xsd/app.xsd" />
+</catalog>

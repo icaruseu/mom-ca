@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><ead:c xmlns:ead="urn:isbn:1-931666-22-9" xmlns:xlink="http://www.w3.org/1999/xlink" xml:base="">
+    <ead:did>
+        <ead:unitid/>
+        <ead:unittitle/>
+        <ead:dao xlink:href=""/>
+    </ead:did>
+    <ead:bioghist>
+        <ead:head/>
+        <ead:p/>
+    </ead:bioghist>
+    <ead:custodhist>
+        <ead:head/>
+        <ead:p/>
+    </ead:custodhist>
+    <ead:bibliography>
+        <ead:head/>
+        <ead:bibref/>
+    </ead:bibliography>
+    <ead:odd>
+        <ead:head/>
+        <ead:p/>
+        <ead:note label="">
+            <ead:p/>
+        </ead:note>
+    </ead:odd>
+    <ead:otherfindaid>
+        <ead:extref xlink:href=""/>
+    </ead:otherfindaid>
+</ead:c>

@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/desktop-left-menu</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>desktop-left-menu</xrx:key>
+      <xrx:default>Desktop left menu</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+	</xrx:licence>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:xformsflag>false</xrx:xformsflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <style type="text/css">
+
+#desktop-left-menu{{
+  position:relative;
+  float:left;
+  width:150px;
+}}
+
+	  </style>
+  </xrx:csss>
+  <xrx:view>
+    <div data-demoid="35b54964-17c9-4fc1-9541-0b4fc228377d">
+      <xrx:auth>
+        <xrx:rules>
+          <xrx:rule>
+            <xrx:user/>
+            <xrx:dbgroup>atom</xrx:dbgroup>
+          </xrx:rule>
+        </xrx:rules>
+        <xrx:true>
+          <div data-demoid="418f62a7-9f49-4fdc-a7f1-81295968c06d" id="desktop-left-menu">
+            <h3>
+              <xrx:i18n>
+                <xrx:key>me</xrx:key>
+                <xrx:default>Me</xrx:default>
+              </xrx:i18n>
+            </h3>
+            <div class="sub-menu-item" data-demoid="4dfcb412-93e5-4945-a5c8-6f53ecb2f41b">
+              <a href="{ conf:param('request-root') }my-account">
+                <xrx:i18n>
+                  <xrx:key>my-account</xrx:key>
+                  <xrx:default>My Account</xrx:default>
+                </xrx:i18n>
+              </a>
+            </div>
+            <xrx:auth>
+              <xrx:rules>
+                <xrx:rule>
+                  <xrx:user/>
+                  <xrx:role>moderator</xrx:role>
+                </xrx:rule>
+              </xrx:rules>
+              <xrx:true>
+                <div class="sub-menu-item" data-demoid="85878baa-7b76-4776-bbfa-f5a97e7ab416">
+                  <a href="{ conf:param('request-root') }my-users">
+                    <xrx:i18n>
+                      <xrx:key>my-users</xrx:key>
+                      <xrx:default>My Users</xrx:default>
+                    </xrx:i18n>
+                  </a>
+                </div>
+              </xrx:true>
+              <xrx:false>
+                <span/>
+              </xrx:false>
+            </xrx:auth>
+            <h3>
+              <xrx:i18n>
+                <xrx:key>documentation</xrx:key>
+                <xrx:default>Documentation</xrx:default>
+              </xrx:i18n>
+            </h3>
+            <div class="sub-menu-item" data-demoid="c14fd603-9528-40d8-83d7-39304ce2e64f">
+              <a href="{ conf:param('request-root') }editmom-documentation">EditMOM</a>
+            </div>
+            <h3>
+              <xrx:i18n>
+                <xrx:key>Charters</xrx:key>
+                <xrx:default>Charters</xrx:default>
+              </xrx:i18n>
+            </h3>
+            <xrx:auth>
+              <xrx:rules>
+                <xrx:rule>
+                  <xrx:user/>
+                  <xrx:role>moderator</xrx:role>
+                </xrx:rule>
+              </xrx:rules>
+              <xrx:true>
+                <div class="sub-menu-item" data-demoid="8c0975c0-2102-4da7-912f-1a0c1f509c19">
+                  <a href="{ conf:param('request-root') }charters-to-publish">
+                    <xrx:i18n>
+                      <xrx:key>charters-to-publish</xrx:key>
+                      <xrx:default>Charters to publish</xrx:default>
+                    </xrx:i18n>
+                  </a>
+                </div>
+              </xrx:true>
+              <xrx:false>
+                <span/>
+              </xrx:false>
+            </xrx:auth>
+            <div class="sub-menu-item" data-demoid="910559c1-f715-4b70-92e7-0ea0125480f4">
+              <a href="{ conf:param('request-root') }saved-charters">
+                <xrx:i18n>
+                  <xrx:key>saved-charters</xrx:key>
+                  <xrx:default>Saved Charters</xrx:default>
+                </xrx:i18n>
+              </a>
+            </div>
+            <xrx:auth>
+              <xrx:rules>
+                <xrx:rule>
+                  <xrx:user/>
+                  <xrx:role>moderator</xrx:role>
+                </xrx:rule>
+              </xrx:rules>
+              <xrx:true>
+                <span/>
+              </xrx:true>
+              <xrx:false>
+                <div class="sub-menu-item" data-demoid="88987a53-4dd3-4094-8ddd-a352a068ea5d">
+                  <a href="{ conf:param('request-root') }released-charters">
+                    <xrx:i18n>
+                      <xrx:key>released-cherters</xrx:key>
+                      <xrx:default>Released Charters</xrx:default>
+                    </xrx:i18n>
+                  </a>
+                </div>
+              </xrx:false>
+            </xrx:auth>
+            <div class="sub-menu-item" data-demoid="a5ec584a-6f37-436b-b48b-1a4604506465">
+              <a href="{ conf:param('request-root') }bookmarks">
+                <xrx:i18n>
+                  <xrx:key>bookmarks</xrx:key>
+                  <xrx:default>Bookmarks</xrx:default>
+                </xrx:i18n>
+              </a>
+            </div>
+            <div class="sub-menu-item" data-demoid="5ca27b0d-59f2-4d67-98fa-abefcf1411d2">
+              <a href="{ conf:param('request-root') }my-collections-edit">
+                <xrx:i18n>
+                  <xrx:key>my-collections</xrx:key>
+                  <xrx:default>MyCollections</xrx:default>
+                </xrx:i18n>
+              </a>
+            </div>
+            <h3>
+              <xrx:i18n>
+                <xrx:key>image</xrx:key>
+                <xrx:default>Image</xrx:default>
+              </xrx:i18n>
+            </h3>
+            <xrx:auth>
+              <xrx:rules>
+                <xrx:rule>
+                  <xrx:user/>
+                  <xrx:dbgroup>atom</xrx:dbgroup>
+                </xrx:rule>
+              </xrx:rules>
+              <xrx:true>
+                <div data-demoid="e04781b5-3a39-4441-997c-c8f5feeafdbb">
+                  <div class="sub-menu-item" data-demoid="6c08819b-6f29-4ea5-8e6a-cdb61026e97a">
+                    <a href="{ conf:param('request-root') }user-image-collections">
+                      <xrx:i18n>
+                        <xrx:key>images-tools</xrx:key>
+                        <xrx:default>Image Tools</xrx:default>
+                      </xrx:i18n>
+                    </a>
+                  </div>
+                  <div class="menu-item" data-demoid="ebbaedf9-4d03-4585-af0e-e4ee89a4b615">
+                    <a href="{ conf:param('request-root') }image-collections">
+                      <xrx:i18n>
+                        <xrx:key>image-collections</xrx:key>
+                        <xrx:default>Image Collections</xrx:default>
+                      </xrx:i18n>
+                    </a>
+                  </div>
+                  <div class="sub-menu-item" data-demoid="11fd478c-119f-41d4-8768-75dc6987cbe4">
+                    <a href="{ conf:param('request-root') }annotation-requests">
+                      <xrx:i18n>
+                        <xrx:key>annotation-requests</xrx:key>
+                        <xrx:default>Annotation Requests</xrx:default>
+                      </xrx:i18n>
+                    </a>
+                  </div>
+                  <div class="sub-menu-item" data-demoid="40c01b5a-e3fd-4dda-8cb3-3042dd8a1aae">
+                    <a href="{ conf:param('request-root') }image-requests">
+                      <xrx:i18n>
+                        <xrx:key>image-requests</xrx:key>
+                        <xrx:default>Image Requests</xrx:default>
+                      </xrx:i18n>
+                    </a>
+                  </div>
+                </div>
+              </xrx:true>
+              <xrx:false>
+                <span/>
+              </xrx:false>
+            </xrx:auth>
+            <h3>
+              <xrx:i18n>
+                <xrx:key>tools</xrx:key>
+                <xrx:default>Tools</xrx:default>
+              </xrx:i18n>
+            </h3>
+            <xrx:auth>
+              <xrx:rules>
+                <xrx:rule>
+                  <xrx:user/>
+                  <xrx:role>user-administrator</xrx:role>
+                </xrx:rule>
+              </xrx:rules>
+              <xrx:true>
+                <div class="sub-menu-item" data-demoid="44002eea-3aee-4e75-9773-b76a0b441554">
+                  <a href="{ conf:param('request-root') }manage-roles">
+                    <xrx:i18n>
+                      <xrx:key>manage-roles</xrx:key>
+                      <xrx:default>Manage roles</xrx:default>
+                    </xrx:i18n>
+                  </a>
+                </div>
+              </xrx:true>
+              <xrx:false>
+                <span/>
+              </xrx:false>
+            </xrx:auth>
+            <xrx:auth>
+              <xrx:rules>
+                <xrx:rule>
+                  <xrx:user/>
+                  <xrx:role>user-administrator</xrx:role>
+                </xrx:rule>
+              </xrx:rules>
+              <xrx:true>
+                <div class="sub-menu-item" data-demoid="b03462cd-ff5a-4e21-934d-3ac6edaacbeb">
+                  <a href="{ conf:param('request-root') }mailing-list">
+                    <xrx:i18n>
+                      <xrx:key>mailing-lists</xrx:key>
+                      <xrx:default>Mailing lists</xrx:default>
+                    </xrx:i18n>
+                  </a>
+                </div>
+              </xrx:true>
+              <xrx:false>
+                <span/>
+              </xrx:false>
+            </xrx:auth>
+            <xrx:auth>
+              <xrx:rules>
+                <xrx:rule>
+                  <xrx:user/>
+                  <xrx:role>translator</xrx:role>
+                </xrx:rule>
+              </xrx:rules>
+              <xrx:true>
+                <div class="sub-menu-item" data-demoid="1b9e136b-1067-449b-8492-3f1bea7adad5">
+                  <a href="{ conf:param('request-root') }translate">
+                    <xrx:i18n>
+                      <xrx:key>translations</xrx:key>
+                      <xrx:default>Translations</xrx:default>
+                    </xrx:i18n>
+                  </a>
+                </div>
+              </xrx:true>
+              <xrx:false>
+                <span/>
+              </xrx:false>
+            </xrx:auth>
+          </div>
+        </xrx:true>
+        <xrx:false>
+          <div data-demoid="a5493912-a02d-42eb-8f72-2807def14e1f"/>
+        </xrx:false>
+      </xrx:auth>
+    </div>
+  </xrx:view>
+</xrx:widget>

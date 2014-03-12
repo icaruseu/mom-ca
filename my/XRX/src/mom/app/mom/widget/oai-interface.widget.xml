@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+    <xrx:id>tag:www.monasterium.net,2011:/mom/widget/oai-interface</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key/>
+            <xrx:default/>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:subtitle/>
+    <xrx:description/>
+    <xrx:author>andre.streicher@uni-koeln.de</xrx:author>
+    <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+    <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+    <xrx:init>
+        <xrx:processor>
+            <xrx:xformsflag>false</xrx:xformsflag>
+            <xrx:jqueryflag>true</xrx:jqueryflag>
+        </xrx:processor>
+    </xrx:init>
+    <xrx:csss>
+        <style type="text/css">
+
+#archive{{
+	position:relative;
+	width:100%;
+}}
+
+#fonds{{
+    position:relative;
+}}
+
+#harvester-list{{
+    position:relative;
+    left:20px;
+}}
+
+#add-new-harvester{{
+    position:relative;
+    left:20px;
+}}
+
+.resource-enabled{{
+    position:relative;
+    height:40px;
+    width:100%;
+    margin:2px;
+    color:green;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    -khtml-border-radius:5px;
+    border-radius:5px;
+    border:solid green 1px;
+    float:left;
+}}
+
+.resource-disabled{{
+    position:relative;
+    width:100%;
+    margin:2px;
+    color:red;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    -khtml-border-radius:5px;
+    border-radius:5px;
+    border:solid red 1px;
+    float:left;
+}}
+
+.choose{{
+    position:relative;
+    right:1px;
+    float:right;
+}}
+
+.URLenable{{
+    position:relative;
+    top:4px;
+}}
+
+.URLdisable{{
+    display:none;
+    position:relative;
+    top:4px;
+}}
+
+.button{{
+    background-image:url(bfResources/scripts/dijit/themes/tundra/images/buttonEnabled.png);
+    border:solid #BDBDBD 1px;
+    border-bottom:solid #848484 1px;
+    padding: 1px 5px;
+    cursor:pointer;
+}}
+
+.button:hover{{
+    background-image:url(bfResources/scripts/dijit/themes/tundra/images/buttonHover.png);
+}}
+
+			</style>
+    </xrx:csss>
+    <xrx:jss>
+    		<xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/oai-functions</xrx:resource>
+    </xrx:jss>
+    <xrx:view>
+        <div data-demoid="0a4ed669-f236-4e57-9d0e-068a743c0302">
+            {
+            (: get context informations :)
+            let $archive-or-collection := $xrx:tokenized-uri[1]
+            let $object-id := $xrx:tokenized-uri[2]
+            
+            (: get atom info :)
+            let $object-atomid := 
+                            if($archive-or-collection = 'archive') then
+                                metadata:atomid($archive:metadata-object-type, $object-id)
+                            else()
+            
+            let $oai-path := 
+                if($archive-or-collection = 'archive') then
+                    concat(conf:param('data-db-base-uri'), 'metadata.archive.public/', xmldb:encode($object-id), '/')
+                else
+                    concat(conf:param('data-db-base-uri'), 'metadata.collection.public/', xmldb:encode($object-id), '/')
+            let $data-provider-overview := doc(concat($oai-path, 'oai.xml'))//atom:entry
+            (: resource info :)
+            let $metadata-resource-collection := 
+                if($archive-or-collection = 'archive') then
+                    metadata:base-collection('fond', $object-id, 'public')
+                else
+                    metadata:base-collection('collection', $object-id, 'public')
+            (: define back-link to archive or collection widget :)
+            let $back-link := 
+                    if($archive-or-collection = 'archive') then
+                        concat(conf:param('request-root'), xmldb:encode($object-id), '/archive')
+                    else
+                        concat(conf:param('request-root'), xmldb:encode($object-id), '/collection')
+            return
+            <div data-demoid="cc7fc83a-5c25-4dd5-a217-cb99266d6e08" id="oai-interface">
+                <div data-demoid="e8d828c3-3897-4845-bf82-b422b345d732">
+                    <a href="{ $back-link }">
+                        <span>&lt;&lt;</span>
+                        <xrx:i18n>
+                            <xrx:key>back</xrx:key>
+                            <xrx:default>back</xrx:default>
+                        </xrx:i18n>
+                    </a>
+                </div>
+                <br/>
+                <xrx:auth>
+                        <xrx:rules>
+		                        <xrx:or>
+		                            <xrx:rule>
+		                                <xrx:user/>
+		                                <xrx:role>metadata-manager</xrx:role>
+		                            </xrx:rule>
+		                            <xrx:rule>
+		                                <xrx:user/>
+		                                <xrx:community>{ $object-atomid }</xrx:community>
+		                            </xrx:rule>
+		                        </xrx:or>
+                        </xrx:rules>
+                        <xrx:true>
+                            <div data-demoid="7f5a1ad8-415b-4ed9-9361-18440aff426e">
+                                {
+                                let $harvesters := if($archive-or-collection = 'archive') then
+                                                        $data-provider-overview//*:archive//*:harvester
+                                                   else
+                                                        $data-provider-overview//*:collection//*:harvester 
+                                let $object-active := if(count($harvesters) gt 0) then true() else false()
+                                return
+                                <div data-demoid="dbf7b1bf-7332-40af-86f4-ccb5c226588a" id="content-area">
+                                    {
+                                    <div data-demoid="f924a98e-f39c-49ec-bc4a-9f40a746be76">
+                                            <div data-demoid="d6fce414-32b3-4029-aa34-7388373dd2ba" id="harvester">
+                                                <h3>
+                                                    <xrx:i18n>
+                                                        <xrx:key>service-provider</xrx:key>
+                                                        <xrx:default>Service Provider</xrx:default>
+                                                    </xrx:i18n>
+                                                </h3>
+                                                <span>
+                                                    <xrx:i18n>
+                                                        <xrx:key>following-agreements-to-service-provider-exist</xrx:key>
+                                                        <xrx:default>Following agreements to service provider exist</xrx:default>
+                                                    </xrx:i18n>:
+                                                </span>
+                                                <br/>
+                                                <br/>
+                                                <div data-demoid="887af502-f00a-4404-9a26-f58b52783148" id="harvester-list">
+                                                    {
+                                                    for $harvester in $harvesters
+                                                    return
+                                                    <div data-demoid="a4f23762-630a-4994-8d02-8a6d68f5e91a" id="{ $harvester/text() }">
+                                                        <span style="position:relative;top:3px;float:left;">‣ { $harvester/text() }</span>
+                                                        <div class="button" data-demoid="a0cf0071-ed1a-40da-9b5f-5176b4bfc118" onClick="removeHarvester('{ $harvester/text() }', '{ $archive-or-collection }')" style="position:relative;left:3px;float:left;">-</div>
+                                                        <br/>
+                                                        <br/>
+                                                    </div>
+                                                    }
+                                                </div>
+                                                <div data-demoid="aa794e53-175b-41cd-8e5e-b6781f73284c" id="add-new-harvester">
+                                                    <input id="input-harvester" style="position:relative;left:3px;float:left;display:none;" type="text"/>
+                                                    <div class="button" data-demoid="621dcc7c-f8b0-4806-bae4-83727329927a" id="save-harvester" onClick="addHarvester('{ $archive-or-collection }')" style="position:relative;top:1px;left:3px;float:left;display:none;">
+                                                        <xrx:i18n>
+                                                            <xrx:key>save-harvester</xrx:key>
+                                                            <xrx:default>save Harvester</xrx:default>
+                                                        </xrx:i18n>
+                                                    </div>
+                                                    <div class="button" data-demoid="deb9b366-56cc-4891-af7a-9dd17a49a33f" id="add-harvester" onClick="prepareAdding()" style="position:relative;left:3px;float:left;">
+                                                        <xrx:i18n>
+                                                            <xrx:key>add-harvester</xrx:key>
+                                                            <xrx:default>add Harvester</xrx:default>
+                                                        </xrx:i18n>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <br/>
+                                                <span style="font-style:italic;">
+                                                    <xrx:i18n>
+                                                        <xrx:key>oai-service-provider-notifications</xrx:key>
+                                                        <xrx:default>Please notice that this entries are only notifications of your agreements. When you add a service provider to the list, you DON'T activate this OAI-URL to the provider. Moreover if you disable your OAI-URL/ fonds, your agreements to service providers won't be disabled automatically. Rather you have to contact the service provider personally and reach/ terminate an agreement before.</xrx:default>
+                                                    </xrx:i18n>
+                                                </span>
+                                                <br/>
+                                            </div>
+                                            <div data-demoid="4c5861be-2924-4851-ad28-78fd81c697b7">
+                                                {
+                                                if($archive-or-collection = 'archive') then
+                                                    <div data-demoid="3581622b-496c-4245-bad5-e5b5b0893c17" id="archive">
+                                                        {
+                                                        let $archive-active := if(count($data-provider-overview//*:archive/*:fond[./@status = 'enable']) gt 0) then true() else false()
+                                                        let $archive-base-url := concat($xrx:jetty-request-base-url, xmldb:encode($object-id), '/oai')
+                                                        return
+                                                        (<div data-demoid="f152d003-6df4-4902-81cb-69019d906c8c" id="archive-URL" style="{if($archive-active)then 'display:block;' else 'display:none;'}">
+                                                                <h3>
+                                                                    <xrx:i18n>
+                                                                        <xrx:key>archive</xrx:key>
+                                                                        <xrx:default>Archive</xrx:default>
+                                                                    </xrx:i18n>
+                                                                </h3>
+                                                                <span>
+                                                                    ‣
+                                                                    <xrx:i18n>
+                                                                        <xrx:key>oai-url</xrx:key>
+                                                                        <xrx:default>OAI-URL</xrx:default>
+                                                                    </xrx:i18n>: 
+                                                                    <a href="{ $archive-base-url }" target="blank">{ $archive-base-url }</a>
+                                                                    (<xrx:i18n>
+                                                                        <xrx:key>url-for-all-released-fonds</xrx:key>
+                                                                        <xrx:default>URL for all released fonds</xrx:default>
+                                                                    </xrx:i18n>:)
+                                                                </span>
+                                                                <br/>
+                                                                <br/>
+                                                            </div>,
+                                                        <div data-demoid="ede26069-da1c-4af6-bfee-dd8cc3bdbdca" id="fonds" style="{if($object-active)then 'display:block;' else 'display:none;'}">
+                                                                <h3>
+                                                                    <xrx:i18n>
+                                                                        <xrx:key>fonds2</xrx:key>
+                                                                        <xrx:default>Fonds</xrx:default>
+                                                                    </xrx:i18n>
+                                                                </h3>
+                                                                <div data-demoid="647fff47-d91b-41b7-8d88-632bfc7af8b3">
+                                                            {
+                                                            for $fond in $metadata-resource-collection//ead:c[@level='fonds']
+                                                            let $fond-name := $fond/ead:did/ead:unittitle/text()
+                                                            let $fond-id-encoded := xmldb:encode($fond/ead:did/ead:unitid/@identifier/string())
+                                                            let $status := if($data-provider-overview//*:fond[xmldb:encode(./text()) = $fond-id-encoded][@status = 'enable'])then true() else false()
+                                                            order by $fond collation "?lang=de-DE"
+                                                            return
+                                                            <div class="{if($status)then 'resource-enabled' else 'resource-disabled'}" data-demoid="bf1031f6-bdd8-4d40-8805-dac4c4b65911" id="Entry-{$fond-id-encoded}" style="{if($status)then 'height:100%;' else()}">
+                                                                        <span style="position:relative;top:4px;">‣ { $fond-name } ({ $fond-id-encoded })</span>
+                                                                        <select class="choose" id="Select-{$fond-id-encoded}" onChange="changeStatus('{$fond-id-encoded}')">
+                                                                    {
+                                                                    if($status)then
+                                                                    (<option selected="selected">
+                                                                                <xrx:i18n>
+                                                                                    <xrx:key>enable</xrx:key>
+                                                                                    <xrx:default>enable</xrx:default>
+                                                                                </xrx:i18n>
+                                                                            </option>,
+                                                                    <option>
+                                                                                <xrx:i18n>
+                                                                                    <xrx:key>disable</xrx:key>
+                                                                                    <xrx:default>disable</xrx:default>
+                                                                                </xrx:i18n>
+                                                                            </option>)
+                                                                    else
+                                                                    (<option>
+                                                                                <xrx:i18n>
+                                                                                    <xrx:key>enable</xrx:key>
+                                                                                    <xrx:default>enable</xrx:default>
+                                                                                </xrx:i18n>
+                                                                            </option>,
+                                                                    <option selected="selected">
+                                                                                <xrx:i18n>
+                                                                                    <xrx:key>disable</xrx:key>
+                                                                                    <xrx:default>disable</xrx:default>
+                                                                                </xrx:i18n>
+                                                                            </option>)
+                                                                    }
+                                                                </select>
+                                                                        <br/>
+                                                                    </div>
+                                                            }
+                                                            </div>
+                                                            </div>
+                                                        )
+                                                        }
+                                                    </div>
+                                                else
+                                                    <div data-demoid="1e7b5858-f45b-43f6-8245-129e82de2653" id="collection" style="{if($object-active)then 'display:block;' else 'display:none;'}">
+                                                        <h3>
+                                                            <xrx:i18n>
+                                                                <xrx:key>collection</xrx:key>
+                                                                <xrx:default>Collection</xrx:default>
+                                                            </xrx:i18n>
+                                                        </h3>
+                                                        <div data-demoid="7d32a087-0b8a-4358-81f3-1eb052a57984">
+                                                         {
+                                                         let $meta := $metadata-resource-collection//cei:cei
+                                                         let $collection-name := $meta//cei:provenance/child::text()
+                                                         let $status := 
+                                                            if(exists(doc(concat($oai-path, 'oai.xml'))))then
+                                                                if($data-provider-overview//*:collection[xmldb:encode(./@id) = xmldb:encode($object-id)][@status = 'enable'])then true() else false()
+                                                            else false()
+                                                         let $collection-base-url := concat($xrx:jetty-request-base-url, xmldb:encode($object-id), '/oai')
+                                                         return
+                                                         <div class="{if($status)then 'resource-enabled' else 'resource-disabled'}" data-demoid="0ac7aca6-22c1-444d-aeae-608d9c1877fe" id="Entry-collection">
+                                                                <span style="position:relative;top:4px;">‣ { $collection-name } ({ xmldb:encode($object-id) })</span>
+                                                                <select class="choose" id="Select-collection" onChange="changeStatus('collection')" style="{if($status)then 'top:8px;' else()}">
+                                                                 {
+                                                                 if($status)then
+                                                                 (<option selected="selected">
+                                                                        <xrx:i18n>
+                                                                            <xrx:key>enable</xrx:key>
+                                                                            <xrx:default>enable</xrx:default>
+                                                                        </xrx:i18n>
+                                                                    </option>,
+                                                                 <option>
+                                                                        <xrx:i18n>
+                                                                            <xrx:key>disable</xrx:key>
+                                                                            <xrx:default>disable</xrx:default>
+                                                                        </xrx:i18n>
+                                                                    </option>)
+                                                                 else
+                                                                 (<option>
+                                                                        <xrx:i18n>
+                                                                            <xrx:key>enable</xrx:key>
+                                                                            <xrx:default>enable</xrx:default>
+                                                                        </xrx:i18n>
+                                                                    </option>,
+                                                                 <option selected="selected">
+                                                                        <xrx:i18n>
+                                                                            <xrx:key>disable</xrx:key>
+                                                                            <xrx:default>disable</xrx:default>
+                                                                        </xrx:i18n>
+                                                                    </option>)
+                                                                 }
+                                                             </select>
+                                                                <br/>
+                                                                <span class="{if($status)then 'URLenable' else 'URLdisable'}" id="URL-collection">
+                                                                 ‣
+                                                                 <xrx:i18n>
+                                                                        <xrx:key>oai-url</xrx:key>
+                                                                        <xrx:default>OAI-URL</xrx:default>
+                                                                 </xrx:i18n>: 
+                                                                 <a href="{ $collection-base-url }" target="blank">{ $collection-base-url }</a>
+                                                                </span>
+                                                            </div>
+                                                            }
+                                                           </div>
+                                                       </div>
+                                                }
+                                            </div>
+                                    </div>
+                                    }
+                                </div>
+                                }
+                            </div>
+                        </xrx:true>
+                    <xrx:false>
+                        <div data-demoid="f63ee667-25bd-43a1-83ca-01342a6fefac">
+                            <xrx:i18n>
+                                <xrx:key>protected-page-message</xrx:key>
+                                <xrx:default>Protected page. Please login first.</xrx:default>
+                            </xrx:i18n>
+                            <xrx:subwidget>tag:www.monasterium.net,2011:/core/widget/login2</xrx:subwidget>
+                        </div>
+                    </xrx:false>
+                </xrx:auth>
+                </div>
+            }
+        </div>
+    </xrx:view>
+</xrx:widget>

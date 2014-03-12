@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/charter-import</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>  
+  <xrx:variables>
+    <!-- request parameters -->
+    <xrx:variable>
+      <xrx:name>$wcharter-import:context</xrx:name>
+      <xrx:expression>charters:rcontext()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-import:archid</xrx:name>
+      <xrx:expression>charters:rarchiveid()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-import:fondid</xrx:name>
+      <xrx:expression>charters:rfondid()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-import:collectionid</xrx:name>
+      <xrx:expression>charters:rcollectionid()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-import:uri-tokens</xrx:name>
+      <xrx:expression>charters:ruri-tokens()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-import:info</xrx:name>
+      <xrx:expression>chimport:rinfo()</xrx:expression>
+    </xrx:variable>
+    <!-- cache info -->
+    <xrx:variable>
+      <xrx:name>$wcharter-import:cacheid</xrx:name>
+      <xrx:expression>metadata:atomid('cache', ($wcharter-import:uri-tokens, $xrx:tokenized-uri[last()]))</xrx:expression>
+    </xrx:variable>
+    <!-- archive info -->
+    <xrx:variable>
+      <xrx:name>$wcharter-import:archive-atomid</xrx:name>
+      <xrx:expression>metadata:atomid($archive:metadata-object-type, $wcharter-import:archid)</xrx:expression>
+    </xrx:variable>
+    <!-- fond info -->    
+    <xrx:variable>
+      <xrx:name>$wcharter-import:metadata-fond-base-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('fond', $wcharter-import:uri-tokens, 'public')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-import:ead</xrx:name>
+      <xrx:expression>$wcharter-import:metadata-fond-base-collection//ead:ead</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-import:fond-name</xrx:name>
+      <xrx:expression>$wcharter-import:ead//ead:c[@level='fonds']/ead:did/ead:unittitle/text()</xrx:expression>
+    </xrx:variable>
+    <!-- collection info -->
+    <xrx:variable>
+      <xrx:name>$wcharter-import:metadata-collection-base-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('collection', $wcharter-import:collectionid, 'public')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-import:cei</xrx:name>
+      <xrx:expression>$wcharter-import:metadata-collection-base-collection//cei:cei</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-import:collection-name</xrx:name>
+      <xrx:expression>$wcharter-import:cei//cei:provenance/text()</xrx:expression>
+    </xrx:variable>
+    <!-- import util -->
+    <xrx:variable>
+      <xrx:name>$wcharter-import:import-util-base-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('charter', $wcharter-import:uri-tokens, 'import.util')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-import:import-util-base-collection-path</xrx:name>
+      <xrx:expression>metadata:base-collection-path('charter', $wcharter-import:uri-tokens, 'import.util')</xrx:expression>
+    </xrx:variable>
+    <!-- XSLT transformation -->
+    <xrx:variable>
+      <xrx:name>$wcharter-import:default-stylesheet</xrx:name>
+      <xrx:expression>$xrx:db-base-collection/xsl:stylesheet[@id='xml2cei']</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-import:stylesheet</xrx:name>
+      <xrx:expression>util:serialize((doc(concat($wcharter-import:import-util-base-collection-path, 'xml2cei.xml')), $wcharter-import:default-stylesheet)[1], ())</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-import:xslt-post-url</xrx:name>
+      <xrx:expression>concat(conf:param('request-root'), string-join($wcharter-import:uri-tokens, '/'), '/charter-import-save-xslt')</xrx:expression>
+    </xrx:variable>
+    <!-- SQL -->
+    <xrx:variable>
+      <xrx:name>$wcharter-import:sql-script</xrx:name>
+      <xrx:expression>util:binary-to-string(util:binary-doc(concat($wcharter-import:import-util-base-collection-path, 'SQL.txt')))</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-import:sql-post-url</xrx:name>
+      <xrx:expression>concat(conf:param('request-root'), string-join($wcharter-import:uri-tokens, '/'), '/charter-import-save-sql')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-import:sql-info</xrx:name>
+      <xrx:expression>$wcharter-import:import-util-base-collection/xrx:sql</xrx:expression>
+    </xrx:variable>
+    <!-- recently imported file -->
+    <xrx:variable>
+      <xrx:name>$wcharter-import:recent-file-url</xrx:name>
+      <xrx:expression>replace(request:get-url(), $xrx:tokenized-uri[last()], 'recently-imported-file')</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>true</xrx:xformsflag>
+     <xrx:jqueryflag>true</xrx:jqueryflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/css/codemirror/lib/codemirror</xrx:resource>
+    <style type="text/css">
+
+#dcharter-import {{
+  position: relative;
+  float: none;
+  width: 100%;
+}}
+#dcharter-import .long-input .xfValue {{
+  width: 500px;
+}}
+#duseful-links {{
+  position: relative;
+  float: none;
+  width: 100%;
+  margin-top: 150px;
+}}
+#dwizard {{
+  position:relative;
+  display: block;
+  float:left;
+  width:600px;
+  margin-left:185px;
+  margin-top:50px;
+  background:rgb(240,240,240);
+}}
+#dinner-wizard{{
+  margin:15px;
+}} 
+#dinner-wizard .cell {{
+  position:relative;
+  float:left;
+  width:50%;
+}}
+#dinner-wizard .table {{
+  background:rgb(240,240,240);
+  width:100%;
+  margin-top:20px;
+}}
+#dinner-wizard .previous-next-trigger {{
+  width:100%;
+  text-align:right;
+  margin-top:30px;
+}}
+.reporttable td {{
+  border:none;
+}}
+.reporttable .red *{{
+  color:red;
+}}
+#dpreview-link {{
+  text-align:center;
+}}
+#dpreview-link *{{
+  font-size:30px;
+}}
+#duseful-links {{
+  position:relative;
+  float:left;
+  width:600px;
+  margin-left:185px;
+  margin-top:50px;
+}}
+#bfLoading {{
+  display:block !important;
+  padding:0px !important;
+  margin:0px !important;
+  right:0px !important;
+}}
+#dwizard .CodeMirror {{
+  height: auto !important;
+  width: 900px;
+  border: solid rgb(240,240,240) 10px;
+  margin-left: -170px;
+  line-height: 1.5;
+}}
+#dwizard .CodeMirror-scroll {{
+  height: auto !important;
+  overflow-y: hidden !important;
+  overflow-x: auto !important;
+  background: white;
+}}
+#dwizard .button {{
+  display: none;
+}}
+#dwizard .ui-progressbar {{
+  position: relative;
+}}
+#dwizard .progress-label {{
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  font-weight: bold;
+  text-shadow: 1px 1px 0 #fff;
+}}
+    </style>
+  </xrx:csss>
+  <xrx:jss>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/progressbar</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/progressbarImport</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/lib/codemirror</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/mode/sql</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/mode/xml</xrx:resource>
+  </xrx:jss>
+</xrx:widget>

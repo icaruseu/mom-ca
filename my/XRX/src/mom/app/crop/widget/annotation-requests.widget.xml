@@ -1,0 +1,787 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+    <xrx:id>tag:www.monasterium.net,2011:/mom/widget/annotation-requests</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key>annotation-requests</xrx:key>
+            <xrx:default>Annotation Requests</xrx:default>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:subtitle/>
+    <xrx:description/>
+    <xrx:author>andre.streicher@uni-koeln.de</xrx:author>
+    <xrx:licence/>
+    <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/desktop</xrx:portal>
+    <xrx:init>
+        <xrx:processor>
+            <xrx:xformsflag>true</xrx:xformsflag>
+        </xrx:processor>
+    </xrx:init>
+	  <xrx:csss>
+        <xrx:css>tag:www.monasterium.net,2011:/mom/css/charter-preview</xrx:css>
+        <style type="text/css">
+            #desktop-left-menu{{
+                float:left;
+                width:150px;
+            }}
+            
+            #loadtext{{
+                display: none;
+                top:30px;
+                position:relative;
+                color:#CAC6C6;
+                font-weight:bold;
+            }}
+            
+              .button {{
+                float: left;
+                line-height: 1.3em;
+                vertical-align: middle;
+                background-color: #F6F6F6;
+                border-color: #FFFFFF #D9D9D9 #D9D9D9;
+                border-style: solid;
+                border-width: 3px 3px 3px 0;
+                color: #000000; 
+                padding: 7px 10px;
+                -moz-border-radius:10px; /* Firefox */
+                -webkit-border-radius:10px; /* Safari, Chrome */
+                -khtml-border-radius:10px; /* Konqueror */
+                border-radius:10px; /* CSS3 */
+              }}
+              
+              .button:hover{{
+                cursor: default;
+                position: relative;
+                z-index: 599;
+                background-color: #EEEEEE;
+                color: #000000;
+              }}
+            
+            .hiddenButton{{
+                display: none;
+                height: 20px;
+                float:left;
+                position: relative;
+                background-color: #F6F6F6;
+                border-color: #FFFFFF #D9D9D9 #D9D9D9;
+                border-style: solid;
+                border-width: 3px 3px 3px 0;
+                color: #000000; 
+                padding: 7px 10px;
+                -moz-border-radius:10px; /* Firefox */
+                -webkit-border-radius:10px; /* Safari, Chrome */
+                -khtml-border-radius:10px; /* Konqueror */
+                border-radius:10px; /* CSS3 */
+              }}
+              
+            .hiddenButton:hover{{
+                cursor: default;
+                z-index: 599;
+                background-color: #EEEEEE;
+                color: #000000;
+              }}
+              
+            .zoomer{{
+                height: 20px;
+                position: relative;
+            }}
+            
+            #publish{{
+                position: relative;
+            }}
+            
+            #request{{
+                position: relative;
+            }}
+            
+            .requests{{
+                top:30px;
+                position: relative;
+                width: 550px;
+                height: 17px;
+                background-color: #F6F6F6;
+                border-color: #FFFFFF #D9D9D9 #D9D9D9;
+                border-style: solid;
+                border-width: 1.55px 1.5px 1.5px 0;
+                color: #000000; 
+                padding: 7px 10px;
+                -moz-border-radius:10px; /* Firefox */
+                -webkit-border-radius:10px; /* Safari, Chrome */
+                -khtml-border-radius:10px; /* Konqueror */
+                border-radius:10px; /* CSS3 */
+            }}
+            
+            .infofield{{
+                display: none;
+                top:30px;
+                position:relative;
+                width: 550px;
+                height: 500px;
+                background-color: 	#f5f5f5;
+                border-color: #F6F6F6 #F6F6F6 #F6F6F6;
+                border-style: solid;
+                border-width: 1.55px 1.5px 1.5px 0;
+                padding: 7px 10px;
+                -moz-border-radius:0px 0px 10px 10px; /* Firefox */
+                -webkit-border-radius:0px 0px 10px 10px; /* Safari, Chrome */
+                -khtml-border-radius:0px 0px 10px 10px; /* Konqueror */
+                border-radius:0px 0px 10px 10px; /* CSS3 */
+            }}
+            
+            .wait{{
+                display: none;
+                top:30px;
+                position:relative;
+                width: 550px;
+                height: 390px;
+                background-color: 	#f5f5f5;
+                border-color: #F6F6F6 #F6F6F6 #F6F6F6;
+                border-style: solid;
+                border-width: 1.55px 1.5px 1.5px 0;
+                padding: 7px 10px;
+                -moz-border-radius:0px 0px 10px 10px; /* Firefox */
+                -webkit-border-radius:0px 0px 10px 10px; /* Safari, Chrome */
+                -khtml-border-radius:0px 0px 10px 10px; /* Konqueror */
+                border-radius:0px 0px 10px 10px; /* CSS3 */
+            }}
+            
+            .requestviewport{{
+	           position:relative;
+	           float:left;
+	           left: 20px;
+	           top: 10px;
+	           width:500px;
+	           height:300px;
+	           overflow:auto;
+	           z-index:1;
+	           margin-top:0px;
+	           margin-left:5px;
+	           margin-right:5px;
+	           margin-bottom:0px;
+	           padding:0;
+	           border:solid rgb(240,243,226) 1px;
+            }}
+            
+            .direct{{
+                background: rgba(0, 0, 0, 0.0);
+                z-index:1;
+                position:absolute;
+                border:solid red 2px;
+                -moz-border-radius:3px;
+                -webkit-border-radius:3px;
+                -khtml-border-radius:3px;
+                border-radius:3px;
+            }}
+            
+            .rimg{{
+	            position:absolute;
+              	width:950px;
+              	z-index:0;
+              	margin:0px;
+              	padding:0px;
+            }}
+            
+            .input{{
+               position: absolute;
+               top:400px;
+               left:50px;
+               width: 460px;
+               height: 60px;
+            }}
+            
+            .directanno{{
+                display: none;
+                z-index:1;
+                position:absolute;
+            }}
+            
+            .annotationfield{{
+                float: left;
+                z-index:1;
+                width: 300px;
+                height: 100px;
+            }}
+            
+            #basic{{
+                position:relative;
+                float:left;
+                padding-bottom: 50px;
+            }}
+
+        </style>
+    </xrx:csss>
+    <xrx:jss>
+    	<xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+    	<xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/anno-request-functions</xrx:resource>
+    </xrx:jss>
+    
+    <xrx:model>
+    { bookmark:model(conf:param('request-root')) }
+    { publication:model(conf:param('request-root')) }
+  </xrx:model>
+    <xrx:view>
+        <div data-demoid="1acc6b34-2665-49ee-a617-1785ddec9a0d">
+            <xrx:auth>
+                <xrx:rules>
+                    <xrx:rule>
+                        <xrx:user/>
+                        <xrx:dbgroup>atom</xrx:dbgroup>
+                    </xrx:rule>
+                </xrx:rules>
+                <xrx:true>
+                    <div data-demoid="065049d7-2495-457d-978a-92a4f99e6837" id="basic">
+                        <h2 style="position:relative;">
+                            <xrx:i18n>
+                                <xrx:key>annotation-requests</xrx:key>
+                                <xrx:default>Annotation Requests</xrx:default>
+                            </xrx:i18n>
+                        </h2>
+                        <span id="loadtext"/>
+                        <xrx:auth>
+                            <xrx:rules>
+                                <xrx:rule>
+                                    <xrx:user/>
+                                    <xrx:role>moderator</xrx:role>
+                                </xrx:rule>
+                            </xrx:rules>
+                            <xrx:true>
+                                <div data-demoid="0d828de4-30a0-4db9-b1ee-7d1e9e673878" id="publish">
+                                    <div data-demoid="c0b1a24a-dde2-47d7-b782-ec40a4f3575f">
+                                        <div data-demoid="62568ba3-84cb-4e17-b9d9-e081e471ee2d">
+                                            <br/>
+                                            <span style="position:relative;color:#999999;font-weight:bold;left:10px;top:20px;">
+                                                <xrx:i18n>
+                                                    <xrx:key>open-requests</xrx:key>
+                                                    <xrx:default>Open requests</xrx:default>
+                                                </xrx:i18n>:
+                           </span>                            
+                        {
+                        let $requestannos := doc(concat(conf:param('xrx-user-db-base-uri'), '/', xmldb:encode($xrx:user-id), '.xml'))//*:askelement
+                        for $requestanno at $number in $requestannos
+                        order by xs:date($requestanno//@date) ascending
+                            return
+                            <div data-demoid="15358eff-fd20-4e25-b70a-0c69b3c799a4">
+                               {
+                               let $waitdays := days-from-duration(current-date()-xs:date($requestanno//@date))
+                                   return
+                                   if($waitdays lt 10) then
+                                <div data-demoid="7ac4d89a-89e7-4517-8a61-dd473e91083d">
+                                                    <div class="requests" data-demoid="52177bc1-e692-4a65-8d75-b68888ab0ba1" id="publish{$number}" onclick="showRequest('start', '{string($requestanno//@id)}' , '{$number}', '{$xrx:user-id}', 'moderator', '{ $xrx:lang }');">
+                                                        <div data-demoid="58551957-bf9c-4f97-a6ce-d995b3f6a47e" style="position:relative;float:left;">
+                                                            <span>User:</span>
+                                                            <span>{string(xmldb:decode($requestanno//@user))}</span>
+                                                        </div>
+                                                        <div data-demoid="713ca2aa-9392-4ffa-b0fb-d1c90f371312" style="left:20px;position:relative;float:left;">
+                                                            <xrx:i18n>
+                                                                <xrx:key>waiting-since</xrx:key>
+                                                                <xrx:default>Waiting since</xrx:default>
+                                                            </xrx:i18n>:
+                                                 <span>{string($waitdays)} </span>
+                                                            <xrx:i18n>
+                                                                <xrx:key>days</xrx:key>
+                                                                <xrx:default>days</xrx:default>
+                                                            </xrx:i18n>
+                                                        </div>
+                                                    	<xrx:resource id="pubarrow{$number}" style="position:absolute;left:550px;top:8px;width:15px" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/plus</xrx:resource>
+                                                    </div>
+                                                </div>                                             
+                                   else 
+                                     <div data-demoid="91b4d8e2-732f-46b7-8f51-49aa8478fb07">
+                                                    <div class="requests" data-demoid="6e04d9ae-9302-4ba5-b2a1-b04754e40939" id="publish{$number}" onclick="showRequest('start', '{string($requestanno//@id)}' , '{$number}', '{$xrx:user-id}' , 'moderator', '{ $xrx:lang }');" style="color:red;">
+                                                        <div data-demoid="8e32bc5a-edc7-4816-8838-e22076b13063" style="position:relative;float:left;">
+                                                            <span>User:</span>
+                                                            <span>{string(xmldb:decode($requestanno//@user))}</span>
+                                                        </div>
+                                                        <div data-demoid="6970e51a-630d-4b55-8379-6c71f039932f" style="left:20px;position:relative;float:left;">
+                                                            <xrx:i18n>
+                                                                <xrx:key>waiting-since</xrx:key>
+                                                                <xrx:default>Waiting since</xrx:default>
+                                                            </xrx:i18n>:
+                                                <span>{string($waitdays)} </span>
+                                                            <xrx:i18n>
+                                                                <xrx:key>days</xrx:key>
+                                                                <xrx:default>days</xrx:default>
+                                                            </xrx:i18n>
+                                                        </div>
+                                                    	<xrx:resource id="pubarrow{$number}" style="position:absolute;left:550px;top:8px;width:15px" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/plus</xrx:resource>
+                                                    </div>
+                                                </div>
+                                }
+                           <div class="infofield" data-demoid="f6012e65-6c15-4e1b-ac11-b121b6010670" id="pubfield{$number}">
+                                                    <div class="informations" data-demoid="35475cbe-81ec-477e-a525-9927033ac9ed" style="left:30px;position:relative;float:left;">
+                                                        <xrx:i18n>
+                                                            <xrx:key>archive</xrx:key>
+                                                            <xrx:default>Archive</xrx:default>
+                                                        </xrx:i18n>:
+                                    <a href="{ conf:param('request-root') }{ string($requestanno//@archive) }/archive">
+                                                            <span>{string($requestanno//@archive)}</span>
+                                                        </a>
+                                                    </div>
+                                                    <div data-demoid="9095a472-9a42-4eff-91cc-863acce0224c" style="position:relative;left:70px;float:left;">
+                                                        <xrx:i18n>
+                                                            <xrx:key>fond2</xrx:key>
+                                                            <xrx:default>Fond</xrx:default>
+                                                        </xrx:i18n>:
+                                    <a href="{ conf:param('request-root') }{ string($requestanno//@archive) }/{ string($requestanno//@fond) }/fond">
+                                                            <span>{string($requestanno//@fond)}</span>
+                                                        </a>
+                                                    </div>
+                                                    <div data-demoid="970798c3-37e2-4954-8cb2-8fadef771b65" style="position:relative;left:110px;float:left;">
+                                                        <xrx:i18n>
+                                                            <xrx:key>charter</xrx:key>
+                                                            <xrx:default>Charter</xrx:default>
+                                                        </xrx:i18n>:
+                                    <a href="{ conf:param('request-root') }{ string($requestanno//@archive) }/{ string($requestanno//@fond) }/{ string($requestanno//@charter) }/charter">
+                                                            <span>{string($requestanno//@charter)}</span>
+                                                        </a>
+                                                    </div>
+                                                    <div class="requestviewport" data-demoid="1aeed8af-6d6b-4c97-8e6c-159361b66927" id="pubviewport{$number}">
+                                                        <div class="directanno" data-demoid="89b393bf-7fd2-4ea7-8f0c-4dcb60a38f18" id="directanno{$number}">
+                                                            <textarea class="annotationfield" id="annotationfield{$number}" name="annotation"/>
+                                                            <p class="button" id="saveanno{$number}" onClick="storeAnno('{$xrx:user-id}', '{$requestanno//@archive}', '{$requestanno//@fond}', '{$requestanno//@charter}', '{ $xrx:lang }')" style="position:relative;top:-10px;">
+                                                                <xrx:i18n>
+                                                                    <xrx:key>save</xrx:key>
+                                                                    <xrx:default>Save</xrx:default>
+                                                                </xrx:i18n>
+                                                            </p>
+                                                            <p class="button" id="cancel" onClick="$('#directanno'+{$number}).css('display', 'none');" style="position:relative;top:27px;left:-58px;">
+                                                                <xrx:i18n>
+                                                                    <xrx:key>cancel</xrx:key>
+                                                                    <xrx:default>Cancel</xrx:default>
+                                                                </xrx:i18n>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div data-demoid="1f67f714-2ead-4e86-9c57-1b56db72b732" id="pubzoomer{$number}" style="position:relative;left:230px;">
+                                                        <p class="button" onClick="requestZoom('in', '{$number}', 'moderator');">
+                                                        	<xrx:resource class="zoomer" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/zoom_in</xrx:resource>
+                                                        </p>
+                                                        <p class="button" onClick="requestZoom('out', '{$number}', 'moderator');">
+                                                        	<xrx:resource class="zoomer" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/zoom_out</xrx:resource>
+                                                        </p>
+                                                    </div>
+                                                    <span style="position:absolute;color:#999999;font-weight:bold;left:40px;top:380px;">
+                                                        <xrx:i18n>
+                                                            <xrx:key>response-comment</xrx:key>
+                                                            <xrx:default>Response comment</xrx:default>
+                                                        </xrx:i18n>:
+                               </span>
+                                                    <textarea class="input" id="input{$number}" name="annotation"/>
+                                                    <div data-demoid="de387892-1bc7-4b82-8285-cceaf2d1bf7d" style="position:absolute;top:450px;left:205px;">
+                                                        <p class="button" id="accept{$number}" onClick="answerRequest('accept' , '{string($requestanno//@id)}' , '{$number}', '{$xrx:user-id}', '{ $xrx:lang }');">
+                                                            <xrx:i18n>
+                                                                <xrx:key>accept</xrx:key>
+                                                                <xrx:default>Accept</xrx:default>
+                                                            </xrx:i18n>
+                                                        </p>
+                                                        <p class="button" id="decline{$number}" onClick="answerRequest('decline' , '{string($requestanno//@id)}' , '{$number}', '{$xrx:user-id}', '{ $xrx:lang }');" style="position:relative;left:5px;">
+                                                            <xrx:i18n>
+                                                                <xrx:key>decline</xrx:key>
+                                                                <xrx:default>Decline</xrx:default>
+                                                            </xrx:i18n>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>    
+                            }
+                        </div>
+                                        <div data-demoid="7a21fdb6-c1d4-4f27-8001-c1a76447dd98">
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                            <span style="position:relative;color:#999999;font-weight:bold;left:10px;top:20px;">
+                                                <xrx:i18n>
+                                                    <xrx:key>open-reports</xrx:key>
+                                                    <xrx:default>Open reports</xrx:default>
+                                                </xrx:i18n>:
+                            </span>
+                                            <br/>
+                            {
+                            let $requestannos := doc(concat(conf:param('xrx-user-db-base-uri'), '/', xmldb:encode($xrx:user-id), '.xml'))//*:reportelement
+                            for $requestanno at $number in $requestannos
+                            order by xs:date($requestanno//@date) ascending
+                            return
+                                <div data-demoid="e99010c3-89f2-418f-b3d5-41ced4e5a641">
+                                    {
+                                    let $rwaitdays := days-from-duration(current-date()-xs:date($requestanno//@date))
+                                    return
+                                    if($rwaitdays lt 10) then
+                                    <div data-demoid="706b842c-1e26-4d60-afd3-8c46d1e67db5">
+                                                    <div class="requests" data-demoid="27d01b12-7ba9-4587-9c04-aaf0a7ff0151" id="report{$number}" onclick="showRequest('start', '{string($requestanno//@id)}' , '{$number}', '{$xrx:user-id}' , 'report', '{ $xrx:lang }');">
+                                                        <div data-demoid="c5b70096-3d39-40e0-8f43-a3eca077e2f2" style="position:relative;float:left;">
+                                                            <span>User:</span>
+                                                            <span>{string(xmldb:decode($requestanno//@reporter))}</span>
+                                                        </div>
+                                                        <div data-demoid="85fcfa07-7f72-43e5-91b5-643457a7675b" style="left:20px;position:relative;float:left;">
+                                                            <xrx:i18n>
+                                                                <xrx:key>waiting-since</xrx:key>
+                                                                <xrx:default>Waiting since</xrx:default>
+                                                            </xrx:i18n>:
+                                            <span>{string($rwaitdays)} </span>
+                                                            <xrx:i18n>
+                                                                <xrx:key>days</xrx:key>
+                                                                <xrx:default>days</xrx:default>
+                                                            </xrx:i18n>
+                                                        </div>
+                                                    		<xrx:resource id="reparrow{$number}" style="position:absolute;left:550px;top:8px;width:15px" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/plus</xrx:resource>
+                                                    </div>
+                                                </div>
+                                    else
+                                    <div data-demoid="1c7c44c0-b515-4265-80e7-06fedd5a5043">
+                                                    <div class="requests" data-demoid="54cd2867-f4b0-42f7-b0db-a204d069adaa" id="report{$number}" onclick="showRequest('start', '{string($requestanno//@id)}' , '{$number}', '{$xrx:user-id}' , 'report', '{ $xrx:lang }');" style="color:red;">
+                                                        <div data-demoid="efd81a3f-5553-4762-ace6-c004b421e9ee" style="position:relative;float:left;">
+                                                            <span>User:</span>
+                                                            <span>{string(xmldb:decode($requestanno//@reporter))}</span>
+                                                        </div>
+                                                        <div data-demoid="e46c5acc-3e73-439c-b282-81c8dd5436cd" style="left:20px;position:relative;float:left;">
+                                                            <xrx:i18n>
+                                                                <xrx:key>waiting-since</xrx:key>
+                                                                <xrx:default>Waiting since</xrx:default>
+                                                            </xrx:i18n>:
+                                            <span>{string($rwaitdays)} </span>
+                                                            <xrx:i18n>
+                                                                <xrx:key>days</xrx:key>
+                                                                <xrx:default>days</xrx:default>
+                                                            </xrx:i18n>
+                                                        </div>
+                                                    	<xrx:resource id="reparrow{$number}" style="position:absolute;left:550px;top:8px;width:15px" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/plus</xrx:resource>
+                                                    </div>
+                                                </div>
+                                    }
+                                    <div class="infofield" data-demoid="d65f3380-7019-42b8-bca6-34c29e93aea9" id="repfield{$number}" style="height:600px;">
+                                                    <div class="informations" data-demoid="2d6720ee-6f65-4899-8bb4-8dc361d391ad" style="left:30px;position:relative;float:left;">
+                                                        <xrx:i18n>
+                                                            <xrx:key>archive</xrx:key>
+                                                            <xrx:default>Archive</xrx:default>
+                                                        </xrx:i18n>:
+                                        <a href="{ conf:param('request-root') }{ string($requestanno//@archive) }/archive">
+                                                            <span>{string($requestanno//@archive)}</span>
+                                                        </a>
+                                                    </div>
+                                                    <div data-demoid="ba5db29c-60d0-4de7-b532-1f6936327236" style="position:relative;left:70px;float:left;">
+                                                        <xrx:i18n>
+                                                            <xrx:key>fond2</xrx:key>
+                                                            <xrx:default>Fond</xrx:default>
+                                                        </xrx:i18n>:
+                                        <a href="{ conf:param('request-root') }{ string($requestanno//@archive) }/{ string($requestanno//@fond) }/fond">
+                                                            <span>{string($requestanno//@fond)}</span>
+                                                        </a>
+                                                    </div>
+                                                    <div data-demoid="a2b8a13d-0e55-46a6-afd5-d52c41d87484" style="position:relative;left:110px;float:left;">
+                                                        <xrx:i18n>
+                                                            <xrx:key>charter</xrx:key>
+                                                            <xrx:default>Charter</xrx:default>
+                                                        </xrx:i18n>:
+                                        <a href="{ conf:param('request-root') }{ string($requestanno//@archive) }/{ string($requestanno//@fond) }/{ string($requestanno//@charter) }/charter">
+                                                            <span>{string($requestanno//@charter)}</span>
+                                                        </a>
+                                                    </div>
+                                                    <div class="requestviewport" data-demoid="88db3f7e-ec0f-4bbf-bf1f-8c11b3cc020b" id="repviewport{$number}">
+                                                        <div class="directanno" data-demoid="5889a06b-486f-4652-a460-93f44bf24203" id="repanno{$number}">
+                                                            <textarea class="annotationfield" id="repinputfield{$number}" name="annotation"/>
+                                                            <p class="button" id="saverep{$number}" onClick="storeAnno('{$xrx:user-id}', '{$requestanno//@archive}', '{$requestanno//@fond}', '{$requestanno//@charter}', '{ $xrx:lang }')" style="position:relative;top:-10px;">
+                                                                <xrx:i18n>
+                                                                    <xrx:key>save</xrx:key>
+                                                                    <xrx:default>Save</xrx:default>
+                                                                </xrx:i18n>
+                                                            </p>
+                                                            <p class="button" id="cancelrep" onClick="$('#repanno'+{$number}).css('display', 'none');" style="position:relative;top:27px;left:-58px;">
+                                                                <xrx:i18n>
+                                                                    <xrx:key>cancel</xrx:key>
+                                                                    <xrx:default>Cancel</xrx:default>
+                                                                </xrx:i18n>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div data-demoid="51255029-9c43-458a-9283-3b4f963932a9" id="repzoomer{$number}" style="position:relative;left:230px;">
+                                                        <p class="button" onClick="requestZoom('in', '{$number}', 'report');">
+                                                        	<xrx:resource class="zoomer" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/zoom_in</xrx:resource>
+                                                        </p>
+                                                        <p class="button" onClick="requestZoom('out', '{$number}', 'report');">
+                                                        	<xrx:resource class="zoomer" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/zoom_out</xrx:resource>
+                                                        </p>
+                                                    </div>
+                                                    <span style="position:absolute;color:#999999;font-weight:bold;left:40px;top:400px;">
+                                                        <xrx:i18n>
+                                                            <xrx:key>user-comment</xrx:key>
+                                                            <xrx:default>User comment</xrx:default>
+                                                        </xrx:i18n>:
+                                        </span>
+                                                    <span style="position:absolute;left:50px;top:420px;">{$requestanno//*:comment/text()}</span>
+                                                    <span style="position:absolute;color:#999999;font-weight:bold;left:40px;top:480px;">
+                                                        <xrx:i18n>
+                                                            <xrx:key>response-comment</xrx:key>
+                                                            <xrx:default>Response comment</xrx:default>
+                                                        </xrx:i18n>:
+                                        </span>
+                                                    <textarea class="input" id="reportInput{$number}" name="annotation" style="top:500px;"/>
+                                                    <div data-demoid="1d285211-bfc5-4823-99f8-17cc1a62896a" style="position:absolute;top:550px;left:220px;">
+                                                        <p class="button" id="answer{$number}" onClick="answerReport('{string($requestanno//@id)}' , '{$number}', '{$xrx:user-id}', '{ $xrx:lang }');" style="position:relative;">
+                                                            <xrx:i18n>
+                                                                <xrx:key>answer-report</xrx:key>
+                                                                <xrx:default>Answer Report</xrx:default>
+                                                            </xrx:i18n>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                            }                              
+                        </div>
+                                    </div>
+                                </div>
+                            </xrx:true>
+                            <xrx:false>
+                                <div data-demoid="f4177367-5eaf-458d-b85e-bd72816b3968">
+                                    <div data-demoid="54c7b2bb-d6c0-4f92-9036-82e31ee56075" id="request">
+                                        <br/>
+                                        <span style="position:relative;color:#999999;font-weight:bold;left:10px;top:20px;">
+                                            <xrx:i18n>
+                                                <xrx:key>requests</xrx:key>
+                                                <xrx:default>Requests</xrx:default>
+                                            </xrx:i18n>:
+                        </span>                            
+                            {
+                            let $requestannos := doc(concat(conf:param('xrx-user-db-base-uri'), '/', xmldb:encode($xrx:user-id), '.xml'))//*:annotationelement[@*:status='wait' or @*:status='accept' or @*:status='decline'] 
+                            for $requestanno at $number in $requestannos
+                            return
+                                let $class := if($requestanno//@status = 'wait')then 'wait' else 'infofield'
+                                return
+                                <div data-demoid="b7dfc04f-9695-43d4-b8eb-95904bac205f">
+                                            <div class="requests" data-demoid="318bf427-19ce-43ce-a977-828789e6b404" id="request{$number}" onclick="showRequest('start', '{string($requestanno//@id)}' , '{$number}', '{$xrx:user-id}', 'user', '{ $xrx:lang }');">
+                                                <div data-demoid="59374560-4bb1-4977-a46f-373b306e05ec" style="position:relative;float:left;">
+                                                    <xrx:i18n>
+                                                        <xrx:key>charter</xrx:key>
+                                                        <xrx:default>Charter</xrx:default>
+                                                    </xrx:i18n>:
+                                            <span>{string($requestanno//@*:charter)}</span>
+                                                </div>
+                                                <div data-demoid="cc9b6157-2843-488e-b188-72ec1dcb7792" style="position:relative;float:left;left:20px;">
+                                            {
+                                            if($requestanno//@*:status = 'wait')then
+                            <span style="color:#0000CC;">Status:
+                                                 <xrx:i18n>
+                                                            <xrx:key>wait-for-release</xrx:key>
+                                                            <xrx:default>Wait for release</xrx:default>
+                                                        </xrx:i18n>
+                                                    </span>
+                                            else if($requestanno//@*:status = 'accept')then 
+                                            <span style="color:green;">Status:
+                                                <xrx:i18n>
+                                                            <xrx:key>accepted</xrx:key>
+                                                            <xrx:default>Accepted</xrx:default>
+                                                        </xrx:i18n>
+                                                    </span>
+                                            else if($requestanno//@*:status = 'decline')then 
+                                            <span style="color:red;">Status:
+                                                <xrx:i18n>
+                                                            <xrx:key>Declined</xrx:key>
+                                                            <xrx:default>Declined</xrx:default>
+                                                        </xrx:i18n>
+                                                    </span>
+                                            else()
+                                            }
+                                                </div>
+                                            		<xrx:resource id="arrow{$number}" style="position:absolute;left:550px;top:8px;width:15px" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/plus</xrx:resource>
+                                            </div>
+                                            <div class="{$class}" data-demoid="a82f26c4-96df-4450-8816-9f4c95de8251" id="field{$number}">
+                                                <div class="informations" data-demoid="4c1e4b23-9112-42b8-9663-dcf24940f474" style="left:30px;position:relative;float:left;">
+                                                    <xrx:i18n>
+                                                        <xrx:key>archive</xrx:key>
+                                                        <xrx:default>Archive</xrx:default>
+                                                    </xrx:i18n>:
+                                        <a href="{ conf:param('request-root') }{ string($requestanno//@archive) }/archive">
+                                                        <span>{string($requestanno//@archive)}</span>
+                                                    </a>
+                                                </div>
+                                                <div data-demoid="a72ddac3-0333-4591-a5f4-29a044e9a3aa" style="position:relative;left:70px;float:left;">
+                                                    <xrx:i18n>
+                                                        <xrx:key>fond2</xrx:key>
+                                                        <xrx:default>Fond</xrx:default>
+                                                    </xrx:i18n>:
+                                        <a href="{ conf:param('request-root') }{ string($requestanno//@archive) }/{ string($requestanno//@fond) }/fond">
+                                                        <span>{string($requestanno//@fond)}</span>
+                                                    </a>
+                                                </div>
+                                                <div data-demoid="f7f93eb4-c21a-4ca5-9ad9-38f209c45534" style="position:relative;left:110px;float:left;">
+                                                    <xrx:i18n>
+                                                        <xrx:key>charter</xrx:key>
+                                                        <xrx:default>Charter</xrx:default>
+                                                    </xrx:i18n>:
+                                        <a href="{ conf:param('request-root') }{ string($requestanno//@archive) }/{ string($requestanno//@fond) }/{ string($requestanno//@charter) }/charter">
+                                                        <span>{string($requestanno//@charter)}</span>
+                                                    </a>
+                                                </div>
+                                                <div class="requestviewport" data-demoid="cd856f44-f268-419f-b6c5-5a07a5d19abf" id="viewport{$number}"/>
+                                                <div data-demoid="5f5f14ef-54d8-44de-b250-b47b5306d220" id="zoomer{$number}" style="position:relative;left:230px;">
+                                                    <p class="button" onClick="requestZoom('in', '{$number}', 'user');">
+                                                    	<xrx:resource class="zoomer" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/zoom_in</xrx:resource>
+                                                    </p>
+                                                    <p class="button" onClick="requestZoom('out', '{$number}', 'user');">
+                                                    	<xrx:resource class="zoomer" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/zoom_out</xrx:resource>
+                                                    </p>
+                                                </div>
+                                                <div data-demoid="482dd8b5-cf8d-4005-836e-0d6824889f53">
+                                        {
+                                        if($requestanno//@*:status = 'accept' or $requestanno//@*:status = 'decline')then
+                                        <div data-demoid="dc23d162-648c-460e-a2b8-b98fc516dac2">
+                                                        <span style="position:absolute;color:#999999;font-weight:bold;left:40px;top:390px;">
+                                                            <xrx:i18n>
+                                                                <xrx:key>response-comment</xrx:key>
+                                                                <xrx:default>Response comment</xrx:default>
+                                                            </xrx:i18n>:
+                                            </span>
+                                                        <span style="position:absolute;top:420px;left:45px;">
+                                                {$requestanno//*:comment/text()}
+                                            </span>
+                                                        <p class="button" id="hide{$number}" onClick="hideRequest('{string($requestanno//@id)}' , '{$number}', '{$xrx:user-id}', '{string($requestanno//@*:status)}', '{ $xrx:lang }');" style="position:absolute;top:455px;left:225px;">
+                                                            <xrx:i18n>
+                                                                <xrx:key>hide-request</xrx:key>
+                                                                <xrx:default>Hide request</xrx:default>
+                                                            </xrx:i18n>
+                                                        </p>
+                                                    </div>                                            
+                                        else()
+                                        }
+                                    </div>
+                                            </div>
+                                        </div>                        
+                           
+                            }
+                    </div>
+                                    <div data-demoid="847a464d-3aca-454d-bf42-01d139f3df9b" id="critic" style="position:relative;top:20px;">
+                                        <br/>
+                                        <span style="position:relative;color:#999999;font-weight:bold;left:10px;top:20px;">
+                                            <xrx:i18n>
+                                                <xrx:key>reports</xrx:key>
+                                                <xrx:default>Reports</xrx:default>
+                                            </xrx:i18n>:
+                            </span>                            
+                            {
+                            let $requestannos := doc(concat(conf:param('xrx-user-db-base-uri'), '/', xmldb:encode($xrx:user-id), '.xml'))//*:reportelement
+                            for $requestanno at $number in $requestannos
+                            return
+                            let $class := if($requestanno//@status = 'wait')then 'wait' else 'infofield'
+                            return
+                            <div data-demoid="0cd48b99-731b-4813-ba20-feed073204aa">
+                                            <div class="requests" data-demoid="806d1222-ca3f-4c39-a2c2-145f1d9a1239" id="requestcritic{$number}" onclick="showRequest('start', '{string($requestanno//@id)}' , '{$number}', '{$xrx:user-id}', 'critic', '{ $xrx:lang }');">
+                                                <div data-demoid="8d4318d0-bcd6-4119-bc97-e39f9e0fb672" style="position:relative;float:left;">
+                                                    <xrx:i18n>
+                                                        <xrx:key>charter</xrx:key>
+                                                        <xrx:default>Charter</xrx:default>
+                                                    </xrx:i18n>:
+                                        <span>{string($requestanno//@*:charter)}</span>
+                                                </div>
+                                                <div data-demoid="37e0f692-9bf7-4dca-aa41-bd719a897f34" style="position:relative;float:left;left:20px;">
+                                        {
+                                        if($requestanno//@*:status = 'wait')then
+                                        <span style="color:#0000CC;">Status:
+                                            <xrx:i18n>
+                                                            <xrx:key>wait-for-answer</xrx:key>
+                                                            <xrx:default>Wait for answer</xrx:default>
+                                                        </xrx:i18n>
+                                                    </span>
+                                        else if($requestanno//@*:status = 'answer')then 
+                                        <span style="color:green;">Status:
+                                            <xrx:i18n>
+                                                            <xrx:key>answered-by-moderator</xrx:key>
+                                                            <xrx:default>Answered by moderator</xrx:default>
+                                                        </xrx:i18n>
+                                                    </span>
+                                        else()
+                                        }
+                                                </div>			
+                                            	<xrx:resource id="arrowcritic{$number}" style="position:absolute;left:550px;top:8px;width:15px" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/plus</xrx:resource>
+                                            </div>
+                                            <div class="{$class}" data-demoid="b7badc4d-da25-4045-88dc-333cc216de38" id="fieldcritic{$number}">
+                                                <div class="informations" data-demoid="39a05f30-5de5-44a4-a769-6f0959b05d55" style="left:30px;position:relative;float:left;">
+                                                    <xrx:i18n>
+                                                        <xrx:key>archive</xrx:key>
+                                                        <xrx:default>Archive</xrx:default>
+                                                    </xrx:i18n>:
+                                        <a href="{ conf:param('request-root') }{ string($requestanno//@archive) }/archive">
+                                                        <span>{string($requestanno//@archive)}</span>
+                                                    </a>
+                                                </div>
+                                                <div data-demoid="e31b320a-a470-4285-bf96-0da3fec57a73" style="position:relative;left:70px;float:left;">
+                                                    <xrx:i18n>
+                                                        <xrx:key>fond2</xrx:key>
+                                                        <xrx:default>Fond</xrx:default>
+                                                    </xrx:i18n>:
+                                        <a href="{ conf:param('request-root') }{ string($requestanno//@archive) }/{ string($requestanno//@fond) }/fond">
+                                                        <span>{string($requestanno//@fond)}</span>
+                                                    </a>
+                                                </div>
+                                                <div data-demoid="2994dec3-d636-4f9f-bbfe-cdd77160acf0" style="position:relative;left:110px;float:left;">
+                                                    <xrx:i18n>
+                                                        <xrx:key>charter</xrx:key>
+                                                        <xrx:default>Charter</xrx:default>
+                                                    </xrx:i18n>:
+                                        <a href="{ conf:param('request-root') }{ string($requestanno//@archive) }/{ string($requestanno//@fond) }/{ string($requestanno//@charter) }/charter">
+                                                        <span>{string($requestanno//@charter)}</span>
+                                                    </a>
+                                                </div>
+                                                <div class="requestviewport" data-demoid="e7600478-77b0-470d-aa2c-e6fccd1b1912" id="viewportcritic{$number}"/>
+                                                <div data-demoid="fad04ae4-5f21-4477-89bf-c41008eee2e7" id="zoomercritic{$number}" style="position:relative;left:230px;">
+                                                    <p class="button" onClick="requestZoom('in', '{$number}', 'critic');">
+                                                    	<xrx:resource class="zoomer" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/zoom_in</xrx:resource>
+                                                    </p>
+                                                    <p class="button" onClick="requestZoom('out', '{$number}', 'critic');">
+                                                    	<xrx:resource class="zoomer" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/zoom_out</xrx:resource>
+                                                    </p>
+                                                </div>
+                                                <div data-demoid="d99acfbc-39b2-4706-976d-367ad4a4bb55">
+                                        {
+                                        if($requestanno//@*:status = 'answer')then
+                                        <div data-demoid="5f1647c7-fe1f-47bc-88ec-a0ce2b4b5d35">
+                                                        <span style="position:absolute;color:#999999;font-weight:bold;left:40px;top:390px;">
+                                                            <xrx:i18n>
+                                                                <xrx:key>response-comment</xrx:key>
+                                                                <xrx:default>Response comment</xrx:default>
+                                                            </xrx:i18n>:
+                                            </span>
+                                                        <span style="position:absolute;top:420px;left:45px;">
+                                                {$requestanno//*:comment/text()}
+                                            </span>
+                                                        <p class="button" id="hidecritic{$number}" onClick="hideRequest('{string($requestanno//@id)}' , '{$number}', '{$xrx:user-id}', 'report', '{ $xrx:lang }');" style="position:absolute;top:455px;left:225px;">
+                                                            <xrx:i18n>
+                                                                <xrx:key>hide-request</xrx:key>
+                                                                <xrx:default>Hide request</xrx:default>
+                                                            </xrx:i18n>
+                                                        </p>
+                                                    </div>                                            
+                                        else()
+                                        }
+                                    </div>
+                                            </div>
+                                        </div>                        
+                            
+                            }
+                        </div>
+                                </div>
+                            </xrx:false>
+                        </xrx:auth>
+                    </div>
+                </xrx:true>
+                <xrx:false>
+                    <div data-demoid="a7131142-3480-4dbc-8a13-4fb374fe99c8">
+                        <div class="h2" data-demoid="0504768e-7a36-48c3-b126-d5978356b4f0">
+                            <xrx:i18n>
+                                <xrx:key>annotations</xrx:key>
+                                <xrx:default>Annotations</xrx:default>
+                            </xrx:i18n>
+                        </div>
+                        <xrx:i18n>
+                            <xrx:key>protected-page-message</xrx:key>
+                            <xrx:default>Protected page. Please login first.</xrx:default>
+                        </xrx:i18n>
+                    		<xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/login2</xrx:subwidget>
+                    </div>
+                </xrx:false>
+            </xrx:auth>
+        	<script type="text/javascript">
+		      	$(document).ready(function() {{
+		          	loadDoc('{$conf:project-name}');
+		          }});
+         </script>
+        </div>
+    </xrx:view>
+</xrx:widget>

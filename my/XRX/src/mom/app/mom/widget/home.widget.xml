@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/home</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>home</xrx:key>
+      <xrx:default>Home</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>
+    <xrx:variable>
+      <xrx:name>$whome:htdoc-entry</xrx:name>
+      <xrx:expression>htdoc:get('tag:www.monasterium.net,2011:/mom/htdoc/home')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$whome:htdoc-title</xrx:name>
+      <xrx:expression>htdoc:title($whome:htdoc-entry)/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$whome:htdoc-atomid</xrx:name>
+      <xrx:expression>$whome:htdoc-entry/atom:id/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$whome:statistics</xrx:name>
+      <xrx:expression>mom:statistics()</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>false</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <style type="text/css">
+
+#dhome{{
+  width: 100%;
+}}
+
+#dhome .edit-link{{
+  font-size:11px;
+}}
+
+#dhome .edit-link *{{
+  color:rgb(114,133,108);
+  font-size:11px;
+}}
+
+#static-htdoc{{
+  position:relative;
+  float: left;
+  margin-top:40px;
+  width: 600px;
+}}
+
+#dhome .side-menu{{
+  position: relative;
+  float: right;
+  margin-top:40px;
+  margin-bottom:40px;
+  background: rgb(240,240,240);
+}}
+#dhome .side-menu-block{{
+  border-top: solid grey 1px;
+  background: rgb(240,240,240);
+  width: 310px;
+  overflow: hidden;
+}}
+#dhome .side-menu-block-inner{{
+  margin:15px;
+}}
+#dhome .side-menu-heading{{
+  font-variant: small-caps;
+}}
+#dhome .small-grey{{
+  position: relative;
+  top: -6px;
+  font-size: 0.7em;
+  color: rgb(100,100,100);
+}}
+#dhome a.button{{
+  cursor: pointer;
+
+  font-weight: bold;
+  color: #212121;
+
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 1);
+
+  padding: 10px 15px;
+
+  border: 2px solid #ffffff;
+  -moz-border-radius: 8px; -webkit-border-radius: 8px; border-radius: 8px;
+
+  background: rgb(224,224,224);
+  background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0.49, rgb(224,224,224)),
+    color-stop(0.5, rgb(237,237,237))
+  );
+  background-image: -moz-linear-gradient(
+    center bottom,
+    rgb(224,224,224) 49%,
+    rgb(237,237,237) 50%
+  );
+
+  -moz-box-shadow: 0px 0px 3px rgba(0, 0, 0, 1);
+  -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, 1);
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 1);
+}}
+#dhome .upload-button{{
+  position:absolute;
+  right:0px;
+}}
+#dhome .nobr{{ 
+  white-space:nowrap; 
+}}
+
+    </style>
+  </xrx:csss>
+  <xrx:view>
+    <div data-demoid="ab4f631c-94b9-4658-a4ad-437849de5ae4" id="dhome">
+      <div class="h2" data-demoid="09fb3343-7ae9-491a-a4f1-ed0553aa95fd">
+        <span>{ $whome:htdoc-title }  </span>
+        <xrx:auth>
+          <xrx:rules>
+            <xrx:rule>
+              <xrx:user/>
+              <xrx:role>html-author</xrx:role>
+            </xrx:rule>
+          </xrx:rules> 
+          <xrx:true>
+            <a class="edit-link" href="{ conf:param('request-root') }edit-htdoc/?atomid={ $whome:htdoc-atomid }">
+              <span>[</span>
+              <xrx:i18n>
+               <xrx:key>edit</xrx:key>
+               <xrx:default>Edit</xrx:default>
+              </xrx:i18n>
+              <span>]</span>
+            </a> 
+          </xrx:true>
+          <xrx:false>
+           <span/>
+          </xrx:false>
+        </xrx:auth>
+      </div>
+      <div data-demoid="a32ced4f-90a7-411a-ab0c-6e4124ffaf6a" id="static-htdoc">
+        <div data-demoid="d883ff80-8016-42f5-8b4d-25c059ad3eea" id="inner-static-htdoc">
+          <div data-demoid="c1beb4ea-fce1-424f-8d16-953f0e214392">
+           { htdoc:process($whome:htdoc-entry) }
+          </div>
+          <br/>
+          <br/>
+        </div>
+      </div>
+      <div class="side-menu" data-demoid="b1945dd9-f63d-4015-8f01-84c7e6c1cf1c">
+        <div class="side-menu-block" data-demoid="901d6337-f411-4f9c-be43-d847f967c9aa"><div class="side-menu-block-inner" data-demoid="e1dfb085-b92a-45de-a2b3-8a21421acbbc">
+          <span class="side-menu-heading">
+            <xrx:i18n>
+              <xrx:key>currently-online</xrx:key>
+              <xrx:default>Currently online</xrx:default>
+            </xrx:i18n>
+          </span>
+          <ul class="nostyle">
+            <li>
+              <span>{ $whome:statistics//xrx:param[@name='archives']/text() } </span>
+              <xrx:i18n>
+                <xrx:key>archives</xrx:key>
+                <xrx:default>archives</xrx:default>
+              </xrx:i18n>
+            </li>
+            <li>
+              <span>{ $whome:statistics//xrx:param[@name='fonds']/text() } </span>
+              <xrx:i18n>
+                <xrx:key>fonds</xrx:key>
+                <xrx:default>fonds</xrx:default>
+              </xrx:i18n>
+            </li>
+            <li>
+              <span>{ $whome:statistics//xrx:param[@name='collections']/text() } </span>
+              <xrx:i18n>
+                <xrx:key>collections</xrx:key>
+                <xrx:default>collections</xrx:default>
+              </xrx:i18n>
+            </li>
+            <li>
+              <span>{ $whome:statistics//xrx:param[@name='charters']/text() } </span>
+              <xrx:i18n>
+                <xrx:key>charters</xrx:key>
+                <xrx:default>charters</xrx:default>
+              </xrx:i18n>
+            </li>
+            <li>
+              <span>{ $whome:statistics//xrx:param[@name='graphics']/text() } </span>
+              <xrx:i18n>
+                <xrx:key>images</xrx:key>
+                <xrx:default>images</xrx:default>
+              </xrx:i18n>
+            </li>
+          </ul>
+        </div></div>
+        <div class="side-menu-block" data-demoid="dcbbcd46-35fb-46a9-a81c-2db81e8559aa"><div class="side-menu-block-inner" data-demoid="fdb84f91-3322-4253-ad33-e9f2a66ea9b1">
+          <span class="side-menu-heading">
+            <xrx:i18n>
+              <xrx:key>new-fonds-online</xrx:key>
+              <xrx:default>New fonds online</xrx:default>
+            </xrx:i18n>
+          </span>
+          <ul class="nostyle">
+            {
+            for $fond in fonds:recently-published()
+            let $fond-name := $fond//ead:did/ead:unittitle/text()
+            let $fond-link := fond:permalink($fond)
+            let $published := replace(substring-before($fond/atom:published/text(), 'T'), '-', '/')
+            (: archive info :)
+            let $archive-base-collection := fond:archive-base-collection($fond)
+            let $archive-name := $archive-base-collection//eag:autform/text()
+            return
+            <li>
+              <a class="nobr" href="{ $fond-link }" rel="nofollow">{ if(string-length($fond-name) gt 30) then concat(substring($fond-name, 1, 30), ' ...') else $fond-name }</a>
+              <br/>
+              <span class="small-grey nobr">{ $published } - { $archive-name }</span>
+            </li>
+            }
+            <li> </li>
+            <li> </li>
+          </ul>
+        </div></div>
+	      <div class="side-menu-block" data-demoid="48fc2652-252b-4d29-bf2a-7da9d48d8fed">
+	        <div class="upload-button" data-demoid="cc5c4b3c-8ecc-4601-888a-7167c5102892">
+		        <a class="button" href="{ conf:param('request-root') }import-charters">
+              <xrx:resource type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/arrow-up-2-icon-16x16</xrx:resource>
+              <span> </span>
+		          <xrx:i18n>
+		            <xrx:key>import-charters</xrx:key>
+		            <xrx:default>Import charters</xrx:default>
+		          </xrx:i18n>
+		          <span> &gt;&gt;</span>
+		        </a>
+		      </div>
+	      </div>
+      </div>
+    </div>
+  </xrx:view>
+</xrx:widget>

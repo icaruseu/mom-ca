@@ -1,0 +1,19 @@
+<xs:schema xmlns="http://www.w3.org/1999/xhtml" 
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  attributeFormDefault="unqualified" 
+  elementFormDefault="qualified" 
+  targetNamespace="http://www.w3.org/1999/xhtml" 
+  id="xhtml">
+  <xs:element name="style">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="type"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="link"/>
+  <xs:element name="script"/>
+</xs:schema>

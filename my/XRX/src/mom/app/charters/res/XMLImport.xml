@@ -1,0 +1,440 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><!--This file was converted to xhtml by OpenOffice.org - 
+    see http://xml.openoffice.org/odf2xhtml for more info. -->
+  <head profile="http://dublincore.org/documents/dcmi-terms/">
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title xml:lang="en-US">- no title specified</title>
+    <meta name="DCTERMS.title" content="" xml:lang="en-US" />
+    <meta name="DCTERMS.language" content="en-US" scheme="DCTERMS.RFC4646" />
+    <meta name="DCTERMS.source" content="http://xml.openoffice.org/odf2xhtml" />
+    <meta name="DCTERMS.creator" content="Stummer Sandra" />
+    <meta name="DCTERMS.issued" content="2012-11-23T13:52:49" scheme="DCTERMS.W3CDTF" />
+    <meta name="DCTERMS.contributor" content="Tomislav Ćepulić" />
+    <meta name="DCTERMS.modified" content="2013-02-14T00:31:03"
+      scheme="DCTERMS.W3CDTF" />
+    <meta name="DCTERMS.provenance" content="" xml:lang="en-US" />
+    <meta name="DCTERMS.subject" content="," xml:lang="en-US" />
+    <link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"
+      hreflang="en" />
+    <link rel="schema.DCTERMS" href="http://purl.org/dc/terms/"
+      hreflang="en" />
+    <link rel="schema.DCTYPE" href="http://purl.org/dc/dcmitype/"
+      hreflang="en" />
+    <link rel="schema.DCAM" href="http://purl.org/dc/dcam/" hreflang="en" />
+    <style type="text/css">
+      @page { }
+      table { border-collapse:collapse; border-spacing:0;
+      empty-cells:show }
+      td, th { vertical-align:top; font-size:10pt;}
+      h1,
+      h2, h3, h4, h5, h6 { clear:both }
+      ol, ul { margin:0; padding:0;}
+      li {
+      list-style: none; margin:0; padding:0;}
+      <!-- "li span.odfLiEnd" - IE 7 issue -->
+      li span. { clear: both; line-height:0; width:0; height:0; margin:0;
+      padding:0; }
+      span.footnodeNumber { padding-right:1em; }
+      span.annotation_style_by_filter { font-size:95%; font-family:Arial;
+      background-color:#fff000;
+      margin:0; border:0; padding:0; }
+      * {
+      margin:0;}
+      .ta1 { writing-mode:lr-tb; }
+      .ta2 { writing-mode:lr-tb; }
+      .ta3 { writing-mode:lr-tb; }
+      .Default { font-family:Calibri;
+      padding:0.071cm; color:#000000;
+      font-size:11pt; }
+      .ce1 { color:#000000;
+      font-size:10pt; padding:0.071cm;
+      font-family:Calibri;
+      vertical-align:top; text-align:center !
+      important; margin-left:0cm;
+      writing-mode:page; font-style:normal;
+      text-shadow:none;
+      text-decoration:none ! important; font-weight:bold;
+      }
+      .ce10 {
+      color:#000000; font-size:11pt; padding:0.071cm;
+      font-family:Calibri;
+      background-color:#ffffff; border-width:0,0321cm;
+      border-style:solid;
+      border-color:#ffffff; font-style:normal;
+      text-shadow:none;
+      text-decoration:none ! important; font-weight:bold;
+      }
+      .ce11 {
+      color:#000000; font-size:11pt; padding:0.071cm;
+      font-family:Calibri;
+      background-color:#ffffff; border-width:0,0321cm;
+      border-style:solid;
+      border-color:#ffffff; font-style:normal;
+      text-shadow:none;
+      text-decoration:none ! important;
+      font-weight:normal; }
+      .ce12 {
+      color:#000000; font-size:11pt; padding:0.071cm;
+      font-family:Calibri;
+      background-color:#ffffff; border-width:0,0321cm;
+      border-style:solid;
+      border-color:#ffffff; font-style:normal;
+      text-shadow:none;
+      text-decoration:none ! important; font-weight:bold;
+      }
+      .ce13 {
+      color:#000000; font-size:11pt; padding:0.071cm;
+      font-family:Calibri;
+      background-color:#ffffff; border-style:none;
+      font-style:normal;
+      text-shadow:none; text-decoration:none !
+      important; font-weight:bold;
+      }
+      .ce14 { color:#000000; font-size:11pt; padding:0.071cm;
+      font-family:Calibri; }
+      .ce2 { color:#000000; font-size:10pt;
+      padding:0.071cm;
+      font-family:Calibri; vertical-align:top;
+      text-align:left ! important;
+      margin-left:0cm; writing-mode:page;
+      font-style:normal;
+      text-shadow:none; text-decoration:none ! important;
+      font-weight:normal; }
+      .ce3 { color:#000000; font-size:11pt;
+      padding:0.071cm;
+      font-family:Calibri; vertical-align:top;
+      margin-left:0cm;
+      writing-mode:page; }
+      .ce4 { color:#000000;
+      font-size:10pt; padding:0.071cm;
+      font-family:Calibri;
+      vertical-align:top; text-align:left ! important;
+      margin-left:0cm;
+      writing-mode:page; font-style:normal;
+      text-shadow:none;
+      text-decoration:none ! important; font-weight:bold;
+      }
+      .ce5 {
+      color:#000000; font-size:11pt; padding:0.071cm;
+      font-family:Calibri;
+      vertical-align:top; text-align:left ! important;
+      margin-left:0cm;
+      writing-mode:page; }
+      .ce6 { color:#000000; font-size:10pt;
+      padding:0.071cm;
+      font-family:Calibri; vertical-align:top;
+      text-align:left ! important;
+      margin-left:0cm; writing-mode:page;
+      font-style:normal;
+      text-shadow:none; text-decoration:none ! important;
+      font-weight:normal; }
+      .ce7 { color:#000000; font-size:10pt;
+      padding:0.071cm;
+      font-family:Calibri; vertical-align:top;
+      margin-left:0cm;
+      writing-mode:page; font-style:normal;
+      text-shadow:none;
+      text-decoration:none ! important;
+      font-weight:normal; }
+      .ce8 { color:#000000; font-size:11pt;
+      padding:0.071cm;
+      font-family:Calibri; background-color:#ffffff;
+      font-style:normal;
+      text-shadow:none; text-decoration:none ! important;
+      font-weight:bold;
+      }
+      .ce9 { color:#000000; font-size:11pt;
+      padding:0.071cm;
+      font-family:Calibri; background-color:#ffffff;
+      font-style:normal;
+      text-shadow:none; text-decoration:none ! important;
+      font-weight:bold;
+      }
+      .co1 { width:3.498cm; }
+      .co2 { width:19.14cm; }
+      .co3
+      { width:3.216cm; }
+      .co4 { width:8.264cm; }
+      .co5 { width:8.229cm; }
+      .co6
+      { width:2.824cm; }
+      .ro1 { height:0.423cm; }
+      .ro2 { height:0.529cm; }
+      .ro3 { height:0.452cm; }
+      .T1 { color:#000000; font-family:Arial;
+      font-size:10pt;
+      font-style:normal; text-shadow:none;
+      text-decoration:none !
+      important; font-weight:normal; }
+      <!-- ODF styles with no properties representable as CSS -->
+      { }
+    </style>
+  </head>
+  <body dir="ltr"
+    style="margin-top:2cm; margin-bottom:2cm; margin-left:1.778cm; margin-right:1.778cm; writing-mode:lr-tb; ">
+    <table border="0" cellspacing="0" cellpadding="0" class="ta1">
+      <colgroup>
+        <col width="153" />
+        <col width="836" />
+        <col width="141" />
+        <col width="141" />
+        <col width="361" />
+        <col width="360" />
+        <col width="360" />
+      </colgroup>
+      <tr class="ro1">
+        <td style="text-align:left;width:3.498cm; " class="ce2">
+          <p>A I 1</p>
+        </td>
+        <td style="text-align:left;width:19.14cm; " class="ce2">
+          <p>StStams_APP_A-I_1_1318_r.JPG$$StStams_APP_A-I_1_1318_v.JPG</p>
+        </td>
+        <td style="text-align:right; width:3.216cm; " class="ce6">
+          <p>13189999</p>
+        </td>
+        <td style="text-align:right; width:3.216cm; " class="ce6">
+          <p>1318</p>
+        </td>
+        <td style="text-align:left;width:8.264cm; " class="ce7">
+          <p>Verkaufbrief. Auto Probst verkauft sein Gut zu Pfaffenhofen an
+            das Kloster Stams. 1318.</p>
+        </td>
+        <td style="text-align:left;width:8.229cm; " class="ce3"> </td>
+        <td style="text-align:left;width:8.229cm; " class="Default"> </td>
+      </tr>
+      <tr class="ro1">
+        <td style="text-align:left;width:3.498cm; " class="ce2">
+          <p>A I 2</p>
+        </td>
+        <td style="text-align:left;width:19.14cm; " class="ce2">
+          <p>StStams_APP_A-I_2_14031206_r.JPG$$StStams_APP_A-I_2_14031206_v.JPG
+          </p>
+        </td>
+        <td style="text-align:right; width:3.216cm; " class="ce6">
+          <p>14031206</p>
+        </td>
+        <td style="text-align:right; width:3.216cm; " class="ce6">
+          <p>1403 Dezember 06</p>
+        </td>
+        <td style="text-align:left;width:8.264cm; " class="ce7">
+          <p>Seybold Kölrer und seine Hauswirthin versprechen dem Kloster ob
+            den Haus und Hof zu Pfaffenhofen, daß selbe jährlich zinsen sollen
+            26 Pfund Zahlberner, und so sie solches verkaufen wollten, sollen
+            sie selbes dem Kloster vor andern antragen und um einen Gulden
+            nächner geben, denn anderen Leuten. 1403 am St. Niklaustag.</p>
+        </td>
+        <td style="text-align:left;width:8.229cm; " class="ce3"> </td>
+        <td style="text-align:left;width:8.229cm; " class="Default"> </td>
+      </tr>
+      <tr class="ro1">
+        <td style="text-align:left;width:3.498cm; " class="ce2">
+          <p>A I 3</p>
+        </td>
+        <td style="text-align:left;width:19.14cm; " class="ce2">
+          <p>StStams_APP_A-I_3_15051220_r.JPG$$StStams_APP_A-I_3_15051220_v.JPG
+          </p>
+        </td>
+        <td style="text-align:right; width:3.216cm; " class="ce6">
+          <p>15051220</p>
+        </td>
+        <td style="text-align:right; width:3.216cm; " class="ce6">
+          <p>1505 Dezember 20</p>
+        </td>
+        <td style="text-align:left;width:8.264cm; " class="ce7">
+          <p>Veit Krapl zu Pfaffenhofen versetzt ein halbes Kammerland an
+            seinen Sohn mit Verwilligung Hern Abtes Christians, aus einem
+            Kammerland zu Pfaffenhofen gelegen. dat. am Sonntag vor St. Thomas
+            des Zwölfbothen Tag. 1505.</p>
+        </td>
+        <td style="text-align:left;width:8.229cm; " class="ce3"> </td>
+        <td style="text-align:left;width:8.229cm; " class="Default"> </td>
+      </tr>
+      <tr class="ro1">
+        <td style="text-align:left;width:3.498cm; " class="ce2">
+          <p>A II 1</p>
+        </td>
+        <td style="text-align:left;width:19.14cm; " class="ce2">
+          <p>StStams_APP_A-II_1_13340404_r.JPG$$StStams_APP_A-II_1_13340404_v.JPG
+          </p>
+        </td>
+        <td style="text-align:right; width:3.216cm; " class="ce6">
+          <p>13340404</p>
+        </td>
+        <td style="text-align:right; width:3.216cm; " class="ce6">
+          <p>1334 April 04</p>
+        </td>
+        <td style="text-align:left;width:8.264cm; " class="ce7">
+          <p>Verkaufbrief. Gottschalk v. Hall ob den Rain, Richter zu
+            Hörtenberg, verkauft dem Abt Ulrich sein Gut zu Oberhofen. am St.
+            Ambriosientag. 1334.</p>
+        </td>
+        <td style="text-align:left;width:8.229cm; " class="ce3"> </td>
+        <td style="text-align:left;width:8.229cm; " class="Default"> </td>
+      </tr>
+      <tr class="ro1">
+        <td style="text-align:left;width:3.498cm; " class="ce2">
+          <p>A II 2</p>
+        </td>
+        <td style="text-align:left;width:19.14cm; " class="ce2">
+          <p>StStams_APP_A-II_2_13210424_r.JPG$$StStams_APP_A-II_2_13210424_v.JPG
+          </p>
+        </td>
+        <td style="text-align:right; width:3.216cm; " class="ce6">
+          <p>13210424</p>
+        </td>
+        <td style="text-align:right; width:3.216cm; " class="ce6">
+          <p>1321 April 24</p>
+        </td>
+        <td style="text-align:left;width:8.264cm; " class="ce7">
+          <p>Gewährbrief, in welchem König Heinrich Gottschalken v. Hall
+            einen Hof in Oberhofen übergibt. Innsbruck am St. Georgentag.
+            1321.</p>
+        </td>
+        <td style="text-align:left;width:8.229cm; " class="ce3"> </td>
+        <td style="text-align:left;width:8.229cm; " class="Default"> </td>
+      </tr>
+      <tr class="ro1">
+        <td style="text-align:left;width:3.498cm; " class="ce2">
+          <p>A II 3</p>
+        </td>
+        <td style="text-align:left;width:19.14cm; " class="ce2">
+          <p>StStams_APP_A-II_3_13311208_r.JPG$$StStams_APP_A-II_3_13311208_v.JPG
+          </p>
+        </td>
+        <td style="text-align:right; width:3.216cm; " class="ce6">
+          <p>13311208</p>
+        </td>
+        <td style="text-align:right; width:3.216cm; " class="ce6">
+          <p>1331 Dezember 08</p>
+        </td>
+        <td style="text-align:left;width:8.264cm; " class="ce7">
+          <p>
+            Gewährbrief,dass Mair
+            <span class="T1">Egens zu Oberhofen Hausfrau und Kinder verzeihen
+              sich aller Rechte auf ihren Hof in Oberhofen. </span>
+            <span class="T1">Delfs am nächsten Sonntag nach St. Niklaustag.
+              1331.</span>
+          </p>
+        </td>
+        <td style="text-align:left;width:8.229cm; " class="ce3"> </td>
+        <td style="text-align:left;width:8.229cm; " class="Default"> </td>
+      </tr>
+      <tr class="ro1">
+        <td style="text-align:left;width:3.498cm; " class="ce2">
+          <p>A II 4</p>
+        </td>
+        <td style="text-align:left;width:19.14cm; " class="ce2">
+          <p>StStams_APP_A-II_4_13340823_r.JPG$$StStams_APP_A-II_4_13340823_v.JPG
+          </p>
+        </td>
+        <td style="text-align:right; width:3.216cm; " class="ce6">
+          <p>13340823</p>
+        </td>
+        <td style="text-align:right; width:3.216cm; " class="ce6">
+          <p>1334 August 23</p>
+        </td>
+        <td style="text-align:left;width:8.264cm; " class="ce7">
+          <p>König Heinrich bestätigt diesen Kauf, schenkt auch dem Kloster
+            die Lehenschaft, die darauf gewesen. Tirol am St. Bartholomeustag.
+            1334.</p>
+        </td>
+        <td style="text-align:left;width:8.229cm; " class="ce3"> </td>
+        <td style="text-align:left;width:8.229cm; " class="Default"> </td>
+      </tr>
+      <tr class="ro1">
+        <td style="text-align:left;width:3.498cm; " class="ce2">
+          <p>A II 5</p>
+        </td>
+        <td style="text-align:left;width:19.14cm; " class="ce2">
+          <p>StStams_APP_A-II_5_14370801_r.JPG$$StStams_APP_A-II_5_14370801_v.JPG
+          </p>
+        </td>
+        <td style="text-align:right; width:3.216cm; " class="ce6">
+          <p>14370801</p>
+        </td>
+        <td style="text-align:right; width:3.216cm; " class="ce6">
+          <p>1437 August 01</p>
+        </td>
+        <td style="text-align:left;width:8.264cm; " class="ce7">
+          <p>Urtheilsspruch gegen Christian Staudacher als Inhaber des
+            Stamserischen Hofes in Oberhofen, daß ihm auf Lebzeiten die
+            Lieferung des Kornzinses an den Klosterkasten gegen jährlich 4
+            Kapauner erlassen werde. dat. am St. Peterstag ad vincula. 1437.
+          </p>
+        </td>
+        <td style="text-align:left;width:8.229cm; " class="ce3"> </td>
+        <td style="text-align:left;width:8.229cm; " class="Default"> </td>
+      </tr>
+      <tr class="ro1">
+        <td style="text-align:left;width:3.498cm; " class="ce2">
+          <p>A III 1</p>
+        </td>
+        <td style="text-align:left;width:19.14cm; " class="ce2">
+          <p>StStams_APP_A-III_1_13210929_r.JPG$$StStams_APP_A-III_1_13210929_v.JPG
+          </p>
+        </td>
+        <td style="text-align:right; width:3.216cm; " class="ce6">
+          <p>13210929</p>
+        </td>
+        <td style="text-align:right; width:3.216cm; " class="ce6">
+          <p>1321 September 29</p>
+        </td>
+        <td style="text-align:left;width:8.264cm; " class="ce7">
+          <p>
+            Schankbrief. Konrad
+            <span class="T1">Plonschilt, Bürger zu Innsbruck vermacht all sein
+              Hab und Gut dem Kloster. Innsbruck am St. </span>
+            <span class="T1">Michaelstag. 1321.</span>
+          </p>
+        </td>
+        <td style="text-align:left;width:8.229cm; " class="ce3"> </td>
+        <td style="text-align:left;width:8.229cm; " class="Default"> </td>
+      </tr>
+      <tr class="ro1">
+        <td style="text-align:left;width:3.498cm; " class="ce2">
+          <p>A III 2</p>
+        </td>
+        <td style="text-align:left;width:19.14cm; " class="ce2">
+          <p>StStams_APP_A-III_2_13271212_r.JPG$$StStams_APP_A-III_2_13271212_v.JPG
+          </p>
+        </td>
+        <td style="text-align:right; width:3.216cm; " class="ce6">
+          <p>13271212</p>
+        </td>
+        <td style="text-align:right; width:3.216cm; " class="ce6">
+          <p>1327 Dezember 12</p>
+        </td>
+        <td style="text-align:left;width:8.264cm; " class="ce7">
+          <p>Verkaufbrief. Adelhaid Plonschiltin v. Innsbruck verkauft dem
+            Kloster ihr Gut zu Oberhofen. dat. am Lucien-Abend. 1327.</p>
+        </td>
+        <td style="text-align:left;width:8.229cm; " class="ce3"> </td>
+        <td style="text-align:left;width:8.229cm; " class="Default"> </td>
+      </tr>
+      <tr class="ro1">
+        <td style="text-align:left;width:3.498cm; " class="ce2">
+          <p>A IV 1</p>
+        </td>
+        <td style="text-align:left;width:19.14cm; " class="ce2">
+          <p>StStams_APP_A-IV_1_13730921_r.JPG$$StStams_APP_A-IV_1_13730921_v.JPG
+          </p>
+        </td>
+        <td style="text-align:right; width:3.216cm; " class="ce6">
+          <p>13730921</p>
+        </td>
+        <td style="text-align:right; width:3.216cm; " class="ce6">
+          <p>1373 September 21</p>
+        </td>
+        <td style="text-align:left;width:8.264cm; " class="ce7">
+          <p>Stiftbrief. Konrad Gräntner, Bürger v. Hall stiftet in die
+            Gewandkammer zu Stams denen nothdürftigsten um weiße Kutten ein
+            Fuder jährlich ewigen Weingeltes zu Bäslän, so er erkauft von
+            Konrad dem Schilcher von Stams. Item 2 Kammerland, die gelegen
+            sind zu Oberhofen. dat. am St. Matthäus des hl. Zwölfboten und
+            Evangelistentag. 1373.</p>
+        </td>
+        <td style="text-align:left;width:8.229cm; " class="ce3"> </td>
+        <td style="text-align:left;width:8.229cm; " class="Default"> </td>
+      </tr>
+    </table>
+  </body>
+</html>

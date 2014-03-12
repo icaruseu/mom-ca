@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xrx:widget xmlns:xf="http://www.w3.org/2002/xforms"
+	xmlns:atom="http://www.w3.org/2005/Atom" 
+	xmlns:xrx="http://www.monasterium.net/NS/xrx"
+	xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns="http://www.w3.org/1999/xhtml">
+	<xrx:id>tag:www.monasterium.net,2011:/core/widget/edit-htdoc</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>edit-htdoc</xrx:key>
+      <xrx:default>Edit Htdoc</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:portal>tag:itineranova.be,2011:/in/portal/default</xrx:portal>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>true</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+		<style type="text/css">
+			
+#dedit-htdoc {{
+  position:relative;
+  float:left;
+	width:760px;
+}}
+
+#edit-div .xfValue{{
+	width:760px;
+}}
+
+#edit-div iframe{{
+  height:500px;
+}}
+
+#dedit-htdoc .save-trigger{{
+  postition:absolute;
+  right:0px;
+}}
+
+    </style>
+  </xrx:csss>
+	<xrx:model>
+	  {
+	  let $entry-id := request:get-parameter('atomid', '')
+	  let $entry-name := tokenize($entry-id, '/')[last()]
+	  
+	  (: Atom action URLs :)
+	  (: GET :)
+    let $atom-get-url := 
+      concat(
+        conf:param('request-root'),
+        'atom/GET',
+        conf:param('xrx-htdoc-atom-base-uri'),
+        $xrx:lang,
+        '/', 
+        $entry-name, 
+        '.', 
+        $xrx:lang, 
+        '.xml'
+      )
+    
+    (: PUT :)
+    let $atom-put-url := 
+      concat(
+        conf:param('request-root'), 
+        'atom/PUT',
+        conf:param('xrx-htdoc-atom-base-uri'),
+        $xrx:lang, 
+        '/', 
+        $entry-name, 
+        '.', 
+        $xrx:lang, 
+        '.xml'
+      )
+    
+    (: POST :)
+     let $atom-post-url := 
+       concat(
+         conf:param('request-root'),
+         'atom/POST', 
+         conf:param('xrx-htdoc-atom-base-uri'),
+         $xrx:lang, 
+         '/', 
+         $entry-name, 
+         '.', 
+         $xrx:lang, 
+         '.xml'
+       )
+     
+     (: the htdoc entry :)
+     let $entry :=
+       htdoc:get($entry-id, $xrx:lang)
+        
+	  return
+		<xf:model id="cms">
+			{
+			if($entry) then
+			(
+			<xf:instance id="entry" src="{ $atom-get-url }" />
+			,
+			<xf:submission id="ssave" ref="instance('entry')"
+				action="{ $atom-put-url }" method="post" replace="none">
+				<xf:action ev:event="xforms-submit-done">
+					<xf:message level="ephemeral">Your changes have been succesfully saved.</xf:message>
+				</xf:action>
+			</xf:submission>
+			)
+			else
+			(
+			<xf:instance id="entry">
+				<atom:entry xmlns:app="http://www.w3.org/2007/app">
+					<atom:id>{ $entry-id }</atom:id>
+					<atom:title>{ $xrx:i18n-catalog//xrx:i18n[xrx:key = xs:string($entry-name)][1] }</atom:title>
+					<atom:published />
+					<atom:updated />
+					<atom:author>
+						<atom:email />
+					</atom:author>
+					<app:control>
+						<app:draft>no</app:draft>
+					</app:control>
+					<atom:content type="html" xml:lang="{ $xrx:lang }" />
+				</atom:entry>
+			</xf:instance>
+			,
+			<xf:submission id="screate" ref="instance('entry')"
+				action="{ $atom-post-url }" method="post" replace="none">
+				<xf:action ev:event="xforms-submit-done">
+					<xf:message level="ephemeral">Entry successfully created.</xf:message>
+				</xf:action>
+			</xf:submission>
+			)
+			}
+		</xf:model>
+		}
+	</xrx:model>
+	<xrx:view>
+	{
+    let $entry-id := request:get-parameter('atomid', '')
+    let $entry-name := tokenize($entry-id, '/')[last()]
+    let $default-entry := htdoc:get($entry-id)
+    let $entry := htdoc:get($entry-id, $xrx:lang)
+    let $create-trigger-div :=
+      <div class="create-trigger">
+		    <xf:trigger>
+		      <xf:label>Create</xf:label>
+		      <xf:action ev:event="DOMActivate">
+		        <xf:send submission="screate" />
+		        <xf:load show="replace" resource="{ request:get-url() }{ xrx:request-query-string('', '') }" />
+		      </xf:action>
+		    </xf:trigger>
+		  </div>
+	  let $save-trigger-div :=
+      <div class="save-trigger">
+        <xf:trigger>
+          <xf:label>Save</xf:label>
+          <xf:action ev:event="DOMActivate">
+            <xf:send submission="ssave" />
+          </xf:action>
+        </xf:trigger>
+      </div>
+    let $page-title :=
+      concat(i18n:translate( $xrx:i18n-catalog//xrx:i18n[xrx:key = xs:string($entry-name)][1] ), '&#160;', '(', $xrx:lang, ')')
+	  return
+	  <div id="dedit-htdoc">
+			<xf:group model="cms">
+				<div>
+					<div class="h2">
+						<span>{ $page-title }</span>
+					</div>
+					<xrx:auth>
+					  <xrx:rules>
+					    <xrx:rule>
+					      <xrx:user/>
+					      <xrx:role>html-author</xrx:role>
+					    </xrx:rule>
+					  </xrx:rules>
+					  <xrx:true>
+					    <div>
+			          {
+			          if($entry) then $save-trigger-div
+			          else $create-trigger-div
+			          }
+								<xf:textarea id="edit-div" ref="instance('entry')//atom:content" mediatype="text/html" />
+								{
+								if($entry) then
+						    let $author := htdoc:author($entry)
+						    let $updated := htdoc:updated($entry)
+						    return
+						    <div id="dlast-update-info">
+						      <span class="grey-line">
+						        <xrx:i18n>
+						          <xrx:key>last-update</xrx:key>
+						          <xrx:default>Last update</xrx:default>
+						        </xrx:i18n>
+						        <span>:&#160;{ $updated }&#160;</span>
+						        <xrx:i18n>
+						          <xrx:key>by</xrx:key> 
+						          <xrx:default>by</xrx:default>
+						        </xrx:i18n>
+						        <span>&#160;{ $author }</span>
+						      </span>
+						    </div>
+								else
+								<div style="color:rgb(100,100,100);margin-top:30px;">
+									<span style="border-top:solid rgb(240,240,240) 1px;padding-top:5px;">This entry doesn't exist yet. Click on button 'Create' to create a new entry.</span>
+								</div>
+								}
+								{
+								if($entry) then $save-trigger-div
+								else $create-trigger-div
+								}
+						  </div>
+						</xrx:true>
+						<xrx:false>
+						  <div>
+						    <xrx:i18n>
+						      <xrx:key>protected-page-message</xrx:key>
+						      <xrx:default>Protected page. Please login first.</xrx:default>
+						    </xrx:i18n>
+						  </div>
+						</xrx:false>
+				</xrx:auth>
+				</div>
+			</xf:group>
+		</div>
+	}
+	</xrx:view>
+</xrx:widget>

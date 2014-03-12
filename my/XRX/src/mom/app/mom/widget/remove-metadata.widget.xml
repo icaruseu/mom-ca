@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/remove-metadata</xrx:id>
+  <xrx:title>
+   <xrx:i18n>
+     <xrx:key>remove-archive</xrx:key>
+     <xrx:default>Remove Archive</xrx:default>
+   </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>
+    <!-- request context -->
+    <xrx:variable>
+      <xrx:name>$wremove-metadata:context</xrx:name>
+      <xrx:expression>substring-after($xrx:tokenized-uri[last()], '-')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wremove-metadata:archiveid</xrx:name>
+      <xrx:expression>$xrx:tokenized-uri[1]</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wremove-metadata:fondid</xrx:name>
+      <xrx:expression>$xrx:tokenized-uri[2]</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wremove-metadata:collectionid</xrx:name>
+      <xrx:expression>$xrx:tokenized-uri[1]</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wremove-metadata:uri-tokens</xrx:name>
+      <xrx:expression>
+        if($wremove-metadata:context = 'archive') then
+          $wremove-metadata:archiveid
+        else if($wremove-metadata:context = 'fond') then
+          ($wremove-metadata:archiveid, $wremove-metadata:fondid)
+        else if($wremove-metadata:context = 'collection') then
+          $wremove-metadata:collectionid
+        else()
+      </xrx:expression>
+    </xrx:variable>
+    <!-- archive info -->
+    <xrx:variable>
+      <xrx:name>$wremove-metadata:archive-atomid</xrx:name>
+      <xrx:expression>metadata:atomid('archive', $wremove-metadata:archiveid)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wremove-metadata:archive-base-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('archive', $wremove-metadata:archiveid, 'public')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wremove-metadata:archive-name</xrx:name>
+      <xrx:expression>$wremove-metadata:archive-base-collection//eag:autform/text()</xrx:expression>
+    </xrx:variable>
+    <!-- fond info -->
+    <xrx:variable>
+      <xrx:name>$wremove-metadata:fond-atomid</xrx:name>
+      <xrx:expression>metadata:atomid('archive', ($wremove-metadata:archiveid, $wremove-metadata:fondid))</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wremove-metadata:fond-base-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('fond', $wremove-metadata:uri-tokens, 'public')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wremove-metadata:fond-name</xrx:name>
+      <xrx:expression>$wremove-metadata:fond-base-collection//ead:did/ead:unittitle/text()</xrx:expression>
+    </xrx:variable>
+    <!-- collection info -->
+    <xrx:variable>
+      <xrx:name>$wremove-metadata:collection-atomid</xrx:name>
+      <xrx:expression>metadata:atomid('collection', $wremove-metadata:collectionid)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wremove-metadata:collection-base-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('collection', $wremove-metadata:archiveid, 'public')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wremove-metadata:collection-name</xrx:name>
+      <xrx:expression>$wremove-metadata:collection-base-collection//cei:provenance/text()</xrx:expression>
+    </xrx:variable>
+    <!-- public charters info -->
+    <xrx:variable>
+      <xrx:name>$wremove-metadata:charter-base-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('charter', $wremove-metadata:uri-tokens, 'public')</xrx:expression>
+    </xrx:variable>
+    <!-- published charters info -->
+    <xrx:variable>
+      <xrx:name>$wremove-metadata:published-charters</xrx:name>
+      <xrx:expression>metadata:base-collection('charter', $wremove-metadata:uri-tokens, 'public')/atom:entry[.//atom:email/text() and (xs:string(./atom:published/text()) != xs:string(./atom:updated/text()))]</xrx:expression>
+    </xrx:variable>
+    <!-- saved, released and bookmarked charters info -->
+    <xrx:variable>
+      <xrx:name>$wremove-metadata:test-charter-atomid</xrx:name>
+      <xrx:expression>metadata:atomid('charter', $wremove-metadata:uri-tokens)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wremove-metadata:released-charters</xrx:name>
+      <xrx:expression>$user:db-base-collection//xrx:saved[starts-with(./xrx:id/text(), $wremove-metadata:test-charter-atomid) and ./xrx:freigabe = 'yes']</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wremove-metadata:saved-charters</xrx:name>
+      <xrx:expression>$user:db-base-collection//xrx:saved[starts-with(./xrx:id/text(), $wremove-metadata:test-charter-atomid) and ./xrx:freigabe = 'no']</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wremove-metadata:bookmarked-charters</xrx:name>
+      <xrx:expression>$user:db-base-collection//xrx:bookmark[starts-with(., $wremove-metadata:test-charter-atomid)]</xrx:expression>
+    </xrx:variable>
+    <!-- imported charters info -->
+    <xrx:variable>
+      <xrx:name>$wremove-metadata:imported-charter-base-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('charter', $wremove-metadata:uri-tokens, 'import')</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>true</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <style type="text/css">
+#dremove-metadata table{{
+  width:100%;
+  border:solid rgb(100,100,100) 1px;
+  border-collapse:collapse;
+}}
+#dremove-metadata th, #dremove-metadata tr{{
+  padding:10px;
+}}
+#dremove-metadata th {{
+  background: rgb(230,230,230);
+}}
+#dremove-metadata td {{
+  border-right:solid rgb(100,100,100) 1px;
+  padding: 10px;
+}}
+#dremove-metadata tr.heading {{
+	background: rgb(100,100,100);
+	color: white;
+	font-weight: bold;
+}}
+#dremove-metadata .request {{
+  position: relative;
+  float: none;
+  width: 600px;
+  margin-left: 200px;
+  margin-top: 50px;
+  background: rgb(245,245,245);
+}}
+#dremove-metadata .request-inner {{
+  position: relative;
+  float: left;
+  margin: 40px;
+}}
+#dremove-metadata .send-trigger {{
+  text-align: right;
+}}
+#dremove-metadata legend {{
+  font-size: 1.5em;
+  font-weight: bold;
+}}
+#dremove-metadata .send-request {{
+}}
+#request-textarea .xfValue{{
+  width: 565px;
+}}
+    </style>
+  </xrx:csss>
+  <xrx:model>
+    <xf:model id="mremove-metadata">
+      <xf:instance>
+		    <data xmlns="">
+		      <url>{ request:get-url() }</url>
+		      <note/>
+		    </data>       
+      </xf:instance>
+      <xf:instance id="iresponse">
+        <xrx:response/>
+      </xf:instance>
+	    <xf:submission action="{ conf:param('request-root') }service/remove-metadata" id="sremove-metadata" instance="iresponse" method="post" replace="instance">
+	    </xf:submission>
+    </xf:model>
+  </xrx:model>
+  <xrx:divs>
+    <xrx:div>
+      <xrx:key>request-div</xrx:key>
+      <xrx:view>
+	      <div class="request" data-demoid="683ee72d-23ea-4288-b16a-e425d0bff4a9">
+	        <fieldset>
+	          <legend>
+	            <xrx:i18n>
+	              <xrx:key>remove-public-database-entries</xrx:key>
+	              <xrx:default>Remove public database entries</xrx:default>
+	            </xrx:i18n>
+	          </legend>
+	          <xf:group model="mremove-metadata">
+	            <div class="send-request" data-demoid="2005ae94-b8ba-4782-85b6-0d8c90d308f5">
+	              <p>
+	                <xrx:i18n>
+	                  <xrx:key>remove-public-entries-info1</xrx:key>
+	                  <xrx:default>Please give a short note why you want to delete the entries listed below.</xrx:default>
+	                </xrx:i18n>
+	              </p>
+	            </div>
+	            <div data-demoid="2f578632-3a67-4ade-b314-ddade0ad345c">
+	              <xf:textarea id="request-textarea" ref="note">
+	                <xf:hint>Please give a short note.</xf:hint>
+	              </xf:textarea>
+	            </div>
+	            <div data-demoid="70f15f6e-27de-4296-8a18-3bb5c1dd26ca">
+                <xf:output mediatype="image/*" ref="instance('iresponse')//xrx:icon"/>
+	              <xf:output ref="instance('iresponse')//xrx:message"/>
+	            </div>
+	            <br/><br/>
+	            <div class="send-trigger" data-demoid="0be69a74-7442-421a-bf6b-b66e5e23f338">
+	              <xf:trigger>
+	                <xf:label>
+	                  <xrx:i18n>
+	                    <xrx:key>send-request</xrx:key>
+	                    <xrx:default>Send request</xrx:default>
+	                  </xrx:i18n>
+	                </xf:label>
+	                <xf:send submission="sremove-metadata"/>
+	              </xf:trigger>
+	            </div>
+	          </xf:group>
+	        </fieldset>
+	      </div>      
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>remove-public-entries-div</xrx:key>
+      <xrx:view>
+	      <div data-demoid="8f9363c3-d377-41c8-8cfb-77b7fd7ea69d">
+	        <xrx:i18n>
+	          <xrx:key>remove-public-entries-info2</xrx:key>
+	          <xrx:default>You are sending a request to remove the following database entries</xrx:default>
+	        </xrx:i18n>:
+	      </div>      
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>back-div</xrx:key>
+      <xrx:view>
+	      <div data-demoid="3abf9d57-536d-4564-8813-249d74b6d894">
+	        <a href="{ $wremove-metadata:context }">
+	          <span>&lt;&lt; </span>
+	          <xrx:i18n>
+	            <xrx:key>back</xrx:key>
+	            <xrx:default>back</xrx:default>
+	          </xrx:i18n>
+	        </a>
+	      </div>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>table-heading-div</xrx:key>
+      <xrx:view>
+	      <tr class="heading">
+	        <td>Atom ID</td>
+	        <td>
+	          <xrx:i18n>
+	            <xrx:key>name</xrx:key>
+	            <xrx:default>Name</xrx:default>
+	          </xrx:i18n>
+	        </td>
+	        <td>
+	          <xrx:i18n>
+	            <xrx:key>user</xrx:key>
+	            <xrx:default>User</xrx:default>
+	          </xrx:i18n>
+	        </td>
+	      </tr>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>archive-objects-div</xrx:key>
+      <xrx:view>
+        <th colspan="3">
+          <xrx:i18n>
+            <xrx:key>archive</xrx:key>
+            <xrx:default>archive</xrx:default>
+          </xrx:i18n>
+        </th>
+        <tr>
+          <td>{ $wremove-metadata:archive-atomid }</td>
+          <td>{ $wremove-metadata:archive-name } [{ $wremove-metadata:archiveid }]</td>
+          <td/>
+        </tr>
+        <tr><td/><td/><td/></tr>      
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>fond-objects-div</xrx:key>
+      <xrx:view>
+	      <th colspan="3">
+	        <xrx:i18n>
+	          <xrx:key>fonds</xrx:key>
+	          <xrx:default>Fonds</xrx:default>
+	        </xrx:i18n>
+	      </th>
+	      {
+	      for $entry in $wremove-metadata:fond-base-collection[.//ead:ead]
+	      let $fond-atomid := $entry//atom:id/text() 
+	      let $fond-title := $entry//ead:did/ead:unittitle/text()
+	      let $fond-id := xmldb:decode(tokenize($fond-atomid, '/')[last()])
+	      return
+	      <tr>
+	        <td>{ $fond-atomid }</td>
+	        <td>{ $fond-title } [{ $fond-id }]</td>
+	        <td/>
+	      </tr>
+	      }
+	      <tr><td/><td/><td/></tr>      
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>collection-objects-div</xrx:key>
+      <xrx:view>
+        <th colspan="3">
+          <xrx:i18n>
+            <xrx:key>collections</xrx:key>
+            <xrx:default>Collections</xrx:default>
+          </xrx:i18n>
+        </th>
+        {
+        for $entry in $wremove-metadata:collection-base-collection
+        let $collection-atomid := $entry//atom:id/text() 
+        let $collection-title := $entry//cei:provenance/text()
+        let $collection-id := xmldb:decode(tokenize($collection-atomid, '/')[last()])
+        return
+        <tr>
+          <td>{ $collection-atomid }</td>
+          <td>{ $collection-title } [{ $collection-id }]</td>
+          <td/>
+        </tr>
+        }
+        <tr><td/><td/><td/></tr>      
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>charter-objects-div</xrx:key>
+      <xrx:view>
+	      <th colspan="3">
+	        <xrx:i18n>
+	          <xrx:key>charters</xrx:key>
+	          <xrx:default>Charters</xrx:default>
+	        </xrx:i18n>
+	      </th>
+	      {
+	      for $entry in $wremove-metadata:charter-base-collection[position() = 1 to 10]
+	      let $charter-atomid := $entry//atom:id/text() 
+	      let $charter-name := $entry//cei:body/cei:idno/text()
+	      return
+	      <tr>
+	        <td>{ $charter-atomid }</td>
+	        <td>{ $charter-name }</td>
+	        <td/>
+	      </tr>
+	      }
+	      {
+	      let $more := count($wremove-metadata:charter-base-collection) - 10
+	      return
+	      if($more gt 0) then
+	        <tr>
+	          <td style="text-align:right;font-weight:bold;">
+	            <span>{ $more } </span>
+	            <xrx:i18n>
+	              <xrx:key>more</xrx:key>
+	              <xrx:default>more</xrx:default>
+	            </xrx:i18n>!
+	          </td>
+	          <td style="text-align:right;font-weight:bold;">
+	            <span>{ $more } </span>
+	            <xrx:i18n>
+	              <xrx:key>more</xrx:key>
+	              <xrx:default>more</xrx:default>
+	            </xrx:i18n>!
+	          </td>
+	          <td/>
+	        </tr>
+	      else()
+	      }
+	      <tr><td/><td/><td/></tr>      
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>published-charters-div</xrx:key>
+      <xrx:view>
+	      <th colspan="3">
+	        <xrx:i18n>
+	          <xrx:key>published-charters</xrx:key>
+	          <xrx:default>Published charters</xrx:default>
+	        </xrx:i18n>
+	        <span> (EditMOM)</span>
+	      </th>
+	      {
+	      for $entry in $wremove-metadata:published-charters
+	      let $charter-atomid := $entry//atom:id/text() 
+	      let $charter-name := $entry//cei:body/cei:idno/text()
+	      let $user := string-join($entry//atom:email/text(), ', ')
+	      return
+	      <tr>
+	        <td>{ $charter-atomid }</td>
+	        <td>{ $charter-name }</td>
+	        <td>{ $user }</td>
+	      </tr>
+	      }
+	      <tr><td/><td/><td/></tr>      
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>released-charters-div</xrx:key>
+      <xrx:view>
+	      <th colspan="3">
+	        <xrx:i18n>
+	          <xrx:key>released-charters</xrx:key>
+	          <xrx:default>Released charters</xrx:default>
+	        </xrx:i18n>
+	        <span> (EditMOM)</span>
+	      </th>
+	      {
+	      for $saved in $wremove-metadata:released-charters
+	      let $charter-atomid := $saved/xrx:id/text() 
+	      let $charter-name := xmldb:decode(tokenize($charter-atomid, '/')[last()])
+	      let $user := root($saved)//xrx:email/text()
+	      return
+	      <tr>
+	        <td>{ $charter-atomid }</td>
+	        <td>{ $charter-name }</td>
+	        <td>{ $user }</td>
+	      </tr>
+	      }
+	      <tr><td/><td/><td/></tr>      
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>saved-charters-div</xrx:key>
+      <xrx:view>
+	      <th colspan="3">
+	        <xrx:i18n>
+	          <xrx:key>saved-charters</xrx:key>
+	          <xrx:default>Saved charters</xrx:default>
+	        </xrx:i18n>
+	        <span> (EditMOM)</span>
+	      </th>
+	      {
+	      for $saved in $wremove-metadata:saved-charters
+	      let $charter-atomid := $saved/xrx:id/text() 
+	      let $charter-name := xmldb:decode(tokenize($charter-atomid, '/')[last()])
+	      let $user := root($saved)//xrx:email/text()
+	      return
+	      <tr>
+	        <td>{ $charter-atomid }</td>
+	        <td>{ $charter-name }</td>
+	        <td>{ $user }</td>
+	      </tr>
+	      }
+	      <tr><td/><td/><td/></tr>      
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>bookmarks-div</xrx:key>
+      <xrx:view>
+	      <th colspan="3">
+	        <xrx:i18n>
+	          <xrx:key>bookmarks</xrx:key>
+	          <xrx:default>Bookmarks</xrx:default>
+	        </xrx:i18n>
+	      </th>
+	      {
+	      for $bookmark in $wremove-metadata:bookmarked-charters
+	      let $charter-atomid := $bookmark/text() 
+	      let $charter-name := xmldb:decode(tokenize($charter-atomid, '/')[last()])
+	      let $user := root($bookmark)//xrx:email/text()
+	      return
+	      <tr>
+	        <td>{ $charter-atomid }</td>
+	        <td>{ $charter-name }</td>
+	        <td>{ $user }</td>
+	      </tr>
+	      }
+	      <tr><td/><td/><td/></tr>      
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>imported-charters-div</xrx:key>
+      <xrx:view>
+	      <th colspan="3">
+	        <xrx:i18n>
+	          <xrx:key>imported-charters</xrx:key>
+	          <xrx:default>Imported charters</xrx:default>
+	        </xrx:i18n>
+	      </th>
+	      {
+	      for $entry in $wremove-metadata:imported-charter-base-collection[position() = 1 to 10]
+	      let $charter-atomid := $entry//atom:id/text() 
+	      let $charter-name := $entry//cei:body/cei:idno/text()
+	      return
+	      <tr>
+	        <td>{ $charter-atomid }</td>
+	        <td>{ $charter-name }</td>
+	        <td/>
+	      </tr>
+	      }
+	      {
+	      let $more := count($wremove-metadata:imported-charter-base-collection) - 10
+	      return
+	      if($more gt 0) then
+	        <tr>
+	          <td style="text-align:right;font-weight:bold;">
+	            <span>{ $more } </span>
+	            <xrx:i18n>
+	              <xrx:key>more</xrx:key>
+	              <xrx:default>more</xrx:default>
+	            </xrx:i18n>!
+	          </td>
+	          <td style="text-align:right;font-weight:bold;">
+	            <span>{ $more } </span>
+	            <xrx:i18n>
+	              <xrx:key>more</xrx:key>
+	              <xrx:default>more</xrx:default>
+	            </xrx:i18n>!
+	          </td>
+	          <td/>
+	        </tr>
+	      else()
+	      }      
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>protected-page-div</xrx:key>
+      <xrx:view>
+	      <div data-demoid="e7bb1f18-5573-4767-b559-a861312f82b8">
+	        <xrx:i18n>
+	          <xrx:key>protected-page-message</xrx:key>
+	          <xrx:default>Protected page. Please login first.</xrx:default>
+	        </xrx:i18n>
+	        <xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/login2</xrx:subwidget>
+	      </div>      
+      </xrx:view>
+    </xrx:div>
+  </xrx:divs>
+</xrx:widget>

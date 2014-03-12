@@ -1,0 +1,110 @@
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx">
+    <xrx:id>tag:www.monasterium.net,2011:/mom/service/charter-pdf</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key>charter-pdf</xrx:key>
+            <xrx:default>charter-pdf</xrx:default>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:subtitle/>
+    <xrx:description/>
+    <xrx:author>andre.streicher@uni-koeln.de</xrx:author>
+    <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+    <xrx:init>
+        <xrx:processor>
+            <xrx:translateflag>false</xrx:translateflag>
+        </xrx:processor>
+    </xrx:init>
+    <xrx:body>
+	  {
+	  (: extract parameters :)
+	  let $charter-atomid := request:get-parameter('id', '')
+	  let $lang := request:get-parameter("lang","0")
+	  
+	  (: define ID's and pathes:)
+	  let $atom-tag-name := conf:param('atom-tag-name')
+	  let $fond-or-collection := charter:context($charter-atomid, $atom-tag-name)
+	  let $archive-id := charter:archid($charter-atomid, $atom-tag-name)
+	  let $fond-id := charter:fondid($charter-atomid, $atom-tag-name)
+	  let $collection-id := charter:collectionid($charter-atomid, $atom-tag-name)
+	  
+	  let $public-base-collection := 
+	  if($fond-or-collection = 'fond') then 
+	       metadata:base-collection('charter', ($archive-id, $fond-id), 'public')
+	  else 
+	       metadata:base-collection('charter', $collection-id, 'public')
+	  (: select the charter file :)     
+	  let $charter := $public-base-collection//atom:id[.=$charter-atomid]/parent::atom:entry/atom:content/cei:text
+	  let $charter-id := xmldb:encode($charter//cei:idno/@id)
+	  
+	  (: load the xslt- script and define the parameters :)
+	  let $xsl := $xrx:db-base-collection/xsl:stylesheet[@id='charter2pdf']
+	  let $parameters := 
+	  if($fond-or-collection = 'fond') then 
+        <parameters>
+            <param name="id" value="{ $charter-id }"/>
+            <param name="arch" value="{ $archive-id }"/>
+            <param name="fond" value="{ $fond-id }"/>
+            <param name="collection" value="0"/>
+            <param name="plattformID" value="{ $conf:project-name }"/>
+        </parameters>
+       else 
+        <parameters>
+            <param name="id" value="{ $charter-id }"/>
+            <param name="arch" value="{ $archive-id }"/>
+            <param name="fond" value="0"/>
+            <param name="collection" value="{ $collection-id }"/>
+            <param name="plattformID" value="{ $conf:project-name }"/>
+        </parameters>
+	  
+	  (:set configuration for render process - select font:)
+	  let $font-request-base-url := concat($xrx:localhost-request-base-url, 'resource/?atomid=')
+	  let $fop-config :=
+        <fop version="1.0">
+            <renderers>
+                <renderer mime="application/pdf">
+                    <filterList>
+                        <value>flate</value>
+                    </filterList>
+                    <fonts>
+                        <font metrics-url="dejavusans.xml" kerning="yes" embed-url="DejaVuSans.ttf">
+                            <font-triplet name="DejaVuSans" style="normal" weight="normal"/>
+                        </font>
+                        <font metrics-url="dejavusans-oblique.xml" kerning="yes" embed-url="DejaVuSans-Oblique.ttf">
+                            <font-triplet name="DejaVuSans" style="oblique" weight="normal"/>
+                        </font>
+                        <font metrics-url="dejavusans-bold.xml" kerning="yes" embed-url="DejaVuSans-Bold.ttf">
+                            <font-triplet name="DejaVuSans" style="normal" weight="bold"/>
+                        </font>
+                    </fonts>
+                </renderer>
+            </renderers>
+        </fop>
+	  
+	  (: produce the PDF- File :)
+    let $file-name := if($fond-or-collection = 'fond') then string-join(($archive-id, $fond-id, $charter-id), '_') else string-join(($collection-id, $charter-id), '_')
+	  let $charter-as-pdf := pdf:render($charter, $xsl, $parameters, $fop-config, $lang, $file-name)
+	  return
+	  $charter-as-pdf
+	  }
+	</xrx:body>
+</xrx:service>

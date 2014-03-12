@@ -1,0 +1,80 @@
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/migrate-v21-fond-preferences</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key></xrx:key>
+      <xrx:default></xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:variables>
+    <xrx:variable>
+      <xrx:name>$fond-base-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('fond', 'public')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$fond-base-collections</xrx:name>
+      <xrx:expression>for $ead in $fond-base-collection//ead:ead return collection(util:collection-name($ead))</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$fond-preferences-template</xrx:name>
+      <xrx:expression>template:get('tag:www.monasterium.net,2011:/mom/template/fond-preferences', false())</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:translateflag>false</xrx:translateflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:body>
+    <migrate-v21-fond-preferences>
+	    {
+	      for $base-collection in $fond-base-collections//ead:ead
+	      (: image server base URL :)
+	      let $ead-c := $base-collection//ead:c[@level='fonds']
+	      let $base := $ead-c/@xml:base/string()
+	      (: fond preferences :)
+	      let $preferences := ($base-collection/xrx:preferences, $fond-preferences-template)[1]
+	      let $updated-preferences := 
+	      	<xrx:preferences>
+	      	  { $preferences/xrx:param[@name='image-access'] }
+	      	  { $preferences/xrx:param[@name='dummy-image-url'] }
+	      	  <xrx:param name="image-server-base-url">{ $base }</xrx:param>
+	      	</xrx:preferences>
+	      (: Atom info :)
+	      let $atomid := root($ead-c)/atom:entry/atom:id/text()
+	      let $feed := substring-after(util:collection-name($ead-c), conf:param('atom-db-base-uri'))
+	      let $entry-name := concat(metadata:objectid($atomid)[last()], '.preferences.xml')
+	      return
+	      <fond feed="{ $feed }" entry-name="{ $entry-name }">
+	      	<image-server-base-url>{ $base }</image-server-base-url>
+	      	{ $preferences }
+	      	{ $updated-preferences }
+	      	{ atom:POSTSILENT($feed, $entry-name, $updated-preferences) }
+	      </fond>
+	    }
+	  </migrate-v21-fond-preferences>
+  </xrx:body>
+</xrx:service>

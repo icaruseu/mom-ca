@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="./demo.xsl" type="text/xsl"?>
+<div data-filename="basic-controls.xml" 
+    data-relativepath="../" 
+    xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:xrx="http://www.monasterium.net/NS/xrx"
+    xmlns:demo="http://www.monasterium.net/NS/demo">
+  <h2>Basic Controls</h2>
+  <demo:heading>Instance</demo:heading>
+  <demo:heading>Bind</demo:heading>
+  <demo:heading>Group</demo:heading>
+  <demo:heading>Repeat</demo:heading>
+</div>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/publish-fond</xrx:id>
+  <xrx:title>
+   <xrx:i18n>
+     <xrx:key>publish-fond</xrx:key>
+     <xrx:default>Publish fond</xrx:default>
+   </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>true</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:view>
+    {
+    let $metadata-charter-import-base-collection :=
+      metadata:base-collection('charter', 'import')
+    let $import-infos := $metadata-charter-import-base-collection/xrx:import[xrx:context = 'fond']
+    let $ordered-import-infos := for $info in $import-infos order by $info/xrx:time/text() descending return $info
+    return
+    <div data-demoid="d67b6bce-ed47-41b7-baae-032f15e37a2a" id="dpublish-fond">
+      <div class="h2" data-demoid="ce97a4d6-824b-4027-8b5e-093a1be72cd2">
+				<xrx:i18n>
+				  <xrx:key>publish-fond</xrx:key>
+				  <xrx:default>Publish fond</xrx:default>
+				</xrx:i18n>
+      </div>
+      {
+      for $import-info at $num in $ordered-import-infos
+      
+      (: import info :)
+      let $archid := $import-info/xrx:archid/text()
+      let $fondid := $import-info/xrx:fondid/text()
+      let $time := $import-info/xrx:time/text()
+      let $userid := $import-info/xrx:userid/text()
+      
+      (: archive info :)
+      let $metadata-archive-db-base-collection :=
+        metadata:base-collection('archive', $archid, 'public')
+      let $eag := $metadata-archive-db-base-collection//eag:eag
+      let $archive-name := $eag//eag:autform/text()
+      
+      (: fond info :)
+      let $metadata-fond-db-base-collection :=
+        metadata:base-collection('fond', ($archid, $fondid), 'public')      
+      let $ead := $metadata-fond-db-base-collection//ead:ead
+      let $fond-name := normalize-space($ead//ead:c[@level='fonds']/ead:did/ead:unittitle/text())
+      
+      (: user info :)
+      let $user-name := user:firstname-name($userid)
+
+      return
+      <div data-demoid="ba3a34f7-9ad6-4a5f-8fc1-9d1f73b55b78">
+        <h3>{ $num }</h3>
+        <table>
+          <tr>
+            <td>
+              <xrx:i18n>
+                <xrx:key>archive</xrx:key>
+                <xrx:default>Archive</xrx:default>
+              </xrx:i18n>
+              <span>: </span>
+            </td>
+            <td>{ $archive-name } ({ $archid })</td>
+          </tr>
+          <tr>
+            <td>
+              <xrx:i18n>
+                <xrx:key>fond-preview</xrx:key>
+                <xrx:default>Fond (preview)</xrx:default>
+              </xrx:i18n>
+              <span>: </span>
+            </td>
+            <td><a href="{ conf:param('request-root') }{ $archid }/{ $fondid }/imported-fond">{ $fond-name } ({ $fondid })</a></td>
+          </tr>
+          <tr>
+            <td/>
+            <td>
+		          <xrx:i18n>
+		            <xrx:key>imported</xrx:key>
+		            <xrx:default>Imported</xrx:default>
+		          </xrx:i18n>
+		          <span> { $time } </span>
+		          <xrx:i18n>
+		            <xrx:key>by</xrx:key>
+		            <xrx:default>by</xrx:default>
+		          </xrx:i18n>
+		          <span> { $user-name }</span>
+            </td>
+          </tr>
+        </table>
+      </div>
+      }
+    </div>
+    }
+  </xrx:view>
+</xrx:widget>

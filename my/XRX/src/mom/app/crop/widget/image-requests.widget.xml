@@ -1,0 +1,1083 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+    <xrx:id>tag:www.monasterium.net,2011:/mom/widget/image-requests</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key>image-requests</xrx:key>
+            <xrx:default>Image Requests</xrx:default>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:subtitle/>
+    <xrx:description/>
+    <xrx:author>andre.streicher@uni-koeln.de</xrx:author>
+    <xrx:licence/>
+    <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/desktop</xrx:portal>
+    <xrx:init>
+        <xrx:processor>
+            <xrx:xformsflag>true</xrx:xformsflag>
+        </xrx:processor>
+    </xrx:init>
+    <xrx:csss>
+        <xrx:css>tag:www.monasterium.net,2011:/mom/css/charter-preview</xrx:css>
+        <style type="text/css">
+        #desktop-left-menu{{
+            float:left;
+            width:150px;
+        }}
+        
+        #loadtext{{
+            display: none;
+            top:30px;
+            position:relative;
+            color:#CAC6C6;
+            font-weight:bold;
+        }}
+        
+          .button {{
+            float: left;
+            line-height: 1.3em;
+            vertical-align: middle;
+            background-color: #F6F6F6;
+            border-color: #FFFFFF #D9D9D9 #D9D9D9;
+            border-style: solid;
+            border-width: 3px 3px 3px 0;
+            color: #000000; 
+            padding: 7px 10px;
+            -moz-border-radius:10px; /* Firefox */
+            -webkit-border-radius:10px; /* Safari, Chrome */
+            -khtml-border-radius:10px; /* Konqueror */
+            border-radius:10px; /* CSS3 */
+          }}
+          
+          .button:hover{{
+            cursor: default;
+            position: relative;
+            z-index: 599;
+            background-color: #EEEEEE;
+            color: #000000;
+          }}
+        
+        .hiddenButton{{
+            display: none;
+            height: 20px;
+            float:left;
+            position: relative;
+            background-color: #F6F6F6;
+            border-color: #FFFFFF #D9D9D9 #D9D9D9;
+            border-style: solid;
+            border-width: 3px 3px 3px 0;
+            color: #000000; 
+            padding: 7px 10px;
+            -moz-border-radius:10px; /* Firefox */
+            -webkit-border-radius:10px; /* Safari, Chrome */
+            -khtml-border-radius:10px; /* Konqueror */
+            border-radius:10px; /* CSS3 */
+          }}
+          
+        .hiddenButton:hover{{
+            cursor: default;
+            z-index: 599;
+            background-color: #EEEEEE;
+            color: #000000;
+          }}
+          
+        .zoomer{{
+            height: 20px;
+            position: relative;
+        }}
+        
+        #publish{{
+            position: relative;
+        }}
+        
+        #request{{
+            position: relative;
+        }}
+        
+        .requests{{
+            top:30px;
+            position: relative;
+            width: 550px;
+            height: 17px;
+            background-color: #F6F6F6;
+            border-color: #FFFFFF #D9D9D9 #D9D9D9;
+            border-style: solid;
+            border-width: 1.55px 1.5px 1.5px 0;
+            color: #000000; 
+            padding: 7px 10px;
+            -moz-border-radius:10px; /* Firefox */
+            -webkit-border-radius:10px; /* Safari, Chrome */
+            -khtml-border-radius:10px; /* Konqueror */
+            border-radius:10px; /* CSS3 */
+        }}
+        
+        .infofield{{
+            display: none;
+            top:30px;
+            position:relative;
+            width: 550px;
+            height: 670px;
+            background-color: 	#f5f5f5;
+            border-color: #F6F6F6 #F6F6F6 #F6F6F6;
+            border-style: solid;
+            border-width: 1.55px 1.5px 1.5px 0;
+            padding: 7px 10px;
+            -moz-border-radius:0px 0px 10px 10px; /* Firefox */
+            -webkit-border-radius:0px 0px 10px 10px; /* Safari, Chrome */
+            -khtml-border-radius:0px 0px 10px 10px; /* Konqueror */
+            border-radius:0px 0px 10px 10px; /* CSS3 */
+        }}
+        
+        .wait{{
+            display: none;
+            top:30px;
+            position:relative;
+            width: 550px;
+            height: 550px;
+            background-color: 	#f5f5f5;
+            border-color: #F6F6F6 #F6F6F6 #F6F6F6;
+            border-style: solid;
+            border-width: 1.55px 1.5px 1.5px 0;
+            padding: 7px 10px;
+            -moz-border-radius:0px 0px 10px 10px; /* Firefox */
+            -webkit-border-radius:0px 0px 10px 10px; /* Safari, Chrome */
+            -khtml-border-radius:0px 0px 10px 10px; /* Konqueror */
+            border-radius:0px 0px 10px 10px; /* CSS3 */
+        }}
+        
+        .requestviewport{{
+        position:relative;
+        float:left;
+        left: 20px;
+        top: 10px;
+        width:500px;
+        height:300px;
+        overflow:auto;
+        vertical-align:middle;
+        z-index:1;
+        margin-top:0px;
+        margin-left:5px;
+        margin-right:5px;
+        margin-bottom:0px;
+        padding:0;
+        border:solid rgb(240,243,226) 1px;
+        }}
+        
+        .direct{{
+            background: rgba(0, 0, 0, 0.0);
+            z-index:1;
+            position:absolute;
+            border:solid red 2px;
+            -moz-border-radius:3px;
+            -webkit-border-radius:3px;
+            -khtml-border-radius:3px;
+            border-radius:3px;
+        }}
+        
+        miniviewport{{ 
+            position: relative;
+            margin: 1px;
+            float:left;
+            overflow:auto;
+            width: 30px;
+            height: 30px;
+            border:solid black 1px;
+            vertical-align: bottom; 
+         }}
+         
+         .cropminiimg{{
+            position: relative;
+            display: block;   
+            margin:0px auto;
+            max-width: 30px;
+            max-height: 30px;
+            }}
+            
+         .tooltip {{
+             display: none;
+             position: absolute;
+             z-index: 35;
+             padding: 8px 0 0 8px;
+         }}
+         
+         .toolimg {{
+             border:solid rgb(160,160,160) 3px;
+             z-index:15;
+             -moz-border-radius:3px;
+             -webkit-border-radius:3px;
+             -khtml-border-radius:3px;
+             border-radius:3px;
+         }}
+        
+        .rimg{{
+         position:relative;
+          	z-index:0;
+          	padding:0px;
+        }}
+        
+        .input{{
+           position: absolute;
+           top:400px;
+           left:50px;
+           width: 460px;
+           height: 60px;
+        }}
+        
+        .directanno{{
+            display: none;
+            z-index:1;
+            position:absolute;
+        }}
+        
+        .annotationfield{{
+            float: left;
+            z-index:1;
+            width: 300px;
+            height: 100px;
+        }}
+        
+        #bobble {{
+            display:none;
+            position: absolute;
+            overflow:auto;
+            z-index:30;
+            left: 180px;
+            top: 190px;
+            width: 370px;
+            height: 250px;
+            background-color: white;
+            padding:20px;
+            padding-right:50px;
+            padding-bottom: 50px;
+            -moz-border-radius:3px;
+            -webkit-border-radius:3px;
+            -khtml-border-radius:3px;
+            border-radius:3px;
+            -moz-box-shadow:    4px -3px 10px 1px #202020;
+            -webkit-box-shadow: 4px -3px 10px 1px #202020;
+            box-shadow:         4px -3px 10px 1px #202020;
+        }}
+        
+        #newcollection{{
+            position:relative;
+						text-align:center;
+					 	height:35px;
+            float:left;
+            width:174px;
+            z-index:5;
+            border:solid #505050 1px;
+            border-left:0px;
+            border-bottom:0px;
+            -webkit-border-top-left-radius: 5px;
+            -webkit-bordertop-right-radius: 5px;
+            -khtml-border-top-left-radius: 5px;
+            -khtml-border-top-right-radius: 5px;
+            -moz-border-radius-topleft: 5px;
+            -moz-border-radius-topright: 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }}
+        
+        #existcollection{{
+            position:relative;
+						text-align:center;
+					 	height:35px;
+            float:left;
+            width:175px;
+            z-index:5;
+            background:#F8F8F8;
+            border:solid #505050 1px;
+            border-left:0px;
+            border-right:0px;
+            border-top:0px;
+        }}
+        
+        #inputdata{{
+            position:relative;
+            top:30px;
+            left:10px;
+         }}
+         
+         
+        .miniviewport{{ 
+            position: relative;
+            margin: 1px;
+            float:left;
+            overflow:auto;
+            width: 30px;
+            height: 30px;
+            border:solid black 1px;
+            vertical-align: bottom; 
+         }}
+            
+         .tooltip {{
+             display: none;
+             position: absolute;
+             z-index: 35;
+             padding: 8px 0 0 8px;
+         }}
+         
+         .toolimg {{
+             border:solid rgb(160,160,160) 3px;
+             z-index:15;
+             -moz-border-radius:3px;
+             -webkit-border-radius:3px;
+             -khtml-border-radius:3px;
+             border-radius:3px;
+         }}
+         
+         .extractlabel{{
+            position:relative;
+						text-align:center;
+            color:#999999;
+            font-weight:bold;
+            left: 120px;
+         }}
+         
+         #existdata{{
+            display:none;
+            position:relative;
+            float:left;
+            width:99%;
+            padding-bottom:10px;
+        }}
+        
+        .editorfooter{{
+            position:relative;
+            float:left;
+            z-index:5;
+            height:15px;
+            width:350px;
+            border:solid #505050 1px;
+            border-top-width:0px;
+            -webkit-border-bottom-left-radius: 10px;
+            -webkit-border-bottom-right-radius: 10px;
+            -khtml-border-bottom-left-radius: 10px;
+            -khtml-border-bottom-right-radius: 10px;
+            -moz-border-radius-bottomleft: 10px;
+            -moz-border-radius-bottomright: 10px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }}
+        
+        .editorheader{{
+            position:relative;
+						text-align:center;
+            z-index:5;
+            border:solid #505050 1px;
+            -webkit-border-top-left-radius: 10px;
+            -webkit-border-top-right-radius: 10px;
+            -khtml-border-top-left-radius: 10px;
+            -khtml-border-top-right-radius: 10px;
+            -moz-border-radius-topleft: 10px;
+            -moz-border-radius-topright: 10px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }}
+                
+        #newdata{{
+           display:block;
+					 height:60px;
+           position:relative;
+           float:left;
+           width:99%;
+           padding-bottom:10px;
+        }}
+        
+        #basic{{
+            position:relative;
+            float:left;
+            padding-bottom: 50px;
+        }}
+        
+        .saveentry{{
+            position: relative;
+            float:left;
+            width:99%;
+            left:2px;
+            padding-bottom:2px;
+            margin-top: 10px;
+            border:solid rgb(240,243,226) 1px;
+        }}
+
+        </style>
+    </xrx:csss>
+    <xrx:jss>
+    	<xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+    	<xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/image-request-functions</xrx:resource>
+    </xrx:jss>
+	<xrx:model>
+    { bookmark:model(conf:param('request-root')) }
+    { publication:model(conf:param('request-root')) }
+  </xrx:model>
+    <xrx:view>
+        <div data-demoid="42ae59f9-4909-4191-8577-06c68943d1a9">
+            <xrx:auth>
+                <xrx:rules>
+                    <xrx:rule>
+                        <xrx:user/>
+                        <xrx:dbgroup>atom</xrx:dbgroup>
+                    </xrx:rule>
+                </xrx:rules>
+                <xrx:true>
+                    <div data-demoid="e5f4fe83-47a6-43b8-a6cc-70f9502ef273" id="basic">
+                        <h2 style="position:relative;">
+                            <xrx:i18n>
+                                <xrx:key>image-requests</xrx:key>
+                                <xrx:default>Image Requests</xrx:default>
+                            </xrx:i18n>
+                        </h2>
+                        <span id="loadtext"/>
+                        <xrx:auth>
+                            <xrx:rules>
+                                <xrx:rule>
+                                    <xrx:user/>
+                                    <xrx:role>moderator</xrx:role>
+                                </xrx:rule>
+                            </xrx:rules>
+                            <xrx:true>
+                                <div data-demoid="b858219e-d74f-4e68-9cd5-1d5a3f7ed998" id="publish">
+                                    <div data-demoid="55454532-c12b-451a-88e7-1d815481f38e">
+                                        <div data-demoid="938e2bf8-a23a-4328-9d5d-b10d292fa5ca">
+                                            <br/>
+                                            <span style="position:relative;color:#999999;font-weight:bold;left:10px;top:20px;">
+                                                <xrx:i18n>
+                                                    <xrx:key>open-requests</xrx:key>
+                                                    <xrx:default>Open requests</xrx:default>
+                                                </xrx:i18n>:
+                                                </span>                            
+                                             {
+                                             let $requestannos := doc(concat(conf:param('xrx-user-db-base-uri'), '/', xmldb:encode($xrx:user-id), '.xml'))//*:askcrop
+                                             for $requestanno at $number in $requestannos
+                                             order by xs:date($requestanno//@date) ascending
+                                                 return
+                                                 let $lastname := doc(concat(conf:param('xrx-user-db-base-uri'), '/', string($requestanno//@user), '.xml'))//*:name
+                                                 let $firstname := doc(concat(conf:param('xrx-user-db-base-uri'), '/', string($requestanno//@user), '.xml'))//*:firstname
+                                                 return
+                                                 <div data-demoid="e643c565-40ca-47bc-9b69-94c043622c84">
+                                                    {
+                                                    let $waitdays := days-from-duration(current-date()-xs:date($requestanno//@date))
+                                                        return
+                                                        if($waitdays lt 10) then
+                                                     <div data-demoid="98a391e8-e27d-492d-b1c7-10a8d3f28e0c">
+                                                    <div class="requests" data-demoid="93005a7e-670d-4599-9d70-1b3a9dd5497b" id="publish{$number}" onclick="showRequest('start', '{string($requestanno/*:data/@id)}' , '{$number}', '{$xrx:user-id}', 'modcrop', '{ $xrx:lang }');">
+                                                        <div data-demoid="637813e7-cc44-43f7-a955-2f2950dacb9d" style="position:relative;float:left;">
+                                                            <span>User: </span>
+                                                            <span>{$firstname/text()} {$lastname/text()}</span>
+                                                        </div>
+                                                        <div data-demoid="93532acd-4140-4468-a43f-fee13c974950" style="left:20px;position:relative;float:left;">
+                                                            <xrx:i18n>
+                                                                <xrx:key>waiting-since</xrx:key>
+                                                                <xrx:default>Waiting since</xrx:default>
+                                                            </xrx:i18n>:
+                                                            <span>{string($waitdays)} </span>
+                                                            <xrx:i18n>
+                                                                <xrx:key>days</xrx:key>
+                                                                <xrx:default>days</xrx:default>
+                                                            </xrx:i18n>
+                                                        </div>
+                                                    	  <xrx:resource id="pubarrow{$number}" style="position:absolute;left:550px;top:8px;width:15px" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/plus</xrx:resource>
+                                                    </div>
+                                                </div>                                             
+                                                else 
+                                                  <div data-demoid="6e3749ac-af99-4e38-b8df-2914c3828dc4">
+                                                    <div class="requests" data-demoid="5ffee19b-82f8-4ba3-8d6a-6c0289e026e6" id="publish{$number}" onclick="showRequest('start', '{string($requestanno/*:data/@id)}' , '{$number}', '{$xrx:user-id}' , 'modcrop', '{ $xrx:lang }');" style="color:red;">
+                                                        <div data-demoid="61dc78ef-113c-4d6a-a442-5db13b99ef40" style="position:relative;float:left;">
+                                                            <span>User:</span>
+                                                            <span>{string($requestanno//@user)}</span>
+                                                        </div>
+                                                        <div data-demoid="e0b233fb-cdca-4d8c-bcc1-06f5cb882ccd" style="left:20px;position:relative;float:left;">
+                                                            <xrx:i18n>
+                                                                <xrx:key>waiting-since</xrx:key>
+                                                                <xrx:default>Waiting since</xrx:default>
+                                                            </xrx:i18n>:
+                                                            <span>{string($waitdays)} </span>
+                                                            <xrx:i18n>
+                                                                <xrx:key>days</xrx:key>
+                                                                <xrx:default>days</xrx:default>
+                                                            </xrx:i18n>
+                                                        </div>
+                                                    		<xrx:resource id="pubarrow{$number}" style="position:absolute;left:550px;top:8px;width:15px" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/plus</xrx:resource>
+                                                    </div>
+                                                </div>
+                                                }
+                                                <div class="infofield" data-demoid="8c85fce3-80f3-4359-b6c0-7b654e9f3da6" id="pubfield{$number}">
+                                                    <div data-demoid="72a36650-c4f2-46e3-8262-ed91b8f9065c">
+                                                        {
+                                                        if($requestanno//@*:collection = 'new')then
+                                                        <div data-demoid="c79c482f-169a-45d8-bbc3-b8c56adade4f" style="border:solid black 2px;-moz-border-radius:10px;-webkit-border-radius:10px;-khtml-border-radius:10px;border-radius:10px;padding:5px;height:20px;">
+                                                            <div class="informations" data-demoid="a6eb5226-f678-4acd-b000-e3b1554ce783" style="left:10px;top:2px;position:relative;float:left;font-weight:bold;">
+                                                                <xrx:i18n>
+                                                                    <xrx:key>new-collection</xrx:key>
+                                                                    <xrx:default>New Collection:</xrx:default>
+                                                                </xrx:i18n>
+                                                            </div>
+                                                            <div class="informations" data-demoid="059b3694-c654-413f-9c66-f0d99359145a" style="padding-left:10px;left:5px;top:2px;position:relative;float:left;">
+                                                                <xrx:i18n>
+                                                                    <xrx:key>type</xrx:key>
+                                                                    <xrx:default>Type</xrx:default>
+                                                                </xrx:i18n>: <span>{string($requestanno//@*:type)}</span>
+                                                            </div>
+                                                            <div data-demoid="1a171f66-17d7-4cf0-8501-07a13fdcef1b" style="position:relative;padding-left:10px;left:5px;top:2px;float:left;">
+                                                                <xrx:i18n>
+                                                                    <xrx:key>name</xrx:key>
+                                                                    <xrx:default>Name</xrx:default>
+                                                                </xrx:i18n>: <span>{string($requestanno//@*:name)}</span>
+                                                            </div>
+                                                        </div>
+                                                        else
+                                                        <div data-demoid="acda9642-2ef8-4c98-9b51-646e0533f38d" style="border:solid black 2px;-moz-border-radius:10px;-webkit-border-radius:10px;-khtml-border-radius:10px;border-radius:10px;padding:5px;height:60px;">
+                                                            {
+                                                            let $pubcolID := string($requestanno/@collection)
+                                                            let $pubcol := doc(concat(conf:param('data-db-base-uri'), 'metadata.imagecollections/imagecollections.xml'))//*:cropelement[@*:id=$pubcolID]
+                                                            return
+                                                            <div data-demoid="19d58c7f-1958-4d72-bc7d-2550d2d1b368">
+                                                                <div data-demoid="6bc53183-c46f-4696-9ed8-7e5db78f0477" style="position:relative;width:100%;">
+                                                                    <div class="informations" data-demoid="bf3d34eb-a96c-4be9-90f6-6e3ade9ebfec" style="left:10px;top:2px;position:relative;float:left;font-weight:bold;">
+                                                                        <xrx:i18n>
+                                                                            <xrx:key>collection</xrx:key>
+                                                                            <xrx:default>Collection:</xrx:default>
+                                                                        </xrx:i18n>
+                                                                    </div>
+                                                                    <div class="informations" data-demoid="d86fcd35-aeb5-486f-9931-d64494f50d6d" style="padding-left:10px;left:5px;top:2px;position:relative;float:left;">
+                                                                        <xrx:i18n>
+                                                                            <xrx:key>type</xrx:key>
+                                                                            <xrx:default>Type</xrx:default>
+                                                                        </xrx:i18n>: <span>{string($pubcol/@*:type)}</span>
+                                                                    </div>
+                                                                    <div data-demoid="5b951efe-5576-47ad-a3c1-261fad357339" style="position:relative;padding-left:10px;left:5px;top:2px;float:left;">
+                                                                        <xrx:i18n>
+                                                                            <xrx:key>name</xrx:key>
+                                                                            <xrx:default>Name</xrx:default>
+                                                                        </xrx:i18n>: <span>{string($pubcol/@*:name)}</span>
+                                                                    </div>
+                                                                </div>
+                                                                <br/>
+                                                                <div data-demoid="1c5077e0-771d-4041-82d5-61d23552ad8b" style="position:relative;width:98%;border:solid grey 1px;-moz-border-radius:10px;-webkit-border-radius:10px;-khtml-border-radius:10px;border-radius:10px;padding:5px;top:5px;height:27px;">
+                                                                    {
+                                                                    let $datas := $pubcol//*:data
+                                                                    for $data in $datas
+                                                                    return
+                                                                    <div data-demoid="71951fc0-b8d2-4deb-86fe-1fb6a9f1ee1d" style="float:left;padding:2px;">
+                                                                        <div class="miniviewport" data-demoid="1df964e0-aba5-4be9-b529-a478659630c9" id="view{$number}{string($data/@*:id)}" style="postion:relative;top:-6px;">
+                                                                            <img class="cropminiimg" id="viewimg{$number}{string($data/@*:id)}" onmousemove="moveTooltip(event, '{$number}{string($data/@*:id)}', 'save')" onmouseout="hideTooltip(event, '{$number}{string($data/@*:id)}', 'save')" onmouseover="showTooltip(event, '{$number}{string($data/@*:id)}', 'save')" src="{$data/*:img}"/>
+                                                                        </div>
+                                                                        <div class="tooltip" data-demoid="b0ad349e-2550-4857-b1a8-e7c176ba22cf" id="tool{$number}{string($data/@*:id)}">
+                                                                            <img alt="Original image" class="toolimg" src="{$data/*:img}"/>
+                                                                        </div>
+                                                                    </div>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                            }
+                                                        </div>
+                                                        }
+                                                    </div>
+                                                    <div data-demoid="8beac4e1-30a0-4e44-b48d-a68b500a65e8" style="position:relative;left:40px;top:5px;">
+                                                        <span style="font-weight:bold;">
+                                                            <xrx:i18n>
+                                                                <xrx:key>imagename</xrx:key>
+                                                                <xrx:default>Imagename</xrx:default>
+                                                            </xrx:i18n>: </span>
+                                                        <span>{string($requestanno//@*:imagename)}</span>
+                                                    </div>
+                                                    <div class="requestviewport" data-demoid="c74bd887-ebb5-4690-87eb-0920430c0c29" id="pubviewport{$number}"/>
+                                                    <div data-demoid="7d2da7db-8aff-4b32-83c3-534e3b16089c" id="pubzoomer{$number}" style="position:relative;left:250px;">
+                                                        <p class="button" onClick="requestZoom('in', '{$number}', 'modcrop');">
+                                                        	<xrx:resource class="zoomer" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/zoom_in</xrx:resource>
+                                                        </p>
+                                                        <p class="button" onClick="requestZoom('out', '{$number}', 'modcrop');">
+                                                        	<xrx:resource class="zoomer" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/zoom_out</xrx:resource>
+                                                        </p>
+                                                    </div>
+                                                    <div data-demoid="ba89776c-76c2-48dd-8850-83e5a6d879d7" style="left:40px;top:470px;position:absolute;">
+                                                        <span style="font-weight:bold;">
+                                                            <xrx:i18n>
+                                                                <xrx:key>charter</xrx:key>
+                                                                <xrx:default>Charter</xrx:default>
+                                                            </xrx:i18n>: </span>
+                                                        <a href="{string($requestanno//*:url)}">{string($requestanno//*:url)}</a>
+                                                    </div>
+                                                    <div data-demoid="daf6e5b4-f62c-4ff7-be3e-c2ce0fffff7e" style="position:absolute;left:40px;top:520px;">
+                                                        <span style="font-weight:bold;">
+                                                            <xrx:i18n>
+                                                                <xrx:key>note</xrx:key>
+                                                                <xrx:default>Note</xrx:default>
+                                                            </xrx:i18n>: </span>
+                                                        <span>{string($requestanno//*:note)}</span>
+                                                    </div>
+                                                    <span style="position:absolute;color:#999999;font-weight:bold;left:40px;top:540px;">
+                                                        <xrx:i18n>
+                                                            <xrx:key>response-comment</xrx:key>
+                                                            <xrx:default>Response comment</xrx:default>
+                                                        </xrx:i18n>:
+                                                    </span>
+                                                    <textarea class="input" id="input{$number}" name="annotation" style="top:560px;"/>
+                                                    <div data-demoid="bf00a384-aa65-4af4-81ab-14108478a20d" style="position:absolute;top:620px;left:205px;">
+                                                        <p class="button" id="accept{$number}" onClick="answerCrop('accept' , '{string($requestanno/@id)}' , '{$number}', '{$xrx:user-id}', '{ $xrx:lang }');">
+                                                            <xrx:i18n>
+                                                                <xrx:key>accept</xrx:key>
+                                                                <xrx:default>Accept</xrx:default>
+                                                            </xrx:i18n>
+                                                        </p>
+                                                        <p class="button" id="decline{$number}" onClick="answerCrop('decline' , '{string($requestanno/@id)}' , '{$number}', '{$xrx:user-id}', '{ $xrx:lang }');" style="position:relative;left:5px;">
+                                                            <xrx:i18n>
+                                                                <xrx:key>decline</xrx:key>
+                                                                <xrx:default>Decline</xrx:default>
+                                                            </xrx:i18n>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>    
+                                             }
+                                        </div>
+                                    </div>
+                                </div>
+                            </xrx:true>
+                            <xrx:false>
+                                <div data-demoid="da395e78-a4b5-48ed-8900-1632160d9db9">
+                                    <div data-demoid="da9f0abe-9828-4126-98cd-e75dd50a4675" id="request">
+                                        <br/>
+                                        <span style="position:relative;color:#999999;font-weight:bold;left:10px;top:20px;">
+                                            <xrx:i18n>
+                                                <xrx:key>requests</xrx:key>
+                                                <xrx:default>Requests</xrx:default>
+                                            </xrx:i18n>:
+                                        </span>                            
+                                            {
+                                            let $requestannos := doc(concat(conf:param('xrx-user-db-base-uri'), '/', xmldb:encode($xrx:user-id), '.xml'))//*:data[@*:status='wait' or @*:status='accept' or @*:status='decline'] 
+                                            for $requestanno at $number in $requestannos
+                                            return
+                                                let $class := if($requestanno//@status = 'wait')then 'wait' else 'infofield'
+                                                return
+                                                <div data-demoid="d8efff4c-85c4-4638-85db-f5efd281e255">
+                                            <div class="requests" data-demoid="bf2e70ad-fcef-49bd-b0de-6aa6e5b80fea" id="request{$number}" onclick="showRequest('start', '{string($requestanno//@id)}' , '{$number}', '{$xrx:user-id}', 'usercrop', '{ $xrx:lang }');">
+                                                <div data-demoid="1f2cc598-8610-4f21-ba6f-93d6e01e30d1" style="position:relative;float:left;">
+                                                    <span style="font-weight:bold;">
+                                                        <xrx:i18n>
+                                                            <xrx:key>imagename</xrx:key>
+                                                            <xrx:default>Imagename</xrx:default>
+                                                        </xrx:i18n>: </span>
+                                                    <span>{string($requestanno//@*:imagename)}</span>
+                                                </div>
+                                                <div data-demoid="3e574072-dbd3-4c94-a28a-2f180f8b4480" style="position:relative;float:left;left:20px;">
+                                                        {
+                                                        if($requestanno//@*:status = 'wait')then
+                                                                <span style="color:#0000CC;">Status:
+                                                                    <xrx:i18n>
+                                                            <xrx:key>wait-for-release</xrx:key>
+                                                            <xrx:default>Wait for release</xrx:default>
+                                                        </xrx:i18n>
+                                                    </span>
+                                                        else if($requestanno//@*:status = 'accept')then 
+                                                        <span style="color:green;">Status:
+                                                            <xrx:i18n>
+                                                            <xrx:key>accepted</xrx:key>
+                                                            <xrx:default>Accepted</xrx:default>
+                                                        </xrx:i18n>
+                                                    </span>
+                                                        else if($requestanno//@*:status = 'decline')then 
+                                                        <span style="color:red;">Status:
+                                                            <xrx:i18n>
+                                                            <xrx:key>Declined</xrx:key>
+                                                            <xrx:default>Declined</xrx:default>
+                                                        </xrx:i18n>
+                                                    </span>
+                                                        else()
+                                                        }
+                                                </div>
+                                            		<xrx:resource id="arrow{$number}" style="position:absolute;left:550px;top:8px;width:15px" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/plus</xrx:resource>
+                                            </div>
+                                            <div class="{$class}" data-demoid="7cf09d9f-0340-45e6-900d-7aa68cb8c737" id="field{$number}">
+                                                <div data-demoid="cbcfe087-cd40-495e-8e5a-45c3841d0fba">
+                                                    {
+                                                    if($requestanno//@*:collection = 'new')then
+                                                    <div data-demoid="dde189d0-9cbc-4729-9ee8-00842d0f51dd" style="border:solid black 2px;-moz-border-radius:10px;-webkit-border-radius:10px;-khtml-border-radius:10px;border-radius:10px;padding:5px;height:20px;">
+                                                        <div class="informations" data-demoid="7d4170dd-02cd-4cb9-a381-1770a69a6e66" style="left:10px;top:2px;position:relative;float:left;font-weight:bold;">
+                                                            <xrx:i18n>
+                                                                <xrx:key>new-collection</xrx:key>
+                                                                <xrx:default>New Collection:</xrx:default>
+                                                            </xrx:i18n>
+                                                        </div>
+                                                        <div class="informations" data-demoid="ab4cb7f1-ed5e-4895-a7ef-6afc7eb5a6d4" style="padding-left:10px;left:5px;top:2px;position:relative;float:left;">
+                                                            <xrx:i18n>
+                                                                <xrx:key>type</xrx:key>
+                                                                <xrx:default>Type</xrx:default>
+                                                            </xrx:i18n>: <span>{string($requestanno//@*:newtype)}</span>
+                                                        </div>
+                                                        <div data-demoid="c642be79-ddd8-4306-a854-afb7b51f1c15" style="position:relative;padding-left:10px;left:5px;top:2px;float:left;">
+                                                            <xrx:i18n>
+                                                                <xrx:key>name</xrx:key>
+                                                                <xrx:default>Name</xrx:default>
+                                                            </xrx:i18n>: <span>{string($requestanno//@*:newname)}</span>
+                                                        </div>
+                                                    </div>
+                                                    else
+                                                    <div data-demoid="d3087990-108a-404a-b153-2d0db043f71d" style="border:solid black 2px;-moz-border-radius:10px;-webkit-border-radius:10px;-khtml-border-radius:10px;border-radius:10px;padding:5px;height:60px;">
+                                                        {
+                                                        let $pubcolID := string($requestanno//@collection)
+                                                        let $pubcol := doc(concat(conf:param('data-db-base-uri'), 'metadata.imagecollections/imagecollections.xml'))//*:cropelement[@*:id=$pubcolID]
+                                                        return
+                                                        <div data-demoid="5eb9e0fe-0713-42f3-91c1-07848955530c">
+                                                            <div data-demoid="29a414c5-c83b-4c41-8ed3-5c8767bff755" style="position:relative;width:100%;">
+                                                                <div class="informations" data-demoid="a55e5378-2ded-4182-aea1-955f05fd4435" style="left:10px;top:2px;position:relative;float:left;font-weight:bold;">
+                                                                    <xrx:i18n>
+                                                                        <xrx:key>collection</xrx:key>
+                                                                        <xrx:default>Collection:</xrx:default>
+                                                                    </xrx:i18n>
+                                                                </div>
+                                                                <div class="informations" data-demoid="0d960e2b-0fc3-4bff-8a0b-7a7a18e640f8" style="padding-left:10px;left:5px;top:2px;position:relative;float:left;">
+                                                                    <xrx:i18n>
+                                                                        <xrx:key>type</xrx:key>
+                                                                        <xrx:default>Type</xrx:default>
+                                                                    </xrx:i18n>: <span>{string($pubcol/@*:type)}</span>
+                                                                </div>
+                                                                <div data-demoid="a030b25a-529f-4a50-b672-ccddeafb7635" style="position:relative;padding-left:10px;left:5px;top:2px;float:left;">
+                                                                    <xrx:i18n>
+                                                                        <xrx:key>name</xrx:key>
+                                                                        <xrx:default>Name</xrx:default>
+                                                                    </xrx:i18n>: <span>{string($pubcol/@*:name)}</span>
+                                                                </div>
+                                                            </div>
+                                                            <br/>
+                                                            <div data-demoid="e4f696ce-2a2f-46c7-a9b7-bf8e6c712852" style="position:relative;width:98%;border:solid grey 1px;-moz-border-radius:10px;-webkit-border-radius:10px;-khtml-border-radius:10px;border-radius:10px;padding:5px;top:5px;height:27px;">
+                                                                {
+                                                                let $datas := $pubcol//*:data
+                                                                for $data in $datas
+                                                                return
+                                                                <div data-demoid="ee6a12cb-a840-4c66-bb54-52fcad94df2a" style="float:left;padding:2px;">
+                                                                    <div class="miniviewport" data-demoid="72b440ec-83c9-474c-9ff9-95851118dbfb" id="pubview{$number}{string($data/@*:id)}" style="postion:relative;top:-6px;">
+                                                                        <img class="cropminiimg" id="pubviewimg{$number}{string($data/@*:id)}" onmousemove="moveTooltip(event, '{$number}{string($data/@*:id)}', 'publish')" onmouseout="hideTooltip(event, '{$number}{string($data/@*:id)}', 'publish')" onmouseover="showTooltip(event, '{$number}{string($data/@*:id)}', 'publish')" src="{$data/*:img}"/>
+                                                                    </div>
+                                                                    <div class="tooltip" data-demoid="cd9e0e72-eacb-4dd2-84c3-845d399d7ff5" id="pubtool{$number}{string($data/@*:id)}">
+                                                                        <img alt="Original image" class="toolimg" src="{$data/*:img}"/>
+                                                                    </div>
+                                                                </div>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                        }
+                                                    </div>
+                                                    }
+                                                </div>
+                                                <div class="requestviewport" data-demoid="128e3372-ba93-449f-bd25-62c673944c59" id="viewport{$number}"/>
+                                                <div data-demoid="06313b29-7d58-4b8c-a8a8-52846649644f" id="zoomer{$number}" style="position:relative;left:250px;">
+                                                    <p class="button" onClick="requestZoom('in', '{$number}', 'usercrop');">
+                                                    	<xrx:resource class="zoomer" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/zoom_in</xrx:resource>
+                                                    </p>
+                                                    <p class="button" onClick="requestZoom('out', '{$number}', 'usercrop');">
+                                                    	<xrx:resource class="zoomer" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/zoom_out</xrx:resource>
+                                                    </p>
+                                                </div>
+                                                <div data-demoid="8121a4ce-6471-4610-95bf-0ee16aa3571c" style="left:40px;top:460px;position:absolute;">
+                                                    <span style="font-weight:bold;">
+                                                        <xrx:i18n>
+                                                            <xrx:key>charter</xrx:key>
+                                                            <xrx:default>Charter</xrx:default>
+                                                        </xrx:i18n>: </span>
+                                                    <a href="{string($requestanno//*:url)}">{string($requestanno//*:url)}</a>
+                                                </div>
+                                                <div data-demoid="885676c8-2792-4787-8779-2e78e75d5372" style="position:absolute;left:40px;top:520px;">
+                                                    <span style="font-weight:bold;">
+                                                        <xrx:i18n>
+                                                            <xrx:key>note</xrx:key>
+                                                            <xrx:default>Note</xrx:default>
+                                                        </xrx:i18n>: </span>
+                                                    <span>{string($requestanno//*:note)}</span>
+                                                </div>
+                                                    {
+                                                    if($requestanno//@*:status = 'accept' or $requestanno//@*:status = 'decline')then
+                                                    <div data-demoid="489f0676-a5a1-4699-91ad-d751d62cff0c">
+                                                    <span style="position:absolute;color:#999999;font-weight:bold;left:40px;top:560px;">
+                                                        <xrx:i18n>
+                                                            <xrx:key>response-comment</xrx:key>
+                                                            <xrx:default>Response comment</xrx:default>
+                                                        </xrx:i18n>:
+                                                        </span>
+                                                    <span style="position:absolute;top:580px;left:45px;">
+                                                            {$requestanno//*:comment/text()}
+                                                        </span>
+                                                    <p class="button" id="hide{$number}" onClick="hideCrop('{string($requestanno//@id)}' , '{$number}', '{$xrx:user-id}', '{ $xrx:lang }');" style="position:absolute;top:605px;left:225px;">
+                                                        <xrx:i18n>
+                                                            <xrx:key>hide-request</xrx:key>
+                                                            <xrx:default>Hide request</xrx:default>
+                                                        </xrx:i18n>
+                                                    </p>
+                                                </div>                                            
+                                                    else()
+                                                    }
+                                                
+                                            </div>
+                                        </div>                        
+                           
+                            }
+                    </div>
+                                </div>
+                            </xrx:false>
+                        </xrx:auth>
+                        <div data-demoid="b1d790f4-f03c-434c-8acd-385a0a538f6a" id="sendImages" style="position:relative;top:30px;padding-bottom:20px">
+                            <div data-demoid="f7131ac1-cf9e-41ae-b128-f399d4d642c5" id="bobble">
+                            	<xrx:resource onClick="$('#bobble').css('display', 'none');" style="position:absolute;left:410px;top:8px;width:14px;" title="Close Save Options" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/button_close</xrx:resource>
+                                <div data-demoid="5ffefc66-edc1-4d3d-945d-df801eb29706" style="position:relative;left:30px;">
+                                    <div data-demoid="c3cbefa4-1a78-41db-93be-e239f9f10d92" style="position:relative;width:280px;">
+                                    	<span class="extractlabel" style="float:left;left:0px;position:relative;">
+                                            <xrx:i18n>
+                                                <xrx:key>imagename</xrx:key>
+                                                <xrx:default>Imagename</xrx:default>
+                                            </xrx:i18n>:
+                                        </span>
+                                    	<input id="imagenametext" style="width:160px;position:relative;left:10px;" type="text"/>
+                                    </div>
+                                    <div data-demoid="5ad3ae24-5a28-4bc8-8f1a-6dd1206724df" style="position:relative;width:350px;">
+                                    	<span class="extractlabel" style="float:left;position:relative;left:0px;">
+                                            <xrx:i18n>
+                                                <xrx:key>note</xrx:key>
+                                                <xrx:default>Note</xrx:default>
+                                            </xrx:i18n>:
+                                        </span>
+                                    	<textarea id="notetext" name="note" style="position:relative;width:160px;left:10px;max-width:250px;"/>
+                                    </div>
+                                </div>
+                                <div data-demoid="c06bc8f2-fb1e-4192-8cd5-4e21d5df6807" style="position:relative;left:10px;top:7px;">
+                                    <div class="editorheader" data-demoid="cf4ce61b-15b5-4dbe-ae57-3ed925cba354" style="width:350px;">
+                                            <span class="extractlabel" style="left:0px;">
+                                                <xrx:i18n>
+                                                    <xrx:key>save-options</xrx:key>
+                                                    <xrx:default>Save options</xrx:default>
+                                                </xrx:i18n>
+                                            </span>
+                                    </div>
+                                    <div data-demoid="56b61479-7625-46da-9bd9-4cf8da8e0113" style="position:relative;float:left;width:350px;border:solid #505050 1px;border-top-width:0px;">
+                                        <div data-demoid="5dfc5036-66ff-48ff-ae23-78de288cebc2" id="newcollection" onClick="changeSave('new');">
+                                            <span style="position:relative;font-size:13px;cursor:default;">
+                                                <xrx:i18n>
+                                                    <xrx:key>create-new-collection</xrx:key>
+                                                    <xrx:default>Create new collection</xrx:default>
+                                                </xrx:i18n>
+                                            </span>
+                                        </div>
+                                        <div data-demoid="00e942ad-93a1-4bbb-a76e-73e1c64c23c4" id="existcollection" onClick="changeSave('exist');">
+                                            <span style="position:relative;font-size:13px;cursor:default;">
+                                                <xrx:i18n>
+                                                    <xrx:key>expand-existing-collection</xrx:key>
+                                                    <xrx:default>Expand existing collection</xrx:default>
+                                                </xrx:i18n>
+                                            </span>
+                                        </div>
+                                        <div data-demoid="24081950-a20d-4589-b169-bf81a362a2ca" id="newdata">
+	                                        	<span class="labels" style="position:absolute;left:10px;top:10px;">
+	                                        		<xrx:i18n>
+	                                        			<xrx:key>type</xrx:key>
+	                                        			<xrx:default>Type</xrx:default>
+	                                        		</xrx:i18n>
+	                                        	</span>
+	                                        	<span class="labels" style="position:absolute;left:140px;top:10px;">
+	                                        		<xrx:i18n>
+	                                        			<xrx:key>name</xrx:key>
+	                                        			<xrx:default>Name</xrx:default>
+	                                        		</xrx:i18n>
+	                                        	</span>
+                                            <div data-demoid="048b8570-dcfb-42a7-9a0a-311c178a2d0b" id="inputdata">
+                                                <input id="typetext" name="type" style="width:114px;float:left;" type="text"/>
+                                                <input id="nametext" name="name" style="width:114px;float:left;" type="text"/>
+                                                <p class="button" id="savecrop" onClick="storeSend('{$xrx:user-id}', '{ $xrx:lang }');" style="position:relative;top:-30px;left:2px;text-align:center;">
+                                                    <xrx:i18n>
+                                                        <xrx:key>save</xrx:key>
+                                                        <xrx:default>Save</xrx:default>
+                                                    </xrx:i18n>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div data-demoid="522aa429-e8b1-4b99-aaf7-ff311a1aa21c" id="existdata">
+                                            {
+                                            let $cropping := doc(concat(conf:param('xrx-user-db-base-uri'), '/', xmldb:encode($xrx:user-id), '.xml'))//*:cropping
+                                            let $types := distinct-values($cropping//@*:type)
+                                            for $type at $firstnumber in $types
+                                            return
+                                            let $sid := $cropping//*:cropelement[@*:type=$type]/@*:id
+                                            return
+                                            <div class="saveentry" data-demoid="a021da2d-b453-4acb-b134-429c6883565b">
+                                                <span class="labels" style="float:left;font-size:13px;left:3px;">
+                                                    <xrx:i18n>
+                                                        <xrx:key>type</xrx:key>
+                                                        <xrx:default>Type</xrx:default>
+                                                    </xrx:i18n>: <span id="savetype{$sid}">{$type}</span>
+                                                </span>
+                                                {
+                                                let $cropelements := $cropping//*:cropelement[@*:type=$type]
+                                                for $cropelement at $secnumber in $cropelements
+                                                return
+                                                let $name := $cropelement/@*:name
+                                                let $nid := $cropelement/@*:id
+                                                return
+                                                if($secnumber gt 1)then
+                                                <div data-demoid="9959faf4-7790-43da-bcb2-bab241ff42f9" style="position:relative;margin-top:50px;">
+                                                    <span class="labels" style="left:65px;font-size:13px;">
+                                                        <xrx:i18n>
+                                                            <xrx:key>name</xrx:key>
+                                                            <xrx:default>Name</xrx:default>
+                                                        </xrx:i18n>: <span id="savename{$nid}">{string($name)}</span>
+                                                    </span>
+                                                    <div data-demoid="fe5d5880-6c23-4d67-8703-70d41a43c118" id="{$type}{$name}{$nid}" style="width:275px;">
+                                                        {
+                                                        let $datas := $cropelement//*:data
+                                                        return
+                                                        for $data at $thirdnumber in $datas
+                                                        return
+                                                        <div data-demoid="75de1054-b45d-4992-b556-fcd39edd5abc">
+                                                            <div class="miniviewport" data-demoid="4e0b4b30-356b-41c7-8e03-30140225034e" id="view{$firstnumber}{$secnumber}{$thirdnumber}">
+                                                                <img class="cropminiimg" id="viewimg{string($data/@*:id)}" onmousemove="moveTooltip(event, '{$firstnumber}{$secnumber}{$thirdnumber}', 'save')" onmouseout="hideTooltip(event, '{$firstnumber}{$secnumber}{$thirdnumber}', 'save')" onmouseover="showTooltip(event, '{$firstnumber}{$secnumber}{$thirdnumber}', 'save')" src="{$data/*:img}"/>
+                                                            </div>
+                                                            <div class="tooltip" data-demoid="9c6fd03a-5a0e-4aae-8bab-bce32da52968" id="tool{$firstnumber}{$secnumber}{$thirdnumber}">
+                                                                <img alt="Original image" class="toolimg" src="{$data/*:img}"/>
+                                                            </div>
+                                                        </div>                                                                
+                                                        }
+                                                    </div>
+                                                    <p class="button" id="add{$nid}" onClick="addSend('{$nid}','{$xrx:user-id}', '{$name}', '{$type}', '{ $xrx:lang }');" style="position:absolute;left:293px;top:-8px;width:19px;height:15px;">
+                                                    	<xrx:resource style="width:20px;position:relative;top:-2px;" title="Add Image" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/save</xrx:resource>
+                                                    </p>
+                                                </div>
+                                                else
+                                                <div data-demoid="df53f68d-501d-4341-a615-8b740aaf55c1" style="position:relative;">
+                                                    <span class="labels" style="left:15px;font-size:13px;">
+                                                        <xrx:i18n>
+                                                            <xrx:key>name</xrx:key>
+                                                            <xrx:default>Name</xrx:default>
+                                                        </xrx:i18n>: <span id="savename{$nid}">{string($name)}</span>
+                                                    </span>
+                                                    <div data-demoid="5c0a6474-2656-4a6e-ba79-ddf030b3ce6f" id="{$type}{$name}{$nid}" style="width:275px;">
+                                                        {
+                                                        let $datas := $cropelement//*:data
+                                                        return
+                                                        for $data at $thirdnumber in $datas
+                                                        return
+                                                        <div data-demoid="f7439444-68f3-4abc-9877-08d5bcae5644">
+                                                            <div class="miniviewport" data-demoid="1e6620c3-6a2b-4ec7-b4bd-137d59470d42" id="view{$firstnumber}{$secnumber}{$thirdnumber}">
+                                                                <img class="cropminiimg" id="viewimg{string($data/@*:id)}" onmousemove="moveTooltip(event, '{$firstnumber}{$secnumber}{$thirdnumber}', 'save')" onmouseout="hideTooltip(event, '{$firstnumber}{$secnumber}{$thirdnumber}', 'save')" onmouseover="showTooltip(event, '{$firstnumber}{$secnumber}{$thirdnumber}', 'save')" src="{$data/*:img}"/>
+                                                            </div>
+                                                            <div class="tooltip" data-demoid="fa799973-5607-47aa-b651-1f9ce7f82f88" id="tool{$firstnumber}{$secnumber}{$thirdnumber}">
+                                                                <img alt="Original image" class="toolimg" src="{$data/*:img}"/>
+                                                            </div>
+                                                        </div>                                                                
+                                                        }
+                                                    </div>
+                                                    <p class="button" id="add{$nid}" onClick="addSend('{$nid}','{$xrx:user-id}', '{$name}', '{$type}', '{ $xrx:lang }');" style="position:absolute;left:293px;top:-8px;width:19px;height:15px;">
+                                                    	<xrx:resource style="width:20px;position:relative;top:-2px;" title="Add Image" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/save</xrx:resource>
+                                                    </p>
+                                                </div>
+                                                }
+                                            </div> 
+                                            }
+                                            
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="editorfooter" data-demoid="5071100a-eec9-4a68-984a-5d2c54a4a5ec"/>
+                                </div>
+                            </div>
+                            <div data-demoid="115e36d6-6934-4a57-8194-72abd7bbefeb">
+                                <div data-demoid="ab09b2eb-3c1e-4664-998d-a341591caafd">
+                                    <br/>
+                                    <span style="position:relative;color:#999999;font-weight:bold;left:10px;top:20px;">
+                                        <xrx:i18n>
+                                            <xrx:key>image-inbox</xrx:key>
+                                            <xrx:default>Image Inbox</xrx:default>
+                                        </xrx:i18n>:
+                                    </span>                            
+                                    {
+                                    let $requestannos := doc(concat(conf:param('xrx-user-db-base-uri'), '/', xmldb:encode($xrx:user-id), '.xml'))//*:asksend
+                                    for $requestanno at $number in $requestannos
+                                    return
+                                    let $lastname := doc(concat(conf:param('xrx-user-db-base-uri'), '/', string($requestanno//@user), '.xml'))//*:name
+                                    let $firstname := doc(concat(conf:param('xrx-user-db-base-uri'), '/', string($requestanno//@user), '.xml'))//*:firstname
+                                    return
+                                    <div data-demoid="99b9b8b1-7f6b-4564-92f3-5bead08ca844">
+                                        <div data-demoid="12f23220-e3bf-4b52-a8fb-aac13e8c94bc">
+                                            <div class="requests" data-demoid="523109b6-19d6-4058-96f6-ccc0c83c6585" id="send{$number}" onclick="showRequest('start', '{string($requestanno/*:data/@id)}' , '{$number}', '{$xrx:user-id}' , 'sendImage', '{ $xrx:lang }');">
+                                                <div data-demoid="52b4b4d1-9340-4a25-a655-951064fefde4" style="position:relative;float:left;">
+                                                    <span>User: </span>
+                                                    <span>{$firstname/text()} {$lastname/text()}</span>
+                                                </div>
+                                            		<xrx:resource id="sendarrow{$number}" style="position:absolute;left:550px;top:8px;width:15px" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/plus</xrx:resource>
+                                            </div>
+                                        </div>
+                                        <div class="infofield" data-demoid="bcac0fa7-2046-487d-9862-96cd2b01864b" id="sendfield{$number}" style="height:550px;;">
+                                            <div data-demoid="c19ada26-03f1-49ea-a75c-76e8cd2ee5a3" style="position:relative;left:40px;top:5px;">
+                                                <span style="font-weight:bold;">
+                                                    <xrx:i18n>
+                                                        <xrx:key>imagename</xrx:key>
+                                                        <xrx:default>Imagename</xrx:default>
+                                                    </xrx:i18n>: </span>
+                                                <span id="sendImagename{$number}">{string($requestanno//@*:imagename)}</span>
+                                            </div>
+                                            <div class="requestviewport" data-demoid="b471cd2d-34ed-4b1f-b5f0-f2b923bc20ca" id="sendviewport{$number}"/>
+                                            <div data-demoid="44725e6d-35a8-459f-841e-2ac7a2a0fc6b" id="sendzoomer{$number}" style="position:relative;left:250px;">
+                                                <p class="button" onClick="requestZoom('in', '{$number}', 'send');">
+                                                	<xrx:resource class="zoomer" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/zoom_in</xrx:resource>
+                                                </p>
+                                                <p class="button" onClick="requestZoom('out', '{$number}', 'send');">
+                                                	<xrx:resource class="zoomer" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/zoom_out</xrx:resource>
+                                                </p>
+                                            </div>
+                                            <div data-demoid="298b0015-fa4e-4b22-a313-e89d3b17f7b3" style="left:40px;top:410px;position:absolute;">
+                                                <span style="font-weight:bold;">
+                                                    <xrx:i18n>
+                                                        <xrx:key>charter</xrx:key>
+                                                        <xrx:default>Charter</xrx:default>
+                                                    </xrx:i18n>: </span>
+                                                <a href="{string($requestanno//*:url)}" id="sendurl{$number}">{string($requestanno//*:url)}</a>
+                                            </div>
+                                            <div data-demoid="f030f1ae-2ab9-4764-b8d0-89a4778f6afc" style="position:absolute;left:40px;top:460px;">
+                                                <span style="font-weight:bold;">
+                                                    <xrx:i18n>
+                                                        <xrx:key>note</xrx:key>
+                                                        <xrx:default>Note</xrx:default>
+                                                    </xrx:i18n>: </span>
+                                                <span id="sendNote{$number}">{string($requestanno//*:note)}</span>
+                                            </div>
+                                            <div data-demoid="b379db7d-7ced-412e-b6f0-070e674851cb" style="position:absolute;top:500px;left:205px;">
+                                                <p class="button" id="acceptSend{$number}" onClick="acceptSend(event, '{$number}', '{string($requestanno/@id)}');">
+                                                    <xrx:i18n>
+                                                        <xrx:key>accept</xrx:key>
+                                                        <xrx:default>Accept</xrx:default>
+                                                    </xrx:i18n>
+                                                </p>
+                                                <p class="button" id="declineSend{$number}" onClick="answerSend('declineSend' , '{string($requestanno/@id)}' , '{$number}', '{$xrx:user-id}', '{ $xrx:lang }');" style="position:relative;left:5px;">
+                                                    <xrx:i18n>
+                                                        <xrx:key>decline</xrx:key>
+                                                        <xrx:default>Decline</xrx:default>
+                                                    </xrx:i18n>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>    
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xrx:true>
+                <xrx:false>
+                    <div data-demoid="4272b80d-0a06-4a21-876c-4849b4542e31">
+                        <div class="h2" data-demoid="3873dc83-13ff-4a08-9f76-2c7d52f9fadc">
+                            <xrx:i18n>
+                                <xrx:key>image-requests</xrx:key>
+                                <xrx:default>Image Requests</xrx:default>
+                            </xrx:i18n>
+                        </div>
+                        <xrx:i18n>
+                            <xrx:key>protected-page-message</xrx:key>
+                            <xrx:default>Protected page. Please login first.</xrx:default>
+                        </xrx:i18n>
+                    		<xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/login2</xrx:subwidget>
+                    </div>
+                </xrx:false>
+            </xrx:auth>
+        	<script type="text/javascript">
+		      	$(document).ready(function() {{
+		          	loadDoc('{$conf:project-name}');
+		          }});
+         </script>
+        </div>
+    </xrx:view>
+</xrx:widget>

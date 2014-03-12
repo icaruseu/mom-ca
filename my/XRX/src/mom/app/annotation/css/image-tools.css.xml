@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xrx:css xmlns="http://www.w3.org/1999/xhtml" xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/css/image-tools</xrx:id>
+  <xrx:author>andre.streicher@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:style>
+      /*
+      * Menu surfaces
+      */
+      
+      .active-drop-annotation{{
+      border:dashed red 1px;
+      }}
+
+      #add-metadata-button{{
+      display:none;
+      }}
+      
+      #image-tool-widget-button-bar{{
+      position:relative;
+      font-size:10px !important;
+      padding: 3px 13px;
+      width:100%;
+      }}
+
+      #image-tool-widget-button-bar a{{
+      color:#555555 !important;
+      }}
+
+      #image-tool-widget-button-bar a:hover{{
+      color:black !important;
+      }}
+
+      #img-svg{{
+      display:none;
+      }}
+
+      .image-tool-widget-button{{
+      font-size:10px;
+      cursor:default;
+      }}
+  
+      #open-image-tool-button{{
+      position:relative;
+      top:4px;
+      left:310px;
+      float:left;
+      z-index:1;
+      margin:0;
+      border:solid grey 1px;
+      font-size:10px !important;
+      cursor:default;
+      }}
+
+      #image-tool-div{{
+      position:absolute;
+      right:20px;
+      top:25px;
+      }}  
+
+      #image-tool-widget {{
+      display: none;
+      position: fixed;
+      z-index:20;
+      top: 200px;
+      left: 200px;
+      background-color: white;
+      padding:5px;
+      cursor: pointer;
+      -moz-border-radius:3px;
+      -webkit-border-radius:3px;
+      -khtml-border-radius:3px;
+      border:solid grey 1px;
+      border-radius:5px;
+      -moz-box-shadow:    4px -3px 10px 1px #202020;
+      -webkit-box-shadow: 4px -3px 10px 1px #202020;
+      box-shadow:         4px -3px 10px 1px #202020;
+      }}
+
+      #image-tool-widget-close-button{{
+      position:absolute;
+      z-index:21;
+      right:3px;
+      top:4px;
+      width:10px;
+      }}
+
+      #no-annos, #broken-anno{{
+      display:none;
+      margin:6px;
+      font-family: Trebuchet MS,regular,sans-serif;
+      font-size:13px;
+      font-weight:bold;
+      }}
+
+      .inactive-drop-annotation{{
+      border:dashed grey 1px;
+      }}
+
+      #open-image-tool{{
+      font-size:14px;
+      margin:0;
+      font-family: Courier, monospace;
+      border:solid grey 1px;
+      }}
+
+      #save-selection-button{{
+      display:none;
+      }}
+  
+      #edit-anno-button{{
+      display:none;
+      }}
+
+      #delete-anno-button{{
+      display:none;
+      }}
+
+      #save-metadata-button{{
+      display:none;
+      }}
+      
+      /*
+      * Dropping area
+      */
+      
+      #drop-annotation-markup-tag{{
+      font-size:6px;
+      color:#E6E6E6;
+      text-align:center;
+      padding:3px;
+      font-family: Courier, monospace;
+      font-size:15px;  
+      display:inline;
+      position:relative;
+      margin:10px;
+      width:230px;
+      height:30px;
+      float:left;
+      }}
+      
+      #drop-annotation-markup-tag span{{
+      position:relative;
+      top:6px;
+      }}
+
+      #drop-area{{
+      display:none;
+      width:100%;
+      position:relative;
+      padding: 5px 20px;
+      }}
+      
+      /*
+      * Metadata area
+      */
+      
+      #create-metadata-field{{
+      display:none;
+      position:relative;
+      margin:15px;
+      font-family: Trebuchet MS,regular,sans-serif;
+      font-size:13px;
+      padding:5px;
+      width:100%;
+      }}
+
+      #metadata-field{{
+      display:none;
+      position:relative;
+      margin:15px;
+      font-family: Trebuchet MS,regular,sans-serif;
+      font-size:13px;
+      padding:5px;
+      }}
+
+      #selected-tag{{
+      font-family: times;
+      font-size:16px;
+      float:left;
+      }}
+  
+      #tag-to-trash{{
+      position:relative;
+      }}
+
+      #zone-description{{
+      border:solid grey 1px;
+      width:250px;
+      resize:none;
+      }}
+
+      .meta-caption{{
+      font-weight:bold;
+      font-size:14px;
+      font-family: Trebuchet MS,regular,sans-serif;
+      }}
+
+      /*
+       * Linking Tag
+       */
+      
+      .linked-anno-tag{{
+      border: dashed blue 1px !important;
+      }}
+
+      /*
+       * Help bobble
+       */
+
+        #bobble {{
+        display:none;
+        position: absolute;
+        z-index:30;
+        width: 400px;
+        height: 90px;
+        background-color: #F6F6F6;
+        padding:20px;
+        -moz-border-radius:3px;
+        -webkit-border-radius:3px;
+        -khtml-border-radius:3px;
+        border-radius:3px;
+        -moz-box-shadow:    4px -3px 10px 1px #202020;
+        -webkit-box-shadow: 4px -3px 10px 1px #202020;
+        box-shadow:         4px -3px 10px 1px #202020;
+        }}
+        
+        #bobble div {{
+        width: 0px;
+        height: 0px;
+        z-index:1;
+        border-top: 20px solid #F6F6F6 ;
+        border-right: 20px solid transparent;
+        display: inline;
+        position: relative;
+        left: 20px;
+        top: 130px;
+        }}
+        
+        #bobbletext{{
+        font-size:15px;
+        }}
+
+  </xrx:style>
+</xrx:css>

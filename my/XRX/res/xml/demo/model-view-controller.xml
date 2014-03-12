@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="./demo.xsl" type="text/xsl"?>
+<div data-filename="model-view-controller.xml" 
+    data-relativepath="../" 
+    xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:xrx="http://www.monasterium.net/NS/xrx" 
+    xmlns:demo="http://www.monasterium.net/NS/demo">
+  <demo:header>XML Model-View-Controller</demo:header>
+  <p></p>
+  <demo:heading>Demo 1: Simple</demo:heading>
+
+
+
+  <demo:heading>Demo 2: Multiple Nodes</demo:heading>
+
+
+
+  <demo:heading>Demo 3: Empty Nodes</demo:heading>
+
+
+
+  <demo:heading>Demo 4: Multiple Bindings</demo:heading>
+  <demo:app>
+    <xrx:instance id="i">
+      <data xmlns="">
+        <a/>
+        <b/>
+        <c>Change this text.</c>
+      </data>
+    </xrx:instance>
+    <xrx:bind id="b0" ref="xrx:instance('i')"/>
+    <xrx:bind id="b1" ref="xrx:instance('i')//c/text()"/>
+    <xrx:bind id="b2" ref="xrx:instance('i')/data/c/text()"/>
+    <xrx:bind id="b3" ref="xrx:instance('i')/data/b/following-sibling::c/text()"/>
+    <demo:mvc>
+      <demo:view>
+        <table>
+          <tr>
+            <td>Output: </td>
+            <td><xrx:output bind="b1"/></td>
+          </tr>
+          <tr>
+            <td>Input 1: </td>
+            <td><xrx:input bind="b2"/></td>
+          </tr>
+          <tr>
+            <td>Input 2: </td>
+            <td><xrx:input bind="b3"/></td>
+          </tr>
+        </table>
+      </demo:view>
+      <demo:model>
+        <xrx:console bind="b0"/>
+      </demo:model>
+    </demo:mvc>
+    <div class="demo-hint">
+      <p>Change the value of an input control to see the model-view-controller in action.</p>
+    </div>
+  </demo:app>
+  <demo:source rows="18">
+&lt;xrx:instance id="i"&gt;
+  &lt;data xmlns=""&gt;
+    &lt;a/&gt;
+    &lt;b/&gt;
+    &lt;c&gt;Change this text.&lt;/c&gt;
+  &lt;/data&gt;
+&lt;/xrx:instance&gt;
+&lt;xrx:bind id="b0" ref="xrx:instance('i')"/&gt;
+&lt;xrx:bind id="b1" ref="xrx:instance('i')//c/text()"/&gt;
+&lt;xrx:bind id="b2" ref="xrx:instance('i')/data/c/text()"/&gt;
+&lt;xrx:bind id="b3" ref="xrx:instance('i')/data/b/following-sibling::c/text()"/&gt;
+
+&lt;span&gt;Output: &lt;/span&gt;&lt;xrx:output bind="b1"/&gt;
+&lt;span&gt;Input 1: &lt;/span&gt;&lt;xrx:input bind="b2"/&gt;
+&lt;span&gt;Input 2: &lt;/span&gt;&lt;xrx:input bind="b3"/&gt;
+
+&lt;xrx:console bind="b0"/&gt;
+  </demo:source>
+
+
+
+  <demo:heading>Demo 5: Nested Bindings</demo:heading>
+</div>

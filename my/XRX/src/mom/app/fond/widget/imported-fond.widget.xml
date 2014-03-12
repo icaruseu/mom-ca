@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+	<xrx:id>tag:www.monasterium.net,2011:/mom/widget/imported-fond</xrx:id>
+	<xrx:inherits>tag:www.monasterium.net,2011:/mom/widget/charters</xrx:inherits>
+	<xrx:title>
+		<xrx:i18n>
+			<xrx:key>imported-fond</xrx:key>
+			<xrx:default>Imported Fond</xrx:default>
+		</xrx:i18n>
+	</xrx:title>
+	<xrx:subtitle/>
+	<xrx:description/>
+	<xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+	<xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more
+lenient towards the inclusion of components into other systems, once
+it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>    
+    <!-- 
+      widget specific variables 
+    -->
+    <xrx:variable>
+      <xrx:name>$wimported-fond:archive-atomid</xrx:name>
+      <xrx:expression>metadata:atomid($archive:metadata-object-type, $charter:rarchiveid)</xrx:expression>
+    </xrx:variable>
+    <!-- 
+    	variables for inherited widget
+     -->
+    <!-- charter context information -->
+    <xrx:variable>
+      <xrx:name>$wcharters:metadata-charter-context-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('fond', ($charter:rarchiveid, $charter:rfondid), 'public')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:metadata-charter-context-entry</xrx:name>
+      <xrx:expression>$wcharters:metadata-charter-context-collection//ead:ead/ancestor::atom:entry</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:charter-context-name</xrx:name>
+      <xrx:expression>$wcharters:metadata-charter-context-entry//ead:unittitle/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:charter-context-short-name</xrx:name>
+      <xrx:expression>$wcharters:metadata-charter-context-entry//ead:unittitle/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:metadata-charter-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('charter', ($charter:rarchiveid, $charter:rfondid), 'import')</xrx:expression>
+    </xrx:variable>
+    <!-- block-wise navigation -->
+    <xrx:variable>
+      <xrx:name>$wcharters:preface-exists</xrx:name>
+      <xrx:expression>true()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:block</xrx:name>
+      <xrx:expression>xs:integer(request:get-parameter('block', '-1'))</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:date-elements</xrx:name>
+      <xrx:expression>charters:years($wcharters:metadata-charter-collection)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:previous-block-pos</xrx:name>
+      <xrx:expression>if($charters:rblock = 1) then 1 else $charters:rblock - 1</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:next-block-pos</xrx:name>
+      <xrx:expression>if($charters:rblock = count($wcharter:date-elements) div 30) then 1 else $charters:rblock + 1</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:block-strings</xrx:name>
+      <xrx:expression>charters:block-strings($wcharter:date-elements)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:blocks-count</xrx:name>
+      <xrx:expression>count($wcharters:block-strings)</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:xformsflag>true</xrx:xformsflag>
+    </xrx:processor>
+  </xrx:init>
+	<xrx:model>
+		{
+		let $arch-id := $xrx:tokenized-uri[1]
+		let $fond-id := $xrx:tokenized-uri[2]
+		let $metadata-charter-collection := metadata:base-collection('charter', ($arch-id, $fond-id), 'import')
+		let $xrx-import-xml := $metadata-charter-collection/xrx:import
+		return
+		(
+		chimport:publish-charters-model(conf:param('request-root'), $xrx-import-xml),
+		chimport:remove-charters-model(conf:param('request-root'), $xrx-import-xml)
+		)
+		}
+  </xrx:model>
+  <xrx:divs>
+    <xrx:div>
+      <xrx:key>heading-div</xrx:key>
+      <xrx:view>
+				<div class="h2" data-demoid="48484831-9992-49fe-accc-234b1cc854e6">
+					<xrx:i18n>
+						<xrx:key>imported-fond-preview</xrx:key>
+						<xrx:default>Imported fond (preview)</xrx:default>
+					</xrx:i18n>
+					<span>: </span>
+					<span>{ $wcharters:charter-context-name }</span>
+				</div>      
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>my-functions-div</xrx:key>
+      <xrx:view>
+				<xrx:auth>
+					<xrx:rules>
+						<xrx:rule>
+							<xrx:user/>
+							<xrx:dbgroup>atom</xrx:dbgroup>
+						</xrx:rule>
+					</xrx:rules>
+					<xrx:true>
+						<div class="my-functions" data-demoid="c2637123-c157-4f59-af9d-74c4007e1e48">
+							<h3>
+								<xrx:i18n>
+									<xrx:key>my-functions</xrx:key>
+									<xrx:default>MyFunctions</xrx:default>
+								</xrx:i18n>
+							</h3>
+							<xrx:auth>
+								<xrx:rules>
+									<xrx:or>
+										<xrx:rule>
+											<xrx:user/>
+											<xrx:role>metadata-manager</xrx:role>
+										</xrx:rule>
+										<xrx:rule>
+											<xrx:user/>
+											<xrx:community>{ $wimported-fond:archive-atomid }</xrx:community>
+										</xrx:rule>
+									</xrx:or>
+								</xrx:rules>
+								<xrx:true>
+									<div class="function-links" data-demoid="6daacdae-94c2-4cbd-92d2-fe01cada56a9">
+										<div class="function-link" data-demoid="16557f15-5b78-4244-9109-739571ba8764">
+											<a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ $charter:rfondid }/edit-fond">
+												<span>‣ </span>
+												<xrx:i18n>
+													<xrx:key>edit-fond-info</xrx:key>
+													<xrx:default>Edit Fond Information</xrx:default>
+												</xrx:i18n>
+											</a>
+										</div>
+                    <div class="function-link" data-demoid="1fb28dc2-6628-4203-8a46-91d1c5075b6b">
+                      <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ $charter:rfondid }/import-charters">
+                        <span>‣ </span>
+                        <xrx:i18n>
+                          <xrx:key>import-charters</xrx:key>
+                          <xrx:default>Import Charters</xrx:default>
+                        </xrx:i18n>
+                        <span> </span>
+                        <span>(Excel, CEI, EAD, XML, OAI, SQL)</span>
+                      </a>
+                    </div>
+                    {
+                    if(matches(request:get-server-name(), '(localhost|vdu.uni-koeln.de)')) then
+                    <div class="function-link" data-demoid="8d90d2d0-a1f3-4eb1-a056-6434b43d3880">
+                      <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ $charter:rfondid }/vdu-import">
+                        <span>‣ </span>
+                        <xrx:i18n>
+                          <xrx:key>vdu-import</xrx:key>
+                          <xrx:default>VdU Import</xrx:default>
+                        </xrx:i18n>
+                      </a>
+                    </div>
+                    else()
+                    }
+										<div class="function-link" data-demoid="99899567-5691-4342-9518-276eb9cdaf62">
+											<a href="fond-preferences">
+												<span>‣ </span>
+												<xrx:i18n>
+													<xrx:key>preferences</xrx:key>
+													<xrx:default>Preferences</xrx:default>
+												</xrx:i18n>
+											</a>
+										</div> 
+                    <div class="function-link" data-demoid="f6f489a9-d6a9-4b26-9e5c-09e6ff1b6c98">
+                      {
+                      chimport:publish-charters-trigger(
+                      <span>
+                        <xrx:i18n>
+                          <xrx:key>publish-charters</xrx:key>
+                          <xrx:default>Publish charters</xrx:default>
+                        </xrx:i18n>
+                      </span>,
+                      'fond'
+                      )
+                      }
+                    </div>
+                    <div class="function-link" data-demoid="b296f675-2555-4680-81a6-f01be61bbf40">
+                      {
+                      chimport:remove-charters-trigger(
+                      <span>
+                        <xrx:i18n>
+                          <xrx:key>remove-imported-charters</xrx:key>
+                          <xrx:default>Remove imported charters</xrx:default>
+                        </xrx:i18n>
+                      </span>,
+                      'fond'
+                      )
+                      }
+                    </div>
+									</div>
+								</xrx:true>
+								<xrx:false>
+									<div class="function-link" data-demoid="307bd733-fbbb-4e32-b9b6-9c92630bda05">
+										<span> </span>
+									</div>
+								</xrx:false>
+							</xrx:auth>
+						</div>
+					</xrx:true>
+					<xrx:false>
+						<span/>
+					</xrx:false>
+				</xrx:auth>      
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>preface-link-div</xrx:key>
+      <xrx:view><span/></xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>breadcrumb-div</xrx:key>
+      <xrx:view>
+				<div data-demoid="03879be6-d372-460f-9208-175f8f1830c1" id="breadcrumb">
+					<a href="{ conf:param('request-root') }fonds">
+						<xrx:i18n>
+							<xrx:key>fonds</xrx:key>
+							<xrx:default>Fonds</xrx:default>
+						</xrx:i18n>
+					</a>
+					<span> &gt; </span>
+					<a href="{ conf:param('request-root') }{ $charter:rarchiveid }/archive">{ $charter:rarchiveid }</a>
+					<span> &gt; </span>
+					<a href="fond">{ xmldb:decode($charter:rfondid) }</a>
+					<span> &gt; </span>
+					<a href="imported-fond">
+						<xrx:i18n>
+							<xrx:key>imported-fond-preview</xrx:key>
+							<xrx:default>Imported fond (preview)</xrx:default>
+						</xrx:i18n>
+					</a>
+				</div>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>goto-search-div</xrx:key>
+      <xrx:view><span/></xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>preface-div</xrx:key>
+      <xrx:view><span/></xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>charter-preview-div</xrx:key>
+      <xrx:view>
+				<div data-demoid="554182f3-d58d-4ef1-9fb2-001e643a3e7c" id="dcharter-preview-main">
+					{
+					let $all-user-xmls := $user:db-base-collection/xrx:user
+					for $year at $num in $wcharter:date-elements[ position() = $charters:start to $charters:stop ]
+					return
+					<div data-demoid="0aeb9d4b-5aec-46bc-af47-69d13f2dd613">
+					  <xrx:subwidget>
+					    <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/charter-preview-importedfond</xrx:atomid>
+					    <xrx:pass>
+					      <xrx:parameter>
+					        <xrx:name>$constructor:charter</xrx:name>
+					        <xrx:expression>$year/ancestor::cei:text</xrx:expression>
+					      </xrx:parameter>
+					      <xrx:parameter>
+					        <xrx:name>$constructor:all-user-xmls</xrx:name>
+					        <xrx:expression>$all-user-xmls</xrx:expression>
+					      </xrx:parameter>
+					    </xrx:pass>
+					  </xrx:subwidget>
+					</div>
+					}
+					<div data-demoid="95329909-ddf8-496c-b715-bb26da4b8794">{ $block-navi-div }</div>
+				</div>
+			</xrx:view>
+    </xrx:div>
+  </xrx:divs>
+</xrx:widget>

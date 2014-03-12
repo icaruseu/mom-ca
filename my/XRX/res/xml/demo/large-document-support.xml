@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="./demo.xsl" type="text/xsl"?>
+<div data-filename="large-document-support.xml" data-relativepath="../" xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:xrx="http://www.monasterium.net/NS/xrx" 
+    xmlns:demo="http://www.monasterium.net/NS/demo">
+  <demo:header>Large Document Support</demo:header>
+</div>

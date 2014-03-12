@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/imported-collection</xrx:id>
+  <xrx:inherits>tag:www.monasterium.net,2011:/mom/widget/charters</xrx:inherits>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>imported-collection</xrx:key>
+      <xrx:default>Imported collection</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more
+lenient towards the inclusion of components into other systems, once
+it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>
+    <!-- 
+      variables for inherited widget
+     -->
+    <!-- charter context information -->
+    <xrx:variable>
+      <xrx:name>$wcharters:metadata-charter-context-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('collection', $charter:rcollectionid, 'public')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:metadata-charter-context-entry</xrx:name>
+      <xrx:expression>$wcharters:metadata-charter-context-collection//cei:cei/ancestor::atom:entry</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:charter-context-name</xrx:name>
+      <xrx:expression>$wcharters:metadata-charter-context-entry//cei:provenance/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:charter-context-short-name</xrx:name>
+      <xrx:expression>$wcharters:metadata-charter-context-entry//cei:provenance/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:metadata-charter-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('charter', $charter:rcollectionid, 'import')</xrx:expression>
+    </xrx:variable>
+    <!-- block-wise navigation -->
+    <xrx:variable>
+      <xrx:name>$wcharters:preface-exists</xrx:name>
+      <xrx:expression>true()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:block</xrx:name>
+      <xrx:expression>xs:integer(request:get-parameter('block', '-1'))</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:date-elements</xrx:name>
+      <xrx:expression>charters:years($wcharters:metadata-charter-collection)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:previous-block-pos</xrx:name>
+      <xrx:expression>if($charters:rblock = 1) then 1 else $charters:rblock - 1</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:next-block-pos</xrx:name>
+      <xrx:expression>if($charters:rblock = count($wcharter:date-elements) div 30) then 1 else $charters:rblock + 1</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:block-strings</xrx:name>
+      <xrx:expression>charters:block-strings($wcharter:date-elements)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:blocks-count</xrx:name>
+      <xrx:expression>count($wcharters:block-strings)</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:xformsflag>true</xrx:xformsflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:model>
+    {
+    let $metadata-charter-collection := metadata:base-collection('charter', $charter:rcollectionid, 'import')
+    let $xrx-import-xml := $metadata-charter-collection/xrx:import
+    return
+    (
+    chimport:publish-charters-model(conf:param('request-root'), $xrx-import-xml),
+    chimport:remove-charters-model(conf:param('request-root'), $xrx-import-xml)
+    )
+    }
+  </xrx:model>
+  <xrx:divs>
+    <xrx:div>
+      <xrx:key>heading-div</xrx:key>
+      <xrx:view>
+        <div class="h2" data-demoid="6f57442a-7462-4162-b6e2-ce5cd5c15d16">
+          <xrx:i18n>
+            <xrx:key>imported-collection-preview</xrx:key>
+            <xrx:default>Imported collection (preview)</xrx:default>
+          </xrx:i18n>
+          <span>: </span>
+          <span>{ $wcharters:charter-context-name }</span>
+        </div>      
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>my-functions-div</xrx:key>
+      <xrx:view>
+        <xrx:auth>
+          <xrx:rules>
+            <xrx:rule>
+              <xrx:user/>
+              <xrx:dbgroup>atom</xrx:dbgroup>
+            </xrx:rule>
+          </xrx:rules>
+          <xrx:true>
+            <div class="my-functions" data-demoid="cdd702ac-699f-4983-8ed9-1461df220c99">
+              <h3>
+                <xrx:i18n>
+                  <xrx:key>my-functions</xrx:key>
+                  <xrx:default>MyFunctions</xrx:default>
+                </xrx:i18n>
+              </h3>
+              <xrx:auth>
+                <xrx:rules>
+                  <xrx:rule>
+                    <xrx:user/>
+                    <xrx:role>metadata-manager</xrx:role>
+                  </xrx:rule>
+                </xrx:rules>
+                <xrx:true>
+                  <div class="function-links" data-demoid="90a2338a-dde7-48d6-87c1-2c89605fe550">
+                    <div class="function-link" data-demoid="bfd8e0bf-dd5d-4421-8922-c9a505466f49">
+                      <a href="{ conf:param('request-root') }{ $charter:rcollectionid }/edit-collection-info">
+                        <span>‣ </span>
+                        <xrx:i18n>
+                          <xrx:key>edit-collection-info</xrx:key>
+                          <xrx:default>Edit collection Information</xrx:default>
+                        </xrx:i18n>
+                      </a>
+                    </div>
+                    <div class="function-link" data-demoid="b81db4f1-bb1c-4ed2-b72d-2b1eabf9a0c3">
+                      <a href="{ conf:param('request-root') }{ $charter:rcollectionid }/import-charters">
+                        <span>‣ </span>
+                        <xrx:i18n>
+                          <xrx:key>import-charters</xrx:key>
+                          <xrx:default>Import Charters</xrx:default>
+                        </xrx:i18n>
+                        <span> </span>
+                        <span>(Excel, CEI, EAD, XML, OAI, SQL)</span>
+                      </a>
+                    </div>
+                    <div class="function-link" data-demoid="5f10c57e-4cbf-4d07-ad18-110f52bbf769">
+                      {
+                      chimport:publish-charters-trigger(
+                      <span>
+                        <xrx:i18n>
+                          <xrx:key>publish-charters</xrx:key>
+                          <xrx:default>Publish charters</xrx:default>
+                        </xrx:i18n>
+                      </span>,
+                      'collection'
+                      )
+                      }
+                    </div>
+                    <div class="function-link" data-demoid="05f80e32-1779-4de9-b182-c1fb462e727c">
+                      {
+                      chimport:remove-charters-trigger(
+                      <span>
+                        <xrx:i18n>
+                          <xrx:key>remove-imported-charters</xrx:key>
+                          <xrx:default>Remove imported charters</xrx:default>
+                        </xrx:i18n>
+                      </span>,
+                      'collection'
+                      )
+                      }
+                    </div>
+                    <!--div class="function-link">
+                      <a href="fond-preferences">
+                        <span>‣&#160;</span>
+                        <xrx:i18n>
+                          <xrx:key>preferences</xrx:key>
+                          <xrx:default>Preferences</xrx:default>
+                        </xrx:i18n>
+                      </a>
+                    </div--> 
+                  </div>
+                </xrx:true>
+                <xrx:false>
+                  <div class="function-link" data-demoid="19c19dbc-4727-4271-90e1-1ffe3798dedc">
+                    <span> </span>
+                  </div>
+                </xrx:false>
+              </xrx:auth>
+            </div>
+          </xrx:true>
+          <xrx:false>
+            <span/>
+          </xrx:false>
+        </xrx:auth>      
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>preface-link-div</xrx:key>
+      <xrx:view><span/></xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>breadcrumb-div</xrx:key>
+      <xrx:view>
+        <div data-demoid="7d3089ec-3eb6-48c1-91b2-30eec11a1d12" id="breadcrumb">
+          <a href="{ conf:param('request-root') }collections">
+            <xrx:i18n>
+              <xrx:key>collections</xrx:key>
+              <xrx:default>Collections</xrx:default>
+            </xrx:i18n>
+          </a>
+          <span> &gt; </span>
+          <a href="collection">{ xmldb:decode($charter:rcollectionid) }</a>
+          <span> &gt; </span>
+          <a href="imported-collection">
+            <xrx:i18n>
+              <xrx:key>imported-collection-preview</xrx:key>
+              <xrx:default>Imported collection (preview)</xrx:default>
+            </xrx:i18n>
+          </a>
+        </div>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>goto-search-div</xrx:key>
+      <xrx:view><span/></xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>preface-div</xrx:key>
+      <xrx:view><span/></xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>charter-preview-div</xrx:key>
+      <xrx:view>
+        <div data-demoid="c226bf24-970c-47d3-853e-a9e1da810fbe" id="dcharter-preview-main">
+          {
+          let $all-user-xmls := $user:db-base-collection/xrx:user
+          for $year at $num in $wcharter:date-elements[ position() = $charters:start to $charters:stop ]
+          return
+          <div data-demoid="fb4d4c2e-6efa-4a3f-ac44-2925288833d5">
+            <xrx:subwidget>
+              <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/charter-preview-importedcollection</xrx:atomid>
+              <xrx:pass>
+                <xrx:parameter>
+                  <xrx:name>$constructor:charter</xrx:name>
+                  <xrx:expression>$year/ancestor::cei:text</xrx:expression>
+                </xrx:parameter>
+                <xrx:parameter>
+                  <xrx:name>$constructor:all-user-xmls</xrx:name>
+                  <xrx:expression>$all-user-xmls</xrx:expression>
+                </xrx:parameter>
+              </xrx:pass>
+            </xrx:subwidget>
+          </div>
+          }
+          <div data-demoid="fe8dce5c-c512-4d4f-b79f-8ea85d9f79e7">{ $block-navi-div }</div>
+        </div>
+      </xrx:view>
+    </xrx:div>
+  </xrx:divs>
+</xrx:widget>

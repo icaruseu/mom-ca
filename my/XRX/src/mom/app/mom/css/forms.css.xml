@@ -1,0 +1,119 @@
+<xrx:css xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/css/forms</xrx:id>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:style>
+
+.standard-form .bfVerticalTableInfo,
+.standard-form .bfVerticalTableValue{{
+	width:300px;
+}}
+
+.standard-form .bfVerticalTableLabel{{
+  width:200px;
+  padding:7px;
+  text-align:right;
+}}
+
+.standard-form .xfAlert,
+//.standard-form .xfHint,
+.standard-form .xfHelp,
+.standard-form .info{{
+  top:0px;
+  padding:7px;
+  margin-bottom:5px;
+	border:solid 1px;
+	width:300px;
+}}
+
+.standard-form select{{
+  width:318px !important;
+  margin:0;
+}}
+
+.standard-form .xfValue{{
+  width:300px;
+  padding:8px;
+  margin-bottom:5px;
+	-moz-border-radius-topleft:8px;
+	-moz-border-radius-bottomleft:8px;
+	-webkit-border-top-left-radius:8px;
+	-webkit-border-bottom-left-radius:8px;
+}}
+
+.standard-form .xfAlert{{
+	background:#FFCFCF;
+	color:#801B1B;
+	-moz-border-radius-topright:8px;
+	-moz-border-radius-bottomright:8px;
+	-webkit-border-top-right-radius:8px;
+	-webkit-border-bottom-right-radius:8px;
+	background: #FFCFCF url(../)
+	no-repeat scroll 2% 5px;
+	margin:0;
+	/*overflow:hidden; */
+	white-space:nowrap;
+	border-color:#E5A3A3 !important;
+	position: relative;
+}}
+
+/*
+.standard-form .xfHint{{
+	background:#F2F2F2 url(../)
+	no-repeat 3% 7px;
+	color:#666666;
+	-moz-border-radius-topright:8px;
+	-moz-border-radius-bottomright:8px;
+	-webkit-border-top-right-radius:8px;
+	-webkit-border-bottom-right-radius:8px;
+	margin:0;
+	/*overflow: hidden;*/
+	white-space:nowrap;
+	border-color:#DBDBDB !important;
+	position: relative;
+}}
+*/
+
+.standard-form .info{{
+	background: #F0FEE9 url(../)
+	no-repeat 3% 7px;
+	color:#666666;
+	-moz-border-radius-topright 8px;
+	-moz-border-radius-bottomright:8px;
+	-webkit-border-top-right-radius:8px;
+	-webkit-border-bottom-right-radius:8px;
+	margin:0;
+	/*overflow:hidden;*/
+	white-space:nowrap;
+	border-color:#E1EFDB !important;
+	position: relative;
+}}
+
+.standard-form .dijitArrowButton{{
+	border:none;
+	background:none;
+}}
+
+  </xrx:style>
+</xrx:css>

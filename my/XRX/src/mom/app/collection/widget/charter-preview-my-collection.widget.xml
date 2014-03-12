@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/charter-preview-my-collection</xrx:id>
+  <xrx:inherits>tag:www.monasterium.net,2011:/mom/widget/charter-preview</xrx:inherits>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more
+lenient towards the inclusion of components into other systems, once
+it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>
+    <!-- just linked charter or linked charter? -->
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:just-linked-atomid</xrx:name>
+      <xrx:expression>$constructor:charter/atom:content/@src/string()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:linked-atomid</xrx:name>
+      <xrx:expression>$constructor:charter/atom:link[@rel='versionOf']/@ref/string()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:just-linked</xrx:name>
+      <xrx:expression>$wcharter-preview:just-linked-atomid != ''</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:linked</xrx:name>
+      <xrx:expression>$wcharter-preview:linked-atomid != ''</xrx:expression>
+    </xrx:variable>
+    <!-- charter info -->
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:atom-id</xrx:name>
+      <xrx:expression>$constructor:charter/atom:id/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:public-charter</xrx:name>
+      <xrx:expression>if($wcharter-preview:just-linked or $wcharter-preview:linked) then charter:public-entry($wcharter-preview:linked-atomid) else()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$constructor:charter</xrx:name>
+      <xrx:expression>if($wcharter-preview:just-linked) then $wcharter-preview:public-charter else $constructor:charter</xrx:expression>
+    </xrx:variable>
+    <!-- charter info -->
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:idno-element</xrx:name>
+      <xrx:expression>$constructor:charter//cei:body/cei:idno</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:idno</xrx:name>
+      <xrx:expression>$wcharter-preview:idno-element/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:id</xrx:name>
+      <xrx:expression>metadata:objectid($wcharter-preview:atom-id)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:date</xrx:name>
+      <xrx:expression>($constructor:charter//cei:date/text()|$constructor:charter//cei:dateRange/text())[1]</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:abstract</xrx:name>
+      <xrx:expression>$constructor:charter//cei:abstract//text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:num-images</xrx:name>
+      <xrx:expression>if($wcharter-preview:just-linked) then count($wcharter-preview:public-charter//cei:graphic/@url) else count(($constructor:charter|$wcharter-preview:public-charter)//cei:graphic/@url)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:charter-url</xrx:name>
+      <xrx:expression>concat(conf:param('request-root'), $charter:rcollectionid, '/', xmldb:encode($wcharter-preview:id), '/my-charter')</xrx:expression>
+    </xrx:variable>
+    <!-- status of the charter -->
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:is-bookmarked</xrx:name>
+      <xrx:expression>false()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:saved-by-current-user</xrx:name>
+      <xrx:expression>false()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:saved-by-any-user</xrx:name>
+      <xrx:expression>false()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:saved-by-user</xrx:name>
+      <xrx:expression>''</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:saved-by-user-label</xrx:name>
+      <xrx:expression>''</xrx:expression>
+    </xrx:variable>
+    <!-- user status -->
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:is-moderator</xrx:name>
+      <xrx:expression>false()</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:divs>
+    <xrx:div>
+      <xrx:key>charter-link-div</xrx:key>
+      <xrx:view>
+        <div data-demoid="b296e6d5-d9fc-4166-9872-a92dc003797e">
+          <b>
+            <xrx:i18n>
+              <xrx:key>my-charter-preview</xrx:key>
+              <xrx:default>My Charter (Preview)</xrx:default>
+            </xrx:i18n>
+            <span>: </span>
+          </b>
+          <span>
+            <a href="{ $wcharter-preview:charter-url }">
+              <span>{ $wcharter-preview:idno }</span>
+            </a>
+          </span>
+        </div>   
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>view-charter-link-div</xrx:key>
+      <xrx:view>
+        <div data-demoid="3775deb3-f460-41cd-8ef0-834bad17ae61">
+          <a href="{ $wcharter-preview:charter-url }">
+            <xrx:i18n>
+              <xrx:key>view-charter</xrx:key>
+              <xrx:default>View Charter</xrx:default>
+            </xrx:i18n>
+          </a>
+        </div>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>my-archive-functions-div</xrx:key>
+      <xrx:view><span/></xrx:view>
+    </xrx:div>
+  </xrx:divs>
+</xrx:widget>

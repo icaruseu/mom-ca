@@ -1,0 +1,226 @@
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx"
+  xmlns:ead="urn:isbn:1-931666-22-9">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/sql-import</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key></xrx:key>
+      <xrx:default></xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle />
+  <xrx:description />
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:variables>
+    <!-- request context -->
+    <xrx:variable>
+      <xrx:name>$cacheid</xrx:name>
+      <xrx:expression>xs:string($data//*:cacheid/text())</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$processid</xrx:name>
+      <xrx:expression>xs:string($data//*:processid/text())</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$type</xrx:name>
+      <xrx:expression>$data//*:type/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$driverclass</xrx:name>
+      <xrx:expression>$data//*:driverclass/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$connectionURL</xrx:name>
+      <xrx:expression>$data//*:connectionURL/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$dbusername</xrx:name>
+      <xrx:expression>$data//*:dbusername/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$dbpassword</xrx:name>
+      <xrx:expression>$data//*:dbpassword/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$rownum</xrx:name>
+      <xrx:expression>if($data//*:rownum/text()) then xs:integer($data//*:rownum/text()) else 1</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$context</xrx:name>
+      <xrx:expression>$data//*:context/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$archid</xrx:name>
+      <xrx:expression>if($context= 'fond') then $data//*:archid/text() else ''</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$fondid</xrx:name>
+      <xrx:expression>if($context= 'fond') then $data//*:fondid/text() else ''</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$collectionid</xrx:name>
+      <xrx:expression>if($context= 'collection') then $data//*:collectionid/text() else ''</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$xsltid</xrx:name>
+      <xrx:expression>$data//*:xsltid/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$uri-tokens</xrx:name>
+      <xrx:expression>if($context = 'fond') then ($archid, $fondid) else $collectionid</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$uploadtype</xrx:name>
+      <xrx:expression>$data//*:uploadtype/text()</xrx:expression>
+    </xrx:variable>
+    <!-- file info -->
+    <xrx:variable>
+      <xrx:name>$fileuri</xrx:name>
+      <xrx:expression>if($data//*:fileuri/text()) then xmldb:decode($data//*:fileuri/text()) else''</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$filename</xrx:name>
+      <xrx:expression>if($fileuri != '') then tokenize($fileuri, '/')[last()] else''</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$filesystem-uri</xrx:name>
+      <xrx:expression>if($uploadtype = 'local') then concat(system:get-exist-home(), '/webapp', $fileuri) else concat($xrx:binary-data-home, metadata:base-collection-path('charter', $uri-tokens, 'import.util'), $chimport:SQL, '.jar')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$driveruri</xrx:name>
+      <xrx:expression>concat('jar:file:', $filesystem-uri, '!/')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$driver-file</xrx:name>
+      <xrx:expression>system:as-user('admin', conf:param('dba-password'), file:read-binary($filesystem-uri))</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$driver-entryname</xrx:name>
+      <xrx:expression>concat($chimport:SQL, '.jar')</xrx:expression>
+    </xrx:variable>
+    <!-- import information -->
+    <xrx:variable>
+      <xrx:name>$destination-feed</xrx:name>
+      <xrx:expression>metadata:feed('charter', $uri-tokens, 'import')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$destination-db-base-collection-path</xrx:name>
+      <xrx:expression>metadata:base-collection-path('charter', $uri-tokens, 'import')</xrx:expression>
+    </xrx:variable>
+    <!-- import util -->
+    <xrx:variable>
+      <xrx:name>$import-util-base-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('charter', $uri-tokens, 'import.util')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$import-util-base-collection-path</xrx:name>
+      <xrx:expression>metadata:base-collection-path('charter', $uri-tokens, 'import.util')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$import-util-feed</xrx:name>
+      <xrx:expression>metadata:feed('charter', $uri-tokens, 'import.util')</xrx:expression>
+    </xrx:variable>
+    <!-- SQL info -->
+    <xrx:variable>
+      <xrx:name>$sql-script</xrx:name>
+      <xrx:expression>util:binary-to-string(util:binary-doc(concat($import-util-base-collection-path, 'SQL.txt')))</xrx:expression>
+    </xrx:variable>
+    <!-- transform info -->
+    <xrx:variable>
+      <xrx:name>$stylesheet</xrx:name>
+      <xrx:expression>doc(concat($import-util-base-collection-path, 'xml2cei.xml'))</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:translateflag>true</xrx:translateflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:body>
+    {
+    let $do-import := 
+      sqlimport:do(
+        $driverclass, 
+        $connectionURL, 
+        $driveruri, 
+        $dbusername, 
+        $dbpassword,
+        $sql-script, 
+        $stylesheet, 
+        $uri-tokens,
+        $destination-feed,
+        $cacheid,
+        $processid,
+        $rownum
+      )
+    
+    let $import-success := not(exists($do-import/self::*:error))
+      
+    (: info file about charter import :)
+    let $info :=
+    <xrx:import>
+      <xrx:type>{ $type }</xrx:type>
+      <xrx:context>{ $context }</xrx:context>
+      <xrx:archid>{ $archid }</xrx:archid>
+      <xrx:fondid>{ $fondid }</xrx:fondid>
+      <xrx:collectionid>{ $collectionid }</xrx:collectionid>
+      <xrx:time>{ current-dateTime() }</xrx:time>
+      <xrx:userid>{ $xrx:user-id }</xrx:userid>
+      <xrx:filename></xrx:filename>
+    </xrx:import>
+
+    let $post-info :=
+	    atom:POST(
+	      $destination-feed,
+	      'import.info.xml',
+	      $info
+	    )
+      
+    return
+    if($import-success) then
+    <xrx:response status="1">
+      <xrx:message>
+        <xrx:i18n>
+          <xrx:key>charter-import-successful-message</xrx:key>
+          <xrx:default>Charters successfully imported.</xrx:default>
+        </xrx:i18n>
+      </xrx:message>
+      <xrx:icon>{ conf:param('request-root') }face-smile.png</xrx:icon>
+    </xrx:response>
+    else
+    <xrx:response status="-1">
+      <xrx:message>
+        <xrx:i18n>
+          <xrx:key>error-in-row</xrx:key>
+          <xrx:default>Error in row</xrx:default>
+        </xrx:i18n>&#160;{ $do-import/text() }
+      </xrx:message>
+      <xrx:icon>{ conf:param('request-root') }dialog-warning.png</xrx:icon>
+    </xrx:response>   
+    }
+  </xrx:body>
+</xrx:service>

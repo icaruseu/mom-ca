@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>XRX++ Unit Tests - xrx.pilot</title>
+<script src='../../lib/closure-library/closure/goog/base.js'></script>
+<script src='../deps.js'></script>
+<script type="text/javascript">
+  goog.require('goog.testing.jsunit');
+  goog.require('xrx.label');
+  goog.require('xrx.pilot');
+  goog.require('xrx.token');
+  goog.require('xrx.token.Attribute');
+  goog.require('xrx.token.AttrName');
+  goog.require('xrx.token.AttrValue');
+  goog.require('xrx.token.EndTag');
+  goog.require('xrx.token.EmptyTag');
+  goog.require('xrx.token.NotTag');
+  goog.require('xrx.token.StartEmptyTag');
+  goog.require('xrx.token.StartTag');
+</script>
+</head>
+<body>
+<script type="text/javascript">
+
+var xml  = '<a>1<b>2</b>3<c/>4<d attr1="test" attr2="">6</d><e/></a>';
+var t1  =  '0,3                                                     ';
+var t2  =  '   3,1                                                  ';
+var t3  =  '    4,3                                                 ';
+var t4  =  '       7,1                                              ';
+var t5  =  '        8,4                                             ';
+var t6  =  '            12,1                                        ';
+var t7  =  '             13,4                                       ';
+var t8  =  '                  18,25                                 ';
+var t9  =  '                     21,12                              ';
+var t10 =  '                                  34,8                  ';
+var t11 =  '                                                48,4    ';
+var t12 =  '                                                    52,4';
+
+function test01Backward() {
+  var pilot = new xrx.pilot(xml);
+
+  // '<d attr1="test" attr2="">'
+  var label1 = new xrx.label([1, 3]);
+  var tag1 = new xrx.token.StartEmptyTag(label1);
+  tag1.offset(18);
+  tag1.length(25);
+  // '<e/>'
+  var label2 = new xrx.label([1, 4]);
+  var tag2 = new xrx.token.StartEmptyTag(label2);
+  tag2.offset(48);
+  tag2.length(4);
+  // '<b>'
+  var label = new xrx.label([1, 1]);
+  var tag = new xrx.token.StartEmptyTag(label);
+
+  var target = pilot.backward(tag1, tag);
+  assertEquals(4, target.offset());
+  assertEquals(3, target.length());
+
+  var target = pilot.backward(tag2, tag);
+  assertEquals(4, target.offset());
+  assertEquals(3, target.length());
+};
+
+function test02JointParent() {
+  var pilot = new xrx.pilot(xml);
+  
+  var label1 = new xrx.label([1, 3]);
+  var label2 = new xrx.label([1, 4]);
+  var label = new xrx.label([1]);
+  var token1 = new xrx.token.StartEmptyTag(label1);
+  var token2 = new xrx.token.StartEmptyTag(label2);
+
+  var expected = new xrx.token.StartEmptyTag(label);
+  var token = pilot.jointParent(token1, token2);
+  assertEquals(true, expected.sameAs(token));
+};
+
+function test03StartTag() {
+  var pilot = new xrx.pilot(xml);
+  var label = new xrx.label([1, 1]);
+  var startTag = new xrx.token.StartTag(label);
+  
+  var token = pilot.location(null, startTag);
+  assertEquals(xrx.token.START_TAG, token.type());
+  assertEquals(4, token.offset());
+  assertEquals(3, token.length());
+  assertEquals(true, token.label().sameAs(label));
+};
+
+function test04StartTagWithContext() {
+  var pilot = new xrx.pilot(xml);
+  
+  // target: '<d attr1="test" attr2="">'
+  var label = new xrx.label([1, 3]);
+  var startTag = new xrx.token.StartTag(label);
+
+  // context: '<a>', forward
+  var label1 = new xrx.label([1]);
+  var startEmptyTag1 = new xrx.token.StartEmptyTag(label1);
+  startEmptyTag1.offset(0);
+  startEmptyTag1.length(0);
+  var token1 = pilot.location(startEmptyTag1, startTag);
+  assertEquals(xrx.token.START_TAG, token1.type());
+  assertEquals(18, token1.offset());
+  assertEquals(25, token1.length());
+  assertEquals(true, token1.label().sameAs(label));
+  assertEquals('xrx.pilot.prototype.forward', pilot.currentPath());
+
+  // context: '<b>', forward
+  var label2 = new xrx.label([1, 1]);
+  var startEmptyTag2 = new xrx.token.StartEmptyTag(label2);
+  startEmptyTag2.offset(4);
+  startEmptyTag2.length(3);
+  var token2 = pilot.location(startEmptyTag2, startTag);
+  assertEquals(xrx.token.START_TAG, token2.type());
+  assertEquals(18, token2.offset());
+  assertEquals(25, token2.length());
+  assertEquals(true, token2.label().sameAs(label));
+  assertEquals('xrx.pilot.prototype.forward', pilot.currentPath());
+
+  // context: '<e/>', zigzag
+  var label3 = new xrx.label([1, 4]);
+  var startEmptyTag3 = new xrx.token.StartEmptyTag(label3);
+  startEmptyTag3.offset(48);
+  startEmptyTag3.length(4);
+  var token3 = pilot.location(startEmptyTag3, startTag);
+  assertEquals(xrx.token.START_TAG, token3.type());
+  assertEquals(18, token3.offset());
+  assertEquals(25, token3.length());
+  assertEquals(true, token3.label().sameAs(label));
+  assertEquals('xrx.pilot.prototype.zigzag', pilot.currentPath());
+};
+
+function test05EndTag() {
+  var pilot = new xrx.pilot(xml);
+  var label = new xrx.label([1, 1]);
+  var endTag = new xrx.token.EndTag(label);
+
+  var token = pilot.location(null, endTag);
+  assertEquals(xrx.token.END_TAG, token.type());
+  assertEquals(8, token.offset());
+  assertEquals(4, token.length());
+  assertEquals(true, token.label().sameAs(label));  
+};
+
+function test06EmptyTag() {
+  var pilot = new xrx.pilot(xml);
+  var label = new xrx.label([1, 2]);
+  var emptyTag = new xrx.token.EmptyTag(label);
+
+  var token = pilot.location(null, emptyTag);
+  assertEquals(xrx.token.EMPTY_TAG, token.type());
+  assertEquals(13, token.offset());
+  assertEquals(4, token.length());
+  assertEquals(true, token.label().sameAs(label));  
+};
+
+function test07NotTag() {
+  var pilot = new xrx.pilot(xml);
+  var label = new xrx.label([1, 0]);
+  var notTag = new xrx.token.NotTag(label);
+  
+  var token = pilot.location(null, notTag);
+  assertEquals(xrx.token.NOT_TAG, token.type());
+  assertEquals(3, token.offset());
+  assertEquals(1, token.length());
+  assertEquals(true, token.label().sameAs(label));  
+};
+
+function test08TagName() {
+  var pilot = new xrx.pilot(xml);
+  var label1 = new xrx.label([1]);
+  var label2 = new xrx.label([1, 2]);
+
+  var startTag = new xrx.token.StartTag(label1);
+  var endTag = new xrx.token.EndTag(label1);
+  var emptyTag = new xrx.token.EmptyTag(label2);
+  var startEmptyTag = new xrx.token.StartEmptyTag(label2)
+  
+  var locStartTag = pilot.tagName(null, startTag);
+  var locEndTag = pilot.tagName(null, endTag);
+  var locEmptyTag = pilot.tagName(null, emptyTag);
+  var locStartEmptyTag = pilot.tagName(null, startEmptyTag);
+
+  assertEquals(1, locStartTag.offset());
+  assertEquals(1, locStartTag.length());
+  assertEquals(54, locEndTag.offset());
+  assertEquals(1, locEndTag.length());
+  assertEquals(14, locEmptyTag.offset());
+  assertEquals(1, locEmptyTag.length());
+  assertEquals(14, locStartEmptyTag.offset());
+  assertEquals(1, locStartEmptyTag.length());
+};
+
+function test09Attribute() {
+  var pilot = new xrx.pilot(xml);
+  var label = new xrx.label([1, 3, 1]);
+  var attribute = new xrx.token.Attribute(label);
+
+  var token = pilot.location(null, attribute);
+  assertEquals(xrx.token.ATTRIBUTE, token.type());
+  assertEquals(21, token.offset());
+  assertEquals(12, token.length());
+  assertEquals(true, token.label().sameAs(label));
+};
+
+
+function test10AttrName() {
+  var pilot = new xrx.pilot(xml);
+  var label = new xrx.label([1, 3, 1]);
+  var attrName = new xrx.token.AttrName(label);
+  
+  var token = pilot.location(null, attrName);
+  assertEquals(xrx.token.ATTR_NAME, token.type());
+  assertEquals(21, token.offset());
+  assertEquals(5, token.length());
+  assertEquals(true, token.label().sameAs(label));  
+};
+
+function test11AttrValue() {
+  var pilot = new xrx.pilot(xml);
+  var label = new xrx.label([1, 3, 1]);
+  var attrValue = new xrx.token.AttrValue(label);
+  
+  var token = pilot.location(null, attrValue);
+  assertEquals(xrx.token.ATTR_VALUE, token.type());
+  assertEquals(28, token.offset());
+  assertEquals(4, token.length());
+  assertEquals(true, token.label().sameAs(label));  
+};
+
+function test12StartEmptyTag() {
+  var pilot = new xrx.pilot(xml);
+  var label = new xrx.label([1, 2]);
+  var startEmptyTag = new xrx.token.StartEmptyTag(label);
+  
+  var token = pilot.location(null, startEmptyTag);
+  assertEquals(xrx.token.EMPTY_TAG, token.type());
+  assertEquals(13, token.offset());
+  assertEquals(4, token.length());
+  assertEquals(true, token.label().sameAs(label));
+};
+
+function test13Tag() {
+  // TODO: update by xrx.token.TAG, not start-tag, empty-tag and end-tag separately
+};
+
+function test14Attributes() {
+  var pilot = new xrx.pilot(xml);
+  var label = new xrx.label([1, 3]);
+  var tag = new xrx.token.StartEmptyTag(label);
+  tag.offset(18);
+  tag.length(25);
+  var attributes = pilot.attributes(null, tag);
+
+  // 'attr1="test"'
+  assertEquals(xrx.token.ATTRIBUTE, attributes[0].type());
+  assertEquals(21, attributes[0].offset());
+  assertEquals(12, attributes[0].length());
+  var label0 = label.clone();
+  label0.child();
+  assertEquals(true, attributes[0].label().sameAs(label0));
+
+  // 'attr2=""'
+  assertEquals(xrx.token.ATTRIBUTE, attributes[1].type());
+  assertEquals(34, attributes[1].offset());
+  assertEquals(8, attributes[1].length());
+  var label1 = label0.clone();
+  label1.nextSibling();
+  assertEquals(true, attributes[1].label().sameAs(label1));  
+};
+
+function stest15PathOnLocation() {
+  var pilot = new xrx.pilot(xml);
+  
+  // move to '<d attr1="test" attr2="">', then to 'attr1="test"'
+  var tok = new xrx.token.StartEmptyTag(new xrx.label([1, 3]));
+  var loc = pilot.location(null, tok);
+  var attr = new xrx.token.Attribute(new xrx.label([1, 3, 1]));
+  var attrLoc = pilot.location(null, attr);
+  assertEquals('attr1="test"', pilot.xml(attrLoc));
+  assertEquals(true, xrx.pilot.prototype.onLocation == pilot.currentPath());
+};
+
+function stest16PathForward() {
+  var pilot = new xrx.pilot(xml);
+
+  // move to '<b>', then to 'attr2=""'
+  var tok = new xrx.token.StartEmptyTag(new xrx.label([1, 1]));
+  var loc = pilot.startEmptyTag(null, tok);
+  var attr = new xrx.token.Attribute(new xrx.label([1, 3, 2]));
+  var attrLoc = pilot.attribute(null, attr);
+  //assertEquals('attr2=""', pilot.xml(attrLoc));
+  //assertEquals(true, xrx.pilot.prototype.forward == pilot.currentPath());
+};
+
+function test17Goto() {
+  
+};
+
+function stest18SameTag() {
+  var pilot = new xrx.pilot(xml);
+  // move to '<d attr1="test" attr2="">'
+  var first = new xrx.token.StartEmptyTag(new xrx.label([1, 3]));
+  var startEmptyTag = pilot.location(null, first);
+  
+  // START_EMPTY_TAG => ATTRIBUTE
+  var attribute = new xrx.token.Attribute(new xrx.label([1, 3, 1]));
+  pilot.location(null, attribute);
+ 
+  // ATTRIBUTE => START_EMPTY_TAG
+  pilot.startEmptyTag(null, startEmptyTag);
+  
+  // START_EMPTY_TAG => ATTR_NAME
+  var attrName = new xrx.token.AttrName(new xrx.label([1, 2, 1]));
+  pilot.attrName(null, attrName);
+  
+  // ATTR_NAME => START_EMPTY_TAG
+  pilot.startEmptyTag(null, startEmptyTag);
+  
+  // START_EMPTY_TAG => ATTR_VALUE
+  var attrValue = new xrx.token.AttrValue(new xrx.label([1, 2, 1]));
+  pilot.attrName(null, attrName);
+  
+  // ATTR_VALUE => START_EMPTY_TAG
+  pilot.startEmptyTag(null, startEmptyTag);
+  
+  // START_EMPTY_TAG => NOT_TAG
+  var notTag = new xrx.token.NotTag(new xrx.label([1, 2, 0]));
+  pilot.attrName(null, attrName);
+  
+  // NOT_TAG => START_EMPTY_TAG
+  pilot.startEmptyTag(null, startEmptyTag);
+};
+
+/*
+function stest19ChildParentTag() {
+  // START_EMPTY_TAG => child::START_EMPTY_TAG
+  
+  // START_EMPTY_TAG => parent::START_EMPTY_TAG
+  
+  // START_EMPTY_TAG => following-sibling::START_EMPTY_TAG
+  
+  // START_EMPTY_TAG => preceding-sibling::START_EMPTY_TAG
+  
+  // START_EMPTY_TAG => self::END_TAG
+  
+  // END_TAG => self::START_EMPTY_TAG
+};
+*/
+</script>
+</body>
+</html>

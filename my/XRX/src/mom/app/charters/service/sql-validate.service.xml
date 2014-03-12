@@ -1,0 +1,185 @@
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx"
+  xmlns:ead="urn:isbn:1-931666-22-9">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/sql-validate</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key></xrx:key>
+      <xrx:default></xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle />
+  <xrx:description />
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:variables>
+    <!-- request context -->
+    <xrx:variable>
+      <xrx:name>$driverclass</xrx:name>
+      <xrx:expression>$data//*:driverclass/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$connectionURL</xrx:name>
+      <xrx:expression>$data//*:connectionURL/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$dbusername</xrx:name>
+      <xrx:expression>$data//*:dbusername/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$dbpassword</xrx:name>
+      <xrx:expression>$data//*:dbpassword/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$context</xrx:name>
+      <xrx:expression>$data//*:context/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$archid</xrx:name>
+      <xrx:expression>if($context= 'fond') then $data//*:archid/text() else ''</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$fondid</xrx:name>
+      <xrx:expression>if($context= 'fond') then $data//*:fondid/text() else ''</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$collectionid</xrx:name>
+      <xrx:expression>if($context= 'collection') then $data//*:collectionid/text() else ''</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$uri-tokens</xrx:name>
+      <xrx:expression>if($context = 'fond') then ($archid, $fondid) else $collectionid</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$uploadtype</xrx:name>
+      <xrx:expression>$data//*:uploadtype/text()</xrx:expression>
+    </xrx:variable>
+    <!-- file info -->
+    <xrx:variable>
+      <xrx:name>$fileuri</xrx:name>
+      <xrx:expression>if($data//*:fileuri/text()) then xmldb:decode($data//*:fileuri/text()) else''</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$filename</xrx:name>
+      <xrx:expression>if($fileuri != '') then tokenize($fileuri, '/')[last()] else''</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$filesystem-uri</xrx:name>
+      <xrx:expression>if($uploadtype = 'local') then concat(system:get-exist-home(), '/webapp', $fileuri) else concat($xrx:binary-data-home, metadata:base-collection-path('charter', $uri-tokens, 'import.util'), $chimport:SQL, '.jar')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$driveruri</xrx:name>
+      <xrx:expression>concat('jar:file:', $filesystem-uri, '!/')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$driver-file</xrx:name>
+      <xrx:expression>if(system:as-user('admin', conf:param('dba-password'), file:exists($filesystem-uri)) and ends-with($filesystem-uri, '.jar')) then system:as-user('admin', conf:param('dba-password'), file:read-binary($filesystem-uri)) else()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$driver-entryname</xrx:name>
+      <xrx:expression>concat($chimport:SQL, '.jar')</xrx:expression>
+    </xrx:variable>
+    <!-- import util -->
+    <xrx:variable>
+      <xrx:name>$import-util-base-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('charter', $uri-tokens, 'import.util')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$import-util-base-collection-path</xrx:name>
+      <xrx:expression>metadata:base-collection-path('charter', $uri-tokens, 'import.util')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$import-util-feed</xrx:name>
+      <xrx:expression>metadata:feed('charter', $uri-tokens, 'import.util')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$import-util-entryname</xrx:name>
+      <xrx:expression>concat(if($context = 'fond') then $fondid else $collectionid, '.', $chimport:SQL, '.xml')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$sql-info</xrx:name>
+      <xrx:expression>
+        <xrx:sql>
+          <xrx:driverclass>{ $driverclass }</xrx:driverclass>
+          <xrx:connectionURL>{ $connectionURL }</xrx:connectionURL>
+          <xrx:dbusername>{ $dbusername }</xrx:dbusername>
+          <xrx:dbpassword>{ $dbpassword }</xrx:dbpassword>
+          <xrx:filename>{ $filename }</xrx:filename>
+        </xrx:sql>
+      </xrx:expression>
+    </xrx:variable>
+    <!-- SQL info, connect and execute -->
+    <xrx:variable>
+      <xrx:name>$sql-connection</xrx:name>
+      <xrx:expression>sqlimport:connect($driverclass, $connectionURL, $driveruri, $dbusername, $dbpassword)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$connection-success</xrx:name>
+      <xrx:expression>if(string(number($sql-connection)) != 'NaN') then true() else false()</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:translateflag>true</xrx:translateflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:body>
+    {
+    let $save-connection := 
+      if($connection-success and $uploadtype = 'local') then 
+        atom:POST($import-util-feed, $import-util-entryname, $sql-info)
+      else()
+    let $save-driver := 
+      if($connection-success and $uploadtype = 'local') then 
+      (
+        atom:create-collections($import-util-base-collection-path),
+        xmldb:store($import-util-base-collection-path, $driver-entryname, $driver-file)
+      )
+      else()
+    return  
+    if($connection-success) then
+    <xrx:response status="1">
+      <xrx:message>
+        <xrx:i18n>
+          <xrx:key>connection-successfully-established</xrx:key>
+          <xrx:default>Connection successfully established.</xrx:default>
+        </xrx:i18n>
+      </xrx:message>
+      <xrx:icon>{ conf:param('request-root') }face-smile.png</xrx:icon>
+    </xrx:response>
+    else
+    <xrx:response status="-1">
+      <xrx:message>
+        <xrx:i18n>
+          <xrx:key>connection-could-no-be-established</xrx:key>
+          <xrx:default>Connection could not be established.</xrx:default>
+        </xrx:i18n>&#160;{ $sql-connection/text() }
+      </xrx:message>
+      <xrx:icon>{ conf:param('request-root') }dialog-warning.png</xrx:icon>
+    </xrx:response> 
+    }
+  </xrx:body>
+</xrx:service>

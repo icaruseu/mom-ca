@@ -1,0 +1,151 @@
+<xrx:template xmlns:xrx="http://www.monasterium.net/NS/xrx">
+	<xrx:id>tag:www.monasterium.net,2011:/core/template/assertion</xrx:id>
+	<xrx:title></xrx:title>
+	<xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+	<xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more
+lenient towards the inclusion of components into other systems, once
+it leaves the active development stage.
+  </xrx:licence>
+	<xrx:xml>
+		<xrx:assertions>
+			<xrx:assertion>
+				<xrx:key>cvc-attribute.3</xrx:key>
+				<xrx:message>cvc-attribute.3: The value ''{2}'' of attribute ''{1}'' on element ''{0}'' is not valid with respect to its type, ''{3}''.</xrx:message>
+				<xrx:translation>
+					<xrx:function>
+						<xrx:name>assertion:translate-element-name</xrx:name>
+						<xrx:parameter stringposition="3"/>
+					</xrx:function>
+				  <xrx:string>: </xrx:string>
+					<xrx:i18n>
+					  <xrx:key>the-value</xrx:key>
+					  <xrx:default>the value</xrx:default>
+					</xrx:i18n>
+					<xrx:string> </xrx:string>
+					<xrx:function>
+						<xrx:name>assertion:string-value</xrx:name>
+						<xrx:parameter stringposition="1"/>
+					</xrx:function>
+					<xrx:string> </xrx:string>
+					<xrx:i18n>
+					  <xrx:key>of-attribute</xrx:key>
+					  <xrx:default>of attribute</xrx:default>
+					</xrx:i18n>
+					<xrx:string> </xrx:string>
+					<xrx:function>
+					  <xrx:name>assertion:translate-attribute-name</xrx:name>
+					  <xrx:parameter stringposition="2"/>
+					</xrx:function>
+					<xrx:string> </xrx:string>
+					<xrx:i18n>
+						<xrx:key>is-not-valid</xrx:key>
+						<xrx:default>is not valid</xrx:default>
+					</xrx:i18n>
+				</xrx:translation>
+			</xrx:assertion>
+			<xrx:assertion>
+				<xrx:key>cvc-complex-type.2.1</xrx:key>
+				<xrx:message>cvc-complex-type.2.1: Element ''{0}'' must have no character or element information item [children], because the type''s content type is empty.</xrx:message>
+				<xrx:translation>
+					<xrx:function>
+						<xrx:name>assertion:translate-element-name</xrx:name>
+						<xrx:parameter stringposition="1" />
+					</xrx:function>
+					<xrx:string>
+					</xrx:string>
+					<xrx:i18n>
+						<xrx:key>may-not-have-any-content</xrx:key>
+						<xrx:default>may not have any content.</xrx:default>
+					</xrx:i18n>
+				</xrx:translation>
+			</xrx:assertion>
+			<xrx:assertion>
+				<xrx:key>cvc-complex-type.2.3</xrx:key>
+				<xrx:message>cvc-complex-type.2.3: Element ''{0}'' cannot have character [children], because the type''s content type is element-only.</xrx:message>
+				<xrx:translation>
+					<xrx:function>
+						<xrx:name>assertion:translate-element-name</xrx:name>
+						<xrx:parameter stringposition="1" />
+					</xrx:function>
+					<xrx:string>
+					</xrx:string>
+					<xrx:i18n>
+						<xrx:key>may-not-contain-characters-only-tags</xrx:key>
+						<xrx:default>may not contain any characters but only tags</xrx:default>
+					</xrx:i18n>
+				</xrx:translation>
+			</xrx:assertion>
+			<xrx:assertion>
+				<xrx:key>cvc-complex-type.2.4.a</xrx:key>
+				<xrx:message>cvc-complex-type.2.4.a: Invalid content was found starting with element ''{0}''. One of ''{1}'' is expected.</xrx:message>
+				<xrx:translation>
+					<xrx:i18n>
+						<xrx:key>invalid-tag</xrx:key>
+						<xrx:default>invalid tag</xrx:default>
+					</xrx:i18n>
+					<xrx:string>: </xrx:string>
+					<xrx:function>
+						<xrx:name>assertion:translate-element-name</xrx:name>
+						<xrx:parameter stringposition="1" />
+					</xrx:function>
+					<xrx:string>. </xrx:string>
+					<xrx:i18n>
+						<xrx:key>possible-tags-are</xrx:key>
+						<xrx:default>possible tags are</xrx:default>
+					</xrx:i18n>
+					<xrx:string>: </xrx:string>
+					<xrx:function>
+						<xrx:name>assertion:translate-element-sequence</xrx:name>
+						<xrx:parameter stringposition="2" />
+					</xrx:function>
+				</xrx:translation>
+			</xrx:assertion>
+			<xrx:assertion>
+				<xrx:key>cvc-complex-type.2.4.b</xrx:key>
+				<xrx:message>cvc-complex-type.2.4.b: The content of element ''{0}'' is not complete. One of ''{1}'' is expected.</xrx:message>
+				<xrx:translation>
+					<xrx:i18n>
+						<xrx:key>one-of-the-follwing-tags-is-missing-in</xrx:key>
+						<xrx:default>one of the following tags is missing in</xrx:default>
+					</xrx:i18n>
+					<xrx:string>
+					</xrx:string>
+					<xrx:function>
+						<xrx:name>assertion:translate-element-name</xrx:name>
+						<xrx:parameter stringposition="1" />
+					</xrx:function>
+					<xrx:string>: </xrx:string>
+					<xrx:function>
+						<xrx:name>assertion:translate-element-sequence</xrx:name>
+						<xrx:parameter stringposition="2" />
+					</xrx:function>
+				</xrx:translation>
+			</xrx:assertion>
+		</xrx:assertions>
+	</xrx:xml>
+</xrx:template>

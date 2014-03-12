@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/notes-as-pdf</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>notes-as-pdf</xrx:key>
+      <xrx:default>note as PDF</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle />
+  <xrx:description />
+  <xrx:author>andre.streicher@uni-koeln.de</xrx:author>
+  <xrx:licence>
+    This is a component file of the VdU Software for a Virtual Research
+    Environment for the handling of Medieval charters.
+
+    As the source code is available here, it is somewhere between an alpha-
+    and a beta-release, may be changed without any consideration of
+    backward compatibility of other parts of the system, therefore,
+    without any notice.
+
+    This file is part of the VdU Virtual Research Environment Toolkit
+    (VdU/VRET).
+
+    The VdU/VRET is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    VdU/VRET is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with VdU/VRET. If not, see http://www.gnu.org/licenses.  
+  </xrx:licence>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:translateflag>false</xrx:translateflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:body>
+    {
+    (: extract parameter :)
+    let $lang := request:get-parameter("lang","0")
+
+    (: define common parameter :)
+    let $atom-tag-name := conf:param('atom-tag-name')
+
+    (: collect all bookmark notes :)
+    let $all-notes := collection(concat(conf:param('xrx-user-db-base-uri'), xmldb:encode($xrx:user-id), '/metadata.bookmark-notes'))//xrx:bookmark_note
+
+    (: combine charters and notes:)
+    let $charters-and-notes :=
+    <xrx:pdf-export>
+      {
+      for $note in $all-notes
+      return
+
+      (: define ID's and pathes:)
+      let $note-atom-id := xmldb:decode($note//xrx:bookmark/text())
+      let $fond-or-collection := charter:context($note-atom-id, $atom-tag-name)
+      let $archive-id :=
+        if($fond-or-collection = 'fond') then
+          charter:archid($note-atom-id, $atom-tag-name)
+        else()
+      let $fond-id :=
+        if($fond-or-collection = 'fond') then
+          charter:fondid($note-atom-id, $atom-tag-name)
+        else()
+      let $collection-id :=
+        if($fond-or-collection = 'collection') then
+          charter:collectionid($note-atom-id, $atom-tag-name)
+        else()
+      let $public-base-collection :=
+        if($fond-or-collection = 'fond')then
+          metadata:base-collection('charter', ($archive-id, $fond-id), 'public')
+        else
+          metadata:base-collection('charter', $collection-id, 'public')
+
+      (: select the charter file :)
+      let $charter := $public-base-collection//atom:id[.=$note-atom-id]/parent::atom:entry/atom:content/cei:text
+      let $charter-id := xmldb:encode($charter//cei:idno/@id)
+      return
+      <xrx:bookmark-note>
+        <xrx:note>{ $note//xrx:note/text() }</xrx:note>
+        <xrx:collection-data>
+          {
+          <xrx:charter-id>{ $charter-id }</xrx:charter-id>
+          ,
+          <xrx:charter-context>{ $fond-or-collection }</xrx:charter-context>
+          ,
+          if($fond-or-collection = 'fond')then
+          (
+          <xrx:archive-id>{ $archive-id }</xrx:archive-id>
+          ,
+          <xrx:fond-id>{ $fond-id }</xrx:fond-id>
+          )
+          else
+          <xrx:collection-id>{ $collection-id }</xrx:collection-id>
+          }
+        </xrx:collection-data>
+        <xrx:charter>{ $charter }</xrx:charter>
+      </xrx:bookmark-note>
+      }
+    </xrx:pdf-export>
+
+    (: load the xslt- script and define the parameters :)
+    let $xsl := $xrx:db-base-collection/xsl:stylesheet[@id='notes2pdf']
+    let $parameters :=
+      <parameters>
+        <param name="plattformID" value="{ $conf:project-name }" />
+      </parameters>
+    (: set configuration for render process - select font :)
+    let $font-request-base-url := concat($xrx:localhost-request-base-url, 'resource/?atomid=')
+    let $fop-config :=
+    <fop version="1.0">
+      <renderers>
+        <renderer mime="application/pdf">
+          <filterList>
+            <value>flate</value>
+          </filterList>
+          <fonts>
+            <font metrics-url="dejavusans.xml" kerning="yes" embed-url="DejaVuSans.ttf">
+              <font-triplet name="DejaVuSans" style="normal"
+                weight="normal" />
+            </font>
+            <font metrics-url="dejavusans-oblique.xml" kerning="yes"
+              embed-url="DejaVuSans-Oblique.ttf">
+              <font-triplet name="DejaVuSans" style="oblique"
+                weight="normal" />
+            </font>
+            <font metrics-url="dejavusans-bold.xml" kerning="yes"
+              embed-url="DejaVuSans-Bold.ttf">
+              <font-triplet name="DejaVuSans" style="normal"
+                weight="bold" />
+            </font>
+          </fonts>
+        </renderer>
+      </renderers>
+    </fop>
+
+    (: produce the PDF- File :)
+    let $charter-as-pdf :=
+      pdf:render($charters-and-notes, $xsl, $parameters, $fop-config, $lang, xs:string('bookmark_notes'))
+    return
+    $charter-as-pdf
+    }
+  </xrx:body>
+</xrx:service>

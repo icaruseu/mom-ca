@@ -1,0 +1,74 @@
+<xrx:service xmlns:eag="http://www.archivgut-online.de/eag" xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/my-collection-charter-new</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key></xrx:key>
+      <xrx:default></xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:variables>
+    <xrx:variable>
+      <xrx:name>$uuid</xrx:name>
+      <xrx:expression>mycollection:uuid($user:db-base-collection)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$mycollection-objectid</xrx:name>
+      <xrx:expression>metadata:objectid(request:get-parameter('mycollection', ''))</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$atomid</xrx:name>
+      <xrx:expression>metadata:atomid('charter', ($mycollection-objectid, $uuid))</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$charter-name</xrx:name>
+      <xrx:expression>i18n:translate(<xrx:i18n><xrx:key>new-charter</xrx:key><xrx:default>New Charter</xrx:default></xrx:i18n>)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$entry</xrx:name>
+      <xrx:expression>mycollection:charter-new-empty($atomid, $uuid, $charter-name)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$feed</xrx:name>
+      <xrx:expression>metadata:feed('charter', $mycollection-objectid, 'private')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$entryname</xrx:name>
+      <xrx:expression>metadata:entryname('charter', $uuid)</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:translateflag>false</xrx:translateflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:body>
+    {
+      let $post := atom:POST($feed, $entryname, $entry)
+      return
+      $post  
+    }
+  </xrx:body>
+</xrx:service>

@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+	<xrx:id>tag:www.monasterium.net,2011:/mom/widget/editmom-documentation</xrx:id>
+	<xrx:title>
+		<xrx:i18n>
+			<xrx:key>editmom-documentation</xrx:key>
+			<xrx:default>EditMOM documentation</xrx:default>
+		</xrx:i18n>
+	</xrx:title>
+	<xrx:subtitle/>
+	<xrx:description/>
+	<xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+	<xrx:licence/>
+	<xrx:portal>tag:www.monasterium.net,2011:/mom/portal/desktop</xrx:portal>
+	<xrx:init>
+		<xrx:processor>
+			<xrx:xformsflag>false</xrx:xformsflag>
+		</xrx:processor>
+	</xrx:init>
+	<xrx:csss>
+		<style type="text/css">
+			
+#deditmom-documentation{{
+  position:relative;
+  float:left;
+  width:800px;
+}}
+div.p {{
+	position:relative;
+	float:left;
+	width:100%;
+}}
+p, h1, h2, h3, h4, h5, h6{{
+  margin-top=0px;
+  margin-bottom:0px;
+  font-size:10pt;
+}}
+h4, .ZwUeberschrift{{
+  margin-left:10px;
+}}
+div.element{{
+  margin-top:10px;
+}}
+.Name{{
+  font-weight:bold;
+}}
+.Beschreibung{{
+  margin-left:20px;
+  font-size:90%;
+}}
+.Attribute{{
+  font-size:90%;
+}}
+.Contains, .Parent{{
+  margin-left:20px;
+  font-size:80%;
+}}
+#Inhaltsverzeichnis{{
+	display:block;
+	position:relative;
+	float:none;
+	width:800px;
+  font-size:80%; 
+  margin-top:6px;
+}}
+.l {{
+	position:relative;
+	float:left;
+}}
+.backlink{{
+  font-size:80%;
+}}
+.Kommentar{{
+  font-size:80%; 
+  color: black; 
+}}
+.reiter, .reiter:visited{{
+  background-color:#FFF0F0; 
+  text-decoration:none;
+}}
+#deditmom-documentation .menu, .menu:visited{{
+  background-color:#F0FFF0;
+  text-decoration:none;
+}}
+.field, .field:visited{{
+  background-color:#F0F0FF; 
+  text-decoration:none;
+}}
+.fliess, .fliess:visited{{
+  background-color:#FFFFC0;
+  text-decoration:none;
+}}
+
+    </style>
+	</xrx:csss>
+	<xrx:view>
+		<div data-demoid="72c31d80-9a22-41c8-9b8f-bee5d2101d82" id="deditmom-documentation">
+			{
+			let $old-lang-code := data(conf:param('languages')//*:lang[@*:key=$xrx:lang]/@*:old)
+			let $editmom-xml := template:get('tag:www.monasterium.net,2011:/mom/template/EditMOM', false())
+			return
+			<div data-demoid="efc66d04-8b8e-4a08-b588-e650ab7554ef">
+				<div class="p" data-demoid="b809e9d6-65ff-4144-bc95-cbdfb05cf4da">
+					<a name="top"/>
+					<div class="h2" data-demoid="21d0a5fd-5d5a-4567-8f5f-16459e0f2145">
+						<xrx:i18n>
+						  <xrx:key>documentation</xrx:key>
+						  <xrx:default>Documentation</xrx:default>
+						</xrx:i18n>
+						<span> EditMOM</span>
+					</div>
+					<p class="Kommentar">
+						<span class="reiter">
+							<xrx:i18n>
+							  <xrx:key>tab</xrx:key>
+							  <xrx:default>tab</xrx:default>
+							</xrx:i18n>
+						</span>
+						<span>,</span>
+						<span class="menu">
+							<xrx:i18n>
+							  <xrx:key>menu</xrx:key>
+							  <xrx:default>menu</xrx:default>
+							</xrx:i18n>
+						</span>
+						<span>,</span>
+						<span class="field">
+							<xrx:i18n>
+							  <xrx:key>input-field</xrx:key>
+							  <xrx:default>input field</xrx:default>
+							</xrx:i18n>
+						</span>
+						<span>,</span>
+						<span class="fliess">
+							<xrx:i18n>
+							  <xrx:key>menu-item</xrx:key>
+							  <xrx:default>menu item</xrx:default>
+							</xrx:i18n>
+						</span>
+					</p>
+					<h3>
+						<xrx:i18n>
+						  <xrx:key>table-of-contents</xrx:key>
+						  <xrx:default>Table of contents</xrx:default>
+						</xrx:i18n>
+					</h3>
+					<div data-demoid="fc292eb4-2ffb-4b21-a3aa-8704b75b3bbf" id="Inhaltsverzeichnis">
+						{
+						let $names :=
+							for $name in $editmom-xml//(*:tab|*:field|*:menue)/*:name
+							order by $name/following-sibling::*:caption[@*:lang=$old-lang-code] collation "?lang=de"
+							return
+							$name
+						for $name in $names
+						let $caption :=
+  						$name/following-sibling::*:caption[@*:lang=$old-lang-code]/text()
+						let $present-type :=
+  						$name/following-sibling::*:present_type/text()
+						let $link :=
+							if($name/parent::*:tab) then $name/text()
+							else if($name/ancestor::*:tab) then
+							$name/following-sibling::*:path/text()
+							else if($name/parent::*:menue) then $name/text()
+							else $name/text()
+						let $type :=
+							if($name/parent::*:tab) then 'reiter'
+							else if($name/ancestor::*:tab) then 'field'
+							else if($name/parent::*:menue) then 'menu'
+							else 'fliess'
+						return
+						<div class="l" data-demoid="5c0e5e9e-451c-4d9b-bb36-caa423b9f3b7">
+							<span>[</span>
+							<a class="{ $type }" href="#{ $link }">{ $caption }</a>
+							<span>]</span>
+						</div>
+						}
+					</div>
+				</div>
+				<div class="p" data-demoid="aa5459e7-3d00-427c-a853-7d9008a5b2dc">
+					<h3>
+						<xrx:i18n>
+						  <xrx:key>tabs</xrx:key>
+						  <xrx:default>tabs</xrx:default>
+						</xrx:i18n>
+					</h3>
+					{
+					for $tab in $editmom-xml//*:tab
+					let $tab-name := $tab/*:name/text()
+					let $tab-caption := $tab/*:caption[@*:lang=$old-lang-code]/text()
+					let $doc := $tab/*:doc[@*:lang=$old-lang-code]/text()
+					return
+					<div data-demoid="851a15d0-8f0b-4fea-a8d9-2eb38e527db7">
+						<a name="{ $tab-name }"/>
+						<h3 class="reiter">{ $tab-caption }</h3>
+						<p class="Beschreibung">{ $doc }</p>
+						{
+						for $field in $tab/(*:field|*:SimpleList/*:field)
+						let $field-caption := $field/*:caption[@*:lang=$old-lang-code]/text()
+						let $field-path := $field/*:path/text()
+						let $doc := $field/*:doc[@*:lang=$old-lang-code]/text()
+						return
+						<div data-demoid="dc6e6aa4-57cc-4511-ad25-c505044bae30">
+							<a name="{ $field-path }"/>
+							<h4 class="field">{ $field-caption }</h4>
+							<p class="Beschreibung">{ $doc }</p>
+							<p class="ZwUeberschrift">
+								<xrx:i18n>
+								  <xrx:key>attributes</xrx:key>
+								  <xrx:default>Attributes</xrx:default>
+								</xrx:i18n>
+								<span>:</span>
+							</p>
+							<ul class="Attribute">
+								{
+								for $attribute in $field/*:attributes/*:attribute
+								let $attr-name := $attribute/*:caption[@lang=$old-lang-code]/text()
+								let $attr-doc := $attribute/*:doc[@lang=$old-lang-code]/text()
+								return
+								<li>
+									<i>{ $attr-name }</i>
+									<span>: { $attr-doc }</span>
+								</li>
+								}
+							</ul>
+						</div>
+						}
+						<hr/>
+						<p class="backlink">
+							<a href="#top">
+								<xrx:i18n>
+								  <xrx:key>top</xrx:key>
+								  <xrx:default>top</xrx:default>
+								</xrx:i18n>
+							</a>
+							<span>|</span>
+							<a href="/">
+								<xrx:i18n>
+								  <xrx:key>home</xrx:key>
+								  <xrx:default>home</xrx:default>
+								</xrx:i18n>
+							</a>
+						</p>
+						<hr/>
+					</div>
+					}
+					<div data-demoid="53a4beac-7770-4d47-b123-8aea49910ead">
+						<h3>
+							<xrx:i18n>
+							  <xrx:key>menu</xrx:key>
+							  <xrx:default>menu</xrx:default>
+							</xrx:i18n>
+							<span>:</span>
+						</h3>
+						{
+						for $menu in $editmom-xml//*:menue
+						let $menu-name := $menu/*:name/text()
+						let $menu-caption := $menu/*:caption[@*:lang=$old-lang-code]/text()
+						let $menu-doc := $menu/*:doc[@*:lang=$old-lang-code]/text()
+						return
+						<div data-demoid="315cb9a8-8263-48a8-8d0f-a922433f19a1">
+							<a name="{ $menu-name }"/>
+							<h3 class="menu">{ $menu-name }</h3>
+							<p class="Beschreibung">{ $menu-doc }</p>
+							{
+							for $field in $menu/*:field
+							let $field-caption :=
+							$field/*:caption[@*:lang=$old-lang-code]/text()
+							let $field-name := $field/*:name/text()
+							let $doc := $field/*:doc[@*:lang=$old-lang-code]/text()
+							return
+							<div data-demoid="42dc4274-1779-4e8e-8732-3eaca2f3afe3">
+								<div data-demoid="6a55ab29-140e-4832-ae3e-9a4f59933a2c">
+									<a name="{ $field-name }"/>
+									<h4 class="fliess">{ $field-caption }</h4>
+									<p class="Beschreibung">{ $doc }</p>
+									<p class="ZwUeberschrift">
+										<xrx:i18n>
+										  <xrx:key>attributes</xrx:key>
+										  <xrx:default>Attributes</xrx:default>
+										</xrx:i18n>
+										<span>:</span>
+									</p>
+									<ul class="Attribute">
+										{
+										for $attribute in $field/*:attributes/*:attribute
+										let $attr-name :=
+										$attribute/*:caption[@lang=$old-lang-code]/text()
+										let $attr-doc := $attribute/*:doc[@lang=$old-lang-code]/text()
+										return
+										<li>
+											<i>{ $attr-name }</i>
+											<span>: { $attr-doc }</span>
+										</li>
+										}
+									</ul>
+								</div>
+								<hr/>
+								<p class="backlink">
+									<a href="#top">
+										<xrx:i18n>
+										  <xrx:key>top</xrx:key>
+										  <xrx:default>top</xrx:default>
+										</xrx:i18n>
+									</a>
+									|
+									<a href="/">
+										<xrx:i18n>
+										  <xrx:key>home</xrx:key>
+										  <xrx:default>home</xrx:default>
+										</xrx:i18n>
+									</a>
+								</p>
+								<hr/>
+							</div>
+							}
+						</div>
+						}
+					</div>
+				</div>
+			</div>
+			}
+		</div>
+	</xrx:view>
+</xrx:widget>

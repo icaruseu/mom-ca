@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>XRX++ Unit Tests - xrx.update</title>
+<script src='../../lib/closure-library/closure/goog/base.js'></script>
+<script src='../deps.js'></script>
+<script type="text/javascript">
+  goog.require('goog.testing.jsunit');
+  goog.require('xrx.pilot');
+  goog.require('xrx.update');
+</script>
+</head>
+<body>
+<script type="text/javascript">
+var xml = '<a>1<b>2</b>3<c attr1="test" attr2="">4<d/>5<e/></c><f/></a>';
+var pilot = new xrx.pilot(xml);
+
+function testStartTag() {
+  // TODO: do we need this?
+};
+
+function testEndTag() {
+  // TODO: do we need this?
+};
+
+function testEmptyTag() {
+  // TODO: do we need this?
+};
+
+function testNotTag() {
+  var expected = '<a>test<b>2</b>3<c attr1="test" attr2="">4<d/>5<e/></c><f/></a>';
+
+  // update '1' with 'test'
+  var label = new xrx.label([1, 0]);
+  var notTag = new xrx.token.NotTag(label);
+  pilot.update(null, notTag, 'test');
+  assertEquals(expected, pilot.xml());  
+};
+
+function testTagName() {
+  // TODO: do we need this?
+};
+
+function testAttrValue() {
+  
+};
+
+</script>
+</body>
+</html>

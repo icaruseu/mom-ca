@@ -1,0 +1,207 @@
+<xrx:css xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml">
+	<xrx:id>tag:www.monasterium.net,2011:/mom/css/global</xrx:id>
+	<xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+	<xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+	</xrx:licence>
+	<xrx:style>
+
+/* 
+*
+*   Page 
+*/    
+html{{
+ height:100%;
+ margin:0px;
+ padding:0px;
+}}
+html *, .bf *{{
+  font-family:"Trebuchet MS", regular, sans-serif;
+  font-size:14px;
+}}
+#main-logo{{
+  height:103px;
+}}
+#debug-pane{{
+  display:none;
+}}
+body, #formWrapper{{
+  height: 101%; /*FF vert. Scrollbar erzwingen ## */
+  color:#1a1a1a;
+  background-color:{conf:param('color1')};
+  margin:0px;
+  padding:0px;
+}}
+#main{{
+  position:absolute;
+  left:-500px;
+  width:1000px;
+  background-color:white;
+  margin:0px;
+  padding:0px;
+  margin-left:50%;
+}}
+#content{{
+  position:relative;
+  float:left;
+  min-height:500px;
+  width:100%;
+}}
+#inner-content{{
+  margin:20px;
+}}
+#dresponse-info-div .icon img{{
+  width:32px;
+}}
+
+/* 
+*
+*   Headings 
+*/
+.h2, .h2 span{{
+  color:{conf:param('color6')};
+  font-size:21px;
+  font-weight:bold;
+}}
+
+/*
+*
+* Lists
+*
+*/
+ul.nostyle{{
+  list-style:none;
+  line-height:1.5em;
+}}
+
+/* 
+*
+*   Links 
+*/
+a{{
+  color:{conf:param('color2')} !important;
+}}
+a:hover{{
+  color:{conf:param('color6')} !important;
+}}
+
+/*
+*
+* Function links
+*
+*/
+.my-functions {{
+  //position:relative;
+  float:none;
+  margin-bottom:50px;
+}}
+
+.my-functions a {{
+  color:#EF6A2F !important;
+}}
+
+.my-functions-label {{
+  text-align:right;
+  color:#EF6A2F !important;
+  font-weight:bold;
+  font-size:1.1em;
+}}
+
+.my-functions h3{{
+  text-align:right;
+  color:#EF6A2F !important;
+}}
+
+.function-links{{
+  position:relative;
+  float:left;
+  background-color:{conf:param('color7')} !important;
+  width:100%;
+}}
+
+.function-link{{
+  position:relative;
+  float:left;
+  margin:10px;
+}}
+
+/*
+*
+* Pagination navi
+*
+*/
+.dpagination-navi{{
+  position:relative;
+  float:none;
+  width:100%;
+}}
+.dnavigation-item{{
+  position:relative;
+  float:left;
+}}
+
+/*
+*
+* XRX
+*
+*/
+.xrx-translate-page-link {{
+	display:block!important;
+	position:absolute!important;
+	right:0px!important;
+	background:#FFE3D9!important;
+}}
+
+.xrx-translate-page-link a {{
+	display:block!important;
+	color:#EF6A2F!important;
+	margin:10px!important;
+}}
+
+/*
+*
+* betterFORM
+*
+*/
+#betterformMessageToaster {{
+	width:100% !important;
+}}
+#betterformMessageToaster div{{
+  width: 100% !important;
+  line-height: 3em !important;
+  background: #EF6A2F;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.2em;
+}}
+
+/* 
+*
+*   Hacks 
+*/
+img{{
+  border:0;
+}}
+
+  </xrx:style>
+</xrx:css>

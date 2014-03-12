@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+    <xrx:id>tag:www.monasterium.net,2011:/mom/widget/saved-charters</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key>saved-charters</xrx:key>
+            <xrx:default>Saved charters</xrx:default>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:subtitle/>
+    <xrx:description/>
+    <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+    <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+    <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/desktop</xrx:portal>
+    <xrx:init>
+        <xrx:processor>
+            <xrx:xformsflag>true</xrx:xformsflag>
+        </xrx:processor>
+    </xrx:init>
+    <xrx:csss>
+        <xrx:css>tag:www.monasterium.net,2011:/mom/css/charter-preview</xrx:css>
+        <style type="text/css">
+
+#dcharter-preview-main{{
+position:relative;
+float:left;
+width:800px;
+}}
+#dcharter-preview-main .charter *{{
+line-height:1.6em;
+}}
+#dcharter-preview-main .charter{{
+position:relative;
+width:100%;
+float:left;
+background:rgb(245,245,245);
+}}
+#dcharter-preview-main .charter-preview{{
+position:relative;
+float:left;
+width:100%;
+background:rgb(245,245,245);
+border-bottom:solid white 5px;
+}}
+#dcharter-preview-main .inner-charter-preview{{
+position:relative;
+float:left;
+width:100%;
+margin:15px;
+}}
+#dcharter-preview-main .charter-info-and-actions{{
+display:inline;
+position:relative;
+float:left;
+width:25%;
+border-left:solid white 3px;
+padding-left:10px;
+}}
+#dcharter-preview-main .container{{
+float:left;
+width:65%;
+padding-right:10px;
+}}
+#dcharter-preview-main .charter-info-and-actions *{{
+font-size:13px;
+}}
+#dcharter-preview-main .fieldset{{
+border:solid #C8C8C8 1px;
+margin-top:10px;
+}}
+#dcharter-preview-main .inner-fieldset{{
+margin:5px;
+}}
+div.bookmark-icon{{
+position:absolute;
+right:220px;
+}}
+.note-field{{
+	position:relative;
+	border:solid #C8C8C8 1px;
+  padding:3px;
+}}
+.noteBobble {{
+	display:none;
+	position:fixed;
+	left:400px;
+	bottom:35%;
+	z-index:20;
+	width: 400px;
+	height: 160px;
+	background-color: #F6F6F6;
+	padding:20px;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  -khtml-border-radius:3px;
+  border-radius:3px;
+  -moz-box-shadow:    4px -3px 10px 1px #202020;
+  -webkit-box-shadow: 4px -3px 10px 1px #202020;
+  box-shadow:         4px -3px 10px 1px #202020;
+}}
+.noteBobble .xfLabel{{ 
+	color:rgb(142,163,132);
+	font-weight:bold;
+}}   
+.noteBobble .xfValue{{ 
+	top: 5px !important;
+  position:relative;
+  width:400px !important;
+  max-height: 100px !important;
+}}
+.noteBobble .xfTrigger{{
+	width:30px !important;
+}}  
+.edit-box{{
+  padding:3px;
+}}
+
+    </style>
+    </xrx:csss>
+    <xrx:model>
+    { bookmark:model(conf:param('request-root')) }
+    { publication:model(conf:param('request-root')) }
+  </xrx:model>
+    <xrx:view>
+  {
+    (: saved charters :)
+    let $saved-charters := $xrx:user-xml//xrx:saved[xrx:freigabe='no']/xrx:id/text()
+
+    (: pagination :)
+    let $numentries := count($saved-charters)
+    let $startstop := pagination:startstop($numentries)
+    let $navigation := pagination:navi($numentries)
+    
+    return
+    <div data-demoid="bbbeea5c-99a4-47e8-abc2-5aa82a49a5f0" id="dsaved-charters">
+            <div class="h2" data-demoid="c6e9af97-9a53-4451-9a88-2ffee4f871a5">
+                <xrx:i18n>
+                    <xrx:key>saved-charters</xrx:key>
+                    <xrx:default>Saved Charters</xrx:default>
+                </xrx:i18n>
+            </div>
+      { $navigation }
+            <xf:group>
+                <div data-demoid="5a92598b-dcbf-4cf7-8449-d55a272d614e" id="dcharter-preview-main">
+          {
+          for $charter at $num in $saved-charters[position() = $startstop]
+          
+          (: init metadata database collections :)
+          let $tokens := tokenize(substring-after($charter, conf:param('atom-tag-name')), '/')
+
+          let $charter-context := 
+            let $probably-collection-id := $tokens[3]
+            let $probably-collection-atom-id := concat(conf:param('atom-tag-name'), '/collection/', $probably-collection-id)
+            return
+            if(exists(metadata:base-collection('collection', 'public')//atom:id[.=$probably-collection-atom-id])) then 'collection' else 'fond'
+          
+          let $charter-id := $tokens[last()]
+          let $fond-id := if($charter-context = 'fond') then $tokens[last() - 1] else 'null'
+          let $archive-id := if($charter-context = 'fond') then $tokens[last() - 2] else 'null'
+          let $collection-id := if($charter-context = 'collection') then $tokens[last() - 1] else 'null'
+          
+          let $metadata-charter-collection := 
+            if($charter-context = 'fond') then
+              metadata:base-collection('charter', ($archive-id, $fond-id), 'public')
+            else
+              metadata:base-collection('charter', $collection-id, 'public')
+          let $metadata-fond-collection := 
+            metadata:base-collection('fond', ($archive-id, $fond-id), 'public')
+          let $metadata-archive-collection := 
+            metadata:base-collection('archive', $archive-id, 'public')
+          let $metadata-collection-collection := 
+            metadata:base-collection('collection', $collection-id, 'public')
+                  
+          (: get charter from public area :)
+          let $published-charter := root($metadata-charter-collection//atom:id[.=$charter])//cei:text
+          
+          (: is charter bookmarked? :)
+          let $is-bookmarked := bookmark:is-bookmarked($xrx:user-xml, $charter)
+          
+          (: get fond information :)
+          let $eaddid := $metadata-fond-collection//ead:ead//ead:c[@level='fonds']/ead:did
+          let $fond-name := normalize-space($eaddid//ead:unittitle/text())
+          
+          (: get archive information :)
+          let $country-id := data($metadata-archive-collection//eag:repositorid/@countrycode)
+          let $arch-name := $metadata-archive-collection//eag:autform/text()
+          
+          (: get info for published charter :)
+          let $idno := $published-charter//cei:body/cei:idno/text()
+          let $date := ($published-charter//cei:date/text(), $published-charter//cei:dateRange/text(), $published-charter//cei:date_sort/text())[1]
+          let $abstract := $published-charter//cei:abstract//text()
+
+          (: get collection infromation :)
+          let $collection-entry := $metadata-collection-collection//cei:cei
+          let $collection-name := $collection-entry//cei:provenance/child::text()
+          
+          let $saved-charter := root(metadata:base-collection('charter', 'saved')//atom:id[.=$charter])//cei:text
+
+          (: status of the charter :)
+          let $is-bookmarked := bookmark:is-bookmarked($xrx:user-xml, $charter)
+          let $saved-by-current-user := publication:is-saved($xrx:user-xml, $charter)
+          let $saved-by-any-user := publication:is-saved($user:db-base-collection/xrx:user, $charter)
+          let $saved-by-user := publication:saved-by-user($user:db-base-collection/xrx:user, $saved-charter)
+          let $saved-by-user-label :=
+            concat(user:firstname-name($saved-by-user), ' (', $saved-by-user, ')')
+          
+          (: status of the user :)
+          let $is-moderator := auth:matches(<xrx:rule>
+                        <xrx:user/>
+                        <xrx:role>moderator</xrx:role>
+                    </xrx:rule>)
+          
+          let $charter-url := 
+            if($charter-context = 'fond') then concat(conf:param('request-root'),$archive-id,'/',$fond-id,'/',$charter-id,'/charter')
+            else concat(conf:param('request-root'),$collection-id,'/',$charter-id,'/charter')
+                  
+          return
+          <div class="charter" data-demoid="b32e2701-abf4-4310-8526-8b6f0ee44153" id="ch{ $num }">
+                        <div class="charter-preview" data-demoid="4e02e647-178f-45e4-b62b-7077f305237e">
+                            <div class="inner-charter-preview" data-demoid="77a34be6-a077-4229-8d0c-333834dfbb57">
+
+            <!-- ################## Common Info ################# -->
+                                <div data-demoid="eaa667ea-0054-4d24-9164-a9a8ce5b7bc9">
+              {
+              if($charter-context = 'fond') then
+              <div data-demoid="640c2c1e-c141-4841-a632-01ff76bc59f9">{ $arch-name }, { $fond-name }<span class="light-grey">
+                                            <span> (<xrx:i18n>
+                                                    <xrx:key>fond</xrx:key>
+                                                    <xrx:default>Fond</xrx:default>
+                                                </xrx:i18n>)</span>
+                                        </span>
+                                    </div>
+              else
+              <div data-demoid="ab3322af-394d-4c36-b5c9-b12d9a51931a">{ $collection-name }<span class="light-grey">
+                                            <span> (<xrx:i18n>
+                                                    <xrx:key>collection</xrx:key>
+                                                    <xrx:default>Collection</xrx:default>
+                                                </xrx:i18n>)</span>
+                                        </span>
+                                    </div>
+              }
+              <b>
+                                        <xrx:i18n>
+                                            <xrx:key>charter</xrx:key>
+                                            <xrx:default>Charter</xrx:default>
+                                        </xrx:i18n>
+                                        <span>: </span>
+                                    </b>
+                                    <span>{ $idno }</span>
+                                </div>
+                                <div data-demoid="f58e98f7-89db-42bf-8b4c-f2283c900cfd">
+                                    <b>
+                                        <xrx:i18n>
+                                            <xrx:key>date</xrx:key>
+                                            <xrx:default>Date</xrx:default>
+                                        </xrx:i18n>
+                                        <span>: </span>
+                                    </b>
+                                    <span>{ $date }</span>
+                                </div>
+                                <br/>
+                                <br/>
+            
+            <!-- ############### Published Charter ################# -->
+                                <div class="container" data-demoid="86686e29-b9a4-44df-ae11-4cecb09070d4">
+                                    <div data-demoid="d749430d-03bf-4f8c-9840-8ee19cf86f26">
+                                        <b>
+                                            <xrx:i18n>
+                                                <xrx:key>actual-live-version</xrx:key>
+                                                <xrx:default>Actual live version</xrx:default>
+                                            </xrx:i18n>
+                                            <span>: </span>
+                                        </b>
+                                        <span>{ $abstract }</span>
+                                    </div>
+                                    <br/>
+                                </div>
+                                <div class="charter-info-and-actions" data-demoid="405c65fc-c72c-4bdd-b998-374c775d9c9f">
+                                    <a href="{ $charter-url }">
+                                        <xrx:i18n>
+                                            <xrx:key>view-charter</xrx:key>
+                                            <xrx:default>View Charter</xrx:default>
+                                        </xrx:i18n>
+                                    </a>
+                                </div>
+
+
+            <!-- ############## Saved Charter ################ -->
+                                <div class="container" data-demoid="fb5b7d09-4770-4431-9e38-8c4f2f2f7dba">
+                                    <div data-demoid="96c343bf-1e6f-4e6e-a2a4-9e9be5e41f80">
+                                        <b>
+                                            <xrx:i18n>
+                                                <xrx:key>my-local-copy</xrx:key>
+                                                <xrx:default>My local copy</xrx:default>
+                                            </xrx:i18n>
+                                            <span>: </span>
+                                        </b>
+                                        <span>{ $saved-charter//*:abstract//text() }</span>
+                                    </div>
+                                    <br/>
+                                </div>
+                                <div class="charter-info-and-actions" data-demoid="a66d8ee9-a351-4489-a0e5-0a4b0cd9299e">
+                                    <div data-demoid="f15a5174-9bad-44ef-8b3d-48a8d2c120a5">
+                                        <a href="{ conf:param('request-root') }saved-charter?id={ $charter }">
+                                            <xrx:i18n>
+                                                <xrx:key>view-charter</xrx:key>
+                                                <xrx:default>View Charter</xrx:default>
+                                            </xrx:i18n>
+                                        </a>
+                                    </div>
+                                    <div data-demoid="ccf5e927-6e78-4b54-9647-f4f03aeef9a0">
+                                        <a href="{ conf:param('request-root') }charter-version-difference?id={ $charter }&amp;backlink=saved-charters">
+                                            <xrx:i18n>
+                                                <xrx:key>version-difference</xrx:key>
+                                                <xrx:default>Version Difference</xrx:default>
+                                            </xrx:i18n>
+                                        </a>
+                                    </div> 
+                { 
+                bookmark:trigger(
+                  $is-bookmarked,
+                  $charter,
+                  $num,
+                  conf:param('request-root'),
+                  <span>
+                                        <xrx:i18n>
+                                            <xrx:key>add-bookmark</xrx:key>
+                                            <xrx:default>Add bookmark</xrx:default>
+                                        </xrx:i18n>
+                                    </span>,
+                  <span>
+                                        <xrx:i18n>
+                                            <xrx:key>remove-bookmark</xrx:key>
+                                            <xrx:default>Remove bookmark</xrx:default>
+                                        </xrx:i18n>
+                                    </span>
+                ) 
+                }
+                                	<div class="note-field" data-demoid="7c5ccba8-f7d4-4c18-8be6-cd26c2098671" id="note-field-{$num}" style="display:{if($is-bookmarked)then 'block' else 'none'};">
+                                		{
+                                		let $encoded-id := xmldb:encode($charter-id)
+                                		let $note := 
+                                		if($charter-context = 'fond') then
+                                		doc(concat(conf:param('xrx-user-db-base-uri'), xmldb:encode($xrx:user-id), '/metadata.bookmark-notes/', xmldb:decode($archive-id), '/', xmldb:decode($fond-id), '/', xmldb:decode($encoded-id), '.xml'))//xrx:bookmark_note
+                                		else
+                                		doc(concat(conf:param('xrx-user-db-base-uri'), xmldb:encode($xrx:user-id), '/metadata.bookmark-notes/', xmldb:decode($collection-id), '/', xmldb:decode($encoded-id), '.xml'))//xrx:bookmark_note
+                                		let $note-text := 
+                                		if($note//xrx:bookmark/text() = xmldb:encode($charter))then
+                                		$note//xrx:note/text()
+                                		else()
+                                		return
+                                		<div data-demoid="86e00a1f-755f-41a3-b1a5-3f249ea138d2">
+                                			<b>
+                                				<xrx:i18n>
+                                					<xrx:key>bookmark-note</xrx:key>
+                                					<xrx:default>Bookmark note</xrx:default>
+                                				</xrx:i18n>
+                                				<span>: </span>
+                                			</b>
+                                			<br/>
+                                			<span id="note-output-{$num}">{ $note-text } </span>
+                                			<div class="edit-box" data-demoid="c497f729-0755-4d46-8390-be10d57f20b0">
+                                				<xf:trigger appearance="minimal" id="note-edit-{$num}">
+                                					<xf:label>
+                                						{
+                                						if(string-length($note-text) gt 0)then
+                                						<span>
+                                							<xrx:i18n>
+                                								<xrx:key>edit-note</xrx:key>
+                                								<xrx:default>Edit note</xrx:default>
+                                							</xrx:i18n>
+                                						</span>
+                                						else
+                                						<span>
+                                							<xrx:i18n>
+                                								<xrx:key>create-note</xrx:key>
+                                								<xrx:default>Create note</xrx:default>
+                                							</xrx:i18n>
+                                						</span>
+                                						}
+                                					</xf:label>
+                                					<xf:action ev:event="DOMActivate">
+                                						<xf:setvalue ref="//xrx:bookmark" value="'{ $charter }'"/>
+                                						<script type="text/javascript">document.getElementById('noteBobble-{$num}').style.display = 'block';document.getElementById('note-textarea-{$num}-value').value = document.getElementById('note-output-{$num}').innerHTML;document.getElementById('note-edit-{$num}-value').innerHTML = 'Edit note';</script>
+                                					</xf:action>
+                                				</xf:trigger>
+                                			</div>
+                                		</div>
+                                		}
+                                	</div>
+                                	<div class="noteBobble" data-demoid="fb2c23eb-04ad-4071-a445-0abdafd3a15a" id="noteBobble-{$num}">
+                                		<xrx:resource onClick="document.getElementById('noteBobble-{$num}').style.display = 'none';" style="position:absolute;left:417px;top:8px;width:14px;" title="Close note input" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/button_close</xrx:resource>
+                                		<div data-demoid="af4aa901-9654-4127-a48f-9608d0ef76d6">
+                                			<xf:group model="mbookmark">
+                                				<xf:textarea id="note-textarea-{$num}" ref="//xrx:bookmarkNote">
+                                					<xf:label>
+                                						<xrx:i18n>
+                                							<xrx:key>bookmark-note</xrx:key>
+                                							<xrx:default>Bookmark note</xrx:default>
+                                						</xrx:i18n>:
+                                					</xf:label>
+                                				</xf:textarea>
+                                				<div class="note-save-trigger" data-demoid="1ce3cca4-857a-472c-b434-79d4f13994b9">
+                                					<xf:trigger>
+                                						<xf:label>
+                                							<xrx:i18n>
+                                								<xrx:key>save</xrx:key>
+                                								<xrx:default>save</xrx:default>
+                                							</xrx:i18n>
+                                						</xf:label>
+                                						<xf:action ev:event="DOMActivate">
+                                							<xf:setvalue ref="//xrx:bookmark" value="'{ $charter }'"/>
+                                							<xf:send submission="ssave-note"/>
+                                							<script type="text/javascript">document.getElementById('note-field-{$num}').style.display = 'block';document.getElementById('noteBobble-{$num}').style.display = 'none';document.getElementById('note-output-{$num}').innerHTML = document.getElementById('note-textarea-{$num}-value').value;document.getElementById('note-edit-{$num}-value').innerHTML = 'Edit note';</script>
+                                						</xf:action>
+                                					</xf:trigger>
+                                				</div>
+                                			</xf:group>
+                                		</div>
+                                	</div>
+                {
+                publication:user-actions(
+                  $saved-by-current-user,
+                  $saved-by-any-user,
+                  $charter,
+                  $num,
+                  conf:param('request-root'),
+                  $is-moderator,
+                  $xrx:tokenized-uri[last()],
+                  <span>
+                                        <xrx:i18n>
+                                            <xrx:key>save-and-edit-charter</xrx:key>
+                                            <xrx:default>Save and edit charter</xrx:default>
+                                        </xrx:i18n>
+                                    </span>,
+                  <span>
+                                        <xrx:i18n>
+                                            <xrx:key>edit-charter</xrx:key>
+                                            <xrx:default>Edit charter</xrx:default>
+                                        </xrx:i18n>
+                                    </span>,
+                  <span>
+                                        <xrx:i18n>
+                                            <xrx:key>charter-in-use-by</xrx:key>
+                                            <xrx:default>Charter in use by</xrx:default>
+                                        </xrx:i18n>
+                                        <i> { $saved-by-user }</i>
+                                    </span>,
+                  <span>
+                                        <xrx:i18n>
+                                            <xrx:key>release-charter</xrx:key>
+                                            <xrx:default>Release Charter</xrx:default>
+                                        </xrx:i18n>
+                                    </span>,
+                  <span>
+                                        <xrx:i18n>
+                                            <xrx:key>remove-charter</xrx:key>
+                                            <xrx:default>Remove Charter</xrx:default>
+                                        </xrx:i18n>
+                                    </span>,
+                  <span>
+                                        <xrx:i18n>
+                                            <xrx:key>publish-charter</xrx:key>
+                                            <xrx:default>Publish Charter</xrx:default>
+                                        </xrx:i18n>
+                                    </span>   
+                )
+                }
+            </div>
+                            </div>
+                        </div>
+                    </div>
+          }
+          { $navigation }
+        </div>
+            </xf:group>
+        </div>
+  }
+  </xrx:view>
+</xrx:widget>

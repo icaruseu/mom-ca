@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/charter-to-publish</xrx:id>
+  <xrx:inherits>tag:www.monasterium.net,2011:/mom/widget/charter</xrx:inherits>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>charter-to-publish</xrx:key>
+      <xrx:default>Charter to publish</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more
+lenient towards the inclusion of components into other systems, once
+it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>
+    <xrx:variable>
+      <xrx:name>$wcharter:just-linked</xrx:name>
+      <xrx:expression>false()</xrx:expression>
+    </xrx:variable>
+    <!-- 
+    	charter context: collection or fond? 
+    -->
+    <xrx:variable>
+      <xrx:name>$wcharter:context</xrx:name>
+      <xrx:expression>if(count($xrx:tokenized-uri) = 3) then 'collection' else 'fond'</xrx:expression>
+    </xrx:variable>
+    <!--
+      atom ID 
+    -->
+    <xrx:variable>
+      <xrx:name>$wcharter:atom-id</xrx:name>
+      <xrx:expression>url:atom-id-from-url(conf:param('atom-tag-name'), $charter:ratomid)</xrx:expression>
+    </xrx:variable>
+    <!-- 
+    	init metadata database collections 
+    -->
+    <xrx:variable>
+      <xrx:name>$wcharter:tokens</xrx:name>
+      <xrx:expression>tokenize(substring-after($wcharter:atom-id, conf:param('atom-tag-name')), '/')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <!-- charter -->
+      <xrx:name>$wcharter:metadata-charter-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('charter', 'saved')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <!-- fond -->
+      <xrx:name>$wcharter:metadata-fond-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('fond', ($wcharter:tokens[last() - 2], $wcharter:tokens[last() - 1]), 'public')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <!-- archive -->
+      <xrx:name>$wcharter:metadata-archive-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('archive', $wcharter:tokens[last() - 2], 'public')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <!-- collection -->
+      <xrx:name>$wcharter:metadata-collection-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('collection', $wcharter:tokens[last() - 1], 'public')</xrx:expression>
+    </xrx:variable>
+    <!-- 
+      the CEI document
+     -->
+    <xrx:variable>
+      <xrx:name>$wcharter:charter</xrx:name>
+      <xrx:expression>root(metadata:base-collection('charter', 'saved')//atom:id[.=$wcharter:atom-id])//cei:text</xrx:expression>
+    </xrx:variable>
+    <!-- does this charter link a version of a archival charter? -->
+    <xrx:variable>
+      <xrx:name>$wcharter:linked-charter-atomid</xrx:name>
+      <xrx:expression>$wcharter:charter/ancestor::atom:entry/atom:link[@rel='versionOf']/@ref/string()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:metadata-linked-charter-base-collection</xrx:name>
+      <xrx:expression>if($wcharter:linked-charter-atomid != '') then metadata:base-collection('charter', metadata:uri-tokens($wcharter:linked-charter-atomid), 'public') else()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:metadata-linked-charter-fond-collection</xrx:name>
+      <xrx:expression>if($wcharter:linked-charter-atomid != '') then metadata:base-collection('fond', metadata:uri-tokens($wcharter:linked-charter-atomid), 'public') else()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:linked-charter</xrx:name>
+      <xrx:expression>if($wcharter:linked-charter-atomid != '') then $wcharter:metadata-linked-charter-base-collection//atom:id[.=$wcharter:linked-charter-atomid]/parent::atom:entry else()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:linked-charter-image-base-uri</xrx:name>
+      <xrx:expression>concat($wcharter:metadata-linked-charter-fond-collection/xrx:preferences/xrx:param[@name='image-server-base-url']/text(), '/')</xrx:expression>
+    </xrx:variable>
+    <!-- 
+      charter infos
+     -->
+    <xrx:variable>
+      <xrx:name>$wcharter:idno</xrx:name>
+      <xrx:expression>$wcharter:charter//cei:body/cei:idno/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:link-to-charter-in-archive</xrx:name>
+      <xrx:expression>data($wcharter:charter//cei:archIdentifier/cei:ref/@target)</xrx:expression>
+    </xrx:variable>
+    <!-- 
+      the charter and its siblings
+     -->
+    <xrx:variable>
+      <xrx:name>$wcharter:charters</xrx:name>
+      <xrx:expression>charter:get-charter-list($wcharter:metadata-charter-collection, $xrx:tokenized-uri[last()], $xrx:user-xml)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:count</xrx:name>
+      <xrx:expression>count($wcharter:charters)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:next-and-previous</xrx:name>
+      <xrx:expression>charter:next-and-previous($wcharter:charters, $wcharter:charter, $wcharter:count, $wcharter:atom-id, $xrx:tokenized-uri[last()])</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:pos</xrx:name>
+      <xrx:expression>charter:position($wcharter:charters, $wcharter:charter, $xrx:user-xml, $wcharter:atom-id, $xrx:tokenized-uri[last()])</xrx:expression>
+    </xrx:variable>
+    <!-- 
+      fond or collection information
+     -->
+    <xrx:variable>
+      <xrx:name>$wcharter:meta</xrx:name>
+      <xrx:expression>if($wcharter:context = 'fond') then $wcharter:metadata-fond-collection//ead:ead//ead:c[@level='fonds']/ead:did else $wcharter:metadata-collection-collection//cei:cei</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:fond</xrx:name>
+      <xrx:expression>if($wcharter:context = 'fond') then $wcharter:meta//ead:unittitle/text() else $wcharter:meta//cei:provenance/text()</xrx:expression>
+    </xrx:variable>
+    <!-- 
+		  status of the charter 
+		-->
+    <xrx:variable>
+      <xrx:name>$wcharter:is-bookmarked</xrx:name>
+      <xrx:expression>bookmark:is-bookmarked($xrx:user-xml, $wcharter:atom-id)</xrx:expression>
+    </xrx:variable>
+    <!-- 
+      image access
+     -->
+    <xrx:variable>
+      <xrx:name>$wcharter:preferences</xrx:name>
+      <xrx:expression>($wcharter:metadata-fond-collection/xrx:preferences,$wcharter:metadata-collection-collection)[1]</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:image-base-uri</xrx:name>
+      <xrx:expression>if($wcharter:context = 'fond') then concat($wcharter:preferences/xrx:param[@name='image-server-base-url']/text(), '/') else concat('http://', $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(), '/')</xrx:expression>
+    </xrx:variable>
+    <!-- 
+      archive information
+     -->
+    <xrx:variable>
+      <xrx:name>$wcharter:archive</xrx:name>
+      <xrx:expression>$wcharter:metadata-archive-collection//eag:autform/text()</xrx:expression>
+    </xrx:variable>
+    <!-- 
+      XSLT transformation
+     -->
+    <xrx:variable>
+      <xrx:name>$wcharter:xsl</xrx:name>
+      <xrx:expression>$xrx:db-base-collection/xsl:stylesheet[@id='cei2html']</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:params</xrx:name>
+      <xrx:expression>
+        <parameters xmlns="">
+          <param name="image-base-uri" value="{ $wcharter:image-base-uri }"/>
+        </parameters>
+      </xrx:expression>
+    </xrx:variable>
+    <!-- 
+      links
+     -->
+    <xrx:variable>
+      <xrx:name>$wcharter:previous</xrx:name>
+      <xrx:expression>concat('?id=', $wcharter:next-and-previous[2])</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:next</xrx:name>
+      <xrx:expression>concat('?id=', $wcharter:next-and-previous[1])</xrx:expression>
+    </xrx:variable>
+    <!-- 
+      image tools
+    -->
+    <xrx:variable>
+      <xrx:name>$image-tools-base-url</xrx:name>
+      <xrx:expression>
+        if($wcharter:context = 'fond') then
+        concat(conf:param('request-root'), $charter:rarchiveid, '/', $charter:rfondid,'/')
+        else
+        concat(conf:param('request-root'), $charter:rcollectionid,'/')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$image-tools-url</xrx:name>
+      <xrx:expression>concat($image-tools-base-url, $charter:rcharterid, '/image-tools')</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:divs/>
+</xrx:widget>

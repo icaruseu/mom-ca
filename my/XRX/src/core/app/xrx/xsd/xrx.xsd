@@ -1,0 +1,451 @@
+<xs:schema xmlns="http://www.monasterium.net/NS/xrx" 
+  xmlns:xrx="http://www.monasterium.net/NS/xrx"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  attributeFormDefault="unqualified" 
+  elementFormDefault="qualified" 
+  targetNamespace="http://www.monasterium.net/NS/xrx" 
+  id="xrx">
+  <xs:import namespace="http://www.w3.org/1999/xhtml" schemaLocation="xhtml.xsd"/>
+  <!-- 
+    XRX++ Objects
+   -->
+  <xs:element name="app">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="group-xrx-object"/>
+        <xs:element ref="modules" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="resources" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="resolver" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="conf" minOccurs="0" maxOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="css">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="group-xrx-object"/>
+        <xs:element name="style" minOccurs="0" maxOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="portal">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="group-xrx-object"/>
+        <xs:element ref="csss" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="jss" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="model" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="view" minOccurs="0" maxOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="service">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="group-xrx-object"/>
+        <xs:element ref="init" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="emails" minOccurs="0" maxOccurs="1"/> 
+        <xs:element name="body" minOccurs="0" maxOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="template">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="group-xrx-object"/>
+        <xs:element name="xml" minOccurs="0" maxOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="widget">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="group-xrx-object"/>
+        <xs:element name="portal" minOccurs="0" maxOccurs="1" type="xs:string"/>
+        <xs:element ref="init" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="csss" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="jss" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="model" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="instances" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="binds" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="divs" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="view" minOccurs="0" maxOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="xsd">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="group-xrx-object"/>
+        <xs:element name="topics" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="generator" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="elements" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="schema" minOccurs="0" maxOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <!-- 
+    Element Groups
+   -->
+  <xs:group name="group-xrx-object">
+    <xs:sequence>
+		  <xs:element ref="id"/>
+		  <xs:choice>
+		    <xs:element ref="inherits" minOccurs="0" maxOccurs="1"/>
+		    <xs:element name="implements" minOccurs="0" maxOccurs="1"/>
+		  </xs:choice>
+		  <xs:element name="title" minOccurs="0" maxOccurs="1"/>
+		  <xs:element name="subtitle" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="description" minOccurs="0" maxOccurs="1" type="xs:string"/>
+      <xs:element name="author" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="licence" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      <xs:element ref="constructor" minOccurs="0" maxOccurs="1"/>
+		  <xs:element ref="variables" minOccurs="0" maxOccurs="1"/>
+	  </xs:sequence>
+  </xs:group>
+  <!-- 
+    Elements
+   -->
+  <!-- auth -->
+  <xs:group name="group-auth-units">
+    <xs:choice>
+	    <xs:element name="role"/>
+	    <xs:element name="dbgroup"/>
+	    <xs:element name="community"/>
+    </xs:choice>
+  </xs:group>
+  <xs:element name="auth">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="rules" minOccurs="1" maxOccurs="1">
+          <xs:complexType>
+            <xs:choice>
+              <xs:element ref="rule" maxOccurs="1"/>
+              <xs:element name="or" maxOccurs="1">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element ref="rule" minOccurs="2" maxOccurs="2"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:choice>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="true" minOccurs="1" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:any maxOccurs="1" processContents="lax"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="false" minOccurs="1" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:any maxOccurs="1" processContents="lax"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="rule">
+	  <xs:complexType>
+	    <xs:choice>
+			  <xs:element name="not">
+			    <xs:complexType>
+			      <xs:sequence>
+			        <xs:element name="user" minOccurs="1" maxOccurs="1"/>
+				      <xs:group ref="group-auth-units" minOccurs="1" maxOccurs="1"/>
+			      </xs:sequence>
+			    </xs:complexType>
+			  </xs:element>
+			  <xs:sequence>
+		      <xs:element name="user" minOccurs="1" maxOccurs="1"/>
+					<xs:group ref="group-auth-units" minOccurs="1" maxOccurs="1"/>
+			  </xs:sequence>
+	    </xs:choice>
+	  </xs:complexType>
+  </xs:element>
+  <!-- other -->
+  <xs:element name="attributes">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="binds">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="bind" minOccurs="1" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:attribute name="id"/>
+            <xs:attribute name="nodeset"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="conf">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="param" minOccurs="1" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="constructor">
+    <xs:complexType>
+      <xs:choice minOccurs="1" maxOccurs="unbounded">
+        <xs:element name="parameter">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="name" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="default" minOccurs="1" maxOccurs="1"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="csss">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="css" type="xs:string"/>
+        <xs:element ref="xhtml:style"/>
+        <xs:element ref="xhtml:link"/>
+        <xs:element name="resource" type="xs:string"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="divs">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="div">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="key" minOccurs="1" maxOccurs="1" type="xs:string"/>
+              <xs:element name="view" minOccurs="1" maxOccurs="1"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="elements">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="emails">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="email" minOccurs="1" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="i18n">
+    <xs:complexType>
+      <xs:sequence>
+	      <xs:element name="key" minOccurs="1" maxOccurs="1"/>
+	      <xs:element name="default" minOccurs="1" maxOccurs="1"/>
+	    </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="id" type="xs:string"/>
+  <xs:element name="init">
+    <xs:complexType>
+      <xs:sequence>
+			  <xs:element name="processor" minOccurs="1" maxOccurs="1">
+			    <xs:complexType>
+			      <xs:choice minOccurs="0" maxOccurs="unbounded">
+			        <xs:element name="translateflag" type="xs:boolean"/>
+			        <xs:element name="xformsflag" type="xs:boolean"/>
+			        <xs:element name="serializeas" type="xs:string"/>
+			        <xs:element name="jqueryflag" type="xs:boolean"/>
+			      </xs:choice>
+			    </xs:complexType>
+			  </xs:element>
+			  <xs:element name="client" minOccurs="0" maxOccurs="1">
+			    <xs:complexType>
+			      <xs:sequence>
+			        <xs:element name="messages" minOccurs="0" maxOccurs="1">
+			          <xs:complexType>
+			            <xs:sequence>
+			        			<xs:element name="catalog" minOccurs="0" maxOccurs="unbounded" type="xs:string"/>
+			              <xs:element ref="i18n" minOccurs="0" maxOccurs="unbounded"/>
+			            </xs:sequence>
+			          </xs:complexType>
+			        </xs:element>
+			      </xs:sequence>
+			    </xs:complexType>
+			  </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="inherits" type="xs:string"/>
+  <xs:element name="instances">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="instance" minOccurs="1" maxOccurs="unbounded">
+          <xs:complexType mixed="true">
+            <xs:attribute name="id" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="jss">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="js" type="xs:string"/>
+        <xs:element name="resource" type="xs:string"/>
+        <xs:element ref="xhtml:link"/>
+        <xs:element ref="xhtml:script"/>
+      </xs:choice>
+      <xs:attribute name="debug" type="xs:boolean"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="layout">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="options" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="center" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="north" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="east" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="south" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="west" minOccurs="0" maxOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="model"/>
+  <xs:element name="modules">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="module" minOccurs="1" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="resource" minOccurs="1" maxOccurs="1" type="xs:string"/>
+              <xs:element name="prefix" minOccurs="1" maxOccurs="1" type="xs:string"/>
+              <xs:element name="uri" minOccurs="1" maxOccurs="1" type="xs:string"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="options">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="option" minOccurs="1" maxOccurs="unbounded">
+          <xs:complexType>
+	          <xs:simpleContent>
+	            <xs:extension base="xs:string">
+	              <xs:attribute name="key"/>
+	            </xs:extension>
+	          </xs:simpleContent>
+	        </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="param">
+    <xs:complexType mixed="true">
+      <xs:choice>
+        <xs:any minOccurs="0" processContents="lax"/>
+      </xs:choice>
+      <xs:attribute name="name" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="repeat">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="visualxml" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute name="bind" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="resolver">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="map" minOccurs="1" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="uripattern" minOccurs="1" maxOccurs="1" type="xs:string"/>
+              <xs:element name="mode" minOccurs="1" maxOccurs="1" type="xs:string"/>
+              <xs:element name="atomid" minOccurs="0" maxOccurs="1" type="xs:string"/>
+            </xs:sequence>
+            <xs:attribute name="priority" type="xs:integer"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="resources">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="resource" minOccurs="1" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="atomid" minOccurs="1" maxOccurs="1" type="xs:string"/>
+              <xs:element name="relativepath" minOccurs="1" maxOccurs="1" type="xs:string"/>
+              <xs:element name="name" minOccurs="1" maxOccurs="1" type="xs:string"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="select1">
+    <xs:complexType>
+      <xs:sequence>
+	      <xs:element name="item" minOccurs="1" maxOccurs="unbounded">
+	        <xs:complexType>
+	          <xs:sequence>
+	            <xs:element name="label" minOccurs="1" maxOccurs="1"/>
+	            <xs:element name="value" minOccurs="1" maxOccurs="1"/>
+	          </xs:sequence>
+	        </xs:complexType>
+	      </xs:element>
+	    </xs:sequence>
+	    <xs:attribute name="id" use="required"/>
+      <xs:attribute name="appearance" use="required" fixed="xrx-appearance-buttonset"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="switch">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="case" minOccurs="1" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax"/>
+            </xs:sequence>
+            <xs:attribute name="id" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="id"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="tagname">
+    <xs:complexType mixed="true"/>
+  </xs:element>
+  <xs:element name="variables">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="variable" minOccurs="1" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="name" minOccurs="1" maxOccurs="1" type="xs:string"/>
+              <xs:element name="expression" minOccurs="1" maxOccurs="1"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="view"/>
+  <xs:element name="visualxml">
+    <xs:complexType>
+      <xs:attribute name="ref"/>
+      <xs:attribute name="bind"/>
+      <xs:attribute name="attributes"/>
+      <xs:attribute name="elements"/>
+      <xs:assert test="count(@ref | @bind) eq 1" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

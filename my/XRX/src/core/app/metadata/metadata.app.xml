@@ -1,0 +1,69 @@
+<xrx:app xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/core/app/metadata</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key></xrx:key>
+      <xrx:default></xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:modules>
+    <xrx:module>
+      <xrx:resource>metadata.xqm</xrx:resource>
+      <xrx:prefix>metadata</xrx:prefix>
+      <xrx:uri>http://www.monasterium.net/NS/metadata</xrx:uri>
+    </xrx:module>
+    <xrx:module>
+      <xrx:resource>revision.xqm</xrx:resource>
+      <xrx:prefix>revision</xrx:prefix>
+      <xrx:uri>http://www.monasterium.net/NS/revision</xrx:uri>
+    </xrx:module>
+    <xrx:module>
+      <xrx:resource>cei.xqm</xrx:resource>
+      <xrx:prefix>cei</xrx:prefix>
+      <xrx:uri>http://www.monasterium.net/NS/cei</xrx:uri>
+    </xrx:module>
+    <xrx:module>
+      <xrx:resource>eap.xqm</xrx:resource>
+      <xrx:prefix>eap</xrx:prefix>
+      <xrx:uri>http://www.monasterium.net/NS/eap</xrx:uri>
+    </xrx:module>
+    <xrx:module>
+      <xrx:resource>eag.xqm</xrx:resource>
+      <xrx:prefix>eag</xrx:prefix>
+      <xrx:uri>http://www.archivgut-online.de/eag</xrx:uri>
+    </xrx:module>
+    <xrx:module>
+      <xrx:resource>ead.xqm</xrx:resource>
+      <xrx:prefix>ead</xrx:prefix>
+      <xrx:uri>urn:isbn:1-931666-22-9</xrx:uri>
+    </xrx:module>
+    <xrx:module>
+      <xrx:resource>tei.xqm</xrx:resource>
+      <xrx:prefix>tei</xrx:prefix>
+      <xrx:uri>http://www.tei-c.org/ns/1.0/</xrx:uri>
+    </xrx:module>
+  </xrx:modules>
+</xrx:app>

@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/charter-image-viewer</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more
+lenient towards the inclusion of components into other systems, once
+it leaves the active development stage.
+  </xrx:licence>
+  <xrx:constructor>
+    <!-- 
+      charter context: collection or fond? 
+    -->
+    <xrx:parameter>
+      <xrx:name>$constructor:context</xrx:name>
+      <xrx:default>''</xrx:default>
+    </xrx:parameter>
+    <!-- 
+      charter 
+    -->
+    <xrx:parameter>
+      <xrx:name>$constructor:charter</xrx:name>
+      <xrx:default>()</xrx:default>
+    </xrx:parameter>
+    <!--
+      image access
+    -->
+    <xrx:parameter>
+      <xrx:name>$constructor:image-base-uri</xrx:name>
+      <xrx:default>''</xrx:default>
+    </xrx:parameter>
+    <xrx:parameter>
+      <xrx:name>$constructor:preferences</xrx:name>
+      <xrx:default>()</xrx:default>
+    </xrx:parameter>
+    <xrx:parameter>
+      <xrx:name>$constructor:link-to-charter-in-archive</xrx:name>
+      <xrx:default>''</xrx:default>
+    </xrx:parameter>
+    <!-- 
+    	linked charter
+     -->
+    <xrx:parameter>
+      <xrx:name>$constructor:linked-charter</xrx:name>
+      <xrx:default>()</xrx:default>
+    </xrx:parameter>
+    <xrx:parameter>
+      <xrx:name>$constructor:linked-charter-image-base-uri</xrx:name>
+      <xrx:default>()</xrx:default>
+    </xrx:parameter>
+    <xrx:parameter>
+      <xrx:name>$constructor:just-linked</xrx:name>
+      <xrx:default>false()</xrx:default>
+    </xrx:parameter>
+  </xrx:constructor>
+  <xrx:variables>
+    <xrx:variable>
+      <xrx:name>$wcharter-image-viewer:atomid</xrx:name>
+      <xrx:expression>$constructor:charter/root()//atom:id/text()</xrx:expression>
+    </xrx:variable>
+    <!-- 
+      image URLs 
+    -->
+    <xrx:variable>
+      <xrx:name>$wcharter-image-viewer:has-image-flag</xrx:name>
+      <xrx:expression>exists(($constructor:charter//cei:graphic/@url|$constructor:linked-charter//cei:graphic/@url))</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-image-viewer:labw-url</xrx:name>
+      <xrx:expression>$constructor:charter//cei:graphic[@xlink:role='image']/@url[data(.)!='']</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-image-viewer:labw-link</xrx:name>
+      <xrx:expression>$constructor:charter//cei:graphic[@xlink:role='image_viewer']/@url[data(.)!='']</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-image-viewer:img-urls</xrx:name>
+      <xrx:expression>
+      	(
+      	if($constructor:just-linked) then ()
+      	else
+		      for $url in $constructor:charter//cei:graphic/@url/string()
+					order by $url
+					return
+					if(contains($url, '/')) then $url else concat($constructor:image-base-uri, xmldb:encode($url))
+				,
+				for $url in $constructor:linked-charter//cei:graphic/@url/string()
+				order by $url
+				return
+				if(contains($url, '/')) then $url else concat($constructor:linked-charter-image-base-uri, xmldb:encode($url))
+				)
+      </xrx:expression>
+    </xrx:variable>
+    <!-- image access -->
+    <xrx:variable>
+      <xrx:name>$wcharter-image-viewer:image-access-forbidden-flag</xrx:name>
+      <xrx:expression>if($constructor:preferences//xrx:param[@name='image-access']/text() = 'restricted') then true() else false()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-image-viewer:dummy-image-url</xrx:name>
+      <xrx:expression>$constructor:preferences//xrx:param[@name='dummy-image-url']/text()</xrx:expression>
+    </xrx:variable>
+    <!-- 
+  	  augias viewer 
+  	-->
+    <xrx:variable>
+      <xrx:name>$wcharter-image-viewer:augiasviewer-link</xrx:name>
+      <xrx:expression>augiasviewer:link($wcharter-image-viewer:atomid)</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:csss>
+    <xrx:css>tag:www.monasterium.net,2011:/mom/css/image-tools</xrx:css>
+    <style type="text/css">
+
+#viewport{{
+	position:relative;
+	float:left;
+	width:950px;
+	height:300px;
+	overflow:auto;
+	z-index:1;
+	margin-top:0px;
+	margin-left:5px;
+	margin-right:5px;
+	margin-bottom:0px;
+	padding:0;
+	border:solid rgb(240,243,226) 1px;
+}}
+
+#img{{
+	position:absolute;
+	width:950px;
+	z-index:0;
+	margin:0px;
+	padding:0px;
+}}
+
+#change-image-links{{
+	float:right;
+}}
+
+#change-image-links a{{
+	float:left;
+}}
+
+.open-viewer-link{{
+	float:right;
+}}
+
+#zoomsliderlabel{{
+	position:relative;
+	float:left;
+	margin:10px;
+}}
+
+#zoomslider{{
+	position:relative;
+	float:left;
+	margin:10px;
+	width:50%;
+}}
+
+#mode{{
+	position:relative;
+	border:solid rgb(142,163,132) 1px;
+	top:7px;
+	left: 300px;
+	height:25px;
+	width: 190px;
+	float:left;
+	color:rgb(142,163,132);
+	z-index:1;
+	text-align:center;
+	font-weight:bold;
+}}
+
+    </style>
+  </xrx:csss>
+  <xrx:jss>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/slider</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
+    <!-- annotation resources -->
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/i18nText</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/imageTool</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/imageToolWidget</xrx:resource>
+  </xrx:jss>
+  <xrx:divs>
+    <xrx:div>
+      <xrx:key>augiasviewer-link</xrx:key>
+      <xrx:view>					
+        {
+				if($wcharter-image-viewer:has-image-flag) then
+				<div class="open-viewer-link" data-demoid="03c04010-b59d-4955-a9ab-10f13f2dedf6">
+          <a href="{ $wcharter-image-viewer:augiasviewer-link }" target="_blank">
+            <xrx:i18n>
+              <xrx:key>open-image-in-viewer</xrx:key>
+              <xrx:default>Open Images in Viewer</xrx:default>
+            </xrx:i18n>
+            <span> &gt;</span>
+          </a>
+        </div>
+				else
+				<div class="open-viewer-link light-grey" data-demoid="aa02b557-5669-4011-95ad-29e49371e537">
+          <xrx:i18n>
+            <xrx:key>open-image-in-viewer</xrx:key>
+            <xrx:default>Open Images in Viewer</xrx:default>
+          </xrx:i18n>
+          <span> &gt;</span>
+        </div>
+				}
+      </xrx:view>
+    </xrx:div>
+  </xrx:divs>
+  <xrx:view>
+    <div data-demoid="2d91f46d-7972-4d83-8782-18b2721f5634">
+      <xrx:div>augiasviewer-link</xrx:div>
+      <div class="inlinehead" data-demoid="9ccdd757-63d4-49b2-b897-0743dfa6174c">
+				{
+				if($wcharter-image-viewer:image-access-forbidden-flag) then
+				<a href="{ $constructor:link-to-charter-in-archive }" target="_blank">
+          <xrx:i18n>
+            <xrx:key>follow-link-to-image-message</xrx:key>
+            <xrx:default>To view the charter images, please visit the archive's homepage.</xrx:default>
+          </xrx:i18n>
+          <span> &gt;&gt;</span>
+        </a>
+				else
+				<div data-demoid="83fd4438-503e-4020-99dd-e8d1585557cc">
+          <div data-demoid="0620e9b9-3056-44e9-97e0-36659b196c21" style="float:left;margin:5px;">
+            <a href="javascript:showHideDiv('viewport','')">
+              <xrx:i18n>
+                <xrx:key>graphics</xrx:key>
+                <xrx:default>Graphics</xrx:default>
+              </xrx:i18n>
+              <span>:</span>
+            </a>
+          </div>
+ 					{
+ 					if($xrx:tokenized-uri[last()] = 'charter') then
+          <button id="open-image-tool-button">
+            <xrx:i18n>
+              <xrx:key>open-image-tools</xrx:key>
+              <xrx:default>Open Image Tools</xrx:default>
+            </xrx:i18n>
+          </button>
+          else()
+          }
+          <span> </span>
+          <div data-demoid="f52d37ea-4440-40a3-8ea5-8f0e429f550f" id="change-image-links">
+						{
+						for $img-url at $num in $wcharter-image-viewer:img-urls
+						return
+						if($charter:rarchiveid != 'DE-LABW') then
+						<a href="javascript:changeImage('{ $img-url }')">{ $num } </a>
+						else()
+						}
+					</div>
+        </div>
+				}
+			</div>
+      <div data-demoid="d650ad67-8ffe-42d9-8ec9-1ffcdab25e09" id="viewport">
+				{
+				if(count($wcharter-image-viewer:img-urls) gt 0 and not($wcharter-image-viewer:image-access-forbidden-flag)) then
+				(
+				if($charter:rarchiveid = 'DE-LABW') then
+				(
+				<div data-demoid="dd3a826a-1aea-415a-9122-eb22114a1332">
+          <div data-demoid="0310773a-d1cd-4559-8d90-f1d09c88378b" style="float:none;border:solid rgb(240,243,226) 2px;width:200px;position:relative;left:360px;">
+            <span style="font-size:120%;border:solid rgb(240,243,226) 2px;font-weight:bold;width:200px;position:relative;left:50px;padding:2px;">Vorschaubild</span>
+            <div data-demoid="39fafc38-d552-4037-8e6a-41ab5d17fb22" id="img-svg"/>
+            <div data-demoid="0aff7976-4838-413a-a531-a67d33640225" id="img-img">
+              <a href="{ $wcharter-image-viewer:labw-link }">
+                <img name="image" src="{ $wcharter-image-viewer:labw-url }" style="float:none;" title="{ $wcharter-image-viewer:labw-url }"/>
+              </a>
+            </div>
+          </div>
+          <span style="font-weight:bold;left:280px;top:5px;position:relative;">Das voll aufgelöste Bild finden Sie unter folgendem Link:</span>
+          <br/>
+          <span style="font-weight:bold;left:285px;top:5px;position:relative;">
+            <a href="{ $wcharter-image-viewer:labw-link }">{ string($wcharter-image-viewer:labw-link) }</a>
+          </span>
+        </div>
+				)
+				else
+				(
+				if($constructor:context='collection') then
+        <div data-demoid="4b7aee5f-9c43-4a4c-add1-259511b6c202">
+          <div data-demoid="8397fc96-e9c5-4249-8dc0-8c9d37b18acf" id="img-svg"/>
+          <div data-demoid="ff6c894c-1b56-4f9d-8c48-1984b8de1977" id="img-img">
+            <a href="{ $wcharter-image-viewer:img-urls[1] }" id="img-link" target="_blank">
+              <img id="img" name="image" src="{ $wcharter-image-viewer:img-urls[1] }" title="{ $wcharter-image-viewer:img-urls[1] }"/>
+            </a>
+          </div>
+        </div>
+				else
+          <div data-demoid="d6cf51a7-bb11-453f-a8c5-59fea5df0746">
+          <div data-demoid="89405648-d7a1-44dd-87df-79723dee8125" id="img-svg"/>
+          <div data-demoid="a9d3d955-820d-405d-9785-f1967ef8c341" id="img-img">
+            <a href="{ $wcharter-image-viewer:img-urls[1] }" id="img-link" target="_blank">
+              <img id="img" name="image" src="{ $wcharter-image-viewer:img-urls[1] }" title="{ $wcharter-image-viewer:img-urls[1] }"/>
+            </a>
+          </div>
+        </div>
+				)
+				)
+				else if($wcharter-image-viewer:image-access-forbidden-flag) then
+				<div data-demoid="5d1e4bf8-2698-40e3-aa9d-9f700b629dc0">
+          <a href="{ $constructor:link-to-charter-in-archive }" target="_blank">
+            <img src="{ $wcharter-image-viewer:dummy-image-url }" style="position:relative;float:left"/>
+          </a>
+        </div>
+				else
+				<div class="no-graphic" data-demoid="89dcbaa9-93de-4d4f-a4bb-932fd93b26a5">
+          <xrx:i18n>
+            <xrx:key>no-graphic-available</xrx:key>
+            <xrx:default>no graphic available</xrx:default>
+          </xrx:i18n>
+        </div>
+				}
+			</div>
+      <div data-demoid="9896fa36-58ac-49b8-abc2-2805764fbbfa">
+        <div data-demoid="57df26ce-eba6-49bb-aa05-d876b453baa2" id="zoomerbar">
+          <div data-demoid="51ba5857-6367-44f6-bf3a-561ebbc8cdb4" id="zoomsliderlabel">
+            <span>
+              <xrx:i18n>
+                <xrx:key>zoom-image</xrx:key>
+                <xrx:default>Zoom image</xrx:default>
+              </xrx:i18n>:</span>
+          </div>
+          <div data-demoid="d524da09-709a-4e43-b845-fa27910aa90e" id="zoomslider"/>
+        </div>
+      </div>
+      <script type="text/javascript">
+				$(document).ready(function() {{
+					$( "#zoomslider" ).slider({{ 
+						value:100, 
+						min: 100, 
+						max: 500, 
+						step: 10, 
+						slide: function( event, ui ) {{ 
+							$( "#img" ).css( "width", ui.value + "%" ); 
+              $( "#img-svg" ).css( "width", ui.value + "%" );
+						}} 
+					}}); 
+				}})
+			</script>
+    </div>
+  </xrx:view>
+</xrx:widget>

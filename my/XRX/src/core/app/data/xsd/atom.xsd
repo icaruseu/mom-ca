@@ -1,0 +1,34 @@
+<xs:schema xmlns="http://www.w3.org/2005/Atom"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  xmlns:app="http://www.w3.org/2007/app"
+  attributeFormDefault="unqualified" 
+  elementFormDefault="qualified" 
+  targetNamespace="http://www.w3.org/2005/Atom" 
+  id="atom">
+  <xs:import namespace="http://www.w3.org/2007/app" schemaLocation="app.xsd"/>
+  <xs:element name="entry">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="id" minOccurs="1" maxOccurs="1" type="xs:string"/>
+        <xs:element name="title" minOccurs="1" maxOccurs="1" type="xs:string"/>
+        <xs:element name="published" minOccurs="1" maxOccurs="1" type="xs:string"/>
+        <xs:element name="updated" minOccurs="1" maxOccurs="1" type="xs:string"/>
+        <xs:element name="author" minOccurs="1" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="email" minOccurs="1" maxOccurs="1" type="xs:string"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element ref="app:control" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="link" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:attribute name="rel" use="required"/>
+            <xs:attribute name="ref" use="required"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="content" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

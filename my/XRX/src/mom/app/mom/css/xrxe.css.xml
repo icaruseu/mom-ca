@@ -1,0 +1,206 @@
+<xrx:css xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/css/xrxe</xrx:id>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:style>
+     
+      {
+         if(request:get-server-name()= 'www.mom-ca.uni-koeln.de' or request:get-server-name()='www.vdu.uni-koeln.de') then 
+           '# evtLogContainer {{
+         display:none;
+         }}
+          #openclose{{
+         display:none;
+       }}'
+         
+         else
+           ()
+      }
+      
+      .xrxeElementAnnotation > .widgetContainer{{
+      	width:98% !important;
+      }}
+      
+      .xrxeElementInput > .widgetContainer{{
+      	width:98% !important;
+      }}
+      
+      .xrxeElementInput > .widgetContainer >.xfValue{{
+      	width:98% !important;
+      }}
+      
+
+      
+      
+       .xrxeDocumentEditor{{
+         display:block;
+         margin:b
+       }}
+      
+       .xrxeDocumentEditorHeader{{
+           width:100%;
+           float:left;
+        }}
+        
+        .xrxeDocumentEditorFooter{{
+          width:100%;
+          float:left;
+          margin-bottom:25px;
+        }}
+        
+        .xrxeDocumentEditorContent{{
+          width:100%;
+          float:left;
+        }}
+      
+         .xrxeDocumentEditorTriggers{{
+          float:right;
+        }}
+        
+     
+      
+      
+       .xrxeNodeEditor{{      
+       }}
+       
+       .xrxeNodeset{{
+        width:100%
+        float:left;
+        border:1px solid gray;
+        display:block !important;
+        margin:5px;
+        }}
+        
+        .xrxeRootNode{{
+          
+        }}
+        
+       
+       .xrxeNode{{
+           border:1px solid gray;
+           width:100%
+           float:left;
+           background-color:{conf:param('color1')};
+           
+        }}
+        
+       .xrxeNodeHeader{{     
+          min-height:25px;
+          width:100%
+          float:left;      
+        }}
+        
+        
+       .xfGroupLabel{{          
+          margin-left:5px; 
+          display:inline !important;
+        }} 
+
+        .xfGroupLabel:empty{{          
+          display:none !important;
+          border:0px !important;
+          padding: 0px !important;  
+          margin: 0px !important;        
+        }} 
+       
+        /* Is not copied to inserted items use xf:GroupLabel*/
+        /*
+        .xrxeNodeLabel{{         
+          margin-left:5px; 
+          border:1px solid yellow; 
+        }}*/
+        
+        .xrxeNodeFunctions{{
+          float:right;
+          display:inline !important;
+        
+        }}
+        
+        .xrxeAttributes{{
+          
+        }}
+     
+       
+       .xrxeAttributeLabel {{
+        display : inline;
+        }}
+        
+        
+
+        
+        .xrxeInsertNodeTrigger{{
+          padding:5px;
+        }}
+    
+        .xrxeNodeContentControl {{
+          margin: 5px;
+        }} 	
+      
+      
+      
+      .xrxeAttributeContentControl {{
+        width: 200px !important;	      
+      }} 	
+      
+      
+      .xrxeElementContentControl {{
+        width: 99% !important;
+      }}	
+      
+      /*size textareas and inputs*/
+        .dijitTextBox{{
+        width: 99% !important;
+      }}      
+      
+     .bfValueWrapper{{
+        width: 99% !important;
+      }}     
+      
+      .xfAlert{{  
+          left:250px;
+          border:solid 1px;
+          width:500px;
+      }}
+      
+      .xfFullRepeat .xfRepeatItem {{
+          padding: 0px !important;  
+          margin: 0px !important;              
+      }}
+      
+     
+      
+      .dijitToggleButton, .dijitButton, .dijitDropDownButton, .dijitComboButton, .dijitTabContainerTop-dijitContentPane, .dijitTabContainerLeft-dijitContentPane, dijitTabContainerBottom-dijitContentPane, dijitTabContainerRight-dijitContentPane, dijitAccordionContainer-dijitContentPane
+      {{
+        padding: 0px !important;
+        margin: 0px !important;    
+      }}
+      
+      .xfLabel:empty{{          
+          display:none !important;
+          border:0px !important;
+          padding: 0px !important;  
+          margin: 0px !important;        
+        }} 
+  </xrx:style>
+</xrx:css>

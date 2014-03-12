@@ -1,0 +1,145 @@
+
+html, body {
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  height: 100%;
+  color: #333;
+  margin: 0px;
+  padding: 0px;
+}
+
+div.left {
+  position: relative;
+  float: left;
+  border-right: solid black 1px;
+  height: 100%;
+  text-align: right;
+  padding: 10px;
+  max-width: 20%;
+}
+
+div.main {
+  position: relative;
+  float: left;
+  width: auto;
+  width: 70%;
+  padding-left: 50px;
+  padding-top: 22px;
+}
+
+div.main h3 {
+  margin-top: 50px;
+  border-bottom: solid rgb(220,220,220) 1px;
+}
+
+div.demo {
+  position: relative;
+  float: left;
+  display: block;
+  height: 100%;
+  width: 100%;
+  font-size: 1.1em;
+  border-left: solid #15c 5px;
+  background: rgb(250,250,250);
+}
+
+div.demo-source {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+div.demo-view {  
+  position: relative;
+  float: left;
+  width: 46%;
+  height: 100%;
+  margin: 2%;
+  margin-top: 40px;
+}
+
+div.demo-model {  
+  position: relative;
+  float: left;
+  width: 46%;
+  height: 100%;
+  margin: 2%;
+  margin-top: 40px;
+}
+
+div.demo-hint {
+  position: relative;
+  float: none;
+  width: 46%;
+  margin: 2%;
+}
+
+div.demo-hint p {
+  font-size: .9em;
+}
+
+span.view-label, span.model-label {  
+  position: absolute;
+  margin: 2px;
+  font-size: .7em;
+  font-weight: bold;
+  color: #15c;
+  margin-top: -38px;
+  margin-left: 2px;
+}
+
+textarea.demo-source {
+  width: 100% !important;
+  height: auto !important;
+  overflow: auto !important;
+  outline: none !important;
+  border: solid rgb(200, 200, 200) 1px;
+  background: rgb(250,250,250);
+}
+
+div.source-heading {
+  position: relative;
+  float: left;
+  width: 100%;
+  margin-top: 20px;
+}
+
+ul.nostyle {
+  list-style: none;
+  font-size: .9em;
+}
+
+a, a:link, a:visited, a:active {
+  outline: 0 !important;
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: black;
+}
+
+a.active {
+  color: red;
+}
+
+.CodeMirror {
+  position: relative;
+  width: 100%;
+  float: left;
+  font-family: inherit !important;
+}
+
+p a {
+  color: #15c !important;
+  text-decoration: underline !important;
+}
+
+table {
+  width: 100%;
+}
+
+td {
+  padding: 5px;
+  padding-left: 0px;
+}

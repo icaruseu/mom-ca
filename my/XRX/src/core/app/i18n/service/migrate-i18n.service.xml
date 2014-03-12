@@ -1,0 +1,114 @@
+<xrx:service xmlns:i18n="http://www.monasterium.net/NS/i18n" xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/core/service/migrate-i18n</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key></xrx:key>
+      <xrx:default></xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>daniel.ebner@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:translateflag>false</xrx:translateflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:body>
+    
+    
+		<xrx:migrate>
+		{
+    
+    (:i18n/lang/app:)
+    
+    let $i18n-collection := collection(conf:param('xrx-i18n-db-base-uri'))
+    for $language-catalog in xmldb:get-child-collections(conf:param('xrx-i18n-db-base-uri'))
+      let $language-catalog-path := concat(conf:param('xrx-i18n-db-base-uri'), $language-catalog)
+      
+      let $create-app-catalogs := 
+        for $catalog in conf:param('xrx-i18n-catalogs')/xrx:i18n-catalog
+          let $catalog-name :=  concat('app.', $catalog/@name)
+          let $catalog-path := concat($language-catalog-path, '/', $catalog-name)
+          return
+            if(not(exists(collection($catalog-path)))) then
+                let $create-collection := xmldb:create-collection($language-catalog-path, $catalog-name) 
+                let $set-permisssion := xmldb:set-collection-permissions(
+                                                                       $catalog-path,
+                                                                       xmldb:get-current-user(),
+                                                                       $atom:group-name,
+                                                                       $atom:default-permission
+                                                                       )
+                return            
+		            <xrx:create-collection>{$catalog-path}</xrx:create-collection>
+		        else
+		            <xrx:collection-exists>{$catalog-path}</xrx:collection-exists>
+          
+      let $move-resources := 
+        for $resource in xmldb:get-child-resources($language-catalog-path) 
+        let $resource-path := concat($language-catalog-path, '/', $resource)
+        
+        let $target-path := 
+           if(starts-with($resource, 'cei_')) then
+            concat($language-catalog-path, '/', 'app.cei')
+           else if(starts-with($resource, 'ead_')) then
+            concat($language-catalog-path, '/', 'app.ead')
+           else if(starts-with($resource, 'xml_')) then
+            concat($language-catalog-path, '/', 'app.xml')
+           else if(starts-with($resource, 'xlink_')) then
+            concat($language-catalog-path, '/', 'app.xlink')
+           else
+            concat($language-catalog-path, '/', 'app.mom')
+        
+        return if(exists(doc($resource-path)) and exists(collection($language-catalog-path))) then
+        
+           let $move := xmldb:move($language-catalog-path, $target-path, $resource) 
+           return 
+		        
+		        <xrx:move>
+                   <xrx:resource>{$resource}</xrx:resource>
+                   <xrx:source-path>{$language-catalog-path}</xrx:source-path>
+                   <xrx:target-path>{$target-path}</xrx:target-path>
+                </xrx:move>
+		      else 
+		        <xrx:move-error>
+		          <xrx:resource>Error $resource {exists(doc($resource-path))}</xrx:resource>
+		          <xrx:source-path>Error $$language-catalog-path {exists(collection($language-catalog-path))}</xrx:source-path>
+		          <xrx:resource>Error $target-path {exists($target-path)}</xrx:resource>
+		        </xrx:move-error>
+		  
+
+      
+      
+      
+      return ($create-app-catalogs, $move-resources)      
+    
+  
+    
+   
+     
+		}
+		</xrx:migrate>
+		
+	</xrx:body>
+</xrx:service>

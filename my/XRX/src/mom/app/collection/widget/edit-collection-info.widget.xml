@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/edit-collection-info</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>edit-collection-info</xrx:key>
+      <xrx:default>Edit Collection Info</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>true</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <xrx:css>tag:www.monasterium.net,2011:/mom/css/forms</xrx:css>
+    <style type="text/css">
+      
+#edit-collection-info .icon img{{
+  width:32px;
+}}
+
+#edit-collection-info textarea{{
+  width:650px;
+}}
+
+#edit-collection-info{{
+  width:700px;
+}}
+
+#preface-div .xfValue{{
+  width:630px;
+}}
+
+.dijitToolbar{{
+  display:none;
+}}
+  
+    </style>
+  </xrx:csss>
+  <xrx:model>
+  {
+    (: request parameter :)
+    let $collectionid := $xrx:tokenized-uri[1]
+    
+    (: atom info :)
+    let $atomid := metadata:atomid('collection', $collectionid)
+    let $feed := metadata:feed('collection', $collectionid, 'public')
+    let $metadata-collection-db-base-collection-path := 
+      metadata:base-collection-path('collection', $collectionid, 'public')
+    let $entry := 
+      metadata:entry($metadata-collection-db-base-collection-path, $atomid)
+      
+    return
+    <xf:model id="mcollection-info">
+    
+      <xf:instance id="icollection-info">{ $entry }</xf:instance>
+      
+      <xf:submission action="{ conf:param('request-root') }atom/PUT{ $feed }/{ $collectionid }.cei.xml" id="ssave" method="post" replace="none">
+        <xf:action ev:event="xforms-submit-done">
+          <xf:message level="ephemeral">Entry successfully saved.</xf:message>
+        </xf:action>
+        <xf:action ev:event="xforms-submit-error">
+          <xf:message level="ephemeral">Error.</xf:message>
+        </xf:action>       
+      </xf:submission>
+      
+      <xf:bind id="bcollectionname" nodeset="//cei:provenance/text()"/>,      
+      <xf:bind id="bcollectionid" nodeset="//cei:provenance/@pid" readonly="true()"/>,
+      <xf:bind id="bimage-server-address" nodeset="//cei:image_server_address"/>,
+      <xf:bind id="bimage-server-folder" nodeset="//cei:image_server_folder"/>,
+      <xf:bind id="bpreface" nodeset="//cei:div[@type='preface']" required="false()"/>
+      
+    </xf:model>
+  }
+  </xrx:model>
+  <xrx:view>
+  {
+    (: request parameter :)
+    let $collectionid := $xrx:tokenized-uri[1]
+           
+    return
+    
+    <div class="standard-form InlineRoundBordersAlert" data-demoid="d14d3b8b-381f-4cd3-814d-d5e6195b9dd0" id="edit-collection-info">
+      <div data-demoid="50bbbd44-4b27-458e-ba0f-dfac58ac2265">
+        <a href="{ conf:param('request-root') }{ $collectionid }/collection">
+          <span>&lt; </span>
+          <xrx:i18n>
+            <xrx:key>back-to-collection</xrx:key>
+            <xrx:default>Back to collection</xrx:default>
+          </xrx:i18n>
+        </a>
+        <div class="h2" data-demoid="dc939a2c-0479-4d7a-b9e5-91490f7fdfdb">
+          <xrx:i18n>
+            <xrx:key>edit-collection-info</xrx:key>
+            <xrx:default>Edit Collection Info</xrx:default>
+          </xrx:i18n>
+        </div>
+        <br/>
+        <br/>
+        <xf:group appearance="bf:verticalTable" class="standard-form InlineRoundBordersAlert" model="mcollection-info">
+          
+          <!-- 
+             collection name
+           -->
+          <xf:input bind="bcollectionname">
+            <xf:label>
+              <xrx:i18n>
+                <xrx:key>collection-name</xrx:key>
+                <xrx:default>Collection Name</xrx:default>
+              </xrx:i18n>
+              <span>: </span>
+            </xf:label>
+            <xf:hint>
+              <xrx:i18n>
+                <xrx:key>eg</xrx:key>
+                <xrx:default>e.g.</xrx:default>
+              </xrx:i18n>
+              <span> Serbische Herrscherurkunden (1306-1388)</span>
+            </xf:hint>
+            <xf:alert>
+              <xrx:i18n>
+                <xrx:key>required-field</xrx:key>
+                <xrx:default>Required field</xrx:default>
+              </xrx:i18n>
+              <span>.</span>
+            </xf:alert>
+          </xf:input>       
+          
+          <!-- 
+              collection ID
+           -->
+          <xf:input bind="bcollectionid">
+            <xf:label>
+              <xrx:i18n>
+                <xrx:key>collection-id</xrx:key>
+                <xrx:default>Collection ID</xrx:default>
+              </xrx:i18n>
+              <span>: </span>
+            </xf:label>
+            <xf:hint>
+              <xrx:i18n>
+                <xrx:key>eg</xrx:key>
+                <xrx:default>e.g.</xrx:default>
+              </xrx:i18n>
+              <span> BISANU</span>
+            </xf:hint>
+            <xf:alert>
+              <xrx:i18n>
+                <xrx:key>only-upper-and-lower-case</xrx:key>
+                <xrx:default>Only upper and lower case characters</xrx:default>
+              </xrx:i18n>
+              <span>.</span>
+            </xf:alert>
+          </xf:input>
+          
+          <xf:input bind="bimage-server-address">
+            <xf:label>
+              <xrx:i18n>
+                <xrx:key>image-server-address</xrx:key>
+                <xrx:default>Image server</xrx:default>
+              </xrx:i18n>
+              <span>: </span>
+            </xf:label>
+            <xf:hint>
+              <xrx:i18n>
+                <xrx:key>eg</xrx:key>
+                <xrx:default>e.g.</xrx:default>
+              </xrx:i18n>
+              <span> www.monasterium.net</span>
+            </xf:hint>      
+          </xf:input>
+
+          <xf:input bind="bimage-server-folder">
+            <xf:label>
+              <xrx:i18n>
+                <xrx:key>image-server-folder</xrx:key>
+                <xrx:default>Folder</xrx:default>
+              </xrx:i18n>
+              <span>: </span>
+            </xf:label>
+            <xf:hint>
+              <xrx:i18n>
+                <xrx:key>eg</xrx:key>
+                <xrx:default>e.g.</xrx:default>
+              </xrx:i18n>
+              <span> pics/BISANU</span>
+            </xf:hint>      
+          </xf:input>
+          
+          <div data-demoid="9687b5ff-34a0-4307-a462-547a76eb10ae" style="text-align:right">
+            <h2>
+              <xf:trigger>
+                <xf:label>
+                  <xrx:i18n>
+                    <xrx:key>save</xrx:key>
+                    <xrx:default>Save</xrx:default>
+                  </xrx:i18n>
+                </xf:label>
+                <xf:action ev:event="DOMActivate">
+                  <xf:send submission="ssave"/>
+                </xf:action>
+              </xf:trigger>
+            </h2>
+          </div>
+          
+         <div data-demoid="14b15e2a-19b8-4e3c-ab74-669852cdb12f">
+           <xf:textarea appearance="growing" bind="bpreface" id="preface-div">
+             <xf:label>
+               <xrx:i18n>
+                 <xrx:key>preface</xrx:key>
+                 <xrx:default>Preface</xrx:default>
+               </xrx:i18n>
+               <span>:</span>
+             </xf:label>
+           </xf:textarea>
+         </div>
+        </xf:group>
+      
+      </div>
+    </div>
+  }
+  </xrx:view>
+</xrx:widget>

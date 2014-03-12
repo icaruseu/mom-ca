@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ead="urn:isbn:1-931666-22-9" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xrxe="http://www.monasterium.net/NS/xrxe">
+    <xrx:id>tag:www.monasterium.net,2011:/mom/widget/edit-fond</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key>edit-fond</xrx:key>
+            <xrx:default>Edit Fond</xrx:default>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:subtitle/>
+    <xrx:description/>
+    <xrx:author>daniel.ebner@uni-koeln.de</xrx:author>
+    <xrx:licence>
+        This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+        
+        As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+        
+        This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+        
+        The VdU/VRET is free software: you can redistribute it and/or modify
+        it under the terms of the GNU General Public License as published by
+        the Free Software Foundation, either version 3 of the License, or
+        (at your option) any later version.
+        
+        VdU/VRET is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        GNU General Public License for more details.
+        
+        You should have received a copy of the GNU General Public License
+        along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+        
+        We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+    </xrx:licence>
+    <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/editor</xrx:portal>
+    <xrx:init>
+        <xrx:processor>
+          <xrx:xformsflag>true</xrx:xformsflag>
+        </xrx:processor>
+        <xrx:client>
+          <xrx:messages>
+            <xrx:catalog>ead</xrx:catalog>
+          </xrx:messages>
+        </xrx:client>
+    </xrx:init>
+    <xrx:csss>
+        <xrx:css>tag:www.monasterium.net,2011:/mom/css/xrxe</xrx:css>
+        <xrx:css>tag:www.monasterium.net,2011:/mom/css/text-annotation</xrx:css>       
+        <style type="text/css">		
+          	.my-functions span {{
+          			  color:{conf:param('color6')};
+          			}}	
+          </style>
+    </xrx:csss>
+    <xrx:model>
+        
+    </xrx:model>
+    <xrx:view>
+        <div data-demoid="2705774a-950c-4564-a5b3-c14eb9b0d3e1" id="edit-fond">
+            <xrx:auth>
+                <xrx:rules>
+                    <xrx:rule>
+                        <xrx:user/>
+                        <xrx:dbgroup>atom</xrx:dbgroup>
+                    </xrx:rule>
+                </xrx:rules>
+                <xrx:true>
+                    <div class="standard-form InlineRoundBordersAlert" data-demoid="6835e3e0-6dce-42fb-86e1-bb64cb3ce0b9" xlink:dummy="">
+                        
+                        {
+                        let $archive-id := $xrx:tokenized-uri[1]
+                        let $fond-id := $xrx:tokenized-uri[2]
+                        
+                        (: fond info :)
+                        let $metadata-fond-db-base-collection :=
+                        metadata:base-collection('fond', ($archive-id, $fond-id), 'public')					    
+                        
+                        let $ead := $metadata-fond-db-base-collection//ead:ead					    
+                        let $entry := $ead/root()
+                        
+                        (: atom info :)
+                        let $put-uri := concat(conf:param('request-root'),'atom/PUT',metadata:feed('fond', ($archive-id, $fond-id), 'public'),'/', $fond-id, '.ead.xml')
+                        
+                        
+                        let $header := <div class="h2" data-demoid="a0fe0f6e-1670-4afb-af3f-a0ac703ddff7">
+                            <xrx:i18n>
+                                <xrx:key>edit-fond-info</xrx:key>
+                                <xrx:default>Edit Fond Information</xrx:default>
+                            </xrx:i18n>
+                        </div>
+                        
+                        let $breadcrumbs := <div data-demoid="ad8152bf-0034-484f-80c9-1c7177077e0a" id="breadcrumb">
+                            <a href="{ concat(conf:param('request-root'), 'fonds') }">
+                                <xrx:i18n>
+                                    <xrx:key>fonds</xrx:key>
+                                    <xrx:default>Fonds</xrx:default>
+                                </xrx:i18n>
+                            </a>
+                            <span> &gt; </span>
+                            <a href="{ concat(conf:param('request-root'), $archive-id, '/archive') }">{ $archive-id }</a>
+                            <span> &gt; </span>
+                            <a href="{concat(conf:param('request-root'), $archive-id, '/' , $fond-id, '/fond') }">{ $fond-id }</a>
+                        </div>
+                        
+                        let $server := substring-before(request:get-url(), conf:param('request-root'))					
+                        
+                        (:Dirty HACK : just atom-url doesn't work as resource when using an apache:)
+                        let $servername := request:get-server-name()
+                        let $server := 
+                        if($servername = 'mom-ca.uni-koeln.de') then
+                        concat('http://vdu.uni-koeln.de:8181', conf:param('request-root'))
+                        else if ($servername = 'vdu.uni-koeln.de') then
+                        concat('http://vdu.uni-koeln.de:8585', conf:param('request-root'))					  
+                        else 
+                        ''
+                        
+                        let $get-uri := concat(substring-before(request:get-url(), conf:param('request-root')), conf:param('request-root'),'atom/GET',metadata:feed('fond', ($archive-id, $fond-id), 'public'),'/', $fond-id, '.ead.xml')
+                  
+                        
+                        let $xrxe-editor := 
+                            xrxe:editor(<div data-demoid="d889d7d3-7270-46f8-b731-e35e63210745" node-path="/ead:ead/ead:archdesc/ead:dsc/ead:c" save="{$server}{$put-uri}" save-close="{concat(conf:param('request-root'), $archive-id, '/' , $fond-id, '/fond') }" services="{conf:param('request-root')}xrxe-services.xql" xsd="{ concat('/db/XRX.live', conf:param('request-root'), 'app/ead/xsd/ead.xsd') }">
+                                <xrxe:doc>{$entry}</xrxe:doc>
+                            </div>)
+                        
+                        
+
+                        
+                        
+                        
+                        return(
+                            $header
+                            ,							   
+                            $breadcrumbs
+                            ,                           
+                            $xrxe-editor
+                        	)                        
+                        }
+                        
+                    </div>
+                </xrx:true>
+                <xrx:false>
+                    <div data-demoid="dd79b84d-33a9-42fd-beff-903db6e23593">
+                        <div class="h2" data-demoid="3952d67e-38b9-4286-b04b-ed5a3019c725">
+                            <xrx:i18n>
+                                <xrx:key>edit-fond</xrx:key>
+                                <xrx:default>Edit Fond</xrx:default>
+                            </xrx:i18n>
+                        </div>
+                        <xrx:i18n>
+                            <xrx:key>protected-page-message</xrx:key>
+                            <xrx:default>Protected page. Please login first.</xrx:default>
+                        </xrx:i18n>
+                    </div>
+                </xrx:false>
+            </xrx:auth>
+        </div>
+    </xrx:view>
+</xrx:widget>

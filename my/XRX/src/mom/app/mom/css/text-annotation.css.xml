@@ -1,0 +1,301 @@
+<xrx:css xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/css/text-annotation</xrx:id>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:style>
+    
+
+		.xrxaAnnotationControl{{
+			width:100%;
+			background-color: {conf:param('color2')};
+			border-color: grey;
+		  border-style:solid;
+			border-width:1px;
+		}}
+		
+		.xrxaAnnotationHeader{{
+			padding:2px;
+			border-color: black;
+		  border-style:solid;
+			border-width:1px;
+		}}
+		
+		.xrxaToolbar{{
+			
+		}}
+		
+		.xrxaMenu{{
+			display:inline;
+			//background-color: {conf:param('color2')};
+			border: none;
+		}}
+		
+		.dijitMenuBar{{
+			background-color: #{conf:param('color2')};
+			border-width:0px;
+		}}
+		
+		/*?DEPRECATED?*/
+		/*.dijitToolbar{{
+			background-color: {conf:param('color2')};
+		}}*/
+		
+		/*?DEPRECATED?*/
+		/*.xrxaInsertTextButton{{
+			margin:0px;
+			float:right;
+			display:inline;
+			background-color: {conf:param('color2')}; 
+		}}*/
+		
+		
+		.xrxaAnnotationArea{{
+			min-height:95px;			
+			padding:8px;
+		}}
+		
+		
+		
+		
+		
+		.xrxaCloseAttributesButton{{
+			float: right;
+			margin : 0px !important;
+		}}
+		
+		
+		.dijitEditorClose {{
+			background-image: url('{conf:param('request-root')}/close.jpg'); 
+			background-repeat: no-repeat;
+			background-size:18px 18px;
+			padding:0px;
+			width: 18px;
+			height: 18px;
+			text-align: center;
+		}}
+		
+	
+		
+		.xrxaAnnotation{{
+			margin:0px;
+		}}
+		
+		.xrxaStarttag, .xrxaEndtag, .xrxaStartEndTag{{
+		    background-color: {conf:param('color2')};
+		    color: #F0F3E2;
+			  text-align: center;
+		    vertical-align:middle;       
+			  font-family:sans-serif;
+			   margin-top:1px;
+			   padding-right:10px;			             	
+			   border:0px;			
+			   display:inline-block;
+         position: relative;
+			   height:18px;
+		}}
+		
+		.xrxaStarttag, .xrxaStartEndTag {{
+			margin-left:1px;
+			margin-right:18px;
+			padding-left:10px;
+		}}	
+		
+		.xrxaEndtag {{
+
+			margin-left:15px;
+			margin-right:1px;
+			padding-left:16px;
+			
+			
+		}}	
+		
+		.xrxaStarttag:after, .xrxaEndtag:after{{
+		   border: solid transparent;
+		   content: ' ';  
+		   position: absolute;
+		   border-width: 9px;
+		}}
+		
+		.xrxaStarttag:after {{
+           left: 100%;
+           border-left-color: {conf:param('color2')};
+       }}
+		
+		.xrxaEndtag:after{{			              
+           right: 100%;
+           border-right-color: {conf:param('color2')};
+           
+		  }}
+		
+		
+		.xrxaEndTag::-moz-selection {{
+			background-color: {conf:param('color2')};
+			color: #F0F3E2;
+		}}	
+		 
+
+		
+		.xrxaTagLabel::-moz-selection {{
+			background-color: {conf:param('color2')};
+			color: white;
+		}}
+		  
+		.xrxaTagLabel {{
+		    color: white;
+		    text-align: center;
+			  vertical-align:middle;       
+			  font-family:sans-serif;		    
+		    cursor:pointer;
+		    text-align: left;
+		}}
+		
+		.xrxaContent {{
+		  margin :4px;
+		}}
+		
+
+		
+
+    	
+    	.xrxaAttributes {{
+		    background-color:  {conf:param('color2')};    
+		    position: absolute;
+		    margin-top:23px;		    
+		    z-index: 1;
+		    text-align: left;
+		    padding-left:10px;
+		    padding-bottom:10px;
+		    border-color: black;
+		    border-style:solid;
+			  border-width:1px;
+			  width:250px;
+		}}
+		
+
+	
+		.xrxaAttribute {{
+		    text-align: left;
+		    display: block;		
+		}}
+	
+		.xrxaAttributeName {{
+		    text-align: left;
+		    display: block;		
+		}}
+	
+		.xrxaAttributeName::-moz-selection {{
+			background-color:{conf:param('color2')};
+			color: white;
+		}}
+    	
+    	.xrxaAttributeName::selection {{
+			background-color: {conf:param('color2')};
+			color: white;
+		}}
+	
+		.xrxaAttributeValue {{
+		    display: inline;
+		    height:  30px;
+		    text-align: right;
+		
+		}}
+		
+		.xrxaAttributeValueInput {{
+			width: 150px;
+		}}
+
+    
+    .dijitButtonText::-moz-selection {{
+      background-color:none;
+			color: black;
+    }}
+    
+     .dijitValidationTextBox  {{
+      display:inline-block;
+    }}
+    
+    .dijitValidationTextBox .dijitInputField {{
+      display:inline;
+    }}
+    
+    .dijitValidationTextBox .dijitInputField .dijitInputInner{{
+      display:inline;
+    }}
+    
+    
+    
+   
+    
+    
+    
+    
+    .xrxaAnnotationDialogHeader{{
+      //float:left;
+      padding-left:50px;
+      padding-right:50px;
+    }}
+    
+    .xrxaRemoveAnnotationButton{{
+      //float:right;
+
+    }}
+    
+    
+    .xrxaAnnotationDialogContent{{
+      padding: 20px;
+
+      //float:left;
+    }}
+    
+    .xrxaOptionsDiv{{
+      //margin-top:20px;
+      margin-bottom:20px;
+    }}
+    
+    .xrxaInsertAttributeButton{{
+      margin:50px;
+      display:block !important;
+     }}
+    
+     .xrxaRemoveAttributeButton{{
+      display: inline !important;
+      width: 1px;
+      
+    }}
+    
+    .xrxaRemoveAttributeButton .dijitButtonNode .dijitButtonContents{{
+      display: inline !important;
+
+    }}
+    
+    .xrxaAnnotationDialogFooter{{
+      padding-bottom:20px;
+      //float:left;
+    }}
+		
+		.xrxaOKButton{{
+		  float:right;
+		}}
+  </xrx:style>
+</xrx:css>

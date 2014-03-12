@@ -1,0 +1,82 @@
+/*
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see <http://www.gnu.org/licenses/>.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+*/
+input{
+  font-family:"Trebuchet MS", regular, sans-serif;
+  font-size:16px;
+  margin:0px;
+  width:98%;
+}
+
+.CodeMirror {
+	display:block;
+  line-height:1.4em;
+  font-family:"Trebuchet MS", regular, sans-serif;
+  font-size:18px;
+}
+
+.CodeMirror-scroll {
+	display:block;
+  height:auto;
+  overflow-y:hidden;
+  overflow-x:auto;
+  /* This is needed to prevent an IE[67] bug where the scrolled content
+     is visible outside of the scrolling box. */
+  position: relative;
+  border:solid white 1px;
+}
+
+.CodeMirror-scroll:hover {
+	border:solid rgb(200,200,200) 1px;
+}
+
+.xrx-forms-control-hover {
+}
+
+.ui-menu-selected {
+	background:white;
+	border-bottom:solid white 3px;
+}
+
+span.cm-element-start {
+  border-bottom: rgb(220, 220, 220);
+}
+span.cm-element-end {
+  border-bottom: rgb(220, 220, 220);
+}
+span.cm-text {
+}
+
+span.visualxml-mark-start-element, span.visualxml-mark-end-element {
+	color: #F39814;
+  border-bottom:solid #F39814 1px;
+	/*background-color: #F39814;*/
+}
+span.visualxml-mark-text {
+	border-bottom:solid #F39814 1px;
+  /*color: #F39814;*/
+  /*background-color: #F39814;*/
+}
+span.xrx-visualxml-error {
+	color: red;
+	border-bottom:2px dotted red;
+}

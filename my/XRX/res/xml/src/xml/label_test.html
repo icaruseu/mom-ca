@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>XRX++ Unit Tests - xrx.label</title>
+<script src='../../lib/closure-library/closure/goog/base.js'></script>
+<script src='../deps.js'></script>
+<script type="text/javascript">
+  goog.require('goog.testing.jsunit');
+  goog.require('xrx.label');
+</script>
+</head>
+<body>
+<script type="text/javascript">
+
+function testFirstAndLast() {
+  var label = new xrx.label([1, 3, 5, 6]);
+  
+  assertEquals(1, label.first());
+  assertEquals(6, label.last());
+};
+
+function testJointParent() {
+  var label1 = new xrx.label([1, 3]);
+  var label2 = new xrx.label([1, 4]);
+  var label3 = new xrx.label();
+  
+  var joint1 = label1.jointParent(label2);
+  var expected1 = new xrx.label([1]);
+  assertEquals(true, joint1.sameAs(expected1));
+  
+  var joint2 = label1.jointParent(label1);
+  var expected2 = new xrx.label([1, 3]);
+  assertEquals(true, joint2.sameAs(expected2));
+  
+  var joint3 = label3.jointParent(label1);
+  var expected3 = new xrx.label();
+  assertEquals(true, joint3.sameAs(expected3));
+};
+
+function testChild() {
+  var label = new xrx.label(); // []
+  
+  label.child(); // [1]
+  assertEquals(1, label.label_[0]);
+  assertEquals(1, label.label_.length);
+  
+  label.child(); // [1, 1]
+  assertEquals(1, label.label_[1]);
+  assertEquals(2, label.label_.length);
+};
+
+function testNextSibling() {
+  var label = new xrx.label(); // []
+  
+  label.child(); // [1]
+  label.child(); // [1, 1]
+  label.nextSibling(); // [1, 2]
+  assertEquals(2, label.label_[1]);
+  assertEquals(2, label.label_.length);
+};
+
+function testPrecedingSibling() {
+  var label = new xrx.label(); // []
+  
+  label.child(); // [1]
+  label.child(); // [1, 1]
+  label.nextSibling(); // [1, 2]
+  label.precedingSibling(); // [1, 1]
+  assertEquals(1, label.label_[1]);
+  assertEquals(2, label.label_.length);
+};
+
+
+function testParent() {
+  var label = new xrx.label(); // []
+  
+  label.child(); // [1]
+  label.child(); // [1, 1]
+  label.nextSibling(); // [1, 2]
+  label.parent(); // [1]
+  assertEquals(1, label.label_[0]);
+  assertEquals(1, label.label_.length);
+  
+  label.parent(); // []
+  assertEquals(undefined, label.label_[0]);
+  assertEquals(0, label.length());
+};
+
+function testSameAs() {
+  var label1 = new xrx.label();
+  label1.child(); label1.child(); // [1, 1]
+  var label2 = new xrx.label();
+  label2.child(); label2.child(); // [1, 1]
+  var label3 = new xrx.label(); // []
+  var label4 = new xrx.label(); // [1]
+  label4.child();
+  
+  assertEquals(true, label1.sameAs(label2));
+  assertEquals(false, label3.sameAs(label4));
+  assertEquals(true, label3.sameAs(label3));
+};
+
+function testIsBefore() {
+  var label1 = new xrx.label();
+  var label2 = new xrx.label([1]);
+  var label3 = new xrx.label([1, 2, 4]);
+  var label3b = new xrx.label([1, 2, 1, 1]);
+  var label4 = new xrx.label([1, 2, 4, 5]);
+  var label5 = new xrx.label([1, 1, 1, 1, 1]);
+
+  assertEquals(true, label1.isBefore(label2));
+  assertEquals(true, label2.isBefore(label3));
+  assertEquals(true, label3.isBefore(label4));
+  assertEquals(true, label3b.isBefore(label3));
+  assertEquals(false, label4.isBefore(label3));
+  assertEquals(false, label4.isBefore(label4));
+  assertEquals(true, label5.isBefore(label3));
+};
+
+function testIsAfter() {
+  var label1 = new xrx.label();
+  var label2 = new xrx.label([1]);
+  var label3 = new xrx.label([1, 2, 4]);
+  var label3b = new xrx.label([1, 2, 1, 1]);
+  var label4 = new xrx.label([1, 2, 4, 5]);
+
+  assertEquals(true, label4.isAfter(label3));
+  assertEquals(true, label3.isAfter(label2));
+  assertEquals(true, label2.isAfter(label1));
+  assertEquals(false, label3b.isAfter(label3));
+  assertEquals(false, label3.isAfter(label4));
+  assertEquals(false, label4.isAfter(label4));
+};
+
+function testIsChildOf() {
+  var label0 = new xrx.label();
+  var label1 = new xrx.label([1]);
+  var label2 = new xrx.label([1, 2]);
+  var label3 = new xrx.label([1]);
+  var label4 = new xrx.label([1, 3, 1]);
+  
+  assertEquals(true, label1.isChildOf(label0));
+  assertEquals(true, label2.isChildOf(label1));
+  assertEquals(false, label4.isChildOf(label1));
+  assertEquals(false, label3.isChildOf(label1));
+  assertEquals(false, label4.isChildOf(label2));
+};
+
+function testIsParentOf() {
+  var label0 = new xrx.label();
+  var label1 = new xrx.label([1]);
+  var label2 = new xrx.label([1, 2]);
+  var label3 = new xrx.label([1]);
+  var label4 = new xrx.label([1, 3, 1]);
+  
+  assertEquals(true, label0.isParentOf(label1));
+  assertEquals(true, label1.isParentOf(label2));
+  assertEquals(false, label2.isParentOf(label1));
+  assertEquals(false, label1.isParentOf(label3));
+  assertEquals(false, label2.isParentOf(label4));
+};
+
+function testIsAncestorOf() {
+  var label0 = new xrx.label();
+  var label1 = new xrx.label([1]);
+  var label2 = new xrx.label([1, 2]);
+  var label3 = new xrx.label([1]);
+  var label4 = new xrx.label([1, 3, 1]);
+  
+  assertEquals(true, label0.isAncestorOf(label1));
+  assertEquals(true, label1.isAncestorOf(label2));
+  assertEquals(false, label2.isAncestorOf(label1));
+  assertEquals(false, label1.isAncestorOf(label3));
+  assertEquals(false, label2.isAncestorOf(label4));
+};
+
+function testIsDescendantOf() {
+  var label0 = new xrx.label();
+  var label1 = new xrx.label([1]);
+  var label2 = new xrx.label([1, 2]);
+  var label3 = new xrx.label([1]);
+  var label4 = new xrx.label([1, 3, 1]);
+  
+  assertEquals(true, label1.isDescendantOf(label0));
+  assertEquals(true, label2.isDescendantOf(label1));
+  assertEquals(false, label1.isDescendantOf(label2));
+  assertEquals(false, label3.isDescendantOf(label1));
+  assertEquals(false, label4.isDescendantOf(label2));
+};
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/my-collections-edit</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/empty</xrx:portal>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>false</xrx:xformsflag>
+     <xrx:jqueryflag>true</xrx:jqueryflag>
+   </xrx:processor>
+   <xrx:client>
+     <xrx:messages>
+        <!-- jquery.ui.myCollectionsEdit.js -->
+       <xrx:i18n>
+         <xrx:key>create-charter</xrx:key>
+         <xrx:default>Create Charter</xrx:default>
+       </xrx:i18n>
+       <xrx:i18n>
+         <xrx:key>deleting-entries</xrx:key>
+         <xrx:default>Deleting entries</xrx:default>
+       </xrx:i18n>
+       <xrx:i18n>
+         <xrx:key>entry-successfully-deleted</xrx:key>
+         <xrx:default>Entry successfully deleted.</xrx:default>
+       </xrx:i18n>
+       <xrx:i18n>
+         <xrx:key>delete-selected-entries</xrx:key>
+         <xrx:default>Delete selected entries.</xrx:default>
+       </xrx:i18n>
+       <xrx:i18n>
+         <xrx:key>cancel</xrx:key>
+         <xrx:default>Cancel</xrx:default>
+       </xrx:i18n>
+       <xrx:i18n>
+         <xrx:key>publish</xrx:key>
+         <xrx:default>Publish</xrx:default>
+       </xrx:i18n>
+       <xrx:i18n>
+         <xrx:key>date</xrx:key>
+         <xrx:default>Date</xrx:default>
+       </xrx:i18n>
+       <xrx:i18n>
+         <xrx:key>title</xrx:key>
+         <xrx:default>Title</xrx:default>
+       </xrx:i18n>
+       <xrx:i18n>
+         <xrx:key>loading-entries</xrx:key>
+         <xrx:default>Loading entries</xrx:default>
+       </xrx:i18n>
+     </xrx:messages>
+   </xrx:client>
+  </xrx:init>
+  <xrx:csss>
+    <xrx:css>tag:www.monasterium.net,2011:/mom/css/my-collections</xrx:css>
+    <style type="text/css">
+    
+button {{
+  margin: 3px !important;
+  padding: 0px !important;
+}}
+
+.ui-button-text {{
+  font-size: 13px !important;
+}}
+
+.ui-dialog-title, .ui-dialog-content * {{
+  font-size: 13px;
+}}
+
+#momlogo {{
+  position:absolute;
+  right:40px;
+  top:0px;
+}}
+
+.xrx-translate-page-link {{
+  z-index:9999;
+}}
+
+/*
+* Button create collection
+*/
+#dmy-collection-new-button {{
+  margin:0px;
+  padding:0px;
+  background:rgb(211,72,54);
+}}
+
+#dmy-collection-new-button .ui-button-text {{
+  font-size:13px;
+  font-weight:bold;
+  color:white;
+}}
+
+/*
+* Dialog create collection
+*/
+#dmy-collection-new-dialog button {{
+  margin:0px !important;
+  padding:0px !important;
+}}
+
+#dmy-collection-new-dialog .ui-button-text {{
+  font-size:13px !important;
+}}
+
+/*
+* Collection Tree
+*/
+#dmy-collection-left-menu {{
+  position:relative;
+  float:left;
+  margin: 1%;
+  width: 18%;
+}}
+
+#dmy-collections-tree, #dmy-collections-shared {{
+  margin-left: 20px;
+}}
+
+.dmenu-button {{
+  margin-top:5px;
+  padding: 5px;
+}}
+
+.my-collections-tree-item {{
+  margin:5px;
+  padding:5px;
+}}
+
+.my-collections-tree-item:hover {{
+  background:rgb(240,240,240);
+  cursor:pointer;
+}}
+
+.selected-collections-tree-item {{
+  color: rgb(211,72,54);
+  font-weight: bold;
+}}
+
+/*
+* List of Items
+*/
+#dmy-collection-items-toolbar {{
+  position: relative;
+  float: left;
+  width: 98%;
+  margin: 1%;
+}}
+
+#dmy-collection-breadcrumb {{
+  position: absolute;
+  margin-left: 21%;
+  top: -1.3em;
+}}
+
+#dmy-collection-items {{
+  position: relative;
+  float: left;
+  width: 80%;
+  margin-top: 2%;
+}}
+
+.my-collection-item {{
+  position: relative;
+  float: left;
+  border-bottom: solid rgb(230,230,230) 1px;
+  width: 98%;
+  padding: 1%;
+}}
+
+.forms-table {{
+  width: 100%;
+}}
+
+.forms-table-row {{
+  width: 100%;
+}}
+
+.forms-table-cell {{
+  padding: 1%;
+  border-bottom: solid rgb(230,230,230) 1px;
+}}
+
+.my-collection-item-hover {{
+  background: rgb(255,255,214);
+}}
+
+.myCollectionItem input {{
+  margin-right: 5%;
+}}
+
+.my-collection-tree-item-hover {{
+  background:rgb(240,240,240);
+  cursor:pointer;
+}}
+
+.my-collection-item-draggable-helper {{
+  font-size: 12px;
+  font-weight: bold;
+  color: black;
+  background: white;
+  border: solid 1px grey;
+  padding: 5px;
+}}
+
+.my-collection-item-dragstart {{
+  background: rgb(255,255,214);  
+}}
+
+.just-linked * {{
+  font-size: 9px !important;
+}}
+
+#dinvite-user .iinvite-user {{
+  width: 80%;
+}}
+
+div.invited-user {{
+  position: relative;
+  float: left;
+  width: 100%;
+  display: block;
+  border-bottom: solid rgb(240,240,240) 1px;
+}}
+
+span.invited-user {{
+  position: relative;
+  float: left;
+  width: 100%;
+  display: block;
+  margin: 10px;
+}}
+
+    </style>
+  </xrx:csss>
+  <xrx:jss>
+    <!-- jQuery resources -->
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/droppable</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/position</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/resizable</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/dialog</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/effect</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/effect-pulsate</xrx:resource>
+    
+    <!-- core resources -->
+    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrxI18n</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxMessage</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrx</xrx:resource>
+    
+    <!-- mom resources -->
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/dialogInviteUser</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/dialogNewCollection</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/charterItemsToolbar</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/charterItems</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/charterItemsShared</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/myCollectionsBookmarks</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/myCollectionsTree</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/myCollectionsShared</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/myCollectionsEdit</xrx:resource>
+    
+  </xrx:jss>
+  <xrx:view>
+  {
+    let $my-collection-new-service-url := concat(conf:param('request-root'), 'service/my-collection-new')
+    
+    let $base-collection := metadata:base-collection('mycollection', (), 'private')
+    let $my-collections := 
+      for $collection in $base-collection/atom:entry
+      let $title := $collection//cei:title/text()
+      order by $title
+      return
+      $collection
+    let $first-collection := $my-collections[1]
+    let $first-key := tokenize($first-collection//atom:id/text(), '/')[last()]
+    let $first-title := $first-collection//cei:title/text()
+    return
+    <div data-demoid="ff4e8c44-425b-496e-9fd6-b3d4dfcf58d8" id="dmy-collections">
+      <div class="xrx-message" data-demoid="845bc2c4-c1a9-4bd5-96e9-bd29c188d2ae"/>
+      <div data-demoid="01f8137f-e29a-4e74-b418-012130b456b5" id="dmy-collection-items-remove-dialog" style="display:none" title="Remove selected Charter(s)">
+        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"/><span>These items will be permanently deleted and cannot be recovered. Are you sure?</span></p>
+      </div>
+      <div data-demoid="6e48ad29-df73-49e8-bc63-aa72bfdedb6e" id="dmy-collection-items-share-dialog" style="display:none" title="Share selected Charter(s)">
+        <p>
+          <div data-demoid="1c9acbf4-9402-474a-a2ba-3e95f4cf0107">
+            <xrx:i18n>
+              <xrx:key>who-may-edit</xrx:key>
+              <xrx:default>Who may edit</xrx:default>
+            </xrx:i18n>:
+          </div>
+          <div class="invited-user" data-demoid="9a7ceffe-2596-469e-9f0f-929c92395ecd">
+            <span class="invited-user">
+              <b>{ user:firstname-name($xrx:user-id) } ({ $xrx:user-id })</b>
+              <span>    (owner)</span>
+            </span>
+            <div data-demoid="67881204-5672-451a-8c45-aaa16341eb93" id="dshared-users"/>
+          </div>
+          <div data-demoid="3d1af03f-a794-4408-9604-3a9d9e75fc9f" id="duser-exists"/>
+          <div data-demoid="2fe801da-b371-4d2b-a1ed-fd0810dd617a"> </div>
+          <div data-demoid="2bee52fe-2a09-4772-b082-756f7ccff2f8"> </div>
+          <div data-demoid="7fdaa2b8-b82e-4321-8c99-6dfcd544e33f"> </div>
+          <div data-demoid="07931ce3-430d-4fa2-8dc5-5301f8f7cb24"> </div>
+          <div data-demoid="6ce3e10c-3491-4340-ae37-ed5d0305e1df">
+            <xrx:i18n>
+              <xrx:key>invite-people</xrx:key>
+              <xrx:default>Invite people</xrx:default>
+            </xrx:i18n>:
+          </div>
+          <div data-demoid="fc8e1d4d-79cb-4979-9215-1a85ab36c0bb" id="dinvite-user">
+            <input class="iinvite-user" id="iinvite-user" name="invited-user" placeholder="Email address of a registered MOM-CA user." value=""/>
+            <button id="binvite-user">Invite</button>
+          </div>
+        </p>
+      </div>
+      <div data-demoid="f17a83b2-86c8-49b0-9cb3-d219ef5cb541" id="dmy-collection-publish-dialog" style="display:none" title="Publish My Collection">
+        <p><span>Click on Button "Publish now" to publish all Charters of this Collection.</span></p>
+        <div data-demoid="d336b2ff-30a4-424c-aa39-5a7003701f20" id="dpublish-progress" style="display:none">Please wait ...</div>
+      </div>
+      <div data-demoid="9da64f32-4d1a-49e1-a205-9b2c1e7bcd7e" id="dmy-collection-header">
+        <h2>Edit My Collections</h2>
+        <xrx:resource id="momlogo">tag:www.monasterium.net,2011:/mom/resource/image/mom-logo</xrx:resource>
+      </div>
+      <div data-demoid="556eb4c9-4e43-4901-b0ba-7d7ff7bcfc65" id="dmy-collection-toolbar">
+        <div data-demoid="a264e591-8394-4574-8bb0-22a9b258758f" id="dmy-collection-inner-toolbar"> </div>
+        <div data-demoid="dc88c9f9-53be-4297-91cc-e59d6267d3ac" id="dmy-collection-breadcrumb">
+          <a href="/">MOM-CA</a>
+          <span> &gt; </span>
+          <a href="{ conf:param('request-root') }my-collections">My Collections (preview)</a>
+          <span> &gt; </span>
+          <a href="{ conf:param('request-root') }{ $first-key }/my-collection">{ $first-title }</a>
+        </div>
+      </div>
+      <xrx:auth>
+        <xrx:rules>
+          <xrx:rule>
+            <xrx:user/>
+            <xrx:dbgroup>atom</xrx:dbgroup>
+          </xrx:rule>
+        </xrx:rules>
+        <xrx:true>
+          <div data-demoid="f1355a07-de3e-428f-a72d-7691817e6088" id="dmy-collection-body">
+            <div data-demoid="eed8d1f0-e40a-4215-b6f9-660bdb875a16" id="dmy-collection-left-menu">
+              <div data-demoid="c0e57332-5461-4899-9b86-4edba8cc87fa">
+                <button id="dmy-collection-new-button">
+                  <xrx:i18n>
+                    <xrx:key>create-collection-uppercase-letter</xrx:key>
+                    <xrx:default>CREATE COLLECTION</xrx:default>
+                  </xrx:i18n>
+                </button>
+                <div class="table" data-demoid="1db9bf1b-db45-4e6f-a134-07ba5194a9e4" id="dmy-collection-new-dialog">
+                  <div class="table-row" data-demoid="e8cf1503-408d-4c15-aca3-6f74993c9cfb">
+                    <div class="forms-table-cell" data-demoid="95d4dbcd-a453-437c-9075-d9d6d54ccffb">
+                      <span>Name:</span>
+                    </div>
+                    <div class="forms-table-cell" data-demoid="de00f060-42ab-4b55-a4b6-7cd01c446f49">
+                      <form action="{ $my-collection-new-service-url }" id="fmy-collection-new-dialog">
+                        <input name="title" type="text"/>
+                      </form>
+                    </div>
+                    <div class="forms-table-cell" data-demoid="bf32119b-4658-4c97-99b5-708e028336f1">
+                      <button class="ok-button">Create</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="dmenu-button" data-demoid="6b1234f5-e716-4339-bf17-adca3c48867c" id="dmy-collection-bookmarks-button">
+                <div data-demoid="8bfcf0bb-f484-4ede-add8-d7e9d3624c1e"><b>Bookmarks</b></div>
+              </div>
+              <div class="dmenu-button my-collections-tree-item" data-demoid="c68a2054-a14b-42e7-b088-2fb1b98bdc5b" id="dmy-collections-button">
+                <div data-demoid="663435d7-8ce6-4419-bd89-7dbe251e421b"><b>My Collections</b></div>
+              </div>
+              <div data-demoid="524757e5-9d21-47fa-aa42-d416221d0575" id="dmy-collections-tree"/>
+              <div class="dmenu-button my-collections-tree-item" data-demoid="9ed4aa01-d527-42a0-b27d-7ba8c5ef5625" id="dmy-collections-shared-button">
+                <div data-demoid="682eacd1-b764-4798-8fb1-1492c74639b6"><b>Shared Collections</b></div>
+              </div>
+              <div data-demoid="beb6e6a5-9a9f-460a-8356-645f1a1f7107" id="dmy-collections-shared"/>
+            </div>
+            <div data-demoid="62e8aef4-b924-4b38-bbf4-8b4248ab680c" id="dmy-collection-items"/>
+          </div>
+        </xrx:true>
+        <xrx:false>
+          <div data-demoid="4c21770a-c108-4526-8c77-50a2951a390a" id="dlogin">
+            <xrx:i18n>
+              <xrx:key>protected-page-message</xrx:key>
+              <xrx:default>Protected page. Please login first.</xrx:default>
+            </xrx:i18n>
+            <xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/login2</xrx:subwidget>
+          </div>
+        </xrx:false>
+      </xrx:auth>
+      <script type="text/javascript">jQuery(document).ready(function(){{ $.ajaxSetup({{ cache: false }}); $("#dmy-collections").myCollectionsEdit({{ requestRoot: "{ conf:param('request-root') }", userid: "{ $xrx:user-id }" }}); }});</script>
+    </div>
+  }
+  </xrx:view>
+</xrx:widget>

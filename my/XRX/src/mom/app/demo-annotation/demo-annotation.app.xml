@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xrx:app xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/app/demo-annotation</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>andre.streicher@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:resources>
+    <!-- demo charter and SVG -resources -->
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/demo-charter/d80672e8-40f7-410f-b1bb-007ed0324fdf</xrx:atomid>
+      <xrx:relativepath>xml/</xrx:relativepath>
+      <xrx:name>d80672e8-40f7-410f-b1bb-007ed0324fdf.charter.xml</xrx:name>
+    </xrx:resource>
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/demo-svg/SpAR_Regensburg_12460517_v_jpg</xrx:atomid>
+      <xrx:relativepath>svg/</xrx:relativepath>
+      <xrx:name>SpAR_Regensburg_12460517_v_jpg.xml</xrx:name>
+    </xrx:resource>
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/demo-svg/SpAR_Regensburg_12460517_r_jpg</xrx:atomid>
+      <xrx:relativepath>svg/</xrx:relativepath>
+      <xrx:name>SpAR_Regensburg_12460517_r_jpg.xml</xrx:name>
+    </xrx:resource>
+  </xrx:resources>
+  <xrx:resolver>
+    <!-- widgets -->
+    <xrx:map>
+      <xrx:uripattern>/demo-annotation$</xrx:uripattern>
+      <xrx:mode>mainwidget</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/demo-annotation-editor</xrx:atomid>
+    </xrx:map>
+    <!-- services -->
+    <xrx:map>
+      <xrx:uripattern>/service/demo-get-svg-file$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/demo-get-svg-file</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/service/demo-get-metadata$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/demo-get-metadata</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/service/demo-save-annotation$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/demo-save-annotation</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/service/demo-get-index$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/demo-get-index</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/service/demo-get-metadata-path$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/demo-get-metadata-path</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/service/demo-delete-svg-rect$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/demo-delete-svg-rect</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/service/demo-update-annotation$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/demo-update-annotation</xrx:atomid>
+    </xrx:map>
+  </xrx:resolver>
+</xrx:app>

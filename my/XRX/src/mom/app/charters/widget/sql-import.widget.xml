@@ -1,0 +1,842 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/sql-import</xrx:id>
+  <xrx:inherits>tag:www.monasterium.net,2011:/mom/widget/charter-import</xrx:inherits>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:model>
+    <xf:model id="mimport">
+    
+      <!-- 
+        instances
+       -->
+    
+      <xf:instance>
+        <data xmlns="">
+          <cacheid>{ $wcharter-import:cacheid }</cacheid>
+          <processid/>
+          <fileuri/>
+          <uploadtype info="local,recent">local</uploadtype>
+          <rownum>1</rownum>
+          <driverclass>{ $wcharter-import:sql-info/xrx:driverclass/text() }</driverclass>
+          <connectionURL>{ $wcharter-import:sql-info/xrx:connectionURL/text() }</connectionURL>
+          <dbusername>{ $wcharter-import:sql-info/xrx:dbusername/text() }</dbusername>
+          <dbpassword>{ $wcharter-import:sql-info/xrx:dbpassword/text() }</dbpassword>
+          <context>{ $wcharter-import:context }</context>
+          <archid>{ $wcharter-import:archid }</archid>
+          <fondid>{ $wcharter-import:fondid }</fondid>
+          <collectionid>{ $wcharter-import:collectionid }</collectionid>
+          <schemaid/>
+          <xsltid>xml2cei</xsltid>
+          <type>{ $chimport:XQuery }</type>
+          <upload>
+            <value ready="no"/>
+          </upload>
+        </data>
+      </xf:instance>
+      
+      <xf:instance id="ivalidation-response">
+        <xrx:response status=""/>
+      </xf:instance>
+      
+      <xf:instance id="itransform-response">
+        <xrx:response status=""/>
+      </xf:instance>
+      
+      <xf:instance id="iimport-response">
+        <xrx:response status=""/>
+      </xf:instance>
+      
+      <!-- 
+        submissions
+       -->
+                  
+      <xf:submission action="{ $xrx:jetty-request-base-url }service/sql-validate" id="svalidate" instance="ivalidation-response" method="post" replace="instance">
+      </xf:submission>
+      
+      <xf:submission action="{ $xrx:jetty-request-base-url }service/sql-transform" id="stransform" instance="itransform-response" method="post" replace="instance">
+      </xf:submission>
+     
+      <xf:submission action="{ $xrx:jetty-request-base-url }service/sql-import" id="simport" instance="iimport-response" method="post" replace="instance">
+      </xf:submission>
+      
+      <!-- 
+        binds 
+       -->
+              
+      <xf:bind nodeset="upload"> 
+        <xf:bind nodeset="value" type="xs:base64Binary"/> 
+      </xf:bind>
+      
+      <xf:bind nodeset="fileuri" type="xs:anyURI"/>
+      
+      <xf:bind id="buploadtype" nodeset="uploadtype"/>
+      <xf:bind id="bupload-ready" nodeset="//value/@ready" relevant=". = 'yes'"/>
+      
+      <xf:bind id="btstatus" nodeset="instance('itransform-response')//status"/>
+      <xf:bind id="btnamespace" nodeset="instance('itransform-response')//namespace"/>
+      <xf:bind id="btmessage" nodeset="instance('itransform-response')//message"/>
+
+      <xf:action ev:event="xforms-ready">
+        <script type="text/javascript">require(["dojo/dom-construct"], function(domConstruct){{domConstruct.place("bfLoading", "dwizard", "first");}});</script>
+      </xf:action>
+      
+      <!-- 
+        events
+       -->
+      
+      <xf:action ev:event="echeck">
+        <xf:send submission="svalidate"/>
+      </xf:action>
+      
+      <!--
+        wizard application logic
+       -->
+       
+      <xf:action ev:event="ewizard1-2">
+        <xf:toggle case="csimulate"/>
+        <script type="text/javascript">
+          document.sqlEditor.refresh();
+          document.xsltEditor.refresh();
+        </script>
+      </xf:action>     
+       
+      <xf:action ev:event="ewizard2-1">
+        <xf:toggle case="cupload"/>
+      </xf:action>  
+       
+      <xf:action ev:event="ewizard2-3">
+        <script type="text/javascript">$('#progressbar-import').progressbar( "value", 0 );$('#progressbar-import').progressbarImport( "progress" );</script>
+        <xf:toggle case="cimport"/>
+      </xf:action>  
+       
+      <xf:action ev:event="ewizard3-2">
+        <xf:delete nodeset="instance('itransform-response')/*"/>
+        <xf:setvalue ref="instance('itransform-response')//@status" value="''"/>
+        <xf:toggle case="csimulate"/>
+      </xf:action>  
+      
+      <xf:action ev:event="esql-save">
+        <script type="text/javascript">
+          document.sqlEditor.save();
+          $.ajax({{
+            url: '{ $wcharter-import:sql-post-url }',
+            type: 'POST',
+            contentType: 'text/plain',
+            data: $('#tsqlEditor').val(),
+            error: function() {{ $('#dsql-save-error').show().fadeOut(2000); }},
+            success: function() {{ $('#dsql-save-success').show().fadeOut(2000); }}
+          }});
+        </script>
+      </xf:action>
+      
+      <xf:action ev:event="exslt-save">
+        <script type="text/javascript">
+          document.xsltEditor.save();
+          $.ajax({{
+            url: '{ $wcharter-import:xslt-post-url }',
+            type: 'POST',
+            contentType: 'text/plain',
+            data: $('#txsltEditor').val(),
+            error: function() {{ $('#dxslt-save-error').show().fadeOut(2000); }},
+            success: function() {{ $('#dxslt-save-success').show().fadeOut(2000); }}
+          }});
+        </script>
+      </xf:action>
+      
+    </xf:model>
+  </xrx:model>
+  <xrx:divs>
+    <xrx:div>
+      <xrx:key>cancel-trigger-div</xrx:key>
+      <xrx:view>
+        <xf:trigger>
+          <xf:label>
+            <xrx:i18n>
+              <xrx:key>cancel</xrx:key>
+              <xrx:default>Cancel</xrx:default>
+            </xrx:i18n>
+          </xf:label>
+          <xf:action ev:event="DOMActivate">
+            <xf:load resource="sql-import?reload=true" show="replace"/>
+          </xf:action>
+        </xf:trigger>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>back-link-div</xrx:key>
+      <xrx:view>
+        {
+        if($wcharter-import:context = 'fond') then
+        <a href="{ $wcharter-import:context }">
+          <span>&lt;&lt;</span>
+          <xrx:i18n>
+            <xrx:key>back-to-fond</xrx:key>
+            <xrx:default>Back to fond</xrx:default>
+          </xrx:i18n>
+        </a>
+        else
+        <a href="{ $wcharter-import:context }">
+          <span>&lt;&lt;</span>
+          <xrx:i18n>
+            <xrx:key>back-to-collection</xrx:key>
+            <xrx:default>Back to collection</xrx:default>
+          </xrx:i18n>
+        </a>
+        }
+      </xrx:view>
+    </xrx:div>
+  </xrx:divs>
+  <xrx:view>
+    <div data-demoid="178c1406-29b1-4464-9bf6-1c3e33e78b04" id="dcharter-import">
+      <xrx:div>back-link-div</xrx:div>
+      {
+      if($wcharter-import:context = 'fond') then
+      <div class="h2" data-demoid="f17fbf47-b7e0-4c1f-858e-d3556b91a66a">
+        <xrx:i18n>
+          <xrx:key>sql-import</xrx:key>
+          <xrx:default>SQL Import</xrx:default>
+        </xrx:i18n>
+        <span>: { $wcharter-import:fond-name } [{ $wcharter-import:fondid }]</span>
+      </div>
+      else
+      <div class="h2" data-demoid="790b04f1-7146-484b-a971-780e56e5a524">
+        <xrx:i18n>
+          <xrx:key>sql-import</xrx:key>
+          <xrx:default>SQL Import</xrx:default>
+        </xrx:i18n>
+        <span>: { $wcharter-import:collection-name } [{ $wcharter-import:collectionid }]</span>
+      </div>
+      }      
+      {
+      if($wcharter-import:context = 'fond') then
+      <div data-demoid="43a87ac3-051f-4b7b-aea3-2b3154294c9d">
+        <a href="{ conf:param('request-root') }fonds">
+          <xrx:i18n>
+            <xrx:key>fonds</xrx:key>
+            <xrx:default>Fonds</xrx:default>
+          </xrx:i18n>
+        </a>
+        <span> &gt; </span>
+        <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/archive">{ $charter:rarchiveid }</a>
+        <span> &gt; </span>
+        <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ $charter:rfondid }/fond">{ xmldb:decode($charter:rfondid) }</a>
+        <span> &gt; </span>
+        <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ $charter:rfondid }/import-charters">
+          <xrx:i18n>
+            <xrx:key>import-charters</xrx:key>
+            <xrx:default>Import charters</xrx:default>
+          </xrx:i18n>
+        </a>
+        <span> &gt; </span>
+        <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ $charter:rfondid }/sql-import">
+          <xrx:i18n>
+            <xrx:key>sql-import</xrx:key>
+            <xrx:default>SQL import</xrx:default>
+          </xrx:i18n>
+        </a>
+      </div>
+      else if($wcharter-import:context = 'collection') then
+      <div data-demoid="f9380a8a-8c9c-4d38-a244-948b1fb319cf">
+        <a href="{ conf:param('request-root') }collections">
+          <xrx:i18n>
+            <xrx:key>collections</xrx:key>
+            <xrx:default>Collections</xrx:default>
+          </xrx:i18n>
+        </a>
+        <span> &gt; </span>
+        <a href="{ conf:param('request-root') }{ $charter:rcollectionid }/collection">{ xmldb:decode($charter:rcollectionid) }</a>
+        <span> &gt; </span>
+        <a href="import-charters">
+          <xrx:i18n>
+            <xrx:key>import-charters</xrx:key>
+            <xrx:default>Import charters</xrx:default>
+          </xrx:i18n>
+        </a>
+        <span> &gt; </span>
+        <a href="{ conf:param('request-root') }{ $charter:rcollectionid }/sql-import">
+          <xrx:i18n>
+            <xrx:key>sql-import</xrx:key>
+            <xrx:default>SQL import</xrx:default>
+          </xrx:i18n>
+        </a>
+      </div>
+      else()
+      }
+      <xrx:auth>
+        <xrx:rules>
+          <xrx:or>
+            <xrx:rule>
+              <xrx:user/>
+              <xrx:role>metadata-manager</xrx:role>
+            </xrx:rule>
+            <xrx:rule>
+              <xrx:user/>
+              <xrx:community>{ $wcharter-import:archive-atomid }</xrx:community>
+            </xrx:rule>
+          </xrx:or>
+        </xrx:rules>
+        <xrx:true>
+          <xf:group model="mimport">
+            <div data-demoid="d868c3b5-e090-434e-9929-46fecc9b3bce" id="dwizard"><div data-demoid="60674701-424c-47d7-bfc2-4366647db9af" id="dinner-wizard"><div data-demoid="41b434bd-072c-4c79-8b6c-e1f1e21eae3e" style="position:absolute; right:0px;"><xrx:resource class="icon" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/SQL</xrx:resource></div><xf:switch>
+              <xf:case id="cupload">
+                <h3>
+                  <span>1. </span>
+                  <xrx:i18n>
+                    <xrx:key>configure-database-connection</xrx:key>
+                    <xrx:default>Configure Database Connection</xrx:default>
+                  </xrx:i18n>
+                  <span> (</span>
+                  <span>
+                    <xrx:i18n>
+                      <xrx:key>step</xrx:key>
+                      <xrx:default>Step</xrx:default>
+                    </xrx:i18n>
+                    <span> 1 </span>
+                     <xrx:i18n>
+                       <xrx:key>of</xrx:key>
+                       <xrx:default>of</xrx:default>
+                     </xrx:i18n>
+                     <span> 3</span>
+                  </span>
+                  <span>)</span>
+                </h3>
+                <br/>
+                <br/>
+                <div data-demoid="8c1e1e42-4638-4e66-958f-c9b43af87c48">
+                  <xf:select1 appearance="full" bind="buploadtype" incremental="true">
+                    <xf:item>
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>upload-a-local-file</xrx:key>
+                          <xrx:default>Upload a local file</xrx:default>
+                        </xrx:i18n>
+                        <span>  </span>
+                      </xf:label>
+                      <xf:value>local</xf:value>
+                    </xf:item>
+                    {
+                      if($wcharter-import:sql-info) then
+                      <xf:item>
+                        <xf:label>
+                          <xrx:i18n>
+                            <xrx:key>recently-used-driver</xrx:key>
+                            <xrx:default>Recently used driver</xrx:default>
+                          </xrx:i18n>
+                        </xf:label>
+                        <xf:value>recent</xf:value>
+                      </xf:item>
+                      else()
+                    }
+                    <xf:action ev:event="xforms-value-changed">
+                      <xf:recalculate/>
+                      <xf:toggle case="clocal" if="//uploadtype = 'local'"/>
+                      <xf:toggle case="crecent" if="//uploadtype = 'recent'"/>
+                    </xf:action>
+                  </xf:select1>
+                </div>
+                <div data-demoid="dcfe3ea5-d639-43c6-b3c2-3dc44de1af28"><span> </span></div>
+                <div data-demoid="4dbebb58-c8f0-46a7-898c-359f698ce5ed">
+                  <xf:switch>
+                    <xf:case id="clocal">
+                      <xf:upload incremental="true" ref="fileuri">
+                        <xf:label>
+                          <xrx:i18n>
+                            <xrx:key>jdbc-driver</xrx:key>
+                            <xrx:default>JDBC Driver</xrx:default>
+                          </xrx:i18n>
+                        </xf:label>
+                      </xf:upload>
+                    </xf:case>
+                    <xf:case id="crecent">
+                      <div data-demoid="990adc8b-276d-4b3e-bcec-71539dd33b0e">
+                        <br/>
+                        <br/>
+                        <span>{ $wcharter-import:sql-info//xrx:filename/text() }</span>
+                      </div>
+                    </xf:case>
+                  </xf:switch>
+                </div>
+                <div data-demoid="08e0dfdc-7727-424a-9ce6-04a4180567f6"><span> </span></div>
+                <div data-demoid="ee632469-f694-4385-b210-8b2889d6c8ee">
+                  <xf:input class="long-input" ref="driverclass">
+                    <xf:label>
+                      <xrx:i18n>
+                        <xrx:key>jdbc-driver-class</xrx:key>
+                        <xrx:default>JDBC Driver Class</xrx:default>
+                      </xrx:i18n>:
+                    </xf:label>
+                    <xf:hint>
+                      <xrx:i18n>
+                        <xrx:key>eg</xrx:key>
+                        <xrx:default>e.g.</xrx:default>
+                      </xrx:i18n>: com.microsoft.sqlserver.jdbc.SQLServerDriver
+                    </xf:hint>
+                  </xf:input>
+                </div>
+                <div data-demoid="80e011f5-87a6-411a-b958-97279b5c22b5">
+                  <xf:input class="long-input" ref="connectionURL">
+                    <xf:label>
+                      <xrx:i18n>
+                        <xrx:key>jdbc-connection-url</xrx:key>
+                        <xrx:default>JDBC Connection URL</xrx:default>
+                      </xrx:i18n>:
+                    </xf:label>
+                    <xf:hint>
+                      <xrx:i18n>
+                        <xrx:key>eg</xrx:key>
+                        <xrx:default>e.g.</xrx:default>
+                      </xrx:i18n>: jdbc:sqlserver://monasterium.net:1633;databaseName=src;
+                    </xf:hint>
+                  </xf:input>
+                </div>
+                <div data-demoid="979e1998-f694-4e39-9333-d7beff0db85c"><span> </span></div>
+                <div data-demoid="eb1b4caf-7872-4dac-a892-7cae6266bc48">
+                  <xf:secret ref="dbusername">
+                    <xf:label>
+                      <xrx:i18n>
+                        <xrx:key>db-username</xrx:key>
+                        <xrx:default>Database Username</xrx:default>
+                      </xrx:i18n>:
+                    </xf:label>
+                  </xf:secret>
+                </div>
+                <div data-demoid="23abc389-183d-44d0-bf3d-fbd99c549246">
+                  <xf:secret ref="dbpassword">
+                    <xf:label>
+                      <xrx:i18n>
+                        <xrx:key>db-password</xrx:key>
+                        <xrx:default>Database Password</xrx:default>
+                      </xrx:i18n>:
+                    </xf:label>
+                  </xf:secret>
+                </div>
+                <div data-demoid="3c4b7206-e584-4a9b-88cd-8eae12c2b5a0">
+                  <xf:output class="icon" mediatype="image/*" ref="instance('ivalidation-response')//xrx:icon"/>
+                  <xf:output ref="instance('ivalidation-response')//xrx:message"/>
+                </div>
+                <div class="previous-next-trigger" data-demoid="6face59e-95b0-4fa9-9951-65658e4ced33">
+                  <xf:trigger>
+                    <xf:label>
+                      <xrx:i18n>
+                        <xrx:key>cancel</xrx:key>
+                        <xrx:default>Cancel</xrx:default>
+                      </xrx:i18n>
+                    </xf:label>
+                    <xf:action ev:event="DOMActivate">
+                      <xf:load resource="sql-import?reload=true" show="replace"/>
+                    </xf:action>
+                  </xf:trigger>
+                  <xf:trigger ref="instance('ivalidation-response')//@status[. != '1']">
+                    <xf:label>
+                      <xrx:i18n>
+                        <xrx:key>check-now</xrx:key>
+                        <xrx:default>Check now</xrx:default>
+                      </xrx:i18n>
+                    </xf:label>
+                    <xf:action ev:event="DOMActivate">
+                      <xf:dispatch name="echeck" targetid="mimport"/>
+                    </xf:action>
+                  </xf:trigger>
+                  <xf:trigger ref="instance('ivalidation-response')//@status[. = '1']">
+                    <xf:label>
+                      <xrx:i18n>
+                        <xrx:key>next</xrx:key>
+                        <xrx:default>next</xrx:default>
+                      </xrx:i18n>
+                    </xf:label>
+                    <xf:action ev:event="DOMActivate">
+                      <xf:dispatch name="ewizard1-2" targetid="mimport"/>
+                    </xf:action>
+                  </xf:trigger>
+                </div>
+              </xf:case>
+              <xf:case id="csimulate">
+                <h3>
+                  <span>2. </span>
+                  <xrx:i18n>
+                    <xrx:key>simulate-charter-import</xrx:key>
+                    <xrx:default>Simulate charter import</xrx:default>
+                  </xrx:i18n>
+                  <span> (</span>
+                  <span>
+                    <xrx:i18n>
+                      <xrx:key>step</xrx:key>
+                      <xrx:default>Step</xrx:default>
+                    </xrx:i18n>
+                    <span> 2 </span>
+                     <xrx:i18n>
+                       <xrx:key>of</xrx:key>
+                       <xrx:default>of</xrx:default>
+                     </xrx:i18n>
+                     <span> 3</span>
+                  </span>
+                  <span>)</span>
+                </h3>
+                <br/>
+                <br/>
+                <div data-demoid="4ee7fb14-351a-429f-9f28-b3e7143d8aed">
+                  <xf:input ref="rownum">
+                    <xf:label>
+                      <xrx:i18n>
+                        <xrx:key>simulate-row-i</xrx:key>
+                        <xrx:default>Simulate row (%i%)</xrx:default>
+                      </xrx:i18n>: 
+                    </xf:label>
+                  </xf:input>
+                  <xf:trigger>
+                    <xf:label>
+                      <xrx:i18n>
+                        <xrx:key>simulate-now</xrx:key>
+                        <xrx:default>Simulate now</xrx:default>
+                      </xrx:i18n>
+                      <span>!</span>
+                    </xf:label>
+                    <xf:action ev:event="DOMActivate">
+                      <xf:send submission="stransform"/>
+                    </xf:action>
+                  </xf:trigger>
+                </div>
+                <div class="previous-next-trigger" data-demoid="e5d6a836-205a-45ed-8af2-84d78811fa27">
+                  <xf:trigger>
+                    <xf:label>
+                      <xrx:i18n>
+                        <xrx:key>cancel</xrx:key>
+                        <xrx:default>Cancel</xrx:default>
+                      </xrx:i18n>
+                    </xf:label>
+                    <xf:action ev:event="DOMActivate">
+                      <xf:load resource="sql-import?reload=true" show="replace"/>
+                    </xf:action>
+                  </xf:trigger>
+                  <xf:trigger ref="instance('itransform-response')//@status[. = '1']">
+                    <xf:label>
+                      <xrx:i18n>
+                        <xrx:key>next</xrx:key>
+                        <xrx:default>next</xrx:default>
+                      </xrx:i18n>
+                    </xf:label>
+                    <xf:action ev:event="DOMActivate">
+                      <xf:dispatch name="ewizard2-3" targetid="mimport"/>
+                    </xf:action>
+                  </xf:trigger>
+                </div>
+                <div class="report" data-demoid="7c8fb4c0-8e83-46b6-abfe-282d7c41592e">
+                  <table class="reporttable">
+                    <tr>
+                      <td>
+                        <xrx:i18n>
+                          <xrx:key>status</xrx:key>
+                          <xrx:default>Status</xrx:default>
+                        </xrx:i18n>
+                        <span>: </span>
+                      </td>
+                      <td>
+                        <xf:output class="icon" mediatype="image/*" ref="instance('itransform-response')//xrx:icon"/>
+                        <xf:output bind="btstatus"/>
+                        <xf:group ref="instance('itransform-response')//@status[. = '1' or . = '-1']">
+                          <div data-demoid="b34c9d41-3f41-4273-9e6e-fe4f58228452">
+                            <a href="sql-result-document" target="_blank">
+                              <xrx:i18n>
+                                <xrx:key>sql-result-document</xrx:key>
+                                <xrx:default>SQL Result Document</xrx:default>
+                              </xrx:i18n>
+                            </a>
+                          </div>
+                          <div data-demoid="acac1d15-98c6-4271-ba4a-a1d534ed9834">
+                            <a href="xml-import-cei-preview" target="_blank">
+                              <xrx:i18n>
+                                <xrx:key>transformed-cei-document</xrx:key>
+                                <xrx:default>Transformed CEI Document</xrx:default>
+                              </xrx:i18n>
+                            </a>
+                          </div>
+                        </xf:group>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <xrx:i18n>
+                          <xrx:key>namespace</xrx:key>
+                          <xrx:default>Namespace</xrx:default>
+                        </xrx:i18n>
+                        <span>: </span>
+                      </td>
+                      <td>
+                        <xf:output bind="btnamespace"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <xrx:i18n>
+                          <xrx:key>message</xrx:key>
+                          <xrx:default>Message</xrx:default>
+                        </xrx:i18n>
+                        <span>: </span>
+                      </td>
+                      <td>
+                        <xf:repeat bind="btmessage">
+                          <span>
+                            <xrx:i18n>
+                              <xrx:key>column</xrx:key>
+                              <xrx:default>Column</xrx:default>
+                            </xrx:i18n>
+                            <span> / </span>
+                            <xrx:i18n>
+                              <xrx:key>line</xrx:key>
+                              <xrx:default>Line</xrx:default>
+                            </xrx:i18n>
+                            <span>: </span>
+                          </span>
+                          <xf:output value="concat(./@column, ' / ', ./@line)"/>
+                          <xf:output class="red" ref="."/>
+                        </xf:repeat>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <hr/>            
+                <div data-demoid="83936666-cb85-45a0-84d6-3ec6e87696c2" id="deditor">
+                  <div data-demoid="f20919a9-6097-456b-a735-f146e4711939">
+                    <b>
+                      <xrx:i18n>
+                        <xrx:key>sql-script</xrx:key>
+                        <xrx:default>SQL Script</xrx:default>
+                      </xrx:i18n>
+                    </b>
+                  </div>
+                  <div data-demoid="6cbc0118-c586-46a6-92c0-4a7b1ef175fe" style="position: absolute; right: 0px;">
+                    <xf:trigger>
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>save</xrx:key>
+                          <xrx:default>Save</xrx:default>
+                        </xrx:i18n>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:dispatch name="esql-save" targetid="mimport"/>
+                      </xf:action>
+                    </xf:trigger>
+                    <div data-demoid="ad8c0bc3-5fc5-4385-997b-fe13ddb9469d" id="dsql-save-success" style="text-align:right;width:300px;position:absolute;right:0px;top:-20px;display:none;">
+                      <xrx:i18n>
+                        <xrx:key>entry-successfully-saved</xrx:key>
+                        <xrx:default>Entry successfully saved</xrx:default>
+                      </xrx:i18n>
+                    </div>
+                    <div data-demoid="e61475a5-6a05-496e-992b-42d7cd281f0f" id="dsql-save-error" style="text-align:right;width:300px;position:absolute;right:0px;top:-20px;display:none;color:red;">
+                      <xrx:i18n>
+                        <xrx:key>entry-not-saved</xrx:key>
+                        <xrx:default>Entry not saved.</xrx:default>
+                      </xrx:i18n>
+                    </div>
+                  </div>
+                  <br/>
+                  <br/>
+                  <textarea id="tsqlEditor">{ $wcharter-import:sql-script }</textarea>
+                  <script type="text/javascript">
+                    jQuery(document).ready(function(){{
+                      $('#tsqlEditor').each(function(){{
+                        var editor = CodeMirror.fromTextArea(this, {{ mode: 'text/x-sql', lineNumbers: true, lineWrapping: true }});
+                        document.sqlEditor = editor;
+                      }});
+                    }});
+                  </script>
+                  <br/>
+                  <br/>
+                  <div data-demoid="0755f6d2-e528-432a-a1c3-31f577aa9cbc">
+                    <b>
+                      <xrx:i18n>
+                        <xrx:key>xslt-script</xrx:key>
+                        <xrx:default>XSLT Script</xrx:default>
+                      </xrx:i18n>
+                    </b>
+                  </div>
+                  <div data-demoid="24178672-cb4b-4353-9f74-c18eeaef79d5" style="position: absolute; right: 0px;">
+                    <xf:trigger>
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>save</xrx:key>
+                          <xrx:default>Save</xrx:default>
+                        </xrx:i18n>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:dispatch name="exslt-save" targetid="mimport"/>
+                      </xf:action>
+                    </xf:trigger>
+                    <div data-demoid="48ea45f1-d07f-4a27-831c-4f7f572964ad" id="dxslt-save-success" style="text-align:right;width:300px;position:absolute;right:0px;top:-20px;display:none;">
+                      <xrx:i18n>
+                        <xrx:key>entry-successfully-saved</xrx:key>
+                        <xrx:default>Entry successfully saved</xrx:default>
+                      </xrx:i18n>
+                    </div>
+                    <div data-demoid="a84098d8-700b-4223-ab0e-1750008e07e8" id="dxslt-save-error" style="text-align:right;width:300px;position:absolute;right:0px;top:-20px;display:none;color:red;">
+                      <xrx:i18n>
+                        <xrx:key>entry-not-saved</xrx:key>
+                        <xrx:default>Entry not saved.</xrx:default>
+                      </xrx:i18n>
+                    </div>
+                  </div>
+                  <br/>
+                  <br/>
+                  <textarea id="txsltEditor">{ $wcharter-import:stylesheet }</textarea>
+                  <script type="text/javascript">
+                    jQuery(document).ready(function(){{
+                      $('#txsltEditor').each(function(){{
+                        var editor = CodeMirror.fromTextArea(this, {{ mode: 'text/xml', lineNumbers: true, lineWrapping: true }});
+                        document.xsltEditor = editor;
+                      }});
+                    }});
+                  </script>
+                </div>
+              </xf:case>
+              <xf:case id="cimport">
+                <h3>
+                  <span>3. </span>
+                  <xrx:i18n>
+                    <xrx:key>import</xrx:key>
+                    <xrx:default>Import</xrx:default>
+                  </xrx:i18n>
+                  <span> (</span>
+                  <span>
+                    <xrx:i18n>
+                      <xrx:key>step</xrx:key>
+                      <xrx:default>Step</xrx:default>
+                    </xrx:i18n>
+                    <span> 2 </span>
+                     <xrx:i18n>
+                       <xrx:key>of</xrx:key>
+                       <xrx:default>of</xrx:default>
+                     </xrx:i18n>
+                     <span> 3</span>
+                  </span>
+                  <span>)</span>
+                </h3>
+                <br/>
+                <br/>
+                <xf:input ref="rownum">
+                  <xf:label>
+                    <xrx:i18n>
+                      <xrx:key>start-with-row</xrx:key>
+                      <xrx:default>Start with row</xrx:default>
+                    </xrx:i18n>: 
+                  </xf:label>
+                </xf:input>
+                <xf:trigger>
+                  <xf:label>
+                    <xrx:i18n>
+                      <xrx:key>import-now</xrx:key>
+                      <xrx:default>Import now</xrx:default>
+                    </xrx:i18n>
+                    <span>!</span>
+                  </xf:label>
+                  <xf:action ev:event="DOMActivate">
+                    <xf:setvalue ref="processid" value="'pidsql-import'"/>
+                    <xf:send submission="simport"/>
+                  </xf:action>
+                </xf:trigger>
+                <br/>
+                <br/>
+                <fieldset>
+                  <legend>
+                    <xrx:i18n>
+                      <xrx:key>status</xrx:key>
+                      <xrx:default>Status</xrx:default>
+                    </xrx:i18n>
+                  </legend>
+                  <div data-demoid="20b468ab-a43c-4f05-8c39-01dad6dcea42" id="progressbar-import"><div class="progress-label" data-demoid="68b01ddc-c1b4-4684-bd5f-dc3dd0d6ee18">0%</div></div>
+                  <script type="text/javascript">
+                    jQuery(document).ready(
+                      function() {{ 
+                        $('#progressbar-import').progressbarImport({{
+                          serviceUrlImportProgress: "{ conf:param('request-root') }service/import-progress", 
+                          cacheId: "{ $wcharter-import:cacheid }", 
+                          processId: "pidsql-import"
+                        }}) 
+                    }});
+                  </script>
+                </fieldset>
+                <br/>
+                <br/>
+                <div data-demoid="6f862c0d-e063-4408-9915-b3b9177fd669">
+                  <xf:output class="icon" mediatype="image/*" ref="instance('iimport-response')//xrx:icon"/>
+                  <xf:output ref="instance('iimport-response')//xrx:message"/>
+                </div>
+                <div class="previous-next-trigger" data-demoid="9a4cfff1-c69d-494d-b6b8-b601fc26eaef">
+                  <xf:trigger>
+                    <xf:label>
+                      <xrx:i18n>
+                        <xrx:key>previous</xrx:key>
+                        <xrx:default>previous</xrx:default>
+                      </xrx:i18n>
+                    </xf:label>
+                    <xf:action ev:event="DOMActivate">
+                      <xf:dispatch name="ewizard3-2" targetid="mimport"/>
+                    </xf:action>
+                  </xf:trigger>
+                  <xrx:div>cancel-trigger-div</xrx:div>
+                </div>
+                <xf:group ref="instance('iimport-response')//@status[.='1']">
+                  <div data-demoid="3617a5ee-9adc-451d-bc75-ee9bfef7449e" id="dpreview-link">
+                    {
+                    if($wcharter-import:context = 'fond') then
+                    <a href="imported-fond">
+                      <xrx:i18n>
+                        <xrx:key>preview</xrx:key>
+                        <xrx:default>Preview</xrx:default>
+                      </xrx:i18n>
+                    </a>
+                    else
+                    <a href="imported-collection">
+                      <xrx:i18n>
+                        <xrx:key>preview</xrx:key>
+                        <xrx:default>Preview</xrx:default>
+                      </xrx:i18n>
+                    </a>
+                    }
+                  </div>
+                </xf:group>
+              </xf:case>
+            </xf:switch></div></div>
+            <xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/useful-links-sql</xrx:subwidget>
+          </xf:group>
+        </xrx:true>
+        <xrx:false>
+          <span>
+            <xrx:i18n>
+              <xrx:key>protected-page-message</xrx:key>
+              <xrx:default>Protected page. Please login first.</xrx:default>
+            </xrx:i18n>
+          </span>
+        </xrx:false>
+      </xrx:auth>
+    </div>
+  </xrx:view>
+</xrx:widget>

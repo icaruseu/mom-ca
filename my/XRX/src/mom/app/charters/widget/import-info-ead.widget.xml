@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/import-info-ead</xrx:id>
+  <xrx:inherits>tag:www.monasterium.net,2011:/mom/widget/import-charters</xrx:inherits>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:divs>
+    <xrx:div>
+      <xrx:key>recent-import-div</xrx:key>
+      <xrx:view>
+        <div data-demoid="862ccbd6-f992-4526-87c0-8f195e49550a">
+          <fieldset>
+            <legend>
+              <xrx:i18n>
+                <xrx:key>recently-imported-file</xrx:key>
+                <xrx:default>Recently imported file</xrx:default>
+              </xrx:i18n>
+            </legend>
+            <div data-demoid="60205b6e-8176-4d6c-87c1-936a169d6df3">
+              <a href="recently-imported-file" target="_blank">{ $wimport-charters:filename }</a>
+            </div>
+            <div data-demoid="229cafea-c687-4f7f-b1c5-145cbfb6f5c8" style="color:grey">
+              <span>{ $wimport-charters:time } </span>
+              <span>
+                <xrx:i18n>
+                  <xrx:key>by</xrx:key>
+                  <xrx:default>by</xrx:default>
+                </xrx:i18n>
+              </span>
+              <span> { $wimport-charters:userlabel }</span>
+            </div>
+          </fieldset>
+        </div>
+      </xrx:view>
+    </xrx:div>
+  </xrx:divs>
+  <xrx:view>
+    <table>
+      <tr>
+        <td><span class="heading">EAD</span></td>
+        <td/>
+        <td/>
+      </tr>
+      <tr>
+        <td class="icon"><xrx:resource class="icon" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/EAD</xrx:resource></td>
+        <td class="info">
+          <p><i>
+            <xrx:i18n>
+              <xrx:key>ead-import-info-1</xrx:key>
+              <xrx:default>Import Metadata according to the XML standard 'Encoded Archival Description' (EAD). 
+                MOM-CA supports a subset of EAD called 'momEAD' which contains those parts of EAD useful for 
+                charters.
+              </xrx:default>
+            </xrx:i18n>
+          </i></p>
+          <p><i>
+            <xrx:i18n>
+              <xrx:key>ead-import-info-2</xrx:key>
+              <xrx:default>The import works smoothly if your EAD document is well-formed XML and if it is valid against 
+                the momEAD Schema below.
+              </xrx:default>
+            </xrx:i18n>
+          </i></p>
+          <xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/useful-links-ead</xrx:subwidget>
+        </td>
+        <td>{ if(chimport:rinfo()/xrx:type/text() = 'EAD') then <xrx:div>recent-import-div</xrx:div> else() }</td>
+      </tr>
+      <tr>
+        <td/>
+        <td/>
+        <td class="button">
+          <a class="button">
+            { if($wimport-charters:context = 'browse') then attribute href { 'import-charters-howto?type=EAD' } else attribute href { concat($wimport-charters:jetty-base-url, 'ead-import') } }
+            <xrx:i18n>
+              <xrx:key>ead-import</xrx:key>
+              <xrx:default>EAD import</xrx:default>
+            </xrx:i18n> &gt;&gt;
+          </a>
+        </td>
+      </tr>
+    </table>
+  </xrx:view>
+</xrx:widget>

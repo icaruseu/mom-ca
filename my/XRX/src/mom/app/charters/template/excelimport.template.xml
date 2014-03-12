@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:template xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/template/excelimport</xrx:id>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:xml>
+	  <columnNames xmlns="http://exist-db.org/xquery/excel">
+	    <column id="col1">
+	      <name>Signatur</name>
+	      <altname lang="eng">signature</altname>
+	    </column>
+	    <column id="col2">
+	      <name>Bildname</name>
+        <altname lang="eng">image_names</altname>
+	    </column>
+	    <column id="col3">
+	      <name>Datierung_Text</name>
+        <altname lang="eng">date_text</altname>
+	    </column>
+	    <column id="col4">
+	      <name>Einzeldatierung</name>
+        <altname lang="eng">single_date</altname>
+	    </column>
+	    <column id="col5">
+	      <name>Jahr</name>
+        <altname lang="eng">year</altname>
+	    </column>
+	    <column id="col6">
+	      <name>Monat</name>
+        <altname lang="eng">month</altname>
+	    </column>
+	    <column id="col7">
+	      <name>Tag</name>
+        <altname lang="eng">day</altname>
+	    </column>
+	    <column id="col8">
+	      <name>Zeitraum_von</name>
+        <altname lang="eng">timerange_from</altname>
+	    </column>
+	    <column id="col9">
+	      <name>Zeitraum_bis</name>
+        <altname lang="eng">timerange_to</altname>
+	    </column>
+	    <column id="col10">
+	      <name>von_Jahr</name>
+        <altname lang="eng">from_year</altname>
+	    </column>
+	    <column id="col11">
+	      <name>von_Monat</name>
+        <altname lang="eng">from_month</altname>
+	    </column>
+	    <column id="col12">
+	      <name>von_Tag</name>
+        <altname lang="eng">from_day</altname>
+	    </column>
+	    <column id="col13">
+	      <name>bis_Jahr</name>
+        <altname lang="eng">to_year</altname>
+	    </column>
+	    <column id="col14">
+	      <name>bis_Monat</name>
+        <altname lang="eng">to_month</altname>
+	    </column>
+	    <column id="col15">
+	      <name>bis_Tag</name>
+        <altname lang="eng">to_day</altname>
+	    </column>
+	    <column id="col16">
+	      <name>Ausstellungsort</name>
+        <altname lang="eng">place_of_issuing</altname>
+	    </column>
+	    <column id="col17">
+	      <name>Regest</name>
+        <altname lang="eng">regest</altname>
+	    </column>
+	    <column id="col18">
+	      <name>Aussteller</name>
+        <altname lang="eng">issuer</altname>
+	    </column>
+	    <column id="col19">
+	      <name>Empfaenger</name>
+        <altname lang="eng">recipient</altname>
+	    </column>
+	    <column id="col20">
+	      <name>Originaldatierung</name>
+        <altname lang="eng">date_in_the_original</altname>
+	    </column>
+	    <column id="col21">
+	      <name>Siegelbeschreibung</name>
+	      <altname lang="eng">seal_description</altname>
+	    </column>
+	    <column id="col22">
+	      <name>Siegler</name>
+	      <altname lang="eng">sigillant</altname>
+	    </column>
+	    <column id="col23">
+	      <name>Notarielle_Beglaubigung</name>
+	      <altname lang="eng">notarial_authentification</altname>
+	    </column>
+	    <column id="col24">
+	      <name>Beschreibstoff</name>
+	      <altname lang="eng">support_material</altname>
+	    </column>
+	    <column id="col25">
+	      <name>Masse</name>
+	      <altname lang="eng">measures</altname>
+	    </column>
+	    <column id="col26">
+	      <name>Zustand</name>
+        <altname lang="eng">condition</altname>
+	    </column>
+	    <column id="col27">
+	      <name>Kanzleivermerke</name>
+        <altname lang="eng">chancellery_remarks</altname>
+	    </column>
+	    <column id="col28">
+	      <name>Standort</name>
+        <altname>place_of_storage</altname>
+	    </column>
+	    <column id="col29">
+	      <name>Standort_Archiv</name>
+        <altname lang="eng">place_of_storage_archive</altname>
+	    </column>
+	    <column id="col30">
+	      <name>Standort_Bestand</name>
+        <altname lang="eng">place_of_storage_fond</altname>
+	    </column>
+	    <column id="col31">
+	      <name>Standort_Signatur</name>
+        <altname lang="eng">place_of_storage_signature</altname>
+	    </column>
+	    <column id="charter-href">
+	      <name>Link_zur_Urkunde</name>
+        <altname lang="eng">link_to_charter</altname>
+	    </column> 
+	    <column id="col32">
+	      <name>Ueberlieferung</name>
+        <altname lang="eng">tradition</altname>
+	    </column>
+	    <column id="col33">
+	      <name>Original</name>
+        <altname lang="eng">original</altname>
+	    </column>
+	    <column id="col34">
+	      <name>Insert</name>
+        <altname lang="eng">insert</altname>
+	    </column>
+	    <column id="col35">
+	      <name>Weitere_Ueberlieferungen</name>
+        <altname lang="eng">other_traditions</altname>
+	    </column>
+	    <column id="col36">
+	      <name>Literatur_allgemein</name>
+        <altname lang="eng">literature_general</altname>
+	    </column>
+	    <column id="col37">
+	      <name>Editionen_Regesten</name>
+        <altname lang="eng">editions_regests</altname>
+	    </column>
+	    <column id="col38">
+	      <name>Editionen</name>
+        <altname lang="eng">editions</altname>
+	    </column>
+	    <column id="col39">
+	      <name>Regesten</name>
+        <altname lang="eng">regests</altname>
+	    </column>
+	    <column id="col40">
+	      <name>Sekundaerliteratur</name>
+        <altname lang="eng">literature</altname>
+	    </column>
+	    <column id="col41">
+	      <name>Abbildungen</name>
+        <altname lang="eng">depictions</altname>
+	    </column>
+	    <column id="col42">
+	      <name>diplomatischer_Kommentar</name>
+        <altname lang="eng">comments</altname>
+	    </column>
+	    <column id="col43">
+	      <name>Quelle_Regest</name>
+        <altname lang="eng">source_regest</altname>
+	    </column>
+	    <column id="col44">
+	      <name>Quelle_Volltext</name>
+        <altname lang="eng">source_transcription</altname>
+	    </column>
+	    <column id="col45">
+	      <name>Zeugen</name>
+        <altname lang="eng">witnesses</altname>
+	    </column>
+	    <column id="col46">
+	      <name>interneID</name>
+        <altname lang="eng">internalID</altname>
+	    </column>
+	    <column id="col47">
+	      <name>Alte_Signatur</name>
+        <altname lang="eng">old_signature</altname>
+	    </column>
+	    <column id="col48">
+	      <name>Sprache</name>
+        <altname lang="eng">language</altname>
+	    </column>
+	    <column id="col49">
+	      <name>Transkription</name>
+        <altname lang="eng">transcription</altname>
+	    </column>
+	    <column id="col50">
+	      <name>Fussnoten</name>
+        <altname lang="eng">footnotes</altname>
+	    </column>
+	    <column id="col51">
+	      <name>Ortsindex</name>
+        <altname lang="eng">placenames_index</altname>
+	    </column>
+	    <column id="col52">
+	      <name>Personenindex</name>
+        <altname lang="eng">personnames_index</altname>
+	    </column>
+	    <column id="col53">
+	      <name>Sachindex</name>
+        <altname lang="eng">general_index</altname>
+	    </column>
+	  </columnNames>
+	</xrx:xml>
+</xrx:template>

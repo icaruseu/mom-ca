@@ -1,0 +1,9 @@
+WITH SelectedDocs AS
+(
+    SELECT dnum, doc,
+    ROW_NUMBER() OVER (ORDER BY dnum) AS RowNumber
+    FROM [src].[dbo].[src_doc]
+)
+SELECT dnum, doc, RowNumber 
+FROM SelectedDocs
+WHERE RowNumber = %i%;

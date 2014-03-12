@@ -1,0 +1,213 @@
+<xrx:css xmlns:xrx="http://www.monasterium.net/NS/xrx" 
+  xmlns="http://www.w3.org/1999/xhtml">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/css/my-collections</xrx:id>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:style>
+
+body {{
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  font-family:"Trebuchet MS", regular, sans-serif;
+}}
+#momlogo {{
+  position:absolute;
+  right:40px;
+  top:0px;
+}}
+#dmy-collection {{
+  position:relative;
+  float:left;
+  overflow-x:hidden;
+  width:100%;
+  height:100%;
+}}
+#dmy-collection-header {{
+  position: relative;
+  float: left;
+  width: 100%;
+  height: 60px;
+  margin: 10px;
+}}
+#autoSaveStatus {{
+  color: #F39814;
+  position: absolute;
+  top: 45px;
+  left: 10px;
+}}
+#dmy-collection-header h2 {{
+  font-weight: bold;
+  font-size: 30px;
+  margin: 10px;
+  padding: 0px;
+}}
+#dmy-collection-toolbar {{
+  position:relative;
+  float:left;
+  display:block;
+  width:100%;
+  background:rgb(240,240,240);
+  //rgba(50, 50, 50, .05);
+  border-bottom:solid rgb(200,200,200) 1px;
+  border-top:solid rgb(200,200,200) 1px;
+}}
+/*
+* Login
+*/
+#dlogin {{
+  position: relative;
+  float: left;
+  margin: 20px;
+}}
+/*
+* Forms Mixed Content Elements
+*/
+.xrx-elements {{
+  position:absolute;
+  right:0px;
+  padding-right:7px;
+}}
+.xrx-elements .ui-corner-all {{ 
+  border:solid grey 1px;
+}}
+.xrx-elements .ui-menu-item, .xrx-elements .forms-mixedcontent-elements-menu-button {{
+  font-size:14px;
+  margin:0;
+  font-family: Courier, monospace;
+  color:black;
+}}
+.xrx-elements .forms-mixedcontent-elements-menu-button {{
+  border:solid grey 1px;
+  align:right;
+}}
+.xrx-elements .ui-menu {{
+  width:200px; 
+  position:absolute;
+  z-index:9999;
+  background:white;
+  opacity:1;
+}}
+.xrx-elements .forms-mixedcontent-elements-menu-wrapper {{
+  position:relative;
+  float:left;
+}}
+
+/*
+* Forms Mixed Content Attributes
+*/
+.xrx-attributes {{
+  position:relative;
+  float:left;
+  width:100%;
+}}
+.forms-mixedcontent-attributes-tagname {{
+  font-weight:bold;
+  font-size:1.5em;
+  margin-bottom:5px;
+}}
+.forms-mixedcontent-attributes-error {{
+  color:red;
+}}
+.forms-mixedcontent-suggested-attributes {{
+  position:relative;
+  float:left;
+  width:100%;
+}}
+.forms-mixedcontent-suggested-attribute {{
+  position:relative;
+  float:left;
+  width:90%;
+  border:dashed rgb(200,200,200) 1px;
+  background:rgb(230,230,230);
+  margin:1px;
+  padding:3px;
+  cursor:move;
+}}
+.forms-mixedcontent-edit-attributes {{
+  position:relative;
+  float:left;
+  width:100%;
+}}
+.forms-mixedcontent-attribute-droppable {{
+  position: relative;
+  float: left;
+  width: 90%;
+  border: dashed grey 1px;
+  margin: 1px;
+  padding: 3px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}}
+.suggested-attribute-draggable-disabled {{
+  color: white;
+  font-weight: bold;
+  background: rgb(240,240,240);
+  border: solid white 1px;
+}}
+.edit-attributes-droppable-active {{
+  border: dashed #F39814 1px;
+}}
+.ui-draggable-dragging {{
+  background: #FECA40;
+  color: white;
+}}
+
+/*
+* Forms Mixed Content Tagname
+*/
+.xrx-tagname {{
+  padding-left:7px;
+  font-weight:bold;
+  font-size:1.6em;
+}}
+
+/*
+* Forms Message
+*/
+.xrx-message {{
+  position:fixed;
+  top:0px;
+  left:-200px;
+  min-width:180px;
+  margin-left:50%;
+  z-index:9999;
+  padding:10px;
+}}
+
+/*
+* Forms Table Layout
+*/
+.forms-table {{
+  display:table;
+}}
+.forms-table-row {{
+  display:table-row;
+}}
+.forms-table-cell {{
+  display:table-cell;
+}}
+  </xrx:style>
+</xrx:css>

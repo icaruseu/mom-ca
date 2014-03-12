@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:cei="http://www.monasterium.net/NS/cei" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:xrxe="http://www.monasterium.net/NS/xrxe">
+    <xrx:id>tag:www.monasterium.net,2011:/mom/widget/edit-charter</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key>edit-charter</xrx:key>
+            <xrx:default>Edit charter</xrx:default>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:subtitle/>
+    <xrx:description/>
+	<!--xrx:uses type="widget">tag:www.monasterium.net,2011:/mom/widget/charter-editor</xrx:uses-->
+    <xrx:author>daniel.ebner@uni-koeln.de</xrx:author>
+    <xrx:licence>
+		This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+		
+		As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+		
+		This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+		
+		The VdU/VRET is free software: you can redistribute it and/or modify
+		it under the terms of the GNU General Public License as published by
+		the Free Software Foundation, either version 3 of the License, or
+		(at your option) any later version.
+		
+		VdU/VRET is distributed in the hope that it will be useful,
+		but WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+		GNU General Public License for more details.
+		
+		You should have received a copy of the GNU General Public License
+		along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+		
+		We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+	</xrx:licence>
+    <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/editor</xrx:portal>
+    <xrx:init>
+        <xrx:processor>
+            <xrx:xformsflag>true</xrx:xformsflag>
+            <xrx:jqueryflag>true</xrx:jqueryflag>
+        </xrx:processor>
+    </xrx:init>
+    <xrx:csss>
+        <xrx:css>tag:www.monasterium.net,2011:/mom/css/xrxe</xrx:css>
+        <xrx:css>tag:www.monasterium.net,2011:/mom/css/text-annotation</xrx:css>
+				<link href="{ conf:param('request-root') }jquery/themes/base/jquery.ui.all.css" rel="stylesheet"/>
+        <style type="text/css">
+				
+				.my-functions {{
+				  //position:relative;
+				  float:none;
+				  margin-bottom:50px;
+				}}
+				
+				.my-functions span {{
+				  color:{conf:param('color6')};
+				}}			
+				
+				
+				div.inlinehead{{
+				  position:relative;
+				  float:left;
+				  font-weight:bold;
+				  width:950px;
+				  
+				  background-color:{conf:param('color1')};
+				  
+				  color:rgb(142,163,132);
+				  margin: 0px;
+				  margin-left: 5px;
+				  margin-top: 5px;
+				  line-height:200%;
+				}}
+				
+				
+				
+
+
+				
+				
+				
+				
+
+				
+				/* IMAGES */
+				#change-image-links{{
+				  float:right;
+				}}
+				
+				#change-image-links a, {{
+				  float:left;
+				}}
+				
+				#viewport{{
+				  position:relative;
+				  float:left;
+				  width:950px;
+				  height:300px;
+				  overflow:auto;
+				  
+				  margin-top:0px;
+				  margin-left:5px;
+				  margin-right:5px;
+				  margin-bottom:0px;
+				  padding:0;
+				  border:solid rgb(240,243,226) 1px;
+				}}
+				
+				#img{{
+				  position:absolute;
+				  width:950px;
+				  z-index:0;
+				  margin:0px;
+				  padding:0px;
+				}}
+				#graphic{{
+				  width:100%;
+				}}
+				
+				div.no-graphic{{
+				  position:relative;
+				  float:right;
+				  right:20px;
+				  top:10px;
+				  color:rgb(142,163,132);
+				  font-weight:bold;
+				  bottom:50%;
+				  z-index:2;
+				}}
+				.open-viewer-link{{
+				  float:right;
+				}}
+				#zoomsliderlabel{{
+				  position:relative;
+				  float:left;
+				  margin:10px;
+				}}
+				#zoomslider{{
+				  position:relative;
+				  float:left;
+				  margin:10px;
+				  width:50%;
+				}}
+				.slider{{
+				  float:left;
+				}}
+				
+			</style>
+    </xrx:csss>
+    <xrx:jss>
+	    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+	    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
+	    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+	    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+	    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
+	    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/slider</xrx:resource>
+    </xrx:jss>
+    <xrx:view>
+        <div data-demoid="07ed1069-ea47-42b3-ac3c-d717877363b8" id="edit-charter">
+            <xrx:auth>
+                <xrx:rules>
+                    <xrx:rule>
+                        <xrx:user/>
+                        <xrx:dbgroup>atom</xrx:dbgroup>
+                    </xrx:rule>
+                </xrx:rules>
+                <xrx:true>
+                    <div class="InlineRoundBordersAlert" data-demoid="55424f4a-34d8-4849-87dd-7f25cb7812c2">
+			  {
+			  
+			  	
+			  	
+			  
+			    (: metadata base collection for archival collections :)
+			    let $metadata-collection-base-collection := metadata:base-collection('collection', 'public')			
+			
+			    (: get atom ID :)
+			    let $atom-id := 
+			       url:atom-id-from-url(conf:param('atom-tag-name'), $charter:ratomid)
+			       
+			    let $saved-by-user :=  $xrx:user-xml//xrx:saved[xrx:freigabe='no']/xrx:id[./text()=$atom-id]/text()
+			    
+			    (:let $is-moderator := for $moderators-user in $user:db-base-collection//xrx:moderator[.=$xrx:user-id]
+						      return 
+						      root($moderators-user)//xrx:saved[xrx:freigabe='yes']/xrx:id,
+						      $user:db-base-collection//xrx:email[.=$xrx:user-id]//xrx:saved[xrx:freigabe='yes']/xrx:id :)
+			    
+			    let $archive-id := charter:archid($atom-id, conf:param('atom-tag-name'))	
+			    let $fond-id := charter:fondid($atom-id, conf:param('atom-tag-name'))
+			    let $collection-id := charter:collectionid($atom-id, conf:param('atom-tag-name'))
+			    let $charter-id := charter:charterid($atom-id, conf:param('atom-tag-name'))
+			    
+			    (: get charter context: collection or fond? :)
+			    let $charter-context := 
+			    let $probably-collection-id := $collection-id
+			    let $probably-collection-atom-id := concat(conf:param('atom-tag-name'), '/collection/', $probably-collection-id)
+			    return
+			    if(exists($metadata-collection-base-collection//atom:id[.=$probably-collection-atom-id])) then 'collection' else 'fond'			       
+			      
+			    (: init metadata database collections :)
+			    let $tokens := tokenize(substring-after($atom-id, conf:param('atom-tag-name')), '/')
+			    
+			    let $metadata-charter-collection := 
+			     if($charter-context = 'fond') then
+			       metadata:base-collection('charter', ($tokens[last() - 2],$tokens[last() - 1]), 'public')
+			     else
+			       metadata:base-collection('charter', $tokens[last() - 1], 'public')
+			    let $metadata-fond-collection :=
+			      if($xrx:tokenized-uri[last()] = 'charter') then
+			        metadata:base-collection('fond', ($charter:rarchiveid, $charter:rfondid), 'public')
+			      else
+			        metadata:base-collection('fond', ($tokens[last() - 2], $tokens[last() - 1]), 'public')
+			    let $metadata-archive-collection :=
+			        metadata:base-collection('archive', $tokens[last() - 2], 'public')
+			    let $metadata-collection-collection := 
+			        metadata:base-collection('collection', $tokens[last() - 1], 'public')
+			    (: published charter :)
+			    let $charter-help := root($metadata-charter-collection//atom:id[.=$atom-id])//cei:text
+			    let $published-charter :=
+			      $charter-help
+			    
+			    (: saved charter :)
+			    let $saved-charter :=
+			      root(metadata:base-collection('charter', 'saved')//atom:id[.=$atom-id])//cei:text
+			    (:
+			       now we know which charter we want
+			    :)
+			    let $charter := $saved-charter
+			    
+			    (: charter infos :)
+			    let $idno := $published-charter//cei:body/cei:idno/text()
+			    let $link-to-charter-in-archive := data($charter//cei:archIdentifier/cei:ref/@target)
+			
+			    (: get number of charters in a collection or number of saved or released charters :)
+			    let $charters := charter:get-charter-list($metadata-charter-collection, $xrx:tokenized-uri[last()], $xrx:user-xml)
+			
+			    (: count charters :)
+			    let $count := count($charters)
+			
+			    (: get charter IDs for next / previous navigation :)
+			    let $next-and-previous := charter:next-and-previous($charters, $published-charter, $count, $atom-id, $xrx:tokenized-uri[last()])
+			
+			    (: actual position inside the charter list in the fond or in saved or released charter list:)
+			    let $pos := charter:position($charters, $published-charter, $xrx:user-xml, $atom-id, $xrx:tokenized-uri[last()])
+			
+
+			   
+				(: get fond or collection information :)
+			    let $meta := 
+			       if($charter-context = 'fond') then $metadata-fond-collection//ead:ead//ead:c[@level='fonds']/ead:did
+			       else $metadata-collection-collection//cei:cei
+			    
+			    let $image-base-uri := 
+			       if($charter-context = 'fond') then concat($metadata-fond-collection/xrx:preferences/xrx:param[@name='image-server-base-url']/text(), '/') else concat('http://',$meta//cei:image_server_address/text(),'/',$meta//cei:image_server_folder/text(),'/')
+			    
+			    let $fond :=
+			       if($charter-context = 'fond') then $meta//ead:unittitle/text() else $meta//cei:provenance/text()
+			      
+			    (: how shall we handle this in EAD? :)
+			    let $image-access-forbidden-flag :=
+			        if($meta//cei:availability[@n='GRAPHICS']/@status = 'restricted') then true()
+			        else false()
+			    
+			    let $alternative-graphic-url := $meta//cei:availability[@n='GRAPHICS']/cei:p//cei:graphic/@url/string()
+			    
+			   	    
+
+			
+			    (: get archive information :)
+			    let $archive := $metadata-archive-collection//eag:autform/text()  		    
+			    
+			    
+			   
+			    
+			    
+			    
+			    
+			   
+			    
+			   let $labw-url := 
+            		$charter//ead:daogrp/ead:daoloc[@xlink:role='image']/@xlink:href[data(.)!='']
+		       let $labw-link := 
+		            $charter//ead:daogrp/ead:daoloc[@xlink:role='image_viewer']/@xlink:href[data(.)!='']
+		       let $img-urls :=
+			        for $url in $published-charter//cei:graphic/@url/string()
+			        order by $url
+			        return
+			        if(contains($url, '/')) then $url
+			        else concat($image-base-uri, xmldb:encode($url))
+			    
+			    let $entry := root($charter)/atom:entry
+			    
+			    let $atom-url :=
+			      if($xrx:tokenized-uri[last()] = 'revise-charter') then 
+			      	concat(conf:param('request-root'), 'atom/CONTRIBUTE', metadata:feed('charter', (), 'saved'), '/', util:document-name($saved-charter))
+			      else 
+			      	concat(conf:param('request-root'), 'atom/POST', metadata:feed('charter', (), 'saved'), '/',util:document-name($saved-charter))
+			    
+			     let $archive-atomid := 
+        				metadata:atomid($archive:metadata-object-type, $archive-id)
+			    
+    
+			   
+						  		
+				let $header := <div class="h2" data-demoid="744725c2-1aa3-43b6-b75c-a0061f7b6c1b">
+                            <xrx:i18n>
+                                <xrx:key>edit-charter</xrx:key>
+                                <xrx:default>Edit Charter</xrx:default>
+                            </xrx:i18n>
+                        </div>
+								
+				let $breadcrumbs := <div data-demoid="a4afb48c-92b0-49ff-a3c7-deb6a3800658" id="breadcrumbb">
+				   					{
+						   				if($charter-context = 'fond') then
+					                    <span>
+                                <a href="{ conf:param('request-root') }fonds">
+                                    <xrx:i18n>
+                                        <xrx:key>fonds</xrx:key>
+                                        <xrx:default>Fonds</xrx:default>
+                                    </xrx:i18n>
+                                </a>
+                                <span> &gt; </span>
+                                <a href="{ concat(conf:param('request-root'), $archive-id, '/archive') }">{ $archive-id }</a>
+                                <span> &gt; </span>
+                                <a href="{ concat(conf:param('request-root'), $archive-id, '/', $fond-id, '/fond') }">{ $fond-id }</a>
+                                <span> &gt; </span>
+                                <a href="{ concat(conf:param('request-root'), $archive-id, '/', $fond-id, '/', $charter-id,  '/charter') }">{ $charter-id }</a>
+                            </span>
+					                    else
+										<span>
+                                <a href="{ conf:param('request-root') }collections">
+                                    <xrx:i18n>
+                                        <xrx:key>collections</xrx:key>
+                                        <xrx:default>Collections</xrx:default>
+                                    </xrx:i18n>
+                                </a>
+                                <span> &gt; </span>
+                                <a href="{ concat(conf:param('request-root'), $collection-id, '/collection') }">{ $collection-id }</a>
+                                <span> &gt; </span>
+                                <a href="{ concat(conf:param('request-root'), $archive-id, '/', $fond-id, '/', $charter-id,  '/charter') }">{ $charter-id }</a>
+                            </span>
+				                    }   
+						      		</div>
+    
+			    
+									
+			(:still used as hack to prevent layout problems:)
+			let $mode := 
+            <div class="my-functions" data-demoid="c174466f-a7e7-4399-913f-336c220f54bf">
+                            <div data-demoid="2f709d75-3cbe-41f3-a15f-8cda074743b2" style="color:white;">
+            		br
+             	</div>
+                        </div> 
+				      	 
+			let $image-header := <div class="inlinehead" data-demoid="6eb2c413-07bb-4cdd-8f97-33a06b6b235f">
+                            <div data-demoid="f129b56f-26f0-40fc-a4a1-85c3a5ff804a">
+                                <div data-demoid="afbae3df-224d-49dc-a853-3e4424a6b68c" style="float:left;margin:5px;">
+                                    <a href="javascript:showHideDiv('viewerdiv','')">
+                                        <xrx:i18n>
+                                            <xrx:key>graphics</xrx:key>
+                                            <xrx:default>Graphics</xrx:default>
+                                        </xrx:i18n>
+                                        <span>:</span>
+                                    </a>
+                                </div>
+                                <span> </span>
+                                <div data-demoid="9f37cc3f-eb69-4258-b3a0-5f82a7a66c02" id="change-image-links">
+							            {
+							            for $img-url at $num in $img-urls
+							            return
+							            <a href="javascript:changeImage('{ $img-url }')">{ $num }<span> </span>
+                                    </a>
+							            }
+							          </div>
+                            </div>
+                        </div>
+			
+			let $viewport :=  <div data-demoid="22e0415c-85e4-40af-93a9-d2205655e061" id="viewport">
+								
+						        {
+						        if(count($img-urls) gt 0) then
+						        if($charter-context='collection') then
+										<a href="{ $img-urls[1] }" hrref="/augias/viewer.xql?lang={ $xrx:lang }&amp;imagedata=/mom/service/augiasviewer&amp;collection-id={ $charter:rcollectionid }&amp;charter-id={ $charter:rcharterid }" id="img-link" target="_blank">
+                                <img id="img" name="image" src="{ $img-urls[1] }" title="{ $img-urls[1] }"/>
+                            </a>
+						        else
+						        <a href="{ $img-urls[1] }" hrref="/augias/viewer.xql?lang={ $xrx:lang }&amp;imagedata=/mom/service/augiasviewer&amp;archive-id={ $charter:rarchiveid }&amp;fond-id={ $charter:rfondid }&amp;charter-id={ $charter:rcharterid }" id="img-link" target="_blank">
+                                <img id="img" name="image" src="{ $img-urls[1] }" title="{ $img-urls[1] }"/>
+                            </a>
+						        else
+						        <div class="no-graphic" data-demoid="53a96217-779c-4742-9468-94a560550aa2">
+                                <xrx:i18n>
+                                    <xrx:key>no-graphic-available</xrx:key>
+                                    <xrx:default>no graphic available</xrx:default>
+                                </xrx:i18n>
+                            </div>
+						        }
+						      </div>
+						      
+			let $zoom-slider := (
+								  <div data-demoid="48476adc-d1b4-42f3-9de4-c76342f8fec5" id="zoomsliderlabel">
+                            <xrx:i18n>
+                                <xrx:key>zoom-image</xrx:key>
+                                <xrx:default>Zoom image</xrx:default>
+                            </xrx:i18n>
+                            <span>:</span>
+                        </div>
+							      ,
+							      <div data-demoid="a6695db4-a26a-4b17-b363-b41667bafe8e" id="zoomslider"/>
+							      )
+							      
+			let $images := (
+							$image-header,
+							$viewport,
+							$zoom-slider
+							)   
+							
+			
+			(:not used when embedding editor:)
+				let $server := replace(replace(request:get-url(), conf:param('request-root'), ''), 'edit-charter', '') 
+			
+			
+			let $xrxe-editor-embed := 
+						(
+                    	<xf:model id="embedded-charter-editor-model">
+                    		<xf:action ev:event="xforms-ready">
+                    			<xf:load resource="{conf:param('request-root')}embeddedwidget/charter-editor?id={$atom-id}&amp;atom={$xrx:tokenized-uri[last()]}" show="embed" targetid="editor-div"/>
+                    		</xf:action>
+                    	</xf:model> 
+                    	, 
+                    	<div data-demoid="08edc993-b310-4139-ae98-0c1510ecb7c7" id="editor-div">
+                            <div align="center" data-demoid="6335c75a-666a-4c71-ab8d-19a9b6bb8c24">
+                                <xrx:i18n>
+                                    <xrx:key>editor-is-loading</xrx:key>
+                                    <xrx:default>The Editor is loading. Please wait a moment!</xrx:default>
+                                </xrx:i18n>
+                                <br/>
+                                <img src="/bfResources/images/indicator.gif" style="margin-top:10px;"/>
+                            </div>
+                        </div>	
+                    	)
+						
+    
+				        let $is-moderator := auth:matches(<xrx:rule>
+                            <xrx:user/>
+                            <xrx:role>moderator</xrx:role>
+                        </xrx:rule>)
+                    	
+                    	
+                    	
+                    	
+
+
+
+
+    	
+					    return
+					    	if($saved-by-user or ($xrx:tokenized-uri[last()] = 'revise-charter' and $is-moderator)) then
+							(
+							$header
+							,
+							$breadcrumbs
+					      	,		
+					      	$images
+					      	,
+							$xrxe-editor-embed 
+							)
+							else
+							 <div data-demoid="e10edc28-fbf5-41d5-a655-0a27de0b2bc7">
+                            <div class="h2" data-demoid="7db0b641-036f-430f-9550-f6a197c59346">
+                                <xrx:i18n>
+                                    <xrx:key>edit-charter</xrx:key>
+                                    <xrx:default>Edit Charter</xrx:default>
+                                </xrx:i18n>
+                            </div>
+                            <xrx:i18n>
+                                <xrx:key>protected-page-message-not-saved</xrx:key>
+                                <xrx:default>Protected page. You haven't saved this charter</xrx:default>
+                            </xrx:i18n>
+                        </div>
+				         	 
+				         	 
+						  }
+
+					</div>
+                </xrx:true>
+                <xrx:false>
+                    <div data-demoid="ba9af395-ebf1-44b0-8b92-f773d363159d">
+                        <div class="h2" data-demoid="0717ce17-e9d0-4d52-81e6-32e06fc1a4de">
+                            <xrx:i18n>
+                                <xrx:key>edit-charter</xrx:key>
+                                <xrx:default>Edit Charter</xrx:default>
+                            </xrx:i18n>
+                        </div>
+                        <xrx:i18n>
+                            <xrx:key>protected-page-message</xrx:key>
+                            <xrx:default>Protected page. Please login first.</xrx:default>
+                        </xrx:i18n>
+                    </div>
+                </xrx:false>
+            </xrx:auth>
+        <script type="text/javascript">
+        $(document).ready(function() {{
+          $( "#zoomslider" ).slider({{ 
+            value:100, 
+            min: 100, 
+            max: 500, 
+            step: 10, 
+            slide: function( event, ui ) {{ 
+              $( "#img" ).css( "width", ui.value + "%" ); 
+            }} 
+          }}); 
+        }})
+        </script>
+        </div>
+    </xrx:view>
+</xrx:widget>

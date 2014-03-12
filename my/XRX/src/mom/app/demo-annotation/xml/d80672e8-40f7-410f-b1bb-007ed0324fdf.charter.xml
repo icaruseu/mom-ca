@@ -1,0 +1,115 @@
+<atom:entry xmlns:atom="http://www.w3.org/2005/Atom">
+  <atom:id>tag:www.monasterium.net,2011:/demo-charter/d80672e8-40f7-410f-b1bb-007ed0324fdf</atom:id>
+  <atom:title/>
+  <atom:published>2013-11-18T09:14:27.765+01:00</atom:published>
+  <atom:updated>2013-11-18T10:09:05.27+01:00</atom:updated>
+  <atom:author>
+    <atom:email>andre.streicher@uni-koeln.de</atom:email>
+  </atom:author>
+  <app:control xmlns:app="http://www.w3.org/2007/app">
+    <app:draft>no</app:draft>
+  </app:control>
+  <atom:content type="application/xml" src="tag:www.monasterium.net,2011:/charter/DE-AKR/Urkunden/12460517">
+    <cei:text xmlns:cei="http://www.monasterium.net/NS/cei" type="charter">
+      <cei:front>
+        <cei:sourceDesc>
+          <cei:sourceDescVolltext>
+            <cei:bibl>König, Stefan, Die älteren Urkunden des Katharinenspitals in Regensburg (2003), Nr. 40, S. 156 - 157.</cei:bibl>
+          </cei:sourceDescVolltext>
+          <cei:sourceDescRegest>
+            <cei:bibl>König, Stefan, Die älteren Urkunden des Katharinenspitals in Regensburg (2003), Nr. 40, S. 154.</cei:bibl>
+          </cei:sourceDescRegest>
+        </cei:sourceDesc>
+      </cei:front>
+      <cei:body>
+        <cei:idno id="d80672e8-40f7-410f-b1bb-007ed0324fdf">12460517</cei:idno>
+        <cei:chDesc>
+          <cei:abstract>Papst Innozenz IV. fordert die Gläubigen der Städte und Diözesen Regensburg, Salzburg und Freising zu Spenden für das St. Katharinenspital und die Weihe der neu errichteten Katharinenkapelle auf und gewährt allen, die das Spital an Kirchweih oder in den folgenden acht Tagen besuchen, einen Ablass von 20 Tagen an den ihnen auferlegten Sündenstrafen.</cei:abstract>
+          <cei:issued>
+            <cei:placeName lang="Latein" reg="Lyon (Frankreich)" type="Stadt">Lugdunum</cei:placeName>
+            <cei:dateRange from="12460517" to="12460517">1246 Mai 17</cei:dateRange>
+          </cei:issued>
+          <cei:witnessOrig>
+            <cei:traditioForm/>
+            <cei:figure>
+              <cei:graphic url="http://lehre.hki.uni-koeln.de/monasterium/pics/DE-AKR/Katharinenspital/SpAR-Regensburg_12460517_r.jpg"></cei:graphic>
+            </cei:figure>
+            <cei:figure>
+              <cei:graphic url="http://lehre.hki.uni-koeln.de/monasterium/pics/DE-AKR/Katharinenspital/SpAR-Regensburg_12460517_v.jpg"></cei:graphic>
+            </cei:figure>
+            <cei:archIdentifier/>
+            <cei:physicalDesc>
+              <cei:material>Pergament</cei:material>
+              <cei:dimensions>br. : h. 29,5 cm : 31,0 cm</cei:dimensions>
+              <cei:condition>Mäusefraß, Wasserflecken</cei:condition>
+            </cei:physicalDesc>
+            <cei:auth>
+              <cei:notariusDesc>Spitalarchiv Regensburg</cei:notariusDesc>
+              <cei:sealDesc>A+S: Papst Innozenz IV. (Bullenstempel 1) — Siegelaufschrift: INNOCENTIVS.PP.IIII (Rückseite) — Siegelbild: Köpfe der Apostel Petrus und Paulus zu Seiten eines Kreuzes, eingefasst mit einer punktierten Linie, darüber die Aufschrift: SPASPE (Vorderseite). — D: 3,8 cm.</cei:sealDesc>
+            </cei:auth>
+            <cei:nota/>
+          </cei:witnessOrig>
+          <cei:witListPar>
+            <cei:witness>
+              <cei:traditioForm/>
+              <cei:figure/>
+              <cei:archIdentifier/>
+              <cei:physicalDesc>
+                <cei:material/>
+                <cei:dimensions/>
+                <cei:condition/>
+              </cei:physicalDesc>
+              <cei:auth>
+                <cei:sealDesc/>
+                <cei:notariusDesc/>
+              </cei:auth>
+              <cei:nota/>
+            </cei:witness>
+          </cei:witListPar>
+          <cei:diplomaticAnalysis>
+            <cei:listBibl>
+              <cei:bibl/>
+            </cei:listBibl>
+            <cei:listBiblEdition>
+              <cei:bibl>König, Stefan, Die älteren Urkunden des St. Katharinenspitals in Regensburg (2003), Nr. 40, S. 154 - 157.</cei:bibl>
+            </cei:listBiblEdition>
+            <cei:listBiblRegest>
+              <cei:bibl>    Gemeiner, Carl Theodor, Winke aus der Geschichte des S. Catharinenspitals (1821/1822), Nr. 23, S. 316.</cei:bibl>
+              <cei:bibl>Repertorium SpAR (1899), S. 3-4.</cei:bibl>
+              <cei:bibl>Goetz, Johann Bapist, Verzeichnis 1 (1867), Nr. 5.</cei:bibl>
+            </cei:listBiblRegest>
+            <cei:listBiblFaksimile>
+              <cei:bibl>König, Stefan, Die älteren Urkunden des St. Katharinenspitals in Regensburg (2003), Tafel 41.</cei:bibl>
+            </cei:listBiblFaksimile>
+            <cei:listBiblErw>
+              <cei:bibl/>
+            </cei:listBiblErw>
+            <cei:p/>
+            <cei:quoteOriginaldatierung/>
+            <cei:nota/>
+          </cei:diplomaticAnalysis>
+          <cei:lang_MOM>Latein</cei:lang_MOM>
+        </cei:chDesc>
+        <cei:tenor>Innocentius episcopus servus servorum dei universis Christi fidelibus per Ratisponen(sem), Salzeburgen(sem) et Frisingen(sem) civitates et dioceses consti- :│<cei:damage agent="Mäusefraß">tutis</cei:damage> a) salutem <cei:damage agent="Wasserfleck"
+            >et</cei:damage> b) apostolicam benedictionem. Quoniam, ut ait apostulus, omnes stabimus ante tribunal Christi 1) recepturi prout in corpore gessimus sive bonum 1) Quoniam, ut ait apostulus, omnes stabimus ante tribunal Christi 1) recepturi, prout in corpore gessimus, sive bonum 1) <cei:damage
+            agent="Mäusefraß"
+            >fuerit</cei:damage> c) sive malum,1) oportet nos diem messionis extre<cei:damage>me</cei:damage> d) misericordie operibus prevenire ac eternorum intuitu seminare in terris, quod redden<cei:damage>te domino</cei:damage> e) cum multiplicato fructu recolligere debeamus in celis firmam spem fiduciamque tenentes, quoniam, qui parce seminat, parce et metet et, qui seminat in benedictionibus, de benedictionibus et metet 2) vitam eternam. Cum igitur, sicut accepimus, in hospitali sancte Caterine de ponte Ratisponen(si) ducenti et quinquaginta numero claudi, debiles et cuiuslibet fere miserie pauperes commorentur et dilecti filii, . . magister et fratres hospitalis eiusdem, talium obsequiis intendentes facultates non habeant, unde ipsis valeant necessaria ministrare, ac capellam inibi de novo constructam in honore ipsius sancte intendant facere dedicari, universitatem vestram rogamus, monemus et hortamur in domino in remissionem vobis peccaminum iniungentes, quatinus de bonis a deo vobis collatis pias elemosinas et grata eis caritatis subsidia erogetis, ut per subventionem vestram ipsorum <cei:damage
+            agent="Mäusefraß">inop</cei:damage>ie f) consulatur et vos per hec et alia bona, que domino inspirante feceritis, ad eterne possitis felicitatis gaudia pervenire. Nos enim de <cei:damage agent="Mäusefraß"
+          >omni</cei:damage>potentis g) dei misericordia et beatorum Petri et Pauli apostolorum eius ac ea, quam dominus nobis concessit, auctoritate confisi omnibus vere penitentibus et confessis benefacientibus hospitali
+predicto illudque in anniversario die consecrationis capelle usque ad octo sequentes devote ac venerabiliter visitantibus viginti dies de iniuncta sibi penitentia misericorditer relaxamus. Datum Lugdun(um) XVI. kalendas Iunii, pontificatus nostri anno tertio.</cei:tenor>
+      </cei:body>
+      <cei:back>
+        <cei:persName lang="Latein" reg="Innozenz IV., Papst (1243 - 1254)">Innocentius episcopus servus servorum dei</cei:persName>
+        <cei:placeName existent="ja" lang="Latein" reg="Regensburg (Deutschland, Bayern)" type="Stadt">Ratispona</cei:placeName>
+        <cei:placeName existent="ja" lang="Latein" reg="Freising (Deutschland, Bayern)" type="Stadt">Frisinga</cei:placeName>
+        <cei:placeName existent="ja" lang="Latein" reg="Lyon (Frankreich)" type="Stadt ">Lugdunum</cei:placeName>
+        <cei:placeName existent="ja" lang="Latein" reg="St. Katharinenspital (Deutschland, Bayern, Regensburg)" type="Spital">hospitale sancte Catarine</cei:placeName>
+        <cei:placeName existent="ja" lang="Deutsch" reg="Salzburg (Österreich,Salzburg)" type="Stadt">Salzeburg</cei:placeName>
+        <cei:index/>
+        <cei:divNotes>
+          <cei:note>a) Urkunde am linken Rand durch Mäusefraß teilweise beschädigt. Text erschlossen. b) Durch Wassereinwirkung unleserlich. Text erschlossen. c) Wie Anm. a d) Die letzten beiden Buchstaben wurden vom Schreiber nicht ausgeführt. e) Wie Anm. a. f) Wie Anm. a. g) Wie Anm. a. 1) Vgl. 2. Cor. 5, 10: „omnes enim nos manifestari oportet ante tribunal Christi ut referat unusquisque propria corporis prout gessit sive bonum sive malum.“ 2) Vgl. 2. Cor. 9, 6: „hoc autem qui parce seminat parce et metet et qui seminat in benedictionibus de benedictionibus et metet.“</cei:note>
+        </cei:divNotes>
+      </cei:back>
+    </cei:text>
+  </atom:content>
+</atom:entry>

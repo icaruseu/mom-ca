@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>XRX++ Unit Tests - xrx.bind</title>
+<script src='../../lib/closure-library/closure/goog/base.js'></script>
+<script src='../deps.js'></script>
+<script type="text/javascript">
+  goog.require('goog.dom');
+  goog.require('goog.testing.jsunit');
+  goog.require('xrx');
+  goog.require('xrx.bind');
+  goog.require('xrx.label');
+  goog.require('xrx.node');
+</script>
+<link rel="stylesheet" type="text/css" href="../view/default.css"/>
+</head>
+<body>
+
+<div id="i1" class="xrx-instance">&lt;data&gt;&lt;a/&gt;&lt;b&gt;test&lt;/b&gt;&lt;c/&gt;&lt;/data&gt;</div>
+<div id="b1" class="xrx-bind" data-xrx-ref="xrx:instance('i1')//b/text()"></div>
+
+<script type="text/javascript">
+
+function test01() {
+  var element = goog.dom.getElement('b1');
+  var bind = new xrx.bind(element);
+  
+
+};
+
+function test02() {
+  var expectedLabel = new xrx.label([1, 2, 0]);
+
+  assertEquals(xrx.node.TEXT, xrx.Model['b1'].node.type());
+  assertEquals(true, xrx.Model['b1'].node.label().sameAs(expectedLabel));
+};
+
+</script>
+<script>
+  xrx.install();
+  console.log(xrx);
+</script>
+
+</body>
+</html>

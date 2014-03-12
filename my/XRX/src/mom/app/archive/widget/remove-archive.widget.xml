@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/remove-archive</xrx:id>
+  <xrx:inherits>tag:www.monasterium.net,2011:/mom/widget/remove-metadata</xrx:inherits>
+  <xrx:title>
+   <xrx:i18n>
+     <xrx:key>remove-archive</xrx:key>
+     <xrx:default>Remove archive</xrx:default>
+   </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:view>
+    <div data-demoid="53457dbd-162d-4ed2-a2d7-a2aceb26f318">
+      <xrx:div>back-div</xrx:div>
+      <div class="h2" data-demoid="54d7d671-c10c-4702-a01a-0273cdd392e0">
+        <xrx:i18n>
+          <xrx:key>remove-archive</xrx:key>
+          <xrx:default>Remove archive</xrx:default>
+        </xrx:i18n>
+        <span>: { $wremove-metadata:archive-name } [{ $wremove-metadata:archiveid }]</span>
+      </div>
+      <xrx:auth>
+        <xrx:rules>
+          <xrx:or>
+            <xrx:rule>
+              <xrx:user/>
+              <xrx:community>{ $wremove-metadata:archive-atomid }</xrx:community>
+            </xrx:rule>
+            <xrx:rule>
+              <xrx:user/>
+              <xrx:role>metadata-manager</xrx:role>
+            </xrx:rule>
+          </xrx:or>
+        </xrx:rules>
+        <xrx:true>
+          <div data-demoid="339bfecb-4541-4022-ac64-afdc5096bb86" id="dremove-metadata">
+            <xrx:div>request-div</xrx:div>
+            <div data-demoid="8fe48a33-5fcc-457d-9ae7-1072ada4c9e6">
+              <br/><br/><br/><br/>
+              <xrx:div>remove-public-entries-div</xrx:div>
+              <table>
+                <xrx:div>table-heading-div</xrx:div>
+                <xrx:div>archive-objects-div</xrx:div>
+                <xrx:div>fond-objects-div</xrx:div>
+                <xrx:div>charter-objects-div</xrx:div>
+                <xrx:div>published-charters-div</xrx:div>
+                <xrx:div>released-charters-div</xrx:div>
+                <xrx:div>saved-charters-div</xrx:div>
+                <xrx:div>bookmarks-div</xrx:div>
+                <xrx:div>imported-charters-div</xrx:div>
+              </table>
+            </div>
+          </div>
+        </xrx:true>
+        <xrx:false>
+          <div data-demoid="1e918c87-77c4-4849-9e50-dcb37ac0b06d"><xrx:div>protected-page-div</xrx:div></div>
+        </xrx:false>
+      </xrx:auth>
+    </div>
+  </xrx:view>
+</xrx:widget>

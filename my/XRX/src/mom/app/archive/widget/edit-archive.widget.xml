@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/edit-archive</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>edit-archive</xrx:key>
+      <xrx:default>Edit Archive</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>true</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <xrx:css>tag:www.monasterium.net,2011:/mom/css/forms</xrx:css>
+	  <style type="text/css">
+	    
+#dedit-archive-info{{
+  width:100%;;
+}}
+#dedit-archive-info .trigger{{
+  text-align:right;
+}}
+
+	  </style>
+	</xrx:csss>
+  <xrx:model>
+  {
+    (: request parameter :)
+    let $archive-id := $xrx:tokenized-uri[1]
+    let $country-id := substring-before($archive-id, '-')
+    
+    (: archive info :)
+    let $metadata-archive-db-base-collection :=
+      metadata:base-collection('archive', $archive-id, 'public')
+    let $eag := $metadata-archive-db-base-collection//eag:eag
+    
+    (: portal info :)
+    let $metadata-portal-db-base-collection :=
+      metadata:base-collection('portal', 'public')    
+    let $eap := $metadata-portal-db-base-collection//eap:eap
+    let $region-elements :=
+      $eap//eap:country[eap:code=$country-id]//eap:subdivision
+    
+    (: atom info :)
+    let $put-uri :=
+      concat(conf:param('request-root'), 'atom/PUT', metadata:feed('archive', $archive-id, 'public'), '/', $archive-id, '.eag.xml')
+    
+    return
+    <xf:model id="medit-archive-info">
+      <xf:instance id="ientry">{ $eag/root(.) }</xf:instance>
+      
+      <xf:instance id="ihelper">
+        <data xmlns="">
+          <country/>
+          <regions>
+          {
+            for $region-element in $region-elements
+            let $region-name := $region-element/eap:nativeform/text()
+            order by $region-name collation "?lang=de"
+            return
+            <region>{ $region-name }</region>
+          }
+          </regions>
+        </data>
+      </xf:instance>
+      
+      <xf:submission action="{ $put-uri }" id="ssave" method="post" ref="instance('ientry')" replace="none">
+        <xf:action ev:event="xforms-submit-done">
+          <xf:message level="ephemeral">Entry successfully saved.</xf:message>
+        </xf:action>
+      </xf:submission>
+      
+      <xf:bind constraint=". != ''" id="bautform" nodeset="//eag:autform" required="true()"/>
+      <xf:bind id="brepositorid" nodeset="//eag:repositorid" readonly="true()"/>
+      <xf:bind calculate="concat(instance('ientry')//eag:country, ' (', instance('ientry')//eag:repositorid/@countrycode, ')')" id="bcountry" nodeset="instance('ihelper')//country" readonly="true()"/>
+      <xf:bind id="bfirstdem" nodeset="//eag:firstdem"/>
+      <xf:bind id="bstreet" nodeset="//eag:street"/>
+      <xf:bind id="bpostalcode" nodeset="//eag:postalcode"/>
+      <xf:bind id="bmunicipality" nodeset="//eag:municipality"/>
+      <xf:bind id="btelephone" nodeset="//eag:telephone"/>
+      <xf:bind id="bfax" nodeset="//eag:fax"/>
+      <xf:bind id="bemail" nodeset="//eag:email"/>
+      <xf:bind id="bwebpage" nodeset="//eag:webpage"/>
+      <xf:bind id="blogourl" nodeset="//eag:extptr/@href"/>
+      <xf:bind id="bcontactperson" nodeset="//eag:contactperson"/>
+          
+    </xf:model>
+  }
+  </xrx:model>
+  <xrx:view>
+  {
+    let $archive-id := $xrx:tokenized-uri[1]
+    let $country-id := substring-before($archive-id, '-')
+    let $archive-atomid := metadata:atomid('archive', $archive-id) 
+    return
+    <div data-demoid="89612c17-66ba-46cc-b02b-d8802c2851bd" id="dedit-archive-info">
+	    <div data-demoid="83893373-9373-4186-8609-5bf04be5e928">
+	      <div data-demoid="7a6b3ab8-e446-4532-85cd-ccb1a485e4a8">
+	        <a href="{ conf:param('request-root') }{ $archive-id }/archive">
+	          <span>&lt;&lt;</span>
+	          <xrx:i18n>
+	            <xrx:key>back</xrx:key>
+	            <xrx:default>back</xrx:default>
+	          </xrx:i18n>
+	        </a>
+	      </div>
+	      <div class="h2" data-demoid="b21fdafb-12a4-46b1-8059-904a767c1eb4">
+	        <xrx:i18n>
+	          <xrx:key>edit-archive-info</xrx:key>
+	          <xrx:default>Edit archive information</xrx:default>
+	        </xrx:i18n>
+	        <span> (ISDIAH)</span>
+	      </div>
+	    </div>
+	    <xrx:auth>
+				<xrx:rules>
+					<xrx:or>
+						<xrx:rule>
+							<xrx:user/>
+							<xrx:role>metadata-manager</xrx:role>
+						</xrx:rule>
+						<xrx:rule>
+							<xrx:user/>
+							<xrx:community>{ $archive-atomid }</xrx:community>
+						</xrx:rule>
+					</xrx:or>
+				</xrx:rules>
+	      <xrx:true>
+			    <div class="standard-form InlineRoundBordersAlert" data-demoid="aaf5c4b8-8610-460d-8534-b77f91830b06">
+				    <xf:group appearance="bf:verticalTable" class="InlineRoundBordersAlert" model="medit-archive-info">
+				    
+				     <!-- the archives name -->
+				     <xf:input bind="bautform">
+				       <xf:label>
+				         <xrx:i18n>
+				           <xrx:key>name</xrx:key>
+				           <xrx:default>Name</xrx:default>
+				         </xrx:i18n>
+				         <span>: </span>
+				       </xf:label>
+				       <xf:hint>
+				         <xrx:i18n>
+				           <xrx:key>required-field</xrx:key>
+				           <xrx:default>Required field</xrx:default>
+				         </xrx:i18n>
+				         <span>.</span>
+				       </xf:hint>
+				       <xf:alert>
+				         <xrx:i18n>
+				           <xrx:key>required-field</xrx:key>
+				           <xrx:default>Required field</xrx:default>
+				         </xrx:i18n>
+				         <span>.</span>
+				       </xf:alert>
+				     </xf:input>
+				     
+				     <!-- the archives ID (readonly) -->
+				     <xf:input bind="brepositorid">
+				      <xf:label>
+				        <xrx:i18n>
+				          <xrx:key>archive-id</xrx:key>
+				          <xrx:default>Archive ID</xrx:default>
+				        </xrx:i18n>
+				        <span>: </span>
+				      </xf:label>
+				     </xf:input>
+				     
+				     <!-- country (readonly) -->
+				     <xf:input bind="bcountry">
+				       <xf:label>
+				         <xrx:i18n>
+				           <xrx:key>country</xrx:key>
+				           <xrx:default>Country</xrx:default>
+				         </xrx:i18n>
+				         <span>: </span>
+				       </xf:label>
+				     </xf:input>
+				     
+				     <!-- region -->
+				     <xf:select1 bind="bfirstdem" incremental="true">
+				      <xf:label>
+				        <xrx:i18n>
+				          <xrx:key>region</xrx:key>
+				          <xrx:default>Region</xrx:default>
+				        </xrx:i18n>
+				        <span>: </span>
+				      </xf:label>
+				      <xf:itemset nodeset="instance('ihelper')//region">
+				        <xf:label ref="."/>
+				        <xf:value ref="."/>
+				      </xf:itemset>
+				     </xf:select1>
+				     
+				     <!-- zip -->
+				     <xf:input bind="bpostalcode">
+				       <xf:label>
+				         <xrx:i18n>
+				           <xrx:key>zip</xrx:key>
+				           <xrx:default>ZIP</xrx:default>
+				         </xrx:i18n>
+		             <span>: </span>
+				       </xf:label>
+		           <xf:hint>
+		             <xrx:i18n>
+		               <xrx:key>optional-field</xrx:key>
+		               <xrx:default>Optional field</xrx:default>
+		             </xrx:i18n>
+		             <span>.</span>
+		           </xf:hint>
+				     </xf:input>
+				     
+				     <!-- city -->
+				     <xf:input bind="bmunicipality">
+				       <xf:label>
+		             <xrx:i18n>
+		               <xrx:key>city</xrx:key>
+		               <xrx:default>City</xrx:default>
+		             </xrx:i18n>
+		             <span>: </span>
+				       </xf:label>
+		           <xf:hint>
+		             <xrx:i18n>
+		               <xrx:key>optional-field</xrx:key>
+		               <xrx:default>Optional field</xrx:default>
+		             </xrx:i18n>
+		             <span>.</span>
+		           </xf:hint>
+				     </xf:input>
+				     
+				     <!-- street -->
+				     <xf:input bind="bstreet">
+				       <xf:label>
+				         <xrx:i18n>
+				           <xrx:key>street</xrx:key>
+				           <xrx:default>Street</xrx:default>
+				         </xrx:i18n>
+				         <span>: </span>
+				       </xf:label>
+		           <xf:hint>
+		             <xrx:i18n>
+		               <xrx:key>optional-field</xrx:key>
+		               <xrx:default>Optional field</xrx:default>
+		             </xrx:i18n>
+		             <span>.</span>
+		           </xf:hint>
+				     </xf:input>
+				     
+				     <!-- phone -->
+				     <xf:input bind="btelephone">
+				       <xf:label>
+		             <xrx:i18n>
+		               <xrx:key>phone</xrx:key>
+		               <xrx:default>Phone</xrx:default>
+		             </xrx:i18n>
+		             <span>: </span>
+				       </xf:label>
+				     </xf:input>
+				     
+				     <!-- fax -->
+				     <xf:input bind="bfax">
+				       <xf:label>
+				         <xrx:i18n>
+				           <xrx:key>fax</xrx:key>
+				           <xrx:default>Fax</xrx:default>
+				         </xrx:i18n>
+		             <span>: </span>
+				       </xf:label>
+		           <xf:hint>
+		             <xrx:i18n>
+		               <xrx:key>optional-field</xrx:key>
+		               <xrx:default>Optional field</xrx:default>
+		             </xrx:i18n>
+		             <span>.</span>
+		           </xf:hint>
+				     </xf:input>
+				     
+				     <!-- email -->
+		         <xf:input bind="bemail">
+		           <xf:label>
+		             <xrx:i18n>
+		               <xrx:key>email</xrx:key>
+		               <xrx:default>Email</xrx:default>
+		             </xrx:i18n>
+		             <span>: </span>
+		           </xf:label>
+		           <xf:hint>
+		             <xrx:i18n>
+		               <xrx:key>optional-field</xrx:key>
+		               <xrx:default>Optional field</xrx:default>
+		             </xrx:i18n>
+		             <span>.</span>
+		           </xf:hint>
+		         </xf:input>
+		         		     
+				     <!-- webpage -->
+		         <xf:input bind="bwebpage">
+		           <xf:label>
+		             <xrx:i18n>
+		               <xrx:key>webpage</xrx:key>
+		               <xrx:default>Webpage</xrx:default>
+		             </xrx:i18n>
+		             <span>: </span>
+		           </xf:label>
+		           <xf:hint>
+		             <xrx:i18n>
+		               <xrx:key>optional-field</xrx:key>
+		               <xrx:default>Optional field</xrx:default>
+		             </xrx:i18n>
+		             <span>.</span>
+		           </xf:hint>
+		         </xf:input>
+		         
+		         <!-- logo URL -->
+		         <xf:input bind="blogourl">
+		           <xf:label>
+		             <xrx:i18n>
+		               <xrx:key>logo-url</xrx:key>
+		               <xrx:default>Logo (URL)</xrx:default>
+		             </xrx:i18n>
+		             <span>: </span>
+		           </xf:label>
+		           <xf:hint>
+		             <xrx:i18n>
+		               <xrx:key>optional-field</xrx:key>
+		               <xrx:default>Optional field</xrx:default>
+		             </xrx:i18n>
+		             <span>.</span>
+		           </xf:hint>
+		         </xf:input>         
+		         
+		         <!-- Contact person for MOM-CA -->
+		         <!--xf:input bind="bcontactperson">
+		           <xf:label>
+		             <xrx:i18n>
+		               <xrx:key>contact-person</xrx:key>
+		               <xrx:default>Contact person</xrx:default>
+		             </xrx:i18n>
+		             <span>&#160;(MOM-CA):&#160;</span>
+		           </xf:label>
+		           <xf:hint>
+		             <xrx:i18n>
+		               <xrx:key>optional-field</xrx:key>
+		               <xrx:default>Optional field</xrx:default>
+		             </xrx:i18n>
+		             <span>.</span>
+		           </xf:hint>
+		         </xf:input-->
+		         		     
+				     <!-- save button -->
+				     <div class="trigger" data-demoid="5f77d7b5-7e9a-4e12-b600-33a3b2839aa8">
+					     <xf:trigger>
+					      <xf:label>
+					        <xrx:i18n>
+					          <xrx:key>save</xrx:key>
+					          <xrx:default>Save</xrx:default>
+					        </xrx:i18n>
+					      </xf:label>
+					      <xf:action ev:event="DOMActivate">
+					        <xf:send submission="ssave"/>
+					      </xf:action>
+					     </xf:trigger>
+				     </div>
+				     
+				    </xf:group>
+			    </div>	      
+	      </xrx:true>
+	      <xrx:false>
+	        <div data-demoid="ed203f00-95e6-4e7e-8768-cbd63fb7f033">
+	          <xrx:i18n>
+	            <xrx:key>proteceted-page-message</xrx:key>
+	            <xrx:default>Protected page. Please login first.</xrx:default>
+	          </xrx:i18n>
+	        </div>
+	      </xrx:false>
+	    </xrx:auth>
+    </div>
+  }
+  </xrx:view>
+</xrx:widget>

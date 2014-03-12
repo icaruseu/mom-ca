@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/country</xrx:id>
+  <xrx:title>
+   <xrx:i18n>
+     <xrx:key>fonds</xrx:key>
+     <xrx:default>Fonds</xrx:default>
+   </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/fonds</xrx:portal>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>false</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <style type="text/css">
+
+#dcountry .region-name {{
+  font-size:1.2em;
+}}
+#dcountry .draft-marker {{
+ color:red;
+}}
+#dcountry .region-link {{
+ font-size:0.6em;
+ color:{conf:param('color3')};
+}}
+#dcountry .region-div {{
+  margin-top:10px;
+}}
+
+    </style>
+  </xrx:csss>
+  <xrx:view>
+    {
+    (: request parameters :)
+    let $country-id := $xrx:tokenized-uri[1]
+    
+    (: portal information :)
+    let $metadata-portal-base-collection :=
+      metadata:base-collection('portal', '', 'public')
+    let $eap :=
+      $metadata-portal-base-collection//eap:eap
+    let $country-element := $eap//eap:country[eap:code=$country-id]
+    let $country-name := $country-element/eap:nativeform/text()
+    let $subdivision-elements :=
+      $country-element//eap:subdivision
+    
+    (: archive information :)
+    let $metadata-archive-base-collection :=
+      metadata:base-collection('archive', '', 'public')
+    let $eags-without-subdivision :=
+      $metadata-archive-base-collection//eag:repositorid[@countrycode=$country-id]/ancestor::eag:eag[normalize-space(.//eag:firstdem)='']
+    
+    return
+    <div data-demoid="d1c5f6e7-a5aa-4ac0-9726-3aaf99d4501f" id="dcountry">
+      <div class="h2" data-demoid="940a7aa5-9216-4f2f-99df-6ced509d6876">
+        <xrx:i18n>
+          <xrx:key>country</xrx:key>
+          <xrx:default>Country</xrx:default>
+        </xrx:i18n>
+        <span>: { $country-name } ({ $country-id })</span>
+      </div>
+      <div data-demoid="9fcfe1ab-6237-4c02-ad5f-8d4b719a35f9">
+        <h3>
+          <xrx:i18n>
+            <xrx:key>regions-and-archives</xrx:key>
+            <xrx:default>Regions and Archives</xrx:default>
+          </xrx:i18n>
+        </h3>
+        <div data-demoid="8a2c2ab1-80c1-4613-9f11-dda5d8d3b10a">
+          {
+          for $eag1 in $eags-without-subdivision
+          let $archive-id := $eag1//eag:repositorid/text()
+          let $archive-name := $eag1//eag:autform/text()
+          return
+          <div data-demoid="50ae62cc-7479-4100-be3c-7785cf3bee76">
+            <span>- </span>
+            <a href="{ conf:param('request-root') }{ $archive-id }/archive">
+             <span>{ $archive-name } ({ $archive-id })</span>
+            </a>
+          </div>
+          }
+        </div>
+        <div data-demoid="3fe8813a-886b-48ce-bbed-8d35c051dc53">
+          {
+          (: archives ordered by subdivision :)
+          for $subdivision-element in $subdivision-elements
+          let $subdivision-id := $subdivision-element//eap:code/text()
+          let $subdivision-name := $subdivision-element//eap:nativeform/text()
+          
+          (: get all archives inside the subdivision :)
+          let $eags-with-subdivision :=
+            $metadata-archive-base-collection//eag:eag[.//eag:firstdem=$subdivision-name]
+          
+          return
+          <div class="region-div" data-demoid="e2e63901-70b7-4557-9ea2-55b768161d85">
+            <div class="region-name" data-demoid="ff70b987-141d-4534-9faf-484f805fc86b">
+              <span>{ $subdivision-name } </span>
+              <a class="region-link" href="{ conf:param('request-root') }{ $subdivision-id }/subdivision">({ $subdivision-id })</a>
+            </div>
+            {
+            for $eag2 in $eags-with-subdivision
+            let $archive-id := $eag2//eag:repositorid/text()
+            let $archive-name := $eag2//eag:autform/text()
+            return
+            <div data-demoid="14c32e7a-b4ea-4410-8a41-a010dfa95e68">
+              <span>- </span>
+              <a href="{ conf:param('request-root') }{ $archive-id }/archive">
+               <span>{ $archive-name } ({ $archive-id })</span>
+              </a>
+            </div>
+            }
+          </div>          
+          }
+        </div>
+      </div>
+    </div>
+    }
+  </xrx:view>
+</xrx:widget>

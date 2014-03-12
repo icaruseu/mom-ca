@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="./demo.xsl" type="text/xsl"?>
+<div data-filename="undo-redo-history.xml" data-relativepath="../" xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <h2>Undo Redo XML History</h2>
+  <div/>
+</div>

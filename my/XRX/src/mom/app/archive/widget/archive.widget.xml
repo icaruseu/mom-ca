@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml">
+    <xrx:id>tag:www.monasterium.net,2011:/mom/widget/archive</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key>archive</xrx:key>
+            <xrx:default>Archive</xrx:default>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:subtitle/>
+    <xrx:description/>
+    <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+    <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+    <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+    <xrx:init>
+        <xrx:processor>
+            <xrx:xformsflag>false</xrx:xformsflag>
+        </xrx:processor>
+    </xrx:init>
+    <xrx:csss>
+      <style type="text/css">
+
+#archive {{
+	position: relative;
+	float: left;
+	width: 960px;
+}}
+#goto-search {{
+  float: right;
+}}
+#logo {{
+  text-align: right;
+  width: 100%;
+  background: white;
+}}
+#about {{
+  position: relative;
+  float: right;
+  background: rgb(240,240,240);
+  width: 30%;
+  margin: 0px;
+  padding: 0px;
+}}
+#inner-about {{
+  margin: 20px;
+  text-align: center;
+}}
+p.left {{
+  text-align: left;
+}}
+#dfonds {{
+  position: relative;
+  float: left;
+  width: 65%;
+  margin: 0px;
+  padding: 0px;
+}}
+.fondlink {{
+  margin-bottom: 7px;
+}}
+#dfonds .light-grey {{
+  color: grey;
+}}
+
+	    </style>
+  </xrx:csss>
+	<xrx:view>
+		<div data-demoid="a8810230-9c69-4c85-bc07-c8bd6469b640" id="dwidget">
+			{
+			(: get request parameters :)
+			let $archive-id := $xrx:tokenized-uri[1]
+			let $country-id := substring-before($archive-id, '-')
+
+			(: get atom info :)
+			let $archive-atomid := metadata:atomid($archive:metadata-object-type, $archive-id)
+
+			(: archive info :)
+			let $metadata-archive-collection := metadata:base-collection('archive', $archive-id, 'public')
+			let $eag := $metadata-archive-collection//eag:eag
+			let $archive-name := $eag//eag:autform/text()
+			let $archive-short-name := $eag//eag:repositorid/text()
+			let $region-name := $eag//eag:firstdem/text()
+			let $zip := $eag//eag:postalcode/text()
+			let $city := $eag//eag:municipality/text()
+			let $street := $eag//eag:street/text()
+			let $telephone := $eag//eag:telephone/text()
+      let $fax := $eag//eag:fax/text()
+			let $email := $eag//eag:email/text()
+			let $webpage := $eag//eag:webpage/text()
+			let $logourl := $eag//eag:extptr/@href/string()
+			let $contactperson := $eag//eag:contactperson/text()
+
+			(: MOM-CA archivists :)
+			let $archivists := community:emails($archive-atomid)
+
+			(: portal info :)
+			let $metadata-portal-collection := metadata:base-collection('portal', 'public')
+			let $eap := $metadata-portal-collection//eap:eap
+			let $country-element := $eap//eap:country[eap:code=$country-id]
+			let $country-name := $country-element/eap:nativeform/text()
+			let $region-id := $eap//eap:subdivision[eap:nativeform=$region-name]/eap:code/text()
+
+			(: fond info :)
+			let $metadata-fond-collection := metadata:base-collection('fond', $archive-id, 'public')
+
+			return
+			<div data-demoid="63b0e42e-f629-49c7-a37d-b0d9fce65186" id="archive">
+				<div class="h2" data-demoid="82354375-12de-4a3c-a77a-21e55f93a569">
+					<xrx:i18n>
+						<xrx:key>archive</xrx:key>
+						<xrx:default>Archive</xrx:default>
+					</xrx:i18n>
+					<span>: {$archive-name } ({ $archive-short-name })</span>
+				</div>
+				<xrx:auth>
+					<xrx:rules>
+						<xrx:rule>
+							<xrx:user/>
+							<xrx:dbgroup>atom</xrx:dbgroup>
+						</xrx:rule>
+					</xrx:rules>
+					<xrx:true>
+						<div class="my-functions" data-demoid="ea6bf65f-2995-4448-adde-24aceffb3b02">
+							<div class="my-functions-label" data-demoid="07d13ddc-99b1-46b9-9cdc-f24acab6b1f1">
+								<xrx:i18n>
+									<xrx:key>my-functions</xrx:key>
+									<xrx:default>MyFunctions</xrx:default>
+								</xrx:i18n>
+							</div>
+							<div class="function-links" data-demoid="a6afd52f-8dee-44e3-a85f-faceacd842ad">
+								<xrx:auth>
+									<xrx:rules>
+										<xrx:or>
+											<xrx:rule>
+												<xrx:user/>
+												<xrx:role>metadata-manager</xrx:role>
+											</xrx:rule>
+											<xrx:rule>
+												<xrx:user/>
+												<xrx:community>{ $archive-atomid }</xrx:community>
+											</xrx:rule>
+										</xrx:or>
+									</xrx:rules>
+									<xrx:true>
+										<div data-demoid="ba1a52f2-ad4d-4503-9dd8-62dea51ca4f9">
+											<div class="function-link" data-demoid="b46577ad-f3b3-4982-aae1-41596dfaf8b3">
+												<a href="{ conf:param('request-root') }{ $archive-id }/edit-archive">
+													<span>‣ </span>
+													<xrx:i18n>
+														<xrx:key>edit-archive-info</xrx:key>
+														<xrx:default>Edit archive information</xrx:default>
+													</xrx:i18n>
+													<span> (ISDIAH)</span>
+												</a>
+											</div>
+                      <div class="function-link" data-demoid="6732ae9c-3006-4b48-a6c5-badf425aaf4c">
+                        <a href="{ conf:param('request-root') }{ $archive-id }/remove-archive">
+                          <span>‣ </span>
+                          <xrx:i18n>
+                            <xrx:key>remove-archive</xrx:key>
+                            <xrx:default>Remove Archive</xrx:default>
+                          </xrx:i18n>
+                        </a>
+                      </div>
+											<div class="function-link" data-demoid="2d79e1ff-d32d-4d6d-95a1-957d71cd2264">
+												<a href="{ conf:param('request-root') }{ $archive-id }/new-fond">
+													<span>‣ </span>
+													<xrx:i18n>
+														<xrx:key>new-fond</xrx:key>
+														<xrx:default>New fond</xrx:default>
+													</xrx:i18n>
+												</a>
+											</div>
+											<div class="function-link" data-demoid="5adcc8b9-f164-43cd-8686-887d8ecd5b2a">
+												<a href="{ conf:param('request-root') }archive/{ $archive-id }/oai-interface">
+													<span>‣ </span>
+													<xrx:i18n>
+														<xrx:key>oai-interface</xrx:key>
+														<xrx:default>OAI Interface</xrx:default>
+													</xrx:i18n>
+												</a>
+											</div>
+										</div>
+									</xrx:true>
+									<xrx:false>
+										<span/>
+									</xrx:false>
+								</xrx:auth>
+								<xrx:auth>
+									<xrx:rules>
+										<xrx:rule>
+											<xrx:user/>
+											<xrx:role>user-administrator</xrx:role>
+										</xrx:rule>
+									</xrx:rules>
+									<xrx:true>
+										<div class="function-link" data-demoid="d77b9f89-0301-46e0-bb2a-2c9809cfb015">
+											<a href="{ conf:param('request-root') }{ $archive-id }/manage-archivists">
+												<span>‣ </span>
+												<xrx:i18n>
+													<xrx:key>manage-archivists</xrx:key>
+													<xrx:default>Manage Archivists</xrx:default>
+												</xrx:i18n>
+											</a>
+										</div>
+									</xrx:true>
+									<xrx:false>
+										<span/>
+									</xrx:false>
+								</xrx:auth>
+								<div class="function-link" data-demoid="66af9cf8-f9d0-4692-9a48-2bba1432e59f">
+									<span> </span>
+								</div>
+							</div>
+						</div>
+					</xrx:true>
+					<xrx:false>
+						<span/>
+					</xrx:false>
+				</xrx:auth>
+				<div data-demoid="02498d4a-7671-4c88-9f17-b39c5220862b" id="breadcrumb">
+					<a href="{ concat(conf:param('request-root'), 'fonds') }">
+						<xrx:i18n>
+							<xrx:key>fonds</xrx:key>
+							<xrx:default>Fonds</xrx:default>
+						</xrx:i18n>
+					</a>
+					<span> &gt; </span>
+					<a href="{ concat(conf:param('request-root'), $archive-id, '/archive') }">{ $archive-id }</a>
+				</div>
+				<div data-demoid="ca52ba2c-9366-4679-ba18-6323cdfbd919" id="container">
+					<div data-demoid="119aa847-ef57-4fbc-83ac-4cab9684ced7" id="goto-search">
+						<a href="{ conf:param('request-root') }search?q=&amp;img=false&amp;sort=date&amp;arch={ $archive-id }&amp;p=search">
+							<xrx:i18n>
+								<xrx:key>search-in</xrx:key>
+								<xrx:default>Search in</xrx:default>
+							</xrx:i18n>
+							<span> { conf:param('request-root') }{ $archive-short-name } &gt;&gt;</span>
+						</a>
+					</div>
+				</div>
+				<div data-demoid="5927d669-62ca-4e44-909b-5f1786825bd1" id="dfonds">       
+					<xrx:auth>
+            <xrx:rules>
+              <xrx:or>
+                <xrx:rule>
+                  <xrx:user/>
+                  <xrx:role>metadata-manager</xrx:role>
+                </xrx:rule>
+                <xrx:rule>
+                  <xrx:user/>
+                  <xrx:community>{ $archive-id }</xrx:community>
+                </xrx:rule>
+              </xrx:or>
+            </xrx:rules>
+            <xrx:true>
+              <div data-demoid="672d1896-7853-407a-a9de-8a8cde6afdac">
+                {
+                if(chimport:rinfo()) then
+                <h3>
+                  <xrx:i18n>
+                    <xrx:key>imported-charters-preview</xrx:key>
+                    <xrx:default>Imported charters (preview)</xrx:default>
+                  </xrx:i18n>
+                </h3>
+                else()
+                }
+                <div data-demoid="1486df88-0665-4c51-b48b-dcaffed910b3">
+                  {
+                  for $import-info in metadata:base-collection('charter', $archive-id, 'import')/xrx:import
+                  (: import info :)
+                  let $time := substring-before($import-info/xrx:time/text(), 'T')
+                  let $userid := $import-info/xrx:userid/text()
+                  let $user-name := user:firstname-name($userid)
+                  (: fond info :)
+                  let $fond-base-collection := collection(replace(util:collection-name($import-info), 'metadata.charter.import', 'metadata.fond.public'))
+                  let $fond := $fond-base-collection//ead:c[@level='fonds']
+                  let $fond-name := ($fond/ead:did/ead:unittitle/text(), concat('[', tokenize(root($fond)//atom:id/text(), '/')[last()], ']'))[1]
+                  let $fond-atomid := root($fond)//atom:id/text()
+                  let $fond-id-encoded := tokenize($fond-atomid, '/')[last()]
+                  order by $fond collation "?lang=de-DE"
+                  return
+                  <div data-demoid="60286722-27cf-45cd-9218-141feca81ce9">
+                    <div class="fondlink" data-demoid="86115f46-879c-4c0c-9cf6-b97e0f5d1a68">
+                      <a href="{ concat($fond-id-encoded, '/imported-fond') }">{ $fond-name }</a>
+                    </div>
+                    <div class="light-grey" data-demoid="87fb8c64-778f-4543-828f-ded6b2cd72e3">
+                      <xrx:i18n>
+                        <xrx:key>imported</xrx:key>
+                        <xrx:default>Imported</xrx:default>
+                      </xrx:i18n>
+                      <span> { $time } </span>
+                      <xrx:i18n>
+                        <xrx:key>by</xrx:key>
+                        <xrx:default>by</xrx:default>
+                      </xrx:i18n>
+                      <span> { $user-name }</span>
+                    </div>
+                  </div>
+                  }
+                </div>
+              </div>
+            </xrx:true>
+            <xrx:false>
+              <div data-demoid="cc3425ee-3061-4311-aa0f-3bd6b9fa2f3b"/>
+            </xrx:false>
+          </xrx:auth>
+          <br/><br/>
+          <xrx:auth>
+            <xrx:rules>
+              <xrx:or>
+                <xrx:rule>
+                  <xrx:user/>
+                  <xrx:role>metadata-manager</xrx:role>
+                </xrx:rule>
+                <xrx:rule>
+                  <xrx:user/>
+                  <xrx:community>{ $archive-id }</xrx:community>
+                </xrx:rule>
+              </xrx:or>
+            </xrx:rules>
+            <xrx:true>
+		          <h3>
+		            <xrx:i18n>
+		              <xrx:key>public-fonds</xrx:key>
+		              <xrx:default>Public fonds</xrx:default>
+		            </xrx:i18n>
+		          </h3>
+            </xrx:true>
+            <xrx:false>
+		          <h3>
+		            <xrx:i18n>
+		              <xrx:key>fonds2</xrx:key>
+		              <xrx:default>Fonds</xrx:default>
+		            </xrx:i18n>
+		          </h3> 
+            </xrx:false>
+          </xrx:auth> 
+					{
+					for $fond in $metadata-fond-collection//ead:c[@level='fonds']
+					let $fond-name := ($fond/ead:did/ead:unittitle/text(), concat('[', tokenize(root($fond)//atom:id/text(), '/')[last()], ']'))[1]
+					let $fond-atomid := root($fond)//atom:id/text()
+					let $fond-id-encoded := tokenize($fond-atomid, '/')[last()]
+					order by $fond collation "?lang=de-DE"
+					return
+					<div class="fondlink" data-demoid="704f12b3-e101-43d2-82cb-7b04da231ab6">
+						<a href="{ concat($fond-id-encoded, '/fond') }">{ $fond-name }</a>
+					</div>
+					}
+				</div>
+				<div data-demoid="104426c8-2725-41fb-abe3-a50cc7c36039" id="about">
+					<div data-demoid="6b5ca4a9-9278-49aa-8d61-33c4792768fa" id="logo">
+						{ if($logourl != '') then
+						<img src="{ $logourl }"/>
+						else () }
+					</div>
+					<div data-demoid="988de22e-3c20-4f1b-b56c-b511b4a824d7" id="inner-about">
+						<h3>
+							<xrx:i18n>
+								<xrx:key>contact</xrx:key>
+								<xrx:default>Contact</xrx:default>
+							</xrx:i18n>
+						</h3>
+						<p class="left">
+							<xrx:i18n>
+								<xrx:key>contact-info-message</xrx:key>
+								<xrx:default>For detailed information and usage of the archival charter collections please contact:</xrx:default>
+							</xrx:i18n>
+						</p>
+						<div data-demoid="715ada88-8d95-44cf-a37f-160564da17a8">
+							<div data-demoid="c8f7d68b-612d-4fe5-83fb-6c5ecb1549bf">
+								<span>{ $contactperson }</span>
+							</div>
+							<div data-demoid="17e39e8e-f410-4818-8b6f-6614d9e3ed9f">
+								<span>{ $archive-name }</span>
+							</div>
+							<div data-demoid="f9adffb1-5dc6-4a58-9315-90e11e4ba62d">
+								<span>{ $street }</span>
+							</div>
+							<div data-demoid="df0f74ba-ec0c-47a5-b97a-5b9109cebac4">
+								<span>{ $zip } { $city }</span>
+							</div>
+							{
+							if($telephone != '') then
+							<div data-demoid="6316e8db-231e-45b2-afe2-f271e017190b">
+						    <xrx:i18n>
+						      <xrx:key>telephone</xrx:key>
+						      <xrx:default>Telephone</xrx:default>
+						    </xrx:i18n>
+								<span>: { $telephone }</span>
+							</div>
+							else ()
+							}
+						  {
+						  if($fax != '') then
+							<div data-demoid="f95ea926-66a4-4e99-851e-c15394108028">
+                <xrx:i18n>
+                  <xrx:key>fax</xrx:key>
+                  <xrx:default>Fax</xrx:default>
+                </xrx:i18n>
+							  <span>: { $fax }</span>
+							</div>
+							else ()
+							}
+							<div data-demoid="3bf01199-7c22-49d4-b9ae-67972dff05c6">
+								<a href="mailto:{ $email }">{ $email }</a>
+							</div>
+							{
+							if($webpage != '') then
+							<div data-demoid="6d74c0af-d07d-4a7a-a7b3-e970c4281ba4">
+								<a href="{ $webpage }" target="_blank">
+								  <xrx:i18n>
+								    <xrx:key>homepage</xrx:key>
+								    <xrx:default>Homepage</xrx:default>
+								  </xrx:i18n>
+								</a>
+							</div>
+							else ()
+							}
+						</div>
+						<br/>
+						<div data-demoid="f3aeb791-4b76-458c-a938-d50f922c5a14">
+							<h3>
+								<xrx:i18n>
+									<xrx:key>archivists</xrx:key>
+									<xrx:default>Archivists</xrx:default>
+								</xrx:i18n>
+								<span> </span>
+							</h3>
+							{
+							for $archivist in $archivists
+							let $label := concat(user:firstname-name($archivist), ' (', $archivist, ')')
+							return
+							<div data-demoid="3d4a9fa5-9954-48ec-8aff-58eadf8db0cd" style="margin-bottom:8px">
+								<span>{ $label }</span>
+							</div>
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+			}
+		</div>
+	</xrx:view>
+</xrx:widget>

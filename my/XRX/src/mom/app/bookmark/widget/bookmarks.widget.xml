@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+	<xrx:id>tag:www.monasterium.net,2011:/mom/widget/bookmarks</xrx:id>
+	<xrx:title>
+		<xrx:i18n>
+			<xrx:key>bookmarks</xrx:key>
+			<xrx:default>Bookmarks</xrx:default>
+		</xrx:i18n>
+	</xrx:title>
+	<xrx:subtitle/>
+	<xrx:description/>
+	<xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+	<xrx:licence>
+		This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+		
+		As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+		
+		This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+		
+		The VdU/VRET is free software: you can redistribute it and/or modify
+		it under the terms of the GNU General Public License as published by
+		the Free Software Foundation, either version 3 of the License, or
+		(at your option) any later version.
+		
+		VdU/VRET is distributed in the hope that it will be useful,
+		but WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+		GNU General Public License for more details.
+		
+		You should have received a copy of the GNU General Public License
+		along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+		
+		We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+	</xrx:licence>
+	<xrx:variables>    
+		<!-- 
+			widget specific variables 
+		-->
+		<xrx:variable>
+			<xrx:name>$wbookmarks:bookmarked-charters</xrx:name>
+			<xrx:expression>$user:db-base-collection//xrx:email[.=$xrx:user-id]/parent::xrx:user//xrx:bookmark/text()</xrx:expression>
+		</xrx:variable>
+		<xrx:variable>
+			<xrx:name>$wbookmarks:numentries</xrx:name>
+			<xrx:expression>count($wbookmarks:bookmarked-charters)</xrx:expression>
+		</xrx:variable>
+		<xrx:variable>
+			<xrx:name>$wbookmarks:startstop</xrx:name>
+			<xrx:expression>pagination:startstop($wbookmarks:numentries)</xrx:expression>
+		</xrx:variable>
+		<xrx:variable>
+			<xrx:name>$wbookmarks:navigation</xrx:name>
+			<xrx:expression>pagination:navi($wbookmarks:numentries)</xrx:expression>
+		</xrx:variable>
+	</xrx:variables>
+	<xrx:portal>tag:www.monasterium.net,2011:/mom/portal/desktop</xrx:portal>
+	<xrx:init>
+		<xrx:processor>
+			<xrx:xformsflag>true</xrx:xformsflag>
+		</xrx:processor>
+	</xrx:init>
+	<xrx:csss>
+		<xrx:css>tag:www.monasterium.net,2011:/mom/css/charter-preview</xrx:css>
+		<style type="text/css">
+
+#dcharter-preview-main{{
+  position:relative;
+  float:left;
+  width:800px;
+}}
+
+.note-field{{
+	position:relative;
+	top: 10px;
+}}
+
+.noteBobble {{
+	display:none;
+	position: absolute;
+	left:-130px;
+	bottom:30%;
+	z-index:20;
+	width: 400px;
+	height: 160px;
+	background-color: #F6F6F6;
+	padding:20px;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  -khtml-border-radius:3px;
+  border-radius:3px;
+  -moz-box-shadow:    4px -3px 10px 1px #202020;
+  -webkit-box-shadow: 4px -3px 10px 1px #202020;
+  box-shadow:         4px -3px 10px 1px #202020;
+}}
+
+.noteBobble .xfLabel{{ 
+	color:rgb(142,163,132);
+	font-weight:bold;
+}}
+    
+.noteBobble .xfValue{{ 
+	top: 5px !important;
+  position:relative;
+  width:400px !important;
+  max-height: 100px !important;
+}}
+
+.noteBobble .xfTrigger{{
+	width:30px !important;
+}}
+    
+.edit-box{{
+  border:solid #C8C8C8 1px;
+  padding:3px;
+}}
+  
+    </style>
+	</xrx:csss>
+	<xrx:model>
+		{ bookmark:model(conf:param('request-root')) }
+		{ publication:model(conf:param('request-root')) }
+	</xrx:model>
+	<xrx:divs>
+		<xrx:div>
+			<xrx:key>charter-preview-div</xrx:key>
+			<xrx:view>
+				<div data-demoid="029b42ce-eaaa-4b9c-b443-5955c7cf035c">
+					{
+					let $all-user-xmls := $user:db-base-collection/xrx:user
+					for $bookmarked-charter at $num in $wbookmarks:bookmarked-charters[position() = $wbookmarks:startstop]
+					return
+					(: get charter context: collection or fond? :)
+					let $tokens := tokenize(substring-after($bookmarked-charter, conf:param('atom-tag-name')), '/')
+					
+					let $charter-context := 
+					let $probably-collection-id := $tokens[3]
+					let $probably-collection-atom-id := metadata:atomid('collection', $probably-collection-id)
+					return
+					if(exists(metadata:base-collection('collection', 'public')//atom:id[.=$probably-collection-atom-id])) then 'collection' else 'fond'
+					
+					let $charter-id := $tokens[last()]
+					let $fond-id := if($charter-context = 'fond') then $tokens[last() - 1] else 'null'
+					let $archive-id := if($charter-context = 'fond') then $tokens[last() - 2] else 'null'
+					let $collection-id := if($charter-context = 'collection') then $tokens[last() - 1] else 'null'
+					
+					(: init metadata database collection :)        
+					let $metadata-charter-collection := 
+					if($charter-context = 'fond') then
+					metadata:base-collection('charter', ($archive-id, $fond-id), 'public')
+					else
+					metadata:base-collection('charter', $collection-id, 'public')
+					
+					(: get charter :)
+					let $charter := root($metadata-charter-collection//atom:id[.=$bookmarked-charter])//cei:text
+					return
+					<div data-demoid="b5f5092c-ccb0-4b73-93af-f70df8d6040b" id="ch{ $num }">
+						<xrx:subwidget>
+							<xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/charter-preview-bookmarks</xrx:atomid>
+							<xrx:pass>
+								<xrx:parameter>
+									<xrx:name>$constructor:charter</xrx:name>
+									<xrx:expression>$charter</xrx:expression>
+								</xrx:parameter>
+								<xrx:parameter>
+									<xrx:name>$constructor:all-user-xmls</xrx:name>
+									<xrx:expression>$all-user-xmls</xrx:expression>
+								</xrx:parameter>
+								<xrx:parameter>
+									<xrx:name>$constructor:charter-context</xrx:name>
+									<xrx:expression>$charter-context</xrx:expression>
+								</xrx:parameter>
+								<xrx:parameter>
+									<xrx:name>$constructor:fond-id</xrx:name>
+									<xrx:expression>$fond-id</xrx:expression>
+								</xrx:parameter>
+								<xrx:parameter>
+									<xrx:name>$constructor:archive-id</xrx:name>
+									<xrx:expression>$archive-id</xrx:expression>
+								</xrx:parameter>
+								<xrx:parameter>
+									<xrx:name>$constructor:collection-id</xrx:name>
+									<xrx:expression>$collection-id</xrx:expression>
+								</xrx:parameter>
+							</xrx:pass>
+						</xrx:subwidget>
+					</div>
+					}
+				</div>
+			</xrx:view>
+		</xrx:div>
+	</xrx:divs>
+	<xrx:view>
+		<div data-demoid="c19280bc-c46b-4bba-ac7c-41d641935625" id="dcharter-preview-main">
+			<xf:group>
+				<div class="h2" data-demoid="d421b535-24d0-4c86-8210-c94b6861a8f0">
+					<xrx:i18n>
+						<xrx:key>bookmarks</xrx:key>
+						<xrx:default>Bookmarks</xrx:default>
+					</xrx:i18n>
+				</div>
+				<div class="my-functions" data-demoid="b49a3fc6-9a62-4635-9b03-61f4aa0f5853">
+					<h3>
+						<xrx:i18n>
+							<xrx:key>my-functions</xrx:key>
+							<xrx:default>MyFunctions</xrx:default>
+						</xrx:i18n>
+					</h3>
+					<div class="function-links" data-demoid="624336c0-79c3-49c3-97fe-5703b4a020c6">
+						<div class="function-link" data-demoid="dfdc4f5e-2036-4893-a795-78474797fd6e">
+							<a href="{ conf:param('request-root')}service/notes-as-pdf?lang={$xrx:lang}">
+								<span>‣ </span>
+								<xrx:i18n>
+									<xrx:key>export-notes-as-pdf</xrx:key>
+									<xrx:default>Export notes as PDF</xrx:default>
+								</xrx:i18n>
+							</a>
+						</div>
+					</div>
+				</div>
+				
+				{ $wbookmarks:navigation }
+				
+				<xrx:div>charter-preview-div</xrx:div>
+				
+			</xf:group>
+			{ $wbookmarks:navigation }
+		</div>
+	</xrx:view>
+</xrx:widget>

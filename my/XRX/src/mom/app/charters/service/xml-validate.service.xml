@@ -1,0 +1,174 @@
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/xml-validate</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key></xrx:key>
+      <xrx:default></xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:variables>
+    <!-- request context -->
+    <xrx:variable>
+      <xrx:name>$context</xrx:name>
+      <xrx:expression>$data//*:context/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$archid</xrx:name>
+      <xrx:expression>if($context= 'fond') then $data//*:archid/text() else ''</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$fondid</xrx:name>
+      <xrx:expression>if($context= 'fond') then $data//*:fondid/text() else ''</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$collectionid</xrx:name>
+      <xrx:expression>if($context= 'collection') then $data//*:collectionid/text() else ''</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$type</xrx:name>
+      <xrx:expression>$data//*:type/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$uri-tokens</xrx:name>
+      <xrx:expression>if($context = 'fond') then ($archid, $fondid) else $collectionid</xrx:expression>
+    </xrx:variable>
+    <!-- file -->
+    <xrx:variable>
+      <xrx:name>$fileuri</xrx:name>
+      <xrx:expression>xmldb:decode($data//*:fileuri/text())</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$schemaid</xrx:name>
+      <xrx:expression>xs:string($data//*:schemaid/text())</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$url</xrx:name>
+      <xrx:expression>xs:anyURI(concat('http://localhost:', conf:param('jetty-port'), $fileuri))</xrx:expression>
+    </xrx:variable>
+    <!-- validate data -->
+    <xrx:variable>
+      <xrx:name>$clear-grammar-cache</xrx:name>
+      <xrx:expression>validation:clear-grammar-cache()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$data-as-xml</xrx:name>
+      <xrx:expression>chimport:is-wellformed($url)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$is-wellformed</xrx:name>
+      <xrx:expression>if(exists($data-as-xml/self::*:error)) then false() else true()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$schema-exists</xrx:name>
+      <xrx:expression>$schemaid != ''</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$schema</xrx:name>
+      <xrx:expression>if($schema-exists) then $xrx:live-project-db-base-collection/xs:schema[@id=$schemaid] else()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$validation-report</xrx:name>
+      <xrx:expression>if($is-wellformed and $schema-exists) then data:validate($data-as-xml, $schema) else ()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$is-valid</xrx:name>
+      <xrx:expression>(($is-wellformed) and ((if($validation-report//status[.='valid']) then true() else false()) or not($schema-exists)))</xrx:expression>
+    </xrx:variable>
+    <!-- import util info -->
+    <xrx:variable>
+      <xrx:name>$import-util-feed</xrx:name>
+      <xrx:expression>metadata:feed('charter', $uri-tokens, 'import.util')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$entryname</xrx:name>
+      <xrx:expression>concat(if($context = 'fond') then $fondid else $collectionid, '.', $type, '.xml')</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:translateflag>true</xrx:translateflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:body>
+    {
+    let $optimized-validation-report := 
+      <report xmlns="">
+        { $validation-report//*:status }
+        { $validation-report//*:namespace }
+        { $validation-report//*:duration }
+        { ($validation-report//*:message)[position() = 1 to 50] }
+      </report>
+    
+    (: if the document is valid we save it into the database :)
+    let $post := if($is-valid) then atom:POST($import-util-feed, $entryname, $data-as-xml) else()
+    
+    return
+    
+    if(not($is-wellformed)) then
+    <xrx:response status="-1">
+      <xrx:message>
+        <xrx:i18n>
+          <xrx:key>file-not-wellformed-message</xrx:key>
+          <xrx:default>File is not wellformed.</xrx:default>
+        </xrx:i18n>
+      </xrx:message>
+      <xrx:icon>{ conf:param('request-root') }dialog-warning.png</xrx:icon>
+      <xrx:report>
+        <report xmlns="">
+          <message>
+            <xrx:i18n>
+              <xrx:key>file-not-wellformed-message</xrx:key>
+              <xrx:default>File is not wellformed.</xrx:default>
+            </xrx:i18n>
+          </message>
+        </report>
+      </xrx:report>
+    </xrx:response>
+    else if($is-valid) then
+    <xrx:response status="1">
+      <xrx:message>
+        <xrx:i18n>
+          <xrx:key>file-is-valid-message</xrx:key>
+          <xrx:default>File is valid.</xrx:default>
+        </xrx:i18n>
+      </xrx:message>
+      <xrx:icon>{ conf:param('request-root') }face-smile.png</xrx:icon>
+      <xrx:report>{ $optimized-validation-report }</xrx:report>
+    </xrx:response>
+    else
+    <xrx:response status="-1">
+      <xrx:message>
+        <xrx:i18n>
+          <xrx:key>file-not-valid-message</xrx:key>
+          <xrx:default>File is not valid.</xrx:default>
+        </xrx:i18n>
+      </xrx:message>
+      <xrx:icon>{ conf:param('request-root') }dialog-warning.png</xrx:icon>
+      <xrx:report>{ $optimized-validation-report }</xrx:report>
+    </xrx:response>  
+    }
+  </xrx:body>
+</xrx:service>

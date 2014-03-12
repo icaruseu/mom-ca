@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+
+	This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+	
+	As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+	
+	This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+	
+	The VdU/VRET is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	VdU/VRET is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with VdU/VRET.  If not, see <http://www.gnu.org/licenses/>.
+	
+	We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+
+	
+	author daniel.ebner@uni-koeln.de:)
+-->
+<!-- 
+	This schema defines an xml application for describing charter-fonds in EAD. 
+	It is used as a documentation for a ead-import-format for mom-ca.uni-koeln.de and vdu.uni-koeln.de.
+	It is based in the on the ead.xsd (http://www.loc.gov/ead/ead.xsd).
+	There are many restrictions to the ead.xsd since many optional elements and attributes are not allowd in elements or the maxOccurs have been decrease or the minOccurs have been increase
+	An extention of the ead.xsd is the import of the xml.xsd schema for using xml:base
+	The global types of the original xsd are resolves because the types are locally restricted in a diffrent way and for better human readability.
+-->
+
+<xs:schema id="momEAD" elementFormDefault="qualified" targetNamespace="urn:isbn:1-931666-22-9" xmlns="urn:isbn:1-931666-22-9" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:import namespace="http://www.w3.org/1999/xlink" schemaLocation="../../xlink/xsd/xlink.xsd"/>
+	<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="../../xml/xsd/xml.xsd"/>
+	
+  <xs:element name="ead">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="eadheader">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="eadid" />
+							<xs:element name="filedesc">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="titlestmt">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="titleproper"/>
+												</xs:sequence>
+											</xs:complexType>	
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>		
+					</xs:complexType>	 
+				</xs:element>
+				<xs:element name="archdesc">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="did">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="abstract"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="dsc">
+								<xs:complexType>
+									<xs:sequence>
+										<!--start fond-information-->
+										<xs:element name="c">											
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="did">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="unitid" minOccurs="0"/>
+																<xs:element name="unittitle"/>
+																<xs:element name="dao" minOccurs="1">
+																	<xs:complexType>																								
+																		<xs:attribute ref="xlink:href"/>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="bioghist" minOccurs="0"><!--? maxOccurs="unbounded" ?-->
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="0" name="head" />
+																<xs:sequence minOccurs="0" maxOccurs="unbounded">
+																	<xs:element name="p" type="p"/>                   
+																</xs:sequence>
+															</xs:sequence>        
+														</xs:complexType> 
+													</xs:element>
+													<xs:element name="custodhist" minOccurs="0"><!-- maxOccurs="unbounded" ?-->
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="0" name="head"/>
+																<xs:sequence minOccurs="0" maxOccurs="unbounded">
+																	<xs:element name="p" type="p"/>                   
+																</xs:sequence>
+															</xs:sequence>  
+														</xs:complexType>  
+													</xs:element>
+													<xs:element name="bibliography" minOccurs="0" maxOccurs="unbounded">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="0" name="head"/>
+																<xs:element minOccurs="0" maxOccurs="unbounded" name="p" type="p" />
+																<xs:element minOccurs="0" maxOccurs="unbounded" name="bibref" />
+															</xs:sequence>
+														</xs:complexType> 
+													</xs:element>            
+													<xs:element name="odd" minOccurs="0" maxOccurs="unbounded">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="0" name="head"/>
+																<xs:sequence minOccurs="0" maxOccurs="unbounded">
+																	<xs:element name="p" type="p" minOccurs="0" maxOccurs="unbounded"/>  
+																	<xs:element name="note" minOccurs="0" maxOccurs="unbounded">
+																		<xs:complexType>
+																			<xs:sequence>
+																				<xs:element name="p" type="p" />
+																			</xs:sequence>
+																			<xs:attribute name="label"/>
+																		</xs:complexType>
+																	</xs:element>                    
+																</xs:sequence>
+															</xs:sequence>    
+															<xs:attribute name="type" fixed="intro" />
+														</xs:complexType>
+													</xs:element>            
+													<xs:element name="otherfindaid" minOccurs="0" maxOccurs="unbounded">            	
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element minOccurs="0" maxOccurs="unbounded" name="extref" type="extref"/>
+															</xs:sequence>            
+														</xs:complexType>	
+													</xs:element>                        
+													
+													<!--start charters-->
+													<!-- will be transformed to cei while importing in MOM -->
+													<!-- not relevant for fond-editor -->
+													<xs:sequence maxOccurs="unbounded" minOccurs="0">
+														<xs:element name="c">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="did">
+																		<xs:complexType>
+																			<xs:sequence>
+																				<xs:element name="unitid" maxOccurs="unbounded">
+																					<xs:complexType>
+																						<xs:simpleContent>
+																							<xs:extension base="xs:string">
+																								<xs:attribute name="encodinganalog">
+																									<xs:simpleType>
+																										<xs:restriction base="xs:token">
+																											<xs:enumeration value="cei:altIdentifier" />	
+																										</xs:restriction>
+																									</xs:simpleType>
+																								</xs:attribute>
+																							</xs:extension>																							
+																						</xs:simpleContent>																						
+																					</xs:complexType>
+																				</xs:element>
+																				<xs:element name="unitdate">
+																					<xs:complexType mixed="true">
+																						<xs:sequence>
+																							<xs:element name="emph" type="emph" minOccurs="0" /><!-- maxOccurs="unbounded" ?-->
+																						</xs:sequence>
+																						<xs:attribute name="normal" use="required">
+																							<xs:simpleType>
+																								<xs:restriction base="xs:token">
+																									<xs:pattern value="(\-?(0|1|2)([0-9]{3})(((01|02|03|04|05|06|07|08|09|10|11|12)((0[1-9])|((1|2)[0-9])|(3[0-1])))|\-((01|02|03|04|05|06|07|08|09|10|11|12)(\-((0[1-9])|((1|2)[0-9])|(3[0-1])))?))?)(/\-?(0|1|2)([0-9]{3})(((01|02|03|04|05|06|07|08|09|10|11|12)((0[1-9])|((1|2)[0-9])|(3[0-1])))|\-((01|02|03|04|05|06|07|08|09|10|11|12)(\-((0[1-9])|((1|2)[0-9])|(3[0-1])))?))?)?"/>
+																								</xs:restriction>
+																							</xs:simpleType>
+																						</xs:attribute>
+																					</xs:complexType>                							
+																				</xs:element>
+																				<xs:element name="unittitle" minOccurs="0" maxOccurs="unbounded">                							
+																					<xs:complexType mixed="true">
+																						<xs:choice maxOccurs="unbounded" minOccurs="0">
+																							<xs:element name="ref" type="ref"/>
+																							<xs:element name="emph" type="emph"/>
+																							<xs:element name="geogname" />
+																							<xs:element name="persname"/>
+																						</xs:choice>
+																						<xs:attribute name="encodinganalog" use="required" fixed="cei:abstract"/>
+																					</xs:complexType>
+																				</xs:element>
+																				<xs:element name="materialspec" minOccurs="0" maxOccurs="unbounded"><!--?  or maxOccurs="2" one for @encodinganalog="cei:issuedPlace" and on for @encodinganalog="cei:nota"?-->	
+																					<xs:complexType mixed="true">
+																						<xs:sequence>
+																							<xs:element name="emph" type="emph" minOccurs="0" maxOccurs="unbounded"/>
+																						</xs:sequence>
+																						<xs:attribute name="encodinganalog" use="required">
+																							<xs:simpleType>
+																								<xs:restriction base="xs:token">
+																									<xs:enumeration value="cei:issuedPlace" />
+																									<xs:enumeration value="cei:nota" />
+																									<xs:enumeration value="cei:traditioform" />
+																								</xs:restriction>
+																							</xs:simpleType>
+																						</xs:attribute>
+																					</xs:complexType>
+																				</xs:element>
+																				<xs:element name="langmaterial" minOccurs="0" maxOccurs="unbounded"/>		
+																				<xs:element name="physdesc" minOccurs="0">
+																					<xs:complexType>
+																						<xs:sequence>
+																							<xs:element name="dimensions" minOccurs="0"/>
+																							<xs:element name="physfacet" minOccurs="0" maxOccurs="unbounded">
+																								<xs:complexType mixed="true">
+																									<xs:choice maxOccurs="unbounded" minOccurs="0">
+																										<xs:element name="persname">
+																											<xs:complexType mixed="true">
+																												<xs:attribute name="encodinganalog" use="required" fixed="cei:sigillant"/>
+																											</xs:complexType>
+																										</xs:element>
+																										<xs:element name="emph" type="emph"/>
+																									</xs:choice>
+																									<xs:attribute name="encodinganalog" use="required">
+																										<xs:simpleType>
+																											<xs:restriction base="xs:token">
+																												<xs:enumeration value="cei:material" />
+																												<xs:enumeration value="cei:condition" />
+																												<xs:enumeration value="cei:seal" />
+																												<xs:enumeration value="cei:sealDesc" />					
+																											</xs:restriction>
+																										</xs:simpleType>
+																									</xs:attribute>
+																								</xs:complexType>
+																							</xs:element>			
+																						</xs:sequence>
+																					</xs:complexType>
+																				</xs:element>	
+																				<xs:element name="daogrp" minOccurs="0">
+																					<xs:complexType>
+																						<xs:sequence>
+																							<xs:element name="daoloc" maxOccurs="unbounded">
+																								<xs:complexType>
+																									<xs:sequence>
+																										<xs:element minOccurs="0" name="daodesc">
+																											<xs:complexType>
+																												<xs:sequence>
+																													<xs:element name="p"/>			
+																												</xs:sequence>
+																											</xs:complexType>
+																										</xs:element>
+																									</xs:sequence>																								
+																									<xs:attribute ref="xlink:href"/>
+																								</xs:complexType>
+																							</xs:element>
+																						</xs:sequence>
+																					</xs:complexType>
+																				</xs:element>
+																			</xs:sequence>
+																		</xs:complexType>
+																	</xs:element>
+																	<xs:element name="otherfindaid" minOccurs="0"  maxOccurs="unbounded">
+																		<xs:complexType>
+																			<xs:sequence>
+																				<xs:element maxOccurs="unbounded" name="extref" type="extref"/>
+																			</xs:sequence>            
+																		</xs:complexType>	
+																	</xs:element>
+																	<xs:element name="odd" minOccurs="0" maxOccurs="unbounded">		<!--?  or maxOccurs="2" one for @encodinganalog="cei:notarialSub" and on for @encodinganalog="cei:diplomaticAnalysis"?-->		
+																		<xs:complexType>
+																			<xs:sequence>
+																				<xs:element name="p"></xs:element>
+																			</xs:sequence>
+																			<xs:attribute name="encodinganalog" use="required">
+																				<xs:simpleType>
+																					<xs:restriction base="xs:token">
+																						<xs:enumeration value="cei:notarialSub" />
+																						<xs:enumeration value="cei:diplomaticAnalysis" />		
+																					</xs:restriction>
+																				</xs:simpleType>
+																			</xs:attribute>
+																		</xs:complexType>
+																	</xs:element>
+																	<xs:element name="scopecontent" minOccurs="0" maxOccurs="unbounded"><!--?  or maxOccurs="2" one for @encodinganalog="cei:issuer" and on for @encodinganalog="cei:recipient"?-->		
+																		<xs:complexType>
+																			<xs:sequence>
+																				<xs:element name="p"></xs:element>
+																			</xs:sequence>
+																			<xs:attribute name="encodinganalog" use="required">
+																				<xs:simpleType>
+																					<xs:restriction base="xs:token">
+																						<xs:enumeration value="cei:issuer" />
+																						<xs:enumeration value="cei:recipient" />		
+																					</xs:restriction>
+																				</xs:simpleType>
+																			</xs:attribute>
+																		</xs:complexType>
+																	</xs:element>
+																	<xs:element name="altformavail" minOccurs="0" maxOccurs="unbounded">
+																		<xs:complexType>
+																			<xs:sequence>
+																				<xs:element name="p" minOccurs="2" maxOccurs="2">
+																					<xs:complexType mixed="true">
+																						<xs:sequence>
+																							<xs:element name="archref" minOccurs="0">
+																								<xs:complexType mixed="true">
+																									<xs:sequence>
+																										<xs:element name="repository" minOccurs="0"/>
+																										<xs:element name="unitid" minOccurs="0"/>
+																									</xs:sequence>
+																									<xs:attribute ref="xlink:href"/>
+																								</xs:complexType>
+																							</xs:element>
+																						</xs:sequence>
+																						<xs:attribute name="altrender" fixed="cei:traditioform"/>
+																					</xs:complexType>
+																				</xs:element>
+																			</xs:sequence>
+																			<xs:attribute name="encodinganalog" use="required" fixed="cei:witness"/>		
+																		</xs:complexType>
+																	</xs:element>
+																	<xs:element name="bibliography" minOccurs="0" maxOccurs="unbounded">
+																		<xs:complexType>
+																			<xs:sequence>			
+																				<xs:element name="bibref" maxOccurs="unbounded"></xs:element>
+																			</xs:sequence>		
+																			<xs:attribute name="encodinganalog" use="required">
+																				<xs:simpleType>
+																					<xs:restriction base="xs:token">
+																						<xs:enumeration value="cei:listBibl" />
+																						<xs:enumeration value="cei:listBiblEdition" />
+																						<xs:enumeration value="cei:listBiblErw" />
+                                            <xs:enumeration value="cei:listBiblFaksimile" />  
+																						<xs:enumeration value="cei:listBiblRegest" />	
+																					</xs:restriction>
+																				</xs:simpleType>
+																			</xs:attribute>
+																		</xs:complexType>
+																	</xs:element>	
+																	<xs:element name="note" minOccurs="0" maxOccurs="unbounded">
+																		<xs:complexType>
+																			<xs:sequence>
+																				<xs:element name="p" type="p" />
+																			</xs:sequence>
+																			<xs:attribute name="encodinganalog" use="required">
+																				<xs:simpleType>
+																					<xs:restriction base="xs:token">																						
+																						<xs:enumeration value="cei:note" />			
+																					</xs:restriction>
+																				</xs:simpleType>
+																			</xs:attribute>
+																			<xs:attribute name="target"/>
+																			<xs:attribute name="label"/>
+																		</xs:complexType>
+																	</xs:element>	
+																	<xs:element name="index" minOccurs="0">
+																		<xs:complexType>
+																			<xs:sequence>
+																				<xs:element maxOccurs="unbounded" name="indexentry">
+																					<xs:complexType>
+																						<xs:choice>
+																							<xs:element name="geogname"/>
+																							<xs:element name="persname">
+																								<xs:complexType>
+																									<xs:simpleContent>
+																										<xs:extension base="xs:token">
+																											<xs:attribute name="encodinganalog">
+																												<xs:simpleType>
+																													<xs:restriction base="xs:token">
+																														<xs:enumeration value="cei:testis" />
+																														<xs:enumeration value="cei:testisSigilli" />
+																													</xs:restriction>
+																												</xs:simpleType>
+																											</xs:attribute>
+																										</xs:extension>
+																									</xs:simpleContent>																									
+																								</xs:complexType>
+																							</xs:element>
+																							<xs:element name="subject"/>
+																						</xs:choice>
+																					</xs:complexType>
+																				</xs:element>			
+																			</xs:sequence>
+																		</xs:complexType>
+																	</xs:element>
+																</xs:sequence>
+																<xs:attribute name="level" fixed="item" use="required"/>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>            
+												</xs:sequence>
+												<xs:attribute ref="xml:base" />
+												<xs:attribute name="level" fixed="fonds" use="required"/>
+											</xs:complexType>  											
+										</xs:element>
+									</xs:sequence>									
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="level" fixed="otherlevel"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="id"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType mixed="true" name="emph">
+		<xs:sequence>
+			<xs:element name="emph" type="emph" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="altrender">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">					
+					<xs:enumeration value="cei:foreign"/>
+					<xs:enumeration value="cei:legend"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="render">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="bold"/>					
+					<xs:enumeration value="italic"/>
+					<xs:enumeration value="sub"/>
+					<xs:enumeration value="super"/>
+					<xs:enumeration value="underline"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	
+	<xs:complexType mixed="true" name="ref">
+		<xs:sequence maxOccurs="unbounded" minOccurs="0">
+			<xs:element name="emph" type="emph" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>	
+		<xs:attribute ref="xlink:href"/>
+		<xs:attribute ref="xlink:role"/>
+	</xs:complexType>	
+	
+	<xs:complexType mixed="true" name="extref">
+		<xs:sequence maxOccurs="unbounded" minOccurs="0">
+			<xs:element name="emph" type="emph" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>	
+		<xs:attribute ref="xlink:href"/>
+	</xs:complexType>
+	
+	<xs:complexType mixed="true" name="p">
+		<xs:choice>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="emph" type="emph"/>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="lb">
+				<xs:complexType />
+			</xs:element>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="geogname"/>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="name"/>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="occupation" />
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="persname"/>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="subject"/>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="date"/>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="num"/>
+			<xs:element name="unitdate"/>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="extref" type="extref" />
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="ref" type="ref" />
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="list">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" name="item"/>
+					</xs:sequence>
+					<xs:attribute name="type">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="simple"/>
+								<xs:enumeration value="ordered" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>					
+				</xs:complexType>
+			</xs:element>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="table">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" name="tgroup">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element minOccurs="0" name="thead">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element maxOccurs="unbounded" name="row" >
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element maxOccurs="unbounded" name="entry">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="p" type="p" />
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="tbody">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element maxOccurs="unbounded" name="row" >
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element maxOccurs="unbounded" name="entry">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="p" type="p" />
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType> 
+	
+	
+</xs:schema>

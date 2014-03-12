@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/annotation-overview</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>andre.streicher@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>
+    <xrx:variable>
+      <xrx:name>$collection</xrx:name>
+      <xrx:expression>$xrx:tokenized-uri[1]</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:xformsflag>false</xrx:xformsflag>
+      <xrx:jqueryflag>true</xrx:jqueryflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <style type="text/css">
+    #loading {{ 
+      display: none; 
+      }}  
+    .roundabout-holder {{
+      list-style: none;
+      padding: 0;
+      margin: 0;
+   }}
+   .roundabout-moveable-item {{
+      cursor: pointer;
+      background-color: #ccc;
+      border: 1px solid #999;
+   }}
+   .roundabout-in-focus {{
+      cursor: auto;
+   }}
+   .cropped-img{{
+      width: 100%;
+      max-height: 300px;
+   }}
+   #select-arrows{{
+      float:left;
+      position:relative;
+      top:-130px;
+      left:400px;
+   }}
+   .r-arrow{{
+      margin:5px; 
+      cursor:pointer;
+   }}
+  #metadata{{
+      float:left;
+      width:100%;
+      position:relative;
+      top:-100px;
+   }}
+   .meta-caption{{
+      font-weight:bold;
+      font-size:14px;
+      font-family: Trebuchet MS,regular,sans-serif;
+   }}
+   #data-table{{
+      margin: auto;
+      text-align:right; 
+   }}
+   .data-field{{
+      text-align:left; 
+   }}
+   #data-broken{{
+      display:none;
+      font-family: Trebuchet MS,regular,sans-serif;
+      font-size:13px;
+      font-weight:bold;
+   }}
+   #no-annos{{
+      display:none;
+      position:relative;
+      top:100px;
+      font-family: Trebuchet MS,regular,sans-serif;
+      font-size:16px;
+      font-weight:bold;
+      margin: auto;
+      text-align:center;
+   }}
+    </style>
+  </xrx:csss>
+  <xrx:jss>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/roundabout</xrx:resource>
+
+    <!-- annotation resources -->
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/i18nText</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/annoOverview</xrx:resource>
+  </xrx:jss>
+  <xrx:view>
+    <div data-demoid="2d1a65a3-f431-4ce2-af69-5f7f5e817d6d">
+      <script type="text/javascript">
+				$(document).ready(function(){{
+         jQuery(document).annoOverview({{
+              requestRoot: "{ conf:param('request-root') }",
+              widget: "annoOverview",
+              collection: "{ $collection }",
+              scope: "public"
+              }});
+         jQuery(document).i18nText({{
+              lang: "{ $xrx:lang }",
+           	  requestRoot: "{ conf:param('request-root') }"
+           	  }});
+        }});     
+		  </script>
+      <div data-demoid="f4d679bd-c8d9-4b9f-aa64-cfde3633c425" id="back">
+        <a href="collection">
+          <span>&lt;&lt; </span>
+          <xrx:i18n>
+            <xrx:key>back</xrx:key>
+            <xrx:default>back</xrx:default>
+          </xrx:i18n>
+        </a>
+      </div>
+      <div data-demoid="99a1825a-280a-48f5-ad4f-c9d4c59cdebb">
+        <span id="loading" style="text-align:center">
+          <xrx:resource alt="loading" type="image/gif">tag:www.monasterium.net,2011:/mom/resource/image/ajax-loader</xrx:resource>
+        </span>
+        <span id="no-annos">
+          <xrx:i18n>
+            <xrx:key>no-annos-in-collection</xrx:key>
+            <xrx:default>There are no annotations available for this collection!</xrx:default>
+          </xrx:i18n>
+        </span>
+      </div>
+      <div data-demoid="f488c687-c6ab-483e-af51-8927fd3e02f6" id="scrollBox">
+      </div>
+      <br/>
+      <div data-demoid="aa200597-9549-417d-9c4c-daaa731f44ab" id="select-arrows">
+        <xrx:resource class="r-arrow" id="arrow-selector-left" style="float:left;" title="Previous" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/arrow_l_roundabout</xrx:resource>
+        <xrx:resource class="r-arrow" id="arrow-selector-right" style="float:left;" title="Next" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/arrow_r_roundabout</xrx:resource>
+      </div>
+      <div data-demoid="f1ba9bc3-0dc7-4f9c-9b39-fa679680d3b5" id="metadata">
+        <table id="data-table">
+          <tr>
+            <td>
+              <span class="meta-caption">
+                <xrx:i18n>
+                  <xrx:key>charter</xrx:key>
+                  <xrx:default>Charter</xrx:default>
+                </xrx:i18n>:
+              </span>
+            </td>
+            <td class="data-field">
+              <a href="#" id="charter-data"/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="meta-caption">
+                <xrx:i18n>
+                  <xrx:key>related-to</xrx:key>
+                  <xrx:default>Related to</xrx:default>
+                </xrx:i18n>:
+              </span>
+            </td>
+            <td class="data-field" id="related-to-data"/>
+          </tr>
+          <tr>
+            <td>
+              <span class="meta-caption">
+                <xrx:i18n>
+                  <xrx:key>content</xrx:key>
+                  <xrx:default>Content</xrx:default>
+                </xrx:i18n>:
+              </span>
+            </td>
+            <td class="data-field" id="content-data"/>
+          </tr>
+          <tr>
+            <td>
+              <span class="meta-caption">
+                <xrx:i18n>
+                  <xrx:key>additional-description</xrx:key>
+                  <xrx:default>Additional Description</xrx:default>
+                </xrx:i18n>:
+              </span>
+            </td>
+            <td class="data-field" id="desc-data"/>
+          </tr>
+        </table>
+        <span id="data-broken">
+          <xrx:i18n>
+            <xrx:key>broken-anno</xrx:key>
+            <xrx:default>The annotation you selected is not linked to a markup element!</xrx:default>
+          </xrx:i18n>
+        </span>
+      </div>
+    </div>
+  </xrx:view>
+</xrx:widget>

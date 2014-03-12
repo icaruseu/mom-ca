@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>XRX++ Unit Tests - xrx</title>
+<script src='../../lib/closure-library/closure/goog/base.js'></script>
+<script src='../deps.js'></script>
+<script type="text/javascript">
+  goog.require('goog.dom');
+  goog.require('goog.testing.jsunit');
+  goog.require('xrx');
+  goog.require('xrx.node');
+  goog.require('xrx.pilot');
+  goog.require('xrx.xpath');
+</script>
+<!--link rel="stylesheet" type="text/css" href="../view/default.css"/-->
+</head>
+<body>
+
+<div id="i1" class="xrx-instance">&lt;data&gt;&lt;a/&gt;&lt;b&gt;test&lt;/b&gt;&lt;c/&gt;&lt;/data&gt;</div>
+
+<script type="text/javascript">
+
+var xml = '<a>1<b>2</b>3<c/>4<d>t<e type="attrValue">5</e>6</d><d id="test"/></a>';
+var pilot = new xrx.pilot(xml);
+var node = new xrx.node.Document(pilot);
+
+function test01FnInstance() {
+
+  // Access Document Node
+  var result1 = xrx.xpath.evaluate('xrx:instance("i1")', node, null,
+      xrx.xpath.XPathResultType.ANY_TYPE);
+  var node1 = result1.iterateNext();
+  assertEquals(xrx.node.DOCUMENT, node1.type());
+
+  // Access Element Node
+  var result2 = xrx.xpath.evaluate('xrx:instance("i1")//b', node, null,
+      xrx.xpath.XPathResultType.ANY_TYPE);
+  var node2 = result2.iterateNext();
+  assertEquals(xrx.node.ELEMENT, node2.type());
+  
+  // Access Text Node
+  var result3 = xrx.xpath.evaluate('xrx:instance("i1")//b/text()', node, null,
+      xrx.xpath.XPathResultType.ANY_TYPE);
+  var node3 = result3.iterateNext();
+  assertEquals(xrx.node.TEXT, node3.type());
+};
+
+</script>
+<script>
+  xrx.install();
+</script>
+</body>
+</html>

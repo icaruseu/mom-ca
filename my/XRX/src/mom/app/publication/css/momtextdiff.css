@@ -1,0 +1,30 @@
+.transcription-text .CodeMirror {
+  line-height:2em;
+  font-family:"Trebuchet MS", regular, sans-serif;
+  font-size:36px;
+}
+
+.transcription-text .CodeMirror-scroll {
+  height: auto;
+  overflow-y: hidden;
+  overflow-x: auto;
+  width: 100%;
+}
+
+span.cm-insertin{
+  background:#8DFF54;
+  text-decoration:underline;
+}
+span.cm-insertstart,
+span.cm-insertend{
+	display:none;
+}
+
+span.cm-deletein{
+  background:#FF8370;
+  text-decoration:line-through;
+}
+span.cm-deletestart,
+span.cm-deleteend{
+  display:none;
+}

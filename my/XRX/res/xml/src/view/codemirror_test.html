@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>XRX++ Unit Tests - xrx.codemirror</title>
+<script src='../../lib/codemirror/lib/codemirror.js'></script>
+<link rel="stylesheet" href="../../lib/codemirror/lib/codemirror.css"/>
+<script src='../../lib/closure-library/closure/goog/base.js'></script>
+<script src='../deps.js'></script>
+<script type="text/javascript">
+  goog.require('goog.dom');
+  goog.require('goog.testing.jsunit');
+  goog.require('xrx.codemirror');
+</script>
+<link rel="stylesheet" type="text/css" href="default.css"/>
+<style>
+textarea, .CodeMirror {
+  display: none;
+}
+</style>
+</head>
+<body>
+
+<textarea id="cm1">Test</textarea>
+
+<script type="text/javascript">
+
+function test01fromTextareaNative() {
+  var textarea = goog.dom.getElement('cm1');
+  var cm = CodeMirror.fromTextArea(textarea);
+
+  assertEquals('Test', cm.getValue());
+};
+
+</script>
+</body>
+</html>

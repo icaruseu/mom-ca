@@ -1,0 +1,987 @@
+<xrx:widget xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns:xf="http://www.w3.org/2002/xforms">
+	<xrx:id>tag:www.monasterium.net,2011:/core/widget/translate</xrx:id>
+	<xrx:title>
+		<xrx:i18n>
+			<xrx:key>translation</xrx:key>
+			<xrx:default>Translation</xrx:default>
+		</xrx:i18n>
+	</xrx:title>
+	<xrx:subtitle />
+	<xrx:description />
+	<xrx:author>daniel.ebner@uni-koeln.de</xrx:author>
+	<xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more
+lenient towards the inclusion of components into other systems, once
+it leaves the active development stage.
+    </xrx:licence>
+	<xrx:portal>tag:www.monasterium.net,2011:/mom/portal/desktop</xrx:portal>
+	<xrx:init>
+		<xrx:processor>
+			<xrx:xformsflag>true</xrx:xformsflag>
+		</xrx:processor>
+	</xrx:init>
+	<xrx:csss>
+		<style type="text/css">
+
+#translation{{
+margin-left :200px;
+}}
+
+/*#################### FUNCTIONS ####################*/
+
+/*#################### SELECTIONS ####################*/
+
+#language-selection {{
+width : 200px !important;
+margin : 5px !important;
+}}
+
+#language-selection-value{{
+width : 200px !important;
+}}
+
+#catalog-selection {{
+margin : 5px !important;
+}}
+
+#catalog-selection-value{{
+width : 200px !important;
+}}
+
+.select1wrapper{{
+width : 90% !important;
+}}
+
+#show-translated-selection {{
+margin : 5px !important;
+}}
+
+#search-input {{
+margin : 5px !important;
+}}
+
+#all {{
+margin-left : 5px !important;
+margin-right : 5px !important;
+}}
+
+#submit-button {{
+width:200px;
+margin-top:25px !important;
+}}
+
+/*#################### NAVIGATION ####################*/
+
+#navigation {{
+margin-top : 15px !important;
+margin-left : 200px !important;
+margin-right : 50px !important;
+margin-bottom : 15px !important;
+}}
+
+#navigation-down {{
+display : inline !important;
+}}
+
+#see-all {{
+margin-right: 10px !important;
+}}
+
+#navigation-index {{
+display : inline !important;
+}}
+
+#index {{
+display : inline !important;
+margin-left : 5px !important;
+margin-right : 5px !important;
+}}
+
+#index-value {{
+display : inline !important;
+
+}}
+#index-label {{
+display : inline !important;
+}}
+
+/*#navigation-count {{
+display : inline !important;
+}}*/
+
+#count {{
+display : inline !important;
+margin-left : 5px !important;
+margin-right : 5px !important;
+}}
+
+#count-value {{
+display : inline !important;
+
+}}
+#count-label {{
+display : inline !important;
+}}
+
+#count-all {{
+display : inline !important;
+margin-left : 250px !important;
+
+}}
+
+#count-all-value {{
+display : inline !important;
+
+}}
+#count-all-label {{
+display : inline !important;
+}}
+
+#navigation-up {{
+display : inline !important;
+}}
+
+/*#################### ENTRIES ####################*/
+
+#i18n-table{{
+
+border-width:1px;
+border-style:solid;
+border-color:#B0B0B0;
+padding: 20px;
+
+/*border-top-width:1px;
+border-top-style:solid;
+border-top-color:grey;
+
+border-bottom-width:1px;
+border-bottom-style:solid;
+border-bottom-color:grey;*/
+}}
+
+/*#################### ENTRY ####################*/
+
+#key{{
+margin : 15px;
+}}
+#key-label{{
+font-weight:bold !important;
+display:inline !important;
+margin-right: 15px;
+}}
+
+#default{{
+margin : 15px;
+}}
+
+#default-label{{
+font-weight:bold !important;
+display:inline !important;
+margin-right: 15px;
+}}
+
+#text {{
+width:700px !important;
+}}
+
+#text-value {{
+width:700px !important;
+}}
+
+#save-triggers {{
+margin-top : 15px !important;
+margin-left : 200px !important;
+margin-right : 50px !important;
+}}
+
+#save-and-continue {{
+float:right;
+}}
+
+#save {{
+float:right;
+}}
+
+#translations {{
+margin : 15px !important;
+display:block;
+}}
+
+#translations-label{{
+font-weight:bold !important;
+display:inline !important;
+margin-right: 15px;
+}}
+
+/*#################### XFORMS GENERAL ####################*/
+
+.xfRepeatIndex {{
+background-color: white !important;
+}}
+
+.xfRepeatItem {{
+padding: 0px !important;
+}}
+
+#betterformMessageToaster div {{
+max-height: 100px !important;
+}}
+		</style>
+	</xrx:csss>
+	<xrx:view>
+		<div xmlns:bf="http://betterform.sourceforge.net/xforms"
+			xmlns:bfc="http://betterform.sourceforge.net/xforms/controls">
+			<div class="h2">
+				<xrx:i18n>
+					<xrx:key>translate</xrx:key>
+					<xrx:default>Translate</xrx:default>
+				</xrx:i18n>
+			</div>
+			<xrx:auth>
+				<xrx:rules>
+					<xrx:rule>
+						<xrx:user />
+						<xrx:role>translator</xrx:role>
+					</xrx:rule>
+				</xrx:rules>
+				<xrx:true>
+					<span>
+						{
+						let $entries := translate:entries()
+						let $count := count($entries)
+						let $entry := $entries[atom:content/xrx:i18n/xrx:key/text()=$translate:rkey]
+						let $index := translate:index($entries, $entry)
+						let $config := <config xmlns="" width="100" />
+						let $translations := translate:translations($translate:rkey, $translate:rlang)
+						return
+
+						<div id="translation">
+							<xf:model id="m-functions" />
+							<xf:model id="m-selection">
+								<xf:instance id="i-test">
+									<data xmlns="" />
+								</xf:instance>
+								<xf:instance id="i-languages">
+									<languages xmlns="">{ $i18n:languages }</languages>
+								</xf:instance>
+								<xf:instance id="i-catalogues">{ i18n:translate-xml($i18n:catalogs) }</xf:instance>
+								<xf:bind nodeset="instance('i-selections')/catalog"
+									relevant="instance('i-selections')/language/text() != 'all' and not(instance('i-selections')/page-id/text())" />
+								<xf:bind id="q" nodeset="instance('i-selections')/q" />
+								<xf:instance id="i-selections">
+									<data xmlns="">
+										<language>{ $translate:rlang }</language>
+										<page-id>{ $translate:rid }</page-id>
+										<page-title>{ $translate:mainwidget-title }</page-title>
+										<catalog>{ $translate:rcatalog }</catalog>
+										<only-untranslated>{ $translate:ronly-untranslated }</only-untranslated>
+										<key>{ $translate:rkey }</key>
+										<q>{ $translate:rq }</q>
+									</data>
+								</xf:instance>
+								<xf:action ev:event="selection-changed">
+									<xf:message level="ephemeral">
+										<xrx:i18n>
+											<xrx:key>translate-i18n-constraints-changed</xrx:key>
+											<xrx:default>The constraints for the relevant messages have
+												changed. Please use the 'Get-Messages' Button to get the
+												relevant messages.</xrx:default>
+										</xrx:i18n>
+									</xf:message>
+								</xf:action>
+							</xf:model>
+							<xf:model id="m-entries">
+								<xf:instance id="i-entries">
+									<entries xmlns="">{ $entries }</entries>
+								</xf:instance>
+								<xf:instance id="i-entry-metadata">
+									<entry-metadata xmlns="">
+										<index>{ $index }</index>
+										<changed>false</changed>
+										<translations />
+									</entry-metadata>
+								</xf:instance>
+								<xf:instance id="i-saved">
+									<saved xmlns="" />
+								</xf:instance>
+								<xf:action ev:event="xforms-refresh">
+									<xf:delete nodeset="instance('i-entry-metadata')/translations/node()" />
+								</xf:action>
+								<xf:submission id="s-get-translations"
+									ref="instance('i-entries')/atom:entry[xs:integer(instance('i-entry-metadata')/index/text())]"
+									resource="{ $xrx:localhost-request-base-url }service/get-translations"
+									method="post" replace="instance" instance="i-entry-metadata"
+									targetref="instance('i-entry-metadata')/translations" />
+								<xf:submission id="s-get-entries" ref="instance('i-selections')"
+									resource="echo:void" method="post" replace="instance" instance="i-entries"><!--{$xrx:localhost-request-base-url}service/get-i18n-entries -->
+									<xf:action ev:event="xforms-submit-done">
+										<xf:message>get-entries-done</xf:message>
+									</xf:action>
+								</xf:submission>
+								<xf:submission id="s-save"
+									ref="instance('i-entries')/atom:entry[xs:integer(instance('i-entry-metadata')/index/text())]"
+									resource="{ $xrx:localhost-request-base-url }service/save-i18n-entry"
+									method="post" replace="instance" instance="i-saved">
+									<xf:action ev:event="xforms-submit-done">
+										<xf:message level="ephemeral">
+											<xrx:i18n>
+												<xrx:key>entry-saved</xrx:key>
+												<xrx:default>Entry successfully saved.</xrx:default>
+											</xrx:i18n>
+										</xf:message>
+										<xf:setvalue ref="instance('i-entry-metadata')/changed">false</xf:setvalue>
+									</xf:action>
+									<xf:action ev:event="xforms-submit-error">
+										<xf:message>Error</xf:message>
+									</xf:action>
+									<xf:header>
+										<xf:name>userid</xf:name>
+										<xf:value>{ $xrx:user-id }</xf:value>
+									</xf:header>
+								</xf:submission>
+								<xf:submission id="s-update-i18n"
+									resource="{ $xrx:localhost-request-base-url }service/update-i18n-catalog"
+									method="post" replace="instance" instance="i-updated">
+									<xf:action ev:event="xforms-submit" />
+									<xf:action ev:event="xforms-submit-done">
+										<xf:message level="ephemeral">
+											<xrx:i18n>
+												<xrx:key>update-i18n-done</xrx:key>
+												<xrx:default>All Catalogues are updated. Please reload the page to translate new entries.</xrx:default>
+											</xrx:i18n>
+										</xf:message>
+									</xf:action>
+									<xf:action ev:event="xforms-submit-error">
+										<xf:message>
+											<xrx:i18n>
+												<xrx:key>update-i18n-error</xrx:key>
+												<xrx:default>Error while updating catalogues</xrx:default>
+											</xrx:i18n>
+										</xf:message>
+									</xf:action>
+									<xf:header>
+										<xf:name>userid</xf:name>
+										<xf:value>{ $xrx:user-id }</xf:value>
+									</xf:header>
+								</xf:submission>
+								<xf:instance id="i-updated">
+									<updated xmlns="" />
+								</xf:instance>
+							</xf:model>
+							<xf:group appearance="bf:verticalTable" id="translation-container">
+
+								<!--#################### FUNCTIONS #################### -->
+								<div class="my-functions">
+									<h3>
+										<xrx:i18n>
+											<xrx:key>my-functions</xrx:key>
+											<xrx:default>MyFunctions</xrx:default>
+										</xrx:i18n>
+									</h3>
+									<div class="function-links">
+										<div class="function-link">
+											<xf:trigger appearance="minimal">
+												<xf:label>
+													‣&#160;
+													<xrx:i18n>
+														<xrx:key>show-progress</xrx:key>
+														<xrx:default>Show Progress</xrx:default>
+													</xrx:i18n>
+												</xf:label>
+												<xf:load show="replace">
+													<xf:resource
+														value="concat('{ conf:param('request-root')}', 'translation-progress' )" />
+												</xf:load>
+											</xf:trigger>
+										</div>
+										<xrx:auth>
+											<xrx:rules>
+												<xrx:rule>
+													<xrx:user />
+													<xrx:dbgroup>dba</xrx:dbgroup>
+												</xrx:rule>
+											</xrx:rules>
+											<xrx:true>
+												<div class="function-link">
+													<xf:trigger appearance="minimal">
+														<xf:label>
+															‣&#160;
+															<xrx:i18n>
+																<xrx:key>update-now</xrx:key>
+																<xrx:default>Update now</xrx:default>
+															</xrx:i18n>
+														</xf:label>
+														<!--bfc:show dialog="d-update" / -->
+														<xf:action ev:event="DOMActivate">
+															<xf:send submission="s-update-i18n" />
+														</xf:action>
+													</xf:trigger>
+													<!--bfc:dialog id="d-update"> <xf:label> <xrx:i18n> <xrx:key>updating</xrx:key> 
+														<xrx:default>updating...</xrx:default> </xrx:i18n> </xf:label> <xf:group> 
+														<div>Hallo</div> </xf:group> </bfc:dialog -->
+												</div>
+											</xrx:true>
+											<xrx:false>
+												<span />
+											</xrx:false>
+										</xrx:auth>
+									</div>
+								</div>
+
+								<!--#################### SELECTIONS #################### -->
+								<span style="color:gray;">
+									<xrx:i18n>
+										<xrx:key>messages-to-translate-for</xrx:key>
+										<xrx:default>Messages to translate for</xrx:default>
+									</xrx:i18n>
+									<span>:</span>
+								</span>
+								<div
+									style="padding:20px;padding-left:150px;border-style:solid;border-color:#B0B0B0;border-width:1px;">
+									<xf:group appearance="bf:verticalTable" model="m-selection">
+										<xf:output ref="instance('i-selections')/page-title/text()">
+											<xf:label>
+												<xrx:i18n>
+													<xrx:key>page</xrx:key>
+													<xrx:default>Page</xrx:default>
+												</xrx:i18n>
+												<span>:</span>
+											</xf:label>
+										</xf:output>
+
+										<!--xf:trigger appereance="minimal" ref=".[instance('i-selections')/page-title/text()]"> 
+											<xrx:i18n> <xrx:key>X</xrx:key> <xrx:default>X</xrx:default> </xrx:i18n> 
+											<xf:action> <xf:setvalue ref="instance('i-selections')/page-id"></xf:setvalue> 
+											<xf:setvalue ref="instance('i-selections')/page-title"/> </xf:action> </xf:trigger -->
+										<xf:select1 ref="instance('i-selections')/language"
+											id="language-selection" incremental="true">
+											<xf:label>
+												<xrx:i18n>
+													<xrx:key>language</xrx:key>
+													<xrx:default>language</xrx:default>
+												</xrx:i18n>
+												<span>: </span>
+											</xf:label>
+											{(
+											<xf:item>
+												<xf:label>
+													<xrx:i18n>
+														<xrx:key>all-languages</xrx:key>
+														<xrx:default>All Languages</xrx:default>
+													</xrx:i18n>
+												</xf:label>
+												<xf:value>all</xf:value>
+											</xf:item>
+											,
+											<xf:itemset nodeset="instance('i-languages')/xrx:lang">
+												<xf:label ref="./@name" />
+												<xf:value ref="./@key" />
+											</xf:itemset>
+											)}
+											<xf:action ev:event="xforms-value-changed">
+												<xf:dispatch name="selection-changed" targetid="m-selection" />
+											</xf:action>
+										</xf:select1>
+
+										<!--xf:select1 ref="instance('i-selections')/catalog" id="catalog-selection"> 
+											<xf:label> <xrx:i18n> <xrx:key>catalogue</xrx:key> <xrx:default>Catalogue</xrx:default> 
+											</xrx:i18n> <span>: </span> </xf:label> {( <xf:item> <xf:label> <xrx:i18n> 
+											<xrx:key>all-catalogues</xrx:key> <xrx:default>All Catalogues</xrx:default> 
+											</xrx:i18n> </xf:label> <xf:value>all</xf:value> </xf:item> , <xf:itemset 
+											nodeset="instance('i-catalogues')/xrx:i18n-catalog"> <xf:label ref="./text()"/> 
+											<xf:value ref="./@name"/> </xf:itemset> )} <xf:action ev:event="xforms-value-changed"> 
+											<xf:dispatch name="selection-changed" targetid="m-selection"/> </xf:action> 
+											</xf:select1 -->
+
+										<xf:select1 ref="instance('i-selections')/only-untranslated"
+											appearance="full" id="show-translated-selection" incremental="true">
+											<xf:label>
+												<xrx:i18n>
+													<xrx:key>show</xrx:key>
+													<xrx:default>Show</xrx:default>
+												</xrx:i18n>
+												<span>:</span>
+											</xf:label>
+											<xf:item id="only-untranslated">
+												<xf:label>
+													<xrx:i18n>
+														<xrx:key>only-untranslated</xrx:key>
+														<xrx:default>only untranslated</xrx:default>
+													</xrx:i18n>
+												</xf:label>
+												<xf:value>true</xf:value>
+											</xf:item>
+											<xf:item id="all">
+												<xf:label>
+													<xrx:i18n>
+														<xrx:key>all</xrx:key>
+														<xrx:default>all</xrx:default>
+													</xrx:i18n>
+												</xf:label>
+												<xf:value>false</xf:value>
+											</xf:item>
+											<xf:action ev:event="xforms-value-changed">
+												<xf:dispatch name="selection-changed" targetid="m-selection" />
+											</xf:action>
+										</xf:select1>
+										<xf:input bind="q" id="search-input">
+											<xf:label>
+												<xrx:i18n>
+													<xrx:key>search-for</xrx:key>
+													<xrx:default>search for</xrx:default>
+												</xrx:i18n>
+												<span>: </span>
+											</xf:label>
+											<xf:alert>
+												<xrx:i18n>
+													<xrx:key>required-field</xrx:key>
+													<xrx:default>Required Field</xrx:default>
+												</xrx:i18n>
+											</xf:alert>
+											<xf:action ev:event="xforms-value-changed">
+												<xf:dispatch name="selection-changed" targetid="m-selection" />
+											</xf:action>
+										</xf:input>
+										<xf:trigger id="submit-button">
+											<xf:label>
+												<xrx:i18n>
+													<xrx:key>get-messages</xrx:key>
+													<xrx:default>Get Messages</xrx:default>
+												</xrx:i18n>
+											</xf:label>
+											<bfc:show dialog="value-changed"
+												if="instance('i-entry-metadata')/changed='true'" />
+
+											<!--xf:send submission="s-get-entries" / -->
+											<xf:action
+												if="instance('i-selections')/language!='all' or instance('i-selections')/q!=''">
+												<xf:load show="replace">
+													<xf:resource
+														value="concat('{ conf:param('request-root') }translate?lang=', instance('i-selections')/language , '&amp;catalog=', instance('i-selections')/catalog, '&amp;only-untranslated=', instance('i-selections')/only-untranslated, '&amp;key=', instance('i-selections')/key, '&amp;q=', replace(instance('i-selections')/q, ' ', '+') , '&amp;id=', instance('i-selections')/page-id )" />
+												</xf:load>
+											</xf:action>
+											<xf:action
+												if="instance('i-selections')/language='all' and instance('i-selections')/q=''">
+												<xf:message>
+													<xrx:i18n>
+														<xrx:key>constrain-all-languages</xrx:key>
+														<xrx:default>To get the messages of all languages please
+															constrain the results by a search-term</xrx:default>
+													</xrx:i18n>
+												</xf:message>
+											</xf:action>
+										</xf:trigger>
+									</xf:group>
+								</div>
+								<xf:group model="m-entries">
+
+									<!--#################### NAVIGATION #################### -->
+									<div>
+										<xf:group
+											ref=".[xs:integer(instance('i-entry-metadata')/index) lt 1]">
+											<div style="margin-top:0px; margin-bottom:10px ; color:gray;">
+												<xrx:i18n>
+													<xrx:key>all-messages-for-current-selection</xrx:key>
+													<xrx:default>All Messages to translate for the current
+														Selections:</xrx:default>
+												</xrx:i18n>
+											</div>
+											<xf:output id="count-all"
+												value="count(instance('i-entries')/atom:entry)">
+												<xf:label>
+													<xrx:i18n>
+														<xrx:key>count</xrx:key>
+														<xrx:default>Count</xrx:default>
+													</xrx:i18n>
+													:
+												</xf:label>
+											</xf:output>
+											<xf:group ref=".[count(instance('i-entries')/atom:entry) gt 0]">
+												<div style="margin-top:0px; margin-top:10px; color:gray;">
+													<xrx:i18n>
+														<xrx:key>click-id-to-translate</xrx:key>
+														<xrx:default>Click an ID to translate the message!
+														</xrx:default>
+													</xrx:i18n>
+												</div>
+											</xf:group>
+										</xf:group>
+									</div>
+									<xf:group
+										ref=".[xs:integer(instance('i-entry-metadata')/index) gt 0]">
+										<div id="navigation">
+											<xf:group id="navigation-down">
+												<xf:trigger appearance="minimal" id="see-all">
+													<xf:label>
+														<xrx:i18n>
+															<xrx:key>see-all</xrx:key>
+															<xrx:default>See all</xrx:default>
+														</xrx:i18n>
+													</xf:label>
+													<bfc:show dialog="value-changed"
+														if="instance('i-entry-metadata')/changed='true'" />
+													<xf:setvalue ref="instance('i-entry-metadata')/index">0</xf:setvalue>
+												</xf:trigger>
+												<xf:trigger
+													ref=".[xs:integer(instance('i-entry-metadata')/index) gt 1]">
+													<xf:label>&lt;&lt;</xf:label>
+													<bfc:show dialog="value-changed"
+														if="instance('i-entry-metadata')/changed='true'" />
+													<xf:setvalue ref="instance('i-entry-metadata')/index"
+														value="1" />
+												</xf:trigger>
+												<xf:trigger
+													ref=".[xs:integer(instance('i-entry-metadata')/index) gt 1]">
+													<xf:label>&lt;</xf:label>
+													<bfc:show dialog="value-changed"
+														if="instance('i-entry-metadata')/changed='true'" />
+													<xf:setvalue ref="instance('i-entry-metadata')/index"
+														value="instance('i-entry-metadata')/index -1" />
+												</xf:trigger>
+											</xf:group>
+											<xf:group id="navigation-index">
+												<xf:group
+													ref=".[xs:integer(instance('i-entry-metadata')/index) gt 0]"
+													style="display:inline;">
+													<xf:output id="index" class="index"
+														value="instance('i-entry-metadata')/index" />
+												</xf:group>
+												<xf:group
+													ref=".[xs:integer(instance('i-entry-metadata')/index) gt 0]">
+													<xrx:i18n>
+														<xrx:key>of</xrx:key>
+														<xrx:default>of</xrx:default>
+													</xrx:i18n>
+												</xf:group>
+											</xf:group>
+
+											<!--xf:group id="navigation-count" ref=".[xs:integer(instance('i-entry-metadata')/index) 
+												lt 1]"> <xf:group ref=".[xs:integer(instance('i-entry-metadata')/index) lt 
+												1]"> <xrx:i18n> <xrx:key>count</xrx:key> <xrx:default>Count</xrx:default> 
+												</xrx:i18n>: </xf:group> </xf:group -->
+											<xf:output id="count"
+												value="count(instance('i-entries')/atom:entry)" />
+											<xf:group id="navigation-up">
+												<xf:trigger
+													ref=".[xs:integer(instance('i-entry-metadata')/index) lt count(instance('i-entries')/atom:entry)]">
+													<xf:label>&gt;</xf:label>
+													<bfc:show dialog="value-changed"
+														if="instance('i-entry-metadata')/changed='true'" />
+													<xf:setvalue ref="instance('i-entry-metadata')/index"
+														value="instance('i-entry-metadata')/index +1" />
+
+													<!--xf:send submission="s-get-translations" / -->
+												</xf:trigger>
+												<xf:trigger
+													ref=".[xs:integer(instance('i-entry-metadata')/index) lt count(instance('i-entries')/atom:entry)]">
+													<xf:label>&gt;&gt;</xf:label>
+													<bfc:show dialog="value-changed"
+														if="instance('i-entry-metadata')/changed='true'" />
+													<xf:setvalue ref="instance('i-entry-metadata')/index"
+														value="count(instance('i-entries')/atom:entry)" />
+												</xf:trigger>
+											</xf:group>
+										</div>
+									</xf:group>
+
+
+
+									<!--#################### ENTRIES #################### -->
+									<xf:group
+										ref=".[xs:integer(instance('i-entry-metadata')/index) eq 0]">
+
+										<!--xf:group id="g-show-table-when-count-gt-1"> <table id="i18n-table" 
+											style="width:750px;"> <tr style="height:50px;"> <th style="font-weight:bold 
+											!important; text-align:center !important;"> <xrx:i18n> <xrx:key>message-to-translate</xrx:key> 
+											<xrx:default>Message to translate</xrx:default> </xrx:i18n> </th> <xf:group 
+											id="g-show-text-th-when-not-only-untranslated" ref=".[instance('i-selections')/only-untranslated 
+											!= 'true']"> <th style="font-weight:bold !important; text-align:center !important;"> 
+											<xrx:i18n> <xrx:key>translated-message</xrx:key> <xrx:default>Translated 
+											Message</xrx:default> </xrx:i18n> </th> </xf:group> </tr> <xf:repeat id="r-entries" 
+											nodeset="instance('i-entries')/atom:entry"> <tr style=" background-color: 
+											#DEDEDE; " > <td style="padding:10px !important;"> <xf:trigger appearance="minimal"> 
+											<xf:label ref="./atom:content/xrx:i18n/xrx:key/text()"></xf:label> <xf:setvalue 
+											ref="instance('i-entry-metadata')/index" value="index('r-entries')"></xf:setvalue> 
+											<xf:message><xf:output value="index('r-entries')"/></xf:message> </xf:trigger> 
+											</td> <xf:group id="g-show-text-when-not-only-untranslated" ref=".[instance('i-selections')/only-untranslated 
+											!= 'true']"> <td style="padding:10px !important;"> <xf:output ref="./atom:content/xrx:i18n/xrx:text"></xf:output> 
+											</td> </xf:group> </tr> </xf:repeat> </table> </xf:group -->
+
+
+
+										{
+
+										if($count gt 0) then
+										<table id="i18n-table" style="width:750px;">
+											<tr style="height:50px;">
+												<th
+													style="font-weight:bold !important; text-align:center !important;">
+													<xrx:i18n>
+														<xrx:key>message-to-translate</xrx:key>
+														<xrx:default>Message to translate</xrx:default>
+													</xrx:i18n>
+												</th>
+												{
+												if(not($translate:ronly-untranslated)) then
+												<th
+													style="font-weight:bold !important;  text-align:center !important;">
+													<xrx:i18n>
+														<xrx:key>translated-message</xrx:key>
+														<xrx:default>Translated Message</xrx:default>
+													</xrx:i18n>
+												</th>
+												else
+												()
+												}
+												<th
+													style="font-weight:bold !important; text-align:center !important;">
+													<xrx:i18n>
+														<xrx:key>default-translation</xrx:key>
+														<xrx:default>Default translation</xrx:default>
+													</xrx:i18n>
+												</th>
+												{
+												if(($translate:rlang = 'all')) then
+												<th
+													style="font-weight:bold !important;  text-align:center !important;">
+													<xrx:i18n>
+														<xrx:key>language</xrx:key>
+														<xrx:default>Language</xrx:default>
+													</xrx:i18n>
+												</th>
+												else
+												()
+												}
+
+											</tr>
+											{
+											for $entry at $pos in $entries
+
+											let $message := $entry/atom:content/xrx:i18n
+											let $lang-key := xs:string($message/parent::element(atom:content)/@xml:lang)
+											return
+
+											<tr style=" background-color: #DEDEDE; ">
+												<td style="padding:10px !important;">
+													<xf:trigger appearance="minimal">
+														<xf:label>{$message/xrx:key}</xf:label>
+														<xf:setvalue ref="instance('i-entry-metadata')/index">{$pos}</xf:setvalue>
+													</xf:trigger>
+												</td>
+												{
+												if(not($translate:ronly-untranslated)) then
+												<td style="padding:10px !important;">{ $message/xrx:text, $config}</td>
+												else
+												()
+												}
+												<td style="padding:10px !important;">{ $message/xrx:default }</td>
+												{
+												if(($translate:rlang = 'all')) then
+												<td style="padding:10px !important;">{ xs:string($i18n:languages[xs:string(./@key)=$lang-key]/@name) }</td>
+												else
+												()
+												}
+											</tr>
+											}
+										</table>
+
+										else
+										()
+										}
+									</xf:group>
+
+									<!--#################### ENTRY #################### -->
+									<xf:group
+										ref=".[xs:integer(instance('i-entry-metadata')/index) gt 0]"
+										style="display:block; border-width:1px; border-style:solid; border-color:#B0B0B0; padding: 20px;">
+										<bfc:dialog id="value-changed">
+											<xf:label>
+												<xrx:i18n>
+													<xrx:key>save-changes</xrx:key>
+													<xrx:default>Save changes?</xrx:default>
+												</xrx:i18n>
+											</xf:label>
+											<xf:group appearance="full">
+												<div>
+													<xrx:i18n>
+														<xrx:key>translation-value-changed</xrx:key>
+														<xrx:default>The value of the current translation has
+															changed!</xrx:default>
+													</xrx:i18n>
+													<xrx:i18n>
+														<xrx:key>save-changes</xrx:key>
+														<xrx:default>Save changes?</xrx:default>
+													</xrx:i18n>
+													<xf:group>
+														<xf:trigger style="display:inline !important;">
+															<xf:label style="display:inline !important;">
+																<xrx:i18n>
+																	<xrx:key>save</xrx:key>
+																	<xrx:default>Save</xrx:default>
+																</xrx:i18n>
+															</xf:label>
+															<bfc:hide dialog="value-changed" />
+															<xf:send submission="s-save" />
+														</xf:trigger>
+														<xf:trigger style="display:inline !important;">
+															<xf:label style="display:inline !important;">
+																<xrx:i18n>
+																	<xrx:key>dont-save</xrx:key>
+																	<xrx:default>Don't Save</xrx:default>
+																</xrx:i18n>
+															</xf:label>
+															<bfc:hide dialog="value-changed" />
+															<xf:setvalue ref="instance('i-entry-metadata')/changed">false</xf:setvalue>
+														</xf:trigger>
+													</xf:group>
+												</div>
+											</xf:group>
+										</bfc:dialog>
+										<xf:group appearance="minimal">
+											<xf:output id="key"
+												value="instance('i-entries')/atom:entry[xs:integer(instance('i-entry-metadata')/index/text())]/atom:content/xrx:i18n/xrx:key">
+												<xf:label>
+													<xrx:i18n>
+														<xrx:key>message-to-translate</xrx:key>
+														<xrx:default>Message to translate</xrx:default>
+													</xrx:i18n>
+													:
+												</xf:label>
+											</xf:output>
+											<xf:output id="default"
+												value="instance('i-entries')/atom:entry[xs:integer(instance('i-entry-metadata')/index/text())]/atom:content/xrx:i18n/xrx:default">
+												<xf:label>
+													<xrx:i18n>
+														<xrx:key>default-translation</xrx:key>
+														<xrx:default>Default translation</xrx:default>
+													</xrx:i18n>
+													:
+												</xf:label>
+											</xf:output>
+											<xf:textarea id="text"
+												ref="instance('i-entries')/atom:entry[xs:integer(instance('i-entry-metadata')/index/text())]/atom:content/xrx:i18n/xrx:text">
+												<xf:label
+													ref="bf:instanceOfModel('m-selection', 'i-languages')/xrx:lang[./@key=xs:string(instance('i-entries')/atom:entry[xs:integer(instance('i-entry-metadata')/index/text())]/atom:content/@xml:lang)]/@name" />
+												<xf:action ev:event="xforms-value-changed">
+													<xf:setvalue ref="instance('i-entry-metadata')/changed">true</xf:setvalue>
+												</xf:action>
+											</xf:textarea>
+										</xf:group>
+										<div id="save-triggers">
+											<xf:trigger id="save-and-continue"
+												ref=".[xs:integer(instance('i-entry-metadata')/index) lt count(instance('i-entries')/atom:entry)]">
+												<xf:label>
+													<xrx:i18n>
+														<xrx:key>save-and-continue</xrx:key>
+														<xrx:default>Save and continue</xrx:default>
+													</xrx:i18n>
+												</xf:label>
+												<xf:action ev:event="DOMActivate">
+													<xf:send submission="s-save" />
+													<xf:setvalue ref="instance('i-entry-metadata')/index"
+														value="instance('i-entry-metadata')/index +1" />
+												</xf:action>
+											</xf:trigger>
+											<xf:trigger id="save">
+												<xf:label>
+													<xrx:i18n>
+														<xrx:key>save</xrx:key>
+														<xrx:default>Save</xrx:default>
+													</xrx:i18n>
+												</xf:label>
+												<xf:send submission="s-save" />
+											</xf:trigger>
+										</div>
+										<xf:group>
+											<xf:trigger appearance="minimal"
+												ref=".[count(instance('i-entry-metadata')/translations/*:translation) lt 1]">
+												<xf:label>
+													<xrx:i18n>
+														<xrx:key>show-translations-for-other-languages</xrx:key>
+														<xrx:default>Show Translations for other languages
+														</xrx:default>
+													</xrx:i18n>
+												</xf:label>
+												<xf:send submission="s-get-translations" />
+											</xf:trigger>
+											<xf:group id="translations"
+												ref=".[count(instance('i-entry-metadata')/translations/*:translation) gt 0]">
+												<xf:label>
+													<xrx:i18n>
+														<xrx:key>translations-for-other-languages</xrx:key>
+														<xrx:default>Translations for other languages
+														</xrx:default>
+													</xrx:i18n>
+												</xf:label>
+												<xf:repeat
+													nodeset="instance('i-entry-metadata')/translations/*:translation">
+													<xf:output value="concat(. , ' (', ./@lang, ')')" />
+													<!--xf:load show="replace"> <xf:resource value="concat('{ conf:param('request-root') 
+														}translation?lang=', '&amp;only-untranslated=', bf:instanceOfModel('m-selection', 
+														'i-selections')/only-untranslated, '&amp;key=', instance('i-entries')/atom:entry[xs:integer(instance('i-entry-metadata')/index/text())]/atom:content/xrx:i18n/xrx:key, 
+														'&amp;q=', replace(bf:instanceOfModel('m-selection', 'i-selections')/q, ' 
+														', '+') , '&amp;id=', bf:instanceOfModel('m-selection', 'i-selections')/page-id 
+														)"/> </xf:load -->
+													<!--xf:message> <xf:output value="concat('{ conf:param('request-root') 
+														}translation?lang=', . , '&amp;only-untranslated=', bf:instanceOfModel('m-selection', 
+														'i-selections')/only-untranslated, '&amp;key=', instance('i-entries')/atom:entry[xs:integer(instance('i-entry-metadata')/index/text())]/atom:content/xrx:i18n/xrx:key, 
+														'&amp;q=', replace(bf:instanceOfModel('m-selection', 'i-selections')/q, ' 
+														', '+') , '&amp;id=', bf:instanceOfModel('m-selection', 'i-selections')/page-id 
+														)"></xf:output> </xf:message -->
+
+												</xf:repeat>
+											</xf:group>
+										</xf:group>
+									</xf:group>
+								</xf:group>
+							</xf:group>
+
+							<!--div style="display:none;"> <xf:group> <xf:trigger id="load-i18n-entries"> 
+								<xf:label>Load Widget</xf:label> <xf:action ev:event="DOMActivate"> <xf:load 
+								show="embed" targetid="embed" resource="{conf:param('request-root')}embeddedwidget/?atomid=tag:www.monasterium.net,2011:/core/widget/translate-i18n-entries"/> 
+								</xf:action> </xf:trigger> </xf:group> </div> <div id="embed">Not</div> <script 
+								type="text/javascript" src="{ conf:param('request-root') }load-translate-i18n-entries.js" 
+								defer="defer"/ -->
+						</div>
+
+
+						}
+					</span>
+				</xrx:true>
+				<xrx:false>
+					<span>
+						<xrx:i18n>
+							<xrx:key>protected-page-message</xrx:key>
+							<xrx:default>Protected page.</xrx:default>
+						</xrx:i18n>
+					</span>
+				</xrx:false>
+			</xrx:auth>
+		</div>
+	</xrx:view>
+</xrx:widget>

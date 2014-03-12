@@ -1,0 +1,513 @@
+<ead:ead xmlns:ead="urn:isbn:1-931666-22-9" id="mom_ead_example_document" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<ead:eadheader>
+		<ead:eadid />
+		<ead:filedesc>
+			<ead:titlestmt>
+				<ead:titleproper />
+			</ead:titlestmt>
+		</ead:filedesc>
+	</ead:eadheader>
+	<ead:archdesc level="otherlevel">
+		<ead:did>
+			<ead:abstract />
+		</ead:did>
+		<ead:dsc>
+
+			<!--######################### fond ##################################### -->
+
+			<!--one -->
+			<!--/ead:ead/ead:archdesc/ead:dsc/ead:c[@level='fonds'] describes a fond -->
+			<ead:c level="fonds">
+
+				<!--one -->
+				<ead:did>
+					<!--zero or one -->
+					<ead:unitid>Id/signaure of the fond</ead:unitid>
+					<!--one -->
+					<ead:unittitle>Title of the fond</ead:unittitle>
+					<ead:dao xlink:href="http://fond-logo.org" />
+				</ead:did>
+
+				<!--zero or one -->
+				<ead:bioghist>
+					<!--zero or one -->
+					<ead:head>Heading of the Biography or History</ead:head>
+					<!--zero, one or more -->
+					<ead:p>Paragraph of the Biography or History</ead:p>
+					<ead:p>Another Paragraph of the Biography or History</ead:p>
+				</ead:bioghist>
+
+				<!--zero or one -->
+				<ead:custodhist>
+					<!--zero or one -->
+					<ead:head>Heading of the Custodial History</ead:head>
+					<!--zero, one or more -->
+					<ead:p>Paragraph of the Custodial History</ead:p>
+					<!--zero, one or more -->
+					<ead:p>Paragraph of the Custodial History</ead:p>
+					<ead:p>
+						a paragrah that contains a ref
+						<ead:ref xlink:href="1" xlink:role="footnote">1</ead:ref>
+						to the first footnote of the fond's footnotes
+					</ead:p>
+				</ead:custodhist>
+
+				<!--zero or one -->
+				<ead:bibliography>
+					<!--zero or one -->
+					<ead:head>Heading of the Bibliography</ead:head>
+					<!--zero, one or more -->
+					<ead:p>Paragraph about the Bibliography</ead:p>
+					<ead:p>Paragraph about the Bibliography</ead:p>
+					<!--one or more -->
+					<ead:bibref>Bibliographic Reference</ead:bibref>
+					<ead:bibref>Bibliographic Reference</ead:bibref>
+					<ead:bibref>Bibliographic Reference</ead:bibref>
+				</ead:bibliography>
+
+				<!--zero one or more -->
+				<ead:odd>
+					<ead:head>Heading of Other Descriptive Data</ead:head>
+					<ead:p>Paragraph of Other Descriptive Data</ead:p>
+					<ead:p>can be used to describe fond information other than
+						Biography and Custodial History</ead:p>
+					<ead:p>
+						a paragrah that contains a ref
+						<ead:ref xlink:href="2" xlink:role="footnote">2</ead:ref>
+						to the first footnote of the fond's footnotes
+					</ead:p>
+				</ead:odd>
+
+				<!--/ead:ead/ead:archdesc/ead:dsc/ead:c/ead:odd[@type='intro'] will be displayed at the beginning of the fond preface view in MOM/VdU -->
+				<ead:odd type="intro">
+					<ead:head>Heading of Other Descriptive Data</ead:head>
+					<ead:p>Paragraph of Other Descriptive Data used as the intro of the fond preface</ead:p>
+				</ead:odd>
+
+				<ead:odd>
+					<ead:head>Heading of Descriptive Data used for Footnotes</ead:head>
+					<ead:p>
+						A paragraph of Descriptive Data used for Footnotes   
+          </ead:p>
+					<!--zero one or more -->
+					<ead:note label="1">
+						<!-- one -->
+						<ead:p>A paragraph of the first footnote</ead:p>
+					</ead:note>
+					<ead:note label="2">
+						<ead:p>A paragraph of the second footnote</ead:p>
+					</ead:note>
+				</ead:odd>
+
+				<!--/ead:ead/ead:archdesc/ead:dsc/ead:c/ead:c[@level='item'] describes a charter -->
+
+				<!--######################## charter 1 ##################################### -->
+
+				<ead:c level="item">
+					<ead:did>
+						<!--/ead:ead/ead:archdesc/ead:dsc/ead:c/ead:c/ead:did/ead:unitid[1] is used to generate the id used in MOM/VdU (this can not be described in the xsd) -->
+            <!--one -->
+						<ead:unitid>signature of charter</ead:unitid>
+						<!-- one or more -->
+						<ead:unitid encodinganalog="cei:altIdentifier">former signature
+						</ead:unitid>
+
+						<!--/ead:ead/ead:archdesc/ead:dsc/ead:c/ead:c/ead:did/ead:unitdate/@normal is used in MOM/VdU to order the charters -->
+            <!--one -->
+						<ead:unitdate normal="1234-12-18/1212-12-12">
+							meinDatum
+							<ead:emph altrender="cei:foreign">originale Form des Datums: in Kursiv</ead:emph>
+						</ead:unitdate>
+
+						<!--/ead:ead/ead:archdesc/ead:dsc/ead:c/ead:c/ead:did/ead:unittitle[1] is used for the compact view of a charter in MOM/Vdu -->
+						<!-- one -->
+						<ead:unittitle encodinganalog="cei:abstract">
+							abstract with
+							<ead:emph altrender="cei:foreign">citations</ead:emph>
+							,
+							<ead:emph render="super">super letters</ead:emph>
+							and
+							<ead:ref xlink:href="1" xlink:role="footnote">footnotes</ead:ref>
+							.
+							<ead:geogname>places</ead:geogname>
+							and
+							<ead:persname>persons</ead:persname>
+						</ead:unittitle>
+
+						<!--zero or one -->
+						<ead:materialspec encodinganalog="cei:issuedPlace">issued place</ead:materialspec>
+
+						<!-- zero, one or more -->
+						<ead:materialspec encodinganalog="cei:nota">
+							notes of the archive with
+							<ead:emph altrender="cei:foreign">citations of the original</ead:emph>
+							.
+						</ead:materialspec>
+
+						<!--zero or one -->
+						<ead:materialspec encodinganalog="cei:traditioform">orig</ead:materialspec>
+
+						<!-- zero, one or more -->
+						<ead:langmaterial>language</ead:langmaterial>
+
+						<!--zero or one -->
+						<ead:physdesc>
+
+							<!--zero or one -->
+							<ead:dimensions>dimensions of the charter</ead:dimensions>
+
+							<!--zero, one or more -->
+							<ead:physfacet encodinganalog="cei:material">material of the charter</ead:physfacet>
+							<ead:physfacet encodinganalog="cei:condition">condition of the charter</ead:physfacet>
+
+							<!-- either seal or sealDesc can't be expressed in the xsd -->
+
+							<!--zero one or more -->
+							<ead:physfacet encodinganalog="cei:seal">
+								Description of single seal with
+								<ead:emph altrender="cei:legend">text on the seal</ead:emph>
+								<ead:persname encodinganalog="cei:sigillant">and sigillant</ead:persname>
+							</ead:physfacet>
+							<ead:physfacet encodinganalog="cei:sealDesc">
+								Unstructured Description of multiple with same subelements,
+								<ead:persname encodinganalog="cei:sigillant">sigillant</ead:persname>
+							</ead:physfacet>
+						</ead:physdesc>
+
+						<!-- scans of the charter -->
+						<!--zero, one or more -->
+						<ead:daogrp>
+							<!--one or more -->
+							<!--xml:base is used as the base for xklink:href -->
+							<ead:daoloc xlink:href="image1.jpg">
+								<!--zero or one -->
+								<ead:daodesc>
+									<!--one -->
+									<ead:p>front</ead:p>
+								</ead:daodesc>
+							</ead:daoloc>
+							<ead:daoloc xlink:href="image2.jpg">
+								<!--zero or one -->
+								<ead:daodesc>
+									<!--one -->
+									<ead:p>back</ead:p>
+								</ead:daodesc>
+							</ead:daoloc>
+						</ead:daogrp>
+					</ead:did>
+
+					<!--zero, one or more -->
+					<ead:otherfindaid>
+						<!--one or more -->
+						<ead:extref xlink:href="page.html">See also...</ead:extref>
+					</ead:otherfindaid>
+
+					<!--zero, one or more -->
+					<ead:odd encodinganalog="cei:notarialSub">
+						<!--one -->
+						<ead:p>notarialSub</ead:p>
+					</ead:odd>
+					<ead:odd encodinganalog="cei:diplomaticAnalysis">
+						<!--one -->
+						<ead:p>Notes, other things....</ead:p>
+					</ead:odd>
+
+					<!--zero, one or more -->
+					<ead:scopecontent encodinganalog="cei:issuer">
+						<!--one -->
+						<ead:p>
+							<ead:persname>issuer1</ead:persname>
+							<ead:persname>issuer2</ead:persname>
+						</ead:p>
+					</ead:scopecontent>
+					<ead:scopecontent encodinganalog="cei:recipient">
+						<ead:p>
+							<ead:persname>recipient1</ead:persname>
+							<ead:persname>recipient2</ead:persname>
+						</ead:p>
+					</ead:scopecontent>
+
+					<!-- copies of the current charter -->
+					<!--zero, one or more -->
+					<ead:altformavail encodinganalog="cei:witness">
+						<!--2 -->
+						<ead:p altrender="cei:traditioform">cop. or ins. ...</ead:p>
+						<ead:p>
+							<!--zero or one -->
+							<ead:archref>
+								<ead:repository>archive and fond</ead:repository>
+								<ead:unitid>signature</ead:unitid>
+								further info
+							</ead:archref>
+						</ead:p>
+					</ead:altformavail>
+
+					<!--zero, one or more -->
+					<ead:bibliography encodinganalog="cei:listBibl">
+						<!--one or more -->
+						<ead:bibref>listBibl</ead:bibref>
+						<ead:bibref>listBibl</ead:bibref>
+					</ead:bibliography>
+					<ead:bibliography encodinganalog="cei:listBiblEdition">
+						<ead:bibref>listBibl</ead:bibref>
+						<ead:bibref>listBibl</ead:bibref>
+					</ead:bibliography>
+					<ead:bibliography encodinganalog="cei:listBiblErw">
+						<ead:bibref>listBibl</ead:bibref>
+						<ead:bibref>listBibl</ead:bibref>
+					</ead:bibliography>
+					<ead:bibliography encodinganalog="cei:listBiblFaksimile">
+						<ead:bibref>listBibl</ead:bibref>
+						<ead:bibref>listBibl</ead:bibref>
+					</ead:bibliography>
+					<ead:bibliography encodinganalog="cei:listBiblRegest">
+						<ead:bibref>listBibl</ead:bibref>
+						<ead:bibref>listBibl</ead:bibref>
+					</ead:bibliography>
+
+
+					<!--zero, one or more -->
+					<ead:note encodinganalog="cei:note" label="1">
+						<!--one -->
+						<ead:p>A paragraph of the first footnote</ead:p>
+					</ead:note>
+					<ead:note encodinganalog="cei:note" label="2">
+						<!--one -->
+						<ead:p>A paragraph of the second footnote</ead:p>
+					</ead:note>
+
+					<!--zero or one -->
+					<ead:index>
+						<!--one or more -->
+						<ead:indexentry>
+							<!--one -->
+							<ead:persname>person</ead:persname>
+						</ead:indexentry>
+						<ead:indexentry>
+							<ead:persname>person</ead:persname>
+						</ead:indexentry>
+						<ead:indexentry>
+							<ead:persname encodinganalog="cei:testis">testis</ead:persname>
+						</ead:indexentry>
+						<ead:indexentry>
+							<ead:geogname>place</ead:geogname>
+						</ead:indexentry>
+						<ead:indexentry>
+							<ead:geogname>place</ead:geogname>
+						</ead:indexentry>
+						<ead:indexentry>
+							<ead:subject>subject</ead:subject>
+						</ead:indexentry>
+						<ead:indexentry>
+							<ead:subject>subject</ead:subject>
+						</ead:indexentry>
+					</ead:index>
+				</ead:c>
+
+				<!--######################## charter 2 ##################################### -->
+
+				<ead:c level="item">
+					<ead:did>
+						<!--/ead:ead/ead:archdesc/ead:dsc/ead:c/ead:c/ead:did/ead:unitid[1] is used to generate the id used in MOM/VdU (this can not be described in the xsd) -->
+						<!-- one -->
+						<ead:unitid>signature of charter</ead:unitid>
+						<!-- one -->
+						<ead:unitid encodinganalog="cei:altIdentifier">former signature</ead:unitid>
+
+						<!--one -->
+						<!--/ead:ead/ead:archdesc/ead:dsc/ead:c/ead:c/ead:did/ead:unitdate/@normal is used in MOM/VdU to order the charters -->
+						<ead:unitdate normal="1234-12-18/1212-12-12">
+							meinDatum
+							<ead:emph altrender="cei:foreign">originale Form des Datums: in Kursiv</ead:emph>
+						</ead:unitdate>
+
+						<!--/ead:ead/ead:archdesc/ead:dsc/ead:c/ead:c/ead:did/ead:unittitle[1] is used for the compact view of a charter in MOM/Vdu -->
+						<!-- one -->
+						<ead:unittitle encodinganalog="cei:abstract">
+							abstract with
+							<ead:emph altrender="cei:foreign">citations</ead:emph>
+							,
+							<ead:emph render="super">super letters</ead:emph>
+							and
+							<ead:ref xlink:href="1" xlink:role="footnote">footnotes</ead:ref>
+							.
+							<ead:geogname>places</ead:geogname>
+							and
+							<ead:persname>persons</ead:persname>
+						</ead:unittitle>
+
+						<!--zero or one -->
+						<ead:materialspec encodinganalog="cei:issuedPlace">issued place</ead:materialspec>
+
+						<!-- zero, one or more -->
+						<ead:materialspec encodinganalog="cei:nota">
+							notes of the archive with
+							<ead:emph altrender="cei:foreign">citations of the original</ead:emph>
+							.
+						</ead:materialspec>
+
+						<!--zero or one -->
+						<ead:materialspec encodinganalog="cei:traditioform">orig</ead:materialspec>
+
+						<!-- zero, one or more -->
+						<ead:langmaterial>language</ead:langmaterial>
+
+						<!--zero or one -->
+						<ead:physdesc>
+
+							<!--zero or one -->
+							<ead:dimensions>dimensions of the charter</ead:dimensions>
+
+							<!--zero, one or more -->
+							<ead:physfacet encodinganalog="cei:material">material of the charter</ead:physfacet>
+							<ead:physfacet encodinganalog="cei:condition">condition of the charter</ead:physfacet>
+
+							<!-- either seal or sealDesc can't be expressed in the xsd -->
+
+							<!--zero one or more -->
+							<ead:physfacet encodinganalog="cei:seal">
+								Description of single seal with
+								<ead:emph altrender="cei:legend">text on the seal</ead:emph>
+								and
+								<ead:persname encodinganalog="cei:sigillant">sigillant</ead:persname>
+							</ead:physfacet>
+							<ead:physfacet encodinganalog="cei:sealDesc">
+								Unstructured Description of multiple with same subelements,
+								<ead:persname encodinganalog="cei:sigillant">sigillant</ead:persname>
+							</ead:physfacet>
+						</ead:physdesc>
+
+						<!-- scans of the charter -->
+						<!--zero, one or more -->
+						<ead:daogrp>
+							<!--one or more -->
+							<!--xml:base is used as the base for xklink:href -->
+							<ead:daoloc xlink:href="image1.jpg">
+								<!--zero or one -->
+								<ead:daodesc>
+									<!--one -->
+									<ead:p>front</ead:p>
+								</ead:daodesc>
+							</ead:daoloc>
+							<ead:daoloc xlink:href="image2.jpg">
+								<!--zero or one -->
+								<ead:daodesc>
+									<!--one -->
+									<ead:p>back</ead:p>
+								</ead:daodesc>
+							</ead:daoloc>
+						</ead:daogrp>
+					</ead:did>
+
+					<!--zero, one or more -->
+					<ead:otherfindaid>
+						<!--one or more -->
+						<ead:extref xlink:href="page.html">See also...</ead:extref>
+					</ead:otherfindaid>
+
+					<!--zero, one or more -->
+					<ead:odd encodinganalog="cei:notarialSub">
+						<!--one -->
+						<ead:p>notarialSub</ead:p>
+					</ead:odd>
+					<ead:odd encodinganalog="cei:diplomaticAnalysis">
+						<!--one -->
+						<ead:p>Notes, other things....</ead:p>
+					</ead:odd>
+
+					<!--zero, one or more -->
+					<ead:scopecontent encodinganalog="cei:issuer">
+						<!--one -->
+						<ead:p>
+							<ead:persname>issuer1</ead:persname>
+							<ead:persname>issuer2</ead:persname>
+						</ead:p>
+					</ead:scopecontent>
+					<ead:scopecontent encodinganalog="cei:recipient">
+						<ead:p>
+							<ead:persname>recipient1</ead:persname>
+							<ead:persname>recipient2</ead:persname>
+						</ead:p>
+					</ead:scopecontent>
+
+					<!-- copies of the current charter -->
+					<!--zero, one or more -->
+					<ead:altformavail encodinganalog="cei:witness">
+						<!--2-->
+						<ead:p altrender="cei:traditioform">cop. or ins. ...</ead:p>
+						<ead:p>
+							<!--zero or one -->
+							<ead:archref>
+								<ead:repository>archive and fond</ead:repository>
+								<ead:unitid>signature</ead:unitid>
+								further info
+							</ead:archref>
+						</ead:p>
+					</ead:altformavail>
+
+          <!--zero, one or more -->
+          <ead:bibliography encodinganalog="cei:listBibl">
+            <!--one or more -->
+            <ead:bibref>listBibl</ead:bibref>
+            <ead:bibref>listBibl</ead:bibref>
+          </ead:bibliography>
+          <ead:bibliography encodinganalog="cei:listBiblEdition">
+            <ead:bibref>listBibl</ead:bibref>
+            <ead:bibref>listBibl</ead:bibref>
+          </ead:bibliography>
+          <ead:bibliography encodinganalog="cei:listBiblErw">
+            <ead:bibref>listBibl</ead:bibref>
+            <ead:bibref>listBibl</ead:bibref>
+          </ead:bibliography>
+          <ead:bibliography encodinganalog="cei:listBiblFaksimile">
+            <ead:bibref>listBibl</ead:bibref>
+            <ead:bibref>listBibl</ead:bibref>
+          </ead:bibliography>
+          <ead:bibliography encodinganalog="cei:listBiblRegest">
+            <ead:bibref>listBibl</ead:bibref>
+            <ead:bibref>listBibl</ead:bibref>
+          </ead:bibliography>
+
+
+					<!--zero, one or more -->
+					<ead:note encodinganalog="cei:note" label="1">
+						<!--one -->
+						<ead:p>A paragraph of the first footnote</ead:p>
+					</ead:note>
+					<ead:note encodinganalog="cei:note" label="2">
+						<!--one -->
+						<ead:p>A paragraph of the second footnote</ead:p>
+					</ead:note>
+
+					<!--zero or one -->
+					<ead:index>
+						<!--one or more -->
+						<ead:indexentry>
+							<!--one -->
+							<ead:persname>person</ead:persname>
+						</ead:indexentry>
+						<ead:indexentry>
+							<ead:persname>person</ead:persname>
+						</ead:indexentry>
+						<ead:indexentry>
+							<ead:persname encodinganalog="cei:testis">testis</ead:persname>
+						</ead:indexentry>
+						<ead:indexentry>
+							<ead:geogname>place</ead:geogname>
+						</ead:indexentry>
+						<ead:indexentry>
+							<ead:geogname>place</ead:geogname>
+						</ead:indexentry>
+						<ead:indexentry>
+							<ead:subject>subject</ead:subject>
+						</ead:indexentry>
+						<ead:indexentry>
+							<ead:subject>subject</ead:subject>
+						</ead:indexentry>
+					</ead:index>
+				</ead:c>
+
+			</ead:c>
+		</ead:dsc>
+	</ead:archdesc>
+</ead:ead>

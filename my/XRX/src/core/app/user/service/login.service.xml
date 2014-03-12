@@ -1,0 +1,47 @@
+<service xmlns="http://www.monasterium.net/NS/service" xmlns:i18n="http://www.monasterium.net/NS/i18n" id="login">
+	{
+	let $username := $data//*:username/text()
+	let $password := $data//*:password/text()
+	let $old-user-exists := 
+	 collection($conf:old-user-db-base-uri)/*:user[./*:username=$username]
+  let $old-firstname := $old-user-exists//*:firstname/text() 
+  let $old-lastname := $old-user-exists//*:name/text()
+	let $user-exists :=
+	 collection($conf:user-db-base-uri)/xrx:user[./xrx:email=$username]
+	let $db-user-exists := xmldb:exists-user($username)
+	let $login := 
+	 if($user-exists) then xmldb:login($conf:atom-db-base-uri, $username, $password, true()) else false()
+	return
+	if($old-user-exists and not($user-exists)) then
+  <response status="0">
+    <message>
+      <i18n:label key="welcome" default="Welcome"/>&#160;{ $old-firstname }&#160;{ $old-lastname }!&#160;<i18n:label key="account-got-inoperative-message" default="We apologize that your account got inoperative due to the new version of MOM-CA. There are two possibilities for you: You can simply create a new MOM-CA account, or you can send an email to jochen.graf@uni-koeln.de who will restore your old account. We are sorry for this discomfort!"/></message>
+    <icon>{ $http-icon-root }status/dialog-warning.png</icon>
+  </response>	
+	else if($user-exists and not($db-user-exists)) then
+	<response status="0">
+		<message><i18n:label key="account-created-but-not-activated" default="Your account has been created but is not yet activated"/>.</message>
+		<icon>{ $http-icon-root }status/dialog-warning.png</icon>
+	</response>
+	else if(not($user-exists)) then
+	<response status="0">
+		<message><i18n:label key="unknown-username" default="Unknown username"/>.</message>
+		<icon>{ $http-icon-root }status/dialog-warning.png</icon>
+	</response>
+	else if(not($login)) then
+	<response status="0">
+		<message><i18n:label key="wrong-password" default="Wrong password"/>.</message>
+		<icon>{ $http-icon-root }status/dialog-warning.png</icon>
+	</response>
+	else if($login) then
+	<response status="1">
+		<message><i18n:label key="successfully-logged-in" default="Successfully logged in"/>.</message>
+		<icon>{ $http-icon-root }emotes/face-smile.png</icon>
+	</response>
+	else
+	<response status="-1">
+		<message><i18n:label key="error" default="Error"/>.</message>
+		<icon>{ $http-icon-root }status/dialog-error.png</icon>
+	</response>
+	}
+</service>

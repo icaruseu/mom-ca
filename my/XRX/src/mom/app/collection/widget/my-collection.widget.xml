@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/my-collection</xrx:id>
+  <xrx:inherits>tag:www.monasterium.net,2011:/mom/widget/charters</xrx:inherits>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>my-collection</xrx:key>
+      <xrx:default>My Collection</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>
+    <!-- 
+    	variables for inherited widget
+     -->
+    <!-- charter context information -->
+    <xrx:variable>
+      <xrx:name>$wcharters:metadata-charter-context-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('mycollection', $charter:rcollectionid, 'private')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:metadata-charter-context-entry</xrx:name>
+      <xrx:expression>$wcharters:metadata-charter-context-collection//cei:cei/ancestor::atom:entry</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:charter-context-name</xrx:name>
+      <xrx:expression>$wcharters:metadata-charter-context-entry//cei:titleStmt/cei:title/text()</xrx:expression>
+    </xrx:variable>
+    <!-- 
+      widget specific 
+     -->
+    <xrx:variable>
+      <xrx:name>$wmy-collection:atomid</xrx:name>
+      <xrx:expression>$wcharters:metadata-charter-context-entry/atom:id/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wmy-collection:objectid</xrx:name>
+      <xrx:expression>if($wmy-collection:atomid) then metadata:objectid($wmy-collection:atomid) else''</xrx:expression>
+    </xrx:variable>
+    <!-- 
+    	for inherited widget
+     -->
+    <xrx:variable>
+      <xrx:name>$wcharters:charter-context-short-name</xrx:name>
+      <xrx:expression>$wmy-collection:objectid</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:metadata-charter-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('charter', $charter:rcollectionid, 'private')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:preface-exists</xrx:name>
+      <xrx:expression>exists($wcharters:metadata-charter-context-collection//cei:div[@type='preface']//text())</xrx:expression>
+    </xrx:variable>
+    <!-- block-wise navigation -->
+    <xrx:variable>
+      <xrx:name>$wcharters:block</xrx:name>
+      <xrx:expression>xs:integer(request:get-parameter('block', '-1'))</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:entries</xrx:name>
+      <xrx:expression>mycharters:entries($wcharters:metadata-charter-collection)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:previous-block-pos</xrx:name>
+      <xrx:expression>if($charters:rblock = 1) then 1 else $charters:rblock - 1</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:next-block-pos</xrx:name>
+      <xrx:expression>if($charters:rblock = count($wcharters:entries) div 30) then 1 else $charters:rblock + 1</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:block-strings</xrx:name>
+      <xrx:expression>mycharters:block-strings($wcharters:entries)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:blocks-count</xrx:name>
+      <xrx:expression>count($wcharters:block-strings)</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:divs>
+    <xrx:div>
+      <xrx:key>heading-div</xrx:key>
+      <xrx:view>
+				<div class="h2" data-demoid="ddb0a0e1-18be-46ff-9076-f78bb0b54cd8">
+					<span>
+						<xrx:i18n>
+							<xrx:key>my-collection-preview</xrx:key>
+							<xrx:default>My Collection (Preview)</xrx:default>
+						</xrx:i18n>
+					</span>
+					<span>: </span>
+					<span>{ $wcharters:charter-context-name }</span>
+				</div>      
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>my-functions-div</xrx:key>
+      <xrx:view>
+        <xrx:auth>
+          <xrx:rules>
+            <xrx:rule>
+              <xrx:user/>
+              <xrx:dbgroup>atom</xrx:dbgroup>
+            </xrx:rule>
+          </xrx:rules>
+          <xrx:true>
+            <div class="my-functions" data-demoid="bc3be704-de79-4c0c-9495-6671b758a988">
+              <h3>
+                <xrx:i18n>
+                  <xrx:key>my-functions</xrx:key>
+                  <xrx:default>MyFunctions</xrx:default>
+                </xrx:i18n>
+              </h3>
+              <div class="function-links" data-demoid="0c6b0f4d-fc95-4a6a-be31-92363183bb69">
+                <div class="function-link" data-demoid="48bdde04-b19f-4c84-9517-6a1973b0e589">
+                  <a href="edit-my-collection-info">
+                    <span>‣ </span>
+                    <xrx:i18n>
+                      <xrx:key>edit-preface</xrx:key>
+                      <xrx:default>Edit Preface</xrx:default>
+                    </xrx:i18n>
+                  </a>
+                </div>
+                <div class="function-link" data-demoid="14e8babb-98cd-43b6-b0f7-858ee15ae3c5">
+                  <a href="{ conf:param('request-root') }{ $xrx:tokenized-uri[1] }/my-collection-remove">
+                    <span>‣ </span>
+                    <xrx:i18n>
+                      <xrx:key>remove-collections</xrx:key>
+                      <xrx:default>Remove Collection</xrx:default>
+                    </xrx:i18n>
+                  </a>
+                </div>
+                <div class="function-link" data-demoid="63533b84-a9f9-4882-9d73-e45ae52952c7">
+                  <a href="{ conf:param('request-root') }my-collections-edit">
+                    <span>‣ </span>
+                    <xrx:i18n>
+                      <xrx:key>edit-my-collections</xrx:key>
+                      <xrx:default>Edit my Collections</xrx:default>
+                    </xrx:i18n>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </xrx:true>
+          <xrx:false>
+            <span/>
+          </xrx:false>
+        </xrx:auth>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>preface-link-div</xrx:key>
+      <xrx:view>
+        <xrx:auth>
+          <xrx:rules>
+            <xrx:rule>
+              <xrx:user/>
+              <xrx:dbgroup>atom</xrx:dbgroup>
+            </xrx:rule>
+          </xrx:rules>
+          <xrx:true>
+		        <div class="year-list" data-demoid="5607337c-9310-4bd5-802f-6b97ad9bda5e" style="font-weight:{ if($wcharters:block = -1) then 'bold' else 'normal' }">
+		          <a href="my-collection">
+		            <xrx:i18n>
+		              <xrx:key>preface</xrx:key>
+		              <xrx:default>Preface</xrx:default>
+		            </xrx:i18n>
+		          </a>
+		        </div>
+		      </xrx:true>
+		      <xrx:false>
+		        <span/>
+		      </xrx:false>
+		    </xrx:auth>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>breadcrumb-div</xrx:key>
+      <xrx:view>
+				<div data-demoid="00f8d410-3a0f-462a-af94-7d7c6795e351" id="breadcrumb">
+					<a href="{ conf:param('request-root') }collections">
+						<xrx:i18n>
+							<xrx:key>collections</xrx:key>
+							<xrx:default>Collections</xrx:default>
+						</xrx:i18n>
+					</a>
+					<span> &gt; </span>
+					<a href="{ conf:param('request-root') }my-collections">
+						<xrx:i18n>
+							<xrx:key>my-collections</xrx:key>
+							<xrx:default>MyCollections</xrx:default>
+						</xrx:i18n>
+					</a>
+					<span> &gt; </span>
+					<a href="{ conf:param('request-root') }{ $charter:rcollectionid }/my-collection">{ $wcharters:charter-context-name }</a>
+				</div>      
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>goto-search-div</xrx:key>
+      <xrx:view>
+				<div data-demoid="71ed814d-aab7-4c96-97ab-6bfbe5f0bf0e" id="goto-search">
+				  <a href=""> </a>
+				</div>
+		  </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>preface-div</xrx:key>
+      <xrx:view>
+				<div data-demoid="dfcecb85-9c5d-4dac-89c4-a34ffe4e6f23" id="preface">
+					<div data-demoid="c3fa3fce-2ed9-477d-a98c-dd85d67bd606">{ util:parse-html(string-join($wcharters:metadata-charter-context-collection//cei:cei//cei:div[@type='preface']/text(),'')) }</div>
+				</div>      
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>charter-preview-div</xrx:key>
+      <xrx:view>
+				<div data-demoid="81f23266-35a9-4cda-bb4b-8b0cc3fc8755" id="dcharter-preview-main">
+					{
+					for $entry at $num in $wcharters:entries[ position() = $charters:start to $charters:stop ]
+					return
+					<div data-demoid="d1d9c05e-ebec-4a54-9490-15416a96293e">
+					  <xrx:subwidget>
+					    <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/charter-preview-my-collection</xrx:atomid>
+					    <xrx:pass>
+					      <xrx:parameter>
+					        <xrx:name>$constructor:charter</xrx:name>
+					        <xrx:expression>$entry</xrx:expression>
+					      </xrx:parameter>
+					    </xrx:pass>
+					  </xrx:subwidget>
+					</div>
+					}
+					<div data-demoid="90e16725-b615-48c8-ac58-97093e9161f8">{ $block-navi-div }</div>
+				</div>
+			</xrx:view>
+    </xrx:div>
+  </xrx:divs>
+</xrx:widget>

@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/how-to-encode-in-cei</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more
+lenient towards the inclusion of components into other systems, once
+it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>
+    <xrx:variable>
+      <xrx:name>$whow-to-encode-in-cei:schema</xrx:name>
+      <xrx:expression>$xrx:live-project-db-base-collection/xs:schema[@id='cei']</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:xformsflag>false</xrx:xformsflag>
+      <xrx:jqueryflag>true</xrx:jqueryflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/css/codemirror/lib/codemirror</xrx:resource>
+    <style type="text/css">
+#dhow-to-encode-in-cei * {{
+	line-height: 1.5;
+	font-size: 14px;
+}}
+#dhow-to-encode-in-cei .CodeMirror {{
+	height: auto !important;
+}}
+#dhow-to-encode-in-cei .CodeMirror-scroll {{
+	height: auto !important;
+	overflow-y: hidden !important;
+	overflow-x: auto !important;
+}}
+#dhow-to-encode-in-cei .chapter {{
+	font-weight: bold;
+	font-size: 1.3em;
+	margin-top: 30px;
+}}
+#dhow-to-encode-in-cei table {{
+	margin: 5%;
+	width: 90%;
+}}
+#dhow-to-encode-in-cei td {{
+	padding: 10px;
+}}
+#dhow-to-encode-in-cei th {{
+  background: rgb(240, 240, 240);
+}}
+#dhow-to-encode-in-cei table, tr, td {{
+	border: 1px solid #eee;
+	border-collapse: collapse;
+}}
+    </style>
+  </xrx:csss>
+  <xrx:jss>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/lib/codemirror</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/mode/xml</xrx:resource>
+  </xrx:jss>
+  <xrx:view>
+    <div class="h2" data-demoid="69efa119-2861-4e8f-9294-d0a51fe3e1d5">
+      <xrx:i18n>
+        <xrx:key>how-to-enocde-in-cei</xrx:key>
+        <xrx:default>How-to encode charters in CEI</xrx:default>
+      </xrx:i18n>
+    </div>
+    <div data-demoid="4a759687-cd01-4a8f-bb17-6eeefb4e7d1b" id="dhow-to-encode-in-cei">
+      <div class="chapter" data-demoid="d9d9d03d-ef4c-47f9-95c4-46e3fffa0fcb">
+        <xrx:i18n>
+          <xrx:key>cei_idno</xrx:key>
+          <xrx:default>signature</xrx:default>
+        </xrx:i18n>
+      </div>
+      <table>
+        <tr>
+          <th colspan="3">
+            <xrx:i18n>
+              <xrx:key>cei_idno</xrx:key>
+              <xrx:default>Signature</xrx:default>
+            </xrx:i18n>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <xrx:i18n>
+              <xrx:key>description</xrx:key>
+              <xrx:default>Description</xrx:default>
+            </xrx:i18n>
+          </td>
+          <td>{
+            i18n:translate($whow-to-encode-in-cei:schema//xs:element[@name='body']//xs:element[@name='idno']//xrx:description/xrx:i18n)
+            }</td>
+        </tr>
+        <tr>
+          <td>
+            <xrx:i18n>
+              <xrx:key>example</xrx:key>
+              <xrx:default>Example</xrx:default>
+            </xrx:i18n>
+          </td>
+          <td>
+            <textarea style="display:none;height:0px;">{
+              i18n:translate($whow-to-encode-in-cei:schema//xs:element[@name='body']//xs:element[@name='idno']//xrx:example/xrx:i18n)
+              }</textarea>
+          </td>
+        </tr>
+      </table>
+      <div class="chapter" data-demoid="81b26d10-ecf3-4982-b449-2aca7578e51a">
+        <xrx:i18n>
+          <xrx:key>cei_abstract</xrx:key>
+          <xrx:default>signature</xrx:default>
+        </xrx:i18n>
+      </div>
+      <table>
+        <tr>
+          <th colspan="3">
+	          <xrx:i18n>
+	            <xrx:key>cei_abstract</xrx:key>
+	            <xrx:default>abstract</xrx:default>
+	          </xrx:i18n>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <xrx:i18n>
+              <xrx:key>description</xrx:key>
+              <xrx:default>Description</xrx:default>
+            </xrx:i18n>
+          </td>
+          <td>{
+            i18n:translate($whow-to-encode-in-cei:schema//xs:element[@name='abstract']//xrx:description/xrx:i18n)
+            }</td>
+        </tr>
+        <tr>
+          <td>
+            <xrx:i18n>
+              <xrx:key>example</xrx:key>
+              <xrx:default>Example</xrx:default>
+            </xrx:i18n>
+          </td>
+          <td>
+            <textarea style="display:none;height:0px;">{
+              i18n:translate($whow-to-encode-in-cei:schema//xs:element[@name='abstract']//xrx:example/xrx:i18n)
+              }</textarea>
+          </td>
+        </tr>
+      </table>
+      <table>
+        <tr>
+          <th colspan="3">
+	          <xrx:i18n>
+	            <xrx:key>cei_date</xrx:key>
+	            <xrx:default>Date</xrx:default>
+	          </xrx:i18n>
+          </th> 
+        </tr>
+        <tr>
+          <td>
+            <xrx:i18n>
+              <xrx:key>description</xrx:key>
+              <xrx:default>Description</xrx:default>
+            </xrx:i18n>
+          </td>
+          <td>{
+            i18n:translate($whow-to-encode-in-cei:schema//xs:element[@name='issued']//xs:element[@ref='date']//xrx:description/xrx:i18n)
+            }</td>
+        </tr>
+        <tr>
+          <td>
+            <xrx:i18n>
+              <xrx:key>description</xrx:key>
+              <xrx:default>Description</xrx:default>
+            </xrx:i18n>
+          </td>
+          <td>
+            <textarea style="display:none;height:0px;">{
+              i18n:translate($whow-to-encode-in-cei:schema//xs:element[@name='issued']//xs:element[@ref='date']//xrx:example/xrx:i18n)
+              }</textarea>
+          </td>
+        </tr>
+      </table>
+      <table>
+        <tr>
+          <th colspan="3">
+		        <xrx:i18n>
+		          <xrx:key>cei_dateRange</xrx:key>
+		          <xrx:default>date range</xrx:default>
+		        </xrx:i18n>
+          </th> 
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+      </table>
+      <table>
+        <tr>
+          <th colspan="3">
+        <xrx:i18n>
+          <xrx:key>cei_placeName</xrx:key>
+          <xrx:default>Place name</xrx:default>
+        </xrx:i18n>
+          </th> 
+        </tr>
+      </table>
+      <div class="chapter" data-demoid="b62873b7-24a1-4897-a10b-923a01ab9e50">
+	      <xrx:i18n>
+	        <xrx:key>cei_tenor</xrx:key>
+	        <xrx:default>Fulltext</xrx:default>
+	      </xrx:i18n>
+      </div>
+      <div class="chapter" data-demoid="32533028-7206-4aa4-b242-508b2e382cfa">
+        <xrx:i18n>
+          <xrx:key>cei_sourceDesc</xrx:key>
+          <xrx:default>Sources</xrx:default>
+        </xrx:i18n>
+      </div>
+      <div class="chapter" data-demoid="304f8ed1-f74d-4230-ae80-06de98d86548">
+        <xrx:i18n>
+          <xrx:key>cei_witnessOrig</xrx:key>
+          <xrx:default>Original</xrx:default>
+        </xrx:i18n>
+      </div>
+      <div class="chapter" data-demoid="f471eb6c-0b04-4673-b971-3db9defc1bb6">
+        <xrx:i18n>
+          <xrx:key>cei_witListPar</xrx:key>
+          <xrx:default>Copies</xrx:default>
+        </xrx:i18n>
+      </div>
+      <div class="chapter" data-demoid="7e9541a1-cd23-4a98-a7da-518d3103b4f6">
+        <xrx:i18n>
+          <xrx:key>cei_diplomaticAnalysis</xrx:key>
+          <xrx:default>Commentary</xrx:default>
+        </xrx:i18n>
+      </div>
+      <div class="chapter" data-demoid="d4cd447c-c613-429d-8385-e82cde1e70d6">
+        <xrx:i18n>
+          <xrx:key>cei_index</xrx:key>
+          <xrx:default>Index</xrx:default>
+        </xrx:i18n>
+      </div>
+      <script type="text/javascript">
+        jQuery(document).ready(function(){{
+	        $('textarea').each(function(){{
+		        CodeMirror.fromTextArea(this, {{ mode: 'text/xml', lineNumbers: false, lineWrapping: true, readOnly: 'nocursor' }});
+	        }});
+        }});
+      </script>
+    </div>
+  </xrx:view>
+</xrx:widget>

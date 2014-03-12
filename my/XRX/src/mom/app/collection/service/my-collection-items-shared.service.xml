@@ -1,0 +1,132 @@
+<xrx:service xmlns:eag="http://www.archivgut-online.de/eag" xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/my-collection-items-shared</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key></xrx:key>
+      <xrx:default></xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:variables>
+    <xrx:variable>
+      <xrx:name>$mycollection-objectid</xrx:name>
+      <xrx:expression>request:get-parameter('mycollection', '')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$userid</xrx:name>
+      <xrx:expression>request:get-parameter('userid', '')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$mycollection-atomid</xrx:name>
+      <xrx:expression>metadata:atomid('mycollection', $mycollection-objectid)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$base-collection-path-mycollection</xrx:name>
+      <xrx:expression>util:collection-name($user:db-base-collection//atom:id[.=$mycollection-atomid]/parent::atom:entry)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$base-collection-path-charter</xrx:name>
+      <xrx:expression>replace($base-collection-path-mycollection, 'mycollection', 'charter')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$base-collection-path-charter-share</xrx:name>
+      <xrx:expression>replace($base-collection-path-mycollection, 'mycollection', 'charter.share')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$entries</xrx:name>
+      <xrx:expression>
+        for $e in collection($base-collection-path-charter)/atom:entry 
+        return
+        if(mycharter:is-shared-with($e, $userid)) then
+          $e
+        else
+          ()
+      </xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:translateflag>false</xrx:translateflag>
+     <xrx:serializeas>method=text media-type=text/plain</xrx:serializeas>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:body>
+    {
+      let $json := 
+        if(count($entries) gt 0) then
+          jsonx:object(
+            for $entry at $num in $entries
+            let $objectid := metadata:objectid($entry/atom:id/text())
+            let $date := $entry//cei:dateRange/@from/string()
+            let $idno := $entry//cei:body/cei:idno/text()
+            let $title := 
+              let $charter-title := concat(substring(string-join($entry//cei:abstract//text(), ''), 1, 50), ' ...')
+              return
+              if($charter-title != ' ...') then concat($idno, ', ', $charter-title) else $idno
+            let $atomid-linked-charter := $entry/atom:link/@ref/string()
+            let $uri-tokens-linked-charter := if($atomid-linked-charter != '') then metadata:uri-tokens($atomid-linked-charter) else ()
+            let $objectid-linked-charter := if($atomid-linked-charter != '') then metadata:objectid($atomid-linked-charter) else ''
+            let $base-collection-linked-charter := if(count($uri-tokens-linked-charter) gt 0) then metadata:base-collection('charter', $uri-tokens-linked-charter, 'public') else ()
+            let $entry-linked-charter := if(count($base-collection-linked-charter) gt 0) then $base-collection-linked-charter//atom:id[.=$atomid-linked-charter]/parent::atom:entry else ()
+            let $version-of-title := if(count($uri-tokens-linked-charter) gt 0) then string-join(($uri-tokens-linked-charter, $objectid-linked-charter), ' | ') else ''
+            let $version-of-link := concat(conf:param('request-root'), substring-after($atomid-linked-charter, '/charter/'), '/charter')
+            let $ownerid := xmldb:decode(tokenize(util:collection-name($entry), '/')[(last() - 2)])
+            let $owner-label := concat(user:firstname-name($ownerid), ' (', $ownerid, ')')
+            order by $date
+            return
+            jsonx:pair(
+              jsonx:string($objectid),
+              jsonx:object(
+                (
+                  jsonx:pair(
+                    jsonx:string("date"),
+                    jsonx:string(concat($date, ''))
+                  ),
+                  jsonx:pair(
+                    jsonx:string("title"),
+                    jsonx:string(concat($title, ''))
+                  ),
+                  jsonx:pair(
+                    jsonx:string("versionOfLink"),
+                    jsonx:string(concat($version-of-link, ''))
+                  ),
+                  jsonx:pair(
+                    jsonx:string("versionOfTitle"),
+                    jsonx:string(concat($version-of-title, ''))
+                  ),
+                  jsonx:pair(
+                    jsonx:string("owner"),
+                    jsonx:string(concat($owner-label, ''))
+                  )
+                )         
+              )
+            )
+          )
+        else '{ "charter": {} }'
+      return
+      $json
+    }
+  </xrx:body>
+</xrx:service>

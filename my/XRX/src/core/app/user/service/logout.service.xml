@@ -1,0 +1,17 @@
+<service xmlns="http://www.monasterium.net/NS/service" xmlns:i18n="http://www.monasterium.net/NS/i18n" id="logout">
+	{
+	let $login-as-guest := xmldb:login($conf:atom-db-base-uri, 'guest', 'guest')
+	let $inval := session:invalidate()
+	return
+	if($login-as-guest) then
+	<response status="1">
+		<message><i18n:label key="successfully-logged-out" default="Successfully logged out"/>.</message>
+		<icon>{ $http-icon-root }emotes/face-smile.png</icon>
+	</response>
+	else
+	<response status="-1">
+		<message><i18n:label key="error" default="Error"/>.</message>
+		<icon>{ $http-icon-root }status/dialog-error.png</icon>
+	</response>
+	}
+</service>

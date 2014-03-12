@@ -1,0 +1,222 @@
+<xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx"
+	xmlns="http://www.w3.org/1999/xhtml">
+  <xrx:id>tag:www.monasterium.net,2011:/core/widget/login2</xrx:id>
+  <xrx:title>
+	  <xrx:i18n>
+	    <xrx:key>login</xrx:key>
+	    <xrx:default>Login</xrx:default>
+	  </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>false</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+	<xrx:csss>
+	 <style type="text/css">
+		 
+#login2 .input-field{{
+	padding:4px;
+	margin:0px;
+	width:250px;
+}}
+
+#login2 .submit-button{{
+  float:right;
+  padding:4px;
+}}
+
+#login2 .label{{
+  text-align:right;
+}}
+
+#login2 table, #login2 fieldset{{
+  width:350px;
+}}
+
+	  </style>
+	</xrx:csss>
+	<xrx:view>
+	 <div>
+	   {
+	     (: 
+	       hack to use the widget as a sub-widget 
+	       find a clean solution sometimes
+	     :)
+	     if($xrx:tokenized-uri[last()] = 'login2') then
+	      <div class="h2">
+	        <xrx:i18n>
+		        <xrx:key>login</xrx:key>
+		        <xrx:default>Login</xrx:default>
+		      </xrx:i18n>
+	      </div>
+	      else()
+	    }
+      {
+      let $username := request:get-parameter('old', '')
+		  let $old-user-exists := 
+		   collection(conf:param('old-user-db-base-uri'))/*:user[./*:username=$username]
+		  let $old-firstname := $old-user-exists//*:firstname/text() 
+		  let $old-lastname := $old-user-exists//*:name/text()
+      let $status := request:get-parameter('status', '')
+      return
+      if($status = '1') then
+      <div>
+        <xrx:resource type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/dialog-warning</xrx:resource>
+        <br/>
+        <xrx:i18n>
+	        <xrx:key>welcome</xrx:key>
+	        <xrx:default>Welcome</xrx:default>
+	      </xrx:i18n>
+        <b>{ $old-firstname }&#160;{ $old-lastname }</b>!
+        <xrx:i18n>
+	        <xrx:key>account-got-inoperative-message</xrx:key>
+	        <xrx:default>We apologize that your account got inoperative due to the new version of MOM-CA.</xrx:default>
+	      </xrx:i18n>
+        <br/>
+        <xrx:i18n>
+	        <xrx:key>create-or-restore-account-message</xrx:key>
+	        <xrx:default>There are two possibilities for you: You can create a new MOM-CA account, or you can send an email to jochen.graf@uni-koeln.de who will restore your old account. We are sorry for this discomfort!</xrx:default>
+        </xrx:i18n>
+      </div>
+      else if($status = '2') then 
+      <div>
+        <xrx:resource type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/dialog-warning</xrx:resource>
+        <span>&#160;</span>
+        <xrx:i18n>
+	        <xrx:key>account-not-activated</xrx:key>
+	        <xrx:default>Your account is not yet activated</xrx:default>
+	      </xrx:i18n>
+        <span>.</span>
+      </div>
+      else if($status = '3') then 
+      <div>
+        <xrx:resource type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/dialog-warning</xrx:resource>
+        <span>&#160;</span>
+        <xrx:i18n>
+	        <xrx:key>unknown-username</xrx:key>
+	        <xrx:default>Unknown username</xrx:default>
+	      </xrx:i18n>
+        <span>.</span>
+      </div>
+      else if($status = '4') then 
+      <div>
+        <xrx:resource type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/dialog-warning</xrx:resource>
+        <span>&#160;</span>
+        <xrx:i18n>
+	        <xrx:key>wrong-password-try-again</xrx:key>
+	        <xrx:default>Wrong password, please try again</xrx:default>
+	      </xrx:i18n>
+        <span>.</span>
+      </div>
+      else if($status = '5') then 
+      <div>
+        <xrx:resource type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/dialog-warning</xrx:resource>
+        <span>&#160;</span>
+        <xrx:i18n>
+          <xrx:key>error</xrx:key>
+          <xrx:default>Error</xrx:default>
+        </xrx:i18n>
+        <span>.</span>
+      </div>
+      else()
+      }
+		  <xrx:auth>
+		    <xrx:rules>
+		      <xrx:rule>
+		        <xrx:not>
+			        <xrx:user>{ $xrx:user-id }</xrx:user>
+			        <xrx:dbgroup>atom</xrx:dbgroup>
+			      </xrx:not>
+		      </xrx:rule>
+		    </xrx:rules>
+		    <xrx:true>
+					<div id="login2">
+				    <form action="{ conf:param('request-root') }service/login2" method="post">
+				     <fieldset>
+		           <br/>
+		           <br/>
+					     <table class="login" cellpadding="5">
+					      <tr>
+					        <td class="label">
+					          <xrx:i18n>
+					            <xrx:key>email</xrx:key>
+					            <xrx:default>Email</xrx:default>
+					          </xrx:i18n>
+					          <span>:&#160;</span>
+					       </td>
+					        <td><input class="input-field" name="username" type="text" size="20"/></td>
+					      </tr>
+					      <tr>
+					        <td class="label">
+					          <xrx:i18n>
+					            <xrx:key>password</xrx:key>
+					            <xrx:default>Password</xrx:default>
+					          </xrx:i18n>
+					          <span>:&#160;</span>
+					        </td>
+					        <td><input class="input-field" name="password" type="password" size="20"/></td>
+					      </tr>
+					      <tr>
+					        <td colspan="2" align="left"><input class="submit-button" type="submit" value="Login"/></td>
+					      </tr>
+					     </table>
+					     {
+					       for $param in request:get-parameter-names()
+					       return
+					        <input type="hidden" name="{$param}" 
+					            value="{request:get-parameter($param, ())}"/>
+					     }
+					     {
+					       if($xrx:tokenized-uri[last()] != 'login2') then
+					       <input type="hidden" name="refer" value="{ request:get-uri() }"/>
+					       else()
+					     }
+					    </fieldset>
+				    </form>
+				    <br/>
+				    <br/>
+				    <a href="{ conf:param('request-root') }request-password">
+				      <xrx:i18n>
+					      <xrx:key>forgot-password-message</xrx:key>
+					      <xrx:default>Forgot your password? Get a new one here.</xrx:default>
+				      </xrx:i18n>
+				    </a>
+					</div>
+			  </xrx:true>
+				<xrx:false>
+					<div>
+					  <xrx:i18n>
+						 <xrx:key>already-logged-in-message</xrx:key>
+						 <xrx:default>You are already logged in</xrx:default>
+					  </xrx:i18n>
+					  <span>.</span>
+				  </div>
+			  </xrx:false>
+			</xrx:auth>
+	 </div>
+	</xrx:view>
+</xrx:widget>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/demo-get-metadata-path</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>andre.streicher@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:translateflag>false</xrx:translateflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:body>
+	  {
+	  (: get charter file and searched tag :)
+	  let $charter-file        := session:get-attribute('demo-charter')//atom:entry
+	  let $searched-tag        := $charter-file//cei:*[@facs = $annotation:zone-id]
+	  let $searched-tag-name   := node-name($searched-tag)
+    (: get path to searched tag :)
+    let $xpath-to-node       := util:node-xpath($searched-tag)
+    let $jsax-path-to-node   := annotation:get-jsax-path($xpath-to-node)
+    (: get index of node because of siblings :)
+    let $xpath-expression    := concat('$charter-file/', $jsax-path-to-node)
+    let $number-of-siblings  := count(util:eval($xpath-expression))
+    let $siblings-available  := 
+                              if($number-of-siblings gt 1)then
+                                xs:string("true")
+                              else
+                                xs:string("false")
+    let $siblings-expression := concat("$charter-file//", $searched-tag-name, "[@facs = '", $annotation:zone-id, "']/preceding-sibling::", $searched-tag-name)
+    let $num-of-siblings     := count(util:eval($siblings-expression))
+    return
+      <response>
+      <siblings>{ $siblings-available }</siblings>
+      <jsaxPath>{ $jsax-path-to-node }</jsaxPath>
+      <index>{ $num-of-siblings }</index>
+    </response>
+	  }
+	</xrx:body>
+</xrx:service>

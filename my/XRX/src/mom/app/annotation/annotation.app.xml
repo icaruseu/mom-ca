@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xrx:app xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/app/annotation</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>andre.streicher@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+    </xrx:licence>
+  <xrx:modules>
+    <xrx:module>
+      <xrx:resource>annotation.xqm</xrx:resource>
+      <xrx:prefix>annotation</xrx:prefix>
+      <xrx:uri>http://www.monasterium.net/NS/annotation</xrx:uri>
+    </xrx:module>
+  </xrx:modules>
+  <xrx:resources>
+    <!-- js -resources -->
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/jquery/imageTool</xrx:atomid>
+      <xrx:relativepath>js/</xrx:relativepath>
+      <xrx:name>jquery.imageTool.js</xrx:name>
+    </xrx:resource>
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/jquery/imageToolWidget</xrx:atomid>
+      <xrx:relativepath>js/</xrx:relativepath>
+      <xrx:name>jquery.imageToolWidget.js</xrx:name>
+    </xrx:resource>
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/jquery/createanno</xrx:atomid>
+      <xrx:relativepath>js/</xrx:relativepath>
+      <xrx:name>jquery.createanno.js</xrx:name>
+    </xrx:resource>
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/jquery/i18nText</xrx:atomid>
+      <xrx:relativepath>js/</xrx:relativepath>
+      <xrx:name>jquery.i18nText.js</xrx:name>
+    </xrx:resource>
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/jquery/annoOverview</xrx:atomid>
+      <xrx:relativepath>js/</xrx:relativepath>
+      <xrx:name>jquery.annoOverview.js</xrx:name>
+    </xrx:resource>
+    <!-- image resources -->
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/arrow_r_roundabout</xrx:atomid>
+      <xrx:relativepath>image/</xrx:relativepath>
+      <xrx:name>arrow_r_roundabout.png</xrx:name>
+    </xrx:resource>
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/arrow_l_roundabout</xrx:atomid>
+      <xrx:relativepath>image/</xrx:relativepath>
+      <xrx:name>arrow_l_roundabout.png</xrx:name>
+    </xrx:resource>
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/connect_checked</xrx:atomid>
+      <xrx:relativepath>image/</xrx:relativepath>
+      <xrx:name>connect_checked.png</xrx:name>
+    </xrx:resource>
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/connect_pencil</xrx:atomid>
+      <xrx:relativepath>image/</xrx:relativepath>
+      <xrx:name>connect_pencil.png</xrx:name>
+    </xrx:resource>
+  </xrx:resources>
+  <xrx:resolver>
+    <!-- widgets -->
+    <xrx:map>
+      <xrx:uripattern>/annotation-overview$</xrx:uripattern>
+      <xrx:mode>mainwidget</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/annotation-overview</xrx:atomid>
+    </xrx:map>
+    <!-- services -->
+    <xrx:map>
+      <xrx:uripattern>/service/get-svg-file$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/get-svg-file</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/service/get-metadata$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/get-metadata</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/service/save-annotation$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/save-annotation</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/service/get-index$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/get-index</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/service/get-metadata-path$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/get-metadata-path</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/service/delete-svg-rect$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/delete-svg-rect</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/service/update-annotation$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/update-annotation</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/service/get-cropped-annos-images$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/get-cropped-annos-images</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/service/get-cropped-anno-metadata$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/get-cropped-anno-metadata</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/service/get-anno-image$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/get-anno-image</xrx:atomid>
+    </xrx:map>
+  </xrx:resolver>
+  <xrx:conf>
+    <xrx:param name="svg-db-base-uri">/db/mom-data/metadata.annotation/svg/</xrx:param>
+    <xrx:param name="svg-atom-base-uri">/metadata.annotation/svg/</xrx:param>
+    <xrx:param name="cropped-anno-db-base-uri">/db/mom-data/metadata.annotation/cropped-annotations/</xrx:param>
+    <xrx:param name="cropped-anno-atom-base-uri">/metadata.annotation/cropped-annotations/</xrx:param>
+  </xrx:conf>
+</xrx:app>

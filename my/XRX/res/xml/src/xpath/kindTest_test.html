@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>XRX++ Unit Tests - xrx.xpath.KindTest</title>
+<script src='../../lib/closure-library/closure/goog/base.js'></script>
+<script src='../deps.js'></script>
+<script type="text/javascript">
+  goog.require('goog.dom');
+  goog.require('goog.testing.jsunit');
+  goog.require('xrx.node');
+  goog.require('xrx.node.DocumentS');
+  goog.require('xrx.instance');
+  goog.require('xrx.xpath');
+</script>
+</head>
+<body>
+<script type="text/javascript">
+
+var xml = '<a>1<b>2</b>3<c/>4<d>t<e type="attrValue">5</e>6</d><d id="test"/></a>';
+
+function test01Text() {
+  var expr = '//text()';
+  var element = goog.dom.createElement('div');
+  goog.dom.setTextContent(element, xml);
+  var instance = new xrx.instance(element);
+  var node = new xrx.node.DocumentS(instance);
+
+  var result = xrx.xpath.evaluate(expr, node, null, xrx.xpath.XPathResultType.ANY_TYPE);
+
+  assertEquals(7, result.snapshotLength);
+  assertEquals('1', result.iterateNext().token().xml(instance.xml()));
+  assertEquals('2', result.iterateNext().token().xml(instance.xml()));
+  assertEquals('3', result.iterateNext().token().xml(instance.xml()));
+  assertEquals('4', result.iterateNext().token().xml(instance.xml()));
+  assertEquals('t', result.iterateNext().token().xml(instance.xml()));
+  assertEquals('5', result.iterateNext().token().xml(instance.xml()));
+  assertEquals('6', result.iterateNext().token().xml(instance.xml()));
+  
+};
+
+function test02Node() {
+  var expr = '//node()';
+  var element = goog.dom.createElement('div');
+  goog.dom.setTextContent(element, xml);
+  var instance = new xrx.instance(element);
+  var node = new xrx.node.DocumentS(instance);
+
+  var result = xrx.xpath.evaluate(expr, node, null, xrx.xpath.XPathResultType.ANY_TYPE);
+
+  assertEquals(13, result.snapshotLength);
+  assertEquals('<a>', result.iterateNext().token().xml(instance.xml()));
+  assertEquals('1', result.iterateNext().token().xml(instance.xml()));
+  assertEquals('<b>', result.iterateNext().token().xml(instance.xml()));
+  assertEquals('2', result.iterateNext().token().xml(instance.xml()));
+  assertEquals('3', result.iterateNext().token().xml(instance.xml()));
+  assertEquals('<c/>', result.iterateNext().token().xml(instance.xml()));
+  assertEquals('4', result.iterateNext().token().xml(instance.xml()));
+  assertEquals('<d>', result.iterateNext().token().xml(instance.xml()));
+  assertEquals('t', result.iterateNext().token().xml(instance.xml()));
+  assertEquals('<e type="attrValue">', result.iterateNext().token().xml(instance.xml()));
+  assertEquals('5', result.iterateNext().token().xml(instance.xml()));
+  assertEquals('6', result.iterateNext().token().xml(instance.xml()));
+  assertEquals('<d id="test"/>', result.iterateNext().token().xml(instance.xml()));
+};
+
+function test03Comment() {
+  //TODO: implement this
+};
+
+function test03ProcessingInstruction() {
+  //TODO: implement this
+};
+
+</script>
+</body>
+</html>

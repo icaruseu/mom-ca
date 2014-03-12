@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/get-anno-image</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key/>
+            <xrx:default/>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:subtitle/>
+    <xrx:description/>
+    <xrx:author>andre.streicher@uni-koeln.de</xrx:author>
+    <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:translateflag>false</xrx:translateflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:body>
+	  {
+    (: check for cropped annotations :)
+    let $collection          := request:get-parameter("collection", "0")
+    let $type                := request:get-parameter("type", "0")
+    let $side                := request:get-parameter("side", "0")
+    let $nxt-num             := request:get-parameter("nxtNum", "0")
+    let $change-type         := request:get-parameter("changeType", "0")
+    let $all-cropped-annos   := collection(concat($annotation:collection-base-path-cropped-anno, $collection))//atom:entry
+      
+    (: define images to return :)   
+    let $return-value        :=  
+      for $cropped-anno at $number in $all-cropped-annos
+      order by $cropped-anno//xrx:annotation/@id
+      return
+        if($type = 'init')then
+          (: init first entry of collection :)
+          if($number = 1) then
+            annotation:create-cropped-image-metadata($cropped-anno, $side, $number cast as xs:string)
+          else()
+        else
+          (: get next or previous entry :)
+          let $number-datas := count($all-cropped-annos)
+          return                   
+            if(fn:compare($change-type,"up")=0) then
+              (: next entry :)
+              if(($nxt-num cast as xs:integer) = $number-datas) then
+                if($number = 1) then
+                  annotation:create-cropped-image-metadata($cropped-anno, $side, $number cast as xs:string)
+                 else()
+              else 
+                if($number = (($nxt-num cast as xs:integer)+1)) then
+                  annotation:create-cropped-image-metadata($cropped-anno, $side, $number cast as xs:string)
+                else()
+            else 
+              (: previous entry :)
+              if(($nxt-num cast as xs:integer) = 1) then
+                if($number = $number-datas) then
+                  annotation:create-cropped-image-metadata($cropped-anno, $side, $number cast as xs:string) 
+                else()
+              else 
+                if($number = (($nxt-num cast as xs:integer)-1)) then
+                  annotation:create-cropped-image-metadata($cropped-anno, $side, $number cast as xs:string) 
+                else()  
+
+    return
+      $return-value
+   }
+	</xrx:body>
+</xrx:service>

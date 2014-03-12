@@ -1,0 +1,112 @@
+<xrx:servicexxx xmlns:i18n="http://www.monasterium.net/NS/i18n"
+	xmlns:xrx="http://www.monasterium.net/NS/xrx">
+	<xrx:id>tag:www.monasterium.net,2011:/core/service/migrate-editmom-to-i18n</xrx:id>
+	<xrx:title>
+		<xrx:i18n>
+			<xrx:key></xrx:key>
+			<xrx:default></xrx:default>
+		</xrx:i18n>
+	</xrx:title>
+	<xrx:subtitle></xrx:subtitle>
+	<xrx:description></xrx:description>
+	<xrx:author>daniel.ebner@uni-koeln.de@uni-koeln.de</xrx:author>
+	<xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+	<xrx:variables>
+		<xrx:variable>
+			<xrx:name>$edit-mom</xrx:name>
+			<xrx:expression>template:get('tag:www.monasterium.net,2011:/mom/template/EditMOM_translate')
+			</xrx:expression>
+		</xrx:variable>
+		<xrx:variable>
+			<xrx:name>$fields</xrx:name>
+			<xrx:expression>$edit-mom//field</xrx:expression>
+		</xrx:variable>
+		<xrx:variable>
+			<xrx:name>$tabs</xrx:name>
+			<xrx:expression>$edit-mom//tab</xrx:expression>
+		</xrx:variable>
+		<xrx:variable>
+			<xrx:name>$menues</xrx:name>
+			<xrx:expression>$edit-mom//menue</xrx:expression>
+		</xrx:variable>
+		<xrx:variable>
+			<xrx:name>$attributes</xrx:name>
+			<xrx:expression>$edit-mom//attribute</xrx:expression>
+		</xrx:variable>
+		<xrx:variable>
+			<xrx:name>$items</xrx:name>
+			<xrx:expression>($tabs, $menues, $fields, $attributes)
+			</xrx:expression>
+		</xrx:variable>
+	</xrx:variables>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:translateflag>false</xrx:translateflag>
+    </xrx:processor>
+  </xrx:init>
+	<xrx:body>
+		{
+		for $item in $items
+		let $key := concat('cei_', $item/name/text())
+		
+		for $caption in $item/caption
+
+		let $language := conf:param('languages')//xrx:lang[@old = $caption/@lang/string()]/@key/string()
+		let $i18n-entry := collection(concat($i18n:db-base-collection-path, $language))//xrx:key[.=$key]/ancestor::atom:entry
+		let $caption-text:= if($caption/text()) then xs:string($caption/text()) else ''
+    
+		let $entry :=
+			if($i18n-entry and $caption-text) then
+				let $update :=
+		      if($i18n-entry/atom:content/xrx:i18n/xrx:text/text()) then
+		        upd:replace-node($i18n-entry/atom:content/xrx:i18n/xrx:text/text(), text { $caption-text })
+		      else if($i18n-entry/atom:content/xrx:i18n/xrx:text) then 
+		        upd:insert-into($i18n-entry/atom:content/xrx:i18n/xrx:text, text { $caption-text })
+		      else $i18n-entry
+		    return 
+		    $update
+		  else ()
+
+    let $feed := concat(conf:param('xrx-i18n-atom-base-uri'), $language)
+    let $entry-name := concat($key, '.', $language, '.xml')
+    
+		let $put := if($language and $entry) then atom:PUT($feed, $entry-name, $entry) else 'Was not put into the database'
+
+
+		return
+		<item>
+			<key>{ $key }</key>
+			<lang>{ $language }</lang>
+      <feed>{ $feed }</feed>
+			<entryname>{ $entry-name }</entryname>
+			<entry>{ $entry }</entry>
+			<caption>{ $caption-text }</caption>
+		</item>
+
+		}
+	</xrx:body>
+</xrx:servicexxx>

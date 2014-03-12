@@ -1,0 +1,893 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/excel-import</xrx:id>
+  <xrx:inherits>tag:www.monasterium.net,2011:/mom/widget/charter-import</xrx:inherits>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>excel-import</xrx:key>
+      <xrx:default>Excel Import</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:model>
+    <xf:model id="mimport">
+    
+      <xf:instance>
+        <data xmlns="">
+          <cacheid>{ $wcharter-import:cacheid }</cacheid>
+          <processid/>
+          <fileuri/>
+          <fileurilocal/>
+          <uploadtype info="local,recent">local</uploadtype>
+          <sheetnum/>
+          <chooserow/>
+          <chooserowdefault/>
+          <context>{ $wcharter-import:context }</context>
+          <archid>{ $wcharter-import:archid }</archid>
+          <fondid>{ $wcharter-import:fondid }</fondid>
+          <collectionid>{ $wcharter-import:collectionid }</collectionid>
+          <upload>
+            <value ready="no"/>
+          </upload>
+          <action info="update, replace">replace</action>
+        </data>
+      </xf:instance>
+
+      <xf:instance id="iexcel-upload-sheet-response">
+        <xrx:response status=""/>
+      </xf:instance>
+      
+      <xf:instance id="iexcel-choose-sheet-response">
+        <xrx:response status=""/>
+      </xf:instance>
+      
+      <xf:instance id="iexcel-choose-row-response">
+        <xrx:response status=""/>
+      </xf:instance>
+            
+      <xf:instance id="iexcel-validate-sheet-response">
+        <xrx:response status=""/>
+      </xf:instance>
+      
+      <xf:instance id="iexcel-transform-sheet-response">
+        <xrx:response status=""/>
+      </xf:instance>
+      
+      <xf:instance id="iexcel-import-sheet-response">
+        <xrx:response status=""/>
+      </xf:instance>
+      
+      <xf:submission action="{ conf:param('request-root') }service/excel-upload-sheet" id="sexcel-upload-sheet" instance="iexcel-upload-sheet-response" method="post" replace="instance">
+        <xf:action ev:event="xforms-submit-done">
+          <xf:setvalue ref="//value/@ready" value="'yes'"/>
+        </xf:action>
+      </xf:submission>
+      
+      <xf:submission action="{ $xrx:jetty-request-base-url }service/excel-choose-sheet" id="sexcel-choose-sheet" instance="iexcel-choose-sheet-response" method="post" replace="instance"/>
+      
+      <xf:submission action="{ $xrx:jetty-request-base-url }service/excel-choose-row" id="sexcel-choose-row" instance="iexcel-choose-row-response" method="post" replace="instance"/>
+            
+      <xf:submission action="{ $xrx:jetty-request-base-url }service/excel-validate-sheet" id="sexcel-validate-sheet" instance="iexcel-validate-sheet-response" method="post" replace="instance"/>
+            
+      <xf:submission action="{ $xrx:jetty-request-base-url }service/excel-transform-sheet" id="sexcel-transform-sheet" instance="iexcel-transform-sheet-response" method="post" replace="instance"/>
+             
+      <xf:submission action="{ $xrx:jetty-request-base-url }service/excel-import-sheet" id="sexcel-import-sheet" instance="iexcel-import-sheet-response" method="post" replace="instance"/>
+              
+      <xf:bind nodeset="upload"> 
+        <xf:bind nodeset="value" type="xs:base64Binary"/> 
+      </xf:bind>
+      
+      <xf:bind nodeset="fileuri" type="xs:anyURI"/>
+      <xf:bind nodeset="fileurilocal" type="xs:anyURI"/>
+      
+      <xf:bind id="buploadtype" nodeset="uploadtype"/>
+      <xf:bind id="bupload-ready" nodeset="//value/@ready" relevant=". = 'yes'"/>
+      
+      <xf:bind id="bfirstrownum" nodeset="instance('iexcel-choose-sheet-response')//excel:firstrownum"/>
+      <xf:bind id="blastrownum" nodeset="instance('iexcel-choose-sheet-response')//excel:lastrownum"/>
+      
+      <xf:bind nodeset="//charterselectall" type="xs:string"/>
+      
+      <xf:bind calculate="concat('2,', '3', '-', instance('iexcel-choose-sheet-response')//*:lastrownum/@num)" id="bchooserow-default" nodeset="chooserowdefault"/>
+
+      <xf:action ev:event="xforms-ready">
+        <script type="text/javascript">require(["dojo/dom-construct"], function(domConstruct){{domConstruct.place("bfLoading", "dwizard", "first");}});</script>
+      </xf:action>
+            
+      <xf:action ev:event="eupload-excel">
+        <xf:setvalue if="//uploadtype = 'local'" ref="fileuri" value="../fileurilocal"/>
+        <xf:setvalue if="//uploadtype = 'recent'" ref="fileuri" value="'{ $wcharter-import:recent-file-url }'"/>
+        <xf:send submission="sexcel-upload-sheet"/>
+      </xf:action>
+      
+      <xf:action ev:event="eexcel-choose-row">
+        <xf:send submission="sexcel-choose-row"/>
+      </xf:action>
+
+      <!-- 
+        Wizard
+       -->      
+       
+      <xf:action ev:event="ewizard1-2">
+        <xf:toggle case="cexcel-choose-sheet"/>
+      </xf:action>       
+      
+      <xf:action ev:event="ewizard2-1">
+        <xf:setvalue ref="sheetnum" value="''"/>
+        <xf:delete nodeset="instance('iexcel-choose-sheet-response')/*"/>
+        <xf:setvalue ref="instance('iexcel-choose-sheet-response')//@status" value="''"/>
+        <xf:recalculate/>
+        <xf:toggle case="cexcel-upload-sheet"/>
+      </xf:action>
+      
+      <xf:action ev:event="ewizard2-3">
+        <xf:setvalue ref="chooserow" value="../chooserowdefault"/>
+        <xf:recalculate/>
+        <xf:toggle case="cexcel-choose-row"/>
+      </xf:action>       
+      
+      <xf:action ev:event="ewizard3-2">
+        <xf:setvalue ref="chooserow" value="''"/>
+        <xf:delete nodeset="instance('iexcel-choose-row-response')/*"/>
+        <xf:setvalue ref="instance('iexcel-choose-row-response')//@status" value="''"/>
+        <xf:recalculate/>
+        <xf:toggle case="cexcel-choose-sheet"/>
+      </xf:action>
+      
+      <xf:action ev:event="ewizard3-4">
+        <xf:toggle case="cvalidate-sheet"/>
+      </xf:action>       
+      
+      <xf:action ev:event="ewizard4-3">
+        <xf:delete nodeset="instance('iexcel-validate-sheet-response')/*"/>
+        <xf:setvalue ref="instance('iexcel-validate-sheet-response')//@status" value="''"/>
+        <xf:recalculate/>
+        <xf:toggle case="cexcel-choose-row"/>
+      </xf:action>
+      
+      <xf:action ev:event="ewizard4-5">
+        <script type="text/javascript">$('#progressbar-simulate').progressbar( "value", 0 );$('#progressbar-simulate').progressbarImport( "progress" );</script>
+        <xf:toggle case="ctransform-sheet"/>
+      </xf:action> 
+      
+      <xf:action ev:event="ewizard5-4">
+        <xf:delete nodeset="instance('iexcel-transform-sheet-response')/*"/>
+        <xf:setvalue ref="instance('iexcel-transform-sheet-response')//@status" value="''"/>
+        <xf:recalculate/>
+        <xf:toggle case="cvalidate-sheet"/>
+      </xf:action>
+      
+      <xf:action ev:event="ewizard5-6">
+        <script type="text/javascript">$('#progressbar-import').progressbar( "value", 0 );$('#progressbar-import').progressbarImport( "progress" );</script>
+        <xf:toggle case="cimport-sheet"/>
+      </xf:action>
+      
+      <xf:action ev:event="ewizard6-5">
+        <xf:delete nodeset="instance('iexcel-import-sheet-response')/*"/>
+        <xf:setvalue ref="instance('iexcel-import-sheet-response')//@status" value="''"/>
+        <xf:recalculate/>
+        <script type="text/javascript">$('#progressbar-simulate').progressbar( "value", 0 );$('#progressbar-simulate').progressbarImport( "progress" );</script>
+        <xf:toggle case="ctransform-sheet"/>
+      </xf:action>
+      
+    </xf:model>
+  </xrx:model>
+  <xrx:view>
+    <div data-demoid="125d974e-3c59-40a5-936e-168a537babc4">
+      {
+      if($wcharter-import:context = 'fond') then
+      <div class="h2" data-demoid="afaa48c5-3d21-44d1-90a8-19543a2766f7">
+        <xrx:i18n>
+          <xrx:key>excel-import</xrx:key>
+          <xrx:default>Excel Import</xrx:default>
+        </xrx:i18n>
+        <span>: { $wcharter-import:fond-name } [{ $wcharter-import:fondid }]</span>
+      </div>
+      else
+      <div class="h2" data-demoid="3d1ef4fa-919f-4d2c-8cfa-639e4c18ecff">
+        <xrx:i18n>
+          <xrx:key>excel-import</xrx:key>
+          <xrx:default>Excel Import</xrx:default>
+        </xrx:i18n>
+        <span>: { $wcharter-import:collection-name } [{ $wcharter-import:collectionid }]</span>
+      </div>
+      }
+      {
+      if($wcharter-import:context = 'fond') then
+      <div data-demoid="3d799851-b325-40c8-b617-064e047f322f">
+        <a href="{ conf:param('request-root') }fonds">
+          <xrx:i18n>
+            <xrx:key>fonds</xrx:key>
+            <xrx:default>Fonds</xrx:default>
+          </xrx:i18n>
+        </a>
+        <span> &gt; </span>
+        <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/archive">{ $charter:rarchiveid }</a>
+        <span> &gt; </span>
+        <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ $charter:rfondid }/fond">{ xmldb:decode($charter:rfondid) }</a>
+        <span> &gt; </span>
+        <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ $charter:rfondid }/import-charters">
+          <xrx:i18n>
+            <xrx:key>import-charters</xrx:key>
+            <xrx:default>Import charters</xrx:default>
+          </xrx:i18n>
+        </a>
+        <span> &gt; </span>
+        <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ $charter:rfondid }/excel-import">
+          <xrx:i18n>
+            <xrx:key>excel-import</xrx:key>
+            <xrx:default>Excel import</xrx:default>
+          </xrx:i18n>
+        </a>
+      </div>
+      else if($wcharter-import:context = 'collection') then
+      <div data-demoid="82ea1322-9300-45a5-9241-65652e6eda87">
+        <a href="{ conf:param('request-root') }collections">
+          <xrx:i18n>
+            <xrx:key>collections</xrx:key>
+            <xrx:default>Collections</xrx:default>
+          </xrx:i18n>
+        </a>
+        <span> &gt; </span>
+        <a href="{ conf:param('request-root') }{ $charter:rcollectionid }/collection">{ xmldb:decode($charter:rcollectionid) }</a>
+        <span> &gt; </span>
+        <a href="import-charters">
+          <xrx:i18n>
+            <xrx:key>import-charters</xrx:key>
+            <xrx:default>Import charters</xrx:default>
+          </xrx:i18n>
+        </a>
+      </div>
+      else()
+      }
+      <xrx:auth>
+        <xrx:rules>
+          <xrx:or>
+            <xrx:rule>
+              <xrx:user/>
+              <xrx:community>{ $wcharter-import:archive-atomid }</xrx:community>
+            </xrx:rule>
+            <xrx:rule>
+              <xrx:user/>
+              <xrx:role>metadata-manager</xrx:role>
+            </xrx:rule>
+          </xrx:or>
+        </xrx:rules>
+        <xrx:true>
+          <div data-demoid="2e300956-f479-477c-aa69-8ef51b00a8ae" id="dcharter-import">
+            <xf:group model="mimport">
+              <div data-demoid="664f4c7a-9eaf-4a30-a609-534b2355e244" id="dwizard"><div data-demoid="46b18b6f-8adb-405b-9f6f-6d7b580592b4" id="dinner-wizard"><div data-demoid="4f0ebd19-8e39-4866-8ce9-443a3d0523a6" style="position:absolute; right:0px;"><xrx:resource class="icon" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/Excel</xrx:resource></div><xf:switch>
+                <xf:case id="cexcel-upload-sheet">
+                  <h3>
+                    <span>1. </span>
+                    <xrx:i18n>
+                      <xrx:key>upload-file</xrx:key>
+                      <xrx:default>Upload a file</xrx:default>
+                    </xrx:i18n>
+                    <span> (</span>
+                    <span>
+                      <xrx:i18n>
+                        <xrx:key>step</xrx:key>
+                        <xrx:default>Step</xrx:default>
+                      </xrx:i18n>
+                      <span> 1 </span>
+                       <xrx:i18n>
+                         <xrx:key>of</xrx:key>
+                         <xrx:default>of</xrx:default>
+                       </xrx:i18n>
+                       <span> 6</span>
+                    </span>
+                    <span>)</span>
+                  </h3>
+                  <br/>
+                  <br/>
+                  <div data-demoid="20267b65-eaa3-4eeb-a8ca-5b1dc76049b7">
+                    <xf:select1 appearance="full" bind="buploadtype" incremental="true">
+                      <xf:item>
+                        <xf:label>
+                          <xrx:i18n>
+                            <xrx:key>upload-a-local-file</xrx:key>
+                            <xrx:default>Upload a local file</xrx:default>
+                          </xrx:i18n>
+                          <span>  </span>
+                        </xf:label>
+                        <xf:value>local</xf:value>
+                      </xf:item>
+                      {
+                        if($wcharter-import:info) then
+                        <xf:item>
+                          <xf:label>
+                            <xrx:i18n>
+                              <xrx:key>recently-imported-file</xrx:key>
+                              <xrx:default>Recently imported file</xrx:default>
+                            </xrx:i18n>
+                          </xf:label>
+                          <xf:value>recent</xf:value>
+                        </xf:item>
+                        else()
+                      }
+                      <xf:action ev:event="xforms-value-changed">
+                        <xf:recalculate/>
+                        <xf:toggle case="clocal" if="//uploadtype = 'local'"/>
+                        <xf:toggle case="crecent" if="//uploadtype = 'recent'"/>
+                      </xf:action>
+                    </xf:select1>
+                  </div>
+                  <div data-demoid="6e69c79c-0e61-4f05-aec8-f2671a7807a2"><span> </span></div>
+                  <div data-demoid="389d8c5e-c895-433d-993a-56ac8cfd337a">
+                    <xf:switch>
+                      <xf:case id="clocal">
+                        <br/>
+                        <br/>
+                        <xf:upload id="uupload" incremental="true" ref="fileurilocal"/>
+                      </xf:case>
+                      <xf:case id="crecent">
+                        <div data-demoid="3876faf0-b838-4034-b474-9ccc4088ef80">
+                          <br/>
+                          <br/>
+                          <a href="recently-imported-file">{ $wcharter-import:info//xrx:filename/text() }</a>
+                        </div>
+                      </xf:case>
+                    </xf:switch>
+                  </div>
+                  <div data-demoid="4f85948a-1dcc-4978-bc72-4ba174454d9b">
+                    <xf:output mediatype="image/*" ref="instance('iexcel-upload-sheet-response')//xrx:icon"/>
+                    <xf:output ref="instance('iexcel-upload-sheet-response')//xrx:message"/>
+                    <xf:output ref="instance('iexcel-upload-sheet-response')//xrx:report" style="color:grey;font-size:.7"/>
+                  </div>    
+                  <div class="previous-next-trigger" data-demoid="9ba1da0d-0c3f-457e-bab4-56ff1ebc55c0">
+                    <xf:trigger>
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>cancel</xrx:key>
+                          <xrx:default>Cancel</xrx:default>
+                        </xrx:i18n>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:load resource="excel-import?reload=true" show="replace"/>
+                      </xf:action>
+                    </xf:trigger>
+                    <xf:trigger ref="instance('iexcel-upload-sheet-response')//@status[. != '1']">
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>check-file</xrx:key>
+                          <xrx:default>Check file</xrx:default>
+                        </xrx:i18n>
+                      </xf:label>
+                      <xf:dispatch name="eupload-excel" targetid="mimport"/>
+                    </xf:trigger>
+                    <xf:trigger ref="instance('iexcel-upload-sheet-response')//@status[. = '1']">
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>next</xrx:key>
+                          <xrx:default>next</xrx:default>
+                        </xrx:i18n>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:dispatch name="ewizard1-2" targetid="mimport"/>
+                      </xf:action>
+                    </xf:trigger>
+                  </div>
+                </xf:case>
+                <xf:case id="cexcel-choose-sheet">
+                  <h3>
+                    <span>2. </span>
+                    <xrx:i18n>
+                      <xrx:key>choose-a-sheet</xrx:key>
+                      <xrx:default>Choose a sheet</xrx:default>
+                    </xrx:i18n>
+                    <span> (</span>
+                    <span>
+                      <xrx:i18n>
+                        <xrx:key>step</xrx:key>
+                        <xrx:default>Step</xrx:default>
+                      </xrx:i18n>
+                      <span> 2 </span>
+                       <xrx:i18n>
+                         <xrx:key>of</xrx:key>
+                         <xrx:default>of</xrx:default>
+                       </xrx:i18n>
+                       <span> 6</span>
+                    </span>
+                    <span>)</span>
+                  </h3>
+                  <br/>
+                  <br/>
+                  <div data-demoid="6f835de4-4789-44cf-9b9d-6e96cdb420c1">
+                    <xf:select1 appearance="full" id="sheetselect" incremental="true" ref="sheetnum">
+                      <xf:itemset nodeset="instance('iexcel-upload-sheet-response')//excel:sheet">
+                        <xf:label ref="@name"/>
+                        <xf:value ref="@num"/>
+                      </xf:itemset>
+                      <xf:action ev:event="xforms-value-changed">
+                        <xf:send submission="sexcel-choose-sheet"/>
+                        <xf:recalculate/>
+                        <xf:dispatch name="ecalculate-all-charter-expression" targetid="mimport"/>
+                      </xf:action>
+                    </xf:select1>
+                  </div>
+                  <br/>
+                  <br/>
+                  <div data-demoid="86234877-9402-4fad-a9a3-0eb1b614e76a">
+                    <xf:output ref="instance('iexcel-choose-sheet-response')//xrx:message"/>
+                    <xf:output mediatype="image/*" ref="instance('iexcel-choose-sheet-response')//xrx:icon"/>
+                  </div>    
+                  <div class="previous-next-trigger" data-demoid="4e63fed0-c8f2-4ba6-b523-052f2006708a">
+                    <xf:trigger>
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>previous</xrx:key>
+                          <xrx:default>previous</xrx:default>
+                        </xrx:i18n>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:dispatch name="ewizard2-1" targetid="mimport"/>
+                      </xf:action>
+                    </xf:trigger>
+                    <xf:trigger>
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>cancel</xrx:key>
+                          <xrx:default>Cancel</xrx:default>
+                        </xrx:i18n>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:load resource="excel-import?reload=true" show="replace"/>
+                      </xf:action>
+                    </xf:trigger>
+                    <xf:trigger ref="instance('iexcel-choose-sheet-response')//@status[. = '1']">
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>next</xrx:key>
+                          <xrx:default>next</xrx:default>
+                        </xrx:i18n>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:dispatch name="ewizard2-3" targetid="mimport"/>
+                      </xf:action>
+                    </xf:trigger>
+                  </div> 
+                </xf:case>
+                <xf:case id="cexcel-choose-row">
+                  <h3>
+                    <span>3. </span>
+                    <xrx:i18n>
+                      <xrx:key>select-rows</xrx:key>
+                      <xrx:default>Select rows</xrx:default>
+                    </xrx:i18n>
+                    <span> (</span>
+                    <span>
+                      <xrx:i18n>
+                        <xrx:key>step</xrx:key>
+                        <xrx:default>Step</xrx:default>
+                      </xrx:i18n>
+                      <span> 3 </span>
+                       <xrx:i18n>
+                         <xrx:key>of</xrx:key>
+                         <xrx:default>of</xrx:default>
+                       </xrx:i18n>
+                       <span> 6</span>
+                    </span>
+                    <span>)</span>
+                  </h3>
+                  <br/>
+                  <br/>
+                  <div data-demoid="9995b168-313b-46e2-ad44-98e2ea5f1660">
+                    <xf:input ref="chooserow">
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>select-rows</xrx:key>
+                          <xrx:default>Select rows</xrx:default>
+                        </xrx:i18n>
+                      </xf:label>
+                    </xf:input>
+                    <xf:trigger>
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>choose-now</xrx:key>
+                          <xrx:default>Choose now</xrx:default>
+                        </xrx:i18n>
+                        <span>! </span>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:dispatch name="eexcel-choose-row" targetid="mimport"/>
+                      </xf:action>
+                    </xf:trigger>
+                  </div>
+                  <div data-demoid="e4fb97d1-9cd8-47f6-9daa-f64cc014896d">
+                    <xf:output ref="instance('iexcel-choose-row-response')//xrx:message"/>
+                    <xf:output mediatype="image/*" ref="instance('iexcel-choose-row-response')//xrx:icon"/>
+                  </div>
+                  <div class="previous-next-trigger" data-demoid="9e8d8a5d-ec2f-453f-a84e-f4a335387d1d">
+                    <xf:trigger>
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>previous</xrx:key>
+                          <xrx:default>previous</xrx:default>
+                        </xrx:i18n>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:dispatch name="ewizard3-2" targetid="mimport"/>
+                      </xf:action>
+                    </xf:trigger>
+                    <xf:trigger>
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>cancel</xrx:key>
+                          <xrx:default>Cancel</xrx:default>
+                        </xrx:i18n>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:load resource="excel-import?reload=true" show="replace"/>
+                      </xf:action>
+                    </xf:trigger>
+                    <xf:trigger ref="instance('iexcel-choose-row-response')//@status[. = '1']">
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>next</xrx:key>
+                          <xrx:default>next</xrx:default>
+                        </xrx:i18n>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:dispatch name="ewizard3-4" targetid="mimport"/>
+                      </xf:action>
+                    </xf:trigger>
+                  </div>
+                </xf:case>
+                <xf:case id="cvalidate-sheet">
+                  <h3>
+                    <span>4. </span>
+                    <xrx:i18n>
+                      <xrx:key>validate-selected-rows</xrx:key>
+                      <xrx:default>Validate selected rows</xrx:default>
+                    </xrx:i18n>
+                    <span> (</span>
+                    <span>
+                      <xrx:i18n>
+                        <xrx:key>step</xrx:key>
+                        <xrx:default>Step</xrx:default>
+                      </xrx:i18n>
+                      <span> 4 </span>
+                       <xrx:i18n>
+                         <xrx:key>of</xrx:key>
+                         <xrx:default>of</xrx:default>
+                       </xrx:i18n>
+                       <span> 6</span>
+                    </span>
+                    <span>)</span>
+                  </h3>
+                  <br/>
+                  <br/>
+                  <div data-demoid="eea4567e-eda2-4072-834c-26248ed6ca54">
+                    <xf:trigger>
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>validate-now</xrx:key>
+                          <xrx:default>Validate now</xrx:default>
+                        </xrx:i18n>
+                        <span>!</span>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:send submission="sexcel-validate-sheet"/>
+                      </xf:action>
+                    </xf:trigger>
+                  </div>
+                  <br/>
+                  <br/>
+                  <div class="previous-next-trigger" data-demoid="db608c2e-cd52-4009-a735-eb2a8d873efe">
+                    <xf:trigger>
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>previous</xrx:key>
+                          <xrx:default>previous</xrx:default>
+                        </xrx:i18n>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:dispatch name="ewizard4-3" targetid="mimport"/>
+                      </xf:action>
+                    </xf:trigger>
+                    <xf:trigger>
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>cancel</xrx:key>
+                          <xrx:default>Cancel</xrx:default>
+                        </xrx:i18n>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:load resource="excel-import?reload=true" show="replace"/>
+                      </xf:action>
+                    </xf:trigger>
+                    <xf:trigger ref="instance('iexcel-validate-sheet-response')//@status[. = '1']">
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>next</xrx:key>
+                          <xrx:default>next</xrx:default>
+                        </xrx:i18n>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:dispatch name="ewizard4-5" targetid="mimport"/>
+                      </xf:action>
+                    </xf:trigger>
+                  </div>
+                  <div data-demoid="fd1a80df-84b3-4af2-9bb0-7a9ccd6df1c9">
+                    <xf:output ref="instance('iexcel-validate-sheet-response')//xrx:message"/>
+                    <xf:output mediatype="image/*" ref="instance('iexcel-validate-sheet-response')//xrx:icon"/>
+                    <xf:repeat nodeset="instance('iexcel-validate-sheet-response')//excel:error">
+                      <span class="red"><xf:output value="concat(., '; Row: ', @rownum, '; Cell: ', @cellnum)"/></span>
+                    </xf:repeat>
+                  </div>
+                </xf:case>
+                <xf:case id="ctransform-sheet">
+                  <h3>
+                    <span>5. </span>
+                    <xrx:i18n>
+                      <xrx:key>simulate-charter-import</xrx:key>
+                      <xrx:default>Simulate charter import</xrx:default>
+                    </xrx:i18n>
+                    <span> (</span>
+                    <span>
+                      <xrx:i18n>
+                        <xrx:key>step</xrx:key>
+                        <xrx:default>Step</xrx:default>
+                      </xrx:i18n>
+                      <span> 5 </span>
+                       <xrx:i18n>
+                         <xrx:key>of</xrx:key>
+                         <xrx:default>of</xrx:default>
+                       </xrx:i18n>
+                       <span> 6</span>
+                    </span>
+                    <span>)</span>
+                  </h3>
+                  <br/>
+                  <br/>
+                  <div data-demoid="b42dca13-fc2e-47d8-8aff-125437c08763">
+                    <xf:trigger>
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>simulate-now</xrx:key>
+                          <xrx:default>Simulate now</xrx:default>
+                        </xrx:i18n>
+                        <span>!</span>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:setvalue ref="processid" value="'pidexcel-transform-sheet'"/>
+                        <xf:send submission="sexcel-transform-sheet"/>
+                      </xf:action>
+                    </xf:trigger>
+                    <br/>
+                    <br/>
+                  </div>
+                  <br/>
+                  <br/>
+                  <fieldset>
+                    <legend>
+                      <xrx:i18n>
+                        <xrx:key>status</xrx:key>
+                        <xrx:default>Status</xrx:default>
+                      </xrx:i18n>
+                    </legend>
+                    <div data-demoid="50053bd0-eb64-4375-a3d0-f915c4cf86a3" id="progressbar-simulate"><div class="progress-label" data-demoid="36ffe106-c6cc-431b-8c73-8b46f05ddac6">0%</div></div>
+                    <script type="text/javascript">
+                      jQuery(document).ready(
+                        function() {{ 
+                          $('#progressbar-simulate').progressbarImport({{
+                            serviceUrlImportProgress: "{ conf:param('request-root') }service/import-progress", 
+                            cacheId: "{ $wcharter-import:cacheid }", 
+                            processId: "pidexcel-transform-sheet"
+                          }}) 
+                      }});
+                    </script>
+                  </fieldset>
+                  <div class="previous-next-trigger" data-demoid="43dd9e8b-994f-4667-887c-2289a3c090d9">
+                    <xf:trigger>
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>previous</xrx:key>
+                          <xrx:default>previous</xrx:default>
+                        </xrx:i18n>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:dispatch name="ewizard5-4" targetid="mimport"/>
+                      </xf:action>
+                    </xf:trigger>
+                    <xf:trigger>
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>cancel</xrx:key>
+                          <xrx:default>Cancel</xrx:default>
+                        </xrx:i18n>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:load resource="excel-import?reload=true" show="replace"/>
+                      </xf:action>
+                    </xf:trigger>
+                    <xf:trigger ref="instance('iexcel-transform-sheet-response')//@status[. = '1']">
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>next</xrx:key>
+                          <xrx:default>next</xrx:default>
+                        </xrx:i18n>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:dispatch name="ewizard5-6" targetid="mimport"/>
+                      </xf:action>
+                    </xf:trigger>
+                  </div>
+                  <br/>
+                  <br/>
+                  <div data-demoid="58c06c86-70dc-4540-8aa3-9dcb8dcdec2d">
+                    <xf:output ref="instance('iexcel-transform-sheet-response')//xrx:message"/>
+                    <xf:output mediatype="image/*" ref="instance('iexcel-transform-sheet-response')//xrx:icon"/>
+                    <xf:repeat nodeset="instance('iexcel-transform-sheet-response')//report">
+                      <span class="red"><xf:output value="concat('Row ', rownum, ', Charter *', idno, '*: ', message)"/></span>
+                      <span style="color:grey"><xf:output value="./error"/></span>
+                    </xf:repeat>              
+                  </div>
+                </xf:case>
+                <xf:case id="cimport-sheet">
+                  <h3>
+                    <span>6. </span>
+                    <xrx:i18n>
+                      <xrx:key>import-sheet</xrx:key>
+                      <xrx:default>Import sheet</xrx:default>
+                    </xrx:i18n>
+                    <span> (</span>
+                    <span>
+                      <xrx:i18n>
+                        <xrx:key>step</xrx:key>
+                        <xrx:default>Step</xrx:default>
+                      </xrx:i18n>
+                      <span> 6 </span>
+                       <xrx:i18n>
+                         <xrx:key>of</xrx:key>
+                         <xrx:default>of</xrx:default>
+                       </xrx:i18n>
+                       <span> 6</span>
+                    </span>
+                    <span>)</span>
+                  </h3>
+                  <br/>
+                  <br/>
+                  <div data-demoid="8045fe7b-8b1d-4eeb-b475-a640c6e6d0d9">
+                    <xf:select1 appearance="full" incremental="true" ref="action">
+                      <xf:label/>
+                      <xf:item>
+                        <xf:label>
+                          <xrx:i18n>
+                            <xrx:key>replace-existing-charter-collection</xrx:key>
+                            <xrx:default>replace existing charter collection</xrx:default>
+                          </xrx:i18n>
+                        </xf:label>
+                        <xf:value>replace</xf:value>
+                      </xf:item>
+                      <xf:item>
+                        <xf:label>
+                          <xrx:i18n>
+                            <xrx:key>update-existing-charter-collection</xrx:key>
+                            <xrx:default>update existing charter collection</xrx:default>
+                          </xrx:i18n>
+                        </xf:label>
+                        <xf:value>update</xf:value>
+                      </xf:item>
+                    </xf:select1>
+                  </div>
+                  <br/>
+                  <br/>
+                  <div class="cell" data-demoid="1e41b7e1-8ae9-49fe-ad72-905ab56b0dbd">
+                    <xf:trigger>
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>start-now</xrx:key>
+                          <xrx:default>Start now</xrx:default>
+                        </xrx:i18n>
+                        <span>!</span>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:setvalue ref="processid" value="'pidexcel-import-sheet'"/>
+                        <xf:send submission="sexcel-import-sheet"/>
+                      </xf:action>
+                    </xf:trigger>
+                  </div>
+                  <br/>
+                  <br/>
+                  <fieldset>
+                    <legend>
+                      <xrx:i18n>
+                        <xrx:key>status</xrx:key>
+                        <xrx:default>Status</xrx:default>
+                      </xrx:i18n>
+                    </legend>
+                    <div data-demoid="e1a6f131-3aa1-49e9-bbd5-c0a28c2783c9" id="progressbar-import"><div class="progress-label" data-demoid="66e8417d-6d6b-4829-b75e-4245bd95442a">0%</div></div>
+                    <script type="text/javascript">
+                      jQuery(document).ready(
+                        function() {{ 
+                          $('#progressbar-import').progressbarImport({{
+                            serviceUrlImportProgress: "{ conf:param('request-root') }service/import-progress", 
+                            cacheId: "{ $wcharter-import:cacheid }", 
+                            processId: "pidexcel-import-sheet"
+                          }}) 
+                      }});
+                    </script>
+                  </fieldset>
+                  <div class="previous-next-trigger" data-demoid="01072120-8e0d-4aa1-bb9b-9449b4ae3591">
+                    <xf:trigger>
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>previous</xrx:key>
+                          <xrx:default>previous</xrx:default>
+                        </xrx:i18n>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:dispatch name="ewizard6-5" targetid="mimport"/>
+                      </xf:action>
+                    </xf:trigger>
+                    <xf:trigger>
+                      <xf:label>
+                        <xrx:i18n>
+                          <xrx:key>cancel</xrx:key>
+                          <xrx:default>Cancel</xrx:default>
+                        </xrx:i18n>
+                      </xf:label>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:load resource="excel-import?reload=true" show="replace"/>
+                      </xf:action>
+                    </xf:trigger>
+                  </div>
+                  <br/>
+                  <br/>
+                  <div class="cell" data-demoid="7969b77c-155c-4f05-b47d-89806f298a21">
+                    <xf:output ref="instance('iexcel-import-sheet-response')//xrx:message"/>
+                    <xf:output mediatype="image/*" ref="instance('iexcel-import-sheet-response')//xrx:icon"/>
+                  </div>
+                  <xf:group ref="instance('iexcel-import-sheet-response')//@status[.='1']">
+                    <div data-demoid="cb65b109-98ca-422f-bd0e-6eb2506d5687" id="dpreview-link">
+                      <a href="imported-{ $wcharter-import:context }">
+                        <xrx:i18n>
+                          <xrx:key>preview</xrx:key>
+                          <xrx:default>Preview</xrx:default>
+                        </xrx:i18n>
+                      </a>
+                    </div>
+                  </xf:group>
+                </xf:case>
+              </xf:switch></div></div>
+            </xf:group>
+            <xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/useful-links-excel</xrx:subwidget>
+          </div>
+        </xrx:true>
+        <xrx:false>
+          <div data-demoid="788334c3-db7d-48e4-b756-63b48046a1ff">
+            <xrx:i18n>
+              <xrx:key>protected-page-message</xrx:key>
+              <xrx:default>Protected page. Please login first.</xrx:default>
+            </xrx:i18n>
+          </div>
+        </xrx:false>
+      </xrx:auth>
+    </div>
+  </xrx:view>
+</xrx:widget>

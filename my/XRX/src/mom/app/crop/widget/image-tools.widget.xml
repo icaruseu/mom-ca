@@ -1,0 +1,1639 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+    <xrx:id>tag:www.monasterium.net,2011:/mom/widget/image-tools</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key>image-tools</xrx:key>
+            <xrx:default>image-tools</xrx:default>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:subtitle/>
+    <xrx:description/>
+    <xrx:author>andre.streicher@uni-koeln.de</xrx:author>
+    <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+    <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/fullscreen</xrx:portal>
+    <xrx:init>
+        <xrx:processor>
+            <xrx:xformsflag>true</xrx:xformsflag>
+        </xrx:processor>
+    </xrx:init>
+    <xrx:csss>
+        <xrx:css>tag:www.monasterium.net,2011:/mom/css/global</xrx:css>
+        <style type="text/css">
+
+html{{
+    overflow-y: hidden;
+    overflow-x: hidden;
+}}
+
+body{{
+    background-color:white;
+    height:100%;
+    margin: 0;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    padding: 0;
+}}
+
+#pushDiv{{
+    position:absolute;
+    background:white;
+    bottom:0px;
+    z-index:24;
+    width:100px;
+    height:20px;
+    border:solid #52a0ec 1px;
+    border-bottom-width:0px;
+    -moz-border-top-left-radius:8px;
+    -webkit-border-top-left-radius:8px;
+    -khtml-border-top-left-radius:8px;
+    border-top-left-radius:8px;
+    -moz-border-top-right-radius:8px;
+    -webkit-border-top-right-radius:8px;
+    -khtml-border-top-right-radius:8px;
+    border-top-right-radius:8px;
+}}
+
+#pushImg{{
+		position:relative;
+		left:38px;
+		height:25px;
+}}
+
+#functionField{{
+    position:fixed;
+    background:white;
+    bottom:-40px;
+    z-index:3;
+    width:1100px;
+    height:0px;
+    border:solid #52a0ec 1px;
+    border-bottom-width:0px;
+    -moz-border-top-left-radius:8px;
+    -webkit-border-top-left-radius:8px;
+    -khtml-border-top-left-radius:8px;
+    border-top-left-radius:8px;
+    -moz-border-top-right-radius:8px;
+    -webkit-border-top-right-radius:8px;
+    -khtml-border-top-right-radius:8px;
+    border-top-right-radius:8px;
+}}
+
+.idno *{{
+    position:relative;
+	top:35px;
+	left: 5px;
+}}
+
+#viewport{{
+	position:relative;
+  background: white;
+	float:left;
+	width:99.8%;
+	overflow:none;
+	z-index:2;
+	margin-top:0px;
+	margin-bottom:0px;
+	padding:0;
+	border:solid rgb(240,243,226) 1px;
+}}
+
+#img{{
+	position:absolute;
+  cursor:move;
+  border:solid rgb(240,243,226) 1px;
+	z-index:0;
+	margin:0px;
+	padding:0px;
+}}
+
+div.inlinehead{{
+	position:relative;
+	float:left;
+	font-weight:bold;
+	z-index:5;
+	font-size:13px;
+	width:100%;
+	height:80px;
+	background-color:{ conf:param('color5') };
+	color:{ conf:param('color2') };;
+	margin: 0px;
+}}
+
+.link{{
+    color:{ conf:param('color2') };
+}}
+
+div.no-graphic{{
+	position:relative;
+	float:right;
+	right:20px;
+	top:10px;
+	color:rgb(142,163,132);
+	font-weight:bold;
+	bottom:50%;
+	z-index:2;
+}}
+
+#cropper{{
+   display: none;
+   position:relative;
+   float:left;
+ }}
+        
+#cropimg{{
+   position:relative;
+   display: block;   
+   margin-left: auto;   
+   margin-right: auto;            
+}}
+
+#directanno{{
+   display: none;
+   position:absolute;
+   z-index:20;
+   float:left;
+}}
+
+.entry{{
+    position: relative;
+    float:left;
+    width:99%;
+    left:2px;
+    padding-bottom:2px;
+    margin-top: 10px;
+    border:solid rgb(240,243,226) 1px;
+}}
+
+#saveheader{{
+    position: relative;
+}}
+        
+#inputdata{{
+   position:relative;
+   top:10px;
+   left:10px;
+}}
+        
+.button {{
+   -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+				-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+				box-shadow:inset 0px 1px 0px 0px #ffffff;
+				background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+				background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+				filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+				background-color:#ededed;
+				-moz-border-radius:6px;
+				-webkit-border-radius:6px;
+				float:left;
+				border-radius:6px;
+				border:1px solid #dcdcdc;
+				display:inline;
+				color:#777777;
+				font-family:arial;
+				font-size:15px;
+				font-weight:bold;
+				padding:8px 18px;
+				text-decoration:none;
+				text-shadow:1px 1px 0px #ffffff;
+				margin:1px;
+				cursor:default;
+}}
+              
+.button:hover{{
+   background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
+			background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+			filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
+			background-color:#dfdfdf;
+			cursor:default;
+}}
+
+.hiddenButton{{
+   -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+			-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+			box-shadow:inset 0px 1px 0px 0px #ffffff;
+			background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+			background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+			filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+			background-color:#ededed;
+			-moz-border-radius:6px;
+			-webkit-border-radius:6px;
+			border-radius:6px;
+			border:1px solid #dcdcdc;
+			display:none;
+			float:left;
+			color:#777777;
+			font-family:arial;
+			font-size:15px;
+			font-weight:bold;
+			padding:8px 18px;
+			text-decoration:none;
+			text-shadow:1px 1px 0px #ffffff;
+			margin:1px;
+			cursor:default;
+}}
+              
+.hiddenButton:hover{{
+   background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
+			 background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+			 filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
+			 background-color:#dfdfdf;
+			 cursor:default;
+}}
+        
+.zoomer{{
+   display: inline;
+   position:relative;
+   top:-2px;
+   float:left;
+   height: 21px;
+}}
+
+.direct{{
+    display:none;
+    position:absolute;
+    background: rgba(0, 0, 0, 0.0);
+    border:solid red 1px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    -khtml-border-radius:3px;
+    border-radius:3px;
+}}
+        
+#annobar{{
+   display:block;
+   position:relative;
+   z-index: 15;
+   top:7px;
+   float: left;
+   width: 1070px;
+   height:32px;
+   left: 10px;
+}}
+        
+#cropviewport{{ 
+   position:relative;
+   float: left;
+   overflow:auto;
+   width: 100%;
+   max-width: 400px;
+   left:-1px;
+   top:0px;
+   border:solid #505050 1px;
+        }}
+        
+.miniviewport{{ 
+   position: relative;
+   margin: 1px;
+   float:left;
+   overflow:auto;
+   width: 30px;
+   height: 30px;
+   border:solid rgb(160,160,160) 1px;
+   vertical-align: bottom; 
+   }}
+   
+.tooltip {{
+    display: none;
+    position: absolute;
+    z-index: 15;
+    padding: 8px 0 0 8px;
+}}
+
+.toolimg {{
+    border:solid rgb(160,160,160) 3px;
+    z-index:15;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    -khtml-border-radius:3px;
+    border-radius:3px;
+}}
+
+.editorfooter{{
+    position:relative;
+    float:left;
+    z-index:5;
+    height:15px;
+    border:solid #505050 1px;
+    border-top-width:0px;
+    -webkit-border-bottom-left-radius: 10px;
+    -webkit-border-bottom-right-radius: 10px;
+    -khtml-border-bottom-left-radius: 10px;
+    -khtml-border-bottom-right-radius: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    -moz-border-radius-bottomright: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}}
+
+.editorheader{{
+    position:relative;
+    z-index:5;
+    border:solid #505050 1px;
+    -webkit-border-top-left-radius: 10px;
+    -webkit-border-top-right-radius: 10px;
+    -khtml-border-top-left-radius: 10px;
+    -khtml-border-top-right-radius: 10px;
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-topright: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}}
+   
+.cropimg{{
+   position: relative;
+   display: block;   
+   margin:0px auto;
+   max-width: 30px;
+   max-height: 30px;
+   }}
+        
+#newcollection{{
+    position:relative;
+    text-align:center;
+    font-size:13px;
+    cursor:default;
+    float:left;
+    width:174px;
+    z-index:5;
+    border:solid #505050 1px;
+    border-left:0px;
+    border-bottom:0px;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-bordertop-right-radius: 5px;
+    -khtml-border-top-left-radius: 5px;
+    -khtml-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}}
+
+#existcollection{{
+    position:relative;
+    text-align:center;
+    font-size:13px;
+    cursor:default;
+    float:left;
+    width:224px;
+    z-index:5;
+    background:#F8F8F8;
+    border:solid #505050 1px;
+    border-left:0px;
+    border-right:0px;
+    border-top:0px;
+}}
+        
+#cropeditor{{
+   float: left;
+   z-index:5;
+   display: none;
+   position:relative;
+   height:100%;
+   width:900px;
+   top:30px;
+   left:100px;
+   padding-bottom: 15px;
+}}
+        
+#annotationfield{{
+   float: left;
+   width: 300px;
+   height: 100px;
+}}
+        
+#loading{{
+   display: block;
+   z-index:2;
+   position: fixed;
+   right:0px;
+   top:30px;
+   background-color:white;
+   -moz-border-bottom-left-radius:8px;
+   -webkit-border-bottom-left-radius:8px;
+   -khtml-border-bottom-left-radius:8px;
+   border-bottom-left-radius:8px;
+   height:50px;
+}}
+        
+#loadgif{{
+   float: left;
+   margin:5px;
+   top:4px;
+   position:relative;
+   
+}}
+        
+#loadtext{{
+   margin:10px;
+   position:relative;
+   color:#CAC6C6;
+   font-weight:bold;
+	 font-size:15px;
+}}
+        
+.extractlabel{{
+   position:relative;
+   color:#999999;
+   font-weight:bold;
+   text-align:center;
+}}
+        
+.labels{{
+   position:relative;
+   text-align:center;
+   color:#999999;
+   font-weight:bold;
+}}
+        
+.editorhide{{
+   display:none;
+   position:relative;
+   left: 68px;
+}}
+
+#existdata{{
+    display:none;
+    position:relative;
+    float:left;
+    width:99%;
+    padding-bottom:10px;
+}}
+        
+#newdata{{
+   display:block;
+   position:relative;
+   float:left;
+   width:99%;
+   padding-bottom:10px;
+}}
+
+.release{{
+    font-size:8px;
+    position:relative;
+    left:3px;
+    top:20px;
+    color:red;
+    font-weight:bold;
+}}
+
+#mode{{
+    position:absolute;
+    border:solid rgb(142,163,132) 1px;
+    top:20px;
+    left:auto;
+    right:auto;
+    height:25px;
+    width: 190px;
+    float:left;
+    color:rgb(142,163,132);
+    z-index:1;
+    text-align:center;
+    font-weight:bold;
+}}
+
+#bobble {{
+    display:none;
+    position: absolute;
+    z-index:30;
+    width: 400px;
+    height: 48px;
+    background-color: #F6F6F6;
+    padding:20px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    -khtml-border-radius:3px;
+    border-radius:3px;
+    -moz-box-shadow:    4px -3px 10px 1px #202020;
+    -webkit-box-shadow: 4px -3px 10px 1px #202020;
+    box-shadow:         4px -3px 10px 1px #202020;
+}}
+
+#bobble div {{
+    width: 0px;
+    height: 0px;
+    z-index:1;
+    border-top: 20px solid #F6F6F6 ;
+    border-right: 20px solid transparent;
+    display: inline;
+    position: relative;
+    left: 20px;
+}}
+
+#bobbletext{{
+		font-size:15px;
+}}
+
+#privatAnnos{{
+	display:none;
+}}
+
+#publicAnnos{{
+	display:none;
+}}
+
+#logout-link{{ 
+  position:absolute; 
+  top:55px; 
+  left:auto; 
+  right:auto; 
+  float:left; 
+}} 
+			</style>
+    </xrx:csss>
+    <xrx:jss>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/jcrop</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/image-editor-functions</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/selectable</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/droppable</xrx:resource>
+    </xrx:jss>
+    <xrx:model>
+        <xf:model id="mdefault-header">
+            <xf:instance>
+                <xrx:data>
+                    <xrx:lang>{ $xrx:lang }</xrx:lang>
+                </xrx:data>
+            </xf:instance>
+            <xf:instance id="iconfigured-langs">
+                { conf:param('languages') }
+            </xf:instance>
+            <xf:bind id="blang" nodeset="//xrx:lang"/>
+        </xf:model>
+    </xrx:model>
+    <xrx:view>
+	  {
+	    (: metadata base collection for archival collections :)
+	    let $metadata-collection-base-collection := metadata:base-collection('collection', 'public')
+
+      (: get charter context: collection or fond? :)
+      let $charter-context := 
+        let $probably-collection-id := $xrx:tokenized-uri[1]
+        let $probably-collection-atom-id := concat(conf:param('atom-tag-name'), '/collection/', $probably-collection-id)
+        return
+        if(exists($metadata-collection-base-collection//atom:id[.=$probably-collection-atom-id])) then 'collection' else 'fond'
+
+      (: get atom ID :)
+      let $atom-id := 
+         if($charter-context = 'fond') then
+           metadata:atomid('charter', ($charter:rarchiveid, $charter:rfondid, $charter:rcharterid))
+         else
+           metadata:atomid('charter', ($charter:rcollectionid, $charter:rcharterid))
+
+      (: init metadata database collections :)
+      let $tokens := tokenize(substring-after($atom-id, conf:param('atom-tag-name')), '/')
+      let $metadata-charter-collection := 
+         if($charter-context = 'fond') then
+            metadata:base-collection('charter', ($charter:rarchiveid, $charter:rfondid), 'public')
+          else
+            metadata:base-collection('charter', $charter:rcollectionid, 'public')
+       
+      let $metadata-fond-collection :=
+          metadata:base-collection('fond', ($charter:rarchiveid, $charter:rfondid), 'public')
+      let $metadata-archive-collection :=
+          metadata:base-collection('archive', $charter:rarchiveid, 'public')
+      let $metadata-collection-collection :=
+          metadata:base-collection('collection', $charter:rcollectionid, 'public')
+
+      (:
+        getting the CEI document from public area of MOM-CA
+      :)
+      
+      (:
+         now we know which charter we want
+      :)
+      let $charter := root($metadata-charter-collection//atom:id[.=$atom-id])//cei:text
+      
+      (:
+         charter infos
+      :)
+      let $idno := $charter//cei:body/cei:idno/text()
+      let $link-to-charter-in-archive := data($charter//cei:archIdentifier/cei:ref/@target)
+
+      (:
+        get number of charters in a collection or
+        number of saved or released charters
+      :)
+      let $charters := charter:get-charter-list($metadata-charter-collection, xs:string('charter'), $xrx:user-xml)
+
+      (: count charters :)
+      let $count := count($charters)
+
+      (:
+         get charter IDs for next / previous navigation
+      :)
+      let $next-and-previous := charter:next-and-previous($charters, $charter, $count, $atom-id, xs:string('charter'))
+
+      (:
+         actual position inside the charter list in the
+         fond or in saved or released charter list
+      :)
+      let $pos := charter:position($charters, $charter, $xrx:user-xml, $atom-id, xs:string('charter'))
+      
+      (: block number and anchor number to offer a back link :)
+      let $block := charter:block(xs:integer($pos))
+      let $anchor := charter:anchor(xs:integer($pos))
+      
+      (:
+         get fond or collection information
+      :)
+      let $meta := 
+       if($charter-context = 'fond') then $metadata-fond-collection//ead:ead//ead:c[@level='fonds']/ead:did
+       else $metadata-collection-collection//cei:cei
+      let $image-base-uri := 
+        if($charter-context = 'fond') then concat($metadata-fond-collection/xrx:preferences/xrx:param[@name='image-server-base-url']/text(), '/') else concat('http://',$meta//cei:image_server_address/text(),'/',$meta//cei:image_server_folder/text(),'/') 
+      let $fond :=
+       if($charter-context = 'fond') then $meta//ead:unittitle/text() else $meta//cei:provenance/text()
+      
+      (: how shall we handle this in EAD? :)
+      let $image-access-forbidden-flag :=
+        if($meta//cei:availability[@n='GRAPHICS']/@status = 'restricted') then true()
+        else false()
+      let $alternative-graphic-url := $meta//cei:availability[@n='GRAPHICS']/cei:p//cei:graphic/@url/string()
+
+      (:
+         get archive information
+      :)
+      let $archive := $metadata-archive-collection//eag:autform/text()
+      
+      
+      let $atom-uri :=
+        if($charter-context = 'fond') then
+          concat(conf:param('request-root'), 'atom/GET', metadata:feed('charter', ($charter:rarchiveid, $charter:rfondid), 'public'), '/', $charter:rcharterid, '.cei.xml')
+        else
+          concat(conf:param('request-root'), 'atom/GET', metadata:feed('charter', ($charter:rcollectionid), 'public'), '/', $charter:rcharterid, '.cei.xml')   
+      
+      let $img-urls :=
+        for $url in $charter//cei:graphic/@url/string()
+            order by $url
+            return
+                if(contains($url, '/')) then $url
+                else concat($image-base-uri, xmldb:encode($url))
+
+	    return
+      <div data-demoid="e83f0d58-244b-47d2-a23b-979421e2a101" id="charter-template-header">
+        {
+        let $charter-context-url :=
+          if($charter-context = 'fond') then
+            concat(conf:param('request-root'),$charter:rarchiveid,'/',xmldb:decode($charter:rfondid),'/')
+          else
+            concat(conf:param('request-root'),xmldb:decode($charter:rcollectionid),'/')
+        let $self-charter := 
+          xmldb:encode-uri(concat($charter-context-url,$charter//cei:body/cei:idno/@id/string(),'/charter'))
+        let $previous := 
+          xmldb:encode-uri(concat($charter-context-url,$next-and-previous[1]//cei:body/cei:idno/@id/string(),'/image-tools'))
+        let $next := 
+          xmldb:encode-uri(concat($charter-context-url,$next-and-previous[2]//cei:body/cei:idno/@id/string(),'/image-tools'))
+        return
+        
+        (: 
+          header for normal charter view 
+        :)
+        
+        <div class="p" data-demoid="ab7735ab-d0a5-425d-a769-d0e65f48fffc">
+                <div class="inlinehead" data-demoid="568b5238-694a-45f1-ae1d-6e283dd5ea1a">
+                    <div data-demoid="fd317ed8-3f88-4604-8bde-019f2cf29347" style="position:absolute;top:13px;left:2px;">
+                        <a class="link" href="{ $previous }">
+                            <span>&lt; </span>
+                            <xrx:i18n>
+                                <xrx:key>previous-charter</xrx:key>
+                                <xrx:default>Previous Charter</xrx:default>
+                            </xrx:i18n>
+                        </a>
+                    </div>
+                    <div data-demoid="03075794-7900-45eb-8636-1bf0480c94de" id="mode">
+                        <a class="link" href="{ $self-charter }" style="position:relative;top:5px;">
+                            <xrx:i18n>
+                                <xrx:key>close-image-tools</xrx:key>
+                                <xrx:default>Close Image Tools</xrx:default>
+                            </xrx:i18n>
+                        </a>
+                    </div>
+                    <div data-demoid="e9819001-47df-40c2-a22d-8ef506d7085c" style="position:absolute;right:5px;top:13px;">
+                        <a class="link" href="{ $next }">
+                            <xrx:i18n>
+                                <xrx:key>next-charter</xrx:key>
+                                <xrx:default>Next Charter</xrx:default>
+                            </xrx:i18n>
+                            <span> &gt;</span>
+                        </a>
+                    </div> 
+                    <div data-demoid="da742fab-28ac-4d3b-981d-11bac8125332" id="logout-link"> 
+                      { 
+                      if($conf:project-name = 'demo')then 
+                        <a href="{ conf:param('request-root') }service/logout2?refer=home"> 
+                          <xrx:i18n> 
+                            <xrx:key>logout</xrx:key> 
+                            <xrx:default>Logout</xrx:default> 
+                          </xrx:i18n> 
+                        </a> 
+                      else() 
+                      } 
+                    </div>
+                    <div data-demoid="29d4e685-e807-42ce-8ace-28c69c10f2e3" style="position:absolute;right:5px;top:35px;">
+                        <span>{ $pos } </span>
+                        <xrx:i18n>
+                            <xrx:key>of</xrx:key>
+                            <xrx:default>of</xrx:default>
+                        </xrx:i18n>
+                        <span> { $count } </span>
+                        <span>(</span>
+                        <xrx:i18n>
+                            <xrx:key>by-date</xrx:key>
+                            <xrx:default>by date</xrx:default>
+                        </xrx:i18n>
+                        <span>)</span>
+                    </div>
+                    <div data-demoid="3ac4055c-bda1-490c-ac50-a351b660e5ee" style="position:absolute;right:5px;top:57px;">
+                        <xrx:i18n>
+                            <xrx:key>graphics</xrx:key>
+                            <xrx:default>Graphics</xrx:default>
+                        </xrx:i18n>
+                        <span>:</span>
+                        {
+                        for $img-url at $num in $img-urls
+                        return
+                        if($charter:rarchiveid != 'DE-LABW') then
+                        <a href="javascript:changeImage('{ $img-url }')">{ $num } </a>
+                        else()
+                        }
+                    </div>
+                    <div data-demoid="bc9f05c8-f43b-41ff-8a9e-5135f130ff86">
+                        {
+                        if(starts-with($charter:rfondid,'MIB'))then
+                        (<div class="idno" data-demoid="4ff07ff2-3374-4f16-93e5-4bfd63f2ceee">
+                            <xrx:i18n>
+                                <xrx:key>signature</xrx:key>
+                                <xrx:default>Signature</xrx:default>
+                            </xrx:i18n>
+                            <span>: { $idno }</span>
+                        </div>,
+                        
+                        <div data-demoid="fd6c206e-6997-47fd-ba02-bf1e24130342" style="position:relative;left:170px;margin-bottom:10px;">
+                            <span>
+                                <xrx:i18n>
+                                    <xrx:key>source</xrx:key>
+                                    <xrx:default>Source</xrx:default>
+                                </xrx:i18n>:</span>
+                            Institut für Geschichtliche Landeskunde an der Universität Mainz e.V.
+                        </div>)
+                        
+                        
+                         else
+                            <div class="idno" data-demoid="1cf69160-294f-487b-bf18-d1d500506b5c">
+                            <span>
+                                <xrx:i18n>
+                                    <xrx:key>signature</xrx:key>
+                                    <xrx:default>Signature</xrx:default>
+                                </xrx:i18n>
+                            </span>
+                            <span>: { $idno }</span>
+                        </div>
+                        }
+                    </div>
+                    <div data-demoid="4464c4a3-63f5-4eab-b4af-760274900d17" style="position:absolute;top:57px;left:5px;">
+                        {
+                        if($charter-context = 'fond') then
+                              <div data-demoid="38ca7696-569d-47b9-b40a-2f4ac8986048" id="breadcrumbb">
+                            <a class="link" href="{ conf:param('request-root') }fonds">
+                                <xrx:i18n>
+                                    <xrx:key>fonds</xrx:key>
+                                    <xrx:default>Fonds</xrx:default>
+                                </xrx:i18n>
+                            </a>
+                            <span> &gt; </span>
+                            <a class="link" href="{ concat(conf:param('request-root'), $charter:rarchiveid, '/archive') }">{ $charter:rarchiveid }</a>
+                            <span> &gt; </span>
+                            <a class="link" href="{ concat(conf:param('request-root'), $charter:rarchiveid, '/', $charter:rfondid, '/fond?block=', $block, '#ch', $anchor) }">{ $charter:rfondid }</a>
+                            <span> &gt; </span>
+                            <a class="link" href="{ $self-charter }">{ $idno }</a>
+                        </div>
+                        else
+                              <div data-demoid="3f4cd97a-d262-4a69-ba94-df60ff3b38fb" id="breadcrumbb">
+                            <a class="link" href="{ conf:param('request-root') }collections">
+                                <xrx:i18n>
+                                    <xrx:key>collections</xrx:key>
+                                    <xrx:default>Collections</xrx:default>
+                                </xrx:i18n>
+                            </a>
+                            <span> &gt; </span>
+                            <a class="link" href="{ concat(conf:param('request-root'), $charter:rcollectionid, '/collection') }">{ xmldb:decode($charter:rcollectionid) }</a>
+                            <span> &gt; </span>
+                            <a class="link" href="{ request:get-url() }?{ request:get-query-string() }">{ $idno }</a>
+                        </div>
+                          }
+                    </div>
+                </div>
+            </div>
+      
+      }
+      
+      
+      {
+      let $labw-url := 
+      $charter//cei:graphic[@xlink:role='image']/@url[data(.)!='']
+      let $labw-link := 
+      $charter//cei:graphic[@xlink:role='image_viewer']/@url[data(.)!='']
+      let $img-urls :=
+        for $url in $charter//cei:graphic/@url/string()
+        order by $url
+        return
+        if(contains($url, '/')) then $url
+        else concat($image-base-uri, xmldb:encode($url))
+        
+      (:
+        viewport area
+      :)
+      
+      return
+        <div data-demoid="6715be7d-abc8-4fde-bd30-2641daec6de9">
+                <div data-demoid="2f14cd82-460b-4f8d-9502-a3c0df749c04">
+                    <xrx:auth>
+                        <xrx:rules>
+                            <xrx:rule>
+                                <xrx:user/>
+                                <xrx:dbgroup>atom</xrx:dbgroup>
+                            </xrx:rule>
+                        </xrx:rules>
+                        <xrx:true>
+                            <div data-demoid="9dfbef62-14d4-4b47-aafe-ed1534522bfd">
+                                <div data-demoid="bdc45871-862d-4a29-a314-7b189b5c60b3">
+                                    <div data-demoid="f434b2a0-93f6-489b-8e89-fd0b6db787ce" id="viewport" onmouseout="$('.direct').css('display', 'none');" onmouseover="$('.direct').css('display', 'block');">
+                                      <div data-demoid="b00e6178-6565-41e9-8f76-a119d7c24ab8" id="img-draggable">
+                            {
+                            if(count($img-urls) gt 0 and not($image-access-forbidden-flag)) then
+                              (
+                              if($charter:rarchiveid = 'DE-LABW') then
+                                (
+                                <div data-demoid="be5e9fa7-5748-4a67-b8dc-f830180a628c">
+                                            <div data-demoid="4cb6e224-48cf-48fa-9ad4-3dae80fcec49" style="float:none;border:solid rgb(240,243,226) 2px;width:200px;position:relative;left:360px;">
+                                                <span style="font-size:120%;border:solid rgb(240,243,226) 2px;font-weight:bold;width:200px;position:relative;left:50px;padding:2px;">Vorschaubild</span>
+                                                <a href="{ $labw-link }">
+                                                    <img name="image" src="{ $labw-url }" style="float:none;" title="{ $labw-url }"/>
+                                                </a>
+                                            </div>
+                                            <span style="font-weight:bold;left:280px;top:5px;position:relative;">Das voll aufgelöste Bild finden Sie unter folgendem Link:</span>
+                                            <br/>
+                                            <span style="font-weight:bold;left:285px;top:5px;position:relative;">
+                                                <a href="{ $labw-link }">{ string($labw-link) }</a>
+                                            </span>
+                                        </div>
+                                )
+                            else 
+                                <div data-demoid="50f84211-cf90-453b-8961-2d88882c9465" id="imgContainer">
+                                {
+                                if($charter-context='collection') then
+                                    <img id="img" name="image" src="{ $img-urls[1] }" title="{ $img-urls[1] }"/>
+                                else
+                                    <img id="img" name="image" src="{ $img-urls[1] }" title="{ $img-urls[1] }"/>
+                                }
+                                </div>
+                            )                    
+                            else if($image-access-forbidden-flag) then
+                            <div data-demoid="6bd3bf1c-8f72-4148-9f64-44ab60556e33">
+                                            <a href="{ $link-to-charter-in-archive }" target="_blank">
+                                                <img src="{ $alternative-graphic-url }" style="position:relative;float:left"/>
+                                            </a>
+                                        </div>
+                            else
+                           <div class="no-graphic" data-demoid="96be3fe5-b366-4a33-a19d-e3f77b58c320">
+                                            <xrx:i18n>
+                                                <xrx:key>no-graphic-available</xrx:key>
+                                                <xrx:default>no graphic available</xrx:default>
+                                            </xrx:i18n>
+                                        </div>
+                            }
+                            <div data-demoid="e02eba65-0eea-4e2a-bfac-2dad6b0f1b52">
+                                {
+                                <div data-demoid="3da69795-0efb-41ff-87c5-8d851e85b68a" id="loading">
+                                                <xrx:resource id="loadgif" type="image/gif">tag:www.monasterium.net,2011:/mom/resource/image/ajax-loader</xrx:resource>
+                                                <span id="loadtext"/>
+                                            </div>
+                                }
+                                {
+                                if($xrx:tokenized-uri[last()]='saved-charter' 
+                                or $xrx:tokenized-uri[last()]='charter-to-publish'
+                                or $xrx:tokenized-uri[last()]='edit-charter') 
+                                then
+                                <div data-demoid="74405c45-e9f2-4aa3-9b9c-63758d5c197b"/>
+                                else
+                                (<div data-demoid="b5c0af61-4619-4ca9-84fc-9ce31acd80e3">
+                                                <xrx:auth>
+                                                    <xrx:rules>
+                                                        <xrx:rule>
+                                                            <xrx:user/>
+                                                            <xrx:dbgroup>atom</xrx:dbgroup>
+                                                        </xrx:rule>
+                                                    </xrx:rules>
+                                                    <xrx:true>
+                                                        <div data-demoid="a344db01-a69b-4c36-84c6-d37325477a30">
+                                                            <div data-demoid="eff477d3-0f30-4fe5-ab5b-05440d74c24a" id="privatAnnos">
+                                                        {
+                                                        let $directannos := doc(concat(conf:param('xrx-user-db-base-uri'), '/', xmldb:encode($xrx:user-id), '.xml'))//*:annotationelement[.//*:url = $img-urls[1] and not(fn:compare(@status, 'accept')=0)]
+                                                        for $directanno at $number in $directannos
+                                                        order by $directanno/@size descending
+                                                        return
+                                                        <div data-demoid="809d39e8-29a4-446d-b50d-9ccdd96ac9c4" id="{$directanno/@*:id}" name="AnnoElement">
+                                                                    <div class="direct" data-demoid="6300c6a5-47ee-43c8-8a03-af16a485c224" id="directannofield{$number}" onmouseout="$('#annotools{$number}').css('display', 'none');$('#directannotext{$number}').css('display', 'none');$('#directannofield{$number}').css('border-color','red');" onmouseover="$('#directannotext{$number}').css('display', 'block');$('#directannofield{$number}').css('border-color','black');$('#annotools{$number}').css('display', 'block');" style="left:{xs:integer($directanno/@x1)}px;top:{xs:integer($directanno/@y1)}px;height:{xs:integer($directanno/@x2)}px;width:{xs:integer($directanno/@y2)}px;"/>
+                                                                    <div data-demoid="e16ca810-567b-4ad9-afe2-7134543e6762" id="directannotext{$number}" onmouseout="$('#annotools{$number}').css('display', 'none');$('#directannotext{$number}').css('display', 'none');$('#directannofield{$number}').css('border-color','red');" onmouseover="$('#directannotext{$number}').css('display', 'block');$('#directannofield{$number}').css('border-color','black');$('#annotools{$number}').css('display', 'block');" style="padding:3px;text-align:center;max-width:400px;z-index:1;-moz-border-radius:3px;-webkit-border-radius:3px;-khtml-border-radius:3px;border-radius:3px;display:none;position:absolute;background-color:rgb(240,243,226);left:{xs:integer(string($directanno/@x1))}px;top:{xs:integer(string($directanno/@y1))+xs:integer(string($directanno/@x2))+9}px;">{$directanno//*:text/text()}</div>
+                                                                    <div data-demoid="38b9e968-94e9-4e20-938d-8173fa38d1cc" id="annotools{$number}" onmouseout="$('#annotools{$number}').css('display', 'none');$('#directannotext{$number}').css('display', 'none');$('#directannofield{$number}').css('border-color','red');" onmouseover="$('#directannotext{$number}').css('display', 'block');$('#directannofield{$number}').css('border-color','black');$('#annotools{$number}').css('display', 'block');" style="width:100px;background: rgba(0, 0, 0, 0.0);z-index:1;display:none;position:absolute;left:{xs:integer(string($directanno/@x1))+xs:integer(string($directanno/@y2))}px;top:{xs:integer(string($directanno/@y1))-25}px;">
+                                                                             {
+                                                                             if(fn:compare($directanno//@status,"privat")=0) then
+                                                                                 if($charter-context='collection') then
+                                                                                 (
+                                                                                 <div data-demoid="09d01660-6ff9-4b06-b523-41b9692dd01d">
+                                                                            <xrx:auth>
+                                                                                <xrx:rules>
+                                                                                    <xrx:rule>
+                                                                                        <xrx:user/>
+                                                                                        <xrx:role>moderator</xrx:role>
+                                                                                    </xrx:rule>
+                                                                                </xrx:rules>
+                                                                                <xrx:true>
+                                                                                    <div data-demoid="56112be7-e5ab-4770-824d-5be7dfbc4e1a">
+                                                                                        <p id="pubtool{$number}" onClick="askToPublish('{$charter-context}', '{$directanno/@*:id}', '{$xrx:user-id}', '{$charter:rcollectionid}', '{$charter:rfondid}', '{$charter:rcharterid}', '{$number}', 'moderator', '{ $xrx:lang }')" style="position:relative;left:4px;float:left;">
+                                                                                            <xrx:resource style="width:13px;" title="Publish Annotation" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/export</xrx:resource>
+                                                                                        </p>
+                                                                                        <p id="edittool{$number}" onClick="prepareEditAnno('{$charter-context}', '{$directanno/@*:id}', '{$xrx:user-id}', '{$charter:rcollectionid}', '{$charter:rfondid}', '{$charter:rcharterid}', 'privat', {$number}, 'moderator', '{ $xrx:lang }')" style="position:relative;left:6px;float:left;">
+                                                                                            <xrx:resource style="width:13px;" title="Edit Annotation" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/button_edit</xrx:resource>
+                                                                                        </p>
+                                                                                        <p id="deltool{$number}" onClick="deleteAnno('{$charter-context}','{$directanno/@*:id}', '{$xrx:user-id}', '{ $xrx:lang }')" style="position:relative;left:8px;float:left;">
+                                                                                            <xrx:resource style="width:13px;" title="Delete Annotation" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/remove</xrx:resource>
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </xrx:true>
+                                                                                <xrx:false>
+                                                                                    <div data-demoid="4a69c487-d431-425c-8214-f3aec1ecc1e9">
+                                                                                        <p id="pubtool{$number}" onClick="askToPublish('{$charter-context}', '{$directanno/@*:id}', '{$xrx:user-id}', '{$charter:rcollectionid}', '{$charter:rfondid}', '{$charter:rcharterid}', '{$number}', 'user', '{ $xrx:lang }')" style="position:relative;left:4px;float:left;">
+                                                                                            <xrx:resource style="width:13px;" title="Publish Annotation" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/export</xrx:resource>
+                                                                                        </p>
+                                                                                        <p id="edittool{$number}" onClick="prepareEditAnno('{$charter-context}', '{$directanno/@*:id}', '{$xrx:user-id}', '{$charter:rcollectionid}', '{$charter:rfondid}', '{$charter:rcharterid}', 'privat', {$number}, 'user', '{ $xrx:lang }')" style="position:relative;left:6px;float:left;">
+                                                                                            <xrx:resource style="width:13px;" title="Edit Annotation" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/button_edit</xrx:resource>
+                                                                                        </p>
+                                                                                        <p id="deltool{$number}" onClick="deleteAnno('{$charter-context}','{$directanno/@*:id}', '{$xrx:user-id}', '{ $xrx:lang }')" style="position:relative;left:8px;float:left;">
+                                                                                            <xrx:resource style="width:13px;" title="Delete Annotation" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/remove</xrx:resource>
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </xrx:false>
+                                                                            </xrx:auth>
+                                                                        </div> 
+                                                                                 )
+                                                                                 else 
+                                                                                 (
+                                                                                 <div data-demoid="925c2c7d-0106-49af-8825-c57ab4ee5c34">
+                                                                            <xrx:auth>
+                                                                                <xrx:rules>
+                                                                                    <xrx:rule>
+                                                                                        <xrx:user/>
+                                                                                        <xrx:role>moderator</xrx:role>
+                                                                                    </xrx:rule>
+                                                                                </xrx:rules>
+                                                                                <xrx:true>
+                                                                                    <div data-demoid="c61b2da9-a134-4442-8a22-7d65b9fd5a86">
+                                                                                        <p id="pubtool{$number}" onClick="askToPublish('{$charter-context}', '{$directanno/@*:id}', '{$xrx:user-id}', '{$charter:rarchiveid}', '{$charter:rfondid}', '{$charter:rcharterid}', '{$number}', 'moderator', '{ $xrx:lang }')" style="position:relative;left:4px;float:left;">
+                                                                                            <xrx:resource style="width:13px;" title="Publish Annotation" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/export</xrx:resource>
+                                                                                        </p>
+                                                                                        <p id="edittool{$number}" onClick="prepareEditAnno('{$charter-context}', '{$directanno/@*:id}', '{$xrx:user-id}', '{$charter:rarchiveid}', '{$charter:rfondid}', '{$charter:rcharterid}', 'privat', {$number}, 'moderator', '{ $xrx:lang }')" style="position:relative;left:6px;float:left;">
+                                                                                            <xrx:resource style="width:13px;" title="Edit Annotation" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/button_edit</xrx:resource>
+                                                                                        </p>
+                                                                                        <p id="deltool{$number}" onClick="deleteAnno('{$charter-context}','{$directanno/@*:id}', '{$xrx:user-id}', '{ $xrx:lang }')" style="position:relative;left:8px;float:left;">
+                                                                                            <xrx:resource style="width:13px;" title="Delete Annotation" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/remove</xrx:resource>
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </xrx:true>
+                                                                                <xrx:false>
+                                                                                    <div data-demoid="52ac3065-77a4-4722-b502-13d147295600">
+                                                                                        <p id="pubtool{$number}" onClick="askToPublish('{$charter-context}', '{$directanno/@*:id}', '{$xrx:user-id}', '{$charter:rarchiveid}', '{$charter:rfondid}', '{$charter:rcharterid}', '{$number}', 'user', '{ $xrx:lang }')" style="position:relative;left:4px;float:left;">
+                                                                                            <xrx:resource style="width:13px;" title="Publish Annotation" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/export</xrx:resource>
+                                                                                        </p>
+                                                                                        <p id="edittool{$number}" onClick="prepareEditAnno('{$charter-context}', '{$directanno/@*:id}', '{$xrx:user-id}', '{$charter:rarchiveid}', '{$charter:rfondid}', '{$charter:rcharterid}', 'privat', {$number}, 'user', '{ $xrx:lang }')" style="position:relative;left:6px;float:left;">
+                                                                                            <xrx:resource style="width:13px;" title="Edit Annotation" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/button_edit</xrx:resource>
+                                                                                        </p>
+                                                                                        <p id="deltool{$number}" onClick="deleteAnno('{$charter-context}','{$directanno/@*:id}', '{$xrx:user-id}', '{ $xrx:lang }')" style="position:relative;left:8px;float:left;">
+                                                                                            <xrx:resource style="width:13px;" title="Delete Annotation" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/remove</xrx:resource>
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </xrx:false>
+                                                                            </xrx:auth>
+                                                                        </div> 
+                                                                                                     )
+                                                                             else if(fn:compare($directanno//@status,"wait")=0)then
+                                                                                <span class="release">
+                                                                            <xrx:i18n>
+                                                                                <xrx:key>wait-for-release</xrx:key>
+                                                                                <xrx:default>Wait for release</xrx:default>
+                                                                            </xrx:i18n>
+                                                                        </span>
+                                                            
+                                                                            else if(fn:compare($directanno//@status,"decline")=0 or fn:compare($directanno//@status,"wait-for-edit")=0)then
+                                                                            <div data-demoid="ad8de87e-1408-4a85-ba03-0b0a7b749497" id="decline{$number}">
+                                                                            <span class="release">
+                                                                                <xrx:i18n>
+                                                                                    <xrx:key>declined</xrx:key>
+                                                                                    <xrx:default>Declined</xrx:default>
+                                                                                </xrx:i18n>
+                                                                            </span>
+                                                                            <div data-demoid="1f8774b2-8c27-4b63-9427-2c3b6457fdda">
+                                                                                <p id="edittool{$number}" onClick="prepareEditAnno('{$charter-context}', '{$directanno/@*:id}', '{$xrx:user-id}', '{$charter:rarchiveid}', '{$charter:rfondid}', '{$charter:rcharterid}', 'edit', '{$number}', '{ $xrx:lang }')" style="position:relative;left:4px;float:left;">
+                                                                                    <xrx:resource style="width:13px;" title="Edit Annotation" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/button_edit</xrx:resource>
+                                                                                </p>
+                                                                                <p id="deltool{$number}" onClick="deleteAnno('{$charter-context}','{$directanno/@*:id}', '{$xrx:user-id}', '{ $xrx:lang }')" style="position:relative;left:6px;float:left;">
+                                                                                    <xrx:resource style="width:13px;" title="Delete Annotation" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/remove</xrx:resource>
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                            
+                                                                             else()
+                                                                             }
+                                                                         </div>
+                                                                </div>  
+                                                            }
+                                                </div>
+                                                            <div data-demoid="c14d2f03-852f-4ab2-a549-6afdd7fb1eb9" id="directselected" style="display:none;position:absolute;-moz-border-radius:3px;-webkit-border-radius:3px;-khtml-border-radius:3px;border-radius:3px;border:solid red 1px;z-index:20;"/>
+                                                            <div data-demoid="cc6a3970-09f9-4e31-b255-c023c50042fc" id="directanno">
+                                                        {
+                                                        <textarea id="annotationfield" name="annotation" style="position:relative;float:left;"/>,
+                                                        if($charter-context='collection') then
+                                                        (
+                                                              <div data-demoid="d6c60dfd-7507-4e0a-a202-e11f6997bbd8" style="position:relative;float:left;top:12px;">
+                                                                    <xrx:auth>
+                                                                        <xrx:rules>
+                                                                            <xrx:rule>
+                                                                                <xrx:user/>
+                                                                                <xrx:role>moderator</xrx:role>
+                                                                            </xrx:rule>
+                                                                        </xrx:rules>
+                                                                        <xrx:true>
+                                                                                <p class="button" id="saveanno" onClick="storeAnno('{$xrx:user-id}', '{$charter:rcollectionid}', '{$charter:rfondid}', '{$charter:rcharterid}', 'moderator', '{ $xrx:lang }')" style="position:relative;float:none;text-align:center;">
+                                                                                    <xrx:i18n>
+                                                                                        <xrx:key>save</xrx:key>
+                                                                                        <xrx:default>Save</xrx:default>
+                                                                                    </xrx:i18n>
+                                                                                </p>
+                                                                        </xrx:true>
+                                                                        <xrx:false>
+                                                                                <p class="button" id="saveanno" onClick="storeAnno('{$xrx:user-id}', '{$charter:rcollectionid}', '{$charter:rfondid}', '{$charter:rcharterid}', 'user', '{ $xrx:lang }')" style="position:relative;float:none;text-align:center;">
+                                                                                    <xrx:i18n>
+                                                                                        <xrx:key>save</xrx:key>
+                                                                                        <xrx:default>Save</xrx:default>
+                                                                                    </xrx:i18n>
+                                                                                </p>
+                                                                        </xrx:false>
+                                                                    </xrx:auth>
+                                                                    <br/>
+                                                          <p class="button" id="cancel" onClick="cancelAnno('{ $xrx:lang }');" style="position:relative;top:21px;float:none;">
+                                                                        <xrx:i18n>
+                                                                            <xrx:key>cancel</xrx:key>
+                                                                            <xrx:default>Cancel</xrx:default>
+                                                                        </xrx:i18n>
+                                                                    </p>
+                                                                </div>    
+                                                        )
+                                                        else
+                                                        (
+                                                              <div data-demoid="59577c13-c3ac-4ef1-9a36-899c774c75aa" style="position:relative;float:left;top:12px;">
+                                                                    <xrx:auth>
+                                                                        <xrx:rules>
+                                                                            <xrx:rule>
+                                                                                <xrx:user/>
+                                                                                <xrx:role>moderator</xrx:role>
+                                                                            </xrx:rule>
+                                                                        </xrx:rules>
+                                                                        <xrx:true>
+                                                                                <p class="button" id="saveanno" onClick="storeAnno('{$xrx:user-id}', '{$charter:rarchiveid}', '{$charter:rfondid}', '{$charter:rcharterid}', 'moderator', '{ $xrx:lang }')" style="position:relative;float:none;text-align:center;">
+                                                                                    <xrx:i18n>
+                                                                                        <xrx:key>save</xrx:key>
+                                                                                        <xrx:default>Save</xrx:default>
+                                                                                    </xrx:i18n>
+                                                                                </p>
+                                                                        </xrx:true>
+                                                                        <xrx:false>
+                                                                                <p class="button" id="saveanno" onClick="storeAnno('{$xrx:user-id}', '{$charter:rarchiveid}', '{$charter:rfondid}', '{$charter:rcharterid}', 'user', '{ $xrx:lang }')" style="position:relative;float:none;text-align:center;">
+                                                                                    <xrx:i18n>
+                                                                                        <xrx:key>save</xrx:key>
+                                                                                        <xrx:default>Save</xrx:default>
+                                                                                    </xrx:i18n>
+                                                                                </p>
+                                                                        </xrx:false>
+                                                                    </xrx:auth>
+                                                                    <br/>
+                                                                    <p class="button" id="cancel" onClick="cancelAnno('{ $xrx:lang }');" style="position:relative;top:21px;float:none;">
+                                                                        <xrx:i18n>
+                                                                            <xrx:key>cancel</xrx:key>
+                                                                            <xrx:default>Cancel</xrx:default>
+                                                                        </xrx:i18n>
+                                                                    </p>
+                                                                </div>
+                                                        )
+                                                        }
+                                                </div>
+                                                        </div>
+                                                    </xrx:true>
+                                                    <xrx:false>
+                                                        <div data-demoid="8f11aad0-341d-47f3-81ba-79f99d0c7126"/>
+                                                    </xrx:false>
+                                                </xrx:auth>
+                                            </div>,
+                                <div data-demoid="f568ccf3-552a-4836-bfea-af1b65845feb" id="publicAnnos">
+                                {
+                                let $charter-anno := root($metadata-charter-collection//atom:id[.=$atom-id])//*:tei
+                                let $directannos := $charter-anno//*:graphic[.//@*:url = $img-urls[1]]/..
+                                for $directanno at $number in $directannos
+                                order by $directanno//@*:scale descending
+                                return
+                                <div data-demoid="6b8eb864-4768-4299-a363-8a860208fb7f" id="pub{$directanno/@*:id}" name="publicAnno">
+                                                    <div class="direct" data-demoid="f5e80a94-68be-45fa-befb-07139a5cf0fe" id="pubannofield{$number}" onmouseout="$('#pubtools{$number}').css('display', 'none');$('#pubannotext{$number}').css('display', 'none');$('#pubannofield{$number}').css('border-color','red');" onmouseover="$('#pubannotext{$number}').css('display', 'block');$('#pubannofield{$number}').css('border-color','black');$('#pubtools{$number}').css('display', 'block');" style="left:{xs:integer(string($directanno//@*:ulx))}px;top:{xs:integer(string($directanno//@*:uly))}px;height:{xs:integer(string($directanno//*:graphic//@*:height))}px;width:{xs:integer(string($directanno//*:graphic//@*:width))}px;"/>
+                                                    <div data-demoid="43e41765-662f-4c26-8670-2e0e4a935a32" id="pubannotext{$number}" onmouseout="$('#pubtools{$number}').css('display', 'none');$('#pubannotext{$number}').css('display', 'none');$('#pubannofield{$number}').css('border-color','red');" onmouseover="$('#pubannotext{$number}').css('display', 'block');$('#pubannofield{$number}').css('border-color','black');$('#pubtools{$number}').css('display', 'block');" style="padding:3px;text-align:center;max-width:400px;z-index:1;-moz-border-radius:3px;-webkit-border-radius:3px;-khtml-border-radius:3px;border-radius:3px;display:none;position:absolute;background-color:rgb(240,243,226);left:{xs:integer(string($directanno//@*:ulx))}px;top:{xs:integer(string($directanno//@*:uly))+xs:integer(string($directanno//*:graphic//@*:height))+9}px;">{$directanno//*:span/text()}</div>
+                                                    <div data-demoid="91f96a36-4999-4656-9ce3-8cb0ebb0f959" id="pubtools{$number}" onmouseout="$('#pubtools{$number}').css('display', 'none');$('#pubannotext{$number}').css('display', 'none');$('#pubannofield{$number}').css('border-color','red');" onmouseover="$('#pubannotext{$number}').css('display', 'block');$('#pubannofield{$number}').css('border-color','black');$('#pubtools{$number}').css('display', 'block');" style="width:100px;background: rgba(0, 0, 0, 0.0);z-index:1;display:none;position:absolute;left:{xs:integer(string($directanno//@*:ulx))+xs:integer(string($directanno//*:graphic/@*:width))}px;top:{xs:integer(string($directanno//@*:uly))-25}px;">
+                                                        <xrx:auth>
+                                                            <xrx:rules>
+                                                                <xrx:rule>
+                                                                    <xrx:user/>
+                                                                    <xrx:role>moderator</xrx:role>
+                                                                </xrx:rule>
+                                                            </xrx:rules>
+                                                            <xrx:true>
+                                                                <div data-demoid="e203b006-51cd-4b27-9867-eab091f057e1"> 
+                                                 {                                    
+                                                 if($charter-context='collection') then
+                                                 (
+                                                 <div data-demoid="9d7971ce-f182-4125-bd75-95d391aeaf87">
+                                                                        <p id="pubedit{$number}" onClick="prepareEditAnno('{$charter-context}', '{$directanno/@*:id}', '{$xrx:user-id}', '{$charter:rcollectionid}', '{$charter:rfondid}', '{$charter:rcharterid}', 'public', {$number}, 'default', '{ $xrx:lang }')" style="position:relative;left:4px;float:left;">
+                                                                            <xrx:resource style="width:13px;" title="Edit Annotation" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/button_edit</xrx:resource>
+                                                                        </p>
+                                                                        <p id="pubdeltool{$number}" onClick="deletePublicAnno('{$charter-context}', '{$directanno/@*:id}', '{$xrx:user-id}', '{$charter:rcollectionid}', '{$charter:rfondid}', '{$charter:rcharterid}', 'charter', '{ $xrx:lang }')" style="position:relative;left:6px;float:left;">
+                                                                            <xrx:resource style="width:13px;" title="Delete Annotation" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/remove</xrx:resource>
+                                                                        </p>
+                                                                    </div> 
+                                                 )
+                                                 else 
+                                                 (
+                                                 <div data-demoid="8a08285d-ea7f-4cbe-9f24-9257a97a3a4d">
+                                                                        <p id="pubedit{$number}" onClick="prepareEditAnno('{$charter-context}', '{$directanno/@*:id}', '{$xrx:user-id}', '{$charter:rarchiveid}', '{$charter:rfondid}', '{$charter:rcharterid}', 'public', {$number}, 'default', '{ $xrx:lang }')" style="position:relative;left:4px;float:left;">
+                                                                            <xrx:resource style="width:13px;" title="Edit Annotation" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/button_edit</xrx:resource>
+                                                                        </p>
+                                                                        <p id="pubdeltool{$number}" onClick="deletePublicAnno('{$charter-context}', '{$directanno/@*:id}', '{$xrx:user-id}', '{$charter:rcollectionid}', '{$charter:rfondid}', '{$charter:rcharterid}', 'charter', '{ $xrx:lang }')" style="position:relative;left:6px;float:left;">
+                                                                            <xrx:resource style="width:13px;" title="Delete Annotation" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/remove</xrx:resource>
+                                                                        </p>
+                                                                    </div> 
+                                                 )
+                                                 }
+                                              </div>
+                                                            </xrx:true>
+                                                            <xrx:false>
+                                                                <div data-demoid="b5d8045e-d1f3-43e3-8e34-454c5ae03f3c">
+                                                                    <xrx:auth>
+                                                                        <xrx:rules>
+                                                                            <xrx:rule>
+                                                                                <xrx:user/>
+                                                                                <xrx:dbgroup>atom</xrx:dbgroup>
+                                                                            </xrx:rule>
+                                                                        </xrx:rules>
+                                                                        <xrx:true>
+                                                                            <div data-demoid="4bafe64d-86c2-4419-901c-ccd4d9e9648a">
+                                                            {
+                                                            if($charter-context='collection') then
+                                                                    <p id="report{$number}" onClick="reportAnno('{$charter-context}', '{$directanno/@*:id}', '{$xrx:user-id}', '{$charter:rcollectionid}', '{$charter:rfondid}', '{$charter:rcharterid}','{$number}', '{ $xrx:lang }')" style="position:relative;left:2px;float:left;">
+                                                                                    <xrx:resource style="width:13px;" title="Report Annotation" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/dialog-warning</xrx:resource>
+                                                                                </p>
+                                                            else
+                                                                    <p id="report{$number}" onClick="reportAnno('{$charter-context}', '{$directanno/@*:id}', '{$xrx:user-id}', '{$charter:rarchiveid}', '{$charter:rfondid}', '{$charter:rcharterid}','{$number}', '{ $xrx:lang }')" style="position:relative;left:2px;float:left;">
+                                                                                    <xrx:resource style="width:13px;" title="Report Annotation" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/dialog-warning</xrx:resource>
+                                                                                </p>
+                                                            }
+                                                        </div>
+                                                                        </xrx:true>
+                                                                        <xrx:false>
+                                                                            <div data-demoid="5151c41f-eac6-4aa9-9b8f-b647d136540f"/>
+                                                                        </xrx:false>
+                                                                    </xrx:auth>
+                                                                </div>
+                                                            </xrx:false>
+                                                        </xrx:auth>
+                                                    </div>
+                                                </div>
+                                }      
+                            </div>
+                                )
+                                }
+                            </div>
+                                    </div>
+                                </div>
+                          </div>
+                         
+                        {
+                        <div data-demoid="382afb7f-bdbc-4ef2-ac4b-2b67961531be">
+                                    <div data-demoid="46e2393d-86c0-4a0c-9121-c63408f8a20f" id="pushDiv" onClick="changeFuncField()">
+                                        <xrx:resource id="pushImg" style="position:relative;left:38px;height:25px;" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/push_up</xrx:resource>
+                                    </div>
+                                    <div data-demoid="fd31182c-e9ce-411a-90c7-2c6c67a02b15" id="functionField">
+                                        <div data-demoid="b8b7ffe4-2e53-4323-974b-0d2787ceb4fa">
+                                            <input id="x1" name="x" size="4" type="hidden" value="0"/>
+                                            <input id="y1" name="y" size="4" type="hidden" value="0"/>
+                                            <input id="x2" name="x2" size="4" type="hidden" value="0"/>
+                                            <input id="y2" name="y2" size="4" type="hidden" value="0"/>
+                                            <input id="w" name="w" size="4" type="hidden" value="0"/>
+                                            <input id="h" name="h" size="4" type="hidden" value="0"/>
+                                            <div data-demoid="b76618e8-afbf-4b0e-8059-e7433c130fbf" id="annobar">
+                                              <p class="button" id="viewmodeButton" onClick="viewmode();" style="display:none;">
+                                                    <xrx:i18n>
+                                                        <xrx:key>viewmode</xrx:key>
+                                                        <xrx:default>Viewmode</xrx:default>
+                                                    </xrx:i18n>
+                                                </p>
+                                                <p class="button" id="selectmodeButton" onClick="startCrop('{$charter-context}', '{ $xrx:lang }');">
+                                                    <xrx:i18n>
+                                                        <xrx:key>selectmode</xrx:key>
+                                                        <xrx:default>Selectmode</xrx:default>
+                                                    </xrx:i18n>
+                                                </p>
+                                                <p class="button" id="showButton" onClick="showAnno('{$charter-context}', 'show', true, '{ $xrx:lang }');">
+                                                    <xrx:i18n>
+                                                        <xrx:key>show-annotation</xrx:key>
+                                                        <xrx:default>Show Annotations</xrx:default>
+                                                    </xrx:i18n>
+                                                </p>
+                                                <p class="button" id="zoomInButton" onClick="zoom('in');" style="height:18px;">
+                                                    <xrx:resource class="zoomer" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/zoom_in</xrx:resource>
+                                                </p>
+                                                <p class="button" id="zoomOutButton" onClick="zoom('out')" style="height:18px;">
+                                                    <xrx:resource class="zoomer" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/zoom_out</xrx:resource>
+                                                </p>
+                                                <p class="hiddenButton" id="createButton" onClick="prepareAnno('{ $xrx:lang }');">
+                                                    <xrx:i18n>
+                                                        <xrx:key>create-annotation</xrx:key>
+                                                        <xrx:default>Create Annotation</xrx:default>
+                                                    </xrx:i18n>
+                                                </p>
+                                                <p class="hiddenButton" id="extractButton" onClick="cropImage('{ $xrx:lang }')">
+                                                    <xrx:i18n>
+                                                        <xrx:key>extract-image-section</xrx:key>
+                                                        <xrx:default>Extract Image Section</xrx:default>
+                                                    </xrx:i18n>
+                                                </p>
+                                                <p class="button" id="helpButton" onClick="showHelp(event, '{$charter-context}', '{ $xrx:lang }')">
+                                                    <xrx:i18n>
+                                                        <xrx:key>help</xrx:key>
+                                                        <xrx:default>Help</xrx:default>
+                                                    </xrx:i18n>
+                                                </p>
+                                                <span> </span>
+                                                <br/>
+                                            </div>
+                                            <div data-demoid="30b012bf-7f93-4325-aa9f-2cb2ac8a5be7" id="cropeditor">
+                                                <div data-demoid="ded6dc36-ac93-4ac9-8d29-f286838c0bdf" style="position:relative;width:400px;float:left;">
+                                                    <div class="editorheader" data-demoid="3291e97d-f61e-4c42-90ff-5669806f837c" style="width:400px;">
+                                                        <div class="extractlabel" data-demoid="d50c60df-232e-4637-98c3-cd9590738153">
+                                                            <xrx:i18n>
+                                                                <xrx:key>cropped-image</xrx:key>
+                                                                <xrx:default>Image</xrx:default>
+                                                            </xrx:i18n>
+                                                        </div>
+                                                    </div>
+                                                    <div data-demoid="4c0d409d-9b9f-422c-841d-94d787ea7089" style="position:relative;border:solid #505050 1px;width:400px;">
+                                                        <div data-demoid="5109ce10-097b-4207-a9b3-e23187481976" style="position:relative;margin-top:4px;margin-left:5px;">
+                                                            <span class="labels" style="position:relative;margin:3px;left:6px;">
+                                                                <xrx:i18n>
+                                                                    <xrx:key>image-name</xrx:key>
+                                                                    <xrx:default>Image name</xrx:default>
+                                                                </xrx:i18n>
+                                                            </span>
+                                                            <span class="labels" style="position:relative;margin:3px;left:150px;">
+                                                                <xrx:i18n>
+                                                                    <xrx:key>note</xrx:key>
+                                                                    <xrx:default>Note</xrx:default>
+                                                                </xrx:i18n>
+                                                            </span>
+                                                        </div>
+                                                        <div data-demoid="8580d136-9afc-4233-9f51-26176ec89cbb" style="position:relative;margin-left:5px;margin-bottom:15px;top:-15px;">
+                                                            <input id="imagenametext" name="image-name" style="position:relative;width:140px;" type="text"/>
+                                                            <textarea id="notetext" name="note" style="position:relative;width:220px;left:10px;top:21px;max-width:220px;"/>
+                                                        </div>
+                                                        <div data-demoid="e608d655-77c5-4243-85f9-440fa6056e51" id="cropviewport"/>
+                                                    </div>
+                                                    <div class="editorfooter" data-demoid="03a35e7e-dfb7-4d7b-baf2-98ab31659db9" style="width:100%;float:left;"/>
+                                                </div>
+                                                <div data-demoid="3f8fdc83-2f95-4767-9047-91bba3780719" id="arrowimg" style="position:absolute;left:420px;top:10px;">
+                                                    <xrx:resource style="width:50px;" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/process-right</xrx:resource>
+                                                </div>
+                                                <div data-demoid="3f4ab38c-f1e6-426a-9fc5-687f40035898" style="position:relative;float:left;left:80px;width:400px;">
+                                                    <div class="editorheader" data-demoid="d1968b2a-f559-42d2-923d-69fc6eec8764" style="width:400px;">
+                                                        <div class="extractlabel" data-demoid="4f4190dd-8bc6-4d5c-968f-00be91907d9b">
+                                                            <xrx:i18n>
+                                                                <xrx:key>save-options</xrx:key>
+                                                                <xrx:default>Save options</xrx:default>
+                                                            </xrx:i18n>
+                                                        </div>
+                                                    </div>
+                                                    <div data-demoid="4808d00c-24a7-44e4-9471-d0b67d3ba399" style="position:relative;float:left;width:400px;border:solid #505050 1px;border-top-width:0px;">
+                                                        <div data-demoid="dcd318c1-d291-4178-ad17-09496237df79" id="newcollection" onClick="changeSave('new');">
+                                                            <xrx:i18n>
+                                                                <xrx:key>create-new-collection</xrx:key>
+                                                                <xrx:default>Create new collection</xrx:default>
+                                                            </xrx:i18n>
+                                                        </div>
+                                                        <div data-demoid="8e406a33-ee55-4100-b2e9-8434979cb8de" id="existcollection" onClick="changeSave('exist');">
+                                                            <xrx:i18n>
+                                                                <xrx:key>expand-existing-collection</xrx:key>
+                                                                <xrx:default>Expand existing collection</xrx:default>
+                                                            </xrx:i18n>
+                                                        </div>
+                                                        <div data-demoid="6f3b05c9-9c69-491e-bfff-b065e0249012" id="newdata">
+                                                            <div data-demoid="c9881aeb-ee02-4acf-9c79-85d4f5f2f0b1" style="position:relative;top:10px;left:50px;width:200px;">
+                                                                <span class="labels">
+                                                                    <xrx:i18n>
+                                                                        <xrx:key>type</xrx:key>
+                                                                        <xrx:default>Type</xrx:default>
+                                                                    </xrx:i18n>
+                                                                </span>
+                                                                <span class="labels" style="position:relative;left:80px;">
+                                                                    <xrx:i18n>
+                                                                        <xrx:key>name</xrx:key>
+                                                                        <xrx:default>Name</xrx:default>
+                                                                    </xrx:i18n>
+                                                                </span>
+                                                            </div>
+                                                            <div data-demoid="005b1584-275d-44a5-9125-8204a0e1c791" id="inputdata">
+                                                                <input id="typetext" name="type" style="width:114px;float:left;" type="text"/>
+                                                                <input id="nametext" name="name" style="width:114px;float:left;" type="text"/>
+                                                        {
+                                                        if($charter-context = 'fond') then
+                                                              <p class="button" id="savecrop" onClick="storeCrop('{ conf:param('request-root') }{ $charter:rarchiveid }/{ $charter:rfondid }/{$charter:rcharterid}/charter', '{$xrx:user-id}', '{$xrx:lang}')" style="position:relative;top:-5px;left:2px;text-align:center;">
+                                                                    <xrx:i18n>
+                                                                        <xrx:key>save</xrx:key>
+                                                                        <xrx:default>Save</xrx:default>
+                                                                    </xrx:i18n>
+                                                                </p>
+                                                        else
+                                                        <p class="button" id="savecrop" onClick="storeCrop('{ conf:param('request-root') }{ $charter:rcollectionid }/{$charter:rcharterid}/charter', '{$xrx:user-id}', '{$xrx:lang}')" style="position:relative;top:-5px;left:2px;text-align:center;">
+                                                                    <xrx:i18n>
+                                                                        <xrx:key>save</xrx:key>
+                                                                        <xrx:default>Save</xrx:default>
+                                                                    </xrx:i18n>
+                                                                </p>
+                                                        }
+                                                    </div>
+                                                        </div>
+                                                        <div data-demoid="79f33cb3-a17f-4625-9bf0-d96428afd7e5" id="existdata">
+                                                    {
+                                                    let $cropping := doc(concat(conf:param('xrx-user-db-base-uri'), '/', xmldb:encode($xrx:user-id), '.xml'))//*:cropping
+                                                    let $types := distinct-values($cropping//@*:type)
+                                                    for $type at $firstnumber in $types
+                                                    return
+                                                    <div class="entry" data-demoid="675b98e0-6c4f-4365-b4a9-122d9efa22a0">
+                                                                <span class="labels" style="float:left;font-size:13px;left:3px;">
+                                                                    <xrx:i18n>
+                                                                        <xrx:key>type</xrx:key>
+                                                                        <xrx:default>Type</xrx:default>
+                                                                    </xrx:i18n>: {$type}</span>
+                                                        {
+                                                        let $cropelements := $cropping//*:cropelement[@*:type=$type]
+                                                        for $cropelement at $secnumber in $cropelements
+                                                        return
+                                                        let $name := $cropelement/@*:name
+                                                        let $nid := $cropelement/@*:id
+                                                        return
+                                                        if($secnumber gt 1)then
+                                                        <div data-demoid="41217511-ca84-466e-8873-66e474deb0cd" style="position:relative;margin-top:50px;">
+                                                                    <span class="labels" style="left:65px;font-size:13px;">
+                                                                        <xrx:i18n>
+                                                                            <xrx:key>name</xrx:key>
+                                                                            <xrx:default>Name</xrx:default>
+                                                                        </xrx:i18n>: {string($name)}</span>
+                                                                    <div data-demoid="010450d1-0a3f-46c1-861d-3eb476bca10a" id="{$type}{$name}{$nid}" style="width:275px;">
+                                                                {
+                                                                let $datas := $cropelement//*:data
+                                                                return
+                                                                for $data at $thirdnumber in $datas
+                                                                return
+                                                                <div data-demoid="40294976-72b1-457c-86f9-978b6f6eabc1">
+                                                                            <div class="miniviewport" data-demoid="0fc9f2b6-8f6e-45f4-a994-14bc656bc4d8" id="view{$firstnumber}{$secnumber}{$thirdnumber}">
+                                                                                <img class="cropimg" onmousemove="moveTooltip(event, '{$firstnumber}{$secnumber}{$thirdnumber}', 'save')" onmouseout="hideTooltip(event, '{$firstnumber}{$secnumber}{$thirdnumber}', 'save')" onmouseover="showTooltip(event, '{$firstnumber}{$secnumber}{$thirdnumber}', 'save')" src="{$data/*:img}"/>
+                                                                            </div>
+                                                                            <div class="tooltip" data-demoid="df600d07-c6b7-4d0f-9ff1-41bd574b7e84" id="tool{$firstnumber}{$secnumber}{$thirdnumber}">
+                                                                                <img alt="Original image" class="toolimg" src="{$data/*:img}"/>
+                                                                            </div>
+                                                                        </div>                                                                
+                                                                }
+                                                            </div>
+                                                                    <p class="button" id="add{$nid}" onClick="addCrop('{$nid}', '{ conf:param('request-root') }{ $charter:rarchiveid }/{ $charter:rfondid }/{$charter:rcharterid}/charter', '{$xrx:user-id}', '{$name}', '{$type}', '{$xrx:lang}')" style="position:absolute;left:315px;top:9px;width:19px;height:15px;">
+                                                                        <xrx:resource style="width:20px;position:relative;top:-2px;" title="Add Image" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/save</xrx:resource>
+                                                                    </p>
+                                                                    <p class="button" id="release{$nid}" onClick="" style="position:absolute;left:315px;top:9px;width:19px;height:15px;display:none;">
+                                                                        <xrx:resource style="width:20px;position:relative;top:-2px;" title="Remove Image" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/remove</xrx:resource>
+                                                                    </p>
+                                                                </div>
+                                                        else
+                                                        <div data-demoid="464e2ead-e70b-49fc-a56d-b916f87d26d3" style="position:relative;">
+                                                                    <span class="labels" style="left:15px;font-size:13px;">
+                                                                        <xrx:i18n>
+                                                                            <xrx:key>name</xrx:key>
+                                                                            <xrx:default>Name</xrx:default>
+                                                                        </xrx:i18n>: {string($name)}</span>
+                                                                    <div data-demoid="c80f1f48-6d8b-480e-909a-74d633c6e83d" id="{$type}{$name}{$nid}" style="width:275px;">
+                                                                {
+                                                                let $datas := $cropelement//*:data
+                                                                return
+                                                                for $data at $thirdnumber in $datas
+                                                                return
+                                                                <div data-demoid="01c195db-6290-4952-ba86-250eda71bfdf">
+                                                                            <div class="miniviewport" data-demoid="d83fa333-74e8-45fd-b5d5-9a3b055037af" id="view{$firstnumber}{$secnumber}{$thirdnumber}">
+                                                                                <img class="cropimg" onmousemove="moveTooltip(event, '{$firstnumber}{$secnumber}{$thirdnumber}', 'save')" onmouseout="hideTooltip(event, '{$firstnumber}{$secnumber}{$thirdnumber}', 'save')" onmouseover="showTooltip(event, '{$firstnumber}{$secnumber}{$thirdnumber}', 'save')" src="{$data/*:img}"/>
+                                                                            </div>
+                                                                            <div class="tooltip" data-demoid="f9868c37-e643-4f4f-bf19-4f589e67ccac" id="tool{$firstnumber}{$secnumber}{$thirdnumber}">
+                                                                                <img alt="Original image" class="toolimg" src="{$data/*:img}"/>
+                                                                            </div>
+                                                                        </div>                                                                
+                                                                }
+                                                            </div>
+                                                                    <p class="button" id="add{$nid}" onClick="addCrop('{$nid}', '{ conf:param('request-root') }{ $charter:rarchiveid }/{ $charter:rfondid }/{$charter:rcharterid}/charter', '{$xrx:user-id}', '{$name}', '{$type}', '{$xrx:lang}')" style="position:absolute;left:315px;top:9px;width:19px;height:15px;">
+                                                                        <xrx:resource style="width:20px;position:relative;top:-2px;" title="Add Image" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/save</xrx:resource>
+                                                                    </p>
+                                                                    <p class="button" id="release{$nid}" onClick="" style="position:absolute;left:315px;top:9px;width:19px;height:15px;display:none;">
+                                                                        <xrx:resource style="width:20px;position:relative;top:-2px;" title="Remove Image" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/remove</xrx:resource>
+                                                                    </p>
+                                                                </div>
+                                                        }
+                                                    </div> 
+                                                    }
+                                                    
+                                                    
+                                                </div>
+                                                    </div>
+                                                    <div class="editorfooter" data-demoid="3062250a-4d8c-4dc8-b002-7cb8e9a46a4f" style="width:100%;height:20px;text-align:center;">
+                                                        <a class="link" href="{conf:param('request-root')}user-image-collections" style="position:relative;font-weight:bold;">-&gt;
+                                                            <xrx:i18n>
+                                                                <xrx:key>private-image-collections</xrx:key>
+                                                                <xrx:default>Private image collections</xrx:default>
+                                                            </xrx:i18n>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div data-demoid="44b6b235-9337-4dbf-acd9-b0449cf9ac99" id="bobble">
+                                        <xrx:resource onClick="$('#bobble').css('display', 'none');" style="position:absolute;left:417px;top:8px;width:14px;" title="Close Help" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/button_close</xrx:resource>
+                                        <span id="bobbletext" style="position:absolute;"/>
+                                        <div data-demoid="25e48c3d-03b3-494c-b278-7d8abf7006fa" id="bobblecorner"/>
+                                    </div>
+                                </div>
+                        } 
+                  </div>
+                        </xrx:true>
+                        <xrx:false>
+                            <div data-demoid="9cc421f4-9d5a-444f-8df0-079dc5b07cbf" style="position:relative;left:50px;top:30px;width:400px;">
+                                <div class="h2" data-demoid="fb762870-c18a-472b-90fa-db567e186d68">
+                                    <xrx:i18n>
+                                        <xrx:key>image-requests</xrx:key>
+                                        <xrx:default>Image Requests</xrx:default>
+                                    </xrx:i18n>
+                                </div>
+                                <xrx:i18n>
+                                    <xrx:key>protected-page-message</xrx:key>
+                                    <xrx:default>Protected page. Please login first.</xrx:default>
+                                </xrx:i18n>
+                                <xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/login2</xrx:subwidget>
+                            </div>
+                        </xrx:false>
+                    </xrx:auth>
+                </div>
+                <script type="text/javascript">
+		      	$(document).ready(function() {{
+		          	loadDoc('{$conf:project-name}');
+		          }});
+         </script>
+          <!-- JS - ajax i18n text messages -->
+                <div data-demoid="874d8b29-fa57-4f3b-a4f1-a9ed6eff7030" style="display:none;">
+                    <xrx:i18n>
+                        <xrx:key>mark-a-region</xrx:key>
+                        <xrx:default>Please mark a region of the image!</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                        <xrx:key>hide-annotation</xrx:key>
+                        <xrx:default>Hide Annotations</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                        <xrx:key>close-image-tools</xrx:key>
+                        <xrx:default>Close Image Tools</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                        <xrx:key>open-image-tools</xrx:key>
+                        <xrx:default>Open Image Tools</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                        <xrx:key>ajax-error</xrx:key>
+                        <xrx:default>Error! Please try again!</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                        <xrx:key>cropping-image</xrx:key>
+                        <xrx:default>Cropping image! Please wait...</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                        <xrx:key>saving-data</xrx:key>
+                        <xrx:default>Saving Data! Please wait...</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                        <xrx:key>data-have-been-successful-removed</xrx:key>
+                        <xrx:default>Data have been successful removed!</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                        <xrx:key>data-have-been-successful-updated</xrx:key>
+                        <xrx:default>Data have been successful updated!</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                        <xrx:key>please-insert-an-annotation</xrx:key>
+                        <xrx:default>Please insert an annotation into the input field!</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                        <xrx:key>data-have-been-saved</xrx:key>
+                        <xrx:default>Data have been saved!</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                        <xrx:key>updating-data</xrx:key>
+                        <xrx:default>Updating Data! Please wait...</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                        <xrx:key>sending-request</xrx:key>
+                        <xrx:default>Sending Request! Please wait...</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                        <xrx:key>please-insert-a-comment</xrx:key>
+                        <xrx:default>Please insert a comment into the input field!</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                        <xrx:key>the-annotation-has-been-released</xrx:key>
+                        <xrx:default>The Annotation has been released!</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                        <xrx:key>request-sent-to-moderator</xrx:key>
+                        <xrx:default>Your request has been sent to the moderator!</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                        <xrx:key>delete-annotation-question</xrx:key>
+                        <xrx:default>Do you really want to delete this annotation?</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                      <xrx:key>select-tag-to-drop</xrx:key>
+                      <xrx:default>Please select a tag in the editor to link it to the annotation!</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                      <xrx:key>tag-not-available</xrx:key>
+                      <xrx:default>MarkUp- Tag has been already linked to an annotation! Please select another one!</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                      <xrx:key>relation-broken</xrx:key>
+                      <xrx:default>There is no related markup element to this annotation! May be you delete a facs- attribute or delete a cei:zone- tag in the XML- Editor! Because of that you have to define a new relation to a markup element.</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                      <xrx:key>relation-broken-repaired</xrx:key>
+                      <xrx:default>There is no related markup element to this annotation! You delete a cei:zone- tag in the XML- Editor! This has been automatically fixed. Please try again!</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                        <xrx:key>editmode-text</xrx:key>
+                        <xrx:default>Editmode: If you choose to create an annotation, please insert the annotation text into the input field. Then click the 'save' button to create a private annotation. Click the button 'extract image section' to crop the selected image section. Insert the metadata into the input field and click on the 'save' button to save the cropped image.</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                        <xrx:key>selectmode-text</xrx:key>
+                        <xrx:default>Selectmode: Move the mouse over the viewport and use the left mouse button to select an area of the charter image. Then you are able to create an annotation (click on the button 'create annotation') or you can extract the selected image section (click on the button 'select image section').</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                        <xrx:key>viewmode-text</xrx:key>
+                        <xrx:default>Viewmode: If you move your mouse over the viewport, you are able to see private and public annotations. Moreover if you move your mouse over the annotations, the text of the annotation and a toolbar will appear. The toolbar of a private annotation has buttons to edit, delete and publish the annotation. If you disagree with a public annotation, you have got a function to contact a moderator and send a report.</xrx:default>
+                    </xrx:i18n>
+                    <xrx:i18n>
+                      <xrx:key>no-image</xrx:key>
+                      <xrx:default>This charter has got no images! Because of that you are not able to use the Image Tools!</xrx:default>
+                    </xrx:i18n>
+                </div>
+            </div> 
+          }	
+        </div>
+  }
+  </xrx:view>
+</xrx:widget>

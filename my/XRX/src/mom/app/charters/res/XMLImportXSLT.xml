@@ -1,0 +1,109 @@
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:cei="http://www.monasterium.net/NS/cei"
+  version="1.0">
+  <!-- create a CEI wrapper document for all charters -->
+  <xsl:template match="/">
+    <cei:cei>
+      <cei:teiHeader>
+        <cei:fileDesc>
+          <cei:titleStmt>
+            <cei:title />
+            <cei:author />
+          </cei:titleStmt>
+        </cei:fileDesc>
+      </cei:teiHeader>
+      <cei:text type="collection">
+        <cei:group>
+          <!-- loop through the HTML table rows -->
+          <!-- each table row contains a charter description -->
+          <xsl:for-each select="//xhtml:tr">
+            <!-- call template 'charter', select the column values of the row and 
+              overload the values as parameters -->
+            <xsl:call-template name="charter">
+              <!-- signature (first column) -->
+              <xsl:with-param name="idno"
+                select="./xhtml:td[1]/xhtml:p/text()" />
+              <!-- image names (second column) -->
+              <xsl:with-param name="image_names"
+                select="./xhtml:td[2]/xhtml:p/text()" />
+              <!-- date (third column) -->
+              <xsl:with-param name="date"
+                select="./xhtml:td[3]/xhtml:p/text()" />
+              <!-- date as text (fourth column) -->
+              <xsl:with-param name="date_as_text"
+                select="./xhtml:td[4]/xhtml:p/text()" />
+              <!-- abstract (fifth column) -->
+              <xsl:with-param name="abstract"
+                select="./xhtml:td[5]/xhtml:p/text()" />
+            </xsl:call-template>
+          </xsl:for-each>
+        </cei:group>
+      </cei:text>
+    </cei:cei>
+  </xsl:template>
+  <!-- create a CEI document for a single charter -->
+  <xsl:template name="charter">
+    <!-- initialize parameters -->
+    <xsl:param name="idno" />
+    <xsl:param name="image_names" />
+    <xsl:param name="date" />
+    <xsl:param name="date_as_text" />
+    <xsl:param name="abstract" />
+    <!-- fill in the HTML table values into the CEI document -->
+    <cei:text type="charter">
+      <cei:front />
+      <cei:body>
+        <cei:idno>
+          <xsl:value-of select="$idno" />
+        </cei:idno>
+        <cei:chDesc>
+          <cei:issued>
+            <cei:date>
+              <xsl:attribute name="value">
+                <xsl:value-of select="$date" />
+              </xsl:attribute>
+              <xsl:value-of select="$date_as_text" />
+            </cei:date>
+          </cei:issued>
+          <cei:abstract>
+            <xsl:value-of select="$abstract" />
+          </cei:abstract>
+          <cei:witnessOrig>
+            <!-- call template 'figure' recursively -->
+            <!-- (the image names are separated with '$$' in the example document) -->
+            <xsl:call-template name="figure">
+              <xsl:with-param name="string" select="$image_names" />
+            </xsl:call-template>
+          </cei:witnessOrig>
+        </cei:chDesc>
+      </cei:body>
+      <cei:back />
+    </cei:text>
+  </xsl:template>
+  <!-- figures of a witness -->
+  <xsl:template name="figure">
+    <!-- initialize parameters -->
+    <xsl:param name="string" />
+    <!-- get the next image name -->
+    <xsl:param name="figure" select="substring-before($string, '$$')" />
+    <!-- if we have found another image name we create a CEI element and make 
+      a recursive call -->
+    <xsl:choose>
+      <xsl:when test="$figure != ''">
+        <cei:figure>
+          <cei:graphic>
+            <xsl:attribute name="url">
+              <xsl:value-of select="$figure" />
+            </xsl:attribute>
+          </cei:graphic>
+        </cei:figure>
+        <!-- recursive call -->
+        <xsl:call-template name="figure">
+          <xsl:with-param name="string"
+            select="concat(substring-after($string, '$$'), '$$')" />
+        </xsl:call-template>
+      </xsl:when>
+    </xsl:choose>
+  </xsl:template>
+  <xsl:template match="//text()" />
+</xsl:stylesheet>

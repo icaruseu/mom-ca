@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="./demo.xsl" type="text/xsl"?>
+<div data-filename="textual-ui-controls.xml" data-relativepath="../" xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:xrx="http://www.monasterium.net/NS/xrx"
+    xmlns:demo="http://www.monasterium.net/NS/demo">
+  <demo:header>Textual UI Controls</demo:header>
+
+
+
+  <demo:heading>Single-Line Input</demo:heading>
+  <demo:app>
+    <demo:mvc>
+      <demo:view>
+        <xrx:instance id="i1">
+          <data>Lorem ipsum dolor sit amet.</data>
+        </xrx:instance>
+        <xrx:bind id="b1" ref="xrx:instance('i1')/data/text()"/>
+        <xrx:bind id="b1.1" ref="xrx:instance('i1')"/>
+        <xrx:input bind="b1"/>
+      </demo:view>
+      <demo:model>
+        <xrx:console bind="b1.1"/>
+      </demo:model>
+    </demo:mvc>
+  </demo:app>
+  <demo:source rows="6">
+&lt;xrx:instance id="i1"&gt;
+  &lt;data&gt;Lorem ipsum dolor sit amet.&lt;/data&gt;
+&lt;/xrx:instance&gt;
+&lt;xrx:bind id="b1" ref="xrx:instance('i1')/data/text()"/&gt;
+&lt;xrx:input bind="b1"/&gt;
+  </demo:source>
+
+
+
+  <demo:heading>Multi-Line Textarea</demo:heading>
+  <demo:app>
+    <demo:mvc>
+      <demo:view>
+        <xrx:instance id="i2">
+          <data>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</data>
+        </xrx:instance>
+        <xrx:bind id="b2" ref="xrx:instance('i2')/data/text()"/>
+        <xrx:bind id="b2.1" ref="xrx:instance('i2')"/>
+        <xrx:textarea bind="b2"/>
+      </demo:view>
+      <demo:model>
+        <xrx:console bind="b2.1"/>
+      </demo:model>
+    </demo:mvc>
+  </demo:app>
+  <demo:source rows="2">&lt;xrx:textarea bind="b1"/&gt;</demo:source>
+  <demo:heading>Output</demo:heading>
+  <demo:heading>XML Console</demo:heading>
+  <demo:heading>Rich Text XML Editor</demo:heading>
+  <demo:source rows="2">&lt;xrx:richxml bind="b1"/&gt;</demo:source>
+</div>

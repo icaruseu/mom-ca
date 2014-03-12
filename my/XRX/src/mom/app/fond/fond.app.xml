@@ -1,0 +1,100 @@
+<xrx:app xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/app/fond</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key></xrx:key>
+      <xrx:default></xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:modules>
+    <xrx:module>
+      <xrx:resource>fond.xqm</xrx:resource>
+      <xrx:prefix>fond</xrx:prefix>
+      <xrx:uri>http://www.monasterium.net/NS/fond</xrx:uri>
+    </xrx:module>
+    <xrx:module>
+      <xrx:resource>fonds.xqm</xrx:resource>
+      <xrx:prefix>fonds</xrx:prefix>
+      <xrx:uri>http://www.monasterium.net/NS/fonds</xrx:uri>
+    </xrx:module>
+    <xrx:module>
+      <xrx:resource>preface.xqm</xrx:resource>
+      <xrx:prefix>preface</xrx:prefix>
+      <xrx:uri>http://www.monasterium.net/NS/preface</xrx:uri>
+    </xrx:module>
+  </xrx:modules>
+  <xrx:resources>
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/xsl/eadp2html</xrx:atomid>
+      <xrx:relativepath>xsl/</xrx:relativepath>
+      <xrx:name>eadp2html.xsl</xrx:name>
+    </xrx:resource>
+  </xrx:resources>
+  <xrx:resolver>
+  	<!-- service -->
+    <xrx:map>
+      <xrx:uripattern>/service/ead-validate$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/ead-validate</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/service/new-fond$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/new-fond</xrx:atomid>
+    </xrx:map>
+    <!-- main widget -->
+    <xrx:map>
+      <xrx:uripattern>/fond$</xrx:uripattern>
+      <xrx:mode>mainwidget</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/fond</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+    	<xrx:uripattern>/fond-preferences$</xrx:uripattern>
+    	<xrx:mode>mainwidget</xrx:mode>
+    	<xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/fond-preferences</xrx:atomid>
+    </xrx:map> 
+    <xrx:map>
+      <xrx:uripattern>/imported-fond$</xrx:uripattern>
+      <xrx:mode>mainwidget</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/imported-fond</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/new-fond$</xrx:uripattern>
+      <xrx:mode>mainwidget</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/new-fond</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/edit-fond$</xrx:uripattern>
+      <xrx:mode>mainwidget</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/edit-fond</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/remove-fond$</xrx:uripattern>
+      <xrx:mode>mainwidget</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/remove-fond</xrx:atomid>
+    </xrx:map>
+  </xrx:resolver>
+</xrx:app>

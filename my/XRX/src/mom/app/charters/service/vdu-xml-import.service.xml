@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx">
+    <xrx:id>tag:www.monasterium.net,2011:/mom/service/vdu-xml-import</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key/>
+            <xrx:default/>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:subtitle/>
+    <xrx:description/>
+    <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+    <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+    <xrx:variables>
+        <xrx:variable>
+            <xrx:name>$archid</xrx:name>
+            <xrx:expression>$data//*:archid/text()</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$fondid</xrx:name>
+            <xrx:expression>$data//*:fondid/text()</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$fond-entry-name</xrx:name>
+            <xrx:expression>concat($fondid, '.import.xml')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$destination-feed</xrx:name>
+            <xrx:expression>metadata:feed('charter', ($archid, $fondid), 'import')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$destination-db-base-collection</xrx:name>
+            <xrx:expression>metadata:base-collection('charter', ($archid, $fondid), 'import')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$destination-db-base-collection-path</xrx:name>
+            <xrx:expression>metadata:base-collection-path('charter', ($archid, $fondid), 'import')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$archive-feed</xrx:name>
+            <xrx:expression>metadata:feed('charter', $archid, 'import')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$fond-feed</xrx:name>
+            <xrx:expression>metadata:feed('fond', ($archid, $fondid), 'public')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$archive-db-base-collection-path</xrx:name>
+            <xrx:expression>metadata:base-collection-path('charter', $archid, 'import')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$data-as-xml</xrx:name>
+            <xrx:expression>$data//*:trans-data/cei:cei</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$save-data</xrx:name>
+            <xrx:expression>atom:POST($archive-feed,$fond-entry-name,$data-as-xml)</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$saved-document</xrx:name>
+            <xrx:expression>doc(concat($archive-db-base-collection-path, '/', $fond-entry-name))</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$ordered-charter-idnos</xrx:name>
+            <xrx:expression>charter:ordered-idnos($saved-document)</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$cleaned-charter-idnos</xrx:name>
+            <xrx:expression>charter:map-idnos($ordered-charter-idnos)</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$unique-charter-idnos</xrx:name>
+            <xrx:expression>charter:make-unique($cleaned-charter-idnos)</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$fond-atom-id</xrx:name>
+            <xrx:expression>metadata:atomid('fond', ($archid, $fondid))</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$metadata-fond-db-base-collection</xrx:name>
+            <xrx:expression>metadata:base-collection('fond', ($archid, $fondid), 'public')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$metadata-fond-db-base-collection-path</xrx:name>
+            <xrx:expression>metadata:base-collection-path('fond', ($archid, $fondid), 'public')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$fond-exists</xrx:name>
+            <xrx:expression>exists($metadata-fond-db-base-collection//cei:cei[root(.)//atom:id[.=$fond-atom-id]])</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$fondextract</xrx:name>
+            <xrx:expression>$data//*:extractfond</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$fond-data</xrx:name>
+            <xrx:expression>$data//*:fond-infos//*:ead</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$fond-name</xrx:name>
+            <xrx:expression>concat($fondid, '.ead.xml')</xrx:expression>
+        </xrx:variable>
+    </xrx:variables>
+    <xrx:init>
+        <xrx:processor>
+            <xrx:translateflag>true</xrx:translateflag>
+        </xrx:processor>
+    </xrx:init>
+    <xrx:body>
+    {
+    (: remove existing charters :)
+    let $remove-charters := 
+      if(xmldb:collection-available($destination-db-base-collection-path)) then
+        xmldb:remove($destination-db-base-collection-path)
+      else ()
+    
+    let $save-fond := 
+        if($fondextract = fn:true())then
+            let $fond-entry :=
+                    <atom:entry xmlns:atom="http://www.w3.org/2005/Atom">
+            <atom:id>{ $fond-atom-id }</atom:id>
+            <atom:title/>
+            <atom:published/>
+            <atom:updated/>
+            <atom:author>
+                <atom:email/>
+            </atom:author>
+            <app:control xmlns:app="http://www.w3.org/2007/app">
+                <app:draft>no</app:draft>
+            </app:control>
+            <atom:content type="application/xml">{ $fond-data }</atom:content>
+        </atom:entry>
+             let $post-entry := 
+                    if($fond-exists) then
+                        (
+                        xmldb:remove($metadata-fond-db-base-collection-path),
+                        atom:POST($fond-feed, $fond-name, $fond-entry)
+                        )
+                    else 
+                        atom:POST($fond-feed, $fond-name, $fond-entry)
+             return
+                $post-entry
+        else()
+    let $save-successful :=
+        exists($metadata-fond-db-base-collection//cei:cei[root(.)//atom:id[.=$fond-atom-id]])
+    
+    (: import charters :)
+    let $do-import := 
+    
+			(: loop through all charters :)
+			for $idno at $pos in $ordered-charter-idnos
+			
+			let $charter := $idno/ancestor::cei:text[1]
+			 
+			(: make the unique idno part of the cei document :)
+			let $unique-idno := $unique-charter-idnos[$pos]
+			let $insert-unique-idno := charter:insert-unique-idno($charter, $unique-idno)
+			 
+			(: Atom info :)
+			let $atomid := metadata:atomid('charter', ($archid, $fondid, $unique-idno))
+			let $entry-name := xmldb:encode(concat($unique-idno, '.cei.xml'))
+			 
+			let $charter-entry :=
+			<atom:entry xmlns:atom="http://www.w3.org/2005/Atom">
+            <atom:id>{ $atomid }</atom:id>
+            <atom:title/>
+            <atom:published/>
+            <atom:updated/>
+            <atom:author>
+                <atom:email/>
+            </atom:author>
+            <app:control xmlns:app="http://www.w3.org/2007/app">
+                <app:draft>no</app:draft>
+            </app:control>
+            <atom:content type="application/xml">{ $insert-unique-idno }</atom:content>
+        </atom:entry>
+			let $post :=
+	      atom:POST(
+	        $destination-feed,
+	        $entry-name,
+	        $charter-entry
+	      )
+			return
+			 
+			()
+
+	  (: reliability check :)
+	  let $new-created-collection := metadata:base-collection('charter', ($archid, $fondid), 'import')
+	  let $count-charters-to-migrate := count($saved-document//cei:text[@type='charter'])
+    let $count-charters-migrated := count($new-created-collection//cei:text[@type='charter'])
+    let $consistent := if($count-charters-to-migrate = $count-charters-migrated) then true() else false() 
+    
+	  (: info file about charter import :)
+	  let $info :=
+	  <xrx:import>
+            <xrx:type>charter</xrx:type>
+            <xrx:archid>{ $archid }</xrx:archid>
+            <xrx:fondid>{ $fondid }</xrx:fondid>
+            <xrx:time>{ current-dateTime() }</xrx:time>
+            <xrx:userid>{ $xrx:user-id }</xrx:userid>
+        </xrx:import>
+
+	  let $post-info :=
+	    atom:POST(
+	      $destination-feed,
+	      'import.info.xml',
+	      $info
+	    )
+
+	  return
+	  
+	  if($consistent) then
+    <xrx:response status="1">
+            <xrx:message>
+                <xrx:i18n>
+                    <xrx:key>charter-import-successful-message</xrx:key>
+                    <xrx:default>Charters successfully imported.</xrx:default>
+                </xrx:i18n>
+            </xrx:message>
+            <xrx:icon>{ conf:param('request-root') }face-smile.png</xrx:icon>
+            <xrx:fond>{ $save-successful }</xrx:fond>
+        </xrx:response>	  
+	  
+	  else
+    <xrx:response status="-1">
+            <xrx:message>
+                <xrx:i18n>
+                    <xrx:key>charter-import-not-successful-message</xrx:key>
+                    <xrx:default>Import wasn't successful. Please contact the technical support.</xrx:default>
+                </xrx:i18n>
+            </xrx:message>
+            <xrx:icon>{ conf:param('request-root') }dialog-warning.png</xrx:icon>
+            <xrx:fond>{ $save-successful }</xrx:fond>
+        </xrx:response>  	  
+
+    }
+  </xrx:body>
+</xrx:service>

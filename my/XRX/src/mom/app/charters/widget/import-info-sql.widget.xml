@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/import-info-sql</xrx:id>
+  <xrx:inherits>tag:www.monasterium.net,2011:/mom/widget/import-charters</xrx:inherits>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:divs>
+    <xrx:div>
+      <xrx:key>recent-import-div</xrx:key>
+      <xrx:view>
+        <div data-demoid="938b3a07-6f67-4631-ac1f-c0404c9a54ab">
+          <fieldset>
+            <legend>
+              <xrx:i18n>
+                <xrx:key>recently-imported-file</xrx:key>
+                <xrx:default>Recently imported file</xrx:default>
+              </xrx:i18n>
+            </legend>
+            <div data-demoid="bf14c485-5dc9-4f75-9343-07fbc43f6152">
+              <a href="recently-imported-file" target="_blank">{ $wimport-charters:filename }</a>
+            </div>
+            <div data-demoid="0a92596b-7955-4793-aa57-894e6fb4db2c" style="color:grey">
+              <span>{ $wimport-charters:time } </span>
+              <span>
+                <xrx:i18n>
+                  <xrx:key>by</xrx:key>
+                  <xrx:default>by</xrx:default>
+                </xrx:i18n>
+              </span>
+              <span> { $wimport-charters:userlabel }</span>
+            </div>
+          </fieldset>
+        </div>
+      </xrx:view>
+    </xrx:div>
+  </xrx:divs>
+  <xrx:view>
+    <table>
+      <tr>
+        <td><span class="heading">SQL</span></td>
+        <td/>
+        <td/>
+      </tr>
+      <tr>
+        <td class="icon"><xrx:resource class="icon" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/SQL</xrx:resource></td>
+        <td class="info">
+          <p><i>
+            <xrx:i18n>
+              <xrx:key>sql-import-info-1</xrx:key>
+              <xrx:default>Directly connect your database with MOM-CA. The SQL import is straightforward 
+                since you can synchronize your database and the MOM-CA database with few clicks 
+                at any time.
+              </xrx:default>
+            </xrx:i18n>
+          </i></p>
+          <p><i>
+            <xrx:i18n>
+              <xrx:key>sql-import-info-2</xrx:key>
+              <xrx:default>To make the import work you have to configure a database connection. You
+                need a SQL script which reads out your database row by row and a XSLT script which
+                transforms the database rows into CEI.</xrx:default>
+            </xrx:i18n>
+          </i></p>
+          <xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/useful-links-sql</xrx:subwidget>
+        </td>
+        <td class="recent">{ if(chimport:rinfo()/xrx:type/text() = 'SQL') then <xrx:div>recent-import-div</xrx:div> else() }</td>
+      </tr>
+      <tr>
+        <td/>
+        <td/>
+        <td class="button">
+          <a class="button">
+            { if($wimport-charters:context = 'browse') then attribute href { 'import-charters-howto?type=SQL' } else attribute href { concat($wimport-charters:jetty-base-url, 'sql-import') } }
+            <xrx:i18n>
+              <xrx:key>sql-import</xrx:key>
+              <xrx:default>SQL import</xrx:default>
+            </xrx:i18n> &gt;&gt;
+          </a>
+        </td>
+      </tr>
+    </table>
+  </xrx:view>
+</xrx:widget>

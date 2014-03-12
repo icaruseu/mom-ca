@@ -1,0 +1,82 @@
+<xrx:service xmlns:eag="http://www.archivgut-online.de/eag" xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/my-collection-bookmarks</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key></xrx:key>
+      <xrx:default></xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:variables>
+    <xrx:variable>
+      <xrx:name>$bookmark-atomids</xrx:name>
+      <xrx:expression>bookmark:atomids($xrx:user-xml)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$only-fond-charters</xrx:name>
+      <xrx:expression>for $b in $bookmark-atomids return if(count(tokenize($b, '/')) = 5) then $b else()</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:translateflag>false</xrx:translateflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:body>
+    {
+      let $json := 
+        if(count($only-fond-charters) gt 0) then
+          jsonx:object(
+		        for $atomid in $only-fond-charters
+		        let $uri-tokens := metadata:uri-tokens($atomid)
+		        let $base-collection := metadata:base-collection('charter', $uri-tokens, 'public')
+		        let $entry := $base-collection//atom:id[.=$atomid]/parent::atom:entry
+		        let $idno := $entry//cei:body/cei:idno/@id/string()
+		        let $title := string-join(($uri-tokens, $idno), ' | ')
+		        let $objectid := metadata:objectid($atomid)
+		        let $link := concat(conf:param('request-root'), string-join($uri-tokens, '/'), '/', $objectid, '/charter')
+		        return
+		        jsonx:pair(
+              jsonx:string($atomid),
+              jsonx:object(
+                (
+	                jsonx:pair(
+	                  jsonx:string("title"),
+	                  jsonx:string($title)
+	                ),
+                  jsonx:pair(
+                    jsonx:string("link"),
+                    jsonx:string($link)
+                  )
+	              )     
+              )
+		        )
+		      )
+	      else '{ "bookmark": {} }'
+      return
+      $json
+    }
+  </xrx:body>
+</xrx:service>

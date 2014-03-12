@@ -1,0 +1,72 @@
+<xrx:portal xmlns="http://www.w3.org/1999/xhtml" xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/portal/empty</xrx:id>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:csss>
+    <style type="text/css">
+html, body, .xrx-widget, #main{{
+	position:relative;
+	float:none;
+	display:block;
+	width:100%;
+	height:100%;
+	display:block;
+}}
+
+/*
+*
+* XRX
+*
+*/
+.xrx-translate-page-link {{
+	display:block!important;
+	position:absolute!important;
+	right:0px!important;
+	background:#FFE3D9!important;
+}}
+
+.xrx-translate-page-link a {{
+	display:block!important;
+	color:#EF6A2F!important;
+	margin:10px!important;
+}}    
+    </style>
+  </xrx:csss>  
+  <xrx:view>
+    <div id="main">
+      <xrx:mainwidget/>
+      <script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-3064654-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {{
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+}})();
+      </script>
+    </div>
+  </xrx:view>
+</xrx:portal>

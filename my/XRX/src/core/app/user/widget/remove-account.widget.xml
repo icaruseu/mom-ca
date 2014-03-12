@@ -1,0 +1,168 @@
+<xrx:widget xmlns:xf="http://www.w3.org/2002/xforms"
+	xmlns:xrx="http://www.monasterium.net/NS/xrx" 
+	xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns="http://www.w3.org/1999/xhtml">
+  <xrx:id>tag:www.monasterium.net,2011:/core/widget/remove-account</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>change-password</xrx:key>
+      <xrx:default>Change my password</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>true</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <xrx:css>tag:www.monasterium.net,2011:/mom/css/forms</xrx:css>
+  </xrx:csss>
+	<xrx:model>
+		<xf:model id="mremove-account">
+		
+		  <xf:instance id="iremove-account">
+		    <xrx:data xmlns:xrx="http://www.monasterium.net/NS/xrx">
+		      <xrx:userid>{ $xrx:user-id }</xrx:userid>
+		      <xrx:password></xrx:password>
+		      <xrx:repeatpassword></xrx:repeatpassword>
+		    </xrx:data>
+		  </xf:instance>
+			<xf:instance id="iresponse">
+				<xrx:response xmlns:xrx="http://www.monasterium.net/NS/xrx" status="0"/>
+			</xf:instance>
+			
+			<xf:submission id="sremove-account"
+				action="{ conf:param('request-root') }service/remove-account"
+				method="post" 
+				replace="instance" 
+				instance="iresponse"/>
+			
+			<xf:bind id="bpassword" ref="instance('iremove-account')/password"/>
+			<xf:bind id="brepeatpassword" ref="instance('iremove-account')/repeatpassword"/>
+			
+      <xf:bind nodeset="instance('iremove-account')/xrx:repeatpassword"
+        constraint=". = ../xrx:password" required="true()" />
+			
+		</xf:model>
+	</xrx:model>
+	<xrx:view>
+    <xf:group model="mremove-account">
+		  <div id="dremove-account">
+	      <div class="h2">
+	        <xrx:i18n>
+	          <xrx:key>remove-account</xrx:key>
+	          <xrx:default>Remove Account</xrx:default>
+	        </xrx:i18n>
+	      </div>
+	      <xrx:auth>
+	        <xrx:rules>
+	          <xrx:rule>
+	            <xrx:user/>
+	            <xrx:dbgroup>atom</xrx:dbgroup>
+	          </xrx:rule>
+	        </xrx:rules>
+	        <xrx:true>
+	          <div class="standard-form">
+	            <p>
+			          <xrx:i18n>
+			            <xrx:key>remove-this-account-question</xrx:key>
+			            <xrx:default>Do you really want to remove this Account?</xrx:default>
+			          </xrx:i18n>
+			        </p>    
+			        <div id="dresponse-info-div">
+					      <div>
+						      <xf:output class="icon" ref="instance('iresponse')//xrx:icon" mediatype="image/*"/>
+						    </div>
+						    <div>
+						      <xf:output ref="instance('iresponse')//xrx:message"/>
+						    </div>
+						  </div>              
+	            <xf:group appearance="bf:verticalTable" class="InlineRoundBordersAlert standard-form">
+		            <xf:secret ref="xrx:password">
+		              <xf:label>
+		                <xrx:i18n>
+		                  <xrx:key>password-twice</xrx:key>
+		                  <xrx:default>Password (twice)</xrx:default>
+		                </xrx:i18n>
+		                <span>:</span>
+		              </xf:label>
+		            </xf:secret>
+		            <xf:secret ref="xrx:repeatpassword">
+                  <xf:alert>
+                    <xrx:i18n>
+                      <xrx:key>password-does-not-match</xrx:key>
+                      <xrx:default>Password does not match</xrx:default>
+                    </xrx:i18n>
+                    <span>.</span>
+                  </xf:alert>
+		            </xf:secret>
+	            </xf:group>
+	            <div style="color:red">
+	               <xrx:i18n>
+	                 <xrx:key>removing-account-cant-be-undone</xrx:key>
+	                 <xrx:default>Removing your account can not be undone</xrx:default>
+	               </xrx:i18n>
+	            </div>
+	            <div>
+	              <xf:trigger>
+	                <xf:label>
+	                  <xrx:i18n>
+	                    <xrx:key>cancel</xrx:key>
+	                    <xrx:default>Cancel</xrx:default>
+	                  </xrx:i18n>
+	                </xf:label>
+	                <xf:action ev:event="DOMActivate">
+	                  <xf:load show="replace" resource="my-account"/>
+	                </xf:action>
+	              </xf:trigger>
+	              <xf:trigger>
+	                <xf:label>
+	                  <xrx:i18n>
+	                    <xrx:key>remove</xrx:key>
+	                    <xrx:default>Remove</xrx:default>
+	                  </xrx:i18n>
+	                </xf:label>
+	                <xf:action ev:event="DOMActivate">
+	                  <xf:send submission="sremove-account" />
+	                  <xf:load show="replace" resource="/" if="instance('iresponse')//@status = 1"/>
+	                </xf:action>
+	              </xf:trigger>
+	            </div>
+	          </div>
+	        </xrx:true>
+	        <xrx:false>
+	          <div>
+	            <xrx:i18n>
+	              <xrx:key>protected-page-message</xrx:key>
+	              <xrx:default>Protected page. Please login first.</xrx:default>
+	            </xrx:i18n>
+	          </div>
+	        </xrx:false>
+	      </xrx:auth>
+	    </div>
+    </xf:group>
+	</xrx:view>
+</xrx:widget>

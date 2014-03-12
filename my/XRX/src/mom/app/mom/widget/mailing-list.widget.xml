@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/mailing-list</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>mailing-list</xrx:key>
+      <xrx:default>Mailing list</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence/>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/desktop</xrx:portal>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>false</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+   <style type="text/css">
+
+#mailing-list{{
+  position:relative;
+  float:left;
+  width:800px;
+}}
+#mailing-list .email-div{{
+  height:150px;
+  overflow:scroll;
+  border:solid {conf:param('color3')} 1px;
+  border-bottom:none;
+}}
+#mailing-list .inner-email-div{{
+  margin:5px;
+}}
+#mailing-list .heading{{
+  background:{conf:param('color3')};
+  color:white;
+  font-size:1.5em;
+}}
+#mailing-list .inner-heading{{
+  margin:5px;
+}}
+
+    </style>
+  </xrx:csss>
+  <xrx:view>
+    <div data-demoid="8d5e2e5c-c938-47af-9ca8-8664ff4483a3" id="mailing-list">
+      <div class="h2" data-demoid="d6b0b675-5450-498b-9a4d-a2f002d9222f">
+        <xrx:i18n>
+          <xrx:key>mailing-lists</xrx:key>
+          <xrx:default>Mailing lists</xrx:default>
+        </xrx:i18n>
+      </div>
+      <h3 class="heading">
+        <div class="inner-heading" data-demoid="0a8b4057-a2ee-4d0b-9476-4c4cb47ffe28">
+          <xrx:i18n>
+            <xrx:key>all-users</xrx:key>
+            <xrx:default>All Users</xrx:default>
+          </xrx:i18n>
+        </div>
+      </h3>
+      <div class="email-div" data-demoid="7aa9c97d-f171-4218-baed-7b3b6f44fa23"><div class="inner-email-div" data-demoid="6d6a24fd-864d-4639-b47a-a2c7d8615b2b"><span>
+      {
+      let $list := 
+        string-join(
+          for $email in $user:db-base-collection//xrx:email/text()
+          return
+          $email
+          ,
+          ', '
+        )
+      return
+      $list
+      }
+      </span></div></div>
+    </div>
+  </xrx:view>
+</xrx:widget>

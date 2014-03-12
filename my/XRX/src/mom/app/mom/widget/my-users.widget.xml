@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/my-users</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>my-users</xrx:key>
+      <xrx:default>My users</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/desktop</xrx:portal>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>false</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+	<xrx:view>
+		<div data-demoid="2a8cf718-8250-48b0-a73b-b1a8887b1012">
+			<div class="h2" data-demoid="75beb17c-3f8a-4157-a502-97432fff171a">
+				<xrx:i18n>
+				  <xrx:key>my-users</xrx:key>
+				  <xrx:default>My Users</xrx:default>
+				</xrx:i18n>
+			</div>
+			<ol>
+				{
+				for $user in $user:db-base-collection/xrx:user[xrx:moderator=$xrx:user-id]
+				let $firstname-name := user:firstname-name($user)
+				let $email := $user/*:email/text()
+				let $phone := $user/*:phone/text()
+				let $institution := $user/*:institution/text()
+				let $street := $user/*:street/text()
+				let $zip := $user/*:zip/text()
+				let $town := $user/*:town/text()
+				return
+				<li class="user-info-div">
+					<div data-demoid="7c856463-8f6f-4106-ba1c-7315f82b8a2d">
+						<b>{ $firstname-name }</b>
+					</div>
+					<table>
+						<tr>
+							<td>
+								<xrx:i18n>
+								  <xrx:key>email</xrx:key>
+								  <xrx:default>Email</xrx:default>
+								</xrx:i18n>
+								<span>:</span>
+							</td>
+							<td>{ $email }</td>
+						</tr>
+						<tr>
+							<td>
+								<xrx:i18n>
+								  <xrx:key>phone</xrx:key>
+								  <xrx:default>Phone</xrx:default>
+								</xrx:i18n>
+								<span>:</span>
+							</td>
+							<td>{ $phone }</td>
+						</tr>
+						<tr>
+							<td>
+								<xrx:i18n>
+								  <xrx:key>institution</xrx:key>
+								  <xrx:default>Institution</xrx:default>
+								</xrx:i18n>
+								<span>:</span>
+							</td>
+							<td>{ $institution }</td>
+						</tr>
+						<tr>
+							<td>
+								<xrx:i18n>
+								  <xrx:key>street</xrx:key>
+								  <xrx:default>Street</xrx:default>
+								</xrx:i18n>
+								<span>:</span>
+							</td>
+							<td>{ $street }</td>
+						</tr>
+						<tr>
+							<td>
+								<xrx:i18n>
+								  <xrx:key>zip</xrx:key>
+								  <xrx:default>ZIP</xrx:default>
+								</xrx:i18n>
+								<span>:</span>
+							</td>
+							<td>{ $zip }</td>
+						</tr>
+						<tr>
+							<td>
+								<xrx:i18n>
+								  <xrx:key>city</xrx:key>
+								  <xrx:default>City</xrx:default>
+								</xrx:i18n>
+								<span>:</span>
+							</td>
+							<td>{ $town }</td>
+						</tr>
+					</table>
+				</li>
+				}
+			</ol>
+		</div>
+	</xrx:view>
+</xrx:widget>

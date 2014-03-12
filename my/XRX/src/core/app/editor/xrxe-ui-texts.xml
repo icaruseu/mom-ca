@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui xmlns:xrx="http://www.monasterium.net/NS/xrx">
+    
+    <!--xrxe-->
+    
+    <text name="insert-trigger-label">+</text>
+    <text name="delete-trigger-label">X</text>
+    <text name="insert-after-trigger-label">+</text>
+    <text name="insert-before-trigger-label">lt+</text>
+    <text name="insert-copy-trigger-label">&lt;+</text>
+    <text name="insert-before-trigger-label">c&gt;</text>
+    <text name="move-first-trigger-label">&lt;&lt;</text>
+    <text name="move-up-trigger-label">&lt;</text>    
+    <text name="move-down-trigger-label">&gt;</text>
+    <text name="move-last-trigger-label">&gt;&gt;</text>
+    <text name="move-up-trigger-label">@</text>
+    
+    <text name="doublecheck-delete">   
+        <xrx:i18n>
+            <xrx:key>doublecheck-delete</xrx:key>
+            <xrx:default>Are you sure that you want to delete: </xrx:default>
+        </xrx:i18n>        
+    </text>    
+    <text name="cancal">       
+        <xrx:i18n>
+            <xrx:key>cancal</xrx:key>
+            <xrx:default>Cancal</xrx:default>
+        </xrx:i18n>        
+    </text>
+    <text name="ok">   
+        <xrx:i18n>
+            <xrx:key>ok</xrx:key>
+            <xrx:default>OK</xrx:default>
+        </xrx:i18n>        
+    </text>
+    <text name="delete">        
+        <xrx:i18n>
+            <xrx:key>delete</xrx:key>
+            <xrx:default>Delete</xrx:default>
+        </xrx:i18n>
+    </text>
+    <text name="attributes">        
+        <xrx:i18n>
+            <xrx:key>attributes</xrx:key>
+            <xrx:default>Attributes</xrx:default>
+        </xrx:i18n>
+    </text>
+    <text name="save">      
+        <xrx:i18n>
+            <xrx:key>save</xrx:key>
+            <xrx:default>Save</xrx:default>
+        </xrx:i18n>        
+    </text>
+    <text name="save-and-close">    
+        <xrx:i18n>
+            <xrx:key>save-and-close</xrx:key>
+            <xrx:default>Save and Close</xrx:default>
+        </xrx:i18n>        
+    </text>
+    <text name="document-saved">       
+        <xrx:i18n>
+            <xrx:key>document-saved</xrx:key>
+            <xrx:default>Document Saved</xrx:default>
+        </xrx:i18n>        
+    </text>
+    <text name="save-error">        
+        <xrx:i18n>
+            <xrx:key>save-error</xrx:key>
+            <xrx:default>Error: Document could not be saved</xrx:default>
+        </xrx:i18n>
+    </text>
+    <text name="loading">
+        <xrx:i18n>
+            <xrx:key>loading</xrx:key>
+            <xrx:default>Loading...</xrx:default>
+        </xrx:i18n>        
+    </text>
+    <text name="not-valid">
+        <xrx:i18n>
+            <xrx:key>invaild-message</xrx:key>
+            <xrx:default>  isn't valid. The affected control is marked. Changes may not be saved unitil the document is valid again</xrx:default>
+        </xrx:i18n>        
+    </text>
+    <text name="unescape-submit-error">Unescape Submit Error</text>   
+    <text name="post-error">Post Data in Document Error</text>       
+    
+    <!--xrxa-->
+    <text name="select-annotation">       
+        <xrx:i18n>
+            <xrx:key>select-annotation</xrx:key>
+            <xrx:default>Select Annotation</xrx:default>
+        </xrx:i18n>
+    </text>
+</ui>
+
+

@@ -1,0 +1,103 @@
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:sql="http://exist-db.org/xquery/sql" xmlns:cei="http://www.monasterium.net/NS/cei"
+  version="1.0">
+  <xsl:template match="/">
+    <xsl:param name="dateValue" select="//sql:doc//dateInfo/singleDate/text()" />
+    <xsl:param name="dateFrom" select="//sql:doc//dateInfo/lowDate/text()" />
+    <xsl:param name="dateTo" select="//sql:doc//dateInfo/highDate/text()" />
+    <xsl:param name="notesDate" select="//sql:doc//notes/note[@type='date']/text()" />
+    <xsl:param name="issuedPlace" select="//sql:doc//locationInfo//place[1]/text()" />
+    <xsl:param name="issuedCounty" select="//sql:doc//locationInfo//county[1]/text()" />
+    <xsl:param name="issuedCountry" select="//sql:doc//locationInfo//country[1]/text()" />
+    <cei:text type="charter">
+      <cei:front />
+      <cei:body>
+        <cei:idno>
+          <xsl:value-of select="//sql:dnum/text()" />
+        </cei:idno>
+        <cei:chDesc>
+          <cei:issued>
+            <xsl:choose>
+              <xsl:when test="not(matches($dateValue, '0000-00-00'))">
+                <cei:date>
+                  <xsl:attribute name="value">
+                  <xsl:value-of select="replace($dateValue, '-', '')" />
+                </xsl:attribute>
+                  <xsl:choose>
+                    <xsl:when test="$dateValue != '0000-00-00'">
+                      <xsl:value-of select="replace($dateValue, '-', '/')" />
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <xsl:value-of select="replace($dateFrom, '-', '/')" />
+                    </xsl:otherwise>
+                  </xsl:choose>
+                </cei:date>
+              </xsl:when>
+              <xsl:otherwise>
+                <cei:dateRange>
+                  <xsl:attribute name="from">
+                  <xsl:value-of select="replace($dateFrom, '-', '')" />
+                </xsl:attribute>
+                  <xsl:attribute name="to">
+                  <xsl:value-of select="replace($dateTo, '-', '')" />
+                </xsl:attribute>
+                  <xsl:choose>
+                    <xsl:when test="$dateValue != '0000-00-00'">
+                      <xsl:value-of select="replace($dateValue, '-', '/')" />
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <xsl:value-of select="replace($dateFrom, '-', '/')" />
+                    </xsl:otherwise>
+                  </xsl:choose>
+                </cei:dateRange>
+              </xsl:otherwise>
+            </xsl:choose>
+            <cei:placeName>
+              <xsl:if test="$issuedPlace != ''">
+                <xsl:value-of select="$issuedPlace" />
+                <xsl:text> </xsl:text>
+              </xsl:if>
+              <xsl:if test="$issuedCounty != ''">
+                <xsl:value-of select="$issuedCounty" />
+                <xsl:text> </xsl:text>
+              </xsl:if>
+              <xsl:if test="$issuedCountry != ''">
+                <xsl:text>(</xsl:text>
+                <xsl:value-of select="$issuedCountry" />
+                <xsl:text>)</xsl:text>
+              </xsl:if>
+            </cei:placeName>
+          </cei:issued>
+          <cei:abstract>
+            <xsl:value-of select="//sql:doc//notes/note[@type='content']/text()" />
+          </cei:abstract>
+          <cei:witnessOrig>
+            <cei:archIdentifier>
+              <xsl:value-of select="//sql:doc//affiliation/inst/text()" />
+            </cei:archIdentifier>
+          </cei:witnessOrig>
+          <cei:diplomaticAnalysis>
+            <xsl:if test="$notesDate != ''">
+              <cei:p>
+                <xsl:value-of select="$notesDate" />
+              </cei:p>
+            </xsl:if>
+          </cei:diplomaticAnalysis>
+        </cei:chDesc>
+        <cei:tenor>
+          <xsl:value-of select="//sql:doc//content/text()" />
+        </cei:tenor>
+      </cei:body>
+      <cei:back>
+        <xsl:for-each select="//sql:doc//layer[@type='name']/item[nature='Person']">
+          <cei:persName>
+            <xsl:attribute name="reg">
+              <xsl:value-of select="replace(./name_s/text(), '^,\s', '')" />
+            </xsl:attribute>
+            <xsl:value-of select="concat(./name_f/text(), ' ', ./name_d/text())" />
+          </cei:persName>
+        </xsl:for-each>
+      </cei:back>
+    </cei:text>
+  </xsl:template>
+</xsl:stylesheet>

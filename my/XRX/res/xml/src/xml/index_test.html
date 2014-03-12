@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>XRX++ Unit Tests - xrx.index</title>
+<script src='../../lib/closure-library/closure/goog/base.js'></script>
+<script src='../deps.js'></script>
+<script type="text/javascript">
+  goog.require('goog.testing.jsunit');
+  goog.require('xrx.index');
+</script>
+</head>
+<body>
+<script type="text/javascript">
+
+var xml           =         '<a>1<b>2</b>3<c/>4<d><e>5</e>6</d></a>';
+var index = new xrx.index(xml);
+
+function test01() {
+  console.log(index);
+};
+
+
+</script>
+</body>
+</html>

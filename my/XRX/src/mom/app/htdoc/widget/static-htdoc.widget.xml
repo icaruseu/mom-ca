@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/static-htdoc</xrx:id>
+  <xrx:title>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>false</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <style type="text/css">
+
+/* 
+*
+*   Link to the htdoc editor
+*
+*/  
+#dwidget .edit-link{{
+  font-size:11px;
+}}
+
+#dwidget .edit-link *{{
+  color:rgb(114,133,108);
+  font-size:11px;
+}}
+
+#static-htdoc{{
+  margin-top:40px;
+  margin-right:100px;
+}}
+
+    </style>
+  </xrx:csss>
+  <xrx:view>
+    {
+    let $htdoc-entry := htdoc:get($xrx:resolver/xrx:atomid/text())
+    let $htdoc-title := htdoc:title($htdoc-entry)/text()
+    let $htdoc-atomid := $htdoc-entry/atom:id/text()
+    return
+    <div data-demoid="15fd3f88-9076-4f89-ac69-451c8a879482" id="dwidget">
+      <div class="h2" data-demoid="85dca95c-0436-472a-9a16-39d9fee0a2d7">
+        <span>{ $htdoc-title }  </span>
+        <xrx:auth>
+          <xrx:rules>
+            <xrx:rule>
+              <xrx:user/>
+              <xrx:role>html-author</xrx:role>
+            </xrx:rule>
+          </xrx:rules> 
+          <xrx:true>
+            <a class="edit-link" href="{ conf:param('request-root') }edit-htdoc/?atomid={ $htdoc-atomid }">
+              <span>[</span>
+              <xrx:i18n>
+               <xrx:key>edit</xrx:key>
+               <xrx:default>Edit</xrx:default>
+              </xrx:i18n>
+              <span>]</span>
+            </a> 
+          </xrx:true>
+          <xrx:false>
+           <span/>
+          </xrx:false>
+        </xrx:auth>
+      </div>
+      <div data-demoid="6510896b-b89e-4e3a-9619-d8aedf0f52f0" id="static-htdoc">
+        <div data-demoid="1e188300-b50c-491f-83c0-5205e2f4d3a7" id="inner-static-htdoc">
+          <div data-demoid="6021b0a6-683f-4f74-8eb9-433584f4088e">
+           { htdoc:process($htdoc-entry) }
+          </div>
+          <br/>
+          <br/>
+          <!-- xrx:subwidget>tag:itineranova.be,2011:/core/widget/last-update-info</xrx:subwidget-->
+        </div>
+      </div>
+    </div>
+    }
+  </xrx:view>
+</xrx:widget>

@@ -1,0 +1,198 @@
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx"
+  xmlns:ead="urn:isbn:1-931666-22-9">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/xml-transform</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key></xrx:key>
+      <xrx:default></xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle />
+  <xrx:description />
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:variables>
+    <!-- request context -->
+    <xrx:variable>
+      <xrx:name>$context</xrx:name>
+      <xrx:expression>$data//*:context/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$archid</xrx:name>
+      <xrx:expression>if($context= 'fond') then $data//*:archid/text() else ''</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$fondid</xrx:name>
+      <xrx:expression>if($context= 'fond') then $data//*:fondid/text() else ''</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$collectionid</xrx:name>
+      <xrx:expression>if($context= 'collection') then $data//*:collectionid/text() else ''</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$xsltid</xrx:name>
+      <xrx:expression>$data//*:xsltid/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$type</xrx:name>
+      <xrx:expression>$data//*:type/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$uri-tokens</xrx:name>
+      <xrx:expression>if($context = 'fond') then ($archid, $fondid) else $collectionid</xrx:expression>
+    </xrx:variable>
+    <!-- file info -->
+    <xrx:variable>
+      <xrx:name>$fileuri</xrx:name>
+      <xrx:expression>xmldb:decode($data//*:fileuri/text())</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$url</xrx:name>
+      <xrx:expression>xs:anyURI(concat('http://localhost:', conf:param('jetty-port'), $fileuri))</xrx:expression>
+    </xrx:variable>
+    <!-- import util -->
+    <xrx:variable>
+      <xrx:name>$import-util-base-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('charter', $uri-tokens, 'import.util')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$import-util-base-collection-path</xrx:name>
+      <xrx:expression>metadata:base-collection-path('charter', $uri-tokens, 'import.util')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$import-util-feed</xrx:name>
+      <xrx:expression>metadata:feed('charter', $uri-tokens, 'import.util')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$cei-entryname</xrx:name>
+      <xrx:expression>concat(if($context = 'fond') then $fondid else $collectionid, '.', $chimport:CEI, '.xml')</xrx:expression>
+    </xrx:variable>
+    <!-- transform data -->
+    <xrx:variable>
+      <xrx:name>$data-as-xml</xrx:name>
+      <xrx:expression>doc($url)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$default-stylesheet</xrx:name>
+      <xrx:expression>$xrx:db-base-collection/xsl:stylesheet[@id=$xsltid]</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$stylesheet</xrx:name>
+      <xrx:expression>if($type = $chimport:XML) then (doc(concat($import-util-base-collection-path, 'xml2cei.xml')), $default-stylesheet)[1] else $default-stylesheet</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$data-transformed</xrx:name>
+      <xrx:expression>chimport:transform($data-as-xml, $stylesheet)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$transformation-success</xrx:name>
+      <xrx:expression>if(exists($data-transformed/self::*:error)) then false() else true()</xrx:expression>
+    </xrx:variable>
+    <!-- validate transformed CEI -->
+    <xrx:variable>
+      <xrx:name>$clear-grammar-chache</xrx:name>
+      <xrx:expression>validation:clear-grammar-cache()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$schema</xrx:name>
+      <xrx:expression>$xrx:db-base-collection/xs:schema[@id='cei']</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$validation-report</xrx:name>
+      <xrx:expression>data:validate($data-transformed, $schema)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$is-valid</xrx:name>
+      <xrx:expression>if($validation-report//status[.='valid']) then true() else false()</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:translateflag>true</xrx:translateflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:body>
+    {
+    let $optimized-validation-report := 
+      <report xmlns="">
+        { $validation-report//*:status }
+        { $validation-report//*:namespace }
+        { $validation-report//*:duration }
+        { ($validation-report//*:message)[position() = 1 to 50] }
+      </report>
+    let $save := 
+      if($transformation-success) then 
+        atom:POST($import-util-feed, $cei-entryname, $data-transformed) 
+      else
+        atom:POST($import-util-feed, $cei-entryname, <error><xrx:i18n><xrx:key>xslt-not-valid-message</xrx:key><xrx:default>XSLT script is not valid.</xrx:default></xrx:i18n></error>)
+
+    return
+    if(not($transformation-success)) then
+    <xrx:response status="-1">
+      <xrx:message>
+        <xrx:i18n>
+          <xrx:key>xslt-not-valid-message</xrx:key>
+          <xrx:default>XSLT script is not valid.</xrx:default>
+        </xrx:i18n>
+      </xrx:message>
+      <xrx:icon>{ conf:param('request-root') }dialog-warning.png</xrx:icon>
+      <xrx:report>
+        <report>
+          <message>
+            <xrx:i18n>
+              <xrx:key>xslt-not-valid-message</xrx:key>
+              <xrx:default>XSLT script is not valid.</xrx:default>
+            </xrx:i18n>: { $data-transformed/self::*:error/text() }
+          </message>
+        </report>
+      </xrx:report>
+    </xrx:response>    
+    else if($is-valid) then
+    <xrx:response status="1">
+      <xrx:message>
+        <xrx:i18n>
+          <xrx:key>file-is-valid-message</xrx:key>
+          <xrx:default>File is valid.</xrx:default>
+        </xrx:i18n>
+      </xrx:message>
+      <xrx:icon>{ conf:param('request-root') }face-smile.png</xrx:icon>
+      <xrx:report>{ $optimized-validation-report }</xrx:report>
+    </xrx:response>
+    else
+    <xrx:response status="-1">
+      <xrx:message>
+        <xrx:i18n>
+          <xrx:key>file-not-valid-message</xrx:key>
+          <xrx:default>File is not valid.</xrx:default>
+        </xrx:i18n>
+      </xrx:message>
+      <xrx:icon>{ conf:param('request-root') }dialog-warning.png</xrx:icon>
+      <xrx:report>{ $optimized-validation-report }</xrx:report>
+    </xrx:response> 
+    }
+  </xrx:body>
+</xrx:service>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/my-collections</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>my-collections</xrx:key>
+      <xrx:default>My Collections</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>
+    <xrx:variable>
+      <xrx:name>$mycollections-base-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('mycollection', 'private')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$my-collection-entries</xrx:name>
+      <xrx:expression>$mycollections-base-collection/atom:entry</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>false</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <style type="text/css">
+
+#dmy-collections .heading {{
+	position:relative;
+	float:left;
+	margin-top:20px;
+	margin-bottom:10px;
+	width:100%;
+}}
+#dmy-collections .heading *{{
+  font-size:1.2em;
+  font-weight:bold;
+}}    
+    </style>
+  </xrx:csss>
+  <xrx:view>
+    <div data-demoid="bed67d1f-6e67-4e2e-ac78-fdc41196cec9" id="dmy-collections">
+			<div class="h2" data-demoid="4f97035f-08d5-4f85-9aa4-a6d7ab1b0016">
+			  <xrx:i18n>
+			    <xrx:key>my-collections-preview</xrx:key>
+			    <xrx:default>MyCollections (Preview)</xrx:default>
+			  </xrx:i18n>
+			</div>
+			<div data-demoid="e5513aa4-90ef-4ea4-996a-9d6aa29a6d33" id="breadcrumb">
+				<a href="{ conf:param('request-root') }collections">
+					<xrx:i18n>
+						<xrx:key>collections</xrx:key>
+						<xrx:default>Collections</xrx:default>
+					</xrx:i18n>
+				</a>
+				<span> &gt; </span>
+				<a href="{ conf:param('request-root') }my-collections">
+				  <xrx:i18n>
+				    <xrx:key>my-collections-preview</xrx:key>
+				    <xrx:default>MyCollections (Preview)</xrx:default>
+				  </xrx:i18n>
+				</a>
+			</div>
+			<xrx:auth>
+			  <xrx:rules>
+			    <xrx:rule>
+			      <xrx:user/>
+			      <xrx:dbgroup>atom</xrx:dbgroup>
+			    </xrx:rule>
+			  </xrx:rules>
+			  <xrx:true>
+			    <div data-demoid="d27b70bf-2c5f-4c6e-aa69-7725995b66f8">
+			      <div class="heading" data-demoid="a522d557-e54b-4034-b2a8-b78ca5c28863">
+			        <span><xrx:i18n>
+				          <xrx:key>owned-by-me</xrx:key>
+				          <xrx:default>Owned by me</xrx:default>
+				        </xrx:i18n>:</span>
+			      </div>
+				    <ul class="nostyle">
+				    {
+				    for $entry in $my-collection-entries
+				    let $title := $entry//cei:titleStmt/cei:title/text()
+				    let $key := mycollection:key($entry)
+				    order by $title
+				    return
+				    <li><a href="{ conf:param('request-root') }{ $key }/my-collection">{ $title }</a></li>
+				    }
+				    </ul>
+			      <div class="heading" data-demoid="d33a7e14-8e41-4972-8ad5-9a65e3c043dc">
+			        <span><xrx:i18n>
+				          <xrx:key>shared-with-me</xrx:key>
+				          <xrx:default>Shared with me</xrx:default>
+				        </xrx:i18n>:</span>
+			      </div>
+				  </div>
+			  </xrx:true>
+			  <xrx:false>
+          <div data-demoid="9369fe5e-fea5-4d14-a3c8-b878ca742003">
+            <xrx:i18n>
+              <xrx:key>protected-page-message</xrx:key>
+              <xrx:default>Protected page. Please login first.</xrx:default>
+            </xrx:i18n>
+            <xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/login2</xrx:subwidget>
+          </div>
+			  </xrx:false>
+			</xrx:auth>
+    </div>
+  </xrx:view>
+</xrx:widget>

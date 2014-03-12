@@ -1,0 +1,113 @@
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx">
+    <xrx:id>tag:www.monasterium.net,2011:/mom/service/edit-DataProvider</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key/>
+            <xrx:default/>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:subtitle/>
+    <xrx:description/>
+    <xrx:author>andre.streicher@uni-koeln.de</xrx:author>
+    <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+    <xrx:init>
+        <xrx:processor>
+            <xrx:translateflag>false</xrx:translateflag>
+        </xrx:processor>
+    </xrx:init>
+    <xrx:body>
+	  {
+	  (: extract parameters :)
+	  let $type := request:get-parameter("type","0")
+	  let $harvester := request:get-parameter("harvester","0")
+	  (: get context informations :)
+	  let $archive-or-collection := $xrx:tokenized-uri[1]
+	  let $object-id := $xrx:tokenized-uri[2]
+	  let $fond-id := 
+	  			if($archive-or-collection = 'archive' and $harvester = '0') then
+	               $xrx:tokenized-uri[3]
+	           	else()
+	  let $oai-path := 
+	  				if($archive-or-collection = 'archive') then
+	  					concat('metadata.archive.public/', xmldb:encode($object-id), '/')
+	  			    else
+	  			    	concat('metadata.collection.public/', xmldb:encode($object-id), '/')
+	  let $resource := xs:string('oai.xml')
+	  let $data-provider-overview := 
+	  	if(exists(doc(concat(conf:param('data-db-base-uri'), $oai-path, $resource))//atom:entry))then
+	  			doc(concat(conf:param('data-db-base-uri'), $oai-path, $resource))//atom:entry
+	  	    else
+	  	    	platform-oai:create-file(xmldb:encode($object-id), $archive-or-collection)
+	  (: edit the status of DataProvider :)
+	  let $edit :=
+	           if($type = 'enable')then
+	               if($archive-or-collection = 'archive') then
+	               	   atom:POST(concat('/', $oai-path), $resource, platform-oai:enable-fond($data-provider-overview, xmldb:encode($fond-id)))
+	               else
+	               	   atom:POST(concat('/', $oai-path), $resource, $data-provider-overview)
+	           else if ($type = 'disable')then 
+	               if($archive-or-collection = 'archive') then
+	               	   atom:POST(concat('/', $oai-path), $resource, platform-oai:update-fond($data-provider-overview, xmldb:encode($fond-id), 'disable'))
+	               else
+	               	   atom:POST(concat('/', $oai-path), $resource, platform-oai:update-collection($data-provider-overview, 'disable'))
+	           else if ($type = 'add-harvester')then 
+	           		atom:POST(concat('/', $oai-path), $resource, platform-oai:add-harvester($data-provider-overview, $archive-or-collection, $harvester))
+	           else
+	           		atom:POST(concat('/', $oai-path), $resource, platform-oai:remove-harvester($data-provider-overview, $harvester))
+	           		   
+	  (: return value for JS- function :)
+	  let $return-value :=
+	           if($type = 'enable')then
+	               xs:string('true')
+	           else if($type = 'disable')then
+	               if($archive-or-collection = 'archive') then
+	               	   platform-oai:check-provider($data-provider-overview)
+	               else 
+	                   xs:string('false')
+	           else if($type = 'add-harvester')then
+	           		  <div id="{ $harvester }">
+		                   	<span style="position:relative;top:3px;float:left;">‣ { $harvester }</span>
+	           		  		<div class="button" style="position:relative;left:3px;float:left;" onClick="removeHarvester('{ $harvester }', '{ $archive-or-collection }')">-</div>
+	           		  		<br/>
+    				   		<br/>
+	                   </div>
+    		   else
+    		   	   if(not(platform-oai:check-harvester($data-provider-overview)))then
+    		   			if($archive-or-collection = 'archive')then
+    		   				let $resource-IDs := platform-oai:get-fonds($data-provider-overview, $object-id)
+	    		   			let $disable := 
+	    		   						for $resource-ID in $resource-IDs
+	    		   							return
+	    		   								atom:POST(concat('/', $oai-path), $resource, platform-oai:update-fond($data-provider-overview, xmldb:encode($resource-ID), 'disable'))
+	    		   			return
+	    		   				xs:string('false')
+	    		   		else
+	    		   			let $disable := atom:POST(concat('/', $oai-path), $resource, platform-oai:update-collection($data-provider-overview, 'disable'))
+	    		   			return
+	    		   			xs:string('false')
+    		   		else
+	    		   		xs:string('true')
+	  return
+	       $return-value
+	  }
+	</xrx:body>
+</xrx:service>

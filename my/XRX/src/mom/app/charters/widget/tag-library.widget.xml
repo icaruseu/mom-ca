@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/tag-library</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more
+lenient towards the inclusion of components into other systems, once
+it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>
+    <!-- request parameters -->
+    <xrx:variable>
+      <xrx:name>$wtag-library:schemaid</xrx:name>
+      <xrx:expression>request:get-parameter('schemaid', '')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wtag-library:element</xrx:name>
+      <xrx:expression>request:get-parameter('element', '')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wtag-library:attribute</xrx:name>
+      <xrx:expression>request:get-parameter('attribute', '')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wtag-library:label</xrx:name>
+      <xrx:expression>request:get-parameter('label', '')</xrx:expression>
+    </xrx:variable>
+    <!-- schema -->
+    <xrx:variable>
+      <xrx:name>$wtag-library:schema</xrx:name>
+      <xrx:expression>$xrx:db-base-collection/xs:schema[@id=$wtag-library:schemaid]</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wtag-library:element-documentation-element</xrx:name>
+      <xrx:expression>$wtag-library:schema/descendant::xs:element[@name=$wtag-library:element]/descendant::xs:documentation</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wtag-library:element-documentation</xrx:name>
+      <xrx:expression>($wtag-library:element-documentation-element/self::*[@xml:lang=$xrx:lang]/text(),$wtag-library:element-documentation-element/self::*[@xml:lang='deu']/text())[1]</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wtag-library:attribute-documentation-element</xrx:name>
+      <xrx:expression>$wtag-library:schema/descendant::xs:attribute[@name=$wtag-library:attribute]/descendant::xs:documentation</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wtag-library:attribute-documentation</xrx:name>
+      <xrx:expression>($wtag-library:attribute-documentation-element/self::*[@xml:lang=$xrx:lang]/text(),$wtag-library:attribute-documentation-element/self::*[@xml:lang='deu']/text())[1]</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:xformsflag>false</xrx:xformsflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <style type="text/css"/>
+  </xrx:csss>
+  <xrx:view>
+    <div data-demoid="42b3790d-2778-444e-abb0-dd92bc6b7774" id="dtag-library">
+      <div class="h2" data-demoid="5d29d98e-eb94-49d3-a320-0600752a0398">
+        <xrx:i18n>
+          <xrx:key>tag-library</xrx:key>
+          <xrx:default>Tag library</xrx:default>
+        </xrx:i18n>
+        <span>: { xmldb:decode($wtag-library:label) }</span>
+      </div>
+      {
+      if($wtag-library:element != '') then
+      <div data-demoid="dda36a0a-d65b-4328-9fae-18df1767a1e6">
+        <h1>
+          <xrx:i18n>
+            <xrx:key>element</xrx:key>
+            <xrx:default>Element</xrx:default>
+          </xrx:i18n>
+          <span>: &lt;{ $wtag-library:element }&gt;</span>
+        </h1>
+        <h2>
+          <xrx:i18n>
+            <xrx:key>description</xrx:key>
+            <xrx:default>Description</xrx:default>
+          </xrx:i18n>
+          <span>:</span>
+        </h2>
+        { $wtag-library:element-documentation }
+        <br/>
+        <br/>
+        <h2>May contain:</h2>
+        <ul class="nostyle">
+        {
+          for $element in xsd:child-element-names($wtag-library:element, (), $wtag-library:schema)
+          order by $element
+          return
+          <li><a href="{ conf:param('request-root') }tag-library?schemaid={ $wtag-library:schemaid }&amp;element={ $element }&amp;label={ $wtag-library:label }">&lt;{ $element }&gt;</a></li>
+        }
+        </ul>
+        <br/>
+        <br/>
+        <h2>
+          <xrx:i18n>
+            <xrx:key>may-occur-within</xrx:key>
+            <xrx:default>May occur within</xrx:default>
+          </xrx:i18n>
+          <span>:</span>
+        </h2>
+        <ul class="nostyle">
+        {
+          for $element in xsd:parent-element-names($wtag-library:element, (), $wtag-library:schema)
+          order by $element
+          return
+          <li><a href="{ conf:param('request-root') }tag-library?schemaid={ $wtag-library:schemaid }&amp;element={ $element }&amp;label={ $wtag-library:label }">&lt;{ $element }&gt;</a></li>
+        }
+        </ul>
+        <br/>
+        <br/>
+        <h2>
+          <xrx:i18n>
+            <xrx:key>attributes</xrx:key>
+            <xrx:default>Attributes</xrx:default>
+          </xrx:i18n>
+          <span>:</span>
+        </h2>
+        <ul class="nostyle">
+        {
+          for $attribute in xsd:attribute-names($wtag-library:element, (), $wtag-library:schema)
+          order by $attribute
+          return
+          <li><a href="{ conf:param('request-root') }tag-library?schemaid={ $wtag-library:schemaid }&amp;attribute={ $attribute }&amp;label={ $wtag-library:label }">{ $attribute }</a></li>      
+        }
+        </ul>
+      </div>
+      else
+      <div data-demoid="dfaa504c-6227-435d-92da-bcf46b0514fa">
+        <h1>
+          <xrx:i18n>
+            <xrx:key>attribute</xrx:key>
+            <xrx:default>Attribute</xrx:default>
+          </xrx:i18n>
+          <span>: { $wtag-library:attribute }</span>
+        </h1>
+        <h2>
+          <xrx:i18n>
+            <xrx:key>description</xrx:key>
+            <xrx:default>Description</xrx:default>
+          </xrx:i18n>
+          <span>:</span>
+        </h2>
+        { $wtag-library:attribute-documentation }
+        <br/>
+        <br/>
+        <h2>
+          <xrx:i18n>
+            <xrx:key>may-occur-within</xrx:key>
+            <xrx:default>May occur within</xrx:default>
+          </xrx:i18n>
+          <span>:</span>
+        </h2>
+        <ul class="nostyle">
+        {
+          for $element in xsd:parent-element-names-of-attribute($wtag-library:attribute, (), $wtag-library:schema)
+          order by $element
+          return
+          <li><a href="{ conf:param('request-root') }tag-library?schemaid={ $wtag-library:schemaid }&amp;element={ $element }&amp;label={ $wtag-library:label }">&lt;{ $element }&gt;</a></li>
+        }
+        </ul>
+        <br/>
+        <br/>
+      </div>
+      }
+    </div>
+  </xrx:view>
+</xrx:widget>

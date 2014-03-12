@@ -1,0 +1,720 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+    <xrx:id>tag:www.monasterium.net,2011:/mom/widget/annotations</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key>annotations</xrx:key>
+            <xrx:default>Annotations</xrx:default>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:subtitle/>
+    <xrx:description/>
+    <xrx:author>andre.streicher@uni-koeln.de</xrx:author>
+    <xrx:licence/>
+    <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/desktop</xrx:portal>
+    <xrx:init>
+        <xrx:processor>
+            <xrx:xformsflag>true</xrx:xformsflag>
+        </xrx:processor>
+    </xrx:init>
+    <xrx:csss>
+        <xrx:css>tag:www.monasterium.net,2011:/mom/css/charter-preview</xrx:css>
+        <link href="{ conf:param('request-root') }jquery/themes/base/jquery.ui.all.css" rel="stylesheet"/>
+        <style type="text/css">
+        
+        #annolist{{
+            position:relative;
+        }}
+        
+        #loadtext{{
+            display: none;
+            left: -250px;
+            top:30px;
+            position:relative;
+            color:#CAC6C6;
+            font-weight:bold;
+        }}
+        
+        #annoleft{{
+            display: inline;
+        }}
+        
+        #annoright{{
+            display: inline;
+        }}
+        
+        #viewleft{{
+            display: none;
+        }}
+        
+        #viewright{{
+            display: none;
+        }}
+        
+        #anno{{
+            display: none;
+        }}
+        
+        .annos{{
+            position: relative;
+            width: 100px;
+            text-align: center;
+            vertical-align: middle;
+        }}
+        
+        .labels{{
+            position: relative;
+            text-align:center;
+            color:#999999;
+            font-weight:bold;
+        }}
+        
+        .autorlabels{{
+            position: relative;
+            color:#999999;
+            font-weight:bold;
+            left: 10px;
+        }}
+        
+        .cropviewport{{ 
+            position: relative;
+            overflow:auto;
+            border:solid rgb(240,243,226) 1px;
+            margin:0px auto; 
+            vertical-align: bottom; 
+        }}
+        
+        .annotable{{
+            position: relative;
+            top: 10px;
+            border:solid rgb(240,243,226) 1px;
+            
+            width: 800px;
+        }}
+        
+        .entry{{
+            position: relative;
+            margin-top: 50px;
+        }}
+        
+        .cropimg{{
+            position: relative;
+            display: block;   
+            margin:0px auto;
+        }}
+        
+        #navcontainer{{
+            position: relative;
+        }}
+        
+        #navcontainer ul{{
+            list-style: none outside none;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            z-index: 597;
+            
+            }}
+
+        #navcontainer ul li {{
+            float: left;
+            line-height: 1.3em;
+            vertical-align: middle;
+            background-color: #F6F6F6;
+            border-color: #FFFFFF #D9D9D9 #D9D9D9;
+            border-style: solid;
+            border-width: 1px 1px 1px 0;
+            color: #000000;
+            padding: 7px 10px;
+            }}
+
+        #navcontainer ul li:hover{{
+            cursor: default;
+            position: relative;
+            z-index: 599;
+            background-color: #EEEEEE;
+            color: #000000;
+            }}
+            
+        #navcontainer ul li:hover ul{{
+            visibility: visible;
+            }}
+            
+        #navcontainer ul li ul {{
+            left: 0;
+            position: absolute;
+            top: 33px;
+            visibility: hidden;
+            z-index: 598;
+            padding-right: 15px;
+            float:none;
+            
+            }}
+         
+          #navcontainer ul li ul li {{
+            margin: 0;
+            width: 113px;
+            }}
+            
+          #active:hover ul li{{
+            visibility: visible;
+            }}
+            
+          #active ul li{{
+            visibility: hidden;
+            }}
+            
+          #navcontainer ul li ul li ul{{
+            left: 100%;
+            top: -1px;
+            visibility: hidden;
+            }}
+           
+          .button {{
+            float: left;
+            line-height: 1.3em;
+            vertical-align: middle;
+            background-color: #F6F6F6;
+            border-color: #FFFFFF #D9D9D9 #D9D9D9;
+            border-style: solid;
+            border-width: 3px 3px 3px 0;
+            color: #000000; 
+            padding: 7px 10px;
+            -moz-border-radius:10px; /* Firefox */
+            -webkit-border-radius:10px; /* Safari, Chrome */
+            -khtml-border-radius:10px; /* Konqueror */
+            border-radius:10px; /* CSS3 */
+          }}
+          
+          .button:hover{{
+            cursor: default;
+            position: relative;
+            z-index: 599;
+            background-color: #EEEEEE;
+            color: #000000;
+          }}
+          
+          #compare{{
+            display: none;
+            position: relative;
+            width: 700px;
+            height: 900px;                
+            top: -150px;
+          }}
+          
+         #left-side{{
+            position: absolute;
+            float:left;
+            top:200px;
+            left: 50px;
+         }}   
+
+        #right-side{{
+            position: absolute;
+            float:left;
+            left: 300px;
+            top:200px;
+        }}
+        
+        .innerviewport{{
+            display:none;
+            position:relative;
+            width: 180px;
+            height: 150px;
+            text-align:center;
+            vertical-align:middle;
+        }}
+        
+        .outerviewport{{
+            display:none;
+            position:absolute;
+            overflow:auto;
+            width: 180px;
+            height: 150px;
+            top:35px;
+            left:-0px;
+            vertical-align:middle;
+        }}
+        
+        .arrowleft{{
+            display:none;
+            position:absolute;
+            top: 90px;
+            left:-35px;
+            
+        }}
+        
+        .arrowright{{
+            display:none;
+            position:absolute;
+            top: 91px;
+            left:185px;
+        }}
+        
+        img{{ 
+            vertical-align:middle;           
+        }}
+        
+        .hiddenButton{{
+            display: none;
+            height: 20px;
+            float:left;
+            position: relative;
+            background-color: #F6F6F6;
+            border-color: #FFFFFF #D9D9D9 #D9D9D9;
+            border-style: solid;
+            border-width: 3px 3px 3px 0;
+            color: #000000; 
+            padding: 7px 10px;
+            -moz-border-radius:10px; /* Firefox */
+            -webkit-border-radius:10px; /* Safari, Chrome */
+            -khtml-border-radius:10px; /* Konqueror */
+            border-radius:10px; /* CSS3 */
+          }}
+          
+        .hiddenButton:hover{{
+            cursor: default;
+            z-index: 599;
+            background-color: #EEEEEE;
+            color: #000000;
+          }}
+          
+        #zoomerleft{{
+            display: none;
+            top: 172px;
+            left: 50px;
+            bottom: 20px;
+            height: 20px;
+            width: 100px;
+            position: absolute;
+          }}
+          
+        #zoomerright{{
+            display: none;
+            top: 172px;
+            left: 50px;
+            bottom: 20px;
+            height: 20px;
+            width: 100px;
+            position: absolute;
+          }}
+          
+        .zoomer{{
+            height: 20px;
+            position: relative;
+        }}
+        
+        .choose{{
+            position: relative;
+            left: 20px;
+        }}
+        
+        #basic{{
+            position:relative;
+            float:left;
+        }}
+        
+        #help{{
+            position: absolute;
+            float:left;
+            width: 700px;
+            color:#999999;
+            font-weight:bold;
+            top:160px;
+            left: 10px;
+        }}
+        
+        #editor{{
+            display: none;
+            position: absolute;
+            float:left;
+            top: 480px;
+            left: 145px;
+        }}
+        
+        .editorimg{{
+            position: absolute;
+            width: 150px;
+            height: 120px;
+            top:0px;
+            left:0px;
+        }}
+          
+          .slider-contrast{{
+            position:absolute;
+            margin:10px;
+            width:150px;
+          }}
+
+        </style>
+    </xrx:csss>
+    <xrx:jss>
+        <script src="{ conf:param('request-root') }jquery.min.js" type="text/javascript"/>
+        <script src="{ conf:param('request-root') }jquery.mousewheel.js" type="text/javascript"/>
+        <script src="{ conf:param('request-root') }jquery.ui.core.js" type="text/javascript"/>
+        <script src="{ conf:param('request-root') }jquery.ui.widget.js" type="text/javascript"/>
+        <script src="{ conf:param('request-root') }jquery.ui.mouse.js" type="text/javascript"/>
+        <script src="{ conf:param('request-root') }jquery.ui.slider.js" type="text/javascript"/>
+        <script src="{ conf:param('request-root') }jquery.Jcrop.js" type="text/javascript"/>
+        <script src="{ conf:param('request-root') }pixastic.js" type="text/javascript"/>
+        <script src="{ conf:param('request-root') }utils.js" type="text/javascript"/>
+        <script type="text/javascript">
+       $(function() {{
+        $("#slider-contrast").slider({{
+          slide: function() {{
+          $("#value-contrast").val( (($("#slider-contrast").slider("value") / 100 * 4)-1).toFixed(1));
+          }}, value : 25
+        }});
+        
+        $("#slider-brightness").slider({{
+      slide: function() {{
+        $("#value-brightness").val(Math.round($("#slider-brightness").slider("value") / 100 * 300) - 150);
+      }}, value : 50
+         }});
+         
+          $("#slider-transparent").slider({{
+      slide: function() {{
+           var index = document.getElementById("translist").selectedIndex;
+                 var id = document.getElementById("translist").options[index].text;
+                 if (id == "")
+                    {{
+                    alert('Please select an image in the drop-down list to adjust the changes!');
+                    }}
+                 else
+                    {{
+                    imgID = "#"+id;
+                    IEopacity = Math.round($("#slider-transparent").slider("value"));
+                    opacity = Math.round($("#slider-transparent").slider("value"))/100;
+                    string = "alpha(opacity="+IEopacity+");";
+                    $(imgID).css('filter', string);
+                    $(imgID).css('opacity', opacity);
+                    }}
+      }}, value : 100, orientation: "vertical", min: 0, max: 100
+      }});
+      }});
+        </script>
+    </xrx:jss>
+    <xrx:model>
+    { bookmark:model(conf:param('request-root')) }
+    { publication:model(conf:param('request-root')) }
+  </xrx:model>
+    <xrx:view>
+        <div data-demoid="648f9ce1-d86e-4e88-aefe-e6c5bfced5b8">
+            <div data-demoid="2a45c3ca-fb6b-4664-9844-6c2482d3ebe2" id="basic">
+                <h2 style="position:relative;">
+                    <xrx:i18n>
+                        <xrx:key>annotations</xrx:key>
+                        <xrx:default>Annotations</xrx:default>
+                    </xrx:i18n>
+                </h2>
+                <div data-demoid="4fe6953b-e69b-49cb-81f3-c734b08e7a5a" id="navcontainer">
+                    <ul id="navlist">
+                        <li onClick="$('#annolist').css('display', 'block');$('#compare').css('display', 'none');">
+                            <xrx:i18n>
+                                <xrx:key>list-annotations</xrx:key>
+                                <xrx:default>List Annotations</xrx:default>
+                            </xrx:i18n>
+                            <ul>
+                                <li id="active">
+                                    <xrx:i18n>
+                                        <xrx:key>sort-by</xrx:key>
+                                        <xrx:default>sort by</xrx:default>
+                                    </xrx:i18n>             &gt;
+                                <ul id="dropdown">
+                                        <li onClick="$('#annolist').css('display', 'block');$('#autor').css('display', 'block');$('#anno').css('display', 'none');$('#compare').css('display', 'none');">
+                                            <xrx:i18n>
+                                                <xrx:key>authors</xrx:key>
+                                                <xrx:default>Authors</xrx:default>
+                                            </xrx:i18n>
+                                        </li>
+                                        <li onClick="$('#annolist').css('display', 'block');$('#autor').css('display', 'none');$('#anno').css('display', 'block');$('#compare').css('display', 'none');">
+                                            <xrx:i18n>
+                                                <xrx:key>annotations</xrx:key>
+                                                <xrx:default>Annotations</xrx:default>
+                                            </xrx:i18n>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li onClick="$('#annolist').css('display', 'none');$('#compare').css('display', 'block');">
+                            <xrx:i18n>
+                                <xrx:key>writing-analysis</xrx:key>
+                                <xrx:default>Writing analysis</xrx:default>
+                            </xrx:i18n>
+                        </li>
+                    </ul>
+                </div>
+                <br/>
+                <br/>
+                <div data-demoid="77ddce34-68d9-41a4-a2e9-35f4991c6b61" id="loadtext">text</div>
+                <div data-demoid="c63ed85a-b1e8-48db-b47a-2bffb8c04822" id="annolist">
+                    <div data-demoid="706e484a-a6d2-4f3a-94f7-b6a6c6cc17f9" id="autor" style="postion:relative;">
+                    {
+                    let $cropping := doc(concat(conf:param('xrx-user-db-base-uri'), '/', $xrx:user-id, '.xml'))//*:cropping
+                    let $autors := distinct-values($cropping//@*:autor)
+                    for $autor in $autors
+                    return
+                    <div class="entry" data-demoid="199cdbe4-85cc-4c83-a338-8434fae3faec">
+                            <div class="autorlabels" data-demoid="e99ffe30-2366-4036-8691-c765009beab5">
+                                <xrx:i18n>
+                                    <xrx:key>author</xrx:key>
+                                    <xrx:default>Author</xrx:default>
+                                </xrx:i18n>: {$autor}</div>
+                        {
+                        let $annos := $cropping//*:cropelement[@*:autor=$autor]/@*:annotation
+                        for $anno in $annos
+                        return
+                        <div class="annotable" data-demoid="64faaa78-925d-4c63-901b-df29266e8031" style="postion:relative;">
+                                <table>
+                                    <tr>
+                                        <td class="annos">
+                                            <span class="labels">{string($anno)}</span>
+                                        </td>
+                                    {
+                                    let $datas := $cropping//*:cropelement[@*:autor=$autor and @*:annotation=$anno]//*:data
+                                    return
+                                    for $data in $datas
+                                    return
+                                    <td id="autor{$data/@*:id}">
+                                            <div class="cropviewport" data-demoid="f85fc25f-f19c-4f93-9fb2-77b96f397949">
+                                                <a href="{$data/*:url}">
+                                                    <img class="cropimg" src="{$data/*:img}"/>
+                                                </a>
+                                            </div>
+                                            <p class="button" onClick="deleteData('{$data/@*:id}', '{$xrx:user-id}', 'autor')" style="position:relative;left:27px;">
+                                                <xrx:i18n>
+                                                    <xrx:key>delete</xrx:key>
+                                                    <xrx:default>Delete</xrx:default>
+                                                </xrx:i18n>
+                                            </p>
+                                        </td>      
+                                    }
+                                </tr>
+                                </table>
+                            </div>
+                        
+                        }
+                    </div> 
+                    }
+                </div>
+                    <div data-demoid="7e3903e7-8c8a-4f10-a366-37ab7f69c6e5" id="anno">
+                    {
+                    let $cropping := doc(concat(conf:param('xrx-user-db-base-uri'), '/', $xrx:user-id, '.xml'))//*:cropping
+                    let $annos := distinct-values($cropping//@*:annotation)
+                    for $anno in $annos
+                    return
+                    <div class="entry" data-demoid="72c2f5e9-36ce-4947-8b97-cb26f22e2d8c">
+                            <div class="autorlabels" data-demoid="3a1b928c-68ed-4f6f-85ef-c355a2dae5e7">
+                                <xrx:i18n>
+                                    <xrx:key>annotations</xrx:key>
+                                    <xrx:default>Annotations</xrx:default>
+                                </xrx:i18n>: {$anno}</div>
+                        {
+                        let $autors := $cropping//*:cropelement[@*:annotation=$anno]/@*:autor
+                        for $autor in $autors
+                        return
+                        <div class="annotable" data-demoid="4f56387c-e476-434f-a23e-d77bb4671150">
+                                <table>
+                                    <tr>
+                                        <td class="annos">
+                                            <span class="labels">{string($autor)}</span>
+                                        </td>
+                                    {
+                                    let $datas := $cropping//*:cropelement[@*:autor=$autor and @*:annotation=$anno]//*:data
+                                    return
+                                    for $data in $datas
+                                    return
+                                       <td id="anno{$data/@*:id}">
+                                            <div class="cropviewport" data-demoid="5022b163-f7bc-4483-b94c-ef24b7a6e723">
+                                                <a href="{$data/*:url}">
+                                                    <img class="cropimg" src="{$data/*:img}"/>
+                                                </a>
+                                            </div>
+                                            <p class="button" onClick="deleteData('{$data/@*:id}', '{$xrx:user-id}', 'anno')" style="position:relative;left:27px;">
+                                                <xrx:i18n>
+                                                    <xrx:key>delete</xrx:key>
+                                                    <xrx:default>Delete</xrx:default>
+                                                </xrx:i18n>
+                                            </p>
+                                        </td>      
+                                    }
+                                </tr>
+                                </table>
+                            </div>
+                        
+                        }
+                    </div> 
+                    }
+                </div>
+                </div>
+                <div data-demoid="bf1705bd-15c4-4c54-bce4-b90c30484d63" id="compare">
+                    <div data-demoid="1e5af16f-5f1b-41c6-b3de-b7884384b852" id="help">
+                        <div data-demoid="0bbadf17-99ca-4e20-acc9-5f314676fd92" id="helpAutorLeft">
+                            <xrx:i18n>
+                                <xrx:key>please-select-an-autor-in-the-left-dropdown-list</xrx:key>
+                                <xrx:default>Please select an autor in the left Dropdown- list!</xrx:default>
+                            </xrx:i18n>
+                        </div>
+                        <div data-demoid="7446220e-685b-4982-a49c-67ac9be8a79c" id="helpAnnoLeft" style="display:none;">
+                            <xrx:i18n>
+                                <xrx:key>please-select-an-annotation-in-the-left-dropdown-list</xrx:key>
+                                <xrx:default>Please select an annotation in the left Dropdown- list!</xrx:default>
+                            </xrx:i18n>
+                        </div>
+                        <div data-demoid="87285ea4-91d6-4560-952f-eff6fdfee952" id="helpAutorRight" style="display:none;">
+                            <xrx:i18n>
+                                <xrx:key>please-select-an-autor-in-the-right-dropdown-list</xrx:key>
+                                <xrx:default>Please select an autor in the right Dropdown- list!</xrx:default>
+                            </xrx:i18n>
+                        </div>
+                        <div data-demoid="67689305-6b14-4ce7-990d-7b402bd53943" id="helpAnnoRight" style="display:none;">
+                            <xrx:i18n>
+                                <xrx:key>please-select-an-annotation-in-the-right-dropdown-list</xrx:key>
+                                <xrx:default>Please select an annotation in the right Dropdown- list!</xrx:default>
+                            </xrx:i18n>
+                        </div>
+                        <div data-demoid="c0bb2ca3-c3e3-4302-a496-fe87496e778c" id="helpCompare" style="display:none;">
+                            <xrx:i18n>
+                                <xrx:key>now-you-can-compare-the-extracted-images</xrx:key>
+                                <xrx:default>Now you can compare the extracted images! Use the arrow- buttons beside the viewports to switch trough a collection of extracted images!</xrx:default>
+                            </xrx:i18n>
+                        </div>
+                    </div>
+                    <div data-demoid="e9716d08-c843-4441-9d1c-ca5c228b5307" id="left-side">
+                        <select class="choose" id="authorlistleft" name="authorlistleft" onChange="annolist('left', '{$xrx:user-id}')">
+                            <option/>
+                        { 
+                        let $dubautors := doc(concat(conf:param('xrx-user-db-base-uri'), '/', $xrx:user-id, '.xml'))//@autor
+                        let $autors := distinct-values($dubautors)
+                        return
+                        for $autor in $autors
+                        return 
+                        <option>{string($autor)}</option>
+                        }
+                    </select>
+                        <div data-demoid="651d29b9-1fbc-4c2f-8c1d-1ef62e61122b" id="annoleft"/>
+                        <div data-demoid="441b1f8b-00d1-4d60-ac1b-03ebcdef38ab" id="viewleft">
+                            <img class="arrowleft" onClick="changeViewport('left', 'down', '{$xrx:user-id}')" src="{ conf:param('request-root') }arrow-left.png"/>
+                            <img class="arrowright" onClick="changeViewport('left', 'up', '{$xrx:user-id}')" src="{ conf:param('request-root') }arrow-right.png"/>
+                            <div class="outerviewport" data-demoid="08faef04-9fad-40f3-a7cc-20d037ba1589">
+                                <div class="innerviewport" data-demoid="6edd893e-c53c-4af5-8dea-538c65379811" id="viewportleft"/>
+                            </div>
+                            <div data-demoid="782e622a-da4d-47f1-8ff1-6d6b707d0e15" id="zoomerleft">
+                                <p class="hiddenButton" onClick="compareZoom('in', 'left');">
+                                    <img class="zoomer" src="{ conf:param('request-root') }zoom_in.png"/>
+                                </p>
+                                <p class="hiddenButton" onClick="compareZoom('out', 'left');">
+                                    <img class="zoomer" src="{ conf:param('request-root') }zoom_out.png"/>
+                                </p>
+                            </div>
+                            <div data-demoid="62de2b38-9141-415b-8805-bce28b60f15a" style="position:absolute;top: 212px;left:70px;">
+                                <p class="hiddenButton" onClick="loadToEditor('left');">
+                                    <img class="zoomer" src="{ conf:param('request-root') }arrow-load.png"/>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-demoid="8475bff8-96d6-4032-b9fe-010a2128fbc3" id="right-side">
+                        <select class="choose" id="authorlistright" name="authorlistright" onChange="annolist('right', '{$xrx:user-id}')">
+                            <option/>
+                        { 
+                        let $dubautors := doc(concat(conf:param('xrx-user-db-base-uri'), '/', $xrx:user-id, '.xml'))//@autor
+                        let $autors := distinct-values($dubautors)
+                        return
+                        for $autor in $autors
+                        return 
+                        <option>{string($autor)}</option>
+                        }
+                        </select>
+                        <div data-demoid="092dee90-8dda-4dcd-8a1a-4b5ae1962d52" id="annoright"/>
+                        <div data-demoid="be5e1e9f-fa9b-4871-8948-a0861cea6070" id="viewright">
+                            <img class="arrowleft" onClick="changeViewport('right', 'down', '{$xrx:user-id}')" src="{ conf:param('request-root') }arrow-left.png"/>
+                            <img class="arrowright" onClick="changeViewport('right', 'up', '{$xrx:user-id}')" src="{ conf:param('request-root') }arrow-right.png"/>
+                            <div class="outerviewport" data-demoid="f93e7393-d809-447e-9e47-8dca13b94335">
+                                <div class="innerviewport" data-demoid="b1e2fc16-e47c-4d80-85e9-341310a6de53" id="viewportright"/>
+                            </div>
+                            <div data-demoid="6d6a62e5-2403-4b0d-83c2-72dd92039df5" id="zoomerright">
+                                <p class="hiddenButton" onClick="compareZoom('in', 'right');">
+                                    <img class="zoomer" src="{ conf:param('request-root') }zoom_in.png"/>
+                                </p>
+                                <p class="hiddenButton" onClick="compareZoom('out', 'right');">
+                                    <img class="zoomer" src="{ conf:param('request-root') }zoom_out.png"/>
+                                </p>
+                            </div>
+                            <div data-demoid="0f60c53b-2548-4b22-a8a6-88888026e372" style="position:absolute;top: 212px;left:70px;">
+                                <p class="hiddenButton" onClick="loadToEditor('right');">
+                                    <img class="zoomer" src="{ conf:param('request-root') }arrow-load.png"/>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-demoid="1772a22c-9f0b-43b2-9b9c-7e7bc99b23da" id="editor">
+                        <div data-demoid="39e6256e-10f5-4cfe-ae6d-9d8a1d842a54" id="toolbar" style="position:absolute;top:2px;">
+                            <p class="hiddenButton" onClick="$('#BC').css('display', 'block');">
+                                <img class="zoomer" src="{ conf:param('request-root') }contrast.png"/>
+                            </p>
+                        </div>
+                        <div class="outerviewport" data-demoid="7b3c2925-f00c-47be-85b1-d5051a8f9573" style="top:65px;width:250px;height:200px;border:solid rgb(240,243,226) 1px;vertical-align:middle;">
+                            <div class="innerviewport" data-demoid="18466059-b903-4042-8395-48c36acff97a" id="editorviewport" style="width:150px;position:absolute;top:40px;left:55px;vertical-align:middle;"/>
+                        </div>
+                        <div data-demoid="485ff993-0e7c-4c42-87e0-57da53027931" id="transparent" style="display:none;position:absolute;top:80px;left:250px;width:150px;">
+                            <select id="translist" onChange="$('#slider-transparent').slider( 'value','100');" style="position:relative;left:10px;">
+                                <option/>
+                            </select>
+                            <div data-demoid="517f7efc-d203-46b0-8b80-da1c02aa5771" id="slider-transparent" style="position:relative;top:10px;left:40px;"/>
+                        </div>
+                        <div data-demoid="ef6bb9a7-a49d-4d9b-a015-8c3278a0cdc0" id="BC" style="display:none;position:absolute;top:280px;left:-50px;">
+                            <div data-demoid="77a56421-1fc9-48e7-8ac5-cdddff48586d" id="contrast" style="position:absolute;">
+                                <div data-demoid="ceec5888-de68-4b3e-a2ab-a60d383ac042" style="width:150px;">
+                                    <span style="position:relative;float:left;">
+                                        <xrx:i18n>
+                                            <xrx:key>contrast</xrx:key>
+                                            <xrx:default>Contrast</xrx:default>
+                                        </xrx:i18n>:
+                                </span>
+                                    <input id="value-contrast" style="position:relative;top:-3px;left:2px;width:30px;" type="text" value="0"/>
+                                </div>
+                                <div class="slider" data-demoid="201d4b73-1714-4eed-a289-76486d837363" id="slider-contrast"/>
+                            </div>
+                            <div data-demoid="1f798948-c379-4182-a614-4f66084c795c" id="brightness" style="position:absolute;left:200px;">
+                                <div data-demoid="d19167f1-735e-4cf5-82e7-2430912c3555" style="width:150px;">
+                                    <span style="position:relative;float:left;">
+                                        <xrx:i18n>
+                                            <xrx:key>brightness</xrx:key>
+                                            <xrx:default>Brightness</xrx:default>
+                                        </xrx:i18n>:
+                                    </span>
+                                    <input id="value-brightness" style="position:relative;top:-3px;left:2px;width:30px;" type="text" value="0"/>
+                                </div>
+                                <div class="slider" data-demoid="ad5cbb65-44cf-49ac-b1a8-893c42014852" id="slider-brightness"/>
+                            </div>
+                            <div data-demoid="4c1ce8ef-d1b1-48f8-b333-48c40569e0ca" id="editimage" style="position:absolute;top:60px;width:300px;">
+                                <span style="color:#999999;font-weight:bold;top:5px;left:80px;position:absolute;">
+                                    <xrx:i18n>
+                                        <xrx:key>choose-image</xrx:key>
+                                        <xrx:default>Choose image</xrx:default>
+                                    </xrx:i18n>:
+                                </span>
+                                <select id="imagelist" style="position:absolute;left:200px;">
+                                    <option/>
+                                </select>
+                                <p class="hiddenButton" onClick="adjustBC();" style="position:relative;top:3px;left:90px;">
+                                    <xrx:i18n>
+                                        <xrx:key>adjust</xrx:key>
+                                        <xrx:default>Adjust</xrx:default>
+                                    </xrx:i18n>
+                                </p>
+                                <p class="hiddenButton" onClick="reset();" style="position:relative;top:3px;left:90px;">
+                                    <xrx:i18n>
+                                        <xrx:key>reset</xrx:key>
+                                        <xrx:default>Reset</xrx:default>
+                                    </xrx:i18n>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </xrx:view>
+</xrx:widget>

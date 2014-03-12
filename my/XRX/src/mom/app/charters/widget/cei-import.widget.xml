@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/cei-import</xrx:id>
+  <xrx:inherits>tag:www.monasterium.net,2011:/mom/widget/charter-import</xrx:inherits>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:model>
+    <xf:model id="mimport">
+    
+      <xf:instance>
+        <data xmlns="">
+          <cacheid>{ $wcharter-import:cacheid }</cacheid>
+          <processid/>
+          <sessionid/>
+          <fileuri/>
+          <context>{ $wcharter-import:context }</context>
+          <archid>{ if($wcharter-import:context = 'fond') then $wcharter-import:archid else '' }</archid>
+          <fondid>{ if($wcharter-import:context = 'fond') then $wcharter-import:fondid else '' }</fondid>
+          <collectionid>{ $wcharter-import:collectionid }</collectionid>
+          <schemaid>cei</schemaid>
+          <type>{ $chimport:CEI }</type>
+          <upload>
+            <value ready="no"/>
+          </upload>
+        </data>
+      </xf:instance>
+      
+      <xf:instance id="ivalidation-response">
+        <xrx:response status="">
+          <xrx:message/>
+          <xrx:icon/>
+          <xrx:report>
+            <report xmlns="">
+              <status/>
+              <namespace/>
+              <duration/>
+            </report>
+          </xrx:report>
+        </xrx:response>
+      </xf:instance>
+      
+      <xf:instance id="iimport-response">
+        <xrx:response status=""/>
+      </xf:instance>
+      
+      <!-- 
+        submissions
+       -->
+            
+      <xf:submission action="{ $xrx:jetty-request-base-url }service/xml-validate" id="svalidate" instance="ivalidation-response" method="post" replace="instance">
+      </xf:submission>
+     
+      <xf:submission action="{ $xrx:jetty-request-base-url }service/xml-import" id="simport" instance="iimport-response" method="post" replace="instance">
+      </xf:submission>
+      
+      <!-- 
+        binds
+       -->
+              
+      <xf:bind nodeset="upload"> 
+        <xf:bind nodeset="value" type="xs:base64Binary">
+          <xf:bind id="bupload-ready" nodeset="@ready" relevant=". = 'yes'"/>
+        </xf:bind> 
+      </xf:bind>
+      
+      <xf:bind nodeset="fileuri" type="xs:anyURI"/>
+      
+      <xf:bind id="bvstatus" nodeset="instance('ivalidation-response')//status"/>
+      <xf:bind id="bvnamespace" nodeset="instance('ivalidation-response')//namespace"/>
+      <xf:bind id="bvmessage" nodeset="instance('ivalidation-response')//message"/>
+      
+      <xf:action ev:event="xforms-ready">
+        <script type="text/javascript">require(["dojo/dom-construct"], function(domConstruct){{domConstruct.place("bfLoading", "dwizard", "first");}});</script>
+      </xf:action>
+      
+      <!--
+        wizard application logic 
+       -->
+      
+      <xf:instance id="iwizard">
+        <data xmlns="">
+          <success1>false</success1>
+          <success2>false</success2>
+          <success3>false</success3>
+        </data>
+      </xf:instance>
+      
+      <xf:action ev:event="ewizard1-2">
+        <xf:delete nodeset="instance('ivalidation-response')/*"/>
+        <xf:toggle case="cvalidate-charter"/>
+      </xf:action>
+      
+      <xf:action ev:event="ewizard2-1">
+        <xf:load resource="cei-import?reload=true" show="replace"/>
+      </xf:action>
+      
+      <xf:action ev:event="ewizard2-3">
+        <script type="text/javascript">$('#progressbar-import').progressbar( "value", 0 );$('#progressbar-import').progressbarImport( "progress" );</script>
+        <xf:toggle case="cimport-charter"/>
+      </xf:action>
+      
+    </xf:model>
+  </xrx:model>
+  <xrx:view>
+    <div data-demoid="65cc0b98-5dd0-4bae-9ac5-7615d8f7963e" id="dcharter-import">
+      {
+      if($wcharter-import:context = 'fond') then
+      <div class="h2" data-demoid="eb877480-7984-4c37-b6f1-535745952009">
+        <xrx:i18n>
+          <xrx:key>cei-import</xrx:key>
+          <xrx:default>CEI Import</xrx:default>
+        </xrx:i18n>
+        <span>: { $wcharter-import:fond-name } [{ $wcharter-import:fondid }]</span>
+      </div>
+      else
+      <div class="h2" data-demoid="539a7c76-6821-462e-ab79-9304a23314ee">
+        <xrx:i18n>
+          <xrx:key>cei-import</xrx:key>
+          <xrx:default>CEI Import</xrx:default>
+        </xrx:i18n>
+        <span>: { $wcharter-import:collection-name } [{ $wcharter-import:collectionid }]</span>
+      </div>
+      }
+      {
+      if($wcharter-import:context = 'fond') then
+      <div data-demoid="61d7b741-78d1-4c6f-bef9-da67b06926fa">
+        <a href="{ conf:param('request-root') }fonds">
+          <xrx:i18n>
+            <xrx:key>fonds</xrx:key>
+            <xrx:default>Fonds</xrx:default>
+          </xrx:i18n>
+        </a>
+        <span> &gt; </span>
+        <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/archive">{ $charter:rarchiveid }</a>
+        <span> &gt; </span>
+        <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ $charter:rfondid }/fond">{ xmldb:decode($charter:rfondid) }</a>
+        <span> &gt; </span>
+        <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ $charter:rfondid }/import-charters">
+          <xrx:i18n>
+            <xrx:key>import-charters</xrx:key>
+            <xrx:default>Import charters</xrx:default>
+          </xrx:i18n>
+        </a>
+        <span> &gt; </span>
+        <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ $charter:rfondid }/cei-import">
+          <xrx:i18n>
+            <xrx:key>cei-import</xrx:key>
+            <xrx:default>CEI import</xrx:default>
+          </xrx:i18n>
+        </a>
+      </div>
+      else if($wcharter-import:context = 'collection') then
+      <div data-demoid="1e1cdb73-4c75-45e9-84af-2c5623007d68">
+        <a href="{ conf:param('request-root') }collections">
+          <xrx:i18n>
+            <xrx:key>collections</xrx:key>
+            <xrx:default>Collections</xrx:default>
+          </xrx:i18n>
+        </a>
+        <span> &gt; </span>
+        <a href="{ conf:param('request-root') }{ $charter:rcollectionid }/collection">{ xmldb:decode($charter:rcollectionid) }</a>
+        <span> &gt; </span>
+        <a href="import-charters">
+          <xrx:i18n>
+            <xrx:key>import-charters</xrx:key>
+            <xrx:default>Import charters</xrx:default>
+          </xrx:i18n>
+        </a>
+      </div>
+      else()
+      }
+      <xrx:auth>
+        <xrx:rules>
+          <xrx:or>
+            <xrx:rule>
+              <xrx:user/>
+              <xrx:role>metadata-manager</xrx:role>
+            </xrx:rule>
+            <xrx:rule>
+              <xrx:user/>
+              <xrx:community>{ $wcharter-import:archive-atomid }</xrx:community>
+            </xrx:rule>
+          </xrx:or>
+        </xrx:rules>
+        <xrx:true>
+          <xf:group model="mimport">
+            <div data-demoid="7d791452-9809-48e0-8871-c01cc8ad64bb" id="dwizard"><div data-demoid="f38bc70f-61d9-46c4-887a-ad6f1c31c6f5" id="dinner-wizard"><div data-demoid="a7afcb5d-a9f2-4e09-ac5c-e319367c6be2" style="position:absolute; right:0px;"><xrx:resource class="icon" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/MOM</xrx:resource></div><xf:switch>
+              <xf:case id="cupload-charter">
+                <h3>
+                  <span>1. </span>
+                  <xrx:i18n>
+                    <xrx:key>select-file</xrx:key>
+                    <xrx:default>Select a file</xrx:default>
+                  </xrx:i18n>
+                  <span> (</span>
+                  <span>
+                    <xrx:i18n>
+                      <xrx:key>step</xrx:key>
+                      <xrx:default>Step</xrx:default>
+                    </xrx:i18n>
+                    <span> 1 </span>
+                     <xrx:i18n>
+                       <xrx:key>of</xrx:key>
+                       <xrx:default>of</xrx:default>
+                     </xrx:i18n>
+                     <span> 3</span>
+                  </span>
+                  <span>)</span>
+                </h3>
+                <br/>
+                <br/>
+                <xf:upload incremental="true" ref="fileuri">
+                </xf:upload>
+                <div class="previous-next-trigger" data-demoid="a9f7e1c5-e345-4040-a1d8-45f470845b96">
+                  <xf:trigger>
+                    <xf:label>
+                      <xrx:i18n>
+                        <xrx:key>next</xrx:key>
+                        <xrx:default>next</xrx:default>
+                      </xrx:i18n>
+                    </xf:label>
+                    <xf:action ev:event="DOMActivate">
+                      <xf:message if="not(ends-with(fileuri, '.xml'))" level="ephemeral">
+                        <xrx:i18n>
+                          <xrx:key>please-upload-a-xml-file-message</xrx:key>
+                          <xrx:default>Please upload a XML file (*.xml).</xrx:default>
+                        </xrx:i18n>
+                      </xf:message>
+                      <xf:dispatch if="ends-with(fileuri, '.xml')" name="ewizard1-2" targetid="mimport"/>
+                    </xf:action>
+                  </xf:trigger>
+                </div>
+              </xf:case>
+              <xf:case id="cvalidate-charter">
+                <h3>
+                  <span>2. </span>
+                  <xrx:i18n>
+                    <xrx:key>validate</xrx:key>
+                    <xrx:default>Validate</xrx:default>
+                  </xrx:i18n>
+                  <span> (</span>
+                  <span>
+                    <xrx:i18n>
+                      <xrx:key>step</xrx:key>
+                      <xrx:default>Step</xrx:default>
+                    </xrx:i18n>
+                    <span> 2 </span>
+                     <xrx:i18n>
+                       <xrx:key>of</xrx:key>
+                       <xrx:default>of</xrx:default>
+                     </xrx:i18n>
+                     <span> 3</span>
+                  </span>
+                  <span>)</span>
+                </h3>
+                <br/>
+                <br/>
+                <xf:trigger>
+                  <xf:label>
+                    <xrx:i18n>
+                      <xrx:key>validate-now</xrx:key>
+                      <xrx:default>Validate now</xrx:default>
+                    </xrx:i18n>
+                    <span>!</span>
+                  </xf:label>
+                  <xf:action ev:event="DOMActivate">
+                    <xf:send submission="svalidate"/>
+                  </xf:action>
+                </xf:trigger>
+                <div class="previous-next-trigger" data-demoid="c91644ba-0597-4831-8fbb-3de0be69b68c">
+                  <xf:trigger>
+                    <xf:label>
+                      <xrx:i18n>
+                        <xrx:key>previous</xrx:key>
+                        <xrx:default>previous</xrx:default>
+                      </xrx:i18n>
+                    </xf:label>
+                    <xf:action ev:event="DOMActivate">
+                      <xf:dispatch name="ewizard2-1" targetid="mimport"/>
+                    </xf:action>
+                  </xf:trigger>
+                  <xf:trigger>
+                    <xf:label>
+                      <xrx:i18n>
+                        <xrx:key>cancel</xrx:key>
+                        <xrx:default>Cancel</xrx:default>
+                      </xrx:i18n>
+                    </xf:label>
+                    <xf:action ev:event="DOMActivate">
+                      <xf:load resource="cei-import?reload=true" show="replace"/>
+                    </xf:action>
+                  </xf:trigger>
+                  <xf:trigger ref="instance('ivalidation-response')//status[.='valid']">
+                    <xf:label>
+                      <xrx:i18n>
+                        <xrx:key>next</xrx:key>
+                        <xrx:default>next</xrx:default>
+                      </xrx:i18n>
+                    </xf:label>
+                    <xf:action ev:event="DOMActivate">
+                      <xf:dispatch name="ewizard2-3" targetid="mimport"/>
+                    </xf:action>
+                  </xf:trigger>
+                </div>  
+                <div class="report" data-demoid="73ab6a9e-7e94-49f5-9f8b-b300f5ea033b">
+                  <table id="reporttable">
+                    <tr>
+                      <td>
+                        <xrx:i18n>
+                          <xrx:key>status</xrx:key>
+                          <xrx:default>Status</xrx:default>
+                        </xrx:i18n>
+                        <span>: </span>
+                      </td>
+                      <td>
+                        <xf:output class="icon" mediatype="image/*" ref="instance('ivalidation-response')//xrx:icon"/>
+                        <xf:output bind="bvstatus"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <xrx:i18n>
+                          <xrx:key>namespace</xrx:key>
+                          <xrx:default>Namespace</xrx:default>
+                        </xrx:i18n>
+                        <span>: </span>
+                      </td>
+                      <td>
+                        <xf:output bind="bvnamespace"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <xrx:i18n>
+                          <xrx:key>message</xrx:key>
+                          <xrx:default>Message</xrx:default>
+                        </xrx:i18n>
+                        <span>: </span>
+                      </td>
+                      <td>
+                        <xf:repeat bind="bvmessage" id="rmessage">
+                          <span>
+                            <xrx:i18n>
+                              <xrx:key>column</xrx:key>
+                              <xrx:default>Column</xrx:default>
+                            </xrx:i18n>
+                            <span> / </span>
+                            <xrx:i18n>
+                              <xrx:key>line</xrx:key>
+                              <xrx:default>Line</xrx:default>
+                            </xrx:i18n>
+                            <span>: </span>
+                          </span>
+                          <xf:output value="concat(./@column, ' / ', ./@line)"/>
+                          <xf:output class="red" ref="."/>
+                        </xf:repeat>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </xf:case>
+              <xf:case id="cimport-charter">
+                <h3>
+                  <span>3. </span>
+                  <xrx:i18n>
+                    <xrx:key>import</xrx:key>
+                    <xrx:default>Import</xrx:default>
+                  </xrx:i18n>
+                  <span> (</span>
+                  <span>
+                    <xrx:i18n>
+                      <xrx:key>step</xrx:key>
+                      <xrx:default>Step</xrx:default>
+                    </xrx:i18n>
+                    <span> 3 </span>
+                     <xrx:i18n>
+                       <xrx:key>of</xrx:key>
+                       <xrx:default>of</xrx:default>
+                     </xrx:i18n>
+                     <span> 3</span>
+                  </span>
+                  <span>)</span>
+                </h3>
+                <br/>
+                <br/>
+                <xf:trigger>
+                  <xf:label>
+                    <xrx:i18n>
+                      <xrx:key>import-now</xrx:key>
+                      <xrx:default>Import now</xrx:default>
+                    </xrx:i18n>
+                    <span>!</span>
+                  </xf:label>
+                  <xf:action ev:event="DOMActivate">
+                    <xf:setvalue ref="processid" value="'pidxml-import'"/>
+                    <xf:send submission="simport"/>
+                  </xf:action>
+                </xf:trigger>
+                <br/>
+                <br/>
+                <fieldset>
+                  <legend>
+                    <xrx:i18n>
+                      <xrx:key>status</xrx:key>
+                      <xrx:default>Status</xrx:default>
+                    </xrx:i18n>
+                  </legend>
+                  <div data-demoid="b3e0f4a8-b6d9-45e1-b29b-7e44d5f8a55c" id="progressbar-import"><div class="progress-label" data-demoid="31846f80-003e-4e63-919d-be707274bd24">0%</div></div>
+                  <script type="text/javascript">
+                    jQuery(document).ready(
+                      function() {{ 
+                        $('#progressbar-import').progressbarImport({{
+                          serviceUrlImportProgress: "{ conf:param('request-root') }service/import-progress", 
+                          cacheId: "{ $wcharter-import:cacheid }", 
+                          processId: "pidxml-import"
+                        }}) 
+                    }});
+                  </script>
+                </fieldset>
+                <br/>
+                <br/>
+                <div data-demoid="f8171342-3896-477b-8980-c81554644fba">
+                  <xf:output class="icon" mediatype="image/*" ref="instance('iimport-response')//xrx:icon"/>
+                  <xf:output ref="instance('iimport-response')//xrx:message"/>
+                </div>
+                <div class="previous-next-trigger" data-demoid="c32d1f77-9eb9-4b37-b59f-48c65dd16cdc">
+                  <xf:trigger>
+                    <xf:label>
+                      <xrx:i18n>
+                        <xrx:key>cancel</xrx:key>
+                        <xrx:default>Cancel</xrx:default>
+                      </xrx:i18n>
+                    </xf:label>
+                    <xf:action ev:event="DOMActivate">
+                      <xf:load resource="cei-import?reload=true" show="replace"/>
+                    </xf:action>
+                  </xf:trigger>
+                </div>
+                <xf:group ref="instance('iimport-response')//@status[.='1']">
+                  <div data-demoid="e68160a6-2581-43ba-8856-e3bfc559668e" id="dpreview-link">
+                    {
+                    if($wcharter-import:context = 'fond') then
+                    <a href="imported-fond">
+                      <xrx:i18n>
+                        <xrx:key>preview</xrx:key>
+                        <xrx:default>Preview</xrx:default>
+                      </xrx:i18n>
+                    </a>
+                    else
+                    <a href="imported-collection">
+                      <xrx:i18n>
+                        <xrx:key>preview</xrx:key>
+                        <xrx:default>Preview</xrx:default>
+                      </xrx:i18n>
+                    </a>
+                    }
+                  </div>
+                </xf:group>
+              </xf:case>
+            </xf:switch></div></div>
+            <xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/useful-links-cei</xrx:subwidget>
+          </xf:group>
+        </xrx:true>
+        <xrx:false>
+          <span>
+            <xrx:i18n>
+              <xrx:key>protected-page-message</xrx:key>
+              <xrx:default>Protected page. Please login first.</xrx:default>
+            </xrx:i18n>
+          </span>
+        </xrx:false>
+      </xrx:auth>
+    </div>
+  </xrx:view>
+</xrx:widget>

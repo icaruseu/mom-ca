@@ -1,0 +1,153 @@
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/excel-upload-sheet</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key></xrx:key>
+      <xrx:default></xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:variables>
+    <!-- charter context info -->
+    <xrx:variable>
+      <xrx:name>$context</xrx:name>
+      <xrx:expression>$data//*:context/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$archid</xrx:name>
+      <xrx:expression>$data//*:archid/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$fondid</xrx:name>
+      <xrx:expression>$data//*:fondid/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$collectionid</xrx:name>
+      <xrx:expression>$data//*:collectionid/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$uri-tokens</xrx:name>
+      <xrx:expression>if($context = 'fond') then ($archid, $fondid) else $collectionid</xrx:expression>
+    </xrx:variable>
+    <!-- file info -->
+    <xrx:variable>
+      <xrx:name>$fileuri</xrx:name>
+      <xrx:expression>xmldb:decode($data//*:fileuri/text())</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$filename</xrx:name>
+      <xrx:expression>tokenize($fileuri, '/')[last()]</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$filename-valid</xrx:name>
+      <xrx:expression>$filename eq xmldb:encode($filename)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$uploadtype</xrx:name>
+      <xrx:expression>$data//*:uploadtype/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$url</xrx:name>
+      <xrx:expression>if($uploadtype = 'recent') then xs:anyURI($fileuri) else xs:anyURI(concat('http://localhost:', conf:param('jetty-port'), $fileuri))</xrx:expression>
+    </xrx:variable>
+    <!-- info to save the uploaded file -->
+    <xrx:variable>
+      <xrx:name>$filesystem-uri</xrx:name>
+      <xrx:expression>concat(system:get-exist-home(), '/webapp', $fileuri)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$file</xrx:name>
+      <xrx:expression>if($uploadtype != 'recent') then system:as-user('admin', conf:param('dba-password'), file:read-binary($filesystem-uri)) else()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$import-util-base-collection-path</xrx:name>
+      <xrx:expression>metadata:base-collection-path('charter', $uri-tokens, 'import.util')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$import-util-document-name</xrx:name>
+      <xrx:expression>concat(if($context = 'fond') then $fondid else $collectionid, '.', $chimport:EXCEL, '.xls')</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:translateflag>true</xrx:translateflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:body>
+    {
+    let $wait := util:wait(2000)
+    let $workbookinfo := excelimport:workbookinfo($url)
+    let $store-excel := 
+      if($workbookinfo//excel:error or $uploadtype = 'recent') then ()
+      else 
+      (
+        atom:create-collections($import-util-base-collection-path),
+        system:as-user('admin', conf:param('dba-password'), xmldb:store($import-util-base-collection-path, $import-util-document-name, $file))
+      )
+    
+    return
+    
+    if(not($filename-valid)) then
+    <xrx:response status="-1">
+      <xrx:message>
+        <xrx:i18n>
+          <xrx:key>invalid-file-name</xrx:key>
+          <xrx:default>Invalid file name</xrx:default>
+        </xrx:i18n>&#160;'{ tokenize($fileuri, '/')[last()] }'
+      </xrx:message>
+      <xrx:icon>{ conf:param('request-root') }dialog-warning.png</xrx:icon>
+      <xrx:report>
+        <xrx:i18n>
+          <xrx:key>special-char-and-space-not-allowed</xrx:key>
+          <xrx:default>Special characters and space are not allowed.</xrx:default>
+        </xrx:i18n>
+      </xrx:report>
+    </xrx:response>
+    else if($workbookinfo/self::excel:error or $workbookinfo//excel:error) then
+    <xrx:response status="-1">
+      <xrx:message>
+        <xrx:i18n>
+          <xrx:key>invalid-file-or-upload-incomplete</xrx:key>
+          <xrx:default>Invalid file or upload incomplete.</xrx:default>
+        </xrx:i18n>
+      </xrx:message>
+      <xrx:icon>{ conf:param('request-root') }dialog-warning.png</xrx:icon>
+      <xrx:report>{ $workbookinfo//text() }</xrx:report>
+    </xrx:response>
+    else
+    <xrx:response status="1">
+      <xrx:message>
+        <xrx:i18n>
+          <xrx:key>file-successfully-uploaded-message</xrx:key>
+          <xrx:default>File was successfully uploaded.</xrx:default>
+        </xrx:i18n>
+      </xrx:message>
+      <xrx:icon>{ conf:param('request-root') }face-smile.png</xrx:icon>
+      <xrx:report>{ $workbookinfo }</xrx:report>
+    </xrx:response>
+
+    }
+  </xrx:body>
+</xrx:service>

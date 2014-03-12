@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/import-charters-howto</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>import-charters</xrx:key>
+      <xrx:default>Import charters</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>
+    <!-- request parameters -->
+    <xrx:variable>
+      <xrx:name>$wimport-charters-howto:type</xrx:name>
+      <xrx:expression>request:get-parameter('type', '')</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>false</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <style type="text/css">
+#dimport-charters-howto .border{{
+  -webkit-border-radius:10px 10px 10px 10px;
+  -moz-border-radius:10px 10px 10px 10px;
+  border-radius:10px 10px 10px 10px;
+  border-collapse:collapse;
+  border-spacing:0;
+  border:solid #e9eae8 1px;
+	-moz-box-shadow: 10px 10px 5px #888;
+	-webkit-box-shadow: 10px 10px 5px #888;
+	box-shadow: 10px 10px 5px #888;
+	width:500px;
+	margin-left:235px;
+	margin-top:100px;
+}}
+#dimport-charters-howto .border-inner{{
+  margin:15px;
+}}
+#dimport-charters-howto p{{
+  color:rgb(80,80,80);
+}}
+#dimport-charters-howto .icon{{
+  text-align:right;
+}}
+#dimport-charters-howto .type{{
+  position:absolute;
+  font-weight:bold;
+  font-size:2em;
+}}
+    </style>
+  </xrx:csss>
+  <xrx:view>
+    <div data-demoid="0d2b56df-74c8-4ec3-9bf0-7fbc9fa225cd" id="dimport-charters-howto">
+      <a href="import-charters">
+        <span>&lt;&lt;</span>
+        <xrx:i18n>
+          <xrx:key>back</xrx:key>
+          <xrx:default>Back</xrx:default>
+        </xrx:i18n>
+      </a>
+      <div class="h2" data-demoid="ceb0c1ab-66c0-48e6-981e-ff00c38d7327">
+        <xrx:i18n>
+          <xrx:key>import-charters</xrx:key>
+          <xrx:default>Import charters</xrx:default>
+        </xrx:i18n>
+        <span> ({ $wimport-charters-howto:type })</span>
+      </div>
+      <div class="border" data-demoid="08e63480-3eba-45e2-a3a1-b6028910789c"><div class="border-inner" data-demoid="3bc88fb8-debd-4eee-9259-7bd812137405">
+        <div class="type" data-demoid="0a83fd2d-0a3c-43bb-8d89-27d2b84f2332">{ $wimport-charters-howto:type }</div>
+        <div class="icon" data-demoid="6aeb5206-f189-48b3-b393-6b270d661e38">
+          {
+          if($wimport-charters-howto:type = 'Excel') then
+          <xrx:resource class="icon" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/Excel</xrx:resource>
+          else if($wimport-charters-howto:type = 'CEI') then
+          <xrx:resource class="icon" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/MOM</xrx:resource>
+          else if($wimport-charters-howto:type = 'EAD') then
+          <xrx:resource class="icon" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/EAD</xrx:resource>
+          else if($wimport-charters-howto:type = 'XML') then
+          <xrx:resource class="icon" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/XML</xrx:resource>
+          else if($wimport-charters-howto:type = 'OAI') then
+          <xrx:resource class="icon" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/OAI</xrx:resource>
+          else if($wimport-charters-howto:type = 'SQL') then
+          <xrx:resource class="icon" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/SQL</xrx:resource>
+          else()
+          }
+        </div>
+        <div data-demoid="4c3bbc00-f606-401d-b244-0edacf2c8cae">
+          <p>
+            <xrx:i18n>
+              <xrx:key/>
+              <xrx:default>For detailed instructions on how to import charters please contact the Monasterium metadata management.
+              </xrx:default>
+            </xrx:i18n>
+          </p>
+          <p>metadata(at)monasterium.net</p>
+        </div>
+      </div></div>
+    </div>
+  </xrx:view>
+</xrx:widget>

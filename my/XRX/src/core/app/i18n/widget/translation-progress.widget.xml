@@ -1,0 +1,224 @@
+<xrx:widget xmlns:xf="http://www.w3.org/2002/xforms"
+	xmlns:xrx="http://www.monasterium.net/NS/xrx" 
+	xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns="http://www.w3.org/1999/xhtml">
+  <xrx:id>tag:www.monasterium.net,2011:/core/widget/translation-progress</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>translation-tool</xrx:key>
+      <xrx:default>Translation Tool</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>daniel.ebner@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/desktop</xrx:portal>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>true</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+	<xrx:csss>
+    <style type="text/css">
+      
+      	.percent-container{{
+      		background-color : white;
+      		border: solid 1px grey;
+      		width: 100px;
+      		text-align:right;
+      		margin-left:25px;
+      	}}
+      	
+      	.percent-bar{{
+      		background-color : #EFF3E1;
+      	}}
+      	.language-name{{
+      		padding: 5px;
+      	}}
+      	.percent{{
+      		padding: 5px;
+      	}}
+      	.update{{
+      		padding: 5px;
+      	}}
+      	
+      	#table{{      	
+      		margin: 20px;      	
+      		margin-left: 250px;      	
+      	}}
+      	
+      	#table-row{{      	
+      		height:50px;
+      	}}
+      	
+      	th{{
+      		font-weight:bold;
+      		text-align:center;
+      		padding: 3px;
+      	}}
+ 
+ 
+    </style>
+  </xrx:csss>
+
+	<xrx:view>
+		<div>
+			<div class="h2">
+				<xrx:i18n>
+					<xrx:key>translation-progress</xrx:key>
+					<xrx:default>Translation Progress</xrx:default>
+				</xrx:i18n>
+			</div>
+				
+			<!--xf:model id="m-translate">
+				<xf:instance id="i-i18n" xmlns="">
+					<i18n>
+						{							
+							for $language-catalog in xmldb:get-child-collections(conf:param('xrx-i18n-db-base-uri'))
+								let $language-catalog-path := concat(conf:param('xrx-i18n-db-base-uri'), $language-catalog)
+								return  element {$language-catalog}
+								{
+								for $app-catalog in xmldb:get-child-collections($language-catalog-path)
+									let $app-catalog-path := concat($language-catalog-path,  '/', $app-catalog)
+									return element {$app-catalog} 
+									{
+									collection($app-catalog-path)//atom:entry[.//xrx:i18n/@activeflag!='false' or not(.//xrx:i18n/@activeflag)]
+									}
+								}
+						}
+					</i18n>
+				</xf:instance>	
+
+				<xf:instance id="i-translate-language">
+					<data xmlns="">
+						<language></language>        
+					</data>
+				</xf:instance>  
+
+
+			</xf:model>
+			<xf:group model="m-translate">
+				<table>
+				<xf:repeat nodeset="instance('i-i18n')/element()">						
+					<tr>							
+						<td>
+							<xf:trigger>
+								<xf:label>
+									<xf:output value="name(.)" />
+								</xf:label>
+								<xf:setvalue ref="instance('i-translate-language')/language" value="name(.)"/>
+							</xf:trigger>
+						</td>
+						<td><xf:output value="concat(xs:string(xs:integer(100*(count(.//xrx:i18n[xrx:text/text() and xrx:text/text()!='']) div count(.//xrx:i18n)))), ' %')"></xf:output></td>
+						<td><xf:output value="max(.//atom:updated/xs:date(xs:dateTime(text())))"></xf:output></td>
+					</tr>
+				</xf:repeat>
+				</table>
+			</xf:group-->
+			
+			
+						
+			
+			
+			<table id="table">
+				<tr>
+					<th style="font-weight:bold !important; text-align:center !important;">
+						<xrx:i18n>
+							<xrx:key>language</xrx:key>
+							<xrx:default>Language</xrx:default>
+						</xrx:i18n>
+					</th>	
+					<th style="font-weight:bold !important; text-align:center !important;">
+						<xrx:i18n>
+							<xrx:key>progress</xrx:key>
+							<xrx:default>Progress</xrx:default>
+						</xrx:i18n>						
+					</th>
+					<!--th>
+						<xrx:i18n>
+							<xrx:key>count</xrx:key>
+							<xrx:default>Count</xrx:default>
+						</xrx:i18n>						
+					</th-->
+					<th style="font-weight:bold !important; text-align:center !important;">
+						<xrx:i18n>
+							<xrx:key>last-update</xrx:key>
+							<xrx:default>Last Update</xrx:default>
+						</xrx:i18n>						
+					</th>
+				</tr>
+			{
+				
+			
+			for $language in conf:param('languages')/xrx:lang
+			let $name := xs:string($language/@name)
+			let $key := xs:string($language/@key)
+			
+			let $lang-collection-path := concat(conf:param('xrx-i18n-db-base-uri'), $key)
+			let $lang-collection := collection($lang-collection-path)
+			let $messages := $lang-collection//xrx:i18n[@activeflag!='false' or not(@activeflag)]
+			let $count-total := count($messages)
+			
+			(:let $untranslated := $messages[./xrx:text/text()="" or not(./xrx:text/text())]
+			let $count-untranslated := count($untranslated):)
+			
+			let $translated := $messages[./xrx:text/text() and ./xrx:text/text()!='']
+			let $count-translated := count($translated)
+			
+			let $updates :=
+				for $update in $messages/parent::element(atom:content)/parent::element(atom:entry)/atom:updated/text()
+					return substring-before(xs:string(xs:date(xs:dateTime($update))), '+')
+			
+			let $last-update := max($updates)
+			
+			
+			
+			let $percent := xs:integer(($count-translated div $count-total)*100)			
+			let $percent-string := concat(xs:string($percent), '%')
+			
+			order by $percent descending
+			
+			return
+				<tr style=" background-color: #DEDEDE; ">
+					<td class="language-name" style="padding:10px !important;width:150px;text-align:center;"><a href="{conf:param('request-root')}translate?lang={$key}">{$name}</a></td>
+					<td class="percent" style="padding:10px !important;width:150px;text-align:center;">
+						<div class="percent-container" ><div class="percent-bar" style="width:{$percent-string};">{$percent-string}</div></div>
+					</td>
+					<!--td class="count">
+						{$count-translated}  
+						<span>&#160;</span>
+						<xrx:i18n>
+							<xrx:key>of</xrx:key>
+							<xrx:default>of</xrx:default>
+						</xrx:i18n>	
+						<span>&#160;</span>
+						{$count-total}</td-->
+					<td class="update" title="Last Update" style="padding:10px !important;width:150px;text-align:center;">{$last-update}</td>
+				</tr>
+			}
+			</table>
+		</div>
+	</xrx:view>
+</xrx:widget>

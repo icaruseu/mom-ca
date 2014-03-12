@@ -1,0 +1,144 @@
+<xrx:service xmlns:eag="http://www.archivgut-online.de/eag" xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/my-collection-publish</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key></xrx:key>
+      <xrx:default></xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:variables>
+    <!-- request data -->
+    <xrx:variable>
+      <xrx:name>$objectid</xrx:name>
+      <xrx:expression>$data//*:objectid/text()</xrx:expression>
+    </xrx:variable>
+    <!-- private collection entry -->
+    <xrx:variable>
+      <xrx:name>$collection-atomid</xrx:name>
+      <xrx:expression>metadata:atomid('mycollection', $objectid)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$mycollection-base-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('mycollection', $objectid, 'private')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$mycollection-entry</xrx:name>
+      <xrx:expression>$mycollection-base-collection//atom:id[.=$collection-atomid]/parent::atom:entry</xrx:expression>
+    </xrx:variable>
+    <!-- private charter entries -->
+    <xrx:variable>
+      <xrx:name>$private-charter-base-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('charter', $objectid, 'private')</xrx:expression>
+    </xrx:variable>
+    <!-- public collection -->
+    <xrx:variable>
+      <xrx:name>$public-collection-feed</xrx:name>
+      <xrx:expression>metadata:feed('mycollection', $objectid, 'public')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$mycollection-entry-name</xrx:name>
+      <xrx:expression>metadata:entryname('mycollection', $objectid)</xrx:expression>
+    </xrx:variable>
+    <!-- public charters -->
+    <xrx:variable>
+      <xrx:name>$public-charter-feed</xrx:name>
+      <xrx:expression>metadata:feed('charter', $objectid, 'public')</xrx:expression>
+    </xrx:variable>
+    <!-- private annotations -->
+    <xrx:variable>
+      <xrx:name>$private-SVG-base-collection</xrx:name>
+      <xrx:expression>collection(concat(conf:param("xrx-user-db-base-uri"), xmldb:encode($xrx:user-id), "/metadata.svg/", $objectid))</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$private-cropped-anno-base-collection</xrx:name>
+      <xrx:expression>collection(concat(conf:param("xrx-user-db-base-uri"), xmldb:encode($xrx:user-id), "/metadata.cropped-annotation/", $objectid))</xrx:expression>
+    </xrx:variable>
+    <!-- public annotations -->
+    <xrx:variable>
+      <xrx:name>$public-SVG-base-feed</xrx:name>
+      <xrx:expression>concat(conf:param('svg-atom-base-uri'), $objectid, "/")</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$public-SVG-base-path</xrx:name>
+      <xrx:expression>concat(conf:param('svg-db-base-uri'), $objectid, "/")</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$public-cropped-anno-base-feed</xrx:name>
+      <xrx:expression>concat(conf:param('cropped-anno-atom-base-uri'), $objectid, "/")</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$public-charter-base-path</xrx:name>
+      <xrx:expression>concat(conf:param('data-db-base-uri'), 'metadata.charter.public/', $objectid, '/')</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:translateflag>false</xrx:translateflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:body>
+    { 
+    let $post-collection-entry := atom:POST($public-collection-feed, $mycollection-entry-name, $mycollection-entry)
+    let $post-charter-entries := 
+    	(: TODO: what if the user did remove some charters? :)
+    	for $entry in $private-charter-base-collection/atom:entry
+    	let $atomid := $entry/atom:id/text()
+    	let $objectid := metadata:objectid($atomid)
+    	let $charter-entryname := concat($objectid, '.cei.xml')
+    	return
+    	atom:POST($public-charter-feed, $charter-entryname, $entry)
+    (: -- Annotation Tool Start -- :)
+    (: publish SVG files :)
+    let $post-SVG-entries := 
+      for $svg-entry in $private-SVG-base-collection/atom:entry
+      let $atomid := $svg-entry/atom:id/text()
+      let $objectid := metadata:objectid($atomid)
+      let $charterid := annotation:get-charter-id($atomid)
+      let $public-SVG-feed := concat($public-SVG-base-feed, $charterid)
+      let $svg-entryname := concat($objectid, '.xml')
+      return
+      atom:POST($public-SVG-feed, $svg-entryname, $svg-entry)
+    (: publish cropped annotations files :)
+    let $post-cropped-anno-entries := 
+      for $cropped-anno-entry in $private-cropped-anno-base-collection/atom:entry
+      let $atomid := $cropped-anno-entry/atom:id/text()
+      let $annoid := metadata:objectid($atomid)
+      let $charterid := annotation:get-charter-id($atomid)
+      let $public-cropped-anno-feed := concat($public-cropped-anno-base-feed, $charterid)
+      let $cropped-anno-entryname := concat($annoid, '.xml')
+      (: do not publish broken annotations :)
+      let $search-for-anno := doc(concat($public-charter-base-path, $charterid, '.cei.xml'))//cei:*[@facs = $annoid]
+      return
+        if(empty($search-for-anno))then
+          update delete collection(concat($public-SVG-base-path, $charterid))//*:rect[@id=$annoid]
+        else 
+          atom:POST($public-cropped-anno-feed, $cropped-anno-entryname, $cropped-anno-entry)
+    (: -- Annotation Tool End -- :)
+    return
+    ()
+    }
+  </xrx:body>
+</xrx:service>

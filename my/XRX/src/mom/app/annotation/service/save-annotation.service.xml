@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/save-annotation</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>andre.streicher@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:translateflag>false</xrx:translateflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:body>
+	  {
+	  (: get charter file and check for img :)
+	  let $charter-file   := collection($annotation:collection-base-path-charter)//atom:id[ends-with(., $annotation:charter)]/parent::atom:entry
+	  let $atom-tag-name  := conf:param('atom-tag-name')
+	  let $charter-atomid := $charter-file/atom:id/text()
+    let $collection-id  := charter:collectionid($charter-atomid, $atom-tag-name)
+    let $imgUrl         := substring-before(substring-after($data, 'imgUrl='), '?!;')
+    let $search-img     := $charter-file//cei:graphic[@url = $imgUrl]
+  
+    (: index of figure tag :)
+	  let $index := 
+	      if(empty($search-img))then
+	        let $short-img-name := substring-before($annotation:img-name, ".")
+	        let $search-fig     := $charter-file//cei:figure[@n = $short-img-name]
+          return
+            if(empty($search-fig))then
+              xs:string("Not available")
+            else
+              count($charter-file//cei:figure[@n = $short-img-name]/preceding-sibling::cei:figure)
+        else
+          count($charter-file//cei:figure[./cei:graphic[@url = $imgUrl]]/preceding-sibling::cei:figure)
+    
+    (: create SVG rect- tag for annotation:)
+    (: get svg- file :)
+    let $svg-file        :=  collection($annotation:collection-base-path-svg)//*:svg[@id = xs:string($annotation:svg-id)]
+    let $insert-rect-svg := annotation:create-rect-svg($data, $svg-file)
+
+    (: define return values :)
+    let $return-xml := 
+      <response>
+      <index>{ $index }</index>
+      <svg>{ $insert-rect-svg }</svg>
+    </response>
+    (: create cropped image file :)
+    let $cropped-image := annotation:crop-annotation($data, $collection-id)
+    (: save cropped image file :)
+    let $save-path           := concat($annotation:collection-atom-base-path-cropped-anno, $collection-id, '/', $annotation:charter)
+    let $file-name           := concat($annotation:zone-id, ".xml")
+    let $save-svg-file       := atom:POST($save-path, $file-name, $cropped-image)
+    return
+      $return-xml
+	  }
+	</xrx:body>
+</xrx:service>

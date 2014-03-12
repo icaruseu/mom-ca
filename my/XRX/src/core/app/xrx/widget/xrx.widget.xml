@@ -1,0 +1,62 @@
+<xrx:widget xmlns:xf="http://www.w3.org/2002/xforms" xmlns:xi="http://www.w3.org/2001/XInclude"
+  xmlns:xrx="http://www.monasterium.net/NS/xrx" 
+  xmlns:ev="http://www.w3.org/2001/xml-events"
+  xmlns="http://www.w3.org/1999/xhtml">
+  <xrx:id>tag:www.monasterium.net,2011:/core/widget/xrx</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key></xrx:key>
+      <xrx:default></xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:portal>tag:www.monasterium.net,2011:/core/portal/empty</xrx:portal>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>false</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:view>
+    <div id="dxrx">
+      <h1>XRX Explorer</h1>
+	    {
+	    let $projects := $xrx:db-base-collection/xrx:project
+	    for $project in $projects
+	    let $projectname := $project/xrx:name/text()
+	    let $projectid := $project/xrx:id/text()
+	    return
+	    <div>
+		    <h3>Project: { $projectname }&#160;({ $projectid })</h3>
+		    {
+		    let $project-base-collection := project:base-collection($projectid)
+		    let $apps := $project-base-collection/xrx:app
+		    for $app in $apps
+		    return
+		    }
+		  </div>
+	    }
+	  </div>
+  </xrx:view>
+</xrx:widget>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>XRX++ Unit Tests - xrx.view</title>
+<script src='../../lib/closure-library/closure/goog/base.js'></script>
+<script src='../deps.js'></script>
+<script type="text/javascript">
+  goog.require('goog.dom');
+  goog.require('goog.dom.forms');
+  goog.require('goog.testing.jsunit');
+  goog.require('xrx');
+  goog.require('xrx.bind');
+  goog.require('xrx.instance');
+  goog.require('xrx.output');
+  goog.require('xrx.serialize');
+</script>
+<link rel="stylesheet" type="text/css" href="default.css"/>
+</head>
+<body>
+
+<div id="i1" class="xrx-instance">&lt;data&gt;&lt;a/&gt;&lt;b&gt;OK!&lt;/b&gt;&lt;c/&gt;&lt;/data&gt;</div>
+<div id="b1" class="xrx-bind" data-xrx-ref="xrx:instance('i1')"></div>
+<pre id="console" class="xrx-console" data-xrx-bind="b2"></pre>
+
+<script type="text/javascript">
+
+function testConsole() {
+  var expected = 
+  '<data>\n' +
+  '  <a/>\n' +
+  '  <b>OK!</b>\n' +
+  '  <c/>\n' +
+  '</data>';
+  var console = goog.dom.getElement('console');
+  //assertEquals(expected, xrx.serialize.indent(goog.dom.getRawTextContent(console), 2));
+};
+
+</script>
+
+<script type="text/javascript">
+  //xrx.install();
+</script>
+</body>
+</html>
