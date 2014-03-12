@@ -11,7 +11,7 @@
     System
    -->  
   <property name="build-scripts-home" value="build" />
-  <property name="db-files" value="../${XRX.project-name}.eXist-A-data"/>
+  <property name="db-files" value="../${XRX.project-name}.XRX-data"/>
   <property name="tmp-home" value="tmp" />
   
   <!-- 
@@ -126,9 +126,9 @@
     <echo message="-------------------------" />
     <echo message="Download jssaxparser (http://jssaxparser.googlecode.com/svn/trunk/)" />
     <echo message="-------------------------" />
-    <exec executable="svn">
-      <arg line=" checkout http://jssaxparser.googlecode.com/svn/trunk/ jssaxparser"/>
-    </exec>  
+    <delete dir="jssaxparser" failonerror="false"/>
+    <get dest="tmp/jssaxparser.zip" src="https://jssaxparser.googlecode.com/files/jssax2parser-1-5.zip"/>
+    <unzip src="tmp/jssaxparser.zip" dest="jssaxparser"/>
     
   </target>
 
@@ -180,13 +180,13 @@
     <echo message="-------------------------" />
     <echo message="Download jQuery (https://github.com/jquery/jquery-ui.git)" />
     <echo message="-------------------------" />
-    
-    <exec executable="git">
-      <arg line="clone https://github.com/jquery/jquery-ui.git jQuery"/>
-    </exec>  
-    <exec executable="git" dir="./jQuery">
-      <arg line="checkout 1-10-stable"/>
-    </exec>
+    <delete dir="jQuery" failonerror="false"/>
+    <get dest="tmp/jQuery.zip" src="https://github.com/jquery/jquery-ui/archive/1-10-stable.zip"/>
+    <unzip src="tmp/jQuery.zip" dest="."/>
+    <move todir="jQuery">
+      <fileset dir="jquery-ui-1-10-stable"/>
+    </move>
+    <delete dir="jquery-ui-1-10-stable"/>
     
   </target>
   
@@ -243,12 +243,13 @@
     <echo message="-------------------------" />
     <echo message="Download CodeMirror2 (http://marijnhaverbeke.nl/git/codemirror2)" />
     <echo message="-------------------------" />
-    <exec executable="git">
-      <arg line=" clone https://github.com/marijnh/CodeMirror.git CodeMirror"/>
-    </exec>  
-    <exec executable="git" dir="./CodeMirror">
-      <arg line="checkout v2"/>
-    </exec>
+    <delete dir="CodeMirror" failonerror="false"/>
+    <get dest="tmp/CodeMirror.zip" src="https://github.com/marijnh/CodeMirror/archive/v2.zip"/>
+    <unzip src="tmp/CodeMirror.zip" dest="."/>
+    <move todir="CodeMirror">
+      <fileset dir="CodeMirror-2"/>
+    </move>
+    <delete dir="CodeMirror-2"/>
     
   </target>
 
@@ -314,7 +315,7 @@
     <antcall target="download-betterform" />
     <antcall target="configure-betterform" />
     <echo message="-------------------------" />
-    <echo message="Patch betterFORM code project, compile it and deploy it to the eXist-A localhost" />
+    <echo message="Patch betterFORM code project, compile it and deploy it to the localhost" />
     <echo message="-------------------------" />
     <antcall target="patch-my-betterform" />
     <antcall target="deploy-my-betterform" />
@@ -413,27 +414,22 @@
     <echo message="-------------------------" />
     <echo message="Install eXist" />
     <echo message="-------------------------" />
-    <delete failonerror="false">
-      <fileset dir="${exist-home}" />
-    </delete>
+    <delete dir="${exist-home}" failonerror="false"/>
+    <mkdir dir="tmp"/>
+    
+    <!-- download and unzip eXist -->
+    <get src="https://github.com/eXist-db/exist/archive/eXist-2.0.x.zip" dest="tmp/eXist.zip"/>
     <exec executable="unzip">
-      <arg line="build/${exist-file}.zip -d ."/>
+      <arg line="tmp/eXist.zip -d ."/>
     </exec>
-    <exec executable="mv">
-      <arg line="${exist-file} ${exist-home}"/>
-    </exec>
+    <move todir="localhost">
+      <fileset dir="exist-eXist-2.0.x"/>
+    </move>
     
     <!-- bugfix for eXist-2.0 -->
     <mkdir dir="${exist-home}/extensions/modules/lib"/>
     <mkdir dir="${exist-home}/lib/extensions"/>
     <!-- bugfix for eXist-2.0 -->
-    
-    <!--exec executable="git">
-      <arg line="clone https://github.com/eXist-db/exist.git localhost"/>
-    </exec>  
-    <exec executable="git" dir="./localhost">
-      <arg line="checkout eXist-2.1"/>
-    </exec-->
     
     <!-- download external projects -->
     <antcall target="download-jssaxparser"/>
@@ -444,6 +440,12 @@
     <antcall target="deploy-my-exist" />
     <antcall target="deploy-my-exist-webapp" />
     <antcall target="prepare-app-server"/>
+
+    <!-- remove temporary diretories -->
+    <delete dir="tmp"/>
+    <delete dir="CodeMirror"/>
+    <delete dir="jQuery"/>
+    <delete dir="jssaxparser"/>
 
   </target>
 
@@ -551,11 +553,12 @@
   </target>
   
   <target name="setpassword" depends="exist-classpath">
-    <!--xdb:xquery xmlns:xdb="http://exist-db.org/ant"
+    <xdb:xquery xmlns:xdb="http://exist-db.org/ant"
       uri="xmldb:exist://localhost:${XRX.jetty.port}/xmlrpc/db" 
-      query="xquery version '3.0'; try { system:as-user('admin', '', xmldb:change-user('admin', '${XRX.password}', 'dba', '/db'))} catch * { () }"
+      query="system:as-user('admin', '', xmldb:change-user('admin', '${XRX.password}', 'dba', '/db'))"
       user="guest"
-      password="guest"/-->
+      password="guest"
+      failonerror="false"/>
   </target>
 
   <target name="deploy-exist-xconf"
@@ -669,7 +672,7 @@ wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
       <param name="project-name" expression="${XRX.project-name}" />
     </xslt>
     
-    <antcall target="start"/>
+    <antcall target="restart"/>
     <antcall target="setpassword"/>
     
     <!--echo message="Setting collection permissions for database root collection /db"/>

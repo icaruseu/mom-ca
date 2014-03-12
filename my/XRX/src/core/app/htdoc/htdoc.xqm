@@ -132,18 +132,19 @@ declare function htdoc:get($atom-id as xs:string, $lang as xs:string) as element
     returns a element of type xhtml:div by 
     overloading a Atom entry
 :)
-declare function htdoc:process($htdoc-entry as element(atom:entry)) as element()* {
+declare function htdoc:process($htdoc-entry as element(atom:entry)*) as element()* {
 
     let $atom-content-element := $htdoc-entry//atom:content
     
     return
     
-    
-    htdoc:xhtml(
-        <div>
-            { util:parse-html(concat('<div>', $atom-content-element/text(), '</div>'))//BODY/child::node() }
-        </div>
-    )
+    if($htdoc-entry) then
+	    htdoc:xhtml(
+	        <div>
+	            { util:parse-html(concat('<div>', $atom-content-element/text(), '</div>'))//BODY/child::node() }
+	        </div>
+	    )
+	else ()
 };
 
 (:
@@ -174,7 +175,7 @@ declare function htdoc:id($htdoc-entry as element(atom:entry)) as xs:string* {
 (:
     returns the Atom title of a htdoc entry
 :)
-declare function htdoc:title($htdoc-entry as element(atom:entry)) as element()* {
+declare function htdoc:title($htdoc-entry as element(atom:entry)*) as element()* {
 
     <xhtml:span>{ i18n:translate($htdoc-entry/atom:title/xrx:i18n) }</xhtml:span>
 };
