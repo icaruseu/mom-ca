@@ -10,7 +10,7 @@
   <!-- ################################ Java Settings ################################ -->
   <java>
     <initmemory>256</initmemory>
-    <maxmemory>4096</maxmemory>
+    <maxmemory>6144</maxmemory>
   </java>
 
 
