@@ -318,13 +318,12 @@
     <echo message="Patch betterFORM code project, compile it and deploy it to the localhost" />
     <echo message="-------------------------" />
     <antcall target="patch-my-betterform" />
-    <antcall target="deploy-my-betterform" />
+    <antcall target="compile-betterform" />
     
 
   </target>
   
-  <target name="download-betterform" 
-    description="Download betterFORM">
+  <target name="download-betterform">
   
     <echo message="-------------------------" />
     <echo message="Download betterFORM (https://github.com/betterFORM/betterFORM.git)" />
@@ -368,7 +367,7 @@
   </target>
   
   
-  <target name="deploy-my-betterform" 
+  <target name="compile-betterform" 
     description="Deploys your betterFORM code into the local eXist installation as a single jar-file">
 
     <echo message="-------------------------" />
@@ -387,7 +386,7 @@
     
   </target>
   
-  <target name="deploy-my-betterform-exploded" 
+  <target name="compile-betterform-exploded" 
     description="Deploys an exploded version of your betterFORM code into eXist that allows to debug JavaScript">
   
     <echo message="-------------------------" />
@@ -437,7 +436,7 @@
     <antcall target="download-codemirror"/>
     
     <!-- compile and deploy -->
-    <antcall target="deploy-my-exist" />
+    <antcall target="compile-exist" />
     <antcall target="deploy-my-exist-webapp" />
     <antcall target="prepare-app-server"/>
 
@@ -455,7 +454,7 @@
     </copy>
   </target>
 
-  <target name="deploy-my-exist"
+  <target name="compile-exist"
     description="Compiles your eXist Source Code">
 
     <echo message="-------------------------" />
@@ -520,7 +519,7 @@
   </target>
 
   <target name="start" 
-    description="Start the XRX Application Server">
+    description="Starts the XRX Application Server">
     <echo message="-------------------------" />
     <echo message="Starting XRX Application Server" />
     <echo message="-------------------------" />
@@ -530,7 +529,7 @@
   </target>
   
   <target name="stop"
-    description="Stop the XRX Application Server">
+    description="Stops the XRX Application Server">
     <echo message="-------------------------" />
     <echo message="Stopping XRX Application Server" />
     <echo message="-------------------------" />
@@ -540,7 +539,7 @@
   </target>
   
   <target name="restart"
-    description="Restart the XRX Application Server">
+    description="Restarts the XRX Application Server">
     <echo message="-------------------------" />
     <echo message="Restarting XRX Application Server" />
     <echo message="-------------------------" />
@@ -702,7 +701,7 @@ wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
   #
    -->
   <target name="clean-xrx" depends="exist-classpath"
-    description="Remove all XRX projects from database">
+    description="Removes all XRX projects from database">
     
     <echo message="-------------------------" />
     <echo message="Cleaning all XRX Projects" />
