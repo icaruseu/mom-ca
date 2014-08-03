@@ -843,6 +843,24 @@ wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
   
   </target>
   
+  <target name="init-project-data" depends="exist-classpath" description="stores initial data directory">
+    
+    <echo message="-------------------------" />
+    <echo message="Storing ${XRX.project-name}-data" />
+    <echo message="-------------------------" />
+    
+    <xdb:store xmlns:xdb="http://exist-db.org/ant"
+      uri="${xrx-base-xmldb-uri}/${XRX.project-name}-data"
+      createsubcollections="true" 
+      createcollection="true" 
+      user="admin"
+      password="${XRX.password}"
+      permissions="rwxrwxrwx">
+      <fileset dir="${XRX.project-name}-data"/>
+    </xdb:store>
+    
+  </target>
+  
 </project>
 
 

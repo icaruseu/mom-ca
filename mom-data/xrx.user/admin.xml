@@ -1,0 +1,18 @@
+<xrx:user xmlns:xrx="http://www.monasterium.net/NS/xrx">
+    <xrx:username/>
+    <xrx:password/>
+    <xrx:firstname>admin</xrx:firstname>
+    <xrx:name>admin</xrx:name>
+    <xrx:email>admin</xrx:email>
+    <xrx:moderator>admin</xrx:moderator>
+    <xrx:street/>
+    <xrx:zip/>
+    <xrx:town/>
+    <xrx:phone/>
+    <xrx:institution/>
+    <xrx:info/>
+    <xrx:storage>
+        <xrx:saved_list/>
+        <xrx:bookmark_list/>
+    </xrx:storage>
+</xrx:user>
