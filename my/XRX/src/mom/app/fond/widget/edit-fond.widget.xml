@@ -109,7 +109,7 @@
                         if($servername = 'mom-ca.data.icar-us.eu') then
                         concat('http://ftp.dioezesanarchiv.acw.at:8181', conf:param('request-root'))
                         else if ($servername = 'vdu.uni-koeln.de') then
-                        concat('http://vdu.uni-koeln.de:8585', conf:param('request-root'))					  
+                        concat('http://ftp.dioezesanarchiv.acw.at:8585', conf:param('request-root'))					  
                         else 
                         ''
                         
