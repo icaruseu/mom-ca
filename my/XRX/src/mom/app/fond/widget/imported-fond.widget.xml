@@ -187,7 +187,7 @@ it leaves the active development stage.
                       </a>
                     </div>
                     {
-                    if(matches(request:get-server-name(), '(localhost|vdu.uni-koeln.de)')) then
+                    if(matches(request:get-server-name(), '(localhost|ftp.dioezesanarchiv.acw.at)')) then
                     <div class="function-link" data-demoid="8d90d2d0-a1f3-4eb1-a056-6434b43d3880">
                       <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ $charter:rfondid }/vdu-import">
                         <span>‣ </span>

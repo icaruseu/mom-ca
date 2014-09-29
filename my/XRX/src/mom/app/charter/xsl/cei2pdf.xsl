@@ -61,7 +61,7 @@
                                 <fo:basic-link external-destination="{$dest}">
                                     <xsl:choose>
                                         <xsl:when test="$plattformID = 'mom'">
-                                            <xsl:text>http://www.mom-ca.uni-koeln.de/mom/</xsl:text>
+                                            <xsl:text>http://mom-ca.data.icar-us.eu/mom/</xsl:text>
                                         </xsl:when>
                                         <xsl:otherwise>
                                             <xsl:text>http://www.vdu.uni-koeln.de/vdu/</xsl:text>
@@ -80,7 +80,7 @@
                                 <fo:basic-link external-destination="{$dest}">
                                     <xsl:choose>
                                         <xsl:when test="$plattformID = 'mom'">
-                                            <xsl:text>http://www.mom-ca.uni-koeln.de/mom/</xsl:text>
+                                            <xsl:text>http://mom-ca.data.icar-us.eu/mom/</xsl:text>
                                         </xsl:when>
                                         <xsl:otherwise>
                                             <xsl:text>http://www.vdu.uni-koeln.de/vdu/</xsl:text>
@@ -412,7 +412,7 @@
                     <fo:basic-link external-destination="{$dest}">
                         <xsl:choose>
                             <xsl:when test="$plattformID = 'mom'">
-                                <xsl:text>http://www.mom-ca.uni-koeln.de/mom/</xsl:text>
+                                <xsl:text>http://mom-ca.data.icar-us.eu/mom/</xsl:text>
                             </xsl:when>
                             <xsl:otherwise>
                                 <xsl:text>http://www.vdu.uni-koeln.de/vdu/</xsl:text>
@@ -431,7 +431,7 @@
                     <fo:basic-link external-destination="{$dest}">
                         <xsl:choose>
                             <xsl:when test="$plattformID = 'mom'">
-                                <xsl:text>http://www.mom-ca.uni-koeln.de/mom/</xsl:text>
+                                <xsl:text>http://mom-ca.data.icar-us.eu/mom/</xsl:text>
                             </xsl:when>
                             <xsl:otherwise>
                                 <xsl:text>http://www.vdu.uni-koeln.de/vdu/</xsl:text>
