@@ -25,7 +25,7 @@ if($exist:path = '/compiler.xql') then
 (: redirect :)
 else if($exist:path = '/') then
 <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-    <redirect url="http://icar-us.eu/de/cooperation/online-portals/monasterium-net"/>
+    <redirect url="/mom/home"/>
 </dispatch>
 
 (: resources :)
