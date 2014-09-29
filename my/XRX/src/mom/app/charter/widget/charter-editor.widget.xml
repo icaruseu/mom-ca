@@ -57,9 +57,9 @@
             
             let $server := 
                 if($servername = 'mom-ca.data.icar-us.eu') then
-                concat('http://ftp.dioezesanarchiv.acw.at:8181', conf:param('request-root'))
-                if($servername = 'www.mom-ca.uni-koeln.de') then
-                concat('http://ftp.dioezesanarchiv.acw.at:8181', conf:param('request-root'))
+                    concat('http://ftp.dioezesanarchiv.acw.at:8181', conf:param('request-root'))
+                else if($servername = 'www.mom-ca.uni-koeln.de') then
+                    concat('http://ftp.dioezesanarchiv.acw.at:8181', conf:param('request-root'))
                 else if ($servername = 'www.vdu.uni-koeln.de') then
                     concat('http://ftp.dioezesanarchiv.acw.at:8585', conf:param('request-root'))
                 else if ($servername = 'localhost') then
