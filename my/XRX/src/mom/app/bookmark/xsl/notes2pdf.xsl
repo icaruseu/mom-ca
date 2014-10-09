@@ -4,7 +4,7 @@
     <xsl:param name="charter-context"/>
     <xsl:variable name="platform-dest">
         <xsl:choose>
-            <xsl:when test="$plattformID = 'mom'">http://www.mom-ca.uni-koeln.de/mom/</xsl:when>
+            <xsl:when test="$plattformID = 'mom'">http://monasterium.net/mom/</xsl:when>
             <xsl:otherwise>http://www.vdu.uni-koeln.de/vdu/</xsl:otherwise>
         </xsl:choose>
     </xsl:variable>

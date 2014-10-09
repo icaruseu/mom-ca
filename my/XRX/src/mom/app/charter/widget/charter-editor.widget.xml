@@ -56,7 +56,7 @@
             let $servername := request:get-server-name()
             
             let $server := 
-                if($servername = 'mom-ca.data.icar-us.eu') then
+                if($servername = 'monasterium.net') then
                     concat('http://ftp.dioezesanarchiv.acw.at:8181', conf:param('request-root'))
                 else if($servername = 'www.mom-ca.uni-koeln.de') then
                     concat('http://ftp.dioezesanarchiv.acw.at:8181', conf:param('request-root'))
