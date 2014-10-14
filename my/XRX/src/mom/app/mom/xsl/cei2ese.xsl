@@ -135,7 +135,7 @@
                 <europeana:isShownAt>
                     <xsl:choose>
                         <xsl:when test="$platform-id = 'mom'">
-                            <xsl:text>http://www.mom-ca.uni-koeln.de/mom/</xsl:text>
+                            <xsl:text>http://monasterium.net/mom/</xsl:text>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:text>http://www.vdu.uni-koeln.de/vdu/</xsl:text>

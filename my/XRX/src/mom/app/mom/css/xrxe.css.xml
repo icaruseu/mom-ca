@@ -26,7 +26,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   <xrx:style>
      
       {
-         if(request:get-server-name()= 'www.mom-ca.uni-koeln.de' or request:get-server-name()='www.vdu.uni-koeln.de') then 
+         if(request:get-server-name()= 'monasterium.net' or request:get-server-name()='www.vdu.uni-koeln.de') then 
            '# evtLogContainer {{
          display:none;
          }}

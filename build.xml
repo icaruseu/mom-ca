@@ -181,12 +181,12 @@
     <echo message="Download jQuery (https://github.com/jquery/jquery-ui.git)" />
     <echo message="-------------------------" />
     <delete dir="jQuery" failonerror="false"/>
-    <get dest="tmp/jQuery.zip" src="https://github.com/jquery/jquery-ui/archive/1-10-stable.zip"/>
+    <get dest="tmp/jQuery.zip" src="https://github.com/jquery/jquery-ui/archive/1-9-stable.zip"/>
     <unzip src="tmp/jQuery.zip" dest="."/>
     <move todir="jQuery">
-      <fileset dir="jquery-ui-1-10-stable"/>
+      <fileset dir="jquery-ui-1-9-stable"/>
     </move>
-    <delete dir="jquery-ui-1-10-stable"/>
+    <delete dir="jquery-ui-1-9-stable"/>
     
   </target>
   

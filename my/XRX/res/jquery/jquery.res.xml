@@ -2,7 +2,7 @@
   <xrx:resource>
     <xrx:atomid>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:atomid>
     <xrx:relativepath/>
-    <xrx:name>jquery-1.10.2.js</xrx:name>
+    <xrx:name>jquery-1.8.3.js</xrx:name>
   </xrx:resource>
   <xrx:resource>
     <xrx:atomid>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/accordion</xrx:atomid>

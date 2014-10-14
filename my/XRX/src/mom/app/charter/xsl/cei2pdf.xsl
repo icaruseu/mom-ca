@@ -57,11 +57,11 @@
                         <xsl:text>&#160;-&#160;</xsl:text>
                         <xsl:choose>
                             <xsl:when test="starts-with($collection, '0')">
-                                <xsl:variable name="dest" select="concat('http://www.mom-ca.uni-koeln.de/mom/', $arch, '/', $fond, '/', $id, '/charter')"/>
+                                <xsl:variable name="dest" select="concat('http://monasterium.net/mom/', $arch, '/', $fond, '/', $id, '/charter')"/>
                                 <fo:basic-link external-destination="{$dest}">
                                     <xsl:choose>
                                         <xsl:when test="$plattformID = 'mom'">
-                                            <xsl:text>http://www.mom-ca.uni-koeln.de/mom/</xsl:text>
+                                            <xsl:text>http://monasterium.net/mom/</xsl:text>
                                         </xsl:when>
                                         <xsl:otherwise>
                                             <xsl:text>http://www.vdu.uni-koeln.de/vdu/</xsl:text>
@@ -76,11 +76,11 @@
                                 </fo:basic-link>
                             </xsl:when>
                             <xsl:otherwise>
-                                <xsl:variable name="dest" select="concat('http://www.mom-ca.uni-koeln.de/mom/', $collection, '/', $id, '/charter')"/>
+                                <xsl:variable name="dest" select="concat('http://monasterium.net/mom/', $collection, '/', $id, '/charter')"/>
                                 <fo:basic-link external-destination="{$dest}">
                                     <xsl:choose>
                                         <xsl:when test="$plattformID = 'mom'">
-                                            <xsl:text>http://www.mom-ca.uni-koeln.de/mom/</xsl:text>
+                                            <xsl:text>http://monasterium.net/mom/</xsl:text>
                                         </xsl:when>
                                         <xsl:otherwise>
                                             <xsl:text>http://www.vdu.uni-koeln.de/vdu/</xsl:text>
@@ -408,11 +408,11 @@
             <xsl:text>:&#160;</xsl:text>
             <xsl:choose>
                 <xsl:when test="starts-with($collection, '0')">
-                    <xsl:variable name="dest" select="concat('http://www.mom-ca.uni-koeln.de/mom/', $arch, '/', $fond, '/', $id, '/charter')"/>
+                    <xsl:variable name="dest" select="concat('http://monasterium.net/mom/', $arch, '/', $fond, '/', $id, '/charter')"/>
                     <fo:basic-link external-destination="{$dest}">
                         <xsl:choose>
                             <xsl:when test="$plattformID = 'mom'">
-                                <xsl:text>http://www.mom-ca.uni-koeln.de/mom/</xsl:text>
+                                <xsl:text>http://monasterium.net/mom/</xsl:text>
                             </xsl:when>
                             <xsl:otherwise>
                                 <xsl:text>http://www.vdu.uni-koeln.de/vdu/</xsl:text>
@@ -427,11 +427,11 @@
                     </fo:basic-link>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:variable name="dest" select="concat('http://www.mom-ca.uni-koeln.de/mom/', $collection, '/', $id, '/charter')"/>
+                    <xsl:variable name="dest" select="concat('http://monasterium.net/mom/', $collection, '/', $id, '/charter')"/>
                     <fo:basic-link external-destination="{$dest}">
                         <xsl:choose>
                             <xsl:when test="$plattformID = 'mom'">
-                                <xsl:text>http://www.mom-ca.uni-koeln.de/mom/</xsl:text>
+                                <xsl:text>http://monasterium.net/mom/</xsl:text>
                             </xsl:when>
                             <xsl:otherwise>
                                 <xsl:text>http://www.vdu.uni-koeln.de/vdu/</xsl:text>

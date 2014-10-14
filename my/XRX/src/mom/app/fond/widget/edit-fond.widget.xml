@@ -106,10 +106,10 @@
                         (:Dirty HACK : just atom-url doesn't work as resource when using an apache:)
                         let $servername := request:get-server-name()
                         let $server := 
-                        if($servername = 'mom-ca.uni-koeln.de') then
-                        concat('http://vdu.uni-koeln.de:8181', conf:param('request-root'))
+                        if($servername = 'monasterium.net') then
+                        concat('http://ftp.dioezesanarchiv.acw.at:8181', conf:param('request-root'))
                         else if ($servername = 'vdu.uni-koeln.de') then
-                        concat('http://vdu.uni-koeln.de:8585', conf:param('request-root'))					  
+                        concat('http://ftp.dioezesanarchiv.acw.at:8585', conf:param('request-root'))					  
                         else 
                         ''
                         
