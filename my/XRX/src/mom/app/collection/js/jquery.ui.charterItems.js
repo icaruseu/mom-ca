@@ -93,6 +93,9 @@ $.widget( "ui.charterItems", {
         tableHeaderTitle = $('<div></div>')
           .addClass("forms-table-cell")
           .text($(document).xrxI18n.translate("title", "")),
+        tableHeaderEditors = $('<div></div>')
+          .addClass("forms-table-cell")
+          .text($(document).xrxI18n.translate("edit", "")),
         tableHeaderDisplay = $('<div></div>')
           .addClass("forms-table-cell")
           .text("Display"),
@@ -103,7 +106,7 @@ $.widget( "ui.charterItems", {
     // insert preface DIV
     itemDivPreface.append(itemLinkPreface);
     // compose table header
-    tableHeader.append(tableHeaderSelectAll).append(tableHeaderDate).append(tableHeaderTitle).append(tableHeaderDisplay).append(tableHeaderVersionOf);
+    tableHeader.append(tableHeaderSelectAll).append(tableHeaderDate).append(tableHeaderTitle).append(tableHeaderEditors).append(tableHeaderDisplay).append(tableHeaderVersionOf);
     table.append(tableHeader);
     // insert all into items DIV
     itemsDiv.append(toolbarDiv)
@@ -150,12 +153,26 @@ $.widget( "ui.charterItems", {
                 .text(date)
               ),
             itemLinkCharter = $('<div></div>')
+             .addClass("forms-table-cell")
+             .append($('<span/>')
+               .text(charterTitle)
+              ),
+              
+              itemLinkIllurk = $('<div></div>')
               .addClass("forms-table-cell")
               .append($('<a></a>')
-                  .attr("href", requestRoot + "charter/" + key + "/edit")
-                  .attr("target", "_blank")
-                .text(charterTitle)
+                .attr("href", requestRoot + "charter/" + key + "/edit")
+                      .attr("target", "_blank")
+                      .append($('<button></button>')
+                      .text("Default Editor")
+                )
+                
+              ).append(
+                  $('<a></a>').attr("href", requestRoot + "charter/" + key + "/illurk").attr("target", "_blank").append(
+                      $('<button></button>').text("Illurk Editor")
+                      )
               );
+          
           var itemLinkDisplay = $('<div></div>')
               .addClass("forms-table-cell");
           if (versionOfTitle !== '') {
@@ -204,6 +221,7 @@ $.widget( "ui.charterItems", {
           itemDivCharter.append(itemSelectCharter)
             .append(itemLinkDate)
             .append(itemLinkCharter)
+            .append(itemLinkIllurk)
             .append(itemLinkDisplay)
             .append(itemLinkVersionOf);
           if(key != "charter") {
