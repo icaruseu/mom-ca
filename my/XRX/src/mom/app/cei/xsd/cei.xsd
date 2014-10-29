@@ -1,4 +1,4 @@
-<xs:schema xmlns:xerces="http://xerces.apache.org" xmlns="http://www.monasterium.net/NS/cei" xmlns:xrxe="http://www.monasterium.net/NS/xrxe" xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.monasterium.net/NS/cei" id="cei">
+<xs:schema xmlns="http://www.monasterium.net/NS/cei" xmlns:xerces="http://xerces.apache.org" xmlns:xrxe="http://www.monasterium.net/NS/xrxe" xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.monasterium.net/NS/cei" id="cei">
     <xs:element name="cei">
         <xs:annotation>
             <xs:documentation xml:lang="deu">
@@ -559,21 +559,21 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                                                         <xs:attribute name="old"/>
                                                     </xs:extension>
                                                 </xs:simpleContent>
-                                            </xs:complexType>                                            
+                                            </xs:complexType>
                                         </xs:element>
                                         <xs:element minOccurs="0" ref="chDesc"/>
                                         <xs:element minOccurs="0" ref="tenor"/>
                                     </xs:sequence>
                                 </xs:choice>
                                 <xs:assert test="idno/text() != ''" xpathDefaultNamespace="##targetNamespace" xerces:message="i18n:charter-signature-required-message">
-                                  <xs:annotation>
-                                    <xs:appinfo>
-                                      <xrx:i18n>
-                                        <xrx:key>charter-signature-required-message</xrx:key>
-                                        <xrx:default>A Signature is required.</xrx:default>
-                                      </xrx:i18n>
-                                    </xs:appinfo>
-                                  </xs:annotation>
+                                    <xs:annotation>
+                                        <xs:appinfo>
+                                            <xrx:i18n>
+                                                <xrx:key>charter-signature-required-message</xrx:key>
+                                                <xrx:default>A Signature is required.</xrx:default>
+                                            </xrx:i18n>
+                                        </xs:appinfo>
+                                    </xs:annotation>
                                 </xs:assert>
                             </xs:complexType>
                         </xs:element>
@@ -734,9 +734,9 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                             </xs:documentation>
                         </xs:annotation>
                         <xs:complexType mixed="true">
-                             <xs:annotation>
+                            <xs:annotation>
                                 <xs:appinfo source="EditVDU">
-                                  <xrxe:mixed>false</xrxe:mixed>
+                                    <xrxe:mixed>false</xrxe:mixed>
                                 </xs:appinfo>
                             </xs:annotation>
                             <xs:sequence>
@@ -757,18 +757,18 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                                                     <xrxe:max-occur>1</xrxe:max-occur>
                                                 </xs:appinfo>
                                                 <xs:documentation>
-                                                  <xrx:description>
-                                                    <xrx:i18n>
-                                                      <xrx:key>cei_issued_date_description</xrx:key>
-                                                      <xrx:default>Datum, an dem die Urkunde ausgestellt ist. Die Daten werden im Format 'Jahr Monat (als Wort) Tag' angegeben.</xrx:default>
-                                                    </xrx:i18n>
-                                                  </xrx:description>
-                                                  <xrx:example>
-                                                    <xrx:i18n>
-                                                      <xrx:key>cei_issued_date_example</xrx:key>
-                                                      <xrx:default>&lt;cei:date value=&quot;16091001&quot;&gt;1609 Oktober 1&lt;/cei:date&gt;</xrx:default>
-                                                    </xrx:i18n>
-                                                  </xrx:example>
+                                                    <xrx:description>
+                                                        <xrx:i18n>
+                                                            <xrx:key>cei_issued_date_description</xrx:key>
+                                                            <xrx:default>Datum, an dem die Urkunde ausgestellt ist. Die Daten werden im Format 'Jahr Monat (als Wort) Tag' angegeben.</xrx:default>
+                                                        </xrx:i18n>
+                                                    </xrx:description>
+                                                    <xrx:example>
+                                                        <xrx:i18n>
+                                                            <xrx:key>cei_issued_date_example</xrx:key>
+                                                            <xrx:default>&lt;cei:date value="16091001"&gt;1609 Oktober 1&lt;/cei:date&gt;</xrx:default>
+                                                        </xrx:i18n>
+                                                    </xrx:example>
                                                 </xs:documentation>
                                             </xs:annotation>
                                         </xs:element>
@@ -785,34 +785,34 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                             </xs:sequence>
                             <xs:attributeGroup ref="standard"/>
                             <xs:assert test="(matches(string(date/@value),'-?[129]?[0-9][0-9][0-9][019][0-9][01239][0-9]') and date) or not(date)" xpathDefaultNamespace="##targetNamespace" xerces:message="i18n:wrong-date-format-message">
-                              <xs:annotation>
-                                <xs:appinfo>
-                                  <xrx:i18n>
-                                    <xrx:key>wrong-date-format-message</xrx:key>
-                                    <xrx:default>Wrong date format. YYYYMMDD is expected.</xrx:default>
-                                  </xrx:i18n>
-                                </xs:appinfo>
-                              </xs:annotation>
+                                <xs:annotation>
+                                    <xs:appinfo>
+                                        <xrx:i18n>
+                                            <xrx:key>wrong-date-format-message</xrx:key>
+                                            <xrx:default>Wrong date format. YYYYMMDD is expected.</xrx:default>
+                                        </xrx:i18n>
+                                    </xs:appinfo>
+                                </xs:annotation>
                             </xs:assert>
                             <xs:assert test="(matches(string(dateRange/@from),'-?[129]?[0-9][0-9][0-9][019][0-9][01239][0-9]') and dateRange) or not(dateRange)" xpathDefaultNamespace="##targetNamespace" xerces:message="i18n:wrong-date-format-message">
-                              <xs:annotation>
-                                <xs:appinfo>
-                                  <xrx:i18n>
-                                    <xrx:key>wrong-date-format-message</xrx:key>
-                                    <xrx:default>Wrong date format. YYYYMMDD is expected.</xrx:default>
-                                  </xrx:i18n>
-                                </xs:appinfo>
-                              </xs:annotation>
+                                <xs:annotation>
+                                    <xs:appinfo>
+                                        <xrx:i18n>
+                                            <xrx:key>wrong-date-format-message</xrx:key>
+                                            <xrx:default>Wrong date format. YYYYMMDD is expected.</xrx:default>
+                                        </xrx:i18n>
+                                    </xs:appinfo>
+                                </xs:annotation>
                             </xs:assert>
                             <xs:assert test="(matches(string(dateRange/@to),'-?[129]?[0-9][0-9][0-9][019][0-9][01239][0-9]') and dateRange) or not(dateRange)" xpathDefaultNamespace="##targetNamespace" xerces:message="i18n:wrong-date-format-message">
-                              <xs:annotation>
-                                <xs:appinfo>
-                                  <xrx:i18n>
-                                    <xrx:key>wrong-date-format-message</xrx:key>
-                                    <xrx:default>Wrong date format. YYYYMMDD is expected.</xrx:default>
-                                  </xrx:i18n>
-                                </xs:appinfo>
-                              </xs:annotation>
+                                <xs:annotation>
+                                    <xs:appinfo>
+                                        <xrx:i18n>
+                                            <xrx:key>wrong-date-format-message</xrx:key>
+                                            <xrx:default>Wrong date format. YYYYMMDD is expected.</xrx:default>
+                                        </xrx:i18n>
+                                    </xs:appinfo>
+                                </xs:annotation>
                             </xs:assert>
                         </xs:complexType>
                     </xs:element>
@@ -1053,7 +1053,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                                     </xs:element>
                                     <xs:element ref="quoteOriginaldatierung"/>
                                     <xs:element ref="nota"/>
-                                    <xs:element ref="divNotes" />
+                                    <xs:element ref="divNotes"/>
                                 </xs:choice>
                             </xs:sequence>
                             <xs:attributeGroup ref="standard"/>
@@ -1099,18 +1099,18 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                 <xrxe:rows>10</xrxe:rows>
             </xs:appinfo>
             <xs:documentation>
-              <xrx:description>
-                <xrx:i18n>
-                  <xrx:key>cei_abstract_description</xrx:key>
-                  <xrx:default>Abstract which summarizes the legal contents of a charter document; either a short header in some editions or a more detailed long-abstract with verbatim citations. Note: All abstracts must name the author/sender of a document and should mention its receiver.</xrx:default>
-                </xrx:i18n>
-              </xrx:description>
-              <xrx:example>
-                <xrx:i18n>
-                  <xrx:key>cei_abstract_example</xrx:key>
-                  <xrx:default>&lt;cei:abstract&gt;&lt;cei:issuer&gt;Rudolph III. Herzog von Österreich&lt;/cei:issuer&gt; bestätigt die Privilegien des &lt;cei:recipient&gt;Klosters Geras&lt;/cei:recipient&gt;, namentlich in gewissen Beziehungen, in denen Beeinträchtigungen eingetreten waren.&lt;/cei:abstract&gt;</xrx:default>
-                </xrx:i18n>
-              </xrx:example>
+                <xrx:description>
+                    <xrx:i18n>
+                        <xrx:key>cei_abstract_description</xrx:key>
+                        <xrx:default>Abstract which summarizes the legal contents of a charter document; either a short header in some editions or a more detailed long-abstract with verbatim citations. Note: All abstracts must name the author/sender of a document and should mention its receiver.</xrx:default>
+                    </xrx:i18n>
+                </xrx:description>
+                <xrx:example>
+                    <xrx:i18n>
+                        <xrx:key>cei_abstract_example</xrx:key>
+                        <xrx:default>&lt;cei:abstract&gt;&lt;cei:issuer&gt;Rudolph III. Herzog von Österreich&lt;/cei:issuer&gt; bestätigt die Privilegien des &lt;cei:recipient&gt;Klosters Geras&lt;/cei:recipient&gt;, namentlich in gewissen Beziehungen, in denen Beeinträchtigungen eingetreten waren.&lt;/cei:abstract&gt;</xrx:default>
+                    </xrx:i18n>
+                </xrx:example>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
@@ -1265,8 +1265,6 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                 </xs:choice>
             </xs:sequence>
             <xs:attributeGroup ref="lang"/>
-            <!--xs:attributeGroup ref="standard"/-->
-            <!--Moved from attributeGroup ref="standard to enable special label for cei:note@n -->
             <xs:attributeGroup ref="id"/>
             <xs:attribute name="n" type="xs:anySimpleType">
                 <xs:annotation>
@@ -1525,7 +1523,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
         <xs:complexType mixed="true">
             <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="notariusSub">                       
+                    <xs:element ref="notariusSub">
                         <xs:annotation>
                             <xs:appinfo source="EditVDU">
                                 <xrxe:max-occurs>1</xrxe:max-occurs>
@@ -1581,8 +1579,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
-    
-     <xs:element name="decoDesc">
+    <xs:element name="decoDesc">
         <xs:annotation>
             <xs:appinfo source="EditVDU">
                 <xrxe:label>
@@ -1597,51 +1594,15 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
             <xs:documentation xml:lang="deu"> Platz für die Kunsthistorische
                 Beschreibung</xs:documentation>
         </xs:annotation>
-         <xs:complexType mixed="true">
+        <xs:complexType mixed="true">
             <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
-                   <xs:element name="p">
-                <xs:annotation>
-                    <xs:appinfo source="EditVDU">
-                    <xrxe:label>
-                    <xrx:i18n>
-                        <xrx:key>cei_p</xrx:key>
-                        <xrx:default>p</xrx:default>
-                    </xrx:i18n>
-                </xrxe:label>
-                <xrxe:menu-item>
-                    <xrx:i18n>
-                        <xrx:key>textual-witnesses</xrx:key>
-                        <xrx:default>Textual witnesses</xrx:default>
-                    </xrx:i18n>
-                </xrxe:menu-item>
-                <xrxe:content-control>annotation</xrxe:content-control>
-            </xs:appinfo>
-            <xs:documentation xml:lang="deu">Ein Absatz mit Fließtext </xs:documentation>
-             </xs:annotation>
-             <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                   
-                    <xs:element ref="bibl"/>
-                    <xs:element ref="lb"/>
-                    <xs:element ref="a"/>
-                    <xs:element ref="hi"/>
-                    <xs:element ref="c"/>
-                    <xs:element ref="sup"/>
+                    <xs:element ref="p"/>                      
                 </xs:choice>
             </xs:sequence>
-            <xs:attributeGroup ref="lang"/>
-            <xs:attributeGroup ref="standard"/>
+            <xs:attributeGroup ref="reference"/>
         </xs:complexType>
-          
     </xs:element>
-    </xs:choice>
-    </xs:sequence>
-    </xs:complexType>
-    </xs:element>
-    
-    
     <xs:element name="dimensions">
         <xs:annotation>
             <xs:appinfo source="EditVDU">
@@ -1697,7 +1658,6 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                             </xs:appinfo>
                         </xs:annotation>
                     </xs:element>
-          <!--xs:group ref="layout" /-->
                 </xs:choice>
             </xs:sequence>
             <xs:attributeGroup ref="standard"/>
@@ -2137,6 +2097,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                     <xs:element ref="sup"/>
                 </xs:choice>
             </xs:sequence>
+            <xs:attributeGroup ref="resp"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -2549,14 +2510,6 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
-    <!--xs:element name="salutatio">
-        <xs:annotation>
-            <xs:appinfo source="EditVDU">
-                <xrxe:label>salutatio</xrxe:label>
-                <xrxe:menu-item>Formular</xrxe:menu-item>
-            </xs:appinfo>
-        </xs:annotation>
-    </xs:element-->
     <xs:element name="datatio">
         <xs:annotation>
             <xs:appinfo source="EditVDU">
@@ -2828,8 +2781,8 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                             </xrx:i18n>
                         </xrxe:label>
                         <xrxe:relevant>true</xrxe:relevant>
-                        </xs:appinfo>
-                </xs:annotation>                
+                    </xs:appinfo>
+                </xs:annotation>
             </xs:attribute>
             <xs:attribute name="agent" type="xs:anySimpleType">
                 <xs:annotation>
@@ -2842,7 +2795,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                         </xrxe:label>
                         <xrxe:relevant>true</xrxe:relevant>
                     </xs:appinfo>
-                </xs:annotation>         
+                </xs:annotation>
             </xs:attribute>
             <xs:attributeGroup ref="certainty"/>
             <xs:attributeGroup ref="standard"/>
@@ -3213,35 +3166,35 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                 <xs:element ref="hi">
                     <xs:annotation>
                         <xs:appinfo source="EditVDU">
-                            <xrxe:relevant context="!='witness'"></xrxe:relevant>
+                            <xrxe:relevant context="!='witness'"/>
                         </xs:appinfo>
                     </xs:annotation>
                 </xs:element>
                 <xs:element ref="lb">
                     <xs:annotation>
                         <xs:appinfo source="EditVDU">
-                            <xrxe:relevant context="!='witness' and $context!='abstract'"></xrxe:relevant>
+                            <xrxe:relevant context="!='witness' and $context!='abstract'"/>
                         </xs:appinfo>
                     </xs:annotation>
                 </xs:element>
                 <xs:element ref="pb">
                     <xs:annotation>
                         <xs:appinfo source="EditVDU">
-                            <xrxe:relevant context="!='witness' and $context!='abstract'"></xrxe:relevant>
+                            <xrxe:relevant context="!='witness' and $context!='abstract'"/>
                         </xs:appinfo>
                     </xs:annotation>
                 </xs:element>
                 <xs:element ref="sup">
                     <xs:annotation>
                         <xs:appinfo source="EditVDU">
-                            <xrxe:relevant context="!='witness'"></xrxe:relevant>
+                            <xrxe:relevant context="!='witness'"/>
                         </xs:appinfo>
                     </xs:annotation>
                 </xs:element>
                 <xs:element ref="c">
                     <xs:annotation>
                         <xs:appinfo source="EditVDU">
-                            <xrxe:relevant context="!='witness'"></xrxe:relevant>
+                            <xrxe:relevant context="!='witness'"/>
                         </xs:appinfo>
                     </xs:annotation>
                 </xs:element>
@@ -3286,7 +3239,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
     </xs:element>
     <xs:element name="lb">
         <xs:annotation>
-            <xs:appinfo source="EditVDU">                
+            <xs:appinfo source="EditVDU">
                 <xrxe:label>
                     <xrx:i18n>
                         <xrx:key>cei_lb</xrx:key>
@@ -3298,10 +3251,10 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                         <xrx:key>original</xrx:key>
                         <xrx:default>original</xrx:default>
                     </xrx:i18n>
-                </xrxe:menu-item>  
+                </xrxe:menu-item>
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
-                <xrxe:empty />                
+                <xrxe:empty/>
             </xs:appinfo>
             <xs:documentation xml:lang="deu">Zeilenwechsel in der
         Vorlage.</xs:documentation>
@@ -3327,8 +3280,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                         <xrx:default>original</xrx:default>
                     </xrx:i18n>
                 </xrxe:menu-item>
-                <xrxe:empty />
-                
+                <xrxe:empty/>
             </xs:appinfo>
             <xs:documentation xml:lang="deu">Seitenwechsel in der
         Vorlage.</xs:documentation>
@@ -3544,7 +3496,6 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
                 <xrxe:content-control>annotation</xrxe:content-control>
                 <xrxe:rows>3</xrxe:rows>
-            
             </xs:appinfo>
             <xs:documentation xml:lang="deu">
         Ein ergänzender Text zu einer bestimmten Textstelle, der im Druck
@@ -3561,9 +3512,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                     <xs:element ref="msIdentifier"/>
                 </xs:choice>
             </xs:sequence>
-            <xs:attribute name="place"/>            
-            <!--xs:attributeGroup ref="standard"/-->
-            <!--Moved from attributeGroup ref="standard to enable special label for cei:note@n -->
+            <xs:attribute name="place"/>
             <xs:attributeGroup ref="id"/>
             <xs:attribute name="n" type="xs:anySimpleType">
                 <xs:annotation>
@@ -4488,11 +4437,13 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
         <xs:complexType mixed="true">
             <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="index"/>
                     <xs:element ref="foreign"/>
                     <xs:element ref="note"/>
                     <xs:group ref="Originalbefund"/>
                 </xs:choice>
             </xs:sequence>
+            <xs:attributeGroup ref="key"/>
             <xs:attributeGroup ref="geog"/>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
@@ -4688,6 +4639,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                     <xs:group ref="Referenz"/>
                 </xs:choice>
             </xs:choice>
+            <xs:attributeGroup ref="key"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -4814,7 +4766,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                             <xrx:default>target</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant context="='ref'" />
+                    <xrxe:relevant context="='ref'"/>
                 </xs:appinfo>
             </xs:annotation>
         </xs:attribute>
@@ -4833,7 +4785,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                             <xrx:default>certainty</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant context="='persName' or $context='geogName' or $context='placeName' or $context='sic' or $context='del' or $context='expan' or $context='damage'"></xrxe:relevant>
+                    <xrxe:relevant context="='persName' or $context='geogName' or $context='placeName' or $context='sic' or $context='del' or $context='expan' or $context='damage'"/>
                 </xs:appinfo>
                 <xs:documentation xml:lang="deu">
           Für Genauigkeitsangaben z.B. bei Datierungen, werden mit
@@ -4871,7 +4823,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                             <xrx:default>reg</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant context="='persName' or $context='geogName' or $context='placeName'"></xrxe:relevant>
+                    <xrxe:relevant context="='persName' or $context='geogName' or $context='placeName'"/>
                 </xs:appinfo>
             </xs:annotation>
         </xs:attribute>
@@ -4904,7 +4856,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                             <xrx:default>type</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant context="='persName' or $context='geogName' or $context='placeName' or $context='c'"></xrxe:relevant>
+                    <xrxe:relevant context="='persName' or $context='geogName' or $context='placeName' or $context='c'"/>
                 </xs:appinfo>
             </xs:annotation>
         </xs:attribute>
@@ -4960,7 +4912,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                             <xrx:default>hand</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant context="='sic' or $context='del' or $context='handshift'"></xrxe:relevant>
+                    <xrxe:relevant context="='sic' or $context='del' or $context='handshift'"/>
                 </xs:appinfo>
             </xs:annotation>
         </xs:attribute>
@@ -4973,7 +4925,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                             <xrx:default>extent</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant context="='damage'"></xrxe:relevant>
+                    <xrxe:relevant context="='damage'"/>
                 </xs:appinfo>
             </xs:annotation>
         </xs:attribute>
@@ -5083,7 +5035,9 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
     <xs:attributeGroup name="standard">
         <xs:attributeGroup ref="id"/>
         <xs:attributeGroup ref="n"/>
+        
     </xs:attributeGroup>
+    
     <xs:attributeGroup name="id">
         <xs:attribute name="id">
             <xs:annotation>
@@ -5094,8 +5048,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                             <xrx:default>id</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    
-                </xs:appinfo>                
+                </xs:appinfo>
                 <xs:documentation xml:lang="deu">
           Eine im gesamten Dokument eindeutige ID, die mit einem Buchtstaben
           beginnt.
@@ -5130,7 +5083,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                             <xrx:default>lang</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant context="='quote' or $context='foreign' or $context='cit'"></xrxe:relevant>
+                    <xrxe:relevant context="='quote' or $context='foreign' or $context='cit'"/>
                 </xs:appinfo>
                 <xs:documentation xml:lang="deu">
           Die Sprache des Elements und aller Unterelemente, solange nichts
@@ -5149,12 +5102,12 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                             <xrx:default>rend</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant context="='hi'"></xrxe:relevant>
-                </xs:appinfo>                
+                    <xrxe:relevant context="='hi'"/>
+                </xs:appinfo>
                 <xs:documentation xml:lang="deu">
           Die Art der Darstellung des Elements, insbesondere Bezeichnung der
           Schriftart bei Hervorhebungen.
-                </xs:documentation>                
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:attributeGroup>
