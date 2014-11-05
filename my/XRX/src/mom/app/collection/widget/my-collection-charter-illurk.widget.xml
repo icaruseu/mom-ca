@@ -347,7 +347,7 @@ form{{
     </xrx:instances>
     <xrx:binds>
         <xrx:bind id="bidno" nodeset="/descendant::cei:body/child::cei:idno"/>
-        <xrx:bind id="bclass" nodeset="/descendant::cei:class"/>
+        <!-- <xrx:bind id="bclass" nodeset="/descendant::cei:class"/> -->
         <xrx:bind id="babstract" nodeset="/descendant::cei:abstract"/>
         <xrx:bind id="bissued-date-range" nodeset="/descendant::cei:issued/child::cei:dateRange"/>
         <xrx:bind id="bissued-place" nodeset="/descendant::cei:issued/child::cei:placeName"/>
@@ -717,7 +717,7 @@ form{{
                                                     <xrx:repeat bind="bback">
                                                         <xrx:visualxml ref="/child::cei:placeName"/>
                                                     </xrx:repeat>
-                                                    <div class="dlabel" data-demoid="66e9dcdc-86b7-4a0b-a393-fdc46378b557">
+                                                    <!--daran wird noch gearbeitet. <div class="dlabel" data-demoid="66e9dcdc-86b7-4a0b-a393-fdc46378b557">
                                                         <span class="dlabel-text">
                                                             <xrx:i18n>
                                                                 <xrx:key>cei_class</xrx:key>
@@ -727,7 +727,7 @@ form{{
                                                     </div>
                                                     <div>
                                                         <xrx:visualxml bind="bclass"/>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                             </div>
                                             <div class="ui-layout-north" data-demoid="5da89345-2191-497a-98de-b895609836b1">

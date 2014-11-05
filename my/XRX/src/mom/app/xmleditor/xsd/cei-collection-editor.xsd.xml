@@ -65,8 +65,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     </xrx:topic>
     <xrx:topic>
       <xrx:i18n>
-        <xrx:key>logic-structure</xrx:key>
-        <xrx:default>Textstruktur</xrx:default>
+        <xrx:key>image</xrx:key>
+        <xrx:default>Image</xrx:default>
       </xrx:i18n>
     </xrx:topic>    
   </xrx:topics>
@@ -187,10 +187,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:topic />
     </xrx:element>
     <xrx:element name="cei:figDesc">
-      <xrx:topic />
+      <xrx:topic>image</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:graphic">
-      <xrx:topic />
+      <xrx:topic>image</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:witListPar">
       <xrx:topic />
@@ -256,7 +256,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:topic>reference</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:altIdentifier">
-      <xrx:topic />
+      <xrx:topic>reference</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:arch">
       <xrx:topic>reference</xrx:topic>
@@ -355,7 +355,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:topic>original</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:corr">
-      <xrx:topic />
+      <xrx:topic>original</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:del">
       <xrx:topic>original</xrx:topic>
@@ -388,7 +388,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:topic>reference</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:note">
-      <xrx:topic />
+      <xrx:topic>reference</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:head">
       <xrx:topic />
@@ -448,10 +448,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:topic>indexing</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:region">
-      <xrx:topic />
+      <xrx:topic>indexing</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:country">
-      <xrx:topic />
+      <xrx:topic>indexing</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:settlement">
       <xrx:topic>reference</xrx:topic>
@@ -490,7 +490,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:topic>reference</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:a">
-      <xrx:topic />
+      <xrx:topic>reference</xrx:topic>
     </xrx:element>
   </xrx:elements> 
 </xrx:xsd>
