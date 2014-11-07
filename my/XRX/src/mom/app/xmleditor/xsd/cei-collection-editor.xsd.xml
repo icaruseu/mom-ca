@@ -1,9 +1,9 @@
 <xrx:xsd xmlns:xrx="http://www.monasterium.net/NS/xrx">
-	<xrx:id>tag:www.monasterium.net,2011:/mom/xsd/cei-collection-editor</xrx:id>
-	<xrx:title/>
-	<xrx:subtitle/>
-	<xrx:description/>
-	<xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:id>tag:www.monasterium.net,2011:/mom/xsd/cei-collection-editor</xrx:id>
+  <xrx:title/>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
   <xrx:licence>
 This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
 
@@ -63,425 +63,434 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
         <xrx:default>Textual witnesses</xrx:default>
       </xrx:i18n>
     </xrx:topic>
+    <xrx:topic>
+      <xrx:i18n>
+        <xrx:key>image</xrx:key>
+        <xrx:default>Image</xrx:default>
+      </xrx:i18n>
+    </xrx:topic>    
   </xrx:topics>
-	<xrx:generator defaultnamespace="http://www.monasterium.net/NS/cei">
-	  <xrx:includetag>chDesc</xrx:includetag>
-	  <xrx:includetag>abstract</xrx:includetag>
-	</xrx:generator>
-	<xrx:elements xmlns:cei="http://www.monasterium.net/NS/cei">
-	  <xrx:element name="cei:cei">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:teiHeader">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:fileDesc">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:titleStmt">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:author">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:sourceDesc">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:projectDesc">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:encodingDesc">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:publicationStmt">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:publisher">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:pubPlace">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:availability">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:respStmt">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:resp">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:text">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:front">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:sourceDesc">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:sourceDescRegest">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:sourceDescVolltext">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:body">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:group">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:back">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:idno">
-	    <xrx:topic>reference</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:chDesc">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:issued">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:date_sort">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:witnessOrig">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:class">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:diplomaticAnalysis">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:listBibl">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:listBiblEdition">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:listBiblRegest">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:listBiblFaksimile">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:listBiblErw">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:lang_MOM">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:abstract">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:figure">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:figDesc">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:graphic">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:witListPar">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:witness">
-	    <xrx:topic>textual-witnesses</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:traditioForm">
-	    <xrx:topic>textual-witnesses</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:condition">
-	    <xrx:topic>textual-witnesses</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:sealCondition">
-	    <xrx:topic>seal-description</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:auth">
-	    <xrx:topic>textual-witnesses</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:sealDesc">
-	    <xrx:topic>textual-witnesses</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:seal">
-	    <xrx:topic>seal-description</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:legend">
-	    <xrx:topic>seal-description</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:sigillant">
-	    <xrx:topic>seal-description</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:notariusDesc">
-	    <xrx:topic>textual-witnesses</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:physicalDesc">
-	    <xrx:topic>textual-witnesses</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:dimensions">
-	    <xrx:topic>textual-witnesses</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:width">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:height">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:sealDimensions">
-	    <xrx:topic>seal-description</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:material">
-	    <xrx:topic>textual-witnesses</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:sealMaterial">
-	    <xrx:topic>seal-description</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:nota">
-	    <xrx:topic>textual-witnesses</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:archIdentifier">
-	    <xrx:topic>reference</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:altIdentifier">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:arch">
-	    <xrx:topic>reference</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:archFond">
-	    <xrx:topic>reference</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:provenance">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:msIdentifier">
-	    <xrx:topic>reference</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:repository">
-	    <xrx:topic>reference</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:quoteOriginaldatierung">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:tenor">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:p">
-	    <xrx:topic>textual-witnesses</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:pTenor">
-	    <xrx:topic>original</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:invocatio">
-	    <xrx:topic>formulary</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:intitulatio">
-	    <xrx:topic>formulary</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:inscriptio">
-	    <xrx:topic>formulary</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:publicatio">
-	    <xrx:topic>formulary</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:arenga">
-	    <xrx:topic>formulary</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:narratio">
-	    <xrx:topic>formulary</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:dispositio">
-	    <xrx:topic>formulary</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:corroboratio">
-	    <xrx:topic>formulary</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:sanctio">
-	    <xrx:topic>formulary</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:subscriptio">
-	    <xrx:topic>formulary</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:datatio">
-	    <xrx:topic>formulary</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:apprecatio">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:setPhrase">
-	    <xrx:topic>formulary</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:notariusSub">
-	    <xrx:topic>formulary</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:notariusSign">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:space">
-	    <xrx:topic>original</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:damage">
-	    <xrx:topic>original</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:handShift">
-	    <xrx:topic>original</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:app">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:lem">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:rdg">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:expan">
-	    <xrx:topic>original</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:sic">
-	    <xrx:topic>original</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:corr">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:del">
-	    <xrx:topic>original</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:add">
-	    <xrx:topic>original</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:pict">
-	    <xrx:topic>original</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:sup">
-	    <xrx:topic>original</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:lb">
-	    <xrx:topic>original</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:pb">
-	    <xrx:topic>original</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:c">
-	    <xrx:topic>original</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:hi">
-	    <xrx:topic>original</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:ptr">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:ref">
-	    <xrx:topic>reference</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:note">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:head">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:div">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:divNotes">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:foreign">
-	    <xrx:topic>indexing</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:cit">
-	    <xrx:topic>indexing</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:quote">
-	    <xrx:topic>indexing</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:h1">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:h2">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:list">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:item">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:measure">
-	    <xrx:topic>indexing</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:num">
-	    <xrx:topic>indexing</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:index">
-	    <xrx:topic>indexing</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:date">
-	    <xrx:topic>indexing</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:dateRange">
-	    <xrx:topic>indexing</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:persName">
-	    <xrx:topic>indexing</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:recipient">
-	    <xrx:topic>indexing</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:issuer">
-	    <xrx:topic>indexing</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:testis">
-	    <xrx:topic>indexing</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:region">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:country">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:settlement">
-	    <xrx:topic>reference</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:placeName">
-	    <xrx:topic>indexing</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:geogName">
-	    <xrx:topic>indexing</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:author">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:title">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:imprint">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:pubPlace">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:name">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:bibl">
-	    <xrx:topic>reference</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:title">
-	    <xrx:topic />
-	  </xrx:element>
-	  <xrx:element name="cei:scope">
-	    <xrx:topic>reference</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:anchor">
-	    <xrx:topic>reference</xrx:topic>
-	  </xrx:element>
-	  <xrx:element name="cei:a">
-	    <xrx:topic />
-	  </xrx:element>
-	</xrx:elements>	
+  <xrx:generator defaultnamespace="http://www.monasterium.net/NS/cei">
+    <xrx:includetag>chDesc</xrx:includetag>
+    <xrx:includetag>abstract</xrx:includetag>
+  </xrx:generator>
+  <xrx:elements xmlns:cei="http://www.monasterium.net/NS/cei">
+    <xrx:element name="cei:cei">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:teiHeader">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:fileDesc">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:titleStmt">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:author">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:sourceDesc">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:projectDesc">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:encodingDesc">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:publicationStmt">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:publisher">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:pubPlace">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:availability">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:respStmt">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:resp">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:text">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:front">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:sourceDesc">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:sourceDescRegest">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:sourceDescVolltext">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:body">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:group">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:back">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:idno">
+      <xrx:topic>reference</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:chDesc">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:issued">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:date_sort">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:witnessOrig">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:class">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:diplomaticAnalysis">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:listBibl">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:listBiblEdition">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:listBiblRegest">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:listBiblFaksimile">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:listBiblErw">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:lang_MOM">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:abstract">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:figure">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:figDesc">
+      <xrx:topic>image</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:graphic">
+      <xrx:topic>image</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:witListPar">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:witness">
+      <xrx:topic>textual-witnesses</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:traditioForm">
+      <xrx:topic>textual-witnesses</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:condition">
+      <xrx:topic>textual-witnesses</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:sealCondition">
+      <xrx:topic>seal-description</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:auth">
+      <xrx:topic>textual-witnesses</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:sealDesc">
+      <xrx:topic>textual-witnesses</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:seal">
+      <xrx:topic>seal-description</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:legend">
+      <xrx:topic>seal-description</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:sigillant">
+      <xrx:topic>seal-description</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:notariusDesc">
+      <xrx:topic>textual-witnesses</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:physicalDesc">
+      <xrx:topic>textual-witnesses</xrx:topic>
+    </xrx:element>
+      <xrx:element name="cei:decoDesc">
+      <!--  <xrx:topic>logic-structure</xrx:topic>-->
+    </xrx:element>
+    <xrx:element name="cei:dimensions">
+      <xrx:topic>textual-witnesses</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:width">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:height">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:sealDimensions">
+      <xrx:topic>seal-description</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:material">
+      <xrx:topic>textual-witnesses</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:sealMaterial">
+      <xrx:topic>seal-description</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:nota">
+      <xrx:topic>textual-witnesses</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:archIdentifier">
+      <xrx:topic>reference</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:altIdentifier">
+      <xrx:topic>reference</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:arch">
+      <xrx:topic>reference</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:archFond">
+      <xrx:topic>reference</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:provenance">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:msIdentifier">
+      <xrx:topic>reference</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:repository">
+      <xrx:topic>reference</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:quoteOriginaldatierung">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:tenor">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:p">
+      <xrx:topic>textual-witnesses</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:pTenor">
+      <xrx:topic>original</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:invocatio">
+      <xrx:topic>formulary</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:intitulatio">
+      <xrx:topic>formulary</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:inscriptio">
+      <xrx:topic>formulary</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:publicatio">
+      <xrx:topic>formulary</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:arenga">
+      <xrx:topic>formulary</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:narratio">
+      <xrx:topic>formulary</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:dispositio">
+      <xrx:topic>formulary</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:corroboratio">
+      <xrx:topic>formulary</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:sanctio">
+      <xrx:topic>formulary</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:subscriptio">
+      <xrx:topic>formulary</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:datatio">
+      <xrx:topic>formulary</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:apprecatio">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:setPhrase">
+      <xrx:topic>formulary</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:notariusSub">
+      <xrx:topic>formulary</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:notariusSign">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:space">
+      <xrx:topic>original</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:damage">
+      <xrx:topic>original</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:handShift">
+      <xrx:topic>original</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:app">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:lem">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:rdg">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:expan">
+      <xrx:topic>original</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:sic">
+      <xrx:topic>original</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:corr">
+      <xrx:topic>original</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:del">
+      <xrx:topic>original</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:add">
+      <xrx:topic>original</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:pict">
+      <xrx:topic>original</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:sup">
+      <xrx:topic>original</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:lb">
+      <xrx:topic>original</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:pb">
+      <xrx:topic>original</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:c">
+      <xrx:topic>original</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:hi">
+      <xrx:topic>original</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:ptr">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:ref">
+      <xrx:topic>reference</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:note">
+      <xrx:topic>reference</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:head">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:div">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:divNotes">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:foreign">
+      <xrx:topic>indexing</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:cit">
+      <xrx:topic>indexing</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:quote">
+      <xrx:topic>indexing</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:h1">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:h2">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:list">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:item">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:measure">
+      <xrx:topic>indexing</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:num">
+      <xrx:topic>indexing</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:index">
+      <xrx:topic>indexing</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:date">
+      <xrx:topic>indexing</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:dateRange">
+      <xrx:topic>indexing</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:persName">
+      <xrx:topic>indexing</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:recipient">
+      <xrx:topic>indexing</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:issuer">
+      <xrx:topic>indexing</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:testis">
+      <xrx:topic>indexing</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:region">
+      <xrx:topic>indexing</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:country">
+      <xrx:topic>indexing</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:settlement">
+      <xrx:topic>reference</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:placeName">
+      <xrx:topic>indexing</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:geogName">
+      <xrx:topic>indexing</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:author">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:title">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:imprint">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:pubPlace">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:name">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:bibl">
+      <xrx:topic>reference</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:title">
+      <xrx:topic />
+    </xrx:element>
+    <xrx:element name="cei:scope">
+      <xrx:topic>reference</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:anchor">
+      <xrx:topic>reference</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:a">
+      <xrx:topic>reference</xrx:topic>
+    </xrx:element>
+  </xrx:elements> 
 </xrx:xsd>
