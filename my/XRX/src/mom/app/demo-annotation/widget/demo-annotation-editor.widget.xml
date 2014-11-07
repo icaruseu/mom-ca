@@ -202,6 +202,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <xrx:bind id="borig-traditio-form" nodeset="/descendant::cei:witnessOrig/child::cei:traditioForm"/>
     <xrx:bind id="borig-figure" nodeset="/descendant::cei:witnessOrig/child::cei:figure"/>
     <xrx:bind id="borig-arch-identifier" nodeset="/descendant::cei:witnessOrig/child::cei:archIdentifier"/>
+    <xrx:bind id="borig-decoDesc" nodeset="/descendant::cei:witnessOrig/child::cei:physicalDesc/child::cei:decoDesc"/>
     <xrx:bind id="borig-material" nodeset="/descendant::cei:witnessOrig/child::cei:physicalDesc/child::cei:material"/>
     <xrx:bind id="borig-dimensions" nodeset="/descendant::cei:witnessOrig/child::cei:physicalDesc/child::cei:dimensions"/>
     <xrx:bind id="borig-condition" nodeset="/descendant::cei:witnessOrig/child::cei:physicalDesc/child::cei:condition"/>

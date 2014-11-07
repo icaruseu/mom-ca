@@ -71,15 +71,19 @@ declare function xmleditor:json-attribute-suggestions($xsd as element(xs:schema)
     return
     xmleditor:json-object(
         for $element in $xsd//xs:element[@name]
+        
         let $qname := concat($namespace-prefix, ':', $element/@name/string())
         let $attribute-elements := 
             (
                 $element//xs:attribute,
                 for $attribute-group in $element//xs:attributeGroup
+                
                 return
                 xmleditor:attribute-elements-of-group($attribute-group/@ref/string(), (), $xsd)
             )
+        where $qname != "cei:figure"(: das wird hier hart reingeschrieben, um zu vermeiden, dass in das figure Element @ eingetragen werden. by maburg .:)
         order by $element/@name
+        
         return
         xmleditor:json-pair(
             xmleditor:json-string($qname),
