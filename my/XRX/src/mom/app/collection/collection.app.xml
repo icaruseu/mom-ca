@@ -104,7 +104,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     </xrx:resource>
   </xrx:resources>
   <xrx:resolver>
-  	<!-- services -->
+    <!-- services -->
     <xrx:map>
       <xrx:uripattern>/service/my-collection-bookmarks$</xrx:uripattern>
       <xrx:mode>service</xrx:mode>
@@ -260,6 +260,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:uripattern>/charter/(.*)/edit$</xrx:uripattern>
       <xrx:mode>mainwidget</xrx:mode>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/my-collection-charter-edit</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/charter/(.*)/illurk$</xrx:uripattern>
+      <xrx:mode>mainwidget</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/my-collection-charter-illurk</xrx:atomid>
     </xrx:map>
     <xrx:map>
       <xrx:uripattern>/charter/(.*)/contribute$</xrx:uripattern>

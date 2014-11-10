@@ -49,6 +49,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:name>$wcharters:charter-context-name</xrx:name>
       <xrx:expression>$wcharters:metadata-charter-context-entry//cei:titleStmt/cei:title/text()</xrx:expression>
     </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:charter-context-class</xrx:name>
+      <xrx:expression>$wcharters:metadata-charter-context-entry//cei:body/cei:chDesc/cei:class</xrx:expression>
+    </xrx:variable>
     <!-- 
       widget specific 
      -->
@@ -216,7 +220,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 						</xrx:i18n>
 					</a>
 					<span> &gt; </span>
-					<a href="{ conf:param('request-root') }{ $charter:rcollectionid }/my-collection">{ $wcharters:charter-context-name }</a>
+					<a href="{ conf:param('request-root') }{ $charter:rcollectionid }/my-collection">{ $wcharters:charter-context-name } </a>
 				</div>      
       </xrx:view>
     </xrx:div>
