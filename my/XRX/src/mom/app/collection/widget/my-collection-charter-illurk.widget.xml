@@ -524,7 +524,7 @@ form{{
                                                     <li>
                                                         <a class="anchor" href="#tab-2">
                                                             <xrx:i18n>
-                                                                <xrx:key>arthist</xrx:key>
+                                                                <xrx:key>decoDesc</xrx:key>
                                                                 <xrx:default>Kunsthistorische Beschreibung</xrx:default>
                                                             </xrx:i18n>
                                                         </a>

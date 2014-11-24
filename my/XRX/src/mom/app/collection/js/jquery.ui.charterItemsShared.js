@@ -85,6 +85,9 @@ $.widget( "ui.charterItemsShared", {
         tableHeaderTitle = $('<div></div>')
           .addClass("forms-table-cell")
           .text($(document).xrxI18n.translate("title", "")),
+        tableHeaderEditors = $('<div></div>')
+          .addClass("forms-table-cell")
+          .text("Editors"),
         tableHeaderDisplay = $('<div></div>')
           .addClass("forms-table-cell")
           .text("Owner"),
@@ -95,7 +98,7 @@ $.widget( "ui.charterItemsShared", {
     // insert preface DIV
     itemDivPreface.append(itemLinkPreface);
     // compose table header
-    tableHeader.append(tableHeaderDate).append(tableHeaderTitle).append(tableHeaderDisplay).append(tableHeaderVersionOf);
+    tableHeader.append(tableHeaderDate).append(tableHeaderTitle).append(tableHeaderEditors).append(tableHeaderDisplay).append(tableHeaderVersionOf);
     table.append(tableHeader);
     // insert all into items DIV
     itemsDiv.append(table);
@@ -128,11 +131,24 @@ $.widget( "ui.charterItemsShared", {
               ),
             itemLinkCharter = $('<div></div>')
               .addClass("forms-table-cell")
-              .append($('<a></a>')
-                  .attr("href", requestRoot + "charter/" + key + "/contribute")
-                  .attr("target", "_blank")
+              .append($('<span></span>')                  
                 .text(charterTitle)
-              );
+              )          
+           itemLinkIllurk = $('<div></div>')
+            .addClass("forms-table-cell")
+            .append($('<a></a>')
+              .attr("href", requestRoot + "charter/" + key + "/edit")
+                  .attr("target", "_blank")
+                  .append($('<button></button>')
+                  .text("Default Editor")
+            )
+            
+          ).append(
+              $('<a></a>').attr("href", requestRoot + "charter/" + key + "/illurk").attr("target", "_blank").append(
+                  $('<button></button>').text("Illurk Editor")
+                  )
+          );
+          
           var itemOwner = $('<div></div>')
               .addClass("forms-table-cell")
               .append($('<span style="font-size: .8em; color: rgb(200,200,200)"></span>')
@@ -147,6 +163,7 @@ $.widget( "ui.charterItemsShared", {
           itemDivCharter
             .append(itemLinkDate)
             .append(itemLinkCharter)
+            .append(itemLinkIllurk)
             .append(itemOwner)
             .append(itemLinkVersionOf);
           if(key != "charter") {
