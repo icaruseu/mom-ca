@@ -46,6 +46,7 @@
   <xsl:template match="xhtml:insert-witList">
     <xsl:param name="count" select="count($cei//cei:witList/cei:witness)" />
     <xsl:for-each select="$cei//cei:witnessOrig|$cei//cei:witListPar/cei:witness">
+      <xsl:sort select="." />
       <xsl:call-template name="witness">
         <xsl:with-param name="num" select="position()" />
       </xsl:call-template>
@@ -117,7 +118,7 @@
   </xsl:template>
   <xsl:template match="xhtml:insert-bibltenor">
     <xsl:choose>
-      <xsl:when test="$cei//cei:sourceDesc/cei:sourceDescVolltext/cei:bibl/text() != ''">
+      <xsl:when test="$cei//cei:sourceDesc/cei:sourceDescVolltext/cei:bibl">
         <xsl:call-template name="bibltenor" />
       </xsl:when>
     </xsl:choose>
@@ -183,6 +184,10 @@
 
   <xsl:template match="insert-entry">
     <xsl:call-template name="entry" />
+  </xsl:template>
+  
+  <xsl:template match="xhtml:insert-howToCite">
+    <xsl:call-template name="howToCite" />
   </xsl:template>
 
   <!-- imageselect -->
@@ -267,7 +272,7 @@
     </xsl:choose>
   </xsl:template>
 
-  <!-- textualElements -->
+  <!-- cei matching -->
   <xsl:template match="cei:quote">
     <i>
       <xsl:apply-templates />
@@ -317,8 +322,11 @@
      <xsl:apply-templates/>
    </sup>
   </xsl:template>
+  <xsl:template match="cei:tenor//cei:lb">
+    <span class="cei-lb">&#160;||</span><br/>
+  </xsl:template>
   <xsl:template match="cei:lb">
-    <xsl:text>&#160;||</xsl:text><br/>
+    <br/>
   </xsl:template>
   
   <!-- common elements -->
@@ -327,14 +335,31 @@
       <xsl:attribute name="href">
         <xsl:value-of select="./@target"/>
       </xsl:attribute>
-      <xsl:attribute name="target">
-        <xsl:text>_blank</xsl:text>
-      </xsl:attribute>
+      <xsl:choose>
+        <xsl:when test="starts-with(./@target, '#')">
+          <xsl:if test="./@type='footnote'">
+            <xsl:attribute name="class">
+              <xsl:text>fn-link</xsl:text>              
+            </xsl:attribute>
+            <xsl:attribute name="id">
+              <xsl:text>ref</xsl:text>
+              <xsl:value-of select="substring-after(./@target, '#')" />
+            </xsl:attribute>
+          </xsl:if>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:attribute name="target">
+            <xsl:text>_blank</xsl:text>
+          </xsl:attribute>
+        </xsl:otherwise>      
+      </xsl:choose>
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
   <xsl:template match="cei:issuer">
+    <span class="cei-issuer">
     <xsl:apply-templates/>
+    </span>
   </xsl:template>
   <xsl:template match="cei:recipient">
     <xsl:apply-templates/>
@@ -342,6 +367,30 @@
   <xsl:template match="cei:index">
     <xsl:apply-templates/>
   </xsl:template>
+  <xsl:template match="cei:measure">
+    <span class="cei-measure">
+      <xsl:apply-templates />
+    </span>
+  </xsl:template>
+  
+  <xsl:template match="cei:pb">
+    <span class="cei-pb">
+      <xsl:apply-templates />
+    </span>
+  </xsl:template>
+  
+  <xsl:template match="cei:handshift">
+    <span class="cei-handshift">
+      <xsl:apply-templates />
+    </span>
+  </xsl:template>
+  
+  <xsl:template match="cei:add">
+    <span class="cei-add">
+      <xsl:apply-templates />
+    </span>
+  </xsl:template>
+  
 
   <!-- witness -->
   <xsl:template name="witness">
@@ -667,13 +716,19 @@
           <xrx:i18n><xrx:key>notes</xrx:key><xrx:default>Notes</xrx:default></xrx:i18n>
         </b>
         <xsl:text>:&#160;</xsl:text>
-        <xsl:for-each select="$cei//cei:divNotes/cei:note">
-          <xsl:apply-templates select="." />
+          <xsl:apply-templates select="$cei//cei:divNotes/cei:note"/>
+      </xsl:if>
+    </div>
+  </xsl:template>
+  <xsl:template match="cei:divNotes/cei:note">
+    <div class="note">
+          <xsl:if test="@id">
+            <xsl:attribute name="id" select="@id" />
+          </xsl:if>
+          <xsl:apply-templates/>
           <xsl:if test="position() != last()">
             <xsl:text>,&#160;</xsl:text>
           </xsl:if>
-        </xsl:for-each>
-      </xsl:if>
     </div>
   </xsl:template>
   <xsl:template match="cei:listBiblEdition" mode="diplA">
@@ -823,9 +878,7 @@
 
   <!-- tenor -->
   <xsl:template name="tenor">
-    <div class="p">
       <xsl:apply-templates select="$cei//cei:body/cei:tenor" />
-    </div>
   </xsl:template>
   <xsl:template match="cei:pTenor">
     <p>
@@ -854,6 +907,7 @@
   <!-- index persName -->
   <xsl:template name="persName">
     <xsl:for-each select="$cei//cei:persName">
+      <xsl:sort select="."/>
       <xsl:if test="./node()">
 	      <li>
 	        <xsl:apply-templates/>
@@ -915,6 +969,7 @@
   <!-- index placeName -->
   <xsl:template name="placeName">
     <xsl:for-each select="$cei//cei:placeName">
+      <xsl:sort select="."/>
       <xsl:if test="./node()">
 	      <li>
 	        <xsl:apply-templates/>
@@ -932,6 +987,7 @@
   <!-- index -->
   <xsl:template name="item">
     <xsl:for-each select="$cei//cei:back/cei:index">
+      <xsl:sort select="."/>
       <xsl:if test="./node()">
 	      <li>
 	        <xsl:apply-templates/>
@@ -945,7 +1001,14 @@
 	    </xsl:if>
     </xsl:for-each>
   </xsl:template>
-
+  
+  <!-- how to cite -->
+  <xsl:template name="howToCite">
+    <p>
+      <xsl:text>hello world</xsl:text>
+    </p>
+  </xsl:template>
+  
   <!-- atom entry -->
   <xsl:template name="entry">
     <div class="greyp">
@@ -985,6 +1048,7 @@
       </div>
     </div>
   </xsl:template>
+
   <xsl:template match="exist:match">
     <span style="background:yellow">
       <xsl:apply-templates />

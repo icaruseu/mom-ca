@@ -261,9 +261,9 @@ it leaves the active development stage.
           <span> &gt;&gt;</span>
         </a>
 				else
-				<div data-demoid="83fd4438-503e-4020-99dd-e8d1585557cc">
+				<div>
           <div data-demoid="0620e9b9-3056-44e9-97e0-36659b196c21" style="float:left;margin:5px;">
-            <a href="javascript:showHideDiv('viewport','')">
+            <a href="javascript:showHideDiv('embedded-graphic','')">
               <xrx:i18n>
                 <xrx:key>graphics</xrx:key>
                 <xrx:default>Graphics</xrx:default>
@@ -294,6 +294,7 @@ it leaves the active development stage.
         </div>
 				}
 			</div>
+			<div id="embedded-graphic">
       <div data-demoid="d650ad67-8ffe-42d9-8ec9-1ffcdab25e09" id="viewport">
 				{
 				if(count($wcharter-image-viewer:img-urls) gt 0 and not($wcharter-image-viewer:image-access-forbidden-flag)) then
@@ -354,7 +355,6 @@ it leaves the active development stage.
         </div>
 				}
 			</div>
-      <div data-demoid="9896fa36-58ac-49b8-abc2-2805764fbbfa">
         <div data-demoid="57df26ce-eba6-49bb-aa05-d876b453baa2" id="zoomerbar">
           <div data-demoid="51ba5857-6367-44f6-bf3a-561ebbc8cdb4" id="zoomsliderlabel">
             <span>

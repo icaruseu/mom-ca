@@ -74,9 +74,11 @@ it leaves the active development stage.
         </a>
       </div>
       <div data-demoid="317b877a-e803-48d5-8d2e-bd9779f000bb" id="tenor" style="display:none">
+       <div class="p">
         <insert-tenor/>
         <insert-bibltenor/>
         <insert-tenornotes/>
+       </div>
       </div>
       <div class="inlinehead" data-demoid="3709cbe1-7993-4a11-a5e5-846e579c935e">
         <a href="javascript:showHideDiv('diplomaticAnalysis', '')">
@@ -102,6 +104,17 @@ it leaves the active development stage.
         <insert-placeName/>
         <insert-item/>
         <span style="color:white">x</span>
+      </div>
+      <div class="inlinehead" data-demoid="82454989-131d-4937-b282-c64cb7ef06gs1">
+        <a href="javascript:showHideDiv('howToCite', '')">
+          <xrx:i18n>
+            <xrx:key>how-to-cite</xrx:key>
+            <xrx:default>How to cite</xrx:default>
+          </xrx:i18n>
+        </a>
+      </div>
+      <div data-demoid="82454989-131d-4937-b282-c64cb7ef06gs2" id="howToCite">
+        <insert-howToCite/>
       </div>
     </div>
   </xrx:xml>

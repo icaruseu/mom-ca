@@ -372,6 +372,8 @@ it leaves the active development stage.
 #charter{{
   position:relative;
   width:100%;
+  
+  
 }}
 
 #charter
@@ -379,7 +381,7 @@ it leaves the active development stage.
   font-size:130%;
 }}
 
-#diplomaticAnalysis, #index, #versions, #tenor, #abstract, .witness {{
+#diplomaticAnalysis, #index, #versions, #tenor, #abstract, #witList, #howToCite, .witness {{
   position:relative;
   float:left;
   border:solid rgb(240,243,226) 1px;
@@ -387,7 +389,7 @@ it leaves the active development stage.
   margin-left:5px;
   margin-right:5px;
   margin-top:0px;
-  margin-bottom:5px;
+  margin-bottom:10px;
 }}
 
 #biblabstract, #bibltenor{{
@@ -400,16 +402,8 @@ it leaves the active development stage.
 }}
 
 #witList{{
-  float:left;
-  position:relative;
-  width:949px;
   overflow:auto;
-  margin-top:0px;
-  margin-left:5px;
-  margin-right:5px;
-  margin-bottom:0px;
   padding:0;
-  border:solid rgb(240,243,226) 1px;
 }}
 
 div.witness-text{{
@@ -465,9 +459,15 @@ div.inlinehead, div.greyinlinehead, div.light-green, div.light-green:visited{{
   line-height:200%;
 }}
 
+div.inlinehead{{
+  margin-bottom:1px;
+  padding: 5px;
+  width:942px !important;
+}}
+
 div.p{{
-  margin:5px;
-  padding:0px;
+  /*margin:5px;*/
+  padding:10px;
 }}
 
 div.no-graphic{{
@@ -486,6 +486,13 @@ span.num{{
   font-weight:bold;
   font-size:150%;
   color:rgb(142,163,132);
+}}
+
+.fn-link{{
+  vertical-align: super;
+  font-size: 0.9em;
+  text-decoration: none;
+  padding-left: 0.1em;
 }}
 
 div.lang-select{{
@@ -585,6 +592,12 @@ div.lang-select{{
   margin: 10px;
   margin-top: 30px;
   margin-bottom: 30px;
+}}
+
+/* cei elements */
+
+.cei-lb {{
+  display: none;
 }}
 
       </style>
