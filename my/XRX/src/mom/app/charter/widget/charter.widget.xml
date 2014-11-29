@@ -629,6 +629,14 @@ div.lang-select{{
   display: none;
 }}
 
+.cei-issuer {{
+  letter-spacing: 2px;
+}}
+
+cei-recipient {{
+  letter-spacing: 2px;
+}}
+
       </style>
   </xrx:csss>
   <xrx:jss>

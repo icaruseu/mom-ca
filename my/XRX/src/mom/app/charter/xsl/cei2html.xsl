@@ -162,7 +162,7 @@
   </xsl:template>
   <xsl:template match="xhtml:insert-item">
     <xsl:choose>
-      <xsl:when test="count($cei//cei:back/cei:index/node()) &gt; 0">
+      <xsl:when test="count($cei//cei:index/node()) &gt; 0">
         <div id="item">
           <b>
             <xrx:i18n><xrx:key>items</xrx:key><xrx:default>Items</xrx:default></xrx:i18n>
@@ -362,7 +362,9 @@
     </span>
   </xsl:template>
   <xsl:template match="cei:recipient">
+    <span class="cei-recipient">
     <xsl:apply-templates/>
+    </span>
   </xsl:template>
   <xsl:template match="cei:index">
     <xsl:apply-templates/>
@@ -986,7 +988,9 @@
 
   <!-- index -->
   <xsl:template name="item">
-    <xsl:for-each select="$cei//cei:index">
+  <xsl:for-each-group select="$cei//cei:index" group-by="@type">
+        <xsl:sort select="@type"/>
+        <xsl:for-each select="$cei//cei:index">
       <xsl:sort select="."/>
       <xsl:if test="./node()">
 	      <li>
@@ -1000,6 +1004,7 @@
 	      </ul>
 	    </xsl:if>
     </xsl:for-each>
+    </xsl:for-each-group>  
   </xsl:template>
   
   <!-- how to cite -->
