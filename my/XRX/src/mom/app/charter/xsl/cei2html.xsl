@@ -986,7 +986,7 @@
 
   <!-- index -->
   <xsl:template name="item">
-    <xsl:for-each select="$cei//cei:back/cei:index">
+    <xsl:for-each select="$cei//cei:index">
       <xsl:sort select="."/>
       <xsl:if test="./node()">
 	      <li>

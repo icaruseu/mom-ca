@@ -381,7 +381,7 @@ it leaves the active development stage.
   font-size:130%;
 }}
 
-#diplomaticAnalysis, #index, #versions, #tenor, #abstract, #witList, #howToCite, .witness {{
+#graphics, #diplomaticAnalysis, #index, #versions, #tenor, #abstract, #witList, #howToCite, .witness {{
   position:relative;
   float:left;
   border:solid rgb(240,243,226) 1px;
@@ -505,6 +505,26 @@ div.lang-select{{
   width:auto;
 }}
 
+#prev-next{{
+  margin-top:10px;
+}}
+
+#prev{{
+  float: left;
+}}
+
+#next{{
+  float:right;
+}}
+
+#downloads{{
+  float: right;
+}}
+
+#downloads a{{
+  padding: 5px;
+}}
+
 .actions{{
   position:relative;
   float:right;
@@ -610,6 +630,21 @@ div.lang-select{{
     { publication:model(conf:param('request-root')) }
   </xrx:model>
   <xrx:divs>
+     <xrx:div>
+      <xrx:key>heading-div</xrx:key>
+      <xrx:view>
+        <div class="h2" data-demoid="85afc7b7-b449-4686-b01e-b2596a5a8c88">
+          <xrx:i18n>
+            <xrx:key>charter</xrx:key>
+            <xrx:default>Charter</xrx:default>
+          </xrx:i18n>
+          <span>: </span>
+          <span>{ $wcharter:fond }</span>
+          <span> </span>
+          <span>{ $wcharter:idno }</span> 
+        </div>
+      </xrx:view>
+    </xrx:div>
     <xrx:div>
       <xrx:key>breadcrumb</xrx:key>
       <xrx:view>
@@ -682,14 +717,13 @@ div.lang-select{{
     <xrx:div>
       <xrx:key>download-xml-link</xrx:key>
       <xrx:view>
-        <div data-demoid="a98481f1-817c-429c-b72b-32c2111896f7">
+        <div data-demoid="a98481f1-817c-429c-b72b-32c2111896f7" id="downloads">
           <a href="{ $wcharter:atom-uri }" target="_blank">
             <xrx:i18n>
               <xrx:key>download-xml</xrx:key>
               <xrx:default>Download XML</xrx:default>
             </xrx:i18n>
           </a>
-          <br/>
           <a href="{ conf:param('request-root')}service/pdf-export?id={ xmldb:encode($wcharter:atom-id) }&amp;lang={ $xrx:lang }" target="blank">
             <xrx:i18n>
               <xrx:key>pdf-export</xrx:key>
@@ -881,7 +915,43 @@ div.lang-select{{
               </div>
             </xrx:false>
           </xrx:auth>
-          <xrx:div>download-xml-link</xrx:div>
+        </div>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>how-to-cite</xrx:key>
+      <xrx:view>
+        <div class="inlinehead">
+          <a href="javascript:showHideDiv('howToCite', '')">
+          <xrx:i18n>
+            <xrx:key>how-to-cite</xrx:key>
+            <xrx:default>How to cite</xrx:default>
+          </xrx:i18n>
+          </a>
+        </div>
+        <div id="howToCite">
+          <div class="p">
+           <p>
+         <!-- { if($wcharter:context = 'fond') then
+            <span>{ $charter:rarchiveid }</span>
+            <span>, </span>
+            <span>{ $charter:rfondid }</span>
+            <span>, </span>
+            <span>{ $wcharter:idno }</span>
+            else if($wcharter:context = 'collection') then
+            <span>{ $wcharter:fond }</span>
+            <span>, </span>
+            <span>{ $wcharter:idno }</span>
+            else
+            <span>{ $xrx:tokenized-uri[1] }</span>
+            <span>, </span>
+            <span>{ $wcharter:pos }</span>
+            } 
+            <span>, </span>
+            <span>{ request:get-url() }</span>  --> 
+            hello world
+           </p>
+          </div>
         </div>
       </xrx:view>
     </xrx:div>
@@ -921,9 +991,10 @@ div.lang-select{{
             </div>
         </div>
         -->
-        <xrx:div>heading-center-div</xrx:div>
-        <div data-demoid="630465f3-fb15-4bd8-80da-410d8c0b0216">
-          <div data-demoid="ff14a4a2-6b38-464a-be33-28f16d587320" style="position:absolute">
+        <xrx:div>heading-div</xrx:div>
+        <xrx:div>breadcrumb</xrx:div>
+        <div data-demoid="630465f3-fb15-4bd8-80da-410d8c0b0216" id="prev-next">
+          <div data-demoid="ff14a4a2-6b38-464a-be33-28f16d587320" id="prev">
             <a href="{ $wcharter:previous }">
               <span>&lt; </span>
               <xrx:i18n>
@@ -932,7 +1003,7 @@ div.lang-select{{
               </xrx:i18n>
             </a>
           </div>
-          <div data-demoid="9b2eddc0-a341-4869-b48b-e0992db9f77c" style="position:absolute;right:25px;">
+          <div data-demoid="9b2eddc0-a341-4869-b48b-e0992db9f77c" id="next">
             <span>{ $wcharter:pos } </span>
             <xrx:i18n>
               <xrx:key>of</xrx:key>
@@ -955,8 +1026,6 @@ div.lang-select{{
             </a>
           </div>
         </div>
-        <br/>
-        <br/>
         <div data-demoid="33f114f7-83e4-48b4-af9b-c2ba8ef8d59c">
           {
           if(starts-with($charter:rfondid,'MIB')) then
@@ -971,11 +1040,11 @@ div.lang-select{{
             )
             else()
             }
-            <xrx:i18n>
+          <xrx:i18n>
               <xrx:key>signature</xrx:key>
               <xrx:default>Signature</xrx:default>
             </xrx:i18n>
-            <span>: { $wcharter:idno }</span>
+            <span>: { $wcharter:idno }</span> --> 
           </div>
           ,
           <div data-demoid="2f369771-f977-4c60-a236-1d10bc16c608" style="position:relative;left:170px;margin-bottom:10px;">
@@ -1000,15 +1069,15 @@ div.lang-select{{
             )
             else()
             }
-            <xrx:i18n>
+       <xrx:i18n>
               <xrx:key>signature</xrx:key>
               <xrx:default>Signature</xrx:default>
             </xrx:i18n>
-            <span>: { $wcharter:idno }</span>
+            <span>: { $wcharter:idno }</span>  
           </div>
           }
         </div>
-        <xrx:div>breadcrumb</xrx:div>
+
       </div>
       {
       if($wcharter:metadata-collection-collection//cei:sourceDesc/cei:p/text() = 'Export aus Google Daten') then
@@ -1028,6 +1097,7 @@ div.lang-select{{
 	    </div>
 		  else()
 		  }
+		  <xrx:div>download-xml-link</xrx:div>
       <xrx:subwidget>
         <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/charter-image-viewer</xrx:atomid>
         <xrx:pass>
@@ -1079,6 +1149,7 @@ div.lang-select{{
         return 
         i18n:translate-xml(transform:transform($page, $wcharter:xsl, $wcharter:params)) 
         }
+        <xrx:div>how-to-cite</xrx:div>
       </div>
       {
       if($xrx:tokenized-uri[last()] = 'charter') then
