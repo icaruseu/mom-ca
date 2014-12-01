@@ -356,6 +356,9 @@
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
+  <xsl:template match="cei:ref[@type='bibliography']">
+    <xsl:apply-templates/>
+  </xsl:template>
   <xsl:template match="cei:issuer">
     <span class="cei-issuer">
     <xsl:apply-templates/>

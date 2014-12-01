@@ -176,8 +176,17 @@ it leaves the active development stage.
 
 .open-viewer-link{{
   margin: 10px;
-	float:right;
+	float: right;
 }}
+
+.image-tools-link{{
+  margin: 10px;
+  float: right;
+}}
+
+#open-image-tool-button{{
+    left: 200px;
+}} 
 
 #zoomsliderlabel{{
 	position:relative;
@@ -247,6 +256,23 @@ it leaves the active development stage.
 				}
       </xrx:view>
     </xrx:div>
+    <xrx:div>
+      <xrx:key>image-tools-link</xrx:key>
+        <xrx:view>
+          {
+          if($xrx:tokenized-uri[last()] = 'charter') then
+          <div class="image-tools-link">
+          <button id="open-image-tool-button">
+            <xrx:i18n>
+              <xrx:key>open-image-tools</xrx:key>
+              <xrx:default>Open Image Tools</xrx:default>
+            </xrx:i18n>
+          </button>
+          </div>
+          else()
+          }
+        </xrx:view>
+    </xrx:div>
   </xrx:divs>
   <xrx:view>
     <div data-demoid="2d91f46d-7972-4d83-8782-18b2721f5634">
@@ -262,7 +288,7 @@ it leaves the active development stage.
         </a>
 				else
 				<div>
-          <div data-demoid="0620e9b9-3056-44e9-97e0-36659b196c21" style="float:left;margin:5px;">
+          <div data-demoid="0620e9b9-3056-44e9-97e0-36659b196c21" style="float:left;">
             <a href="javascript:showHideDiv('graphics','')">
               <xrx:i18n>
                 <xrx:key>graphics</xrx:key>
@@ -271,17 +297,6 @@ it leaves the active development stage.
               <span>:</span>
             </a>
           </div>
- 					{
- 					if($xrx:tokenized-uri[last()] = 'charter') then
-          <button id="open-image-tool-button">
-            <xrx:i18n>
-              <xrx:key>open-image-tools</xrx:key>
-              <xrx:default>Open Image Tools</xrx:default>
-            </xrx:i18n>
-          </button>
-          else()
-          }
-          <span> </span>
           <div data-demoid="f52d37ea-4440-40a3-8ea5-8f0e429f550f" id="change-image-links">
 						{
 						for $img-url at $num in $wcharter-image-viewer:img-urls
@@ -295,6 +310,7 @@ it leaves the active development stage.
 				}
 			</div>
 			<div id="graphics">
+			          <p>{$wcharter-image-viewer:img-urls}</p>
       <div data-demoid="d650ad67-8ffe-42d9-8ec9-1ffcdab25e09" id="viewport">
 				{
 				if(count($wcharter-image-viewer:img-urls) gt 0 and not($wcharter-image-viewer:image-access-forbidden-flag)) then
@@ -366,6 +382,7 @@ it leaves the active development stage.
           <div data-demoid="d524da09-709a-4e43-b845-fa27910aa90e" id="zoomslider"/>
         </div>
         <xrx:div>augiasviewer-link</xrx:div>
+        <xrx:div>image-tools-link</xrx:div>
       </div>
       <script type="text/javascript">
 				$(document).ready(function() {{
