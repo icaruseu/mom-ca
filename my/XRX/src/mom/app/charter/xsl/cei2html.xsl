@@ -359,6 +359,11 @@
   <xsl:template match="cei:ref[@type='bibliography']">
     <xsl:apply-templates/>
   </xsl:template>
+  <xsl:template match="cei:persName">
+    <span class="cei-persname">
+      <xsl:apply-templates/>
+    </span>
+  </xsl:template>
   <xsl:template match="cei:issuer">
     <span class="cei-issuer">
     <xsl:apply-templates/>
@@ -666,7 +671,9 @@
     <xsl:apply-templates />
   </xsl:template>
   <xsl:template match="cei:placeName">
-    <xsl:apply-templates />
+    <span class="cei-placename">
+      <xsl:apply-templates />
+    </span>
   </xsl:template>
   <xsl:template name="issued">
     <xsl:apply-templates select="$cei//cei:issued/cei:dateRange" />

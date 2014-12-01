@@ -1,6 +1,7 @@
 
  $(document).ready(function(){
-	 $('#graphics').has('.no-graphic').css( 'display', 'none');	 
+	 $('#graphics').has('.no-graphic').css( 'display', 'none');
+	 $('#tenor').has('#bibltenor').css( 'display', 'block');
  });
 
 
