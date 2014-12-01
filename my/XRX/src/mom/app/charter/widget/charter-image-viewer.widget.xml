@@ -310,7 +310,6 @@ it leaves the active development stage.
 				}
 			</div>
 			<div id="graphics">
-			          <p>{$wcharter-image-viewer:img-urls}</p>
       <div data-demoid="d650ad67-8ffe-42d9-8ec9-1ffcdab25e09" id="viewport">
 				{
 				if(count($wcharter-image-viewer:img-urls) gt 0 and not($wcharter-image-viewer:image-access-forbidden-flag)) then

@@ -1,4 +1,9 @@
 
+ $(document).ready(function(){
+	 $('#graphics').has('.no-graphic').css( 'display', 'none');	 
+ });
+
+
 function changeImage(url){
 	document.images["image"].src = url;
 	document.getElementById('img-link').setAttribute('href', url);
