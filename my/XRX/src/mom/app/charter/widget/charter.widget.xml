@@ -534,6 +534,14 @@ div.lang-select{{
   padding: 5px;
 }}
 
+#change-graphic-links span{{
+  padding: 5px;
+}}
+
+#change-graphic-links a{{
+  float: none !important;
+}}
+
 .actions{{
   position:relative;
   float:right;

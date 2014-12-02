@@ -45,8 +45,13 @@
   </xsl:template>
   <xsl:template match="xhtml:insert-witList">
     <xsl:param name="count" select="count($cei//cei:witList/cei:witness)" />
-    <xsl:for-each select="$cei//cei:witnessOrig|$cei//cei:witListPar/cei:witness">
-      <xsl:sort select="." />
+    <xsl:variable name="ordered-witListPar">
+    <xsl:for-each select="$cei//cei:witListPar/cei:witness">
+      <xsl:sort select="cei:archIdentifier"/>
+      <xsl:copy-of select="."/>
+    </xsl:for-each>
+    </xsl:variable>
+    <xsl:for-each select="$cei//cei:witnessOrig|$ordered-witListPar/cei:witness">
       <xsl:call-template name="witness">
         <xsl:with-param name="num" select="position()" />
       </xsl:call-template>
@@ -544,9 +549,11 @@
                 <xrx:i18n><xrx:key>graphics</xrx:key><xrx:default>Graphics</xrx:default></xrx:i18n>
                 <xsl:text>:&#160;</xsl:text>
               </b>
-              <div>
+              <div id="change-graphic-links">
                 <xsl:for-each select="./cei:figure/cei:graphic/@url">
                   <xsl:sort select="." />
+                    <span>
+                     <xsl:text>(</xsl:text>
                     <xsl:element name="a">
                       <xsl:attribute name="href">
                         <xsl:text>javascript:changeGraphic('wit</xsl:text>
@@ -558,11 +565,11 @@
                         <xsl:value-of select="." />
                         <xsl:text>')</xsl:text>
                       </xsl:attribute>
-                      <xsl:text>&#160;(</xsl:text>
                       <xsl:value-of select="position()" />
-                      <xsl:text>)&#160;</xsl:text>
                     </xsl:element>
-                </xsl:for-each>
+                    <xsl:text>)</xsl:text>
+                    </span>
+                  </xsl:for-each>
               </div>
             </xsl:when>
           </xsl:choose>
