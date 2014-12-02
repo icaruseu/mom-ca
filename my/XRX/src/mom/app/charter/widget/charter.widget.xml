@@ -477,6 +477,10 @@ div.p{{
   padding:10px;
 }}
 
+div#persName, div#placeName, div#item{{
+  padding: 10px;
+}}
+
 div.no-graphic{{
   position:relative;
   float:right;

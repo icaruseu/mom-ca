@@ -1007,7 +1007,7 @@
   <xsl:template name="item">
   <xsl:for-each-group select="$cei//cei:index" group-by="@type">
         <xsl:sort select="@type"/>
-        <xsl:for-each select="$cei//cei:index">
+        <xsl:for-each select="current-group()">
       <xsl:sort select="."/>
       <xsl:if test="./node()">
 	      <li>
