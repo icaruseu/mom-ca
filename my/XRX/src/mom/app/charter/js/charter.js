@@ -1,8 +1,8 @@
 
- $(document).ready(function(){
-	 $('#graphics').has('.no-graphic').css( 'display', 'none');
-	 $('#tenor').has('#bibltenor').css( 'display', 'block');
- });
+// $(document).ready(function(){
+//	 $('#graphics').has('.no-graphic').css( 'display', 'none');
+//	 $('#tenor').has('#bibltenor').css( 'display', 'block');
+// });
 
 
 function changeImage(url){

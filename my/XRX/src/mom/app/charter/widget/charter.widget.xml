@@ -761,7 +761,7 @@ cei-recipient {{
               <xrx:key>signature</xrx:key>
               <xrx:default>Signature</xrx:default>
             </xrx:i18n>
-            <span>: { $wcharter:idno }</span> --> 
+            <span>: { $wcharter:idno }</span>
           </div>
           ,
           <div data-demoid="2f369771-f977-4c60-a236-1d10bc16c608" style="position:relative;left:170px;margin-bottom:10px;">
