@@ -550,6 +550,13 @@ div.lang-select{{
   position:relative;
   float:right;
   width:200px;
+  background-color: #ffe3d9;
+  padding: 10px;
+  margin-right: 3px;
+}}
+
+.actions a{{
+  color: #ef6a2f !important;
 }}
 
 .slider{{
@@ -867,12 +874,12 @@ cei-recipient {{
             <xrx:true>
               <div class="fieldset" data-demoid="8a0a3044-e1d4-4a62-b5e6-bbf34b5fa2ec">
                 <div class="inner-fieldset" data-demoid="06a6b548-bcf5-4091-bfc4-919f86c88f7a">
-                  <span>
+                <!--  <span>
                     <xrx:i18n>
                       <xrx:key>my-archive</xrx:key>
                       <xrx:default>MyArchive</xrx:default>
                     </xrx:i18n>
-                  </span>
+                  </span> -->
                   { 
                   if($wcharter:context != 'linked-fond') then
                   bookmark:trigger( 
@@ -1173,9 +1180,7 @@ cei-recipient {{
         </xrx:pass>
       </xrx:subwidget>
       <div data-demoid="71c8ebdc-bd3a-4327-bdda-8d41279c46cc">
-        <div class="p" data-demoid="a16e2589-b000-4e75-8b74-0aebab6ea3d4">
           <xrx:div>my-archive</xrx:div>
-        </div>
         { 
         (: charter view :) 
         let $page :=
