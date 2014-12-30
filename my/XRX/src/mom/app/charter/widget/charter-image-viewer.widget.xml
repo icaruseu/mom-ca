@@ -180,13 +180,10 @@ it leaves the active development stage.
 }}
 
 .image-tools-link{{
+  clear: right;
   margin: 10px;
   float: right;
 }}
-
-#open-image-tool-button{{
-    left: 200px;
-}} 
 
 #zoomsliderlabel{{
 	position:relative;
