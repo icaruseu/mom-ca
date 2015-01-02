@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:atom="http://www.w3.org/2005/Atom"
+stylesheet xmlns:atom="http://www.w3.org/2005/Atom"
   xmlns:exist="http://exist.sourceforge.net/NS/exist" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns:cei="http://www.monasterium.net/NS/cei" id="cei2html"
   xmlns:xhtml="http://www.w3.org/1999/xhtml" version="1.0"
@@ -333,8 +333,9 @@
   <xsl:template match="cei:lb">
     <br/>
   </xsl:template>
-  
-  <!-- common elements -->
+
+
+<!-- common elements -->
   <xsl:template match="cei:ref">
     <xsl:element name="a">
       <xsl:attribute name="href">
@@ -404,10 +405,39 @@
     <span class="cei-add">
       <xsl:apply-templates />
     </span>
+  </xsl:template> 
+
+  <xsl:template match="cei:add[@rend='show']">
+    <span class="cei-add-orig">
+      <xsl:apply-templates />
+    </span>
   </xsl:template>
   
+  <xsl:template match="cei:corr">
+    <span class="cei-corr">
+      <xsl:apply-templates />
+    </span>
+  </xsl:template>
 
-  <!-- witness -->
+  <xsl:template match="cei:reg">
+    <span class="cei-reg">
+      <xsl:apply-templates />
+    </span>
+  </xsl:template>
+
+  <xsl:template match="cei:del">
+    <span class="cei-del">
+      <xsl:apply-templates />
+    </span>
+  </xsl:template>
+  
+  <xsl:template match="cei:del[@rend='show']">
+    <span class="cei-del-orig">
+      <xsl:apply-templates />
+    </span>
+  </xsl:template>
+
+<!-- witness -->
   <xsl:template name="witness">
     <xsl:param name="num" />
     <xsl:element name="div">

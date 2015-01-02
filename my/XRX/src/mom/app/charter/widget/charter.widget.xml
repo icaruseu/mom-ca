@@ -644,7 +644,7 @@ div.lang-select{{
 
 /* cei elements */
 
-.cei-lb {{
+.cei-lb, .cei-add, .cei-corr, .cei-reg{{
   display: none;
 }}
 
