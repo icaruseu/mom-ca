@@ -1,4 +1,4 @@
-stylesheet xmlns:atom="http://www.w3.org/2005/Atom"
+<xsl:stylesheet xmlns:atom="http://www.w3.org/2005/Atom"
   xmlns:exist="http://exist.sourceforge.net/NS/exist" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns:cei="http://www.monasterium.net/NS/cei" id="cei2html"
   xmlns:xhtml="http://www.w3.org/1999/xhtml" version="1.0"
@@ -775,9 +775,6 @@ stylesheet xmlns:atom="http://www.w3.org/2005/Atom"
             <xsl:attribute name="id" select="@id" />
           </xsl:if>
           <xsl:apply-templates/>
-          <xsl:if test="position() != last()">
-            <xsl:text>,&#160;</xsl:text>
-          </xsl:if>
     </div>
   </xsl:template>
   <xsl:template match="cei:listBiblEdition" mode="diplA">
