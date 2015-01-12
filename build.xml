@@ -632,6 +632,8 @@
         value="wrapper.java.initmemory=${XRX.java.initmemory}" />
       <replacefilter token="wrapper.java.maxmemory=512"
         value="wrapper.java.maxmemory=${XRX.java.maxmemory}" />
+      <replacefilter token="wrapper.ping.timeout=120"
+        value="wrapper.ping.timeout=600" />
     </replace>
     <echo file="${wrapper-home}/conf/wrapper.conf" append="true">
 wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
