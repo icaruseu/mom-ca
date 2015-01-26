@@ -30,7 +30,7 @@ $.widget( "ui.xmleditor", {
 	save: function() {
 		
 		var self = this;
-
+		console.log( "kuhmuh: " );
 		$.ajax({
 			url: self.options.requestRoot + serviceMyCollectionSave,
 			type: "POST",

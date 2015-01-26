@@ -32,6 +32,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	 */
 	$.fn.xrxInstance = function(options) {
 		
+		console.log(options);
 		return this.each(function(index) {});
 	};
 	

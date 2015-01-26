@@ -361,6 +361,7 @@ form{{
   <xrx:binds>
     <!-- abstract -->
     <xrx:bind id="bidno" nodeset="/descendant::cei:body/child::cei:idno"/>
+    <xrx:bind id="bclass" nodeset="/descendant::cei:class"/>
     <xrx:bind id="babstract" nodeset="/descendant::cei:abstract"/>
     <xrx:bind id="bissued-date-range" nodeset="/descendant::cei:issued/child::cei:dateRange"/>
     <xrx:bind id="bissued-place" nodeset="/descendant::cei:issued/child::cei:placeName"/>
@@ -984,6 +985,17 @@ form{{
                           <xrx:visualxml attributes="no" bind="blang-mom" elements="no"/>
                         </div>
                         <div data-demoid="c46aa058-3b4d-48eb-958a-905652a5754b" id="tab-7">
+                         <div class="dlabel">
+                                <span class="dlabel-text">
+                                     <xrx:i18n>
+                                       <xrx:key>cei_class</xrx:key>
+                                       <xrx:default>Urkundenart</xrx:default>
+                                     </xrx:i18n>
+                               </span>
+                         </div>
+                          <div>
+                              <xrx:visualxml attributes="no" bind="bclass" elements="no"/>
+                          </div>
                           <div class="dlabel" data-demoid="c2f22510-3428-4bb0-8259-229701056a49">
                             <span class="dlabel-text">
                               <xrx:i18n>

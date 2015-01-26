@@ -347,7 +347,7 @@ form{{
     </xrx:instances>
     <xrx:binds>
         <xrx:bind id="bidno" nodeset="/descendant::cei:body/child::cei:idno"/>
-        <!-- <xrx:bind id="bclass" nodeset="/descendant::cei:class"/> -->
+        <xrx:bind id="bclass" nodeset="/descendant::cei:class"/>
         <xrx:bind id="babstract" nodeset="/descendant::cei:abstract"/>
         <xrx:bind id="bissued-date-range" nodeset="/descendant::cei:issued/child::cei:dateRange"/>
         <xrx:bind id="bissued-place" nodeset="/descendant::cei:issued/child::cei:placeName"/>
@@ -394,7 +394,7 @@ form{{
                     <xrx:option key="south__size">.5</xrx:option>
                 </xrx:options>
                 <xrx:center>
-                    <xrx:auth>
+                   <xrx:auth>
                         <xrx:rules>
                             <xrx:rule>
                                 <xrx:user/>
@@ -443,8 +443,9 @@ form{{
                                                 <xrx:default>XML</xrx:default>
                                             </xrx:i18n>
                                         </xrx:label>
-                                        <xrx:value>dcharter-instance</xrx:value>
+                                        <xrx:value>dcharter-instance</xrx:value>                                        
                                     </xrx:item>
+                                    
                                 </xrx:select1>
                                 <xrx:switch id="dviewer-switch">
                                     <xrx:case id="ui-imageann-wrapper">
@@ -475,6 +476,7 @@ form{{
                                     <xrx:case id="dcharter-instance"/>
                                 </xrx:switch>
                             </div>
+                            
                         </xrx:true>
                         <xrx:false>
                             <div data-demoid="de9f813e-6b5d-49f6-91b3-eee1a1731a7b"/>
@@ -483,6 +485,11 @@ form{{
                 </xrx:center>
                 <xrx:north>
                     <div data-demoid="48d984c8-63e8-48df-95bc-00ad1e2b62c5" id="dmy-collection-header">
+                    <!-- Testzone -->  
+                  
+                    
+                    
+                    <!-- Testzone ende -->
                         <h2>EditILLURK</h2>
                         <div data-demoid="4c56fbe3-1728-47c6-af7e-ab39fb266752" id="autoSaveStatus"/>
                     </div>
@@ -573,7 +580,9 @@ form{{
                                                     </div>
                                                     <div data-demoid="26331a1b-46ff-40f0-b0d0-5208019bc30a">
                                                         <xrx:visualxml attributes="no" bind="bidno" elements="no"/>
-                                                    </div>
+                                                    </div>                                                  
+                                                    
+                                                    
                                                     <div class="dlabel" data-demoid="edda0ecf-9b46-4d62-b895-dcfac04070a6">
                                                         <span class="dlabel-text">
                                                             <xrx:i18n>
@@ -717,17 +726,17 @@ form{{
                                                     <xrx:repeat bind="bback">
                                                         <xrx:visualxml ref="/child::cei:placeName"/>
                                                     </xrx:repeat>
-                                                    <!--daran wird noch gearbeitet. <div class="dlabel" data-demoid="66e9dcdc-86b7-4a0b-a393-fdc46378b557">
+                                                  <div class="dlabel">
                                                         <span class="dlabel-text">
                                                             <xrx:i18n>
                                                                 <xrx:key>cei_class</xrx:key>
-                                                                <xrx:default>class</xrx:default>
+                                                                <xrx:default>Urkundenart</xrx:default>
                                                             </xrx:i18n>
                                                         </span>
                                                     </div>
                                                     <div>
-                                                        <xrx:visualxml bind="bclass"/>
-                                                    </div> -->
+                                                        <xrx:visualxml attributes="no" bind="bclass" elements="no"/>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="ui-layout-north" data-demoid="5da89345-2191-497a-98de-b895609836b1">
@@ -910,7 +919,12 @@ form{{
         jQuery(".anchor", "#dinner-textann").click(function() {{
           $(".xrx-visualxml").each(function(){{ $(this).xrxVisualxml("clear"); }});
         }});
+       // hier wird in ein div der Wert 0 eingetrage, sobald das Dok geladen ist.
+        var sperre = document.getElementById("sperrzone");
+        sperre.innerHTML = "0";
+        
       }});
+      
       </script>
         </div>
     </xrx:view>
