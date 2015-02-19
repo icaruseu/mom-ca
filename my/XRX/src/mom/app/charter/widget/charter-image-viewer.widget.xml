@@ -146,7 +146,7 @@ it leaves the active development stage.
 #viewport{{
 	position:relative;
 	float:left;
-	width:950px;
+	width:940px;
 	height:300px;
 	overflow:auto;
 	z-index:1;
@@ -171,11 +171,18 @@ it leaves the active development stage.
 }}
 
 #change-image-links a{{
-	float:left;
+	padding: 5px;
 }}
 
 .open-viewer-link{{
-	float:right;
+  margin: 10px;
+	float: right;
+}}
+
+.image-tools-link{{
+  clear: right;
+  margin: 10px;
+  float: right;
 }}
 
 #zoomsliderlabel{{
@@ -246,10 +253,26 @@ it leaves the active development stage.
 				}
       </xrx:view>
     </xrx:div>
+    <xrx:div>
+      <xrx:key>image-tools-link</xrx:key>
+        <xrx:view>
+          {
+          if($xrx:tokenized-uri[last()] = 'charter') then
+          <div class="image-tools-link">
+          <button id="open-image-tool-button">
+            <xrx:i18n>
+              <xrx:key>open-image-tools</xrx:key>
+              <xrx:default>Open Image Tools</xrx:default>
+            </xrx:i18n>
+          </button>
+          </div>
+          else()
+          }
+        </xrx:view>
+    </xrx:div>
   </xrx:divs>
   <xrx:view>
     <div data-demoid="2d91f46d-7972-4d83-8782-18b2721f5634">
-      <xrx:div>augiasviewer-link</xrx:div>
       <div class="inlinehead" data-demoid="9ccdd757-63d4-49b2-b897-0743dfa6174c">
 				{
 				if($wcharter-image-viewer:image-access-forbidden-flag) then
@@ -261,9 +284,9 @@ it leaves the active development stage.
           <span> &gt;&gt;</span>
         </a>
 				else
-				<div data-demoid="83fd4438-503e-4020-99dd-e8d1585557cc">
-          <div data-demoid="0620e9b9-3056-44e9-97e0-36659b196c21" style="float:left;margin:5px;">
-            <a href="javascript:showHideDiv('viewport','')">
+				<div>
+          <div data-demoid="0620e9b9-3056-44e9-97e0-36659b196c21" style="float:left;">
+            <a href="javascript:showHideDiv('graphics','')">
               <xrx:i18n>
                 <xrx:key>graphics</xrx:key>
                 <xrx:default>Graphics</xrx:default>
@@ -271,29 +294,19 @@ it leaves the active development stage.
               <span>:</span>
             </a>
           </div>
- 					{
- 					if($xrx:tokenized-uri[last()] = 'charter') then
-          <button id="open-image-tool-button">
-            <xrx:i18n>
-              <xrx:key>open-image-tools</xrx:key>
-              <xrx:default>Open Image Tools</xrx:default>
-            </xrx:i18n>
-          </button>
-          else()
-          }
-          <span> </span>
           <div data-demoid="f52d37ea-4440-40a3-8ea5-8f0e429f550f" id="change-image-links">
 						{
 						for $img-url at $num in $wcharter-image-viewer:img-urls
 						return
 						if($charter:rarchiveid != 'DE-LABW') then
-						<a href="javascript:changeImage('{ $img-url }')">{ $num } </a>
+						<a href="javascript:changeImage('{ $img-url }')">{ $num }</a>
 						else()
 						}
 					</div>
         </div>
 				}
 			</div>
+			<div id="graphics">
       <div data-demoid="d650ad67-8ffe-42d9-8ec9-1ffcdab25e09" id="viewport">
 				{
 				if(count($wcharter-image-viewer:img-urls) gt 0 and not($wcharter-image-viewer:image-access-forbidden-flag)) then
@@ -354,7 +367,6 @@ it leaves the active development stage.
         </div>
 				}
 			</div>
-      <div data-demoid="9896fa36-58ac-49b8-abc2-2805764fbbfa">
         <div data-demoid="57df26ce-eba6-49bb-aa05-d876b453baa2" id="zoomerbar">
           <div data-demoid="51ba5857-6367-44f6-bf3a-561ebbc8cdb4" id="zoomsliderlabel">
             <span>
@@ -365,6 +377,8 @@ it leaves the active development stage.
           </div>
           <div data-demoid="d524da09-709a-4e43-b845-fa27910aa90e" id="zoomslider"/>
         </div>
+        <xrx:div>augiasviewer-link</xrx:div>
+        <xrx:div>image-tools-link</xrx:div>
       </div>
       <script type="text/javascript">
 				$(document).ready(function() {{
@@ -380,6 +394,7 @@ it leaves the active development stage.
 					}}); 
 				}})
 			</script>
+
     </div>
   </xrx:view>
 </xrx:widget>

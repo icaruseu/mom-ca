@@ -1,0 +1,4 @@
+<xrx:roles xmlns:xrx="http://www.monasterium.net/NS/xrx">
+    <xrx:role>user-administrator</xrx:role>
+    <xrx:role>moderator</xrx:role>
+</xrx:roles>

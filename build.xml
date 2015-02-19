@@ -475,7 +475,9 @@
       <replacefilter token="include.module.xslfo = false"
         value="include.module.xslfo = true" />
       <replacefilter token="include.module.cache = false"
-        value="include.module.cache = true" />
+       value="include.module.cache = true" />
+      <replacefilter token="http://apache.cs.uu.nl/dist/xmlgraphics/fop/binaries/fop-1.1-bin.zip"
+       value="http://apache.cs.uu.nl/xmlgraphics/fop/binaries/fop-1.1-bin.zip"/> 
     </replace>
     <copy todir="${jetty-home}/tmp" overwrite="true">
       <fileset dir="${my-exist-jetty}/tmp">
@@ -842,6 +844,59 @@ wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
       password="${XRX.password}"/>
   
   </target>
+  
+  <target name="init-user" depends="start, exist-classpath" description="creates initial user">
+    
+    <echo message="-------------------------"/>
+    <echo message="Creating user admin"/>
+    <echo message="-------------------------"/>
+    
+    <antcall target="store-project-data"/>
+    
+    <antcall target="add-group">
+      <param name="GROUP-NAME" value="atom"/>
+    </antcall>
+    
+    <antcall target="add-group-member">
+      <param name="GROUP-NAME" value="atom"/>
+      <param name="USERNAME" value="admin"/>
+    </antcall>
+    
+    <antcall target="stop"/>
+    
+  </target>
+  
+  <target name="store-project-data" depends="exist-classpath" description="stores initial data directory">
+    
+    <echo message="-------------------------"/>
+    <echo message="Storing ${XRX.project-name}-data"/>
+    <echo message="-------------------------"/>
+    
+    <xdb:store xmlns:xdb="http://exist-db.org/ant" uri="${xrx-base-xmldb-uri}/${XRX.project-name}-data" createsubcollections="true" createcollection="true" user="admin" password="${XRX.password}" permissions="rwxrwxrwx">
+      <fileset dir="${XRX.project-name}-data"/>
+    </xdb:store>
+        
+  </target>
+  
+  <target name="add-group" depends="exist-classpath">
+    
+    <echo message="-------------------------"/>
+    <echo message="Adding group ${GROUP-NAME}"/>
+    <echo message="-------------------------"/>
+    
+    <xdb:addgroup xmlns:xdb="http://exist-db.org/ant" uri="${xrx-base-xmldb-uri}" user="admin" password="${XRX.password}" name="${GROUP-NAME}"/>
+    
+  </target>
+  
+  <target name="add-group-member" depends="exist-classpath">
+    
+    <echo message="-------------------------"/>
+    <echo message="Adding user ${USERNAME} to group ${GROUP-NAME}"/>
+    <echo message="-------------------------"/>
+    
+    <xdb:xquery xmlns:xdb="http://exist-db.org/ant" uri="xmldb:exist://localhost:${XRX.jetty.port}/xmlrpc/db" query="system:as-user('admin', '${XRX.password}', sm:add-group-member('${GROUP-NAME}', '${USERNAME}'))" user="admin" password="${XRX.password}"/>
+  </target>
+  
   
 </project>
 

@@ -55,6 +55,13 @@ it leaves the active development stage.
         else request:get-parameter('atomid', '')
       </xrx:expression>
     </xrx:variable>
+    <!-- default url -->
+    <xrx:variable>
+      <xrx:name>$wcharter:default-url</xrx:name>
+      <xrx:expression>
+        concat('http://monasterium.net/mom/', substring-after($wcharter:atom-id, 'charter/'))
+      </xrx:expression>
+    </xrx:variable>
     <!-- init metadata database collections -->
     <xrx:variable>
       <xrx:name>$wcharter:metadata-fond-collection</xrx:name>
@@ -372,6 +379,8 @@ it leaves the active development stage.
 #charter{{
   position:relative;
   width:100%;
+  
+  
 }}
 
 #charter
@@ -379,7 +388,7 @@ it leaves the active development stage.
   font-size:130%;
 }}
 
-#diplomaticAnalysis, #index, #versions, #tenor, #abstract, .witness {{
+#graphics, #diplomaticAnalysis, #index, #versions, #tenor, #abstract, #witList, #howToCite, .witness {{
   position:relative;
   float:left;
   border:solid rgb(240,243,226) 1px;
@@ -387,7 +396,7 @@ it leaves the active development stage.
   margin-left:5px;
   margin-right:5px;
   margin-top:0px;
-  margin-bottom:5px;
+  margin-bottom:10px;
 }}
 
 #biblabstract, #bibltenor{{
@@ -400,16 +409,8 @@ it leaves the active development stage.
 }}
 
 #witList{{
-  float:left;
-  position:relative;
-  width:949px;
   overflow:auto;
-  margin-top:0px;
-  margin-left:5px;
-  margin-right:5px;
-  margin-bottom:0px;
   padding:0;
-  border:solid rgb(240,243,226) 1px;
 }}
 
 div.witness-text{{
@@ -465,9 +466,19 @@ div.inlinehead, div.greyinlinehead, div.light-green, div.light-green:visited{{
   line-height:200%;
 }}
 
+div.inlinehead{{
+  margin-bottom:1px;
+  padding: 5px;
+  width:942px !important;
+}}
+
 div.p{{
-  margin:5px;
-  padding:0px;
+  /*margin:5px;*/
+  padding:10px;
+}}
+
+div#persName, div#placeName, div#item{{
+  padding: 10px;
 }}
 
 div.no-graphic{{
@@ -488,6 +499,13 @@ span.num{{
   color:rgb(142,163,132);
 }}
 
+.fn-link{{
+  vertical-align: super;
+  font-size: 0.9em;
+  text-decoration: none;
+  padding-left: 0.1em;
+}}
+
 div.lang-select{{
   top:600px;
 }}
@@ -498,10 +516,47 @@ div.lang-select{{
   width:auto;
 }}
 
+#prev-next{{
+  margin-top:10px;
+}}
+
+#prev{{
+  float: left;
+}}
+
+#next{{
+  float:right;
+}}
+
+#downloads{{
+  margin-top: 10px;
+  clear: left;
+  float: right;
+}}
+
+#downloads a{{
+  padding: 5px;
+}}
+
+#change-graphic-links span{{
+  padding: 5px;
+}}
+
+#change-graphic-links a{{
+  float: none !important;
+}}
+
 .actions{{
   position:relative;
   float:right;
   width:200px;
+  background-color: #ffe3d9;
+  padding: 10px;
+  margin-right: 3px;
+}}
+
+.actions a{{
+  color: #ef6a2f !important;
 }}
 
 .slider{{
@@ -587,6 +642,20 @@ div.lang-select{{
   margin-bottom: 30px;
 }}
 
+/* cei elements */
+
+.cei-lb, .cei-add, .cei-corr, .cei-reg{{
+  display: none;
+}}
+
+.cei-issuer {{
+  letter-spacing: 2px;
+}}
+
+cei-recipient {{
+  letter-spacing: 2px;
+}}
+
       </style>
   </xrx:csss>
   <xrx:jss>
@@ -597,6 +666,18 @@ div.lang-select{{
     { publication:model(conf:param('request-root')) }
   </xrx:model>
   <xrx:divs>
+     <xrx:div>
+      <xrx:key>heading-div</xrx:key>
+      <xrx:view>
+        <div class="h2" data-demoid="85afc7b7-b449-4686-b01e-b2596a5a8c88">
+          <xrx:i18n>
+            <xrx:key>charter</xrx:key>
+            <xrx:default>Charter</xrx:default>
+          </xrx:i18n>
+          <span>: { $wcharter:fond }&#160;{ $wcharter:idno }</span>
+        </div>
+      </xrx:view>
+    </xrx:div>
     <xrx:div>
       <xrx:key>breadcrumb</xrx:key>
       <xrx:view>
@@ -667,16 +748,109 @@ div.lang-select{{
       </xrx:view>
     </xrx:div>
     <xrx:div>
+      <xrx:key>signature</xrx:key>
+      <xrx:view>
+        <div data-demoid="33f114f7-83e4-48b4-af9b-c2ba8ef8d59c">
+          {
+          if(starts-with($charter:rfondid,'MIB')) then
+          (
+          <div class="idno" data-demoid="6f6cc228-df0d-43ac-91c1-46c7a54a52e7" id="idno-num" style="float:left">
+            {
+            if($wcharter:is-bookmarked) then
+            (
+            <xrx:resource type="image/jpg">tag:www.monasterium.net,2011:/mom/resource/image/button_bookmarkAdd</xrx:resource>
+            ,
+            <span>  </span>
+            )
+            else()
+            }
+          <xrx:i18n>
+              <xrx:key>signature</xrx:key>
+              <xrx:default>Signature</xrx:default>
+            </xrx:i18n>
+            <span>: { $wcharter:idno }</span>
+          </div>
+          ,
+          <div data-demoid="2f369771-f977-4c60-a236-1d10bc16c608" style="position:relative;left:170px;margin-bottom:10px;">
+            <span>
+              <xrx:i18n>
+                <xrx:key>source</xrx:key>
+                <xrx:default>Source</xrx:default>
+              </xrx:i18n>
+              :
+            </span>
+            Institut für Geschichtliche Landeskunde an der Universität Mainz e.V.
+          </div>
+          )
+          else
+          <div class="idno" data-demoid="2cc611f7-5e62-4316-9ee4-6c86edb955f9" id="idno-num">
+            {
+            if($wcharter:is-bookmarked) then
+            (
+            <xrx:resource type="image/jpg">tag:www.monasterium.net,2011:/mom/resource/image/button_bookmarkAdd</xrx:resource>
+            ,
+            <span>  </span>
+            )
+            else()
+            }
+       <xrx:i18n>
+              <xrx:key>signature</xrx:key>
+              <xrx:default>Signature</xrx:default>
+            </xrx:i18n>
+            <span>: { $wcharter:idno }</span>  
+          </div>
+          }
+        </div>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>prev-next</xrx:key>
+        <xrx:view>
+         <div data-demoid="630465f3-fb15-4bd8-80da-410d8c0b0216" id="prev-next">
+          <div data-demoid="ff14a4a2-6b38-464a-be33-28f16d587320" id="prev">
+            <a href="{ $wcharter:previous }">
+              <span>&lt; </span>
+              <xrx:i18n>
+                <xrx:key>previous-charter</xrx:key>
+                <xrx:default>Previous Charter</xrx:default>
+              </xrx:i18n>
+            </a>
+          </div>
+          <div data-demoid="9b2eddc0-a341-4869-b48b-e0992db9f77c" id="next">
+            <span>{ $wcharter:pos } </span>
+            <xrx:i18n>
+              <xrx:key>of</xrx:key>
+              <xrx:default>of</xrx:default>
+            </xrx:i18n>
+            <span> { $wcharter:count } </span>
+            <!--span>(</span>
+            <xrx:i18n>
+              <xrx:key>by-date</xrx:key>
+              <xrx:default>by date</xrx:default>
+            </xrx:i18n>
+            <span>)</span-->
+            <span>   </span>
+            <a href="{ $wcharter:next }">
+              <xrx:i18n>
+                <xrx:key>next-charter</xrx:key>
+                <xrx:default>Next Charter</xrx:default>
+              </xrx:i18n>
+              <span> &gt;</span>
+            </a>
+          </div>
+        </div>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
       <xrx:key>download-xml-link</xrx:key>
       <xrx:view>
-        <div data-demoid="a98481f1-817c-429c-b72b-32c2111896f7">
+        <div data-demoid="a98481f1-817c-429c-b72b-32c2111896f7" id="downloads">
           <a href="{ $wcharter:atom-uri }" target="_blank">
             <xrx:i18n>
               <xrx:key>download-xml</xrx:key>
               <xrx:default>Download XML</xrx:default>
             </xrx:i18n>
           </a>
-          <br/>
           <a href="{ conf:param('request-root')}service/pdf-export?id={ xmldb:encode($wcharter:atom-id) }&amp;lang={ $xrx:lang }" target="blank">
             <xrx:i18n>
               <xrx:key>pdf-export</xrx:key>
@@ -700,12 +874,12 @@ div.lang-select{{
             <xrx:true>
               <div class="fieldset" data-demoid="8a0a3044-e1d4-4a62-b5e6-bbf34b5fa2ec">
                 <div class="inner-fieldset" data-demoid="06a6b548-bcf5-4091-bfc4-919f86c88f7a">
-                  <span>
+                <!--  <span>
                     <xrx:i18n>
                       <xrx:key>my-archive</xrx:key>
                       <xrx:default>MyArchive</xrx:default>
                     </xrx:i18n>
-                  </span>
+                  </span> -->
                   { 
                   if($wcharter:context != 'linked-fond') then
                   bookmark:trigger( 
@@ -868,7 +1042,43 @@ div.lang-select{{
               </div>
             </xrx:false>
           </xrx:auth>
-          <xrx:div>download-xml-link</xrx:div>
+        </div>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>how-to-cite</xrx:key>
+      <xrx:view>
+        <div class="inlinehead">
+          <a href="javascript:showHideDiv('howToCite', '')">
+          <xrx:i18n>
+            <xrx:key>how-to-cite</xrx:key>
+            <xrx:default>How to cite</xrx:default>
+          </xrx:i18n>
+          </a>
+        </div>
+        <div id="howToCite" style="display: none">
+          <div class="p">
+           <p>
+         <!-- { if($wcharter:context = 'fond') then
+            <span>{ $charter:rarchiveid }</span>
+            <span>, </span>
+            <span>{ $charter:rfondid }</span>
+            <span>, </span>
+            <span>{ $wcharter:idno }</span>
+            else if($wcharter:context = 'collection') then
+            <span>{ $wcharter:fond }</span>
+            <span>, </span>
+            <span>{ $wcharter:idno }</span>
+            else
+            <span>{ $xrx:tokenized-uri[1] }</span>
+            <span>, </span>
+            <span>{ $wcharter:pos }</span>
+            } 
+            <span>, </span>
+            <span>{ request:get-url() }</span>  --> 
+            <span>{ for $archive in $wcharter:archive return concat($archive, '&#160;') }{ $wcharter:fond }&#160;{ $wcharter:idno }, in: monasterium.net, URL &lt;{ $wcharter:default-url }/charter&gt;, accessed at { current-date() }</span>
+           </p>
+          </div>
         </div>
       </xrx:view>
     </xrx:div>
@@ -908,94 +1118,10 @@ div.lang-select{{
             </div>
         </div>
         -->
-        <xrx:div>heading-center-div</xrx:div>
-        <div data-demoid="630465f3-fb15-4bd8-80da-410d8c0b0216">
-          <div data-demoid="ff14a4a2-6b38-464a-be33-28f16d587320" style="position:absolute">
-            <a href="{ $wcharter:previous }">
-              <span>&lt; </span>
-              <xrx:i18n>
-                <xrx:key>previous-charter</xrx:key>
-                <xrx:default>Previous Charter</xrx:default>
-              </xrx:i18n>
-            </a>
-          </div>
-          <div data-demoid="9b2eddc0-a341-4869-b48b-e0992db9f77c" style="position:absolute;right:25px;">
-            <span>{ $wcharter:pos } </span>
-            <xrx:i18n>
-              <xrx:key>of</xrx:key>
-              <xrx:default>of</xrx:default>
-            </xrx:i18n>
-            <span> { $wcharter:count } </span>
-            <!--span>(</span>
-            <xrx:i18n>
-              <xrx:key>by-date</xrx:key>
-              <xrx:default>by date</xrx:default>
-            </xrx:i18n>
-            <span>)</span-->
-            <span>   </span>
-            <a href="{ $wcharter:next }">
-              <xrx:i18n>
-                <xrx:key>next-charter</xrx:key>
-                <xrx:default>Next Charter</xrx:default>
-              </xrx:i18n>
-              <span> &gt;</span>
-            </a>
-          </div>
-        </div>
-        <br/>
-        <br/>
-        <div data-demoid="33f114f7-83e4-48b4-af9b-c2ba8ef8d59c">
-          {
-          if(starts-with($charter:rfondid,'MIB')) then
-          (
-          <div class="idno" data-demoid="6f6cc228-df0d-43ac-91c1-46c7a54a52e7" id="idno-num" style="float:left">
-            {
-            if($wcharter:is-bookmarked) then
-            (
-            <xrx:resource type="image/jpg">tag:www.monasterium.net,2011:/mom/resource/image/button_bookmarkAdd</xrx:resource>
-            ,
-            <span>  </span>
-            )
-            else()
-            }
-            <xrx:i18n>
-              <xrx:key>signature</xrx:key>
-              <xrx:default>Signature</xrx:default>
-            </xrx:i18n>
-            <span>: { $wcharter:idno }</span>
-          </div>
-          ,
-          <div data-demoid="2f369771-f977-4c60-a236-1d10bc16c608" style="position:relative;left:170px;margin-bottom:10px;">
-            <span>
-              <xrx:i18n>
-                <xrx:key>source</xrx:key>
-                <xrx:default>Source</xrx:default>
-              </xrx:i18n>
-              :
-            </span>
-            Institut für Geschichtliche Landeskunde an der Universität Mainz e.V.
-          </div>
-          )
-          else
-          <div class="idno" data-demoid="2cc611f7-5e62-4316-9ee4-6c86edb955f9" id="idno-num">
-            {
-            if($wcharter:is-bookmarked) then
-            (
-            <xrx:resource type="image/jpg">tag:www.monasterium.net,2011:/mom/resource/image/button_bookmarkAdd</xrx:resource>
-            ,
-            <span>  </span>
-            )
-            else()
-            }
-            <xrx:i18n>
-              <xrx:key>signature</xrx:key>
-              <xrx:default>Signature</xrx:default>
-            </xrx:i18n>
-            <span>: { $wcharter:idno }</span>
-          </div>
-          }
-        </div>
+        <xrx:div>heading-div</xrx:div>
         <xrx:div>breadcrumb</xrx:div>
+        <xrx:div>signature</xrx:div>
+        <xrx:div>prev-next</xrx:div>
       </div>
       {
       if($wcharter:metadata-collection-collection//cei:sourceDesc/cei:p/text() = 'Export aus Google Daten') then
@@ -1015,6 +1141,7 @@ div.lang-select{{
 	    </div>
 		  else()
 		  }
+		  <xrx:div>download-xml-link</xrx:div>
       <xrx:subwidget>
         <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/charter-image-viewer</xrx:atomid>
         <xrx:pass>
@@ -1053,9 +1180,7 @@ div.lang-select{{
         </xrx:pass>
       </xrx:subwidget>
       <div data-demoid="71c8ebdc-bd3a-4327-bdda-8d41279c46cc">
-        <div class="p" data-demoid="a16e2589-b000-4e75-8b74-0aebab6ea3d4">
           <xrx:div>my-archive</xrx:div>
-        </div>
         { 
         (: charter view :) 
         let $page :=
@@ -1066,6 +1191,7 @@ div.lang-select{{
         return 
         i18n:translate-xml(transform:transform($page, $wcharter:xsl, $wcharter:params)) 
         }
+        <xrx:div>how-to-cite</xrx:div>
       </div>
       {
       if($xrx:tokenized-uri[last()] = 'charter') then
