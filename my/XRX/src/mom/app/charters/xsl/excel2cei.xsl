@@ -465,13 +465,11 @@
         </xsl:element>
       </xsl:if>
       <xsl:if test="diplomatischer_Kommentar/node()">
-        <xsl:element name="cei:p">
-          <xsl:for-each select="diplomatischer_Kommentar">
-            <xsl:element name="cei:bibl">
-              <xsl:apply-templates select="./node()" />
-            </xsl:element>
-          </xsl:for-each>
-        </xsl:element>
+        <xsl:for-each select="diplomatischer_Kommentar">
+          <xsl:element name="cei:p">      
+            <xsl:apply-templates select="./node()" />
+          </xsl:element>
+        </xsl:for-each>
       </xsl:if>
     </xsl:element>
   </xsl:template>
