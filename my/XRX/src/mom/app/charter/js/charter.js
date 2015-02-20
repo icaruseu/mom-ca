@@ -1,4 +1,10 @@
 
+// $(document).ready(function(){
+//	 $('#graphics').has('.no-graphic').css( 'display', 'none');
+//	 $('#tenor').has('#bibltenor').css( 'display', 'block');
+// });
+
+
 function changeImage(url){
 	document.images["image"].src = url;
 	document.getElementById('img-link').setAttribute('href', url);

@@ -61,7 +61,7 @@ it leaves the active development stage.
           </xrx:i18n>
         </a>
       </div>
-      <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af" id="witList" style="display:none">
+      <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af" id="witList" style="display: none">
         <insert-witList/>
         <span style="color:white">x</span>
       </div>
@@ -73,10 +73,12 @@ it leaves the active development stage.
           </xrx:i18n>
         </a>
       </div>
-      <div data-demoid="317b877a-e803-48d5-8d2e-bd9779f000bb" id="tenor" style="display:none">
+      <div data-demoid="317b877a-e803-48d5-8d2e-bd9779f000bb" id="tenor" style="display: none">
+       <div class="p">
         <insert-tenor/>
         <insert-bibltenor/>
         <insert-tenornotes/>
+       </div>
       </div>
       <div class="inlinehead" data-demoid="3709cbe1-7993-4a11-a5e5-846e579c935e">
         <a href="javascript:showHideDiv('diplomaticAnalysis', '')">
@@ -97,7 +99,7 @@ it leaves the active development stage.
           </xrx:i18n>
         </a>
       </div>
-      <div data-demoid="91fd52ee-80f8-42a5-bc96-ba194ff43e58" id="index" style="display:none">
+      <div data-demoid="91fd52ee-80f8-42a5-bc96-ba194ff43e58" id="index" style="display: none">
         <insert-persName/>
         <insert-placeName/>
         <insert-item/>
