@@ -644,7 +644,7 @@ form{{
                                                             </xrx:i18n>
                                                         </span>
                                                     </div>
-                                                    <xrx:visualxml bind="bpar-arch-identifier"/>
+                                                    <xrx:visualxml bind="borig-arch-identifier"/>
                                                     <div class="dlabel" data-demoid="a5850edf-bbf8-45b6-8aeb-919c55c24904">
                                                         <xrx:i18n>
                                                             <xrx:key>graphics</xrx:key>
@@ -726,7 +726,7 @@ form{{
                                                     <xrx:repeat bind="bback">
                                                         <xrx:visualxml ref="/child::cei:placeName"/>
                                                     </xrx:repeat>
-                                                  <div class="dlabel">
+                                                 <!--  <div class="dlabel">
                                                         <span class="dlabel-text">
                                                             <xrx:i18n>
                                                                 <xrx:key>cei_class</xrx:key>
@@ -736,7 +736,7 @@ form{{
                                                     </div>
                                                     <div>
                                                         <xrx:visualxml attributes="no" bind="bclass" elements="no"/>
-                                                    </div>
+                                                    </div>--> 
                                                 </div>
                                             </div>
                                             <div class="ui-layout-north" data-demoid="5da89345-2191-497a-98de-b895609836b1">
