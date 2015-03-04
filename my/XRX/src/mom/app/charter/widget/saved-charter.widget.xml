@@ -58,6 +58,13 @@ it leaves the active development stage.
       <xrx:name>$wcharter:atom-id</xrx:name>
       <xrx:expression>url:atom-id-from-url(conf:param('atom-tag-name'), $charter:ratomid)</xrx:expression>
     </xrx:variable>
+    <!-- default url -->
+    <xrx:variable>
+      <xrx:name>$wcharter:default-url</xrx:name>
+      <xrx:expression>
+        concat('http://monasterium.net/mom/', substring-after($wcharter:atom-id, 'charter/'))
+      </xrx:expression>
+    </xrx:variable>
     <!-- 
     	init metadata database collections 
     -->
@@ -139,6 +146,17 @@ it leaves the active development stage.
       <xrx:name>$wcharter:pos</xrx:name>
       <xrx:expression>charter:position($wcharter:charters, $wcharter:charter, $xrx:user-xml, $wcharter:atom-id, $xrx:tokenized-uri[last()])</xrx:expression>
     </xrx:variable>
+        <!-- 
+		  back link to fond or collection 
+		-->
+    <xrx:variable>
+      <xrx:name>$wcharter:block</xrx:name>
+      <xrx:expression>charter:block(xs:integer($wcharter:pos))</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:anchor</xrx:name>
+      <xrx:expression>charter:anchor(xs:integer($wcharter:pos))</xrx:expression>
+    </xrx:variable>
     <!-- 
 		  status of the charter 
 		-->
@@ -217,5 +235,137 @@ it leaves the active development stage.
       <xrx:expression>concat($image-tools-base-url, $charter:rcharterid, '/image-tools')</xrx:expression>
     </xrx:variable>
   </xrx:variables>
-  <xrx:divs/>
+  <xrx:divs>
+    <xrx:div>
+      <xrx:key>breadcrumb</xrx:key>
+      <xrx:view>
+        <div data-demoid="7be8762d-5581-4890-a18e-042c519e5a3c">
+          <a href="{ conf:param('request-root') }saved-charters">
+            <xrx:i18n>
+              <xrx:key>saved-charters</xrx:key>
+              <xrx:default>Saved Charters</xrx:default>
+            </xrx:i18n>
+          </a>
+          <span> &gt; </span>
+          <a href="{ concat(conf:param('request-root'), $charter:rcollectionid, '/my-collection?block=', $wcharter:block, '#ch', $wcharter:anchor) }">{ $wcharter:fond }</a>
+          <span> &gt; </span>
+          <a href="{ request:get-url() }?{ request:get-query-string() }">{ $wcharter:idno }</a>
+        </div>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>signature</xrx:key>
+      <xrx:view>
+        <div data-demoid="33f114f7-83e4-48b4-af9b-c2ba8ef8d59c">
+          {
+          if(starts-with($charter:rfondid,'MIB')) then
+          (
+          <div class="idno" data-demoid="6f6cc228-df0d-43ac-91c1-46c7a54a52e7" id="idno-num" style="float:left">
+            {
+            if($wcharter:is-bookmarked) then
+            (
+            <xrx:resource type="image/jpg">tag:www.monasterium.net,2011:/mom/resource/image/button_bookmarkAdd</xrx:resource>
+            ,
+            <span>  </span>
+            )
+            else()
+            }
+            <xrx:i18n>
+              <xrx:key>signature</xrx:key>
+              <xrx:default>Signature</xrx:default>
+            </xrx:i18n>
+            <span>: { $wcharter:idno }</span>
+          </div>
+          ,
+          <div data-demoid="2f369771-f977-4c60-a236-1d10bc16c608" style="position:relative;left:170px;margin-bottom:10px;">
+            <span>
+              <xrx:i18n>
+                <xrx:key>source</xrx:key>
+                <xrx:default>Source</xrx:default>
+              </xrx:i18n>
+              :
+            </span>
+            Institut für Geschichtliche Landeskunde an der Universität Mainz e.V.
+          </div>
+          )
+          else
+          <div class="idno" data-demoid="2cc611f7-5e62-4316-9ee4-6c86edb955f9" id="idno-num">
+            {
+            if($wcharter:is-bookmarked) then
+            (
+            <xrx:resource type="image/jpg">tag:www.monasterium.net,2011:/mom/resource/image/button_bookmarkAdd</xrx:resource>
+            ,
+            <span>  </span>
+            )
+            else()
+            }
+            <xrx:i18n>
+              <xrx:key>signature</xrx:key>
+              <xrx:default>Signature</xrx:default>
+            </xrx:i18n>
+            <span>: { $wcharter:idno }</span>  
+          </div>
+          }
+        </div>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>prev-next</xrx:key>
+      <xrx:view>
+        <div data-demoid="630465f3-fb15-4bd8-80da-410d8c0b0216" id="prev-next">
+          <div data-demoid="ff14a4a2-6b38-464a-be33-28f16d587320" id="prev">
+            <a href="{ $wcharter:previous }">
+              <span>&lt; </span>
+              <xrx:i18n>
+                <xrx:key>previous-charter</xrx:key>
+                <xrx:default>Previous Charter</xrx:default>
+              </xrx:i18n>
+            </a>
+          </div>
+          <div data-demoid="9b2eddc0-a341-4869-b48b-e0992db9f77c" id="next">
+            <span>{ $wcharter:pos } </span>
+            <xrx:i18n>
+              <xrx:key>of</xrx:key>
+              <xrx:default>of</xrx:default>
+            </xrx:i18n>
+            <span> { $wcharter:count } </span>
+            <!--span>(</span>
+            <xrx:i18n>
+              <xrx:key>by-date</xrx:key>
+              <xrx:default>by date</xrx:default>
+            </xrx:i18n>
+            <span>)</span-->
+            <span>   </span>
+            <a href="{ $wcharter:next }">
+              <xrx:i18n>
+                <xrx:key>next-charter</xrx:key>
+                <xrx:default>Next Charter</xrx:default>
+              </xrx:i18n>
+              <span> &gt;</span>
+            </a>
+          </div>
+        </div>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>how-to-cite</xrx:key>
+      <xrx:view>
+        <div class="inlinehead">
+          <a href="javascript:showHideDiv('howToCite', '')">
+            <xrx:i18n>
+              <xrx:key>how-to-cite</xrx:key>
+              <xrx:default>How to cite</xrx:default>
+            </xrx:i18n>
+          </a>
+        </div>
+        <div id="howToCite" style="display: none">
+          <div class="p">
+            <p>
+              <span>{ for $archive in $wcharter:archive return concat($archive, '&#160;') }{ $wcharter:fond }&#160;{ $wcharter:idno }, in: monasterium.net, URL &lt;{ $wcharter:default-url }/charter&gt;, accessed at { current-date() }</span>
+            </p>
+          </div>
+        </div>
+      </xrx:view>
+    </xrx:div>
+  </xrx:divs>
 </xrx:widget>
