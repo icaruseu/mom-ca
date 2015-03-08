@@ -8,7 +8,7 @@
     </xrx:i18n>
   </xrx:title>
   <xrx:subtitle/>
-  <xrx:description/>
+  <xrx:description>functionalities to demonstrate the text-image-linking tools in EditMOM3</xrx:description>
   <xrx:author>andre.streicher@uni-koeln.de</xrx:author>
   <xrx:licence>
 This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.

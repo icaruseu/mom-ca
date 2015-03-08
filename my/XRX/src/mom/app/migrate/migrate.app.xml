@@ -7,7 +7,7 @@
     </xrx:i18n>
   </xrx:title>
   <xrx:subtitle></xrx:subtitle>
-  <xrx:description></xrx:description>
+  <xrx:description>migration of metadata from mom-ca 1.5 to mom-ca 2.0 (e.g. conversion of unstructured fonds descriptions to EAD)</xrx:description>
   <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
   <xrx:licence>
 This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
