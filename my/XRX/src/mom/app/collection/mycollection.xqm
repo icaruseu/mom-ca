@@ -110,9 +110,9 @@ declare function mycollection:charter-new-empty($atom-id as xs:string, $charter-
           <xsl:text>{ $charter-name }</xsl:text>
         </xsl:element>
       </xsl:template>
-      <xsl:template match="@*|*" priority="-2">
+      <xsl:template match="@*|*" priority="-2">      
         <xsl:copy>
-          <xsl:apply-templates select="@*|node()" />
+          <xsl:apply-templates select="@*|node()" />         
         </xsl:copy>
       </xsl:template>
     </xsl:stylesheet>
