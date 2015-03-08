@@ -83,6 +83,11 @@ it leaves the active development stage.
       <xrx:name>$wcharter-preview:id</xrx:name>
       <xrx:expression>metadata:objectid($wcharter-preview:atom-id)</xrx:expression>
     </xrx:variable>
+    <!-- FixMe: Gemeiner Hack, um auch die UUID zu haben -->
+    <xrx:variable>
+      <xrx:name>$uuid</xrx:name>
+      <xrx:expression>tokenize($constructor:charter/atom:id/text(),'/')[last()]</xrx:expression>
+    </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:date</xrx:name>
       <xrx:expression>($constructor:charter//cei:date/text()|$constructor:charter//cei:dateRange/text())[1]</xrx:expression>
@@ -153,7 +158,16 @@ it leaves the active development stage.
           <a href="{ $wcharter-preview:charter-url }">
             <xrx:i18n>
               <xrx:key>view-charter</xrx:key>
-              <xrx:default>View Charter</xrx:default>
+              <xrx:default>View charter</xrx:default>
+            </xrx:i18n>
+          </a>
+        </div>
+<!-- FixMe: Mieser Hack, damit ich einen Link auf EditMOM3 kriege -->
+        <div>
+          <a href="/mom/charter/{$uuid}/edit" target="_blank">
+            <xrx:i18n>
+              <xrx:key>edit-charter</xrx:key>
+              <xrx:default>Edit charter</xrx:default>
             </xrx:i18n>
           </a>
         </div>

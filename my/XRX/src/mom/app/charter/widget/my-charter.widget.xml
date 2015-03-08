@@ -68,6 +68,11 @@ it leaves the active development stage.
       <xrx:name>$wcharter:tokens</xrx:name>
       <xrx:expression>tokenize(substring-after($wcharter:atom-id, conf:param('atom-tag-name')), '/')</xrx:expression>
     </xrx:variable>
+    <!-- FixMe: Gemeiner Hack, um auch die UUID zu haben -->
+    <xrx:variable>
+      <xrx:name>$uuid</xrx:name>
+      <xrx:expression>$wcharter:tokens[last()]</xrx:expression>
+    </xrx:variable>
     <xrx:variable>
       <!-- charter -->
       <xrx:name>$wcharter:metadata-charter-collection</xrx:name>
@@ -340,6 +345,13 @@ it leaves the active development stage.
             <span>: { $wcharter:idno }</span>  
           </div>
           }
+<!-- FixMe: Mieser Hack, damit ich einen Link auf EditMOM3 kriege -->
+          <span><a href="/mom/charter/{$uuid}/edit" target="_blank">
+            <xrx:i18n>
+              <xrx:key>edit-charter</xrx:key>
+              <xrx:default>Edit charter</xrx:default>
+            </xrx:i18n>
+          </a></span>
         </div>
       </xrx:view>
     </xrx:div>
