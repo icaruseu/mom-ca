@@ -42,7 +42,7 @@ declare function mycharters:entries($charter-base-collection) {
     let $cei-text := 
         if($just-linked-atomid != '') then charter:public-entry($just-linked-atomid)
         else $entry
-    let $date := $cei-text//(cei:date/@value|cei:dateRange/@from)
+    let $date := $cei-text//cei:issued/(cei:date/@value|cei:dateRange/@from)
     order by xs:integer($date)
     return
     $entry
