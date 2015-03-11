@@ -69,7 +69,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
    #select-arrows{{
       float:left;
       position:relative;
-      top:-130px;
+      top:-30px;
       left:400px;
    }}
    .r-arrow{{
