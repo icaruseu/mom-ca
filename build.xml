@@ -474,6 +474,7 @@
     <replace file="${exist-home}/extensions/build.properties">
       <replacefilter token="include.module.xslfo = false"
         value="include.module.xslfo = true" />
+      <replacefilter token="include.module.xslfo.url = http://apache.cs.uu.nl/dist/xmlgraphics/fop/binaries/fop-1.1-bin.zip" value="include.module.xslfo.url = https://archive.apache.org/dist/xmlgraphics/fop/binaries/fop-1.1-bin.zip"/>
       <replacefilter token="include.module.cache = false"
        value="include.module.cache = true" />
       <replacefilter token="http://apache.cs.uu.nl/dist/xmlgraphics/fop/binaries/fop-1.1-bin.zip"
@@ -633,6 +634,8 @@
         value="wrapper.java.initmemory=${XRX.java.initmemory}" />
       <replacefilter token="wrapper.java.maxmemory=512"
         value="wrapper.java.maxmemory=${XRX.java.maxmemory}" />
+      <replacefilter token="wrapper.ping.timeout=120"
+        value="wrapper.ping.timeout=600" />
     </replace>
     <echo file="${wrapper-home}/conf/wrapper.conf" append="true">
 wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
