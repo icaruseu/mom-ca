@@ -1167,6 +1167,29 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                         <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
                 </xs:element>
+                      <xs:element minOccurs="0" maxOccurs="unbounded" name="zone">
+                    <xs:annotation>
+                        <xs:appinfo source="EditVDU">
+                            <xrxe:label>
+                                <xrx:i18n>
+                                    <xrx:key>cei_zone</xrx:key>
+                                    <xrx:default>zone</xrx:default>
+                                </xrx:i18n>
+                            </xrxe:label>
+                            <xrxe:label>zone</xrxe:label>
+                            <xrxe:max-occur>unbounded</xrxe:max-occur>
+                            <xrxe:empty>true</xrxe:empty>
+                        </xs:appinfo>
+                    </xs:annotation>
+                    <xs:complexType mixed="true">
+                        <xs:sequence>
+                            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                <xs:element ref="desc"/>
+                            </xs:choice>
+                        </xs:sequence>
+                        <xs:attributeGroup ref="standard"/>
+                    </xs:complexType>
+                </xs:element>
                 <xs:element minOccurs="0" name="graphic">
                     <xs:annotation>
                         <xs:appinfo source="EditVDU">
@@ -2095,6 +2118,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                     <xs:element ref="hi"/>
                     <xs:element ref="c"/>
                     <xs:element ref="sup"/>
+                    <xs:element ref="index"/>
                 </xs:choice>
             </xs:sequence>
             <xs:attributeGroup ref="resp"/>
@@ -5035,9 +5059,24 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
     <xs:attributeGroup name="standard">
         <xs:attributeGroup ref="id"/>
         <xs:attributeGroup ref="n"/>
-        
+        <xs:attributeGroup ref="facs"/>
     </xs:attributeGroup>
-    
+    <xs:attributeGroup name="facs">
+        <xs:attribute name="facs">
+            <xs:annotation>
+                <xs:appinfo source="EditVDU">
+                    <xrxe:label>
+                        <xrx:i18n>
+                            <xrx:key>cei_facs</xrx:key>
+                            <xrx:default>facs</xrx:default>
+                        </xrx:i18n>
+                    </xrxe:label>
+                </xs:appinfo>
+                <xs:documentation xml:lang="deu"> Eine eindeutige Verknüpfung des jeweiligen Markup-
+                    Tags als Annotation eines Bildes. </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:attributeGroup>    
     <xs:attributeGroup name="id">
         <xs:attribute name="id">
             <xs:annotation>
