@@ -362,7 +362,7 @@ span.invited-user {{
       <div data-demoid="556eb4c9-4e43-4901-b0ba-7d7ff7bcfc65" id="dmy-collection-toolbar">
         <div data-demoid="a264e591-8394-4574-8bb0-22a9b258758f" id="dmy-collection-inner-toolbar"> </div>
         <div data-demoid="dc88c9f9-53be-4297-91cc-e59d6267d3ac" id="dmy-collection-breadcrumb">
-          <a href="/">MOM-CA</a>
+          <a href="/mom">MOM-CA</a>
           <span> &gt; </span>
           <a href="{ conf:param('request-root') }my-collections">My Collections (preview)</a>
           <span> &gt; </span>
