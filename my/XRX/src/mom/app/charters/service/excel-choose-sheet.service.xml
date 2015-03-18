@@ -62,6 +62,12 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     let $lastrownum := 
       if($lastrownum-exists) then xs:integer($sheetinfo//excel:lastrownum/@num/string()) else 0
     let $numcharters := $lastrownum - $firstrownum + 1
+    let $empty-rows := 
+      for $row-num in $firstrownum to $lastrownum
+        let $rowinfo := excel:rowinfo($url, $sheetnum, $row-num)
+        where $rowinfo/descendant-or-self::excel:error
+        return
+        substring-before(substring-after($rowinfo//text(), "'"), "'")
     
     return
     
@@ -85,6 +91,23 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
         </xrx:i18n>
       </xrx:message>
       <xrx:icon>{ conf:param('request-root') }dialog-warning.png</xrx:icon>
+      <xrx:report>{ $sheetinfo }</xrx:report>
+    </xrx:response>
+    else if(fn:count($empty-rows)) then
+    <xrx:response status="1">
+      <xrx:message>
+        <xrx:i18n>
+          <xrx:key>These-rows-do-not-have-content</xrx:key>
+          <xrx:default>These rows do not have content: </xrx:default>
+        </xrx:i18n>
+            { for $row in $empty-rows return fn:concat("<div>", "&#8226; ", $row, "</div>") }
+        { $numcharters - fn:count($empty-rows) }&#160;
+        <xrx:i18n>
+          <xrx:key>rows-have-content</xrx:key>
+          <xrx:default>rows have content.</xrx:default>
+         </xrx:i18n>
+       </xrx:message>
+       <xrx:icon>{ conf:param('request-root') }face-smile.png</xrx:icon>
       <xrx:report>{ $sheetinfo }</xrx:report>
     </xrx:response>
     else
