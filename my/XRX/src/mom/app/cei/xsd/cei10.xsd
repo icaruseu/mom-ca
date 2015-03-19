@@ -1118,28 +1118,6 @@
                         <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
                 </xs:element>
-                <xs:element minOccurs="0" name="figDesc">
-                    <xs:annotation>
-                        <xs:appinfo source="EditVDU">
-                            <xrxe:label>
-                                <xrx:i18n>
-                                    <xrx:key>cei_figDesc</xrx:key>
-                                    <xrx:default>figDesc</xrx:default>
-                                </xrx:i18n>
-                            </xrxe:label>
-                            <xrxe:relevant>false</xrxe:relevant>
-                        </xs:appinfo>
-                    </xs:annotation>
-                    <xs:complexType mixed="true">
-                        <xs:sequence>
-                            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                                <xs:group ref="layout"/>
-                                <xs:group ref="biblArch"/>
-                            </xs:choice>
-                        </xs:sequence>
-                        <xs:attributeGroup ref="standard"/>
-                    </xs:complexType>
-                </xs:element>
                 <xs:element minOccurs="0" name="graphic">
                     <xs:annotation>
                         <xs:appinfo source="EditVDU">
@@ -2049,7 +2027,6 @@
                     <xs:element ref="hi"/>
                     <xs:element ref="c"/>
                     <xs:element ref="sup"/>
-                    <xs:element ref="index"/>
                 </xs:choice>
             </xs:sequence>
             <xs:attributeGroup ref="resp"/>
