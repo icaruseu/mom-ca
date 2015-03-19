@@ -537,6 +537,22 @@
             </xsl:when>
           </xsl:choose>
           <xsl:choose>
+            <xsl:when test="./cei:auth/cei:sealDesc/cei:seal/text() !=''">
+              <li>
+                <b>
+                  <xrx:i18n><xrx:key>seal</xrx:key><xrx:default>Seal</xrx:default></xrx:i18n>
+                  <span>:&#160;</span>
+                </b>
+                <xsl:for-each select="./cei:auth/cei:sealDesc/cei:seal">
+                  <xsl:apply-templates select="." />
+                  <xsl:if test="position() != last()">
+                    <xsl:text>,</xsl:text>
+                  </xsl:if>
+                </xsl:for-each>
+              </li>
+            </xsl:when>
+          </xsl:choose>
+          <xsl:choose>
             <xsl:when test="./cei:auth/cei:sealDesc/text() !=''">
               <li>
                 <b>
