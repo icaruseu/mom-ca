@@ -463,25 +463,15 @@
               </li>
             </xsl:if>
           </li>
-          <ul>
-            <xsl:if test="./cei:archIdentifier/cei:settlement/node()">
-              <li>
-                <span>
-                  <xrx:i18n><xrx:key>settlement</xrx:key><xrx:default>Settlement</xrx:default></xrx:i18n>
-                  <span>:&#160;</span>
-                </span>
+           <xsl:if test="./cei:archIdentifier/cei:settlement/node()">
                 <xsl:value-of select="./cei:archIdentifier/cei:settlement" />
-              </li>
+    		<span>,&#160;</span>
             </xsl:if>
             <xsl:if test="./cei:archIdentifier/cei:arch/node()">
-              <li>
-                <span>
-                  <xrx:i18n><xrx:key>archive</xrx:key><xrx:default>Archive</xrx:default></xrx:i18n>
-                  <span>:&#160;</span>
-                </span>
-                <xsl:value-of select="./cei:archIdentifier/cei:arch" />
-              </li>
+                <xsl:value-of select="./cei:archIdentifier/cei:arch" />              
             </xsl:if>
+          <ul>
+ 
             <xsl:if test="./cei:archIdentifier/cei:archFond/node()">
               <li>
                 <span>
