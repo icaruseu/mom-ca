@@ -73,7 +73,7 @@ it leaves the active development stage.
           </xrx:i18n>
         </a>
       </div>
-      <div data-demoid="317b877a-e803-48d5-8d2e-bd9779f000bb" id="tenor" style="display: none">
+      <div data-demoid="317b877a-e803-48d5-8d2e-bd9779f000bb" id="tenor">
        <div class="p">
         <insert-tenor/>
         <insert-bibltenor/>
