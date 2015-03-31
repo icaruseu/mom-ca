@@ -463,16 +463,15 @@
               </li>
             </xsl:if>
           </li>
-          <ul>
-            <xsl:if test="./cei:archIdentifier/cei:arch/node()">
-              <li>
-                <span>
-                  <xrx:i18n><xrx:key>archive</xrx:key><xrx:default>Archive</xrx:default></xrx:i18n>
-                  <span>:&#160;</span>
-                </span>
-                <xsl:value-of select="./cei:archIdentifier/cei:arch" />
-              </li>
+           <xsl:if test="./cei:archIdentifier/cei:settlement/node()">
+                <xsl:value-of select="./cei:archIdentifier/cei:settlement" />
+    		<span>,&#160;</span>
             </xsl:if>
+            <xsl:if test="./cei:archIdentifier/cei:arch/node()">
+                <xsl:value-of select="./cei:archIdentifier/cei:arch" />              
+            </xsl:if>
+          <ul>
+ 
             <xsl:if test="./cei:archIdentifier/cei:archFond/node()">
               <li>
                 <span>
@@ -528,6 +527,22 @@
                   <span>:&#160;</span>
                 </b>
                 <xsl:for-each select="./cei:auth/cei:sealDesc/cei:seal/cei:sigillant">
+                  <xsl:apply-templates select="." />
+                  <xsl:if test="position() != last()">
+                    <xsl:text>,</xsl:text>
+                  </xsl:if>
+                </xsl:for-each>
+              </li>
+            </xsl:when>
+          </xsl:choose>
+          <xsl:choose>
+            <xsl:when test="./cei:auth/cei:sealDesc/cei:seal/text() !=''">
+              <li>
+                <b>
+                  <xrx:i18n><xrx:key>seal</xrx:key><xrx:default>Seal</xrx:default></xrx:i18n>
+                  <span>:&#160;</span>
+                </b>
+                <xsl:for-each select="./cei:auth/cei:sealDesc/cei:seal">
                   <xsl:apply-templates select="." />
                   <xsl:if test="position() != last()">
                     <xsl:text>,</xsl:text>
