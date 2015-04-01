@@ -1047,11 +1047,10 @@
 
   <!-- index -->
   <xsl:template name="item">
-  <xsl:for-each-group select="$cei//cei:index" group-by="@type">
-        <xsl:sort select="@type"/>
-        <xsl:for-each select="current-group()">
-      <xsl:sort select="."/>
-      <xsl:if test="./node()">
+  <xsl:for-each select="$cei//cei:index">
+      <xsl:sort select="@type"/>
+
+      <!-- <xsl:if test="./node()">-->
 	      <li>
 	        <xsl:apply-templates/>
 	      </li>
@@ -1061,9 +1060,9 @@
 	        <xsl:call-template name="existent" />
 	        <xsl:call-template name="type" />
 	      </ul>
-	    </xsl:if>
-    </xsl:for-each>
-    </xsl:for-each-group>  
+	    <!-- </xsl:if> -->
+
+    </xsl:for-each>  
   </xsl:template>
   
   <!-- how to cite -->
