@@ -63,7 +63,7 @@ declare function collections:recently-added($db-base-collections) {
 declare function collections:list($label as xs:string, $collections) as element() {
 
     <div>
-      <div class="country-name">{ $label }</div>
+      <div class="country-name" id="{$label}">{ $label }</div>
       <ul class="nostyle">
         {
         for $collection in $collections
