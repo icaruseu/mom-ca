@@ -294,7 +294,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             for $country in $wcollections:countries
             order by $country
             return
-            <li>{ $country }</li>
+            <li><a href="{ conf:param('request-root') }collections/by-country#{$country}">{ $country }</a></li>
             }
           </ul>
           <div class="show-link" data-demoid="c6283e23-fdab-4232-98cc-9a87ca394a89">
@@ -321,7 +321,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             for $category in $wcollections:categories
             order by $category
             return
-            <li>{ $category }</li>
+            <li><a href="{ conf:param('request-root') }collections/by-category#{$category}">{ $category }</a></li>
             }
           </ul>
           <div class="show-link" data-demoid="2a6e1d1a-1e33-47b3-8e8b-d9b2cecf7e06">
@@ -349,7 +349,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             let $user-name := user:firstname-name($user)
             order by $user-name
             return
-            <li>{ $user-name }</li>
+            <li><a href="{ conf:param('request-root') }collections/by-user#{$user-name}">{ $user-name }</a></li>
             }
           </ul>
           <div class="show-link" data-demoid="a4554326-52ca-435a-8819-9d7afb1a78f7">
