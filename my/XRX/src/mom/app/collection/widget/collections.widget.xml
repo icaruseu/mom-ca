@@ -255,19 +255,46 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
         </xrx:false>
       </xrx:auth>
       <div class="collections-menu" data-demoid="cf008430-8405-4972-8db4-550eb08c6d1f">
+      	<div class="collections-menu-block" data-demoid="bb301df8-1c10-4874-9e1a-02b5acb89e9c"><div class="collections-menu-block-inner" data-demoid="2dcb26b9-5ba9-4e63-8809-347f4b96c2b0">
+          <span class="collections-menu-heading">
+            <a href="{ conf:param('request-root') }collections/recently-added"><xrx:i18n>
+              <xrx:key>recently-added</xrx:key>
+              <xrx:default>Recently added</xrx:default>
+            </xrx:i18n></a>
+          </span>
+          <ul class="nostyle">
+            {
+            for $collection in $wcollections:recently-added
+            let $collection-name := normalize-space(($collection//cei:titleStmt/cei:title/text(),$collection//cei:provenance/text())[1])
+            return
+            <li class="nobr">{ if(string-length($collection-name) gt 30) then concat(substring($collection-name, 1, 30), ' ...') else $collection-name }</li>
+            }
+          </ul>
+          <div class="show-link" data-demoid="42b63389-bc2b-4760-8b5e-ce2bf79bfff1">
+            <a href="{ conf:param('request-root') }collections/recently-added">
+              <xrx:i18n>
+                <xrx:key>show</xrx:key>
+                <xrx:default>show</xrx:default>
+              </xrx:i18n>
+              <span> &gt;&gt;</span>
+            </a>
+          </div>
+        </div></div>
         <div class="collections-menu-block" data-demoid="6a5ab6fe-0a61-4f66-afa3-f4e49f638e6c"><div class="collections-menu-block-inner" data-demoid="35261d9f-ae1d-4ffe-93e5-5378adebb689">
           <span class="collections-menu-heading">
+            <a href="{ conf:param('request-root') }collections/by-country">
             <xrx:i18n>
               <xrx:key>discover-by-country</xrx:key>
               <xrx:default>Discover by country</xrx:default>
             </xrx:i18n>
+            </a>
           </span>
           <ul class="nostyle">
             {
             for $country in $wcollections:countries
             order by $country
             return
-            <li>{ $country }</li>
+            <li><a href="{ conf:param('request-root') }collections/by-country#{$country}">{ $country }</a></li>
             }
           </ul>
           <div class="show-link" data-demoid="c6283e23-fdab-4232-98cc-9a87ca394a89">
@@ -282,17 +309,19 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
         </div></div>
         <div class="collections-menu-block" data-demoid="2e1542be-2ff4-41ad-bce0-e09d359f0fa3"><div class="collections-menu-block-inner" data-demoid="ea0467c9-9356-401a-bc2f-e6397f8dfae9">
           <span class="collections-menu-heading">
+            <a href="{ conf:param('request-root') }collections/by-category">
             <xrx:i18n>
               <xrx:key>discover-by-category</xrx:key>
               <xrx:default>Discover by category</xrx:default>
             </xrx:i18n>
+            </a>
           </span>
           <ul class="nostyle">
             {
             for $category in $wcollections:categories
             order by $category
             return
-            <li>{ $category }</li>
+            <li><a href="{ conf:param('request-root') }collections/by-category#{$category}">{ $category }</a></li>
             }
           </ul>
           <div class="show-link" data-demoid="2a6e1d1a-1e33-47b3-8e8b-d9b2cecf7e06">
@@ -307,10 +336,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
         </div></div>
         <div class="collections-menu-block" data-demoid="c6255b0b-d326-43f9-a2e2-f9b1c66478bf"><div class="collections-menu-block-inner" data-demoid="9f92b0c8-b224-40cd-bd17-df7d0fa7192f">
           <span class="collections-menu-heading">
+            <a href="{ conf:param('request-root') }collections/by-user">
             <xrx:i18n>
               <xrx:key>discover-by-user</xrx:key>
               <xrx:default>Discover by user</xrx:default>
             </xrx:i18n>
+            </a>
           </span>
           <ul class="nostyle">
             {
@@ -318,36 +349,11 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             let $user-name := user:firstname-name($user)
             order by $user-name
             return
-            <li>{ $user-name }</li>
+            <li><a href="{ conf:param('request-root') }collections/by-user#{$user-name}">{ $user-name }</a></li>
             }
           </ul>
           <div class="show-link" data-demoid="a4554326-52ca-435a-8819-9d7afb1a78f7">
             <a href="{ conf:param('request-root') }collections/by-user">
-              <xrx:i18n>
-                <xrx:key>show</xrx:key>
-                <xrx:default>show</xrx:default>
-              </xrx:i18n>
-              <span> &gt;&gt;</span>
-            </a>
-          </div>
-        </div></div>
-        <div class="collections-menu-block" data-demoid="bb301df8-1c10-4874-9e1a-02b5acb89e9c"><div class="collections-menu-block-inner" data-demoid="2dcb26b9-5ba9-4e63-8809-347f4b96c2b0">
-          <span class="collections-menu-heading">
-            <xrx:i18n>
-              <xrx:key>recently-added</xrx:key>
-              <xrx:default>Recently added</xrx:default>
-            </xrx:i18n>
-          </span>
-          <ul class="nostyle">
-            {
-            for $collection in $wcollections:recently-added
-            let $collection-name := normalize-space(($collection//cei:titleStmt/cei:title/text(),$collection//cei:provenance/text())[1])
-            return
-            <li class="nobr">{ if(string-length($collection-name) gt 30) then concat(substring($collection-name, 1, 30), ' ...') else $collection-name }</li>
-            }
-          </ul>
-          <div class="show-link" data-demoid="42b63389-bc2b-4760-8b5e-ce2bf79bfff1">
-            <a href="{ conf:param('request-root') }collections/recently-added">
               <xrx:i18n>
                 <xrx:key>show</xrx:key>
                 <xrx:default>show</xrx:default>
