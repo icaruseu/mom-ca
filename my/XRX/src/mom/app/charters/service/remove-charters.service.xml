@@ -30,6 +30,15 @@ You should have received a copy of the GNU General Public License
 along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   </xrx:licence>
   <xrx:variables>
+  <!-- $cacheid and $processid provided to this service via post-request. Basically made them up. -->
+    <xrx:variable>
+      <xrx:name>$cacheid</xrx:name>
+      <xrx:expression>xs:string($data//*:cacheid/text())</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$processid</xrx:name>
+      <xrx:expression>xs:string($data//*:processid/text())</xrx:expression>
+    </xrx:variable>
     <xrx:variable>
       <xrx:name>$context</xrx:name>
       <xrx:expression>xs:string($data//xrx:context/text())</xrx:expression>
@@ -58,6 +67,16 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:name>$charters-import-collection-path</xrx:name>
       <xrx:expression>concat(conf:param('atom-db-base-uri'), $charters-import-feed)</xrx:expression>
     </xrx:variable>
+    <!-- the actual collection obtained from the collection path. -->
+    <xrx:variable>
+      <xrx:name>$charters-import-collection</xrx:name>
+      <xrx:expression>collection($charters-import-collection-path)</xrx:expression>
+    </xrx:variable>
+    <!-- the amount of charters inside the collection that is going to be deleted -->
+    <xrx:variable>
+      <xrx:name>$charters-import-amount-of-charters</xrx:name>
+      <xrx:expression>count($charters-import-collection)</xrx:expression>
+    </xrx:variable>
   </xrx:variables>
   <xrx:init>
    <xrx:processor>
@@ -66,10 +85,52 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   </xrx:init>
   <xrx:body>
     {
-    let $remove-imported-charters := 
-      if((($archid != '' and $fondid != '') or $collectionid != '')) then xmldb:remove($charters-import-collection-path) else()
-    return
-    ()
+
+    let $progress1 :=
+    <xrx:progress>
+      <xrx:cacheid>{ $cacheid }</xrx:cacheid>
+      <xrx:processid>{ $processid }</xrx:processid>
+      <xrx:actual>0</xrx:actual>
+      <xrx:total>0</xrx:total>
+      <xrx:message>Preparing charters...</xrx:message>
+    </xrx:progress>
+    let $cache := cache:put($cacheid, $processid, $progress1)
+    let $wait := util:wait(2000)
+
+		    (: removing the charters one by one, to be able to have a progress bar.
+		     ~ When only calling xmldb:remove once for the entire collection, we are blind to the actual operation until it is finished.
+		     :)
+    let $do-remove :=
+		    (: loop through all the charters in the collection. Provide the xrx:progress element,
+		     ~ put it inside the cache with cache:put, so the javascript code can request periodical updates.
+		     :)
+	   if((($archid != '' and $fondid != '') or $collectionid != '')) then
+		    for $charter-to-remove at $pos in $charters-import-collection
+		      let $charter-document-uri := document-uri($charter-to-remove)
+		      (: let $debug1 := util:log("error", concat('DOCURI: ',$charter-document-uri)) :)
+		      let $remove-imported-charter := xmldb:remove($charters-import-collection-path, tokenize($charter-document-uri, '/')[last()])
+		      let $progress2 :=
+			      <xrx:progress>
+			        <xrx:cacheid>{ $cacheid }</xrx:cacheid>
+			        <xrx:processid>{ $processid }</xrx:processid>
+			        <xrx:actual>{ $pos }</xrx:actual>
+			        <xrx:total>{ $charters-import-amount-of-charters }</xrx:total>
+			        <xrx:message></xrx:message>
+			      </xrx:progress>
+			    let $cache := cache:put($cacheid, $processid, $progress2)
+			    return true()
+		  else ()
+
+		(: clear cache after 2 seconds :)
+		let $wait_a_moment := util:wait(2000)
+    let $clear-cache := cache:clear($cacheid)
+
+    (: also remove the now empty collection, so it does not stay around in the database. :)
+    let $remove-empty-imported-charters-collection := if((($archid != '' and $fondid != '') or $collectionid != '')) then xmldb:remove($charters-import-collection-path) else()
+
+	  return
+	  ()
+
     }
   </xrx:body>
 </xrx:service>
