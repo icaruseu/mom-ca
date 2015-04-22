@@ -121,12 +121,12 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 			    return true()
 		  else ()
 
-		(: clear cache after 2 seconds :)
+		(: clear cache after 2 seconds, so the Javascript gets its chance to notice the 100 % status while calling only every other second. :)
 		let $wait_a_moment := util:wait(2000)
     let $clear-cache := cache:clear($cacheid)
 
-    (: also remove the now empty collection, so it does not stay around in the database. :)
-    let $remove-empty-imported-charters-collection := if((($archid != '' and $fondid != '') or $collectionid != '')) then xmldb:remove($charters-import-collection-path) else()
+    (: The collection is not removed, even though it is empty, because removing the collection is handled in a different workflow. Left in here as a little stub... :)
+    (: let $remove-empty-imported-charters-collection := if((($archid != '' and $fondid != '') or $collectionid != '')) then xmldb:remove($charters-import-collection-path) else() :)
 
 	  return
 	  ()
