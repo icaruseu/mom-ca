@@ -30,6 +30,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	var CONTROL_SELECT1 =              'xrx-select1';
 	
 	var CONTEXT_REPEAT =               'xrx-repeat';
+	var CONTEXT_SELECT =               'xrx-select';
 	
 	var DATA_BIND =                    'xrx-bind';
 	var DATA_INSTANCE =                'xrx-instance';
@@ -57,11 +58,24 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	};
 	
 	$.fn.xrx.nodeset = function(control) {
-		
+		var select = $(control).parents(".xrx-select"), nodeset;
 		var repeat = $(control).parents(".xrx-repeat"), nodeset;
 		
 		if(repeat.length > 0) {
 			var bindId = $(repeat).attr('data-xrx-bind');
+			var ref = $(control).attr('data-xrx-ref');
+			var index = parseInt($(control).attr('data-xrx-index'));
+			var expression = $('#' + bindId).attr('data-xrx-nodeset') + ref;
+			nodeset = window.XPath.query(expression, $('.xrx-instance').text());
+			if(nodeset.only == null || nodeset.only == undefined) {
+				nodeset.only = {};
+				nodeset.only.qName = nodeset.nodes[index].qName;
+				nodeset.only.xml = nodeset.nodes[index].xml;
+				nodeset.only.levelId = nodeset.nodes[index].levelId;
+			}
+		}
+		else if(select.length > 0){			
+			var bindId = $(select).attr('data-xrx-bind');
 			var ref = $(control).attr('data-xrx-ref');
 			var index = parseInt($(control).attr('data-xrx-index'));
 			var expression = $('#' + bindId).attr('data-xrx-nodeset') + ref;
@@ -110,6 +124,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 		$("." + CONTEXT_REPEAT).each(function(index) {
 			$(this).xrxRepeat();
 		});
+		$("." + CONTEXT_SELECT).each(function(index) {
+			$(this).xrxSelect();
+		});
 	}
 	
 	function initUi(opts) {
@@ -140,6 +157,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 
 		// if we are inside a repeat we create later
 		if($(element).parents('.xrx-repeat').length > 0) return;
+		if($(element).parents('.xrx-select').length > 0) return;
+		
 
 		switch(controlType) {
 		case CONTROL_VISUALXML:

@@ -168,6 +168,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 		  <xrx:name>jquery.ui.xrxTabs.js</xrx:name>
 		</xrx:resource>
 		<xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxSelect</xrx:atomid>
+      <xrx:relativepath>js/</xrx:relativepath>
+      <xrx:name>jquery.ui.xrxSelect.js</xrx:name>
+    </xrx:resource>
+		<xrx:resource>
 		  <xrx:atomid>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxSelect1</xrx:atomid>
 		  <xrx:relativepath>js/</xrx:relativepath>
 		  <xrx:name>jquery.ui.xrxSelect1.js</xrx:name>

@@ -359,6 +359,14 @@
       <xs:attribute name="bind" use="required"/>
     </xs:complexType>
   </xs:element>
+  <xs:element name="select">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="visualxml" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute name="bind" use="required"/>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="resolver">
     <xs:complexType>
       <xs:sequence>

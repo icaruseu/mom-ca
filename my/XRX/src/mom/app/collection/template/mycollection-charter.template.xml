@@ -56,8 +56,7 @@ it leaves the active development stage.
                     </cei:front>
                     <cei:body>
                         <cei:idno/>
-                        <cei:chDesc>
-                            <cei:class/>
+                        <cei:chDesc>                            
                             <cei:abstract/>
                             <cei:issued>
                                 <cei:placeName/>
@@ -123,6 +122,7 @@ it leaves the active development stage.
                         <cei:tenor/>
                     </cei:body>
                     <cei:back>
+                        <cei:class/>
                         <cei:persName/>
                         <cei:placeName/>
                         <cei:index/>

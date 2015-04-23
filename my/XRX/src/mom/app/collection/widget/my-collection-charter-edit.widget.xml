@@ -296,6 +296,12 @@ form{{
 .ui-tabs-anchor{{
 	font-size:.8em;
 }}
+/*
+* codemirror textarea hidden within select
+*/
+/*div.xrx-select div.CodeMirror {{ visibility: hidden;
+}}*/
+
     </style>
   </xrx:csss>
   <xrx:jss>
@@ -312,6 +318,7 @@ form{{
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/droppable</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/menu</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/position</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/tabs</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/layout</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/imgareaselect</xrx:resource>
@@ -338,6 +345,7 @@ form{{
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxLayout</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxTabs</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxSelect1</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxSelect</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxMessage</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxVisualxml</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxElements</xrx:resource>
@@ -361,7 +369,7 @@ form{{
   <xrx:binds>
     <!-- abstract -->
     <xrx:bind id="bidno" nodeset="/descendant::cei:body/child::cei:idno"/>
-    <xrx:bind id="bclass" nodeset="/descendant::cei:class"/>
+    <!-- <xrx:bind id="bclass" nodeset="/descendant::cei:class"/> -->
     <xrx:bind id="babstract" nodeset="/descendant::cei:abstract"/>
     <xrx:bind id="bissued-date-range" nodeset="/descendant::cei:issued/child::cei:dateRange"/>
     <xrx:bind id="bissued-place" nodeset="/descendant::cei:issued/child::cei:placeName"/>
@@ -444,7 +452,7 @@ form{{
 						      }});
                   
 						    }});     
-		            </script>
+		            </script>		             
                 <xrx:select1 appearance="xrx-appearance-buttonset" id="s1viewer-choice">
                   <xrx:item>
                     <xrx:label>
@@ -985,7 +993,7 @@ form{{
                           <xrx:visualxml attributes="no" bind="blang-mom" elements="no"/>
                         </div>
                         <div data-demoid="c46aa058-3b4d-48eb-958a-905652a5754b" id="tab-7">
-                         <!--  <div class="dlabel">
+                         <div class="dlabel">
                                 <span class="dlabel-text">
                                      <xrx:i18n>
                                        <xrx:key>cei_class</xrx:key>
@@ -993,9 +1001,9 @@ form{{
                                      </xrx:i18n>
                                </span>
                          </div>
-                          <div>
-                              <xrx:visualxml attributes="no" bind="bclass" elements="no"/>
-                          </div>-->
+                          <xrx:select bind="bback">
+                              <xrx:visualxml ref="/child::cei:class"/>
+                         </xrx:select>
                           <div class="dlabel" data-demoid="c2f22510-3428-4bb0-8259-229701056a49">
                             <span class="dlabel-text">
                               <xrx:i18n>
@@ -1205,6 +1213,7 @@ form{{
       <script type="text/javascript">
 	    jQuery(document).ready(function(){{ 
 	    	jQuery.ajaxSetup({{ cache: false }});
+	                  
 				window.XPath = new XPath();
 				window.XPath.setNamespaceContext(
 						["atom", "cei"],
@@ -1218,7 +1227,7 @@ form{{
 					$(".xrx-visualxml").each(function(){{ $(this).xrxVisualxml("clear"); }});
 				}});
 	    }});
-	    </script>
+	    </script>	    
     </div>
   </xrx:view>
 </xrx:widget>
