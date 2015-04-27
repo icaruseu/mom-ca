@@ -407,18 +407,17 @@ right:220px;
       else()
       }
     </div>
-      </form>
-      <div>
+      <div id="search-hints">
         <p><xrx:i18n>
           <xrx:key>search-hints</xrx:key>
-          <xrx:value>Hints on search syntax</xrx:value>
+          <xrx:default>Hints on search syntax</xrx:default>
         </xrx:i18n></p>
-        <p>
-          <xrx:i18n>
-            <xrx:key>search-hints-details</xrx:key>
-            <xrx:key>You can use the asterisk (*) as a wildcard to search for any number of characters, or the question mark (?) as a wildcard for a single character. (Note, that both can not be used at the beginning!). The search terms can occur anywhere in the document. To search for the occurence of an alternative use the term OR between the search terms. To exclude a term from the search put a minus sign (-) in front of it. To search for a fixed phrase enclose it with quotation marks ("). Putting a tilde (~) a number after the phrase searches for the terms in the phrase within a distance of the given number of words (e.g. "In trinitatis"~6 should find the the classical trinitarian invocation).</xrx:key></xrx:i18n>
-        </p>
+        <p><xrx:i18n>
+          <xrx:key>search-hints-details</xrx:key>
+          <xrx:default>You can use the asterisk (*) as a wildcard to search for any number of characters, or the question mark (?) as a wildcard for a single character. (Note, that both can not be used at the beginning!). The search terms can occur anywhere in the document. To search for the occurence of an alternative use the term OR between the search terms. To exclude a term from the search put a minus sign (-) in front of it. To search for a fixed phrase enclose it with quotation marks ("). Putting a tilde (~) a number after the phrase searches for the terms in the phrase within a distance of the given number of words (e.g. "In trinitatis"~6 should find the the classical trinitarian invocation).</xrx:default>
+        </xrx:i18n></p>
       </div>
+    </form>
       else
       <div data-demoid="c806958d-d4c6-447c-bbf1-5872dc2d2d98" id="result">
         <div data-demoid="581f9372-0de2-4fe7-8d3a-0b8cc4184b58" id="back">
