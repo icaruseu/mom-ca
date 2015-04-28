@@ -64,6 +64,16 @@ it leaves the active development stage.
       <xrx:name>$wcharters:metadata-charter-collection</xrx:name>
       <xrx:expression>metadata:base-collection('charter', $charter:rcollectionid, 'import')</xrx:expression>
     </xrx:variable>
+    <!-- cache info preparation -->
+    <xrx:variable>
+      <xrx:name>$wimported-collection:uri-tokens</xrx:name>
+      <xrx:expression>charters:ruri-tokens()</xrx:expression>
+    </xrx:variable>
+    <!-- cache info -->
+    <xrx:variable>
+      <xrx:name>$wimported-collection:cacheid</xrx:name> <!-- the cacheid should come out as e.g. 'tag:www.monasterium.net,2011:/cache/firstcollection/imported-collection' -->
+      <xrx:expression>metadata:atomid('cache', ($wimported-collection:uri-tokens, $xrx:tokenized-uri[last()]))</xrx:expression>
+    </xrx:variable>
     <!-- block-wise navigation -->
     <xrx:variable>
       <xrx:name>$wcharters:preface-exists</xrx:name>
@@ -97,8 +107,16 @@ it leaves the active development stage.
   <xrx:init>
     <xrx:processor>
       <xrx:xformsflag>true</xrx:xformsflag>
+      <xrx:jqueryflag>true</xrx:jqueryflag>
     </xrx:processor>
   </xrx:init>
+  <xrx:jss>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/progressbar</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/progressbarRemove</xrx:resource>
+  </xrx:jss>
   <xrx:model>
     {
     let $metadata-charter-collection := metadata:base-collection('charter', $charter:rcollectionid, 'import')
@@ -106,7 +124,7 @@ it leaves the active development stage.
     return
     (
     chimport:publish-charters-model(conf:param('request-root'), $xrx-import-xml),
-    chimport:remove-charters-model(conf:param('request-root'), $xrx-import-xml)
+    chimport:remove-charters-model(conf:param('request-root'), $xrx-import-xml, $wimported-collection:cacheid)
     )
     }
   </xrx:model>
@@ -193,7 +211,8 @@ it leaves the active development stage.
                           <xrx:default>Remove imported charters</xrx:default>
                         </xrx:i18n>
                       </span>,
-                      'collection'
+                      'collection',
+                      $wimported-collection:cacheid
                       )
                       }
                     </div>
