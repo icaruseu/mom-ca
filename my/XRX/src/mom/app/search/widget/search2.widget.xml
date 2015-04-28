@@ -298,7 +298,23 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 			    <input id="search-field" name="q" type="text" value="{ request:get-parameter('q', '') }"/>
 			    <input id="search-trigger" type="submit" value="{ i18n:value('search', $xrx:lang, 'Search') }"/>
           <xrx:div>search-options-div</xrx:div>
+			    <xrx:div>search2-description</xrx:div>
 			  </div>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>search2-description</xrx:key>
+      <xrx:view>
+        <div>
+          <p><xrx:i18n>
+            <xrx:key>search-hints</xrx:key>
+            <xrx:default>Hints on search syntax</xrx:default>
+          </xrx:i18n></p>
+          <p><xrx:i18n>
+              <xrx:key>search2-hints-details</xrx:key>
+              <xrx:default>You can use the asterisk (*) as a wildcard to search for any number of characters, or the question mark (?) as a wildcard for a single character. (Note, that both can not be used at the beginning of word!). Select from the options wehre all search terms have to occur (AND), any of the search terms can occur (OR) or the the search terms have a specific sequence (phrase). To exclude a term from the search put a minus sign (-) in front of it. You mix a search for a fixed phrase and simple keyword by enclosing the phrase with quotation marks ("). Putting a tilde (~) a number after the phrase searches for the terms in the phrase within a distance of the given number of words (e.g. "In trinitatis"~6 should find the the classical trinitarian invocation).</xrx:default>
+            </xrx:i18n></p>
+        </div>
       </xrx:view>
     </xrx:div>
     <xrx:div>
