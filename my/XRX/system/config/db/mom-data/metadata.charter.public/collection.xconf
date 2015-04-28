@@ -1,12 +1,84 @@
 <collection xmlns="http://exist-db.org/collection-config/1.0"> 
-    <index xmlns:cei="http://www.monasterium.net/NS/cei" xmlns:atom="http://www.w3.org/2005/Atom"> 
-        <fulltext default="none" attributes="no"/>
+    <index xmlns:cei="http://www.monasterium.net/NS/cei">
         <lucene> 
             <analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/> 
-            <text qname="cei:text"/> 
+            <text qname="cei:abstract"/>
+            <text qname="cei:altIdentifier"/>
+            <text qname="cei:apprecatio"/>
+            <text qname="cei:arch"/>
+            <text qname="cei:archFond"/>
+            <text qname="cei:archIdentifier"/>
+            <text qname="cei:arenga"/>
+            <text qname="cei:auth"/>
+            <text qname="cei:class"/>
+            <text qname="cei:condition"/>
+            <text qname="cei:corroboratio"/>
+            <text qname="cei:country"/>
+            <text qname="cei:datatio"/>
+            <text qname="cei:date"/>
+            <text qname="cei:dateRange"/>
+            <text qname="cei:dimensions"/>
+            <text qname="cei:dispositio"/>
+            <text qname="cei:divNotes"/>
+            <text qname="cei:figDesc"/>
+            <text qname="cei:geogName"/>
+            <text qname="cei:idno"/>
+            <text qname="cei:index"/>
+            <text qname="cei:inscriptio"/>
+            <text qname="cei:intitulatio"/>
+            <text qname="cei:invocatio"/>
+            <text qname="cei:issuer"/>
+            <text qname="cei:lang_MOM"/>
+            <text qname="cei:legend"/>
+            <text qname="cei:listBibl"/>
+            <text qname="cei:listBiblEdition"/>
+            <text qname="cei:listBiblErw"/>
+            <text qname="cei:listBiblFaksimile"/>
+            <text qname="cei:listBiblRegest"/>
+            <text qname="cei:material"/>
+            <text qname="cei:msIdentifier"/>
+            <text qname="cei:narratio"/>
+            <text qname="cei:nota"/>
+            <text qname="cei:notariusDesc"/>
+            <text qname="cei:notariusSign"/>
+            <text qname="cei:notariusSub"/>
+            <text qname="cei:note"/>
+            <text qname="cei:persName"/>
+            <text qname="cei:physicalDesc"/>
+            <text qname="cei:placeName"/>
+            <text qname="cei:publicatio"/>
+            <text qname="cei:quoteOriginaldatierung"/>
+            <text qname="cei:recipient"/>
+            <text qname="cei:region"/>
+            <text qname="cei:sanctio"/>
+            <text qname="cei:seal"/>
+            <text qname="cei:sealCondition"/>
+            <text qname="cei:sealDesc"/>
+            <text qname="cei:sealDimensions"/>
+            <text qname="cei:sealMaterial"/>
+            <text qname="cei:setPhrase"/>
+            <text qname="cei:settlement"/>
+            <text qname="cei:sigillant"/>
+            <text qname="cei:sourceDescRegest"/>
+            <text qname="cei:sourceDescVolltext"/>
+            <text qname="cei:subscriptio"/>
+            <text qname="cei:tenor"/>
+            <text qname="cei:testis"/>
+            <text qname="cei:text"/>
+            <text qname="cei:traditioForm"/>
+            <text qname="cei:witListPar"/>
+            <text qname="cei:witnessOrig"/>
+            <inline qname="cei:add"/>
+            <inline qname="cei:cit"/>
+            <inline qname="cei:del"/>
+            <inline qname="cei:sup"/>
+            <inline qname="cei:expan"/>
         </lucene>
         <create qname="@from" type="xs:integer"/>
         <create qname="@to" type="xs:integer"/>
         <create qname="@value" type="xs:integer"/>
-    </index> 
+    </index>
+    <triggers>
+        <trigger class="org.exist.extensions.exquery.restxq.impl.RestXqTrigger"/>
+    </triggers>
 </collection>
