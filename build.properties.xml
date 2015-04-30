@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- @author: Jochen Graf -->
 <XRX>
-  <!-- ################################ XRX Project Settings ################################ -->
+  <!-- ########## XRX Project Settings ########## -->
   <project-name>mom</project-name>
   <deploy>core/**,mom/**</deploy>
-  <password></password>
+  <password>admin</password>
 
+  <!-- ########## OS Settings ########## -->
+  <os>
+    <arch>64</arch>
+    <!--arch>32</arch-->
+  </os>
 
-  <!-- ################################ Java Settings ################################ -->
+  <!-- ########## Java Settings ########## -->
   <java>
     <initmemory>256</initmemory>
     <maxmemory>6144</maxmemory>
   </java>
 
-
-  <!-- ################################ eXist Settings ################################ -->
+  <!-- ########## eXist Settings ########## -->
   <exist>
     <cache-size>256</cache-size>
     <collection-cache>256</collection-cache>
@@ -23,7 +27,7 @@
     <revision></revision>
   </exist>
 
-  <!-- ################################ Jetty Settings ################################ -->
+  <!-- ########## Jetty Settings ########## -->
   <jetty>
     <port>8181</port>
     <port-ssl>8444</port-ssl>

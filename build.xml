@@ -49,6 +49,7 @@
   <property name="my-exist-lib" value="my/eXist/lib" />
   <property name="my-exist-webapp" value="my/eXist/webapp"/>
   <property name="my-exist-jetty" value="my/eXist/tools/jetty"/>
+  <property name="my-exist-wrapper" value="my/eXist/tools/wrapper"/>
   <property name="keystore.alias" value="exist" />
   <property name="keystore.file" value="${exist-home}/key.store" />
   <property name="keystore.password" value="secret" />
@@ -58,6 +59,7 @@
    -->
   <property name="jetty-home" value="${exist-home}/tools/jetty" />
   <property name="wrapper-home" value="${exist-home}/tools/wrapper" />
+  <property name="windows-wrapper-exe" value="${exist-home}/tools/wrapper/bin/wrapper-windows-x86-${XRX.os.arch}.exe" />
   <property name="webinf-home" value="${exist-home}/webapp/WEB-INF" />
 
   <!-- 
@@ -417,10 +419,8 @@
     <mkdir dir="tmp"/>
     
     <!-- download and unzip eXist -->
-    <get src="https://github.com/eXist-db/exist/archive/eXist-2.0.x.zip" dest="tmp/eXist.zip"/>
-    <exec executable="unzip">
-      <arg line="tmp/eXist.zip -d ."/>
-    </exec>
+    <get src="https://codeload.github.com/eXist-db/exist/zip/eXist-2.0.x" dest="tmp/eXist.zip"/>
+    <unzip src="tmp/eXist.zip" dest="."/>
     <move todir="localhost">
       <fileset dir="exist-eXist-2.0.x"/>
     </move>
@@ -486,6 +486,11 @@
         <include name="*.ttf"/>
       </fileset>  
     </copy>
+    <copy todir="${wrapper-home}/bin" overwrite="true">
+      <fileset dir="${my-exist-wrapper}/bin">
+        <include name="*.exe"/>
+      </fileset>  
+    </copy>
     <tstamp>
       <format property="time" pattern="yyyy-MM-dd-hh-mm-ss"/>
     </tstamp>
@@ -496,28 +501,36 @@
     <echo message="Compiling eXist" />
     <echo message="-------------------------" />
     <!-- building eXist -->
-    <exec executable="${exist-home}/build.sh">
+    <exec executable="${exist-home}/build.sh" osfamily="unix">
       <arg line="-f ${exist-home}/build.xml" />
     </exec>
-    <!-- unsign all eXist *.jar -->
-    <exec executable="${exist-home}/build.sh">
-      <arg line="-f ${exist-home}/build/scripts/jarsigner.xml jnlp-unsign-all" />
+    <exec executable="cmd" dir="${exist-home}" osfamily="windows">
+      <arg value="/c" />
+      <arg value="build.bat" />
     </exec>
-    <!-- sign all eXist *.jar -->
-    <exec executable="${exist-home}/build.sh">
-      <arg line="-f ${exist-home}/build/scripts/jarsigner.xml" />
-    </exec>
+    <antcall target="sign" />
+    <exec executable="${exist-home}/tools/wrapper/bin/install.bat" osfamily="windows" failonerror="false"/>
 
   </target>
   
   <target name="sign">
     <!-- unsign all eXist *.jar -->
-    <exec executable="${exist-home}/build.sh">
+    <exec executable="${exist-home}/build.sh" osfamily="unix">
       <arg line="-f ${exist-home}/build/scripts/jarsigner.xml jnlp-unsign-all" />
     </exec>
+    <exec executable="cmd" dir="${exist-home}" osfamily="windows">
+      <arg value="/c" />
+      <arg value="build.bat" />
+      <arg value="jnlp-unsign-all" />
+    </exec>
     <!-- sign all eXist *.jar -->
-    <exec executable="${exist-home}/build.sh">
-      <arg line="-f ${exist-home}/build/scripts/jarsigner.xml" />
+    <exec executable="${exist-home}/build.sh" osfamily="unix">
+      <arg line="-f ${exist-home}/build/scripts/jarsigner.xml jnlp-all" />
+    </exec>
+    <exec executable="cmd" dir="${exist-home}" osfamily="windows">
+      <arg value="/c" />
+      <arg value="build.bat" />
+      <arg value="jnlp-all" />
     </exec>
   </target>
 
@@ -526,8 +539,12 @@
     <echo message="-------------------------" />
     <echo message="Starting XRX Application Server" />
     <echo message="-------------------------" />
-    <exec executable="${exist-home}/tools/wrapper/bin/exist.sh">
+    <exec executable="${exist-home}/tools/wrapper/bin/exist.sh" osfamily="unix">
       <arg value="start"/>
+    </exec>
+    <exec executable="${windows-wrapper-exe}" osfamily="windows">
+      <arg value="--start" />
+      <arg value="..\conf\wrapper.conf" />
     </exec>
   </target>
   
@@ -536,8 +553,12 @@
     <echo message="-------------------------" />
     <echo message="Stopping XRX Application Server" />
     <echo message="-------------------------" />
-    <exec executable="${exist-home}/tools/wrapper/bin/exist.sh">
+    <exec executable="${exist-home}/tools/wrapper/bin/exist.sh" osfamily="unix">
       <arg value="stop"/>
+    </exec>
+    <exec executable="${windows-wrapper-exe}" osfamily="windows">
+      <arg value="--stop" />
+      <arg value="..\conf\wrapper.conf" />
     </exec>
   </target>
   
@@ -546,12 +567,8 @@
     <echo message="-------------------------" />
     <echo message="Restarting XRX Application Server" />
     <echo message="-------------------------" />
-    <exec executable="${exist-home}/tools/wrapper/bin/exist.sh">
-      <arg value="stop"/>
-    </exec>
-    <exec executable="${exist-home}/tools/wrapper/bin/exist.sh">
-      <arg value="start"/>
-    </exec>
+    <antcall target="stop" />
+    <antcall target="start" />
   </target>
   
   <target name="setpassword" depends="exist-classpath">
