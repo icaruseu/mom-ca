@@ -476,6 +476,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	          let $count := $category/@count/string()
 	          let $filtered := $wsearch:categories-filtered//*:category[@key=$key]
 	          let $count-filtered := if($filtered/@count) then $filtered/@count/string() else '0'
+	          order by xs:integer($count) descending
 	          return
 	          <div data-demoid="8d173333-510e-4311-abd4-8e190780fdc1">
 	            <input name="{ $key }" type="checkbox">
