@@ -8,8 +8,10 @@
 
   <!-- ########## OS Settings ########## -->
   <os>
-    <arch>64</arch>
-    <!--arch>32</arch-->
+    <windows>
+      <bitness>64</bitness>
+      <serviceName>mom.XRX-1</serviceName>
+    </windows>
   </os>
 
   <!-- ########## Java Settings ########## -->

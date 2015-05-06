@@ -59,7 +59,7 @@
    -->
   <property name="jetty-home" value="${exist-home}/tools/jetty" />
   <property name="wrapper-home" value="${exist-home}/tools/wrapper" />
-  <property name="windows-wrapper-exe" value="${exist-home}/tools/wrapper/bin/wrapper-windows-x86-${XRX.os.arch}.exe" />
+  <property name="windows-wrapper-exe" value="${exist-home}/tools/wrapper/bin/wrapper-windows-x86-${XRX.os.windows.bitness}.exe" />
   <property name="webinf-home" value="${exist-home}/webapp/WEB-INF" />
 
   <!-- 
@@ -509,7 +509,6 @@
       <arg value="build.bat" />
     </exec>
     <antcall target="sign" />
-    <exec executable="${exist-home}/tools/wrapper/bin/install.bat" osfamily="windows" failonerror="false"/>
 
   </target>
   
@@ -653,10 +652,17 @@
         value="wrapper.java.maxmemory=${XRX.java.maxmemory}" />
       <replacefilter token="wrapper.ping.timeout=120"
         value="wrapper.ping.timeout=600" />
+      <replacefilter token="wrapper.name=eXist-db"
+        value="wrapper.name=${XRX.os.windows.serviceName}"/>
+      <replacefilter token="wrapper.displayname=eXist-db Native XML Database"
+        value="wrapper.displayname=${XRX.os.windows.serviceName} (eXist-db Native XML Database)"/>
+      <replacefilter token="wrapper.description=eXist-db Database Server"
+        value="wrapper.description=${XRX.os.windows.serviceName} (eXist-db Database Server)"/>
     </replace>
     <echo file="${wrapper-home}/conf/wrapper.conf" append="true">
 wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
     </echo>
+    <exec executable="${exist-home}/tools/wrapper/bin/install.bat" osfamily="windows" failonerror="false"/>
 
     <echo message="# controller-config.xml" />
     <copy file="${webinf-home}/controller-config.xml" tofile="${webinf-home}/controller-config.xml.original" />
