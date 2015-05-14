@@ -345,7 +345,7 @@ form{{
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxLayout</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxTabs</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxSelect1</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxSelect</xrx:resource>
+   <!--  <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxSelect</xrx:resource> -->
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxMessage</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxVisualxml</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxElements</xrx:resource>
@@ -357,6 +357,7 @@ form{{
     <!-- mom resources -->
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/imageann</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xmleditor</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xrxSelect</xrx:resource>
     <!-- annotation resources -->
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/i18nText</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/imageTool</xrx:resource>

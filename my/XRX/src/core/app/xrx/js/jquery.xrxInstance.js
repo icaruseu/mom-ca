@@ -45,6 +45,11 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	$.fn.insertAttributes = function(contextId, attributes) {
 		
 		$(this).text(window.XML.insertAttributes($(this).text(), contextId, attributes));
+		console.log($(this).text());
+		console.log('contextid');
+		console.log(contextId);
+		console.log('das sind die atts');
+		console.log(attributes);
 		autosave();
 	};
 	

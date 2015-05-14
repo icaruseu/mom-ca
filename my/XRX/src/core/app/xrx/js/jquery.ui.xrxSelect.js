@@ -41,7 +41,9 @@ $.widget( "ui.xrxSelect", {
 			
 			var menuwrap = $('<div></div>');
 			var menuliste = $('<ul></ul>').attr('id', 'menu');
+			console.log(n.xml);
 			
+			//"<cei:class xmlns:cei="http://www.monasterium.net/NS/cei"></cei:class>"
 			var menuItem = 
 				$('<li><a href="#" >Königsurkunde</a></li>')
 					.attr("title", "Königsurkunde");
@@ -54,7 +56,10 @@ $.widget( "ui.xrxSelect", {
 			    self.refresh();
 				$(function() {
 	                    $( "#menu" ).menu();
-	                         }); 
+	                         });
+			console.log(n);
+			console.log(n.type);
+			console.log(n.xml);
 			});
 					
 			var menuItem2 = 
@@ -86,7 +91,11 @@ $.widget( "ui.xrxSelect", {
 	                      });
 				
 			});
-			 
+			if(n.xml== '<cei:class xmlns:cei="http://www.monasterium.net/NS/cei"></cei:class>') {
+				console.log('jippie');
+				console.log(n);
+				$('.xrx-instance').insertAfter(n.levelId, 'bla');
+			}
 			menuliste.append(menuItem).append(menuItem2).append(menuItem3);
 			menuwrap.append(menuliste);			
 			
@@ -95,7 +104,8 @@ $.widget( "ui.xrxSelect", {
 
 
 			visualxml.push($(textarea).xrxVisualxml({ repeatflag: true, xml: node.xml }));
-			 	
+			
+			
 		    }
 	
 		 $(function() { $( "#menu" ).menu();
