@@ -125,7 +125,7 @@ it leaves the active development stage.
 		return
 		(
 		chimport:publish-charters-model(conf:param('request-root'), $xrx-import-xml),
-		chimport:remove-charters-model(conf:param('request-root'), $xrx-import-xml, $wimported-fond:cacheid, )
+		chimport:remove-charters-model(conf:param('request-root'), $xrx-import-xml, $wimported-fond:cacheid )
 		)
 		}
   </xrx:model>
