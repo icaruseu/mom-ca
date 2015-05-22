@@ -134,13 +134,13 @@ declare function chimport:publish-charters-model(
 declare function chimport:remove-charters-model(
     $request-root as xs:string,
     $xrx-import-xml as element(xrx:import),
-    $imported-collection-cacheid as xs:string) as element() {
+    $imported-charters-cacheid as xs:string) as element() {
 
     <xf:model id="mremove-charters">
     
         <xf:instance>
         	<any_wrapper>
-        		<cacheid>{ $imported-collection-cacheid }</cacheid>
+        		<cacheid>{ $imported-charters-cacheid }</cacheid>
         		<processid>pidremove-charters</processid>
         		{ $xrx-import-xml }
         	</any_wrapper>
@@ -170,7 +170,7 @@ declare function chimport:remove-charters-model(
 declare function chimport:remove-charters-trigger(
     $remove-charters-message as element(xhtml:span),
     $context as xs:string,
-    $imported-collection-cacheid) as element() {
+    $imported-charters-cacheid) as element() {
     
     <xf:group model="mremove-charters">
         <xf:trigger appearance="minimal">
@@ -183,7 +183,7 @@ declare function chimport:remove-charters-trigger(
                 /* Using the import-progress service here, because service-wise it doesn't matter, if the progress is for import or remove. Functionality is the same. */
                 jQuery('#progressbar-remove').progressbarRemove({{
                             serviceUrlRemoveProgress: "{ conf:param('request-root') }service/import-progress",
-                            cacheId: "{ $imported-collection-cacheid }",
+                            cacheId: "{ $imported-charters-cacheid }",
                             processId: "pidremove-charters"
                           }}).progressbar( "value", 0 ).progressbarRemove( "progress" );
               </script>
