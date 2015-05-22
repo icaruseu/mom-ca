@@ -71,6 +71,16 @@ it leaves the active development stage.
       <xrx:name>$wcharters:metadata-charter-collection</xrx:name>
       <xrx:expression>metadata:base-collection('charter', ($charter:rarchiveid, $charter:rfondid), 'import')</xrx:expression>
     </xrx:variable>
+    <!-- cache info preparation -->
+    <xrx:variable>
+      <xrx:name>$wimported-fond:uri-tokens</xrx:name>
+      <xrx:expression>charters:ruri-tokens()</xrx:expression>
+    </xrx:variable>
+    <!-- cache info -->
+    <xrx:variable>
+      <xrx:name>$wimported-fond:cacheid</xrx:name> <!-- the cacheid should come out as e.g. 'tag:www.monasterium.net,2011:/cache/firstfond/imported-fond' -->
+      <xrx:expression>metadata:atomid('cache', ($wimported-fond:uri-tokens, $xrx:tokenized-uri[last()]))</xrx:expression>
+    </xrx:variable>
     <!-- block-wise navigation -->
     <xrx:variable>
       <xrx:name>$wcharters:preface-exists</xrx:name>
@@ -230,7 +240,8 @@ it leaves the active development stage.
                           <xrx:default>Remove imported charters</xrx:default>
                         </xrx:i18n>
                       </span>,
-                      'fond'
+                      'fond',
+                      $wimported-fond:cacheid
                       )
                       }
                     </div>
