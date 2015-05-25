@@ -88,6 +88,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:name>$wsearch:blocks-count</xrx:name>
       <xrx:expression>xs:integer(ceiling($wsearch:count-filtered div $wsearch:charters-per-block))</xrx:expression>
     </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wsearch:text-deselect-select-all</xrx:name>
+      <xrx:expression>i18n:translate(<xrx:i18n><xrx:key>deselect-select-all</xrx:key><xrx:default>(de)select all</xrx:default></xrx:i18n>)</xrx:expression>
+    </xrx:variable>
   </xrx:variables>
   <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
   <xrx:init>
@@ -470,15 +474,31 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	              <xrx:default>categories</xrx:default>
 	            </xrx:i18n>:
 	          </b>
+	          <div>
+	            <input id="select_deselect" type="button" value="{ $wsearch:text-deselect-select-all }" onclick="de_select_all_categories()"/>
+	            { () (: easy toggling of checkboxes. If a user deselects all checkboxes by hand, he/she might have to click twice to select all checkboxes again. But it will be fairly obvious to the user that clicking again will do the trick. :) }
+	            <script type="text/javascript">
+	            function de_select_all_categories() {{
+                jQuery("#select_deselect").toggleClass("none_selected");
+                if(jQuery("#select_deselect").hasClass("none_selected")){{
+                  jQuery("input.category_checkbox").prop("checked", false);
+                }}
+                else{{
+                  jQuery("input.category_checkbox").prop("checked", true);
+                }}
+              }}
+              </script>
+	          </div>
 	          {
 	          for $category in $wsearch:categories//*:category
 	          let $key := $category/@key/string()
 	          let $count := $category/@count/string()
 	          let $filtered := $wsearch:categories-filtered//*:category[@key=$key]
 	          let $count-filtered := if($filtered/@count) then $filtered/@count/string() else '0'
+	          order by xs:integer($count) descending
 	          return
 	          <div data-demoid="8d173333-510e-4311-abd4-8e190780fdc1">
-	            <input name="{ $key }" type="checkbox">
+	            <input name="{ $key }" type="checkbox" class="category_checkbox">
 	              {
 	              if($key = search:categories()) then
 	                attribute checked { 'checked' }

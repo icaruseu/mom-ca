@@ -102,7 +102,9 @@ declare function search:all-categories() {
     'cei:publicatio', 'cei:quoteOriginaldatierung', 'cei:recipient', 'cei:region', 'cei:sanctio', 'cei:seal',
     'cei:sealCondition', 'cei:sealDesc', 'cei:sealDimensions', 'cei:sealMaterial', 'cei:setPhrase',
     'cei:settlement', 'cei:sigillant', 'cei:sourceDescRegest', 'cei:sourceDescVolltext', 'cei:subscriptio',
-    'cei:tenor', 'cei:testis', 'cei:traditioForm', 'cei:witListPar', 'cei:witnessOrig') 
+    'cei:tenor', 'cei:testis', 'cei:traditioForm', 'cei:witListPar', 'cei:witnessOrig',
+    '@abbr', '@class', '@corr', '@expan', '@from', '@function', '@hand', '@key', '@lemma', '@reason',
+    '@reg', '@sublemma', '@sic', '@to', '@value')
 };
 
 
@@ -191,7 +193,7 @@ declare function search:query-string-scope($metadata-charter-db-base-collection-
 (: the basic full text query string :)
 declare function search:term-query-string() as xs:string {
 
-    concat("$context//cei:text[ft:query(.,'", $search:q, "',$search:options)]")
+    concat("$context//cei:text[ft:query(./descendant-or-self::*,'", $search:q, "',$search:options)]")
 };
 
 

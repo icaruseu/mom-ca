@@ -131,7 +131,7 @@ along with VdU/VRET. If not, see http://www.gnu.org/licenses.
 			<xrx:languages>
         <xrx:lang key="ces" old="cz" name="cesky" />
 				<xrx:lang key="deu" old="de" name="deutsch" />
-        <xrx:lang key="est" old="es" name="eesti" />
+        <xrx:lang key="est" old="et" name="eesti" />
 				<xrx:lang key="eng" old="en" name="english" />
         <xrx:lang key="spa" old="es" name="español" />
 				<xrx:lang key="fra" old="fr" name="français" />

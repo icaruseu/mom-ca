@@ -27,8 +27,8 @@ module namespace conf="http://www.monasterium.net/NS/conf";
 declare namespace xrx="http://www.monasterium.net/NS/xrx";
 declare namespace exist="http://exist.sourceforge.net/NS/exist";
 
-declare variable $conf:project-name := /xrx:conf/xrx:param[@name='project-name']/string();
-declare variable $conf:xrx-live-collection-name := /xrx:conf/xrx:param[@name='xrx-live-collection-name']/string();
+declare variable $conf:project-name := /xrx:conf/xrx:param[@name='project-name'][1]/string();
+declare variable $conf:xrx-live-collection-name := /xrx:conf/xrx:param[@name='xrx-live-collection-name'][1]/string();
 declare variable $conf:db-base-collection-path := concat('/db/', $conf:xrx-live-collection-name, '/', $conf:project-name);
 declare variable $conf:db-base-collection := collection($conf:db-base-collection-path);
 
