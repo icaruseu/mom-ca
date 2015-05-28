@@ -39,7 +39,7 @@ $.widget( "ui.xrxAttributes", {
 	_create: function() {
 		
 		var self = this,
-		
+		    elementName = self.options.elementName,
 			suggestedAttributes = self.options.suggestedAttributes,
 			suggestedValues = self.options.suggestedValues,
 			editedAttributes = self.options.editedAttributes,
@@ -62,14 +62,23 @@ $.widget( "ui.xrxAttributes", {
 		
 		for(var i = 0 in editedAttributes) {
 			editAttributesDiv.append(self._newEditAttribute(editedAttributes[i].qName, $(document).xrxI18n.translate(editedAttributes[i].qName, "xs:attribute"), editedAttributes[i].value));
-		}
+		
+	
+		}	
+		
+		self._attributeDroppable(droppableAttributeDiv);
+		console.log(editedAttributes);
 		//neu für values
-		for(var i = 0 in suggestedValues) {
-			console.log('die sugg Val');
-			console.log(suggestedValues);
+		if(editedAttributes){
+			console.log('test ob attr vorhanden sind');	//das wird angezeigt, wenn die seite neu geladen wird und schon attribute ausgewählt wurden.	
+			console.log(editedAttributes);
+			for(var i = 0 in suggestedValues) {
+			
 			suggestedValuesDiv.append(self._newEditValue(suggestedValues[i].qName, suggestedValues[i].label, suggestedValues[i].value ));
 		}
-		self._attributeDroppable(droppableAttributeDiv);
+			
+		}	
+	
 		
 		for(var i = 0 in suggestedAttributes) {
 			var name = suggestedAttributes[i];
@@ -92,6 +101,8 @@ $.widget( "ui.xrxAttributes", {
 		for(var i = 0 in editedAttributes) {
 			$("div[title='" + editedAttributes[i].qName + "']", "." + uiMainDivId).draggable("disable");
 		}
+		$(function() { $( "#choose" ).menu();
+        });
 	},	
 	//Ende create funktion
 	
@@ -100,6 +111,7 @@ $.widget( "ui.xrxAttributes", {
 		var self = this,
 			cm = self.options.cm,
 			token = self.options.token,
+			suggestedValue = self.options.suggestedValues,
 			elementName = self.options.elementName,
 			
 			newEditAttribute = $('<div></div>')
@@ -113,54 +125,15 @@ $.widget( "ui.xrxAttributes", {
 				.attr("name", name),
 			newEditAttributeTrash = $('<div><span class="ui-icon ui-icon-trash"/></div>').
 				addClass(uiFormsTableCellClass);
-			
 		
 		newEditAttribute.append(newEditAttributeLabel)
-			.append(newEditAttributeInput)
+			.append(newEditAttributeInput)			
 			.append(newEditAttributeTrash);
 			
 		self._trashIconClickable(newEditAttributeTrash, newEditAttribute);
-	
-
 		
 		
-		//hier die ausnahme für das attr facs
-		
-		
-		
-		if(name =='facs'){
-			var menuwrap= $('<div></div>');
-			var menuliste = $('<ul></ul>').attr('id', 'menu');
-			var menuItem = 
-				$('<li><a href="#" >Königsurkunde</a></li>')
-					.attr("title", "Königsurkunde");
-			/*menuItem.bind("click", function(event) {
-				var attributes = new AttributesImpl();
-				attributes.addAttribute(null, name, name, undefined, 'königsurkunde');
-				
-				var nodeset = $(document).xrx.nodeset(cm.getInputField());
-				var controlId = nodeset.only.levelId;
-				var relativeId = token.state.context.id.split('.').splice(1);
-				var contextId = controlId.concat(relativeId);
-				
-				$('.xrx-instance').xrxInstance().replaceAttributeValue(contextId, attributes);
-		})*/
-		 return newEditAttribute;
 			
-			/*newEditAttributeInput.keyup(function() {
-				var attributes = new AttributesImpl();
-				attributes.addAttribute(null, name, name, undefined, 'königsurkunde');
-				
-				var nodeset = $(document).xrx.nodeset(cm.getInputField());
-				var controlId = nodeset.only.levelId;
-				var relativeId = token.state.context.id.split('.').splice(1);
-				var contextId = controlId.concat(relativeId);
-				
-				$('.xrx-instance').xrxInstance().replaceAttributeValue(contextId, attributes);
-		})
-		 return newEditAttribute;*/
-			} 
-		else {
 		newEditAttributeInput.keyup(function() {
 			var attributes = new AttributesImpl();
 			attributes.addAttribute(null, name, name, undefined, $(this).val());
@@ -179,7 +152,7 @@ $.widget( "ui.xrxAttributes", {
 		})
 		
 		return newEditAttribute;	
-	}},	
+	},	
 	
 	//Ende _newEditAttribute
 _newEditValue: function(name, label, value) {
@@ -188,54 +161,82 @@ _newEditValue: function(name, label, value) {
 			cm = self.options.cm,
 			token = self.options.token,
 			elementName = self.options.elementName,
+			editedAttributes = self.options.editedAttributes,
+			//suggestedValues = self.options.suggestedValues,
 			subkey=[];
 		
 			newEditValue = $('<div></div>')
-				.addClass(uiFormsTableRowClass)
-				//.addClass(uiEditValueDivClass),
-			newEditValueLabel = $('<div></div>')
 				.addClass(uiFormsTableCellClass);
-					
-		newEditValue.append(newEditValueLabel);	
+				
+		
+			var menuliste = $('<select></select>').attr('class', 'choose');
+			 	
+		newEditValue.append(menuliste);	
 	
 		var jsonValues = jQuery.parseJSON($('.xrx-forms-json-values').text());
-		console.log(jsonValues[elementName]);				
 		
-		var sug = jsonValues;         
+		        
          var suggestedVal = jsonValues[elementName];
          console.log("frage nach label");
-         console.log(name);
+         console.log(name); 
+         console.log(label);
+         console.log(value); //der name ist der Attributsname
          var mainkeys = Object.getOwnPropertyNames(suggestedVal).sort();
-         console.log('')
-		      console.log(mainkeys);
-		         for (var i =0;i<mainkeys.length; i++){
-		        	 if(mainkeys[i]==name){
-		        		 var subkeyvalueArr = suggestedVal[mainkeys[i]];
-				     	for (var j=0; j<subkeyvalueArr.length; j++){
-				     	
-				     		
-							 var name = subkeyvalueArr[j];
-							 
-							var newDiv = $('<div>' + name + '<div>')
-												.addClass(uiSuggestedValueDivsClass)
-												.attr("title", name);
-							newEditValue.append(newDiv);
-						 }	
-		        		 
-		        	  
-		        	 }
-		     
-		         }
-		     
+        
+         console.log('das sind die suggestedVal');
+         console.log(suggestedVal);
+         
+     	Object.getOwnPropertyNames(suggestedVal).forEach(function(val, idx, array) {
+          		
+     			if(val == name){
+     				console.log('schlüssel mit name abgleichen');
+     				console.log(val + ' -> ' + suggestedVal[val]);
+     				console.log(suggestedVal[val]);
+     				var sugname = suggestedVal[val];
+     				//var valuetitle = $('<option style="font-weight:bold">values for @'+name+'</option>');
+     				//menuliste.append(valuetitle);
+     				for(var i=0; i<sugname.length;i++){
+     				
+     				var newli = $('<option><a href="#">' + sugname[i] + '</a></option>')
+					.addClass(uiSuggestedValueDivsClass)
+					.attr("title", sugname[i]);
+					
+					menuliste.append(newli); 	
+					newli.bind("click", function(event) {
+						self=this;
+						console.log('das ist der self');
+						console.log(name);								
+				     var blini = this.title;						     
+				     var attributes = new AttributesImpl();
+					 attributes.addAttribute(undefined, name, name, undefined, blini);
+					 	console.log(blini);
+						console.log('Das ist der name');
+						console.log(name);
+						var nodeset = $(document).xrx.nodeset(cm.getInputField());
+						var controlId = nodeset.only.levelId;
+						var relativeId = token.state.context.id.split('.').splice(1);
+						var contextId = controlId.concat(relativeId);
+						
+						$('.xrx-instance').xrxInstance().replaceAttributeValue(contextId, attributes);
+						//$("input.forms-table-cell[name="+name+"]").val(blini);
+						//$("input.forms-table-cell[name="+name+"]").hide();
+					});
+					
+     				}	
+     				
+     		}
+     				
+     		}); 	
+     		$(menuliste).menu();
+     		$("div.forms-table-cell").remove("input");
+     		$("div.forms-mixedcontent-edit-attribute").append(menuliste).append("div.forms-table-cell");
 	
-		
-	
-		
-		return newEditValue;	
+            
+		return newEditValue;
+	 	
+		  
 	},
 	
-	
-	//Ende _newEditValues
 	_trashIconClickable: function(trashIcon, editAttribute) {
 
 		var self = this,
@@ -256,6 +257,7 @@ _newEditValue: function(name, label, value) {
 			var contextId = controlId.concat(relativeId);
 			
 			$('.xrx-instance').xrxInstance().deleteAttributes(contextId, attributes);
+			$('.choose').hide();
 		});		
 	},
 	//Ende _trashIconClickable
@@ -306,6 +308,7 @@ _newEditValue: function(name, label, value) {
 		var self = this,
 			cm = self.options.cm,
 			token = self.options.token,
+			suggestedValues = self.options.suggestedValues,
 			elementName = self.options.elementName;
 		  
 		droppableAttribute.droppable({
@@ -327,10 +330,38 @@ _newEditValue: function(name, label, value) {
 				var relativeId = token.state.context.id.split('.').splice(1);
 				var contextId = controlId.concat(relativeId);
 				 $('.xrx-instance').xrxInstance().insertAttributes(contextId, attributes);
+				console.log('nun wurden die atts eingefügt');//das wird angezeigt, wenn ein att soeben gedroppt wurde				
+				console.log(qName);
+				var jsonValues = jQuery.parseJSON($('.xrx-forms-json-values').text());	        
+		        var suggestedVal = jsonValues[elementName];
+		        var subkey =  Object.getOwnPropertyNames(suggestedVal);
+		        for (var a =0;a<suggestedVal.length; a++)
+		        	{
+		        	console.log('brauche werte der keys');
+		        	console.log(suggestedVal[a]);
+		        	}
+		        console.log('noi die subkey');
+		        console.log(subkey);
+		        for (var b =0;b<subkey.length; b++){		       
 				
-			
+				if (qName == subkey[b]){					
+					//for(var i = 0 in suggestedValues) {
+						console.log('die sugg Val');
+						console.log(qName);
+						console.log(label);
+						console.log(suggestedValues.value);	
+						//$("input.forms-table-cell").remove();
+						//$(".forms-mixedcontent-suggested-values").append(self._newEditValue(suggestedValues.qName, suggestedValues.label, suggestedValues.value ));
+						$(".forms-mixedcontent-suggested-values").append(self._newEditValue(qName, label, suggestedValues.value ));
+						
+					//}
+				
+				}
+				else {
+	        		console.log('shitty');
+	        	}
 				         
-		   
+		        }
 		       
 		        
 			}
@@ -346,5 +377,6 @@ _newEditValue: function(name, label, value) {
 	}
 
 });
+
 	
 })( jQuery );

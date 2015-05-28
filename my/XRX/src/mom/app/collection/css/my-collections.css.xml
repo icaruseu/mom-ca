@@ -134,7 +134,8 @@ body {{
 .forms-mixedcontent-suggested-attributes {{
   position:relative;
   float:left;
-  width:50%;
+  width:35%;
+  padding-right:5%;
 }}
 .forms-mixedcontent-suggested-attribute {{
   position:relative;
@@ -177,21 +178,18 @@ body {{
 /* 
 * neu wegen values 
 */
-.forms-mixedcontent-suggested-values {{
+ .forms-mixedcontent-suggested-values {{
   position:relative;
   float:left;
-  width:50%;
+  width:60%;
 }}
-.forms-mixedcontent-suggested-value {{
-  position:relative;
-  float:left;
-  width:90%;
-  border:dashed rgb(200,200,200) 1px;
-  background:rgb(230,230,230);
-  margin:1px;
-  padding:3px;
-  cursor:move;
+/* überschreiben von jquery.ui.theme.css */
+/*.ui-widget-content,*/
+.choose {{
+  border:none;
 }}
+
+
 
 
 

@@ -129,6 +129,23 @@ declare function xmleditor:json-element-topics($xrx-schema as element(xrx:xsd)) 
     
 };
 
+(: neue Funktion für attr Values 
+declare function xmleditor:json-attr-values($xrx-schemaV as element(xrx:xsd)) {   
+    xmleditor:json-object(
+    let $cl := "cei:class"
+    return
+    xmleditor:json-pair(  
+    xmleditor:json-string("type"), 
+    xmleditor:json-array( 
+    return   
+    xmleditor:json-string("papsturkunde"),
+    xmleditor:json-string("königsurkunde"),
+    xmleditor:json-string("sammelindulgenz")
+    )
+    )
+    )
+};:)
+
 declare function xmleditor:validation-report-message($message as xs:string) as xs:string {
 
     assertion:translate($message)

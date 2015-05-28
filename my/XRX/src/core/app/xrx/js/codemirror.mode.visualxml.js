@@ -184,7 +184,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 			token:token
 		});
 		console.log("element Attribute");
-		console.log(element.attributes);
+		console.log(element.qName);
 	
 	}
 	
