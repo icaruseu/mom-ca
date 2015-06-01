@@ -3,6 +3,8 @@
         <lucene> 
             <analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/> 
             <text qname="xrx:note"/>
+            <text qname="@name"/>
+            <text qname="@type"/>
         </lucene>
     </index>
     <triggers>
