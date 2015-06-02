@@ -194,7 +194,7 @@ declare function search:query-string-scope($metadata-charter-db-base-collection-
 (: the basic full text query string :)
 declare function search:term-query-string() as xs:string {
 
-    concat("$context//atom:content[ft:query(./descendant-or-self::*,'", $search:q, "',$search:options)]")
+    concat("$context//cei:text[ft:query(./descendant-or-self::*,'", $search:q, "',$search:options)]")
 };
 
 
