@@ -636,9 +636,6 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 		    <div data-demoid="bceb746e-7a77-4337-8e07-4f8b49e7388f" id="dcharter-preview-main">
 			    {
 			    for $charter at $num in session:get-attribute($search:RESULT)[ position() = $wsearch:start to $wsearch:stop ]
-			    let $position :=$num + $wsearch:start -1
-			    let $debug1 := util:log('error', 'in seearhc2')
-			    let $debug2 := util:log('error', $position)
 			    return
 			    <xrx:subwidget>
 			      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/result</xrx:atomid>
