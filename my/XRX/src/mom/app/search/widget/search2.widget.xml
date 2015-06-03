@@ -245,6 +245,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/menu</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/autocomplete</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/search</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/toggle_checkbox</xrx:resource>
   </xrx:jss>
   <xrx:model>
   { bookmark:model(conf:param('request-root')) }
@@ -475,19 +476,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	            </xrx:i18n>:
 	          </b>
 	          <div>
-	            <input id="select_deselect" type="button" value="{ $wsearch:text-deselect-select-all }" onclick="de_select_all_categories()"/>
-	            { () (: easy toggling of checkboxes. If a user deselects all checkboxes by hand, he/she might have to click twice to select all checkboxes again. But it will be fairly obvious to the user that clicking again will do the trick. :) }
-	            <script type="text/javascript">
-	            function de_select_all_categories() {{
-                jQuery("#select_deselect").toggleClass("none_selected");
-                if(jQuery("#select_deselect").hasClass("none_selected")){{
-                  jQuery("input.category_checkbox").prop("checked", false);
-                }}
-                else{{
-                  jQuery("input.category_checkbox").prop("checked", true);
-                }}
-              }}
-              </script>
+	            <input id="select_deselect_categories" type="button" value="{ $wsearch:text-deselect-select-all }" onclick="de_select_all_checkboxes(this.id, 'category_checkbox')"/>
 	          </div>
 	          {
 	          for $category in $wsearch:categories//*:category
@@ -563,6 +552,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	              <xrx:default>fonds</xrx:default>
 	            </xrx:i18n>
 	          </b><br/>
+	          <div>
+              <input id="select_deselect_fonds" type="button" value="{ $wsearch:text-deselect-select-all }" onclick="de_select_all_checkboxes(this.id, 'fond_checkbox')"/>
+            </div>
 	          {
 	          let $fonds := $wsearch:context//*:fond
 	          for $fond at $pos in $fonds
@@ -586,7 +578,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	          return
 	          <div data-demoid="bcd19b3b-f882-48d0-bf62-23496f435e75">
               { if(substring-before(concat($fonds[($pos - 1)]/@name/string(), ''), ';') != $archive-key) then <div class="archive-label" data-demoid="7c9bdd06-8335-477c-8f94-07b426a9bc28"><span title="{ $archive-name }">{ $archive-name }</span></div> else '' }
-	            <input name="{ $key }" type="checkbox">
+	            <input name="{ $key }" type="checkbox" class="fond_checkbox">
 	              {
 	              if($key = search:context() or empty(search:context())) then
 	                attribute checked { 'checked' }
@@ -606,6 +598,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                 <xrx:default>collections</xrx:default>
               </xrx:i18n>
             </b><br/>
+            <div>
+              <input id="select_deselect_collections" type="button" value="{ $wsearch:text-deselect-select-all }" onclick="de_select_all_checkboxes(this.id, 'collection_checkbox')"/>
+            </div>
             {
             for $collection in $wsearch:context//*:collection
             let $key := $collection/@key/string()
@@ -617,7 +612,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             let $count-filtered := if($filtered/@count) then $filtered/@count/string() else '0'
             return
             <div data-demoid="eb4623d9-ed36-42be-9c0d-8e26df033a59">
-              <input name="{ $key }" type="checkbox">
+              <input name="{ $key }" type="checkbox" class="collection_checkbox">
                 {
                 if($key = search:context() or empty(search:context())) then
                   attribute checked { 'checked' }
