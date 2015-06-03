@@ -355,7 +355,12 @@ it leaves the active development stage.
 				else if($wcharter-image-viewer:image-access-forbidden-flag) then
 				<div data-demoid="5d1e4bf8-2698-40e3-aa9d-9f700b629dc0">
           <a href="{ $constructor:link-to-charter-in-archive }" target="_blank">
-            <img src="{ $wcharter-image-viewer:dummy-image-url }" style="position:relative;float:left"/>
+          { 
+            if(not(exists($wcharter-image-viewer:img-urls))) then
+              <img src="{ $wcharter-image-viewer:dummy-image-url }" style="position:relative;float:left"/>
+            else
+              <img src="{ xmldb:decode-uri($wcharter-image-viewer:img-urls[1]) }" style="position:relative;float:left"/>
+          }
           </a>
         </div>
 				else
