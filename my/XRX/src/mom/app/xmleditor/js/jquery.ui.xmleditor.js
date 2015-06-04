@@ -28,14 +28,20 @@ $.widget( "ui.xmleditor", {
 	},
 	
 	save: function() {
-		
-		var self = this;
-		console.log( "kuhmuh: " );
+		var self = this;		
 		$.ajax({
 			url: self.options.requestRoot + serviceMyCollectionSave,
 			type: "POST",
 			contentType: "application/xml",
-			data: $(".xrx-instance").text()
+			data: $(".xrx-instance").text(),
+			success: function(){
+				$("#autoSaveStatus").text("All changes saved.");
+				return true;
+			},
+			error: function(){
+			 $("#autoSaveStatus").text("Failed to save changes.");
+			 return false;
+			}			
 		});
 
 	}
