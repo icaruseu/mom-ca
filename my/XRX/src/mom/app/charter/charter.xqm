@@ -483,7 +483,7 @@ declare function charter:attributes-matching-search-regEx($charter){
   let $charter-attributes-matching-q := (: q is search parameter. :)
     for $attribute in $charter-attributes
     let $attribute-string := string($attribute)
-    where matches($attribute-string, request:get-parameter("q", ""))
+    where matches(lower-case($attribute-string), lower-case(request:get-parameter("q", "")))
     return $attribute
   let $matches-made-pretty :=
     for $match in $charter-attributes-matching-q
