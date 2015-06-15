@@ -489,13 +489,76 @@ declare function charter:attributes-matching-search-regEx($charter){
     for $match in $charter-attributes-matching-q
     let $attribute-name := name($match)
     let $attribute-value := string($match)
-    let $substring-before-match := tokenize($attribute-value, request:get-parameter("q", ""), "i")[1]
-    let $substring-after-match := replace($attribute-value, concat('^.*?', request:get-parameter("q", "")), '', "i")
-    let $match-itself := substring-after(substring-before($attribute-value, $substring-after-match), $substring-before-match) (: reconstructs match by cutting off substrings before and after match :)
-    (: in case the "hardcoded" span becomes problematic:
-     : a different approach is to surround the $match-itself with <exist:match> tags, put the whole string together, then feed it to kwic:summarize. :)
-    let $highlighted-match := <span class="hi">{$match-itself}</span>
-    return (concat("@", $attribute-name, " => ", $substring-before-match), $highlighted-match, $substring-after-match)
+    let $number-of-matches-in-attribute := charter:number-of-matches-case-insensitive($attribute-value, request:get-parameter("q", ""))
+    let $best-performance-depending-on-number-of-search-matches :=
+      if($number-of-matches-in-attribute = 1) then
+      (: there is only one search match in the respective attribute :)
+        let $substring-before-match := tokenize($attribute-value, request:get-parameter("q", ""), "i")[1]
+        let $substring-after-match := replace($attribute-value, concat('^.*?', request:get-parameter("q", "")), '', "i")
+        let $match-itself := substring-after(substring-before($attribute-value, $substring-after-match), $substring-before-match) (: reconstructs match by cutting off substrings before and after match :)
+        (: in case the "hardcoded" span inside function charter:highlight-string becomes problematic:
+         : a different approach is to surround the $match-itself with <exist:match> tags, put the whole string together, then feed it to kwic:summarize. :)
+        let $highlighted-match := charter:highlight-string($match-itself)
+        return (concat("@", $attribute-name, " => ", $substring-before-match), $highlighted-match, $substring-after-match)
+      else
+      (: attribute contains multiple search hits. :)
+        (: taking the attribute apart. Obtaining strings between search hits. :)
+        let $tokenized-attribute-with-hits-removed := tokenize($attribute-value, request:get-parameter("q", ""), "i")
+        let $attribute-starts-with-search-hit :=
+          if(charter:index-of-string($attribute-value, request:get-parameter("q", ""))[1] = 1) then
+            true()
+          else
+            false()
+        (: Reconstructing the original search hits by cutting of respective substrings before and after hit from the original attribute string.
+         : Only faulty, when text between individual search hits repeats inside original attribute. Not a likely case. :)
+        let $hits :=
+          for $token at $pos in $tokenized-attribute-with-hits-removed
+          let $hit :=
+            if($attribute-starts-with-search-hit) then
+              substring-after(substring-before($attribute-value, $token), $tokenized-attribute-with-hits-removed[$pos - 1])
+            else
+              substring-after(substring-before($attribute-value, $tokenized-attribute-with-hits-removed[$pos+1]), $token)
+          return $hit
+        (: reconstructing attribute from tokenized attribute (delimiter: search-term) and hits. Highlighting hit. :)
+        let $highlighted-hits-with-surrounding-tokens :=
+          for $hit at $pos in $hits
+          let $highlighted-hit := charter:highlight-string($hit)
+          return
+            if( $attribute-starts-with-search-hit) then
+              (: attribute looked like: "hit|string" :)
+              ($highlighted-hit, $tokenized-attribute-with-hits-removed[$pos])
+            else
+              (: attribute looked like: "string|hit|string" :)
+              ($tokenized-attribute-with-hits-removed[$pos], $highlighted-hit)
+        return ( concat("@", $attribute-name, " => ") , $highlighted-hits-with-surrounding-tokens, " ")
+    return $best-performance-depending-on-number-of-search-matches
   return $matches-made-pretty
 
 };
+
+declare function charter:highlight-string($arg as xs:string) as node() {
+  <span class="hi">{$arg}</span>
+};
+
+declare function charter:index-of-string (: see functx:index-of-string :)
+  ( $arg as xs:string? ,
+    $substring as xs:string )  as xs:integer* {
+
+  if (contains($arg, $substring))
+  then (string-length(substring-before($arg, $substring))+1,
+        for $other in
+           charter:index-of-string(substring-after($arg, $substring),
+                               $substring)
+        return
+          $other +
+          string-length(substring-before($arg, $substring)) +
+          string-length($substring))
+  else ()
+ };
+
+ declare function charter:number-of-matches-case-insensitive (: see functx:number-of-matches; changed to case-insensitive! :)
+  ( $arg as xs:string? ,
+    $pattern as xs:string )  as xs:integer {
+
+   count(tokenize($arg,$pattern, "i")) - 1
+ } ;
