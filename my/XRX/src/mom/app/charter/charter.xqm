@@ -489,7 +489,13 @@ declare function charter:attributes-matching-search-regEx($charter){
     for $match in $charter-attributes-matching-q
     let $attribute-name := name($match)
     let $attribute-value := string($match)
-    return concat("@", $attribute-name, " => ", $attribute-value)
+    let $substring-before-match := tokenize($attribute-value, request:get-parameter("q", ""), "i")[1]
+    let $substring-after-match := replace($attribute-value, concat('^.*?', request:get-parameter("q", "")), '', "i")
+    let $match-itself := substring-after(substring-before($attribute-value, $substring-after-match), $substring-before-match) (: reconstructs match by cutting off substrings before and after match :)
+    (: in case the "hardcoded" span becomes problematic:
+     : a different approach is to surround the $match-itself with <exist:match> tags, put the whole string together, then feed it to kwic:summarize. :)
+    let $highlighted-match := <span class="hi">{$match-itself}</span>
+    return (concat("@", $attribute-name, " => ", $substring-before-match), $highlighted-match, $substring-after-match)
   return $matches-made-pretty
 
 };
