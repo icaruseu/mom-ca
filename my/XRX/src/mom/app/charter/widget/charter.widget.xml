@@ -144,12 +144,24 @@ it leaves the active development stage.
     </xrx:variable>
     <!-- the CEI document -->
     <xrx:variable>
-      <xrx:name>$wcharter:charter-help</xrx:name>
+      <xrx:name>$wcharter:cei-text-element-of-current-charter</xrx:name>
       <xrx:expression>root($wcharter:metadata-charter-collection//atom:id[.=$wcharter:atom-id])//cei:text</xrx:expression>
     </xrx:variable>
+    <!-- There was suboptimal code to begin with, here. The $wcharter:charter became an empty sequence, when the ft:query returned nothing before
+         (as is the behaviour with hits in attributes, because full-text-search of cei:text only searches the string-representation of cei:text, i.e. no attributes-values inside tags).
+         The application-logic depends on the $wcharter:charter to not be empty, because all sorts of calculations depend on it. The ft:query function should
+         only be called, after all the application-logic is done, I guess. The only effect it presumably has is for the KWIC to kick in. This leads to the search-term hit being
+         highlighted later on (kwic:summarize). -->
     <xrx:variable>
       <xrx:name>$wcharter:charter</xrx:name>
-      <xrx:expression>if($search:q = '') then $wcharter:charter-help else ft:query($wcharter:charter-help, $search:q, $search:options)</xrx:expression>
+      <xrx:expression>
+        if($search:q = '') then $wcharter:cei-text-element-of-current-charter
+        else
+          let $query-result := ft:query($wcharter:cei-text-element-of-current-charter, $search:q, $search:options)
+          return
+            if (not(empty($query-result))) then $query-result
+            else $wcharter:cei-text-element-of-current-charter
+      </xrx:expression>
     </xrx:variable>
     <!-- does this charter link a version of a archival charter? -->
     <xrx:variable>

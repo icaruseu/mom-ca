@@ -801,6 +801,7 @@
                                         Attribut vorzuziehen. [strict!] </xs:documentation>
                                 </xs:annotation>
                             </xs:attribute>
+                            <xs:attribute name="sameAs" type="xs:anySimpleType" use="optional"/>
                             <xs:attributeGroup ref="standard"/>
                         </xs:complexType>
                     </xs:element>

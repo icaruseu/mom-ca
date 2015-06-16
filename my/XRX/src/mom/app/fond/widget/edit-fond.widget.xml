@@ -101,18 +101,9 @@
                             <a href="{concat(conf:param('request-root'), $archive-id, '/' , $fond-id, '/fond') }">{ $fond-id }</a>
                         </div>
                         
-                        let $server := substring-before(request:get-url(), conf:param('request-root'))					
+                        let $server := substring-before($xrx:jetty-request-base-url, conf:param('request-root'))
                         
-                        (:Dirty HACK : just atom-url doesn't work as resource when using an apache:)
-                        let $servername := request:get-server-name()
-                        let $server := 
-                        if($servername = 'monasterium.net') then
-                        concat('http://ftp.dioezesanarchiv.acw.at:8181', conf:param('request-root'))
-                        else if ($servername = 'vdu.uni-koeln.de') then
-                        concat('http://ftp.dioezesanarchiv.acw.at:8585', conf:param('request-root'))					  
-                        else 
-                        ''
-                        
+                        (: This $get-uri is probably not used at all anywhere? Does not do harm at the moment. Remains of sloppy-style... :)
                         let $get-uri := concat(substring-before(request:get-url(), conf:param('request-root')), conf:param('request-root'),'atom/GET',metadata:feed('fond', ($archive-id, $fond-id), 'public'),'/', $fond-id, '.ead.xml')
                   
                         
