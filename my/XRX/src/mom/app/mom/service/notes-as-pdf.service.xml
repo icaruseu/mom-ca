@@ -81,7 +81,7 @@
 
       (: select the charter file :)
       let $charter := $public-base-collection//atom:id[.=$note-atom-id]/parent::atom:entry/atom:content/cei:text
-      let $charter-id := xmldb:encode($charter//cei:idno/@id)
+      let $charter-id := xmldb:encode(charter:charterid($note-atom-id))
       return
       <xrx:bookmark-note>
         <xrx:note>{ $note//xrx:note/text() }</xrx:note>

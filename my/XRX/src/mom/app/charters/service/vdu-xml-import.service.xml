@@ -10,7 +10,7 @@
     <xrx:subtitle/>
     <xrx:description/>
     <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
-    <xrx:licence>
+    <xrx:licence> 
 This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
 
 As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
@@ -85,7 +85,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$cleaned-charter-idnos</xrx:name>
-            <xrx:expression>charter:map-idnos($ordered-charter-idnos)</xrx:expression>
+            <xrx:expression>charter:map-idnos($ordered-charter-idnos, false())</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$unique-charter-idnos</xrx:name>

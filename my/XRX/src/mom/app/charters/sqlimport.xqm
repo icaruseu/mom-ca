@@ -14,7 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 VdU/VRET is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+GNU General Public License for more details. 
 
 You should have received a copy of the GNU General Public License
 along with VdU/VRET.  If not, see <http://www.gnu.org/licenses/>.
@@ -89,7 +89,7 @@ declare function sqlimport:do($driverclass,
         let $break := if(not($is-valid) or $execute/@count/string() = '0') then xs:string(break) else()
         
         (: charter info :)
-        let $idno := charter:map-idnos($data-transformed//cei:body/cei:idno)
+        let $idno := charter:map-idnos($data-transformed//cei:body/cei:idno, false())
         let $atomid := metadata:atomid('charter', ($uri-tokens, $idno))
         let $entry-name := xmldb:encode(concat($idno, '.cei.xml'))
         let $charter-entry := 

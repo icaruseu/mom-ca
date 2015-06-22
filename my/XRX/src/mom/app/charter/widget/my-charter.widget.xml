@@ -228,11 +228,11 @@ it leaves the active development stage.
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter:previous</xrx:name>
-      <xrx:expression>xmldb:encode-uri(concat($wcharter:charter-context-url, $wcharter:next-and-previous[1]//cei:body/cei:idno/@id/string(), '/my-charter'))</xrx:expression>
+      <xrx:expression>xmldb:encode-uri(concat($wcharter:charter-context-url, charter:charterid($wcharter:next-and-previous[1]/root()//atom:id/text()), '/my-charter'))</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter:next</xrx:name>
-      <xrx:expression>xmldb:encode-uri(concat($wcharter:charter-context-url, $wcharter:next-and-previous[2]//cei:body/cei:idno/@id/string(), '/my-charter'))</xrx:expression>
+      <xrx:expression>xmldb:encode-uri(concat($wcharter:charter-context-url, charter:charterid($wcharter:next-and-previous[2]/root()//atom:id/text()), '/my-charter'))</xrx:expression>
     </xrx:variable>
     <!-- 
         image tools
