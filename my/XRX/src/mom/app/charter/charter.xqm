@@ -495,11 +495,23 @@ declare function charter:attributes-matching-search-regEx($charter){
       (: there is only one search match in the respective attribute :)
         let $substring-before-match := tokenize($attribute-value, request:get-parameter("q", ""), "i")[1]
         let $substring-after-match := replace($attribute-value, concat('^.*?', request:get-parameter("q", "")), '', "i")
-        let $match-itself := substring-after(substring-before($attribute-value, $substring-after-match), $substring-before-match) (: reconstructs match by cutting off substrings before and after match :)
+        let $match-itself :=
+        (: reconstructs match by cutting off substrings after match, or before and after, or before, or not at all.
+           Depending on match's position inside attribute string. :)
+          let $match-at-beginning-or-in-middle := substring-after(substring-before($attribute-value, $substring-after-match), $substring-before-match)
+          return
+            if ($match-at-beginning-or-in-middle != '') then
+              $match-at-beginning-or-in-middle
+            else
+              let $match-at-end := substring-after($attribute-value, $substring-before-match)
+              return
+                if($match-at-end != '') then
+                  $match-at-end
+                else $attribute-value (: match equals entire attribute string. :)
         (: in case the "hardcoded" span inside function charter:highlight-string becomes problematic:
          : a different approach is to surround the $match-itself with <exist:match> tags, put the whole string together, then feed it to kwic:summarize. :)
         let $highlighted-match := charter:highlight-string($match-itself)
-        return (concat("@", $attribute-name, " => ", $substring-before-match), $highlighted-match, $substring-after-match)
+        return (concat("@", $attribute-name, " => ", $substring-before-match), $highlighted-match, $substring-after-match, " ")
       else
       (: attribute contains multiple search hits. :)
         (: taking the attribute apart. Obtaining strings between search hits. :)
