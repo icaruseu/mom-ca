@@ -55,7 +55,7 @@ it leaves the active development stage.
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:id</xrx:name>
-      <xrx:expression>data($wcharter-preview:idno-element/@id)</xrx:expression>
+      <xrx:expression>charter:charterid(root($constructor:charter)//atom:id/text())</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:date</xrx:name>

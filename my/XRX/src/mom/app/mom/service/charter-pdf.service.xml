@@ -54,7 +54,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 	       metadata:base-collection('charter', $collection-id, 'public')
 	  (: select the charter file :)     
 	  let $charter := $public-base-collection//atom:id[.=$charter-atomid]/parent::atom:entry/atom:content/cei:text
-	  let $charter-id := xmldb:encode($charter//cei:idno/@id)
+	  let $charter-id := xmldb:encode(charter:charterid($charter-atomid))
 	  
 	  (: load the xslt- script and define the parameters :)
 	  let $xsl := $xrx:db-base-collection/xsl:stylesheet[@id='charter2pdf']
@@ -106,5 +106,5 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 	  return
 	  $charter-as-pdf
 	  }
-	</xrx:body>
+	  </xrx:body> 
 </xrx:service>

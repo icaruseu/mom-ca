@@ -14,7 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 VdU/VRET is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+GNU General Public License for more details. 
 
 You should have received a copy of the GNU General Public License
 along with VdU/VRET.  If not, see <http://www.gnu.org/licenses/>.
@@ -183,10 +183,19 @@ declare function charter:charterid($atomid as xs:string, $atom-tag-name as xs:st
 
     let $tokens := charter:object-uri-tokens($atomid, $atom-tag-name)
     return
-    $tokens[last()]
+      xmldb:decode($tokens[last()])
 };
 
+declare function charter:charterid($atomid as xs:string?) as xs:string {
 
+  let $return :=
+    if($atomid != "") then
+      charter:charterid($atomid, conf:param('atom-tag-name'))
+    else
+      ()
+  return
+    $return[1]
+};
 
 declare function charter:permalink($entry as element(atom:entry)) as xs:string {
 
@@ -309,6 +318,7 @@ declare function charter:next-and-previous($charters, $charter, $count as xs:int
         else()
         
     else()
+
 };
 
 declare function charter:position($charters, $charter, $user-xml as element(xrx:user)?, $atom-id as xs:string, $uri-token as xs:string) {
@@ -401,10 +411,17 @@ declare function charter:do-map($idno as xs:string, $mapper, $counter as xs:inte
     returns a sequence of cleaned charter idnos 
     as xs:string which can be used as a URL name
 :)
-declare function charter:map-idnos($idnos as element(cei:idno)+) as xs:string+ {
+declare function charter:map-idnos($idnos as element(cei:idno)+, $isId as xs:boolean?) as xs:string+ {
 
     for $idno in $idnos
-    let $mapped-idno := charter:do-map(string-join($idno/text(), ''), root($charter:translations)/mapper/*, 1)
+    let $mapped-idno :=
+     if( $isId = true() ) then
+      charter:do-map(string-join(data($idno/@id), ''), root($charter:translations)/mapper/*, 1)
+    else
+      charter:do-map(string-join($idno/text(), ''), root($charter:translations)/mapper/*, 1)
+     
+
+      
     return
     if($mapped-idno != '') then $mapped-idno
     else '0000'
