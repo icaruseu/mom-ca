@@ -89,8 +89,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:expression>xs:integer(ceiling($wsearch:count-filtered div $wsearch:charters-per-block))</xrx:expression>
     </xrx:variable>
     <xrx:variable>
-      <xrx:name>$wsearch:text-deselect-select-all</xrx:name>
-      <xrx:expression>i18n:translate(<xrx:i18n><xrx:key>deselect-select-all</xrx:key><xrx:default>(de)select all</xrx:default></xrx:i18n>)</xrx:expression>
+      <xrx:name>$wsearch:invert-selection</xrx:name>
+      <xrx:expression>i18n:translate(<xrx:i18n><xrx:key>invert-selection</xrx:key><xrx:default>invert selection</xrx:default></xrx:i18n>)</xrx:expression>
     </xrx:variable>
   </xrx:variables>
   <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
@@ -476,7 +476,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	            </xrx:i18n>:
 	          </b>
 	          <div>
-	            <input id="select_deselect_categories" type="button" value="{ $wsearch:text-deselect-select-all }" onclick="de_select_all_checkboxes(this.id, 'category_checkbox')"/>
+	            <input id="invert_category_checkboxes" type="button" value="{ $wsearch:invert-selection }" onclick="invert_all_checkboxes('category_checkbox')"/>
 	          </div>
 	          {
 	          for $category in $wsearch:categories//*:category
@@ -553,7 +553,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	            </xrx:i18n>
 	          </b><br/>
 	          <div>
-              <input id="select_deselect_fonds" type="button" value="{ $wsearch:text-deselect-select-all }" onclick="de_select_all_checkboxes(this.id, 'fond_checkbox')"/>
+              <input id="invert_fonds_checkboxes" type="button" value="{ $wsearch:invert-selection }" onclick="invert_all_checkboxes('fond_checkbox')"/>
             </div>
 	          {
 	          let $fonds := $wsearch:context//*:fond
@@ -599,7 +599,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               </xrx:i18n>
             </b><br/>
             <div>
-              <input id="select_deselect_collections" type="button" value="{ $wsearch:text-deselect-select-all }" onclick="de_select_all_checkboxes(this.id, 'collection_checkbox')"/>
+              <input id="invert_collections_checkboxes" type="button" value="{ $wsearch:invert-selection }" onclick="invert_all_checkboxes('collection_checkbox')"/>
             </div>
             {
             for $collection in $wsearch:context//*:collection

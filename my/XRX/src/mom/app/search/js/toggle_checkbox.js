@@ -6,12 +6,6 @@
  * @param {String} input_element_id: The id attribute of the input element that triggers the call. (the "clicked" button)
  * @param {String} checkbox_class: The <input> elements (checkboxes) with this class attribute are targeted.
  */
-function de_select_all_checkboxes(input_element_id, checkbox_class) {
-	jQuery("#" + input_element_id).toggleClass("none_selected");
-    if(jQuery("#" + input_element_id).hasClass("none_selected")){
-      jQuery("input." + checkbox_class).prop("checked", false);
-    }
-    else{
-      jQuery("input." + checkbox_class).prop("checked", true);
-    }
+function invert_all_checkboxes(checkbox_class) {
+  jQuery("input." + checkbox_class).click();
 }
