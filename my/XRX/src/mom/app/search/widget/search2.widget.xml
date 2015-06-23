@@ -484,7 +484,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	          let $count := $category/@count/string()
 	          let $filtered := $wsearch:categories-filtered//*:category[@key=$key]
 	          let $count-filtered := if($filtered/@count) then $filtered/@count/string() else '0'
-	          order by xs:integer($count) descending
+	          order by xs:integer($count-filtered) descending, xs:integer($count) descending
 	          return
 	          <div data-demoid="8d173333-510e-4311-abd4-8e190780fdc1">
 	            <input name="{ $key }" type="checkbox" class="category_checkbox">
@@ -575,6 +575,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	          let $count := $fond/@count/string()
 	          let $filtered := $wsearch:context-filtered//*:fond[@key=$key]
 	          let $count-filtered := if($filtered/@count) then $filtered/@count/string() else '0'
+	          order by xs:integer($count-filtered) descending, xs:integer($count) descending
 	          return
 	          <div data-demoid="bcd19b3b-f882-48d0-bf62-23496f435e75">
               { if(substring-before(concat($fonds[($pos - 1)]/@name/string(), ''), ';') != $archive-key) then <div class="archive-label" data-demoid="7c9bdd06-8335-477c-8f94-07b426a9bc28"><span title="{ $archive-name }">{ $archive-name }</span></div> else '' }
@@ -610,6 +611,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             let $count := $collection/@count/string()
             let $filtered := $wsearch:context-filtered//*:collection[@key=$key]
             let $count-filtered := if($filtered/@count) then $filtered/@count/string() else '0'
+            order by xs:integer($count-filtered) descending, xs:integer($count) descending
             return
             <div data-demoid="eb4623d9-ed36-42be-9c0d-8e26df033a59">
               <input name="{ $key }" type="checkbox" class="collection_checkbox">
