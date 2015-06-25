@@ -129,7 +129,18 @@ it leaves the active development stage.
      -->
     <xrx:variable>
       <xrx:name>$wcharter:charters</xrx:name>
-      <xrx:expression>charter:get-charter-list($wcharter:metadata-charter-collection, $xrx:tokenized-uri[last()], $xrx:user-xml)</xrx:expression>
+      <xrx:expression>
+      let $wcharter:metadata-charter-collection :=
+        if(empty($wcharter:metadata-charter-collection)) then
+          if($wcharter:context = 'fond') then
+            metadata:base-collection('charter', ($xrx:tokenized-uri[1], $xrx:tokenized-uri[2]), 'import')
+          else
+            metadata:base-collection('charter', $xrx:tokenized-uri[1], 'import')
+        else
+          $wcharter:metadata-charter-collection
+      return
+        charter:get-charter-list($wcharter:metadata-charter-collection, $xrx:tokenized-uri[last()], $xrx:user-xml)
+      </xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter:count</xrx:name>
@@ -223,11 +234,16 @@ it leaves the active development stage.
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter:previous</xrx:name>
-      <xrx:expression>xmldb:encode-uri(concat($wcharter:charter-context-url, $wcharter:next-and-previous[1]//cei:body/cei:idno/@id/string(), '/imported-charter'))</xrx:expression>
+      <xrx:expression>xmldb:encode-uri(concat($wcharter:charter-context-url, charter:charterid($wcharter:next-and-previous[1]/root()//atom:id/text()), '/imported-charter'))</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter:next</xrx:name>
-      <xrx:expression>xmldb:encode-uri(concat($wcharter:charter-context-url, $wcharter:next-and-previous[2]//cei:body/cei:idno/@id/string(), '/imported-charter'))</xrx:expression>
+      <xrx:expression>
+        if(exists($wcharter:next-and-previous[2])) then
+          xmldb:encode-uri(concat($wcharter:charter-context-url, charter:charterid($wcharter:next-and-previous[2]/root()//atom:id/text()), '/imported-charter'))
+        else
+          $wcharter:previous
+      </xrx:expression>
     </xrx:variable>
     <!-- 
       image tools

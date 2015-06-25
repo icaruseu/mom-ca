@@ -588,13 +588,28 @@ div.no-graphic{{
     </xrx:model>
     <xrx:view>
 	  {
-	    (: metadata base collection for archival collections :)
-	    let $metadata-collection-base-collection := metadata:base-collection('collection', 'public')
-
+	    (: metadata base collection for archival collections 
+	    ~ Tokenize the first Token to check if it is a collection or a "MyCollection"
+	    ~ If it has 5 Segments, it is a "MyCollection" otherwise "Collection" :)
+	    
+	    let $col-token := tokenize($xrx:tokenized-uri[1], "-")
+	    
+	    (: Decide which Collection is to choose :)
+	    let $metadata-collection-base-collection :=
+	     if(count($col-token) = 5 ) then
+	      metadata:base-collection('mycollection', 'public')
+	     else
+	      metadata:base-collection('collection', 'public')
+	      
       (: get charter context: collection or fond? :)
       let $charter-context := 
         let $probably-collection-id := $xrx:tokenized-uri[1]
-        let $probably-collection-atom-id := concat(conf:param('atom-tag-name'), '/collection/', $probably-collection-id)
+        let $probably-collection-atom-id := 
+          if(count($col-token) = 5) then
+            concat(conf:param('atom-tag-name'), '/mycollection/', $probably-collection-id)
+          else 
+            concat(conf:param('atom-tag-name'), '/collection/', $probably-collection-id)
+            
         return
         if(exists($metadata-collection-base-collection//atom:id[.=$probably-collection-atom-id])) then 'collection' else 'fond'
 
@@ -623,7 +638,8 @@ div.no-graphic{{
       (:
         getting the CEI document from public area of MOM-CA
       :)
-      
+
+           
       (:
          now we know which charter we want
       :)
@@ -635,10 +651,12 @@ div.no-graphic{{
       let $idno := $charter//cei:body/cei:idno/text()
       let $link-to-charter-in-archive := data($charter//cei:archIdentifier/cei:ref/@target)
 
-      (:
+
+       (:
         get number of charters in a collection or
         number of saved or released charters
       :)
+      
       let $charters := charter:get-charter-list($metadata-charter-collection, xs:string('charter'), $xrx:user-xml)
 
       (: count charters :)
@@ -694,7 +712,7 @@ div.no-graphic{{
             return
                 if(contains($url, '/')) then $url
                 else concat($image-base-uri, xmldb:encode($url))
-
+ 
 	    return
       <div data-demoid="e83f0d58-244b-47d2-a23b-979421e2a101" id="charter-template-header">
         {
@@ -704,11 +722,14 @@ div.no-graphic{{
           else
             concat(conf:param('request-root'),xmldb:decode($charter:rcollectionid),'/')
         let $self-charter := 
-          xmldb:encode-uri(concat($charter-context-url,$charter//cei:body/cei:idno/@id/string(),'/charter'))
+          xmldb:encode-uri(concat($charter-context-url,charter:charterid($atom-id),'/charter'))
         let $previous := 
-          xmldb:encode-uri(concat($charter-context-url,$next-and-previous[1]//cei:body/cei:idno/@id/string(),'/image-tools'))
+          xmldb:encode-uri(concat($charter-context-url,charter:charterid($next-and-previous[1]/../../atom:id/text()),'/image-tools'))
         let $next := 
-          xmldb:encode-uri(concat($charter-context-url,$next-and-previous[2]//cei:body/cei:idno/@id/string(),'/image-tools'))
+          if(not(empty($next-and-previous[2]))) then
+            xmldb:encode-uri(concat($charter-context-url,charter:charterid($next-and-previous[2]/../../atom:id/text()),'/image-tools'))
+          else
+            $previous
         return
         
         (: 

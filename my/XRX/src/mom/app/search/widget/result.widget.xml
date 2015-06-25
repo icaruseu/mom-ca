@@ -120,7 +120,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:id</xrx:name>
-      <xrx:expression>data($wcharter-preview:idno-element/@id)</xrx:expression>
+      <xrx:expression>charter:charterid($wcharter-preview:atom-id)</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:abstract</xrx:name>
