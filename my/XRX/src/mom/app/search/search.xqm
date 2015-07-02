@@ -35,6 +35,7 @@ import module namespace charter="http://www.monasterium.net/NS/charter"
 
 declare namespace atom="http://www.w3.org/2005/Atom";
 declare namespace cei="http://www.monasterium.net/NS/cei";
+declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 (: request parameters :)
 declare variable $search:q := 
@@ -104,7 +105,7 @@ declare function search:all-categories() {
     'cei:settlement', 'cei:sigillant', 'cei:sourceDescRegest', 'cei:sourceDescVolltext', 'cei:subscriptio',
     'cei:tenor', 'cei:testis', 'cei:traditioForm', 'cei:witListPar', 'cei:witnessOrig',
     '@abbr', '@class', '@corr', '@expan', '@from', '@function', '@hand', '@key', '@lemma', '@reason',
-    '@reg', '@sublemma', '@sic', '@to', '@value')
+    '@reg', '@sublemma', '@sic', '@to', '@value', 'tei:span')
 };
 
 

@@ -85,6 +85,11 @@
       <xrx:name>button_edit.png</xrx:name>
     </xrx:resource>
     <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/coop-logo</xrx:atomid>
+      <xrx:relativepath>image/</xrx:relativepath>
+      <xrx:name>coop-logo.png</xrx:name>
+    </xrx:resource>
+    <xrx:resource>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/dialog-error</xrx:atomid>
       <xrx:relativepath>image/</xrx:relativepath>
       <xrx:name>dialog-error.png</xrx:name>
