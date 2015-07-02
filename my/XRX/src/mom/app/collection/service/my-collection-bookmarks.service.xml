@@ -53,7 +53,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 		        let $uri-tokens := metadata:uri-tokens($atomid)
 		        let $base-collection := metadata:base-collection('charter', $uri-tokens, 'public')
 		        let $entry := $base-collection//atom:id[.=$atomid]/parent::atom:entry
-		        let $idno := $entry//cei:body/cei:idno/@id/string()
+		        let $idno := charter:charterid($atomid)
 		        let $title := string-join(($uri-tokens, $idno), ' | ')
 		        let $objectid := metadata:objectid($atomid)
 		        let $link := concat(conf:param('request-root'), string-join($uri-tokens, '/'), '/', $objectid, '/charter')
