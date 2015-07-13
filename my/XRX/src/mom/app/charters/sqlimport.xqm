@@ -89,7 +89,7 @@ declare function sqlimport:do($driverclass,
         let $break := if(not($is-valid) or $execute/@count/string() = '0') then xs:string(break) else()
         
         (: charter info :)
-        let $idno := charter:map-idnos($data-transformed//cei:body/cei:idno)
+        let $idno := charter:map-idnos($data-transformed//cei:body/cei:idno, false())
         let $atomid := metadata:atomid('charter', ($uri-tokens, $idno))
         let $entry-name := xmldb:encode(concat($idno, '.cei.xml'))
         let $charter-entry := 

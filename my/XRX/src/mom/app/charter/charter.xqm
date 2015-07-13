@@ -14,7 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 VdU/VRET is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+GNU General Public License for more details. 
 
 You should have received a copy of the GNU General Public License
 along with VdU/VRET.  If not, see <http://www.gnu.org/licenses/>.
@@ -183,10 +183,19 @@ declare function charter:charterid($atomid as xs:string, $atom-tag-name as xs:st
 
     let $tokens := charter:object-uri-tokens($atomid, $atom-tag-name)
     return
-    $tokens[last()]
+      xmldb:decode($tokens[last()])
 };
 
+declare function charter:charterid($atomid as xs:string?) as xs:string {
 
+  let $return :=
+    if($atomid != "") then
+      charter:charterid($atomid, conf:param('atom-tag-name'))
+    else
+      ()
+  return
+    $return[1]
+};
 
 declare function charter:permalink($entry as element(atom:entry)) as xs:string {
 
@@ -309,6 +318,7 @@ declare function charter:next-and-previous($charters, $charter, $count as xs:int
         else()
         
     else()
+
 };
 
 declare function charter:position($charters, $charter, $user-xml as element(xrx:user)?, $atom-id as xs:string, $uri-token as xs:string) {
@@ -401,10 +411,17 @@ declare function charter:do-map($idno as xs:string, $mapper, $counter as xs:inte
     returns a sequence of cleaned charter idnos 
     as xs:string which can be used as a URL name
 :)
-declare function charter:map-idnos($idnos as element(cei:idno)+) as xs:string+ {
+declare function charter:map-idnos($idnos as element(cei:idno)+, $isId as xs:boolean?) as xs:string+ {
 
     for $idno in $idnos
-    let $mapped-idno := charter:do-map(string-join($idno/text(), ''), root($charter:translations)/mapper/*, 1)
+    let $mapped-idno :=
+     if( $isId = true() ) then
+      charter:do-map(string-join(data($idno/@id), ''), root($charter:translations)/mapper/*, 1)
+    else
+      charter:do-map(string-join($idno/text(), ''), root($charter:translations)/mapper/*, 1)
+     
+
+      
     return
     if($mapped-idno != '') then $mapped-idno
     else '0000'
@@ -460,9 +477,117 @@ declare function charter:insert-unique-idno($charter as element(cei:text), $uniq
 
 declare function charter:summarize($charter) {
 
-    try { 
-        kwic:summarize($charter, <config xmlns="" width="100"/>) 
-    } catch * { 
-        $charter//text() 
-    }
+  try {
+
+    let $summarized := kwic:summarize($charter, <config xmlns="" width="100"/>)
+    let $attribute-matches := charter:attributes-matching-search-regEx($charter) (: kwic did not look inside attributes. :)
+    return
+      if( not(empty($summarized)) and empty($attribute-matches) ) then
+        $summarized
+      else if( empty($summarized) and not(empty($attribute-matches)) ) then
+        $attribute-matches
+      else
+        ($summarized, $attribute-matches)
+
+  } catch * {
+    $charter//text()
+  }
 };
+
+declare function charter:attributes-matching-search-regEx($charter){
+
+  let $charter-attributes := $charter//@*
+  let $charter-attributes-matching-q := (: q is search parameter. :)
+    for $attribute in $charter-attributes
+    let $attribute-string := string($attribute)
+    where matches(lower-case($attribute-string), lower-case(request:get-parameter("q", "")))
+    return $attribute
+  let $matches-made-pretty :=
+    for $match in $charter-attributes-matching-q
+    let $attribute-name := name($match)
+    let $attribute-value := string($match)
+    let $number-of-matches-in-attribute := charter:number-of-matches-case-insensitive($attribute-value, request:get-parameter("q", ""))
+    let $best-performance-depending-on-number-of-search-matches :=
+      if($number-of-matches-in-attribute = 1) then
+      (: there is only one search match in the respective attribute :)
+        let $substring-before-match := tokenize($attribute-value, request:get-parameter("q", ""), "i")[1]
+        let $substring-after-match := replace($attribute-value, concat('^.*?', request:get-parameter("q", "")), '', "i")
+        let $match-itself :=
+        (: reconstructs match by cutting off substrings after match, or before and after, or before, or not at all.
+           Depending on match's position inside attribute string. :)
+          let $match-at-beginning-or-in-middle := substring-after(substring-before($attribute-value, $substring-after-match), $substring-before-match)
+          return
+            if ($match-at-beginning-or-in-middle != '') then
+              $match-at-beginning-or-in-middle
+            else
+              let $match-at-end := substring-after($attribute-value, $substring-before-match)
+              return
+                if($match-at-end != '') then
+                  $match-at-end
+                else $attribute-value (: match equals entire attribute string. :)
+        (: in case the "hardcoded" span inside function charter:highlight-string becomes problematic:
+         : a different approach is to surround the $match-itself with <exist:match> tags, put the whole string together, then feed it to kwic:summarize. :)
+        let $highlighted-match := charter:highlight-string($match-itself)
+        return (concat("@", $attribute-name, " => ", $substring-before-match), $highlighted-match, $substring-after-match, " ")
+      else
+      (: attribute contains multiple search hits. :)
+        (: taking the attribute apart. Obtaining strings between search hits. :)
+        let $tokenized-attribute-with-hits-removed := tokenize($attribute-value, request:get-parameter("q", ""), "i")
+        let $attribute-starts-with-search-hit :=
+          if(charter:index-of-string($attribute-value, request:get-parameter("q", ""))[1] = 1) then
+            true()
+          else
+            false()
+        (: Reconstructing the original search hits by cutting of respective substrings before and after hit from the original attribute string.
+         : Only faulty, when text between individual search hits repeats inside original attribute. Not a likely case. :)
+        let $hits :=
+          for $token at $pos in $tokenized-attribute-with-hits-removed
+          let $hit :=
+            if($attribute-starts-with-search-hit) then
+              substring-after(substring-before($attribute-value, $token), $tokenized-attribute-with-hits-removed[$pos - 1])
+            else
+              substring-after(substring-before($attribute-value, $tokenized-attribute-with-hits-removed[$pos+1]), $token)
+          return $hit
+        (: reconstructing attribute from tokenized attribute (delimiter: search-term) and hits. Highlighting hit. :)
+        let $highlighted-hits-with-surrounding-tokens :=
+          for $hit at $pos in $hits
+          let $highlighted-hit := charter:highlight-string($hit)
+          return
+            if( $attribute-starts-with-search-hit) then
+              (: attribute looked like: "hit|string" :)
+              ($highlighted-hit, $tokenized-attribute-with-hits-removed[$pos])
+            else
+              (: attribute looked like: "string|hit|string" :)
+              ($tokenized-attribute-with-hits-removed[$pos], $highlighted-hit)
+        return ( concat("@", $attribute-name, " => ") , $highlighted-hits-with-surrounding-tokens, " ")
+    return $best-performance-depending-on-number-of-search-matches
+  return $matches-made-pretty
+
+};
+
+declare function charter:highlight-string($arg as xs:string) as node() {
+  <span class="hi">{$arg}</span>
+};
+
+declare function charter:index-of-string (: see functx:index-of-string :)
+  ( $arg as xs:string? ,
+    $substring as xs:string )  as xs:integer* {
+
+  if (contains($arg, $substring))
+  then (string-length(substring-before($arg, $substring))+1,
+        for $other in
+           charter:index-of-string(substring-after($arg, $substring),
+                               $substring)
+        return
+          $other +
+          string-length(substring-before($arg, $substring)) +
+          string-length($substring))
+  else ()
+ };
+
+ declare function charter:number-of-matches-case-insensitive (: see functx:number-of-matches; changed to case-insensitive! :)
+  ( $arg as xs:string? ,
+    $pattern as xs:string )  as xs:integer {
+
+   count(tokenize($arg,$pattern, "i")) - 1
+ } ;

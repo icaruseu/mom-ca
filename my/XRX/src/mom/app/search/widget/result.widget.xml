@@ -32,7 +32,21 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 
 We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
   </xrx:licence>
+    <xrx:constructor>
+    <xrx:parameter>
+      <xrx:name>$constructor:charter</xrx:name>
+      <xrx:default>()</xrx:default>
+    </xrx:parameter>
+    <xrx:parameter>
+      <xrx:name>$constructor:pos</xrx:name>
+      <xrx:default>()</xrx:default>
+    </xrx:parameter>
+    </xrx:constructor>
   <xrx:variables>
+    <xrx:variable>
+     <xrx:name>$wcharter-preview:num</xrx:name>
+     <xrx:expression>$constructor:pos</xrx:expression>
+    </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:is-loggedin</xrx:name>
       <xrx:expression>xmldb:get-current-user() != 'guest'</xrx:expression>
@@ -120,7 +134,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:id</xrx:name>
-      <xrx:expression>data($wcharter-preview:idno-element/@id)</xrx:expression>
+      <xrx:expression>charter:charterid($wcharter-preview:atom-id)</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:abstract</xrx:name>
@@ -169,7 +183,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:browse-url</xrx:name>
-      <xrx:expression>concat(conf:param('request-root'), $num, '/search-result', '?', request:get-query-string())</xrx:expression>
+      <xrx:expression>concat(conf:param('request-root'), $wcharter-preview:num, '/search-result', '?', request:get-query-string())</xrx:expression>
     </xrx:variable>
   </xrx:variables>
   <xrx:divs>

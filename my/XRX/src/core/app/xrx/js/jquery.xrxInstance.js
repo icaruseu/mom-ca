@@ -118,14 +118,14 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	 * private functions
 	 */
 	function autosave() {
+
 		clearTimeout(onautosave);
 		$("#autoSaveStatus").text("Saving ...");
 		onautosave = setTimeout( function() {
 			// TODO: replace with event handler
-			$(document).xmleditor("save");
+			console.log($(document).xmleditor("save"));
 			$(".xrx-report").xrxReport("validate");
-			$("#autoSaveStatus").text("All changes saved.");
-		}, 1000);
+		}, 1000);	
 	};
 	
 })(jQuery);

@@ -77,6 +77,11 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	              <xrx:resource alt="ICARUS Logo" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/icarus-logo</xrx:resource>
 	            </a>
 	          </div>
+	          <div class="dlogo" data-demoid="bc977a78-3e03-49cf-97e7-91045f8353d0">
+              <a href="http://coop-project.eu/" target="_blank">
+                <xrx:resource alt="CO:OP Logo" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/coop-logo</xrx:resource>
+              </a>
+            </div>
 	          <div class="dlogo" data-demoid="2ea8bcde-5973-4fd0-8d07-a2301f533245">
 	            <a href="http://enarc.icar-us.eu/" target="_blank">
 	              <xrx:resource alt="ENARC Logo" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/enarc-logo</xrx:resource>

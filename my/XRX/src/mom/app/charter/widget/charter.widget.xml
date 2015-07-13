@@ -347,7 +347,7 @@ it leaves the active development stage.
       <xrx:name>$wcharter:previous</xrx:name>
       <xrx:expression>
         if($wcharter:context = 'fond' or $wcharter:context = 'collection') then
-          xmldb:encode-uri(concat($wcharter:charter-context-url, $wcharter:next-and-previous[1]//cei:body/cei:idno/@id/string(), '/charter'))
+          xmldb:encode-uri(concat($wcharter:charter-context-url, charter:charterid($wcharter:next-and-previous[1]/root()//atom:id/text()), '/charter'))
         else
           concat('charter?atomid=', $wcharter:next-and-previous[1]/root()//atom:id/text())
       </xrx:expression>
@@ -355,10 +355,13 @@ it leaves the active development stage.
     <xrx:variable>
       <xrx:name>$wcharter:next</xrx:name>
       <xrx:expression>
-        if($wcharter:context = 'fond' or $wcharter:context = 'collection') then
-          xmldb:encode-uri(concat($wcharter:charter-context-url, $wcharter:next-and-previous[2]//cei:body/cei:idno/@id/string(), '/charter'))
-        else
-          concat('charter?atomid=', $wcharter:next-and-previous[2]/root()//atom:id/text())
+       if(exists($wcharter:next-and-previous[2])) then
+            if($wcharter:context = 'fond' or $wcharter:context = 'collection') then
+              xmldb:encode-uri(concat($wcharter:charter-context-url, charter:charterid($wcharter:next-and-previous[2]/root()//atom:id/text()), '/charter'))
+            else
+              concat('charter?atomid=', $wcharter:next-and-previous[2]/root()//atom:id/text())
+       else
+        $wcharter:previous
       </xrx:expression>
     </xrx:variable>
     <!-- 
