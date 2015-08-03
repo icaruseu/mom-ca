@@ -263,7 +263,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/my-collection-remove</xrx:atomid>
     </xrx:map>
     <xrx:map>
-      <xrx:uripattern>/charter/(.*)/edit$</xrx:uripattern>
+      <xrx:uripattern>/edit$</xrx:uripattern>
       <xrx:mode>mainwidget</xrx:mode>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/my-collection-charter-edit</xrx:atomid>
     </xrx:map>
