@@ -34,21 +34,37 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   <xrx:variables>
     <!-- request parameter -->
     <xrx:variable>
-      <xrx:name>$uuid</xrx:name>
-      <xrx:expression>$xrx:tokenized-uri[2]</xrx:expression>
+      <xrx:name>$atomid</xrx:name>
+      <xrx:expression>replace(metadata:atomid('charter', $xrx:tokenized-uri), "/edit", "")</xrx:expression>
     </xrx:variable>
     <!-- charter -->
     <xrx:variable>
-      <xrx:name>$atomid</xrx:name>
-      <xrx:expression>metadata:atomid('charter', $uuid)</xrx:expression>
+      <xrx:name>$uuid</xrx:name>
+      <xrx:expression> metadata:objectid($atomid)</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$base-collection</xrx:name>
-      <xrx:expression>if($xrx:tokenized-uri[last()] = 'edit') then metadata:base-collection('charter', 'private') else $user:db-base-collection</xrx:expression>
+      <xrx:expression>if( count( tokenize($uuid, '-') ) = 5 ) then $user:db-base-collection else metadata:base-collection('charter', 'saved')</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$entry</xrx:name>
-      <xrx:expression>$base-collection//atom:id[ends-with(.,$uuid)]/parent::atom:entry</xrx:expression>
+      <xrx:expression>$base-collection//atom:id[.=$atomid]/parent::atom:entry</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$isComplete</xrx:name>
+      <xrx:expression>mycollection:check-if-all-nodes-there($entry)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$UpdateCall</xrx:name>
+      <xrx:expression>if(not($isComplete)) then mycollection:checkUpdateCharter($entry) else ()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$nodes-not-there</xrx:name>
+      <xrx:expression>mycollection:return-not-existend-nodes($entry)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$atom-from-entry</xrx:name>
+      <xrx:expression>$entry//atom:id/text()</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$idno</xrx:name>
@@ -69,7 +85,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <!-- linked charter -->
     <xrx:variable>
       <xrx:name>$atomid-linked</xrx:name>
-      <xrx:expression>$entry/atom:link/@ref/string()</xrx:expression>
+      <xrx:expression>if(exists($entry/atom:link)) then $entry/atom:link/@ref/string() else $atomid</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$is-linked</xrx:name>
@@ -191,21 +207,21 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <style type="text/css">
 
 #dmy-collection-charter-edit, #dtextann, #dinner-textann{{
-	position:relative;
-	float:none;
-	display:block;
-	width:100%;
-	height:100%;
+  position:relative;
+  float:none;
+  display:block;
+  width:100%;
+  height:100%;
 }}
 .xrx-layout{{
-	display:block;
-	position:relative;
-	float:left;
-	width:100%;
-	height:100%;
+  display:block;
+  position:relative;
+  float:left;
+  width:100%;
+  height:100%;
 }}
 .xrx-report *{{
-	font-size:0.9em;
+  font-size:0.9em;
 }}
 .xrx-layout .ui-layout-center, .xrx-layout .ui-layout-south, .xrx-layout .ui-layout-east, .xrx-layout .ui-layout-north{{
   padding:0; /* center-container inset will be created by an inset option */
@@ -220,15 +236,15 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   position:relative;
 }}
 .xrx-repeat, .CodeMirror {{
-	margin-left: 2%;
+  margin-left: 2%;
 }}
 
 fieldset {{
-	margin: 2%;
+  margin: 2%;
 }}
 
 #dviewer-switch, .xrx-case, #icharter{{
-	height:100%;
+  height:100%;
 }}
 /*
 * imageann
@@ -258,18 +274,18 @@ fieldset {{
   margin:5px;
 }}
 #s1viewer-choice{{
-	position:absolute;
-	margin:10px;
-	z-index:99;
-	font-size:.6em;
+  position:absolute;
+  margin:10px;
+  z-index:99;
+  font-size:.6em;
 }}
 #dcharter-instance{{
   white-space:pre-wrap;
   overflow:auto !important;
 }}
 form{{
-	margin:0;
-	padding:0;
+  margin:0;
+  padding:0;
 }}
 /*
 * table layout
@@ -294,12 +310,13 @@ form{{
 * jQuery UI
 */
 .ui-tabs-anchor{{
-	font-size:.8em;
+  font-size:.8em;
 }}
     </style>
   </xrx:csss>
   <xrx:jss>
-    <!-- jQuery resources -->
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/collection</xrx:resource>
+    <!-- jQuery resources --> 
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
@@ -346,7 +363,7 @@ form{{
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxReport</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxRepeat</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrx</xrx:resource>
-    <!-- mom resources -->
+    <!-- jquery -->
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/imageann</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xmleditor</xrx:resource>
     <!-- annotation resources -->
@@ -405,7 +422,11 @@ form{{
     <!-- back -->
     <xrx:bind id="bback" nodeset="/descendant::cei:back"/>
   </xrx:binds>
+
   <xrx:view>
+    <divs>
+  {mycollection:makeBindings($entry, $nodes-not-there)}
+  </divs>
     <div data-demoid="393de52d-1b4f-4df8-99b1-e7af26b713fe" id="dmy-collection-charter-edit">
       <xrx:layout>
         <xrx:options>
@@ -423,7 +444,7 @@ form{{
             <xrx:true>
               <div data-demoid="09a18129-a5e4-42f7-ab9e-1d4bcf9497bb" id="dui-imageann">
                 <script type="text/javascript">
-						    $(document).ready(function(){{
+                $(document).ready(function(){{
                   jQuery(document).imageTool({{
                     requestRoot: "{ conf:param('request-root') }",
                     charter: "{ $uuid }",
@@ -433,18 +454,18 @@ form{{
                   }});
                   jQuery(document).i18nText({{
                     lang: "{ $xrx:lang }",
-           	        requestRoot: "{ conf:param('request-root') }"
-           	      }});
-						      jQuery("input", "#s1viewer-choice").change(function(){{
-						          if ($(this).is(':checked')) {{
-						          		var caseDiv = $(this).val();
-									        $(".xrx-case", "#dviewer-switch").hide();
-									        $("#"+ caseDiv, "#dviewer-switch").show();
-									    }}
-						      }});
+                    requestRoot: "{ conf:param('request-root') }"
+                  }});
+                  jQuery("input", "#s1viewer-choice").change(function(){{
+                      if ($(this).is(':checked')) {{
+                          var caseDiv = $(this).val();
+                          $(".xrx-case", "#dviewer-switch").hide();
+                          $("#"+ caseDiv, "#dviewer-switch").show();
+                      }}
+                  }});
                   
-						    }});     
-		            </script>
+                }});     
+                </script>
                 <xrx:select1 appearance="xrx-appearance-buttonset" id="s1viewer-choice">
                   <xrx:item>
                     <xrx:label>
@@ -472,12 +493,12 @@ form{{
                     </div>
                     <div data-demoid="b90a2b1c-9164-49b9-a8cb-f47f1413947c" id="folio-links">
                       <ol id="ui-imageselect">
-									      {
-									      for $folio at $p in $folios
-									      return
-									      <li title="{ $urls[$p] }">{ if($p = 1) then attribute class { 'ui-widget-content ui-selected' } else attribute class { 'ui-widget-content' } }{ $folio }</li>
-									      }
-									    </ol>
+                        {
+                        for $folio at $p in $folios
+                        return
+                        <li title="{ $urls[$p] }">{ if($p = 1) then attribute class { 'ui-widget-content ui-selected' } else attribute class { 'ui-widget-content' } }{ $folio }</li>
+                        }
+                      </ol>
                     </div>
                     <div data-demoid="f224f11c-46c7-41b3-839d-02eb5f9e278a" id="ui-imageann" style="width:100%;height:100%;position:relative;overflow:hidden;">
                       <div data-demoid="5c720e82-758a-4e64-9b13-a6295c9e833c">
@@ -588,6 +609,19 @@ form{{
                               </xrx:i18n>
                             </a>
                           </li>
+                          {
+                            if(not($isComplete)) then 
+                            <li>
+                              <a class="anchor" href="#tab-8">
+                                <xrx:i18n>
+                                  <xrx:key>unrecognizedFields</xrx:key>
+                                  <xrx:default>unrecognized</xrx:default>
+                                </xrx:i18n>
+                              </a>
+                            </li>
+                            else
+                            ()
+                          }
                         </ul>
                         <div data-demoid="c0ca5834-6e65-4b0a-bd53-c1ecdfd5ee2f" id="tab-1">
                           <div class="dlabel" data-demoid="492ee53d-cb5c-4094-8aea-84e164ac761a">
@@ -1030,6 +1064,12 @@ form{{
                             <xrx:visualxml ref="/child::cei:index"/>
                           </xrx:repeat>
                         </div>
+                        { 
+                          if(not($isComplete)) then
+                            mycollection:MakeControlls($entry, $nodes-not-there)
+                          else
+                            () 
+                        }
                       </div>
                       <div class="ui-layout-north" data-demoid="5da89345-2191-497a-98de-b895609836b1">
                         <div class="dmy-collection-toolbar" data-demoid="f007ba43-bb97-4d77-b520-d58fe71674e7">
@@ -1203,22 +1243,22 @@ form{{
       <div class="xrx-forms-json-element-suggestions" data-demoid="90164e9b-8793-4426-9cb3-9c91b1252326" style="display:none">{ $element-suggestions }</div>
       <div class="xrx-forms-json-topics" data-demoid="29dc1908-0c8d-4501-ab7d-5e0cbdc492b9" style="display:none">{ $topics }</div>
       <script type="text/javascript">
-	    jQuery(document).ready(function(){{ 
-	    	jQuery.ajaxSetup({{ cache: false }});
-				window.XPath = new XPath();
-				window.XPath.setNamespaceContext(
-						["atom", "cei"],
-						["http://www.w3.org/2005/Atom", "http://www.monasterium.net/NS/cei"]
-						);
-	      jQuery(document).xmleditor({{
-	        requestRoot: "{ conf:param('request-root') }"
-	      }});
-	      jQuery("#icharter").appendTo("#dcharter-instance").show();
-				jQuery(".anchor", "#dinner-textann").click(function() {{
-					$(".xrx-visualxml").each(function(){{ $(this).xrxVisualxml("clear"); }});
-				}});
-	    }});
-	    </script>
+      jQuery(document).ready(function(){{ 
+        jQuery.ajaxSetup({{ cache: false }});
+        window.XPath = new XPath();
+        window.XPath.setNamespaceContext(
+            ["atom", "cei"],
+            ["http://www.w3.org/2005/Atom", "http://www.monasterium.net/NS/cei"]
+            );
+        jQuery(document).xmleditor({{
+          requestRoot: "{ conf:param('request-root') }"
+        }});
+        jQuery("#icharter").appendTo("#dcharter-instance").show();
+        jQuery(".anchor", "#dinner-textann").click(function() {{
+          $(".xrx-visualxml").each(function(){{ $(this).xrxVisualxml("clear"); }});
+        }});
+      }});
+      </script>
     </div>
   </xrx:view>
 </xrx:widget>
