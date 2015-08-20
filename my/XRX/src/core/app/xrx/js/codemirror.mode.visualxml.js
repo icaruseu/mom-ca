@@ -154,36 +154,20 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	function showMixedcontentAttributes(cm, element, token) {
 		
 		if(cm.visualxml.element.attr("data-xrx-attributes") == "no") return;
-		//var jsonValues = jQuery.parseJSON($('.xrx-forms-json-values').text());
+	
 		var jsonAttributeSuggestions = jQuery.parseJSON($('.xrx-forms-json-attribute-suggestions').text());
 		var suggestedAttributes = jsonAttributeSuggestions[element.qName];		
-		//var sug = jsonValues[element.attributes];         
-         //var suggestedVal = jsonValues[element.qName];
-        
-         //var mainkeys = Object.getOwnPropertyNames(suggestedVal).sort();
-         //var subkey =  [];
-         //for (var i =0;i<mainkeys.length; i++){          
-          //var subkeyvalues = suggestedVal[mainkeys[i]];
-         
-        	// for (var k =0; k<subkeyvalues.length; k++){
-        		  
-        		// subkey.push(subkeyvalues[k]);
-        		 //console.log(subkey);
-        	  //console.log(mainkeys[i] + ':' + subkeys[j]+ ':' + subkeyvalues[k] );
-           
-         // }
-     
-         // }
+	
 		
 		$(".xrx-attributes").xrxAttributes({
 			elementName:element.qName,
 			suggestedAttributes:suggestedAttributes,
 			editedAttributes:element.attributes,
-			suggestedValues:element.attributes,
+			//suggestedValues:element.attributes,
 			cm:cm,
 			token:token
 		});
-		console.log("element Attribute");
+		console.log("Das sind die element Attribute");
 		console.log(element.qName);
 	
 	}
@@ -826,7 +810,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 		var firstTokenInside = cm.getTokenAt(firstPositionInside);
 		var place = cursorPlace(firstTokenOutside, firstTokenInside);
 		var xml = clean(change);
-		
+		console.log('that is the place');
 		console.log(place);
 		
 		switch(place) {

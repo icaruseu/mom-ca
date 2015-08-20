@@ -41,6 +41,7 @@ $.widget( "ui.xrxSelect", {
 			
 			var menuwrap = $('<div></div>');
 			var menuliste = $('<ul></ul>').attr('id', 'menu');
+			console.log('bin muede');
 			console.log(n.xml);
 			
 			//"<cei:class xmlns:cei="http://www.monasterium.net/NS/cei"></cei:class>"
