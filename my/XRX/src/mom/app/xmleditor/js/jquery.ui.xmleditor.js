@@ -26,7 +26,7 @@ $.widget( "ui.xmleditor", {
         });
 		$("#ui-imageann").imageann();
 	},
-	
+	/* ajax-request of my-collection-save.service.xml */
 	save: function() {
 		var self = this;		
 		$.ajax({
@@ -34,12 +34,26 @@ $.widget( "ui.xmleditor", {
 			type: "POST",
 			contentType: "application/xml",
 			data: $(".xrx-instance").text(),
-			success: function(){
-				$("#autoSaveStatus").text("All changes saved.");
-				return true;
+			dataType: "xml",
+			  /* 
+			   * success function
+			   * save-script was loaded, 
+			   * if result = true the save-function is completed and the save function was a success
+			   * if result = false the save-function is completed but the save function was not a success
+			   */	
+			success: function(response){
+				if($(response).find('result').text() == "true"){
+					$("#autoSaveStatus").text("All changes saved.");
+					return true;
+				}
+				else {
+					$("#autoSaveStatus").text("Failed to save changes.");
+					return false;
+				}			
 			},
 			error: function(){
-			 $("#autoSaveStatus").text("Failed to save changes.");
+			 $("#autoSaveStatus").text("Error: Failed to load save-script.");
+			 
 			 return false;
 			}			
 		});
