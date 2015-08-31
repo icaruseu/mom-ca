@@ -50,6 +50,30 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:name>$feed</xrx:name>
       <xrx:expression>substring-after($base-collection-path, conf:param('atom-db-base-uri'))</xrx:expression>
     </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$data-content</xrx:name>
+      <xrx:expression>$data//atom:content/descendant-or-self::*</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$data-content-debug</xrx:name>
+      <xrx:expression>util:log('error', $data-content)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+     <xrx:name>$data_hash</xrx:name>
+     <xrx:expression>util:hash(util:serialize($data-content, ()), 'md5')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+     <xrx:name>$data_hash_debug</xrx:name>
+     <xrx:expression>util:log('error',$data_hash)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+     <xrx:name>$doc-path</xrx:name>
+     <xrx:expression>concat("/db/mom-data",$feed,"/", $entry-name)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$doc-path-debug</xrx:name>
+      <xrx:expression>util:log('error', $doc-path)</xrx:expression>
+    </xrx:variable>
   </xrx:variables>
   <xrx:init>
    <xrx:processor>
@@ -58,9 +82,17 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   </xrx:init>
   <xrx:body>
     {
+      (: write changes in db :)
       let $put := atom:PUT($feed, $entry-name, $data)
-      return
-      $data
+      
+      let $saved-data-content := doc($doc-path)//atom:content/descendant-or-self::*
+      let $saved-data-content-hash := util:hash(util:serialize($saved-data-content, ()),'md5')  
+ 
+      let $compared := compare($saved-data-content-hash, $data_hash)
+
+      return if ($compared = 0) then <result>true</result>
+              else <result>false</result>
+     
     }
   </xrx:body>
 </xrx:service>
