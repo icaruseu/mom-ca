@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+<xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
   <xrx:id>tag:www.monasterium.net,2011:/mom/widget/my-collection-charter-edit</xrx:id>
   <xrx:title>
     <xrx:i18n>
@@ -353,13 +353,12 @@ form{{
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxTagname</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxReport</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxRepeat</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrx</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/i18nText</xrx:resource>  
     <!-- mom resources -->
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/imageann</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xmleditor</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xrxSelect</xrx:resource>
-    <!-- annotation resources -->
-    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/i18nText</xrx:resource>
+    <!-- annotation resources -->  
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/imageTool</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/imageToolWidget</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/createanno</xrx:resource>
@@ -451,11 +450,9 @@ form{{
                           $("#"+ caseDiv, "#dviewer-switch").show();
                       }}
                   }});
-
+                  
                 }});     
                 </script>                
-         
-
                 <xrx:select1 appearance="xrx-appearance-buttonset" id="s1viewer-choice">
                   <xrx:item>
                     <xrx:label>
@@ -1215,14 +1212,80 @@ form{{
       <div class="xrx-forms-json-topics" data-demoid="29dc1908-0c8d-4501-ab7d-5e0cbdc492b9" style="display:none">{ $topics }</div>
       <!-- fix me: the xrx-forms-json-values generate automatically, used for controlled vocabulary -->
             <div class="xrx-forms-json-values" style="display:none">
-    {{   
+   {{   
     "cei:index":{{
-   "indexName": ["arthistorian"],
-    "lemma": ["N1", "N2", "N3"],
-    "sublemma": [{{"N1":["HistoriatedDecoration","WithAdditionalColours: Miniatures", "WithAdditionalColours: Initials", "WithAdditionalColours: Borders", "WithAdditionalColours: CoatsofArms", "WithAdditionalColours: ExecutionDraw", "WithAdditionalColours: ExecutionPainted"]}},
-    {{"N2": ["DrawnDecorationnothistoriated: DD-nh-Panels", "DrawnDecorationnothistoriated: Initials", "DrawnDecorationnothistoriated: DD-nh-Borders", "DepictiveMotivesnothistoriated: figural", "DepictiveMotivesnothistoriated: zoomorphic", "DepictiveMotivesnothistoriated: otherMotivs"]}},
-    {{"N3": ["GraphicMeansofAuthenticating: Chrismon", "GraphicMeansofAuthenticating: Monogramm", "GraphicMeansofAuthenticating: Rota", "GraphicMeansofAuthenticating: SignumRecognitionis", "GraphicMeansofAuthenticating: SignumNotarile", "GraphicMeansofAuthenticating: OtherSignsofAuthentication"]}}
-     ]}}}}
+    "indexName": ["other", "arthistorian"],
+    "lemma": [{{
+    "Level1": [
+    "HistoriatedDecoration",
+    {{
+      "WithAdditionalColours": [
+        "Miniatures",
+        "Initials",
+        "Borders",
+        "CoatOfArms",
+        "ExecutionDraw",
+        "ExecutionPainted"
+      ]
+    }}
+  ]}},
+  {{"Level2": [
+    {{
+      "DrawnDecoration-not-historiated": [
+        "DD-nh-Panels",
+        "Initials",
+        "DD-nh-Borders"
+      ]
+    }},
+    {{
+      "DepictiveMotives-not-historiated": [
+        "figural",
+        "zoomorphic",
+        "otherMotivs"
+      ]
+    }},
+    "Display-Script-calligraphic-with-decorative-character"
+  ]}},
+  {{"Level3":[ 
+    {{
+      "GraphicMeansOfAuthenticating": [
+        "Chrismon",
+        "Monogram",
+        "Rota",
+        "SignumRecognitionis",
+        "SignumNotarile",
+        "OtherSignsOfAuthentication"
+      ]
+    }}]   
+}}],
+    "sublemma": [{{
+    "WithAdditionalColours": [
+        "Miniatures",
+        "Initials",
+        "Borders",
+        "CoatOfArms",
+        "ExecutionDraw",
+        "ExecutionPainted"
+    ],
+    "DrawnDecoration-not-historiated": [
+        "DD-nh-Panels",
+        "Initials",
+        "DD-nh-Borders"
+    ],
+    "DepictiveMotives-not-historiated": [
+        "figural",
+        "zoomorphic",
+        "otherMotivs"
+    ],
+    "GraphicMeansOfAuthenticating": [
+        "Chrismon",
+        "Monogram",
+        "Rota",
+        "SignumRecognitionis",
+        "SignumNotarile",
+        "OtherSignsOfAuthentication"
+    ]
+}}]}} }}
 </div>
       <script type="text/javascript">
       jQuery(document).ready(function(){{ 
@@ -1242,8 +1305,6 @@ form{{
         }});
       }});
       </script>     
-    
-
     </div>
   </xrx:view>
 </xrx:widget>

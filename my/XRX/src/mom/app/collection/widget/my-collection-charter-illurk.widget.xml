@@ -336,21 +336,20 @@ span#onoff {{
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrx</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxLayout</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxTabs</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxSelect1</xrx:resource>        
+        <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxSelect1</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxMessage</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxVisualxml</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxElements</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xrxAttributes</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxTagname</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxReport</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxRepeat</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrx</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxRepeat</xrx:resource>       
         <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/imageann</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xmleditor</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/i18nText</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xmleditor</xrx:resource>       
         <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/imageTool</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/imageToolWidget</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/createanno</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/i18nText</xrx:resource>
     </xrx:jss>
     <xrx:instances>
         <xrx:instance id="icharter">{ $entry-as-string }</xrx:instance>
@@ -413,7 +412,7 @@ span#onoff {{
                         </xrx:rules>
                         <xrx:true>
                             <div data-demoid="09a18129-a5e4-42f7-ab9e-1d4bcf9497bb" id="dui-imageann">
-                                <script type="text/javascript">
+                <script type="text/javascript">
                 $(document).ready(function(){{
                   jQuery(document).imageTool({{
                     requestRoot: "{ conf:param('request-root') }",
@@ -918,13 +917,12 @@ span#onoff {{
             <div class="xrx-forms-json-values" style="display:none">
     {{   
     "cei:index":{{
-   "indexName": ["arthistorian"],
+   "indexName": ["other", "arthistorian"],
     "lemma": ["N1", "N2", "N3"],
     "sublemma": [{{"N1":["HistoriatedDecoration","WithAdditionalColours: Miniatures", "WithAdditionalColours: Initials", "WithAdditionalColours: Borders", "WithAdditionalColours: CoatsofArms", "WithAdditionalColours: ExecutionDraw", "WithAdditionalColours: ExecutionPainted"]}},
     {{"N2": ["DrawnDecorationnothistoriated: DD-nh-Panels", "DrawnDecorationnothistoriated: Initials", "DrawnDecorationnothistoriated: DD-nh-Borders", "DepictiveMotivesnothistoriated: figural", "DepictiveMotivesnothistoriated: zoomorphic", "DepictiveMotivesnothistoriated: otherMotivs"]}},
     {{"N3": ["GraphicMeansofAuthenticating: Chrismon", "GraphicMeansofAuthenticating: Monogramm", "GraphicMeansofAuthenticating: Rota", "GraphicMeansofAuthenticating: SignumRecognitionis", "GraphicMeansofAuthenticating: SignumNotarile", "GraphicMeansofAuthenticating: OtherSignsofAuthentication"]}}
      ]}}}}
-
 </div>
             <script type="text/javascript">
       jQuery(document).ready(function(){{ 
@@ -939,7 +937,6 @@ span#onoff {{
         }});
         jQuery("#icharter").appendTo("#dcharter-instance").show();
         jQuery(".anchor", "#dinner-textann").click(function() {{
-          console.log('das passiert, wenn man die Reiter im Editor wechselt');
           $(".xrx-visualxml").each(function(){{ $(this).xrxVisualxml("clear"); }});
         }});
        }});      
