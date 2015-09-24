@@ -35,8 +35,12 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:expression>$data//atom:id/text()</xrx:expression>
     </xrx:variable>
     <xrx:variable>
+      <xrx:name>$base-collection</xrx:name>
+      <xrx:expression>if( count( tokenize($atomid, '-') ) = 5 ) then $user:db-base-collection else metadata:base-collection('charter', 'saved')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
       <xrx:name>$entry</xrx:name>
-      <xrx:expression>$user:db-base-collection//atom:id[.=$atomid]/parent::atom:entry</xrx:expression>
+      <xrx:expression>$base-collection//atom:id[.=$atomid]/parent::atom:entry</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$base-collection-path</xrx:name>
