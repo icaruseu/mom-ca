@@ -390,6 +390,14 @@ declare function widget:parse($element as element(), $main-widget as element()*,
                 $main-widget,
                 $base-collection
             )  
+        case element(xrx:select) return
+       
+            widget:parse(
+            
+                <div class="xrx-select" xmlns="http://www.w3.org/1999/xhtml" data-xrx-bind="{ $child/@bind/string() }">{ $child/* }</div>,
+                $main-widget,
+                $base-collection
+            )  
                   
         case element(xrx:select1) return
         

@@ -924,6 +924,7 @@ span#onoff {{
     {{"N2": ["DrawnDecorationnothistoriated: DD-nh-Panels", "DrawnDecorationnothistoriated: Initials", "DrawnDecorationnothistoriated: DD-nh-Borders", "DepictiveMotivesnothistoriated: figural", "DepictiveMotivesnothistoriated: zoomorphic", "DepictiveMotivesnothistoriated: otherMotivs"]}},
     {{"N3": ["GraphicMeansofAuthenticating: Chrismon", "GraphicMeansofAuthenticating: Monogramm", "GraphicMeansofAuthenticating: Rota", "GraphicMeansofAuthenticating: SignumRecognitionis", "GraphicMeansofAuthenticating: SignumNotarile", "GraphicMeansofAuthenticating: OtherSignsofAuthentication"]}}
      ]}}}}
+
 </div>
             <script type="text/javascript">
       jQuery(document).ready(function(){{ 

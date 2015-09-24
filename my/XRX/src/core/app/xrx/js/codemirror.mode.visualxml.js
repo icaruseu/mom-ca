@@ -154,16 +154,22 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	function showMixedcontentAttributes(cm, element, token) {
 		
 		if(cm.visualxml.element.attr("data-xrx-attributes") == "no") return;
-
+	
 		var jsonAttributeSuggestions = jQuery.parseJSON($('.xrx-forms-json-attribute-suggestions').text());
-		var suggestedAttributes = jsonAttributeSuggestions[element.qName];
+		var suggestedAttributes = jsonAttributeSuggestions[element.qName];		
+	
+		
 		$(".xrx-attributes").xrxAttributes({
 			elementName:element.qName,
 			suggestedAttributes:suggestedAttributes,
 			editedAttributes:element.attributes,
+			//suggestedValues:element.attributes,
 			cm:cm,
 			token:token
 		});
+		console.log("Das sind die element Attribute");
+		console.log(element.qName);
+	
 	}
 	
 	function hideMixedcontentAttributes(cm) {
@@ -804,7 +810,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 		var firstTokenInside = cm.getTokenAt(firstPositionInside);
 		var place = cursorPlace(firstTokenOutside, firstTokenInside);
 		var xml = clean(change);
-		
+		console.log('that is the place');
 		console.log(place);
 		
 		switch(place) {

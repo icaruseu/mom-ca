@@ -1,5 +1,5 @@
 /*!
- * jQuery UI Forms Mixed Content Attributes
+ * jQuery UI Forms Mixed Content Attributes New
  *
  * Depends:
  *   jquery.ui.core.js
@@ -25,7 +25,7 @@ var uiFormsTableClass				=	"forms-table";
 var uiFormsTableRowClass			=	"forms-table-row";
 var uiFormsTableCellClass			=	"forms-table-cell";
 
-$.widget( "ui.xrxAttributes", {
+$.widget( "ui.xrxAttributesnew", {
 	
 	options: {
 		elementName:null,

@@ -451,9 +451,11 @@ form{{
                           $("#"+ caseDiv, "#dviewer-switch").show();
                       }}
                   }});
-                  
+
                 }});     
                 </script>                
+         
+
                 <xrx:select1 appearance="xrx-appearance-buttonset" id="s1viewer-choice">
                   <xrx:item>
                     <xrx:label>
@@ -1240,6 +1242,8 @@ form{{
         }});
       }});
       </script>     
+    
+
     </div>
   </xrx:view>
 </xrx:widget>
