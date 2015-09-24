@@ -191,21 +191,21 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <style type="text/css">
 
 #dmy-collection-charter-edit, #dtextann, #dinner-textann{{
-	position:relative;
-	float:none;
-	display:block;
-	width:100%;
-	height:100%;
+  position:relative;
+  float:none;
+  display:block;
+  width:100%;
+  height:100%;
 }}
 .xrx-layout{{
-	display:block;
-	position:relative;
-	float:left;
-	width:100%;
-	height:100%;
+  display:block;
+  position:relative;
+  float:left;
+  width:100%;
+  height:100%;
 }}
 .xrx-report *{{
-	font-size:0.9em;
+  font-size:0.9em;
 }}
 .xrx-layout .ui-layout-center, .xrx-layout .ui-layout-south, .xrx-layout .ui-layout-east, .xrx-layout .ui-layout-north{{
   padding:0; /* center-container inset will be created by an inset option */
@@ -220,15 +220,15 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   position:relative;
 }}
 .xrx-repeat, .CodeMirror {{
-	margin-left: 2%;
+  margin-left: 2%;
 }}
 
 fieldset {{
-	margin: 2%;
+  margin: 2%;
 }}
 
 #dviewer-switch, .xrx-case, #icharter{{
-	height:100%;
+  height:100%;
 }}
 /*
 * imageann
@@ -258,18 +258,18 @@ fieldset {{
   margin:5px;
 }}
 #s1viewer-choice{{
-	position:absolute;
-	margin:10px;
-	z-index:99;
-	font-size:.6em;
+  position:absolute;
+  margin:10px;
+  z-index:99;
+  font-size:.6em;
 }}
 #dcharter-instance{{
   white-space:pre-wrap;
   overflow:auto !important;
 }}
 form{{
-	margin:0;
-	padding:0;
+  margin:0;
+  padding:0;
 }}
 /*
 * table layout
@@ -294,8 +294,14 @@ form{{
 * jQuery UI
 */
 .ui-tabs-anchor{{
-	font-size:.8em;
+  font-size:.8em;
 }}
+/*
+* codemirror textarea hidden within select
+*/
+/*div.xrx-select div.CodeMirror {{ visibility: hidden;
+}}*/
+
     </style>
   </xrx:csss>
   <xrx:jss>
@@ -312,6 +318,7 @@ form{{
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/droppable</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/menu</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/position</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/tabs</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/layout</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/imgareaselect</xrx:resource>
@@ -338,10 +345,11 @@ form{{
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxLayout</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxTabs</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxSelect1</xrx:resource>
+   <!--  <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxSelect</xrx:resource> -->
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxMessage</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxVisualxml</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxElements</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxAttributes</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xrxAttributes</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxTagname</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxReport</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxRepeat</xrx:resource>
@@ -349,6 +357,7 @@ form{{
     <!-- mom resources -->
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/imageann</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xmleditor</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xrxSelect</xrx:resource>
     <!-- annotation resources -->
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/i18nText</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/imageTool</xrx:resource>
@@ -361,7 +370,7 @@ form{{
   <xrx:binds>
     <!-- abstract -->
     <xrx:bind id="bidno" nodeset="/descendant::cei:body/child::cei:idno"/>
-    <xrx:bind id="bclass" nodeset="/descendant::cei:class"/>
+    <!-- <xrx:bind id="bclass" nodeset="/descendant::cei:class"/> -->
     <xrx:bind id="babstract" nodeset="/descendant::cei:abstract"/>
     <xrx:bind id="bissued-date-range" nodeset="/descendant::cei:issued/child::cei:dateRange"/>
     <xrx:bind id="bissued-place" nodeset="/descendant::cei:issued/child::cei:placeName"/>
@@ -423,7 +432,7 @@ form{{
             <xrx:true>
               <div data-demoid="09a18129-a5e4-42f7-ab9e-1d4bcf9497bb" id="dui-imageann">
                 <script type="text/javascript">
-						    $(document).ready(function(){{
+                $(document).ready(function(){{
                   jQuery(document).imageTool({{
                     requestRoot: "{ conf:param('request-root') }",
                     charter: "{ $uuid }",
@@ -433,18 +442,18 @@ form{{
                   }});
                   jQuery(document).i18nText({{
                     lang: "{ $xrx:lang }",
-           	        requestRoot: "{ conf:param('request-root') }"
-           	      }});
-						      jQuery("input", "#s1viewer-choice").change(function(){{
-						          if ($(this).is(':checked')) {{
-						          		var caseDiv = $(this).val();
-									        $(".xrx-case", "#dviewer-switch").hide();
-									        $("#"+ caseDiv, "#dviewer-switch").show();
-									    }}
-						      }});
+                    requestRoot: "{ conf:param('request-root') }"
+                  }});
+                  jQuery("input", "#s1viewer-choice").change(function(){{
+                      if ($(this).is(':checked')) {{
+                          var caseDiv = $(this).val();
+                          $(".xrx-case", "#dviewer-switch").hide();
+                          $("#"+ caseDiv, "#dviewer-switch").show();
+                      }}
+                  }});
                   
-						    }});     
-		            </script>
+                }});     
+                </script>                
                 <xrx:select1 appearance="xrx-appearance-buttonset" id="s1viewer-choice">
                   <xrx:item>
                     <xrx:label>
@@ -472,12 +481,12 @@ form{{
                     </div>
                     <div data-demoid="b90a2b1c-9164-49b9-a8cb-f47f1413947c" id="folio-links">
                       <ol id="ui-imageselect">
-									      {
-									      for $folio at $p in $folios
-									      return
-									      <li title="{ $urls[$p] }">{ if($p = 1) then attribute class { 'ui-widget-content ui-selected' } else attribute class { 'ui-widget-content' } }{ $folio }</li>
-									      }
-									    </ol>
+                        {
+                        for $folio at $p in $folios
+                        return
+                        <li title="{ $urls[$p] }">{ if($p = 1) then attribute class { 'ui-widget-content ui-selected' } else attribute class { 'ui-widget-content' } }{ $folio }</li>
+                        }
+                      </ol>
                     </div>
                     <div data-demoid="f224f11c-46c7-41b3-839d-02eb5f9e278a" id="ui-imageann" style="width:100%;height:100%;position:relative;overflow:hidden;">
                       <div data-demoid="5c720e82-758a-4e64-9b13-a6295c9e833c">
@@ -985,7 +994,7 @@ form{{
                           <xrx:visualxml attributes="no" bind="blang-mom" elements="no"/>
                         </div>
                         <div data-demoid="c46aa058-3b4d-48eb-958a-905652a5754b" id="tab-7">
-                         <!--  <div class="dlabel">
+                         <div class="dlabel">
                                 <span class="dlabel-text">
                                      <xrx:i18n>
                                        <xrx:key>cei_class</xrx:key>
@@ -993,9 +1002,9 @@ form{{
                                      </xrx:i18n>
                                </span>
                          </div>
-                          <div>
-                              <xrx:visualxml attributes="no" bind="bclass" elements="no"/>
-                          </div>-->
+                          <xrx:select bind="bback">
+                              <xrx:visualxml ref="/child::cei:class"/>
+                         </xrx:select>
                           <div class="dlabel" data-demoid="c2f22510-3428-4bb0-8259-229701056a49">
                             <span class="dlabel-text">
                               <xrx:i18n>
@@ -1202,23 +1211,35 @@ form{{
       <div class="xrx-forms-json-attribute-suggestions" data-demoid="a9a1b205-f185-4e4c-8fcc-8d1a397c881e" style="display:none">{ $attribute-suggestions }</div>
       <div class="xrx-forms-json-element-suggestions" data-demoid="90164e9b-8793-4426-9cb3-9c91b1252326" style="display:none">{ $element-suggestions }</div>
       <div class="xrx-forms-json-topics" data-demoid="29dc1908-0c8d-4501-ab7d-5e0cbdc492b9" style="display:none">{ $topics }</div>
+      <!-- fix me: the xrx-forms-json-values generate automatically, used for controlled vocabulary -->
+            <div class="xrx-forms-json-values" style="display:none">
+    {{   
+    "cei:index":{{
+   "indexName": ["arthistorian"],
+    "lemma": ["N1", "N2", "N3"],
+    "sublemma": [{{"N1":["HistoriatedDecoration","WithAdditionalColours: Miniatures", "WithAdditionalColours: Initials", "WithAdditionalColours: Borders", "WithAdditionalColours: CoatsofArms", "WithAdditionalColours: ExecutionDraw", "WithAdditionalColours: ExecutionPainted"]}},
+    {{"N2": ["DrawnDecorationnothistoriated: DD-nh-Panels", "DrawnDecorationnothistoriated: Initials", "DrawnDecorationnothistoriated: DD-nh-Borders", "DepictiveMotivesnothistoriated: figural", "DepictiveMotivesnothistoriated: zoomorphic", "DepictiveMotivesnothistoriated: otherMotivs"]}},
+    {{"N3": ["GraphicMeansofAuthenticating: Chrismon", "GraphicMeansofAuthenticating: Monogramm", "GraphicMeansofAuthenticating: Rota", "GraphicMeansofAuthenticating: SignumRecognitionis", "GraphicMeansofAuthenticating: SignumNotarile", "GraphicMeansofAuthenticating: OtherSignsofAuthentication"]}}
+     ]}}}}
+</div>
       <script type="text/javascript">
-	    jQuery(document).ready(function(){{ 
-	    	jQuery.ajaxSetup({{ cache: false }});
-				window.XPath = new XPath();
-				window.XPath.setNamespaceContext(
-						["atom", "cei"],
-						["http://www.w3.org/2005/Atom", "http://www.monasterium.net/NS/cei"]
-						);
-	      jQuery(document).xmleditor({{
-	        requestRoot: "{ conf:param('request-root') }"
-	      }});
-	      jQuery("#icharter").appendTo("#dcharter-instance").show();
-				jQuery(".anchor", "#dinner-textann").click(function() {{
-					$(".xrx-visualxml").each(function(){{ $(this).xrxVisualxml("clear"); }});
-				}});
-	    }});
-	    </script>
+      jQuery(document).ready(function(){{ 
+        jQuery.ajaxSetup({{ cache: false }});
+                    
+        window.XPath = new XPath();
+        window.XPath.setNamespaceContext(
+            ["atom", "cei"],
+            ["http://www.w3.org/2005/Atom", "http://www.monasterium.net/NS/cei"]
+            );
+        jQuery(document).xmleditor({{
+          requestRoot: "{ conf:param('request-root') }"
+        }});
+        jQuery("#icharter").appendTo("#dcharter-instance").show();
+        jQuery(".anchor", "#dinner-textann").click(function() {{
+          $(".xrx-visualxml").each(function(){{ $(this).xrxVisualxml("clear"); }});
+        }});
+      }});
+      </script>     
     </div>
   </xrx:view>
 </xrx:widget>

@@ -57,6 +57,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     </xrx:module>
   </xrx:modules>
   <xrx:resources>
+      <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xrxAttributes</xrx:atomid>
+      <xrx:relativepath>js/</xrx:relativepath>
+      <xrx:name>jquery.ui.xrxAttributes.js</xrx:name>
+    </xrx:resource>
     <xrx:resource>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/charterItems</xrx:atomid>
       <xrx:relativepath>js/</xrx:relativepath>
