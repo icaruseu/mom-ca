@@ -47,7 +47,7 @@
             
             editAttributesDiv = $('<div></div>').addClass(uiEditAttributesDivClass).addClass(uiFormsTableClass),
             
-            droppableAttributeDiv = $('<div>&#160;</div>').addClass(uiDroppableAttributeDivClass),
+            droppableAttributeDiv = $('<div">&#160;</div>').addClass(uiDroppableAttributeDivClass),
             
             suggestedAttributesDiv = $('<div></div>').addClass(uiSuggestedAttributesDivClass),
             controlledVocButton = $('<div></div>').addClass('controlledVocabulary')
@@ -102,9 +102,7 @@
                     }
                 }
             }
-            
-            /* the global variable is set to true, as default value. */
-            // controlledVoc = true;
+
             
             /* the jquery menu is initialized */
             $(function () {
@@ -136,7 +134,6 @@
             for (var i = 0 in editedAttributes) {
                 var cle = editedAttributes[i].qName;
                 var val = editedAttributes[i].value;
-                console.log('§§§§§§§§§§§§§§§§§§§§§§§§§§§§');
                 // proofarray.push( cle + ":" + val);
             }
             /*variables to get the values for the controlled vocabulary */
@@ -364,13 +361,10 @@
                                     $("div", "." + uiSuggestedAttributesDivClass).addClass("ui-state-disabled");
                                 }
                             }
-                            //newli mit menuliste ausgetauschen
-                            
-                            console.log('WERde ich ignoriert oder nicht???????????')
                         }
                     }
                 }
-                //für for-schleife
+               
             }
             menuliste.change(function (event) {
                 self = this;
@@ -539,14 +533,16 @@
                 console.log('die edierten Attribute noch mals ausgeben lassen');
                 console.log(editedAttributes);
                 var inallSpans = $("div", "." + uiEditAttributeDivClass).find("span").not(".ui-icon");
-                console.log('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTesting for FUNNNNNNNNNN');
-                console.log(inallSpans);
                 var titelarray =[];
-                for (var i = 0; i < inallSpans.length; i++) {
-                    titelarray.push(inallSpans[i].value);
+               for (var i = 0; i < inallSpans.length; i++) {
+                		var at = inallSpans[i].title;
+                		console.log(at);
+                	if (at !== undefined && at != ""){                        		
+                			titelarray.push(at);
+                		}                       	
                 }
                 var suggestedAttributesNamen =[];
-                for (var j = 0; j < suggestedAttributes.length; j++) {
+              for (var j = 0; j < suggestedAttributes.length; j++) {
                     var index = titelarray.indexOf(suggestedAttributes[j]);
                     if (index == -1) {
                         suggestedAttributesNamen.push(suggestedAttributes[j]);
@@ -621,55 +617,53 @@
             cm = self.options.cm,
             token = self.options.token;
             
-            controlledVocButton.append($('<span id="onoff"></span>').css("float", "right").append($('<input type="radio" name="radio" id="on" checked="checked"/><label for="on" class="plug"> On </label>').css("font-size", "0.5em")).
-            append($('<input type="radio" name="radio" id="off"/><label class="plug" for="off"> Off </label>').css("font-size", "0.5em")))
-            if (controlledVoc == true) {
+            controlledVocButton.append($('<span id="onoff"></span>').css("float", "right").append($('<input type="radio" name="radio" id="on" value="on" checked="checked"/><label for="on" class="plug"> On </label>').css("font-size", "0.5em")).
+            append($('<input type="radio" name="radio" id="off" value="off"/><label class="plug" for="off"> Off </label>').css("font-size", "0.5em")))
+            controlledVocButton.find("span").buttonset();
+           if (controlledVoc == true) {
                 controlledVocButton.find('#on').attr("checked", "checked");
             } else {
                 controlledVocButton.find('#off').attr("checked", "checked");
             }
-            controlledVocButton.find('#onoff').buttonset().click(function (event) {
-                var nodeset = $(document).xrx.nodeset(cm.getInputField());
-                var controlId = nodeset.only.levelId;
-                var relativeId = token.state.context.id.split('.').splice(1);
-                var contextId = controlId.concat(relativeId);
-                var kind = $(this)[0].childNodes;
-                for (var i = 0; i < kind.length; i++) {
-                    console.log($('label[aria-pressed="true"]').attr('for'));
-                    if ($('label[aria-pressed="true"]').attr('for') == 'on') {
-                        /*var row = $("div:contains('indexName')", "." + uiEditAttributesDivClass);
-                        if (row.length > 0){
-                        var sein = new AttributesImpl();
-                        sein.addAttribute(undefined, 'indexName', 'indexName', undefined, '');
-                        row.remove();
-                        $("div[title='indexName']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-                        $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
-                        }  */
-                        controlledVoc = true;
-                        self._create();
-                    } else {
-                        var inallSpans = $("div", "." + uiEditAttributeDivClass).find("span").not(".ui-icon");
-                        console.log('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTesting for FUNNNNNNNNNN');
-                        console.log(inallSpans);
-                        var titelarray =[];
-                        for (var i = 0; i < inallSpans.length; i++) {
-                            titelarray.push(inallSpans[i].value);
-                        }
-                        var suggestedAttributesNamen =[];
-                        for (var j = 0; j < suggestedAttributes.length; j++) {
-                            var index = titelarray.indexOf(suggestedAttributes[j]);
-                            if (index == -1) {
-                                suggestedAttributesNamen.push(suggestedAttributes[j]);
-                            }
-                        }
-                        console.log(suggestedAttributesNamen);
-                        for (var i = 0; i < suggestedAttributesNamen.length; i++) {
-                            $("div[title='" + suggestedAttributesNamen[i] + "']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-                        }
-                        controlledVoc = false;
-                        self._create();
+            
+            //controlledVocButton.find("input").on("click", function(){
+            	controlledVocButton.find("input").change( function(){
+            	 var nodeset = $(document).xrx.nodeset(cm.getInputField());
+                 var controlId = nodeset.only.levelId;
+                 var relativeId = token.state.context.id.split('.').splice(1);
+                 var contextId = controlId.concat(relativeId);
+                 
+            	var wert = $("input:radio:checked").val();
+            	console.log(wert);
+            	if (wert == "off"){
+            		var inallSpans = $("div", "." + uiEditAttributeDivClass).find("span").not(".ui-icon");
+                    var titelarray =[];
+                   for (var i = 0; i < inallSpans.length; i++) {
+                    		var at = inallSpans[i].title;
+                    		console.log(at);
+                    	if (at !== undefined && at != ""){                        		
+                    			titelarray.push(at);
+                    		}                       	
                     }
-                }
+                    console.log('TTdas titelarray N');
+                    console.log(titelarray);
+                    var suggestedAttributesNamen =[];
+                  for (var j = 0; j < suggestedAttributes.length; j++) {
+                        var index = titelarray.indexOf(suggestedAttributes[j]);
+                        if (index == -1) {
+                            suggestedAttributesNamen.push(suggestedAttributes[j]);
+                        }
+                    }
+                    console.log(suggestedAttributesNamen);
+                    for (var i = 0; i < suggestedAttributesNamen.length; i++) {
+                        $("div[title='" + suggestedAttributesNamen[i] + "']", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                    }
+                    controlledVoc = false;
+                   // self._create();
+            	}
+            	else{
+            		controlledVoc = true;
+            	}
             });
             console.log('Test controlledVoc');
             console.log(controlledVoc);

@@ -299,10 +299,14 @@ form{{
 span#onoff {{
   padding-bottom:1em;
 }}
+
+div.forms-mixedcontent-attribute-droppable {{
+  color:#E8E8E8; 
+}}
     </style>
     </xrx:csss>
     <xrx:jss>
-        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+          <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
@@ -343,13 +347,14 @@ span#onoff {{
         <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xrxAttributes</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxTagname</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxReport</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxRepeat</xrx:resource>       
+        <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxRepeat</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrx</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/imageann</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xmleditor</xrx:resource>       
+        <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xmleditor</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/i18nText</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/imageTool</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/imageToolWidget</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/createanno</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/i18nText</xrx:resource>
     </xrx:jss>
     <xrx:instances>
         <xrx:instance id="icharter">{ $entry-as-string }</xrx:instance>
@@ -917,7 +922,7 @@ span#onoff {{
             <div class="xrx-forms-json-values" style="display:none">
     {{   
     "cei:index":{{
-   "indexName": ["other", "arthistorian"],
+   "indexName": ["arthistorian"],
     "lemma": ["N1", "N2", "N3"],
     "sublemma": [{{"N1":["HistoriatedDecoration","WithAdditionalColours: Miniatures", "WithAdditionalColours: Initials", "WithAdditionalColours: Borders", "WithAdditionalColours: CoatsofArms", "WithAdditionalColours: ExecutionDraw", "WithAdditionalColours: ExecutionPainted"]}},
     {{"N2": ["DrawnDecorationnothistoriated: DD-nh-Panels", "DrawnDecorationnothistoriated: Initials", "DrawnDecorationnothistoriated: DD-nh-Borders", "DepictiveMotivesnothistoriated: figural", "DepictiveMotivesnothistoriated: zoomorphic", "DepictiveMotivesnothistoriated: otherMotivs"]}},
