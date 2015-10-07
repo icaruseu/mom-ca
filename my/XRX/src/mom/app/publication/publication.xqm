@@ -30,6 +30,21 @@ declare namespace xrx="http://www.monasterium.net/NS/xrx";
 declare namespace xhtml="http://www.w3.org/1999/xhtml";
 declare namespace bfc="http://betterform.sourceforge.net/xforms/controls";
 
+(: Build URL from ATOM-Tag :)
+declare function publication:build-url($atomid as xs:string) as xs:string? {
+    let $token := tokenize($atomid, "/")
+    let $sub := subsequence($token, 3, count($token) - 2)
+    let $context := if(count($sub) = 2) then "collection" else "fond"
+    let $objectid := $sub[last()]
+    let $archiveid := $sub[1]
+    let $fondid := $sub[2]
+    let $collectionid := $sub[1]
+    let $url := if($context = "collection") then concat($collectionid, "/", $objectid) else concat($archiveid, "/", $fondid, "/", $objectid)
+    
+    return
+          $url
+};
+
 declare function publication:is-saved($user-xml as element(xrx:user)*, $atomid as xs:string) as xs:boolean {
 	exists($user-xml//xrx:saved[xrx:id=$atomid])
 };
@@ -134,7 +149,8 @@ declare function publication:edit-trigger(
     $request-root as xs:string,
     $is-moderator as xs:boolean,
     $widget-key as xs:string,
-    $edit-charter-message as element(xhtml:span)) {
+    $edit-charter-message as element(xhtml:span),
+    $edit-mode as xs:string) {
 
     if($is-moderator and (matches($widget-key,'charters-to-publish'))) then
     <div>
@@ -154,9 +170,16 @@ declare function publication:edit-trigger(
         <xf:trigger appearance="minimal">
             <xf:label>{ $edit-charter-message }</xf:label>
             <xf:action ev:event="DOMActivate">
-              <xf:load show="replace">
-                <xf:resource value="'{ $request-root }edit-charter?id={ $atomid }'"/>
-              </xf:load>
+            {
+              if ($edit-mode = "editmom3") then
+                  <xf:load show="new">
+                    <xf:resource value="'{ $request-root }/{publication:build-url($atomid)}/edit'"/> -->
+                  </xf:load>
+              else
+                  <xf:load show="replace">
+                      <xf:resource value="'{ $request-root }edit-charter?id={ $atomid }'"/>
+                  </xf:load>
+              }
             </xf:action>
         </xf:trigger>
     </div>
@@ -388,6 +411,8 @@ declare function publication:user-actions(
     $remove-charter-message as element(xhtml:span),
     $publish-charter-message as element(xhtml:span)) as element() {
 
+    let $editmom3msg :=           <span>EditMOM 3 beta</span>
+    
     (: charter is saved by current user :)
     let $case-save-charter :=
     <xf:case id="csave-charter-{ $num }">
@@ -397,7 +422,8 @@ declare function publication:user-actions(
     (: charter is free to edit :)
     let $case-edit-charter :=
     <xf:case id="cedit-charter-{ $num }">
-        { publication:edit-trigger($atomid,$num,$request-root,$is-moderator,$widget-key,$edit-charter-message) }
+        { publication:edit-trigger($atomid,$num,$request-root,$is-moderator,$widget-key,$edit-charter-message, "") }
+        { if($widget-key = "saved-charters") then publication:edit-trigger($atomid,$num,$request-root,$is-moderator,$widget-key,publication:change-element-ns($editmom3msg, "http://www.w3.org/1999/xhtml", "xhtml"), "editmom3") else ""}
         {
         if($is-moderator) then 
             publication:publish-trigger($atomid,$num,$request-root,$widget-key,$publish-charter-message)
@@ -431,3 +457,18 @@ declare function publication:user-actions(
         </xf:switch>
     </xf:group>
 };
+declare function publication:change-element-ns
+  ( $elements as element()* ,
+    $newns as xs:string ,
+    $prefix as xs:string )  as element()? {
+
+   for $element in $elements
+   return
+   element {QName ($newns,
+                      concat($prefix,
+                                if ($prefix = '')
+                                then ''
+                                else ':',
+                                local-name($element)))}
+           {$element/@*, $element/node()}
+ } ;

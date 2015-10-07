@@ -126,6 +126,7 @@ $.widget( "ui.charterItems", {
             versionOfLink = value["versionOfLink"],
             versionOfTitle = value["versionOfTitle"],
             justLinked = value["justLinked"],
+            url = value["url"],
             itemDivCharter = $('<div></div>')
               .addClass("forms-table-row")
               .attr("id", key)
@@ -161,11 +162,10 @@ $.widget( "ui.charterItems", {
               itemLinkIllurk = $('<div></div>')
               .addClass("forms-table-cell")
               .append($('<a></a>')
-                .attr("href", requestRoot + "charter/" + key + "/edit")
-                      .attr("target", "_blank")
-                      .append($('<button></button>')
-                      .text("Default Editor")
-                )
+                .attr("href", requestRoot + url + "/edit")
+	            .attr("target", "_blank")
+	            .append($('<button></button>')
+	            .text("Default Editor") )
                 
               ).append(
                   $('<a></a>').attr("href", requestRoot + "charter/" + key + "/illurk").attr("target", "_blank").append(
