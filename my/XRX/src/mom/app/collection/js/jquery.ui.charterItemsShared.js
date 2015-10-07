@@ -117,6 +117,7 @@ $.widget( "ui.charterItemsShared", {
             versionOfLink = value["versionOfLink"],
             versionOfTitle = value["versionOfTitle"],
             owner = value["owner"],
+            url = value["url"],
             itemDivCharter = $('<div></div>')
               .addClass("forms-table-row")
               .attr("id", key)
@@ -137,7 +138,7 @@ $.widget( "ui.charterItemsShared", {
            itemLinkIllurk = $('<div></div>')
             .addClass("forms-table-cell")
             .append($('<a></a>')
-              .attr("href", requestRoot + "charter/" + key + "/edit")
+              .attr("href", requestRoot + url + "/edit")
                   .attr("target", "_blank")
                   .append($('<button></button>')
                   .text("Default Editor")

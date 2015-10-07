@@ -94,6 +94,17 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
             let $version-of-link := concat(conf:param('request-root'), substring-after($atomid-linked-charter, '/charter/'), '/charter')
             let $ownerid := xmldb:decode(tokenize(util:collection-name($entry), '/')[(last() - 2)])
             let $owner-label := concat(user:firstname-name($ownerid), ' (', $ownerid, ')')
+            (: These is part of the function publication:build-url
+               ~ function is not callable from service :)
+            let $token := tokenize($entry/atom:id/text(), "/")
+            let $sub := subsequence($token, 3, count($token) - 2)
+            let $context := if(count($sub) = 2) then "collection" else "fond"
+            let $archiveid := $sub[1]
+            let $fondid := $sub[2]
+            let $collectionid := $sub[1]
+            let $url := if($context = "collection") then concat($collectionid, "/", $objectid) else concat($archiveid, "/", $fondid, "/", $objectid)
+                          
+            
             order by $date
             return
             jsonx:pair(
@@ -119,6 +130,10 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
                   jsonx:pair(
                     jsonx:string("owner"),
                     jsonx:string(concat($owner-label, ''))
+                  ), 
+                  jsonx:pair(
+                    jsonx:string("url"),
+                    jsonx:string($url)
                   )
                 )         
               )
