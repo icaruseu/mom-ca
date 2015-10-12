@@ -48,7 +48,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$entry</xrx:name>
-      <xrx:expression>$base-collection//atom:id[.=$atomid]/parent::atom:entry</xrx:expression>
+      <xrx:expression>if(not(exists($base-collection//atom:id[.=$atomid]/parent::atom:entry))) then $user:db-base-collection//atom:id[.=$atomid]/parent::atom:entry else $base-collection//atom:id[.=$atomid]/parent::atom:entry</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$base-collection-path</xrx:name>
