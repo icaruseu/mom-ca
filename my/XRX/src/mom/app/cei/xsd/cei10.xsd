@@ -4,7 +4,7 @@
             <xs:documentation xml:lang="deu"> Wurzelelement für alle Dokumente, die den Regeln der
                 CEI (Charters Encoding Initiative, http://www.cei.lmu.de) folgen. CEI-Ableger mit
                 Angaben zur EditMOM-Verarbeitung als appinfo und verringert auf ein
-                Auszeichnungskonzept für Monasterium.net 2006-05-21 Änderungen: 2010-02-08:
+                Auszeichnungskonzept für Monasterium.net 2006-05-21 Änderungen: 2015-10-17: supplied hinzugefügt (GV) 2010-02-08:
                 group:layout als Kind von abstract eingeführt 2009-11-20: listBibl wieder eingeführt
                 2009-09-04: minOccurs="1" und maxOccurs="1" für Elemente "body/idno", "issued" und
                 "date_sort" für Validierung beim Import eingeführt (JG) 2009-09-03: persName als
@@ -3008,6 +3008,44 @@
                     <xs:element ref="del"/>
                     <xs:element ref="damage"/>
                     <xs:element ref="handShift"/>
+                    <xs:group ref="Sachauszeichnung"/>
+                    <xs:group ref="Referenz"/>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attributeGroup ref="transcription"/>
+            <xs:attributeGroup ref="lang"/>
+            <xs:attributeGroup ref="standard"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="supplied">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>cei_supplied</xrx:key>
+                        <xrx:default>supplied</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+                <xrxe:menu-item>
+                    <xrx:i18n>
+                        <xrx:key>original</xrx:key>
+                        <xrx:default>original</xrx:default>
+                    </xrx:i18n>
+                </xrxe:menu-item>
+                <xrxe:min-occur>0</xrxe:min-occur>
+                <xrxe:max-occur>unbounded</xrxe:max-occur>
+            </xs:appinfo>
+            <xs:documentation xml:lang="deu">
+                Hinzufügungen von Text, der in der Vorlage nicht dokumentiert ist, durch den Editor.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="c"/>
+                    <xs:element ref="lb"/>
+                    <xs:element ref="pb"/>
+                    <xs:element ref="damage"/>
                     <xs:group ref="Sachauszeichnung"/>
                     <xs:group ref="Referenz"/>
                 </xs:choice>
