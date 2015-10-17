@@ -345,8 +345,8 @@ it leaves the active development stage.
             <span>: { $wcharter:idno }</span>  
           </div>
           }
-<!-- FixMe: Mieser Hack, damit ich einen Link auf EditMOM3 kriege -->
-          <span><a href="/mom/charter/{$uuid}/edit" target="_blank">
+<!-- Link auf EditMOM3 -->
+          <span><a href="/mom/charter/{ $charter:rcollectionid }/{ $charter:rcharterid }/edit" target="_blank">
             <xrx:i18n>
               <xrx:key>edit-charter</xrx:key>
               <xrx:default>Edit charter</xrx:default>
