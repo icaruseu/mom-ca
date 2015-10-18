@@ -47,6 +47,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:expression>$xrx:tokenized-uri[1]</xrx:expression>
     </xrx:variable>
     <xrx:variable>
+      <xrx:name>$colToken</xrx:name>
+      <xrx:expression>metadata:base-collection('charter', 'saved')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
       <xrx:name>$base-collection</xrx:name>
       <xrx:expression>if( count( tokenize($colToken, '-') ) = 5 ) then $user:db-base-collection else metadata:base-collection('charter', 'saved')</xrx:expression>
     </xrx:variable>
