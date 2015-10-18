@@ -2721,6 +2721,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element ref="expan"/>
                 <xs:element ref="add"/>
+                <xs:element ref="supplied"/>
                 <xs:element ref="del"/>
                 <xs:element ref="corr"/>
                 <xs:element ref="space"/>
@@ -2970,6 +2971,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                     <xs:element ref="lb"/>
                     <xs:element ref="pb"/>
                     <xs:element ref="add"/>
+                    <xs:element ref="supplied"/>
                     <xs:element ref="corr"/>
                     <xs:element ref="sic"/>
                     <xs:element ref="damage"/>
@@ -3016,6 +3018,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                     <xs:element ref="c"/>
                     <xs:element ref="lb"/>
                     <xs:element ref="add"/>
+                    <xs:element ref="supplied"/>
                     <xs:element ref="handShift"/>
                     <xs:group ref="Referenz"/>
                 </xs:choice>
@@ -3101,6 +3104,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="expan"/>
                     <xs:element ref="add"/>
+                    <xs:element ref="supplied"/>
                     <xs:element ref="c"/>
                     <xs:element ref="damage"/>
                     <xs:element ref="lb"/>

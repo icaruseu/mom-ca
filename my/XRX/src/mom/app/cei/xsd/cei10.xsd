@@ -2597,6 +2597,7 @@
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element ref="expan"/>
                 <xs:element ref="add"/>
+                <xs:element ref="supplied"/>
                 <xs:element ref="del"/>
                 <xs:element ref="corr"/>
                 <xs:element ref="space"/>
@@ -2838,6 +2839,7 @@
                     <xs:element ref="lb"/>
                     <xs:element ref="pb"/>
                     <xs:element ref="add"/>
+                    <xs:element ref="supplied"/>
                     <xs:element ref="corr"/>
                     <xs:element ref="sic"/>
                     <xs:element ref="damage"/>
@@ -2882,6 +2884,7 @@
                     <xs:element ref="c"/>
                     <xs:element ref="lb"/>
                     <xs:element ref="add"/>
+                    <xs:element ref="supplied"/>
                     <xs:element ref="handShift"/>
                     <xs:group ref="Referenz"/>
                 </xs:choice>
@@ -2963,6 +2966,7 @@
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="expan"/>
                     <xs:element ref="add"/>
+                    <xs:element ref="supplied"/>
                     <xs:element ref="c"/>
                     <xs:element ref="damage"/>
                     <xs:element ref="lb"/>
