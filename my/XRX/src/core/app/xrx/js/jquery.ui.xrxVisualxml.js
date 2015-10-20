@@ -24,7 +24,8 @@ $.widget( "ui.xrxVisualxml", {
 	 * Public Interface
 	 */
 	clear: function() {
-		
+		//console.log('die clear function in xrxVisualxml mit this codemirror');
+		//console.log(this.codemirror);
 		this.codemirror.clear();
 		this.codemirror.refresh();
 	},
@@ -35,7 +36,7 @@ $.widget( "ui.xrxVisualxml", {
 	},
 	
 	validationRefresh: function() {
-		
+		//console.log('Die ValidationRefresh funktion wird ausgelöst.')
 		var self = this, cm = this.codemirror;
 		var report = $('.xrx-report').xrxReport("asJson");
 		var messages = report["messages"], reportLength = report["length"], text = cm.getValue(), token, context;
@@ -141,6 +142,7 @@ $.widget( "ui.xrxVisualxml", {
 				$(".xrx-visualxml").each(function() {
 					$(this).xrxVisualxml("clear");
 				});
+				//console.log('die onfocus funktion unter self.codemirror');
 				$(self.codemirror.getScrollerElement()).addClass("xrx-forms-control-hover");
 				self.codemirror.matchElement();
 				self.codemirror.keepValue();
