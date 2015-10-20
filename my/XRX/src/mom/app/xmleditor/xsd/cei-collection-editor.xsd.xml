@@ -363,6 +363,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <xrx:element name="cei:add">
       <xrx:topic>original</xrx:topic>
     </xrx:element>
+    <xrx:element name="cei:supplied">
+      <xrx:topic>original</xrx:topic>
+    </xrx:element>
     <xrx:element name="cei:pict">
       <xrx:topic>original</xrx:topic>
     </xrx:element>

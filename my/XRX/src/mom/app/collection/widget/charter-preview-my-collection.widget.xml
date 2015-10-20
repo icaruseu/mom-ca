@@ -104,6 +104,10 @@ it leaves the active development stage.
       <xrx:name>$wcharter-preview:charter-url</xrx:name>
       <xrx:expression>concat(conf:param('request-root'), $charter:rcollectionid, '/', xmldb:encode($wcharter-preview:id), '/my-charter')</xrx:expression>
     </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:charter-edit-url</xrx:name>
+      <xrx:expression>concat(conf:param('request-root'), $charter:rcollectionid, '/', xmldb:encode($wcharter-preview:id), '/edit')</xrx:expression>
+    </xrx:variable>
     <!-- status of the charter -->
     <xrx:variable>
       <xrx:name>$wcharter-preview:is-bookmarked</xrx:name>
@@ -164,7 +168,7 @@ it leaves the active development stage.
         </div>
 <!-- FixMe: Mieser Hack, damit ich einen Link auf EditMOM3 kriege -->
         <div>
-          <a href="/mom/charter/{$uuid}/edit" target="_blank">
+          <a href="{$wcharter-preview:charter-edit-url}" target="_blank">
             <xrx:i18n>
               <xrx:key>edit-charter</xrx:key>
               <xrx:default>Edit charter</xrx:default>

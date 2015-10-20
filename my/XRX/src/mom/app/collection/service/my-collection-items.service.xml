@@ -55,7 +55,20 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
         if(count($entries) gt 0) then
           jsonx:object(
             for $entry at $num in $entries
+            
+            (:let $objectid := $entry/atom:id/text():)
             let $objectid := metadata:objectid($entry/atom:id/text())
+            
+            (: These is part of the function publication:build-url
+            ~ function is not callable from service :)
+            let $token := tokenize($entry/atom:id/text(), "/")
+            let $sub := subsequence($token, 3, count($token) - 2)
+            let $context := if(count($sub) = 2) then "collection" else "fond"
+            let $archiveid := $sub[1]
+            let $fondid := $sub[2]
+            let $collectionid := $sub[1]
+            let $url := if($context = "collection") then concat($collectionid, "/", $objectid) else concat($archiveid, "/", $fondid, "/", $objectid)
+              
             let $date := $entry//cei:dateRange/@from/string()
             let $idno := $entry//cei:body/cei:idno/text()
             let $title := 
@@ -95,7 +108,12 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
                   jsonx:pair(
                     jsonx:string("justLinked"),
                     jsonx:string($just-linked)
+                  ),
+                  jsonx:pair(
+                    jsonx:string("url"),
+                    jsonx:string($url)
                   )
+                  
 	              )         
               )
             )
