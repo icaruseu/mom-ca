@@ -436,6 +436,9 @@
                 	}                   	
           }                
                 var suggestedAttributesNamen =[];
+                console.log('wert editedatt suggeAttrnamen');
+                console.log(wert);
+                console.log(editedAttributes);
                 
                 for (var j = 0; j < suggestedAttributes.length; j++) {                    
                     var index = verw.indexOf(suggestedAttributes[j]);                    
@@ -443,7 +446,7 @@
                         suggestedAttributesNamen.push(suggestedAttributes[j]);
                     }
                 } 
-                
+                console.log(suggestedAttributesNamen);
                 if (verw.indexOf(name) != -1) {                    
                     var i = verw.indexOf(name); 
                     var b = wert.indexOf(inhalt);
@@ -481,10 +484,27 @@
                         $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");                        
                         $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
                     }
+                    var spantexte =[];
+                    var eintrag = $(".forms-mixedcontent-edit-attribute").find("span")
+                    for (var i = 0; i < eintrag.length; i++) {
+                        spantexte.push(eintrag[i].textContent);
+                    }
+                    var proofdiv = $("div", "." + uiSuggestedAttributeDivsClass);
+                    for (var i = 0; i < proofdiv.length; i++) {
+                        var proof = proofdiv[i].previousSibling.data;
+                        if (spantexte.indexOf(proof) == -1) {                       
+                            $("div:contains('" + proof + "')", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                        }
+                    
+                    }
+                    console.log('hier sind spantexte, eintrag, proof');
+                    console.log(spantexte);
+                    console.log(eintrag);
+                    console.log(proof);
                     $("div[title='indexName']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-                    for (var i = 0; i < suggestedAttributesNamen.length; i++) {                    
-                    $("div[title='" + suggestedAttributesNamen[i] + "']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-                }
+                   /* for (var i = 0; i < suggestedAttributesNamen.length; i++) {                    
+                    $("div[title='" + suggestedAttributesNamen[i] + "']", "." + uiSuggestedAttributesDivClass).draggable("enable");*/
+                
                 }
                 
                 if (name == 'lemma' && $(editAttribute).find("select").length == 1) {
@@ -495,14 +515,46 @@
                         var sein = new AttributesImpl();                        
                         sein.addAttribute(undefined, 'sublemma', 'sublemma', undefined, '');                       
                         var row = $("div:contains('sublemma')", "." + uiEditAttributesDivClass);                        
-                        row.remove();                        
-                        $("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");                        
+                        row.remove();
+                        var blende = suggestedAttributes;     
+                        if (blende.indexOf('lemma') != -1) {
+                            var l = blende.indexOf('lemma');
+                            blende.splice(l, 1);
+                        }                    
+                        if (blende.indexOf('sublemma') != -1) {
+                            var s = blende.indexOf('sublemma');
+                            blende.splice(s, 1);
+                        }                   
+                        for (var j = 0; j < blende.length; j++) {
+                            $("div[title='" + blende[j] + "']", "." + uiMainDivId).draggable("disable");
+                        }
+                       // $("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");                        
                         $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
                         var sub = verw.indexOf('sublemma');
                         verw.splice(sub,1);
                     }
                     $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
-                    $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                   // $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                }
+                if (name == 'sublemma' && $(editAttribute).find("select").length == 1) {                	
+                	var regular = nodeset.only.xml.match(/lemma=".*?"/);
+                    var reg = regular.join();
+                    var lemmaw = reg.slice(7, reg.length -1);
+                    console.log('lemmmmw');
+                    console.log(lemmaw);
+                    if(wert.indexOf(lemmaw)== -1){
+                    	 wert.push(lemmaw);
+                    }                   
+                	console.log(wert);
+                	console.log(aktuell.qName);
+                	console.log(aktuell.value);
+                	var sein = new AttributesImpl();                        
+                    sein.addAttribute(undefined, 'sublemma', 'sublemma', undefined, '');
+                    var row = $("div:contains('sublemma')", "." + uiEditAttributesDivClass);
+                    row.remove();
+                    $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
+                    
+                    $("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
                 }
                 else {
                 $('.xrx-instance').xrxInstance().deleteAttributes(contextId, attributes);
@@ -513,7 +565,7 @@
                 }
             });
             
-            return name;
+            return wert;
         },
         
         //End of _trashIconClickable

@@ -33,10 +33,22 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     <xrx:variable>
       <xrx:name>$atomid</xrx:name>
       <xrx:expression>$data//atom:id/text()</xrx:expression>
+    </xrx:variable> 
+    <xrx:variable>
+      <xrx:name>$tokens</xrx:name>
+      <xrx:expression>tokenize($atomid, '/')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$collection</xrx:name>
+      <xrx:expression>tokenize($tokens[last()-1], '-')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$base-collection</xrx:name>
+      <xrx:expression>if( count( $collection )  = 5 ) then $user:db-base-collection else metadata:base-collection('charter', 'saved')</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$entry</xrx:name>
-      <xrx:expression>$user:db-base-collection//atom:id[.=$atomid]/parent::atom:entry</xrx:expression>
+      <xrx:expression>if(not(exists($base-collection//atom:id[.=$atomid]/parent::atom:entry))) then $user:db-base-collection//atom:id[.=$atomid]/parent::atom:entry else $base-collection//atom:id[.=$atomid]/parent::atom:entry</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$base-collection-path</xrx:name>
@@ -49,18 +61,18 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     <xrx:variable>
       <xrx:name>$feed</xrx:name>
       <xrx:expression>substring-after($base-collection-path, conf:param('atom-db-base-uri'))</xrx:expression>
-    </xrx:variable>
+    </xrx:variable> 
     <xrx:variable>
       <xrx:name>$data-content</xrx:name>
       <xrx:expression>$data//atom:content/descendant-or-self::*</xrx:expression>
     </xrx:variable>
-     <xrx:variable>
-     <xrx:name>$data_hash</xrx:name>
-     <xrx:expression>util:hash(util:serialize($data-content, ()), 'md5')</xrx:expression>
+    <xrx:variable>
+      <xrx:name>$data_hash</xrx:name>
+      <xrx:expression>util:hash(util:serialize($data-content, ()), 'md5')</xrx:expression>
     </xrx:variable>
     <xrx:variable>
-     <xrx:name>$doc-path</xrx:name>
-     <xrx:expression>concat("/db/mom-data",$feed,"/", $entry-name)</xrx:expression>
+      <xrx:name>$doc-path</xrx:name>
+      <xrx:expression>concat("/db/mom-data",$feed,"/", $entry-name)</xrx:expression>
     </xrx:variable>
   </xrx:variables>
   <xrx:init>
@@ -76,13 +88,13 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       (: get saved atom:content and childs from the saved document and create hash-value:)
       let $saved-data-content := doc($doc-path)//atom:content/descendant-or-self::*
       let $saved-data-content-hash := util:hash(util:serialize($saved-data-content, ()),'md5')  
- 
+      
       (: compare hash-values of from the saved document and the control data.:) 
       let $compared := compare($saved-data-content-hash, $data_hash)
- 
+      
       return if ($compared = 0) then <result>true</result>
-              else <result>false</result>
-     
+      else <result>false</result>
+    
     }
   </xrx:body>
 </xrx:service>
