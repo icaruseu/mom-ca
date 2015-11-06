@@ -153,6 +153,7 @@
 	    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
 	    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
 	    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/slider</xrx:resource>
+	    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/charter</xrx:resource>
     </xrx:jss>
     <xrx:view>
         <div data-demoid="07ed1069-ea47-42b3-ac3c-d717877363b8" id="edit-charter">
@@ -364,6 +365,7 @@
                                 </div>
                                 <span> </span>
                                 <div data-demoid="9f37cc3f-eb69-4258-b3a0-5f82a7a66c02" id="change-image-links">
+                       
 							            {
 							            for $img-url at $num in $img-urls
 							            return
@@ -498,19 +500,7 @@
                     </div>
                 </xrx:false>
             </xrx:auth>
-        <script type="text/javascript">
-        $(document).ready(function() {{
-          $( "#zoomslider" ).slider({{ 
-            value:100, 
-            min: 100, 
-            max: 500, 
-            step: 10, 
-            slide: function( event, ui ) {{ 
-              $( "#img" ).css( "width", ui.value + "%" ); 
-            }} 
-          }}); 
-        }})
-        </script>
+<!-- habe hier das javascript entfernt, später wieder einsetzen -->
         </div>
     </xrx:view>
 </xrx:widget>

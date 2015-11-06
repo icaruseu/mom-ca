@@ -122,6 +122,10 @@ it leaves the active development stage.
 				)
       </xrx:expression>
     </xrx:variable>
+    <xrx:variable>
+    <xrx:name>$number-of-images</xrx:name>
+    <xrx:expression>count($wcharter-image-viewer:img-urls)</xrx:expression>
+    </xrx:variable>
     <!-- image access -->
     <xrx:variable>
       <xrx:name>$wcharter-image-viewer:image-access-forbidden-flag</xrx:name>
@@ -161,7 +165,7 @@ it leaves the active development stage.
 #img{{
 	position:absolute;
 	width:950px;
-	z-index:0;
+	z-index:0;	
 	margin:0px;
 	padding:0px;
 }}
@@ -210,6 +214,11 @@ it leaves the active development stage.
 	z-index:1;
 	text-align:center;
 	font-weight:bold;
+}}
+
+a#gelb {{   
+   color:#72856C !important;
+   border: 1px solid #72856C;  
 }}
 
     </style>
@@ -299,7 +308,12 @@ it leaves the active development stage.
 						for $img-url at $num in $wcharter-image-viewer:img-urls
 						return
 						if($charter:rarchiveid != 'DE-LABW') then
-						<a href="javascript:changeImage('{ $img-url }')">{ $num }</a>
+						  if ($num = 1) then
+						  <a class="imageLink" href="javascript:changeImage('{ $img-url }', '{$num}')" id="gelb">{ $num }</a>
+						  else (
+						  <a class="imageLink" href="javascript:changeImage('{ $img-url }', '{$num}')" id="schwarz">{ $num }</a>
+						  )
+						
 						else()
 						}
 					</div>
@@ -385,7 +399,7 @@ it leaves the active development stage.
         <xrx:div>augiasviewer-link</xrx:div>
         <xrx:div>image-tools-link</xrx:div>
       </div>
-      <script type="text/javascript">
+<!--       <script type="text/javascript">
 				$(document).ready(function() {{
 					$( "#zoomslider" ).slider({{ 
 						value:100, 
@@ -398,7 +412,7 @@ it leaves the active development stage.
 						}} 
 					}}); 
 				}})
-			</script>
+			</script> -->
 
     </div>
   </xrx:view>

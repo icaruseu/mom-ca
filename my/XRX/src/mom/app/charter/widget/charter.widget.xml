@@ -403,7 +403,7 @@ it leaves the active development stage.
   font-size:130%;
 }}
 
-#graphics, #diplomaticAnalysis, #index, #versions, #tenor, #abstract, #witList, #howToCite, .witness {{
+#graphics, #diplomaticAnalysis, #index, #versions, #tenor, #abstract, #decoDesc, #witList, #howToCite, .witness {{
   position:relative;
   float:left;
   border:solid rgb(240,243,226) 1px;
@@ -474,7 +474,8 @@ div.inlinehead, div.greyinlinehead, div.light-green, div.light-green:visited{{
   font-weight:bold;
   width:950px;
   background-color:{ conf:param('color5') };
-  color:rgb(142,163,132);
+  color:rgb(255,255,255);
+  /*color:rgb(142,163,132);*/  
   margin: 0px;
   margin-left: 5px;
   margin-top: 5px;
@@ -487,9 +488,16 @@ div.inlinehead{{
   width:942px !important;
 }}
 
+div.inlinehead div div a, div.inlinehead a {{
+  color:#ffffff !important;
+  text-decoration: none !important;
+  font-weight:normal !important;
+  font-size: 1.2em !important;
+}}
+
 div.p{{
-  /*margin:5px;*/
-  padding:10px;
+  
+  padding:7px;
 }}
 
 div#persName, div#placeName, div#item{{
@@ -501,7 +509,8 @@ div.no-graphic{{
   float:right;
   right:20px;
   top:10px;
-  color:rgb(142,163,132);
+  /*color:rgb(142,163,132);*/
+  color:rgb(0,0,0);
   font-weight:bold;
   bottom:50%;
   z-index:2;
@@ -511,7 +520,8 @@ span.num{{
   position:relative;
   font-weight:bold;
   font-size:150%;
-  color:rgb(142,163,132);
+  /*color:rgb(142,163,132);*/
+  color:rgb(255,255,255);
 }}
 
 .fn-link{{
@@ -586,6 +596,11 @@ div.lang-select{{
   float:left;
 }}
 
+p#first {{
+    padding-top: 30px !important;
+    margin-top:30px !important;    
+}}
+
 .heading-center{{
   position:relative;
   text-align:center;
@@ -593,8 +608,8 @@ div.lang-select{{
 
 .heading-center *{{
   font-size:150%;
-  font-weight:bold;
-  color:#EF6A2F;
+  font-weight:bold;  
+  /*color:#000000 !important;*/
   text-align:center;
 }}
 
@@ -624,7 +639,8 @@ div.lang-select{{
 }}
 
 #noteBobble-1 .xfLabel{{ 
-  color:rgb(142,163,132);
+  /*color:rgb(142,163,132);*/
+  color:rgb(255,255,255);
   font-weight:bold;
 }}   
 

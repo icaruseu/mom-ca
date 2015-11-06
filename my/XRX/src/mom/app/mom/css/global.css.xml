@@ -78,10 +78,11 @@ body, #formWrapper{{
 *
 *   Headings 
 */
-.h2, .h2 span{{
-  color:{conf:param('color6')};
-  font-size:21px;
+.h2, .h2 span{{  
+  color:{conf:param('color6')};  
+  font-size:24px;
   font-weight:bold;
+  padding-bottom:1.2em;
 }}
 
 /*
@@ -92,6 +93,7 @@ body, #formWrapper{{
 ul.nostyle{{
   list-style:none;
   line-height:1.5em;
+  margin-left:-40px;
 }}
 
 /* 
