@@ -79,6 +79,7 @@
       <xs:sequence>
         <xs:group ref="group-xrx-object"/>
         <xs:element name="topics" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="values" minOccurs="0" maxOccurs="1"/>
         <xs:element name="generator" minOccurs="0" maxOccurs="1"/>
         <xs:element name="elements" minOccurs="0" maxOccurs="1"/>
         <xs:element name="schema" minOccurs="0" maxOccurs="1"/>
@@ -352,6 +353,14 @@
     </xs:complexType>
   </xs:element>
   <xs:element name="repeat">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="visualxml" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute name="bind" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="select">
     <xs:complexType>
       <xs:sequence>
         <xs:element ref="visualxml" minOccurs="1" maxOccurs="1"/>

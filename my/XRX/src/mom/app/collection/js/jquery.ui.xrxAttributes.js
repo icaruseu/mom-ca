@@ -30,13 +30,11 @@
     var controlledVoc = true;
     /* Arrays and object to get actual values of the attributes, 
      * because property editedAttributes is not updated,
-     * before the whole lifecycle of the widget is redone!
+     * befor a new methods is queried again!
      * The solution chosen here maybe is more complicated than it has to be.
      * If there is time - this has to be rethought - simplified and generalized. 
-     * The global variables are necessary to pass on values 
-     * especially from _trashiconClickable to _newEditAttribute and in the menuliste.change-function!
-     * because if the controlled Vocabulary is used, it is essential to know the values depending on following values.
-     * For the controlled Vocabulary a 3-level hierarchy is realized in the json-Object. */
+     * These global variables are necessary to pass on values 
+     * especially from _trashiconClickable to _newEditAttribute and in the menuliste.change-function! */
     var aktuell = {
     };
     var verw =[];
@@ -58,6 +56,7 @@
         
         
         _create: function () {
+            console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
             var self = this,
             elementName = self.options.elementName,
             suggestedAttributes = self.options.suggestedAttributes,

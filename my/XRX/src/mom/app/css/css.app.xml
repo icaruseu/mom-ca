@@ -31,11 +31,14 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   </xrx:licence>
   <xrx:conf>
     <xrx:param name="color1">#EFF3E1</xrx:param> <!-- background -->
-    <xrx:param name="color2">#72856C</xrx:param> <!-- links and menu -->
+    <xrx:param name="color2">#72856C</xrx:param>  <!--links and menu -->
+   <!-- <xrx:param name="color2">#FFFFFF</xrx:param> -->
     <xrx:param name="color3">#8EA384</xrx:param> <!-- footer -->
     <xrx:param name="color4">#F0FEE9</xrx:param> <!-- standard form info -->
-    <xrx:param name="color5">#F0F3E2</xrx:param> <!-- charter view .inlinehead -->
-    <xrx:param name="color6">#EF6A2F</xrx:param> <!-- header and function links a:links -->
+     <!--<xrx:param name="color5">#F0F3E2</xrx:param> charter view .inlinehead -->
+    <xrx:param name="color5">#BABABA</xrx:param>
+   <!--<xrx:param name="color6">#EF6A2F</xrx:param>   header and function links a:links -->
+    <xrx:param name="color6">#282828</xrx:param>
     <xrx:param name="color7">#FFE3D9</xrx:param> <!-- function background  -->
   </xrx:conf>
 </xrx:app>

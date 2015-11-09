@@ -288,11 +288,31 @@ form{{
 .ui-tabs-anchor{{
   font-size:.8em;
 }}
+/* Buttonset for controlled Vacabulary
 
+.ui-button-text-only .ui-button-text {{   
+    padding: 0;
+}}
+.ui-buttonset .ui-button {{
+         margin-right: 0em;
+}}*/
+span#onoff {{
+  padding-bottom:1em;
+}}
+
+div.forms-mixedcontent-attribute-droppable {{
+  color:#E8E8E8; 
+}}
+div.controlledVocabulary {{
+    font-size: 0.9em;
+}}
+span#onoff {{
+  padding-left:2em;
+}}
     </style>
     </xrx:csss>
     <xrx:jss>
-        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+          <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
@@ -403,7 +423,7 @@ form{{
                         </xrx:rules>
                         <xrx:true>
                             <div data-demoid="09a18129-a5e4-42f7-ab9e-1d4bcf9497bb" id="dui-imageann">
-                                <script type="text/javascript">
+                <script type="text/javascript">
                 $(document).ready(function(){{
                   jQuery(document).imageTool({{
                     requestRoot: "{ conf:param('request-root') }",
@@ -904,6 +924,17 @@ form{{
             <div class="xrx-forms-json-attribute-suggestions" data-demoid="a9a1b205-f185-4e4c-8fcc-8d1a397c881e" style="display:none">{ $attribute-suggestions }</div>
             <div class="xrx-forms-json-element-suggestions" data-demoid="90164e9b-8793-4426-9cb3-9c91b1252326" style="display:none">{ $element-suggestions }</div>
             <div class="xrx-forms-json-topics" data-demoid="29dc1908-0c8d-4501-ab7d-5e0cbdc492b9" style="display:none">{ $topics }</div>
+            <!-- fix me: the xrx-forms-json-values generate automatically, used for controlled vocabulary -->
+            <div class="xrx-forms-json-attribute-valuesuggestions" style="display:none">
+    {{   
+    "cei:index":{{
+   "indexName": ["arthistorian"],
+    "lemma": ["N1", "N2", "N3"],
+    "sublemma": [{{"N1":["HistoriatedDecoration","WithAdditionalColours: Miniatures", "WithAdditionalColours: Initials", "WithAdditionalColours: Borders", "WithAdditionalColours: CoatsofArms", "WithAdditionalColours: ExecutionDraw", "WithAdditionalColours: ExecutionPainted"]}},
+    {{"N2": ["DrawnDecorationnothistoriated: DD-nh-Panels", "DrawnDecorationnothistoriated: Initials", "DrawnDecorationnothistoriated: DD-nh-Borders", "DepictiveMotivesnothistoriated: figural", "DepictiveMotivesnothistoriated: zoomorphic", "DepictiveMotivesnothistoriated: otherMotivs"]}},
+    {{"N3": ["GraphicMeansofAuthenticating: Chrismon", "GraphicMeansofAuthenticating: Monogramm", "GraphicMeansofAuthenticating: Rota", "GraphicMeansofAuthenticating: SignumRecognitionis", "GraphicMeansofAuthenticating: SignumNotarile", "GraphicMeansofAuthenticating: OtherSignsofAuthentication"]}}
+     ]}}}}
+</div>
             <script type="text/javascript">
       jQuery(document).ready(function(){{ 
         jQuery.ajaxSetup({{ cache: false }});
@@ -919,13 +950,9 @@ form{{
         jQuery(".anchor", "#dinner-textann").click(function() {{
           $(".xrx-visualxml").each(function(){{ $(this).xrxVisualxml("clear"); }});
         }});
-       // hier wird in ein div der Wert 0 eingetrage, sobald das Dok geladen ist.
-        var sperre = document.getElementById("sperrzone");
-        sperre.innerHTML = "0";
-        
-      }});
-      
+       }});      
       </script>
         </div>
     </xrx:view>
 </xrx:widget>
+

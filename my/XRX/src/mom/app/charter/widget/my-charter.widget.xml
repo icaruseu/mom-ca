@@ -256,6 +256,29 @@ it leaves the active development stage.
       <xrx:jqueryflag>true</xrx:jqueryflag>
     </xrx:processor>
   </xrx:init>
+    <xrx:jss>
+   
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/droppable</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/position</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/resizable</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/dialog</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/effect</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/effect-pulsate</xrx:resource>
+   
+    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrxI18n</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxMessage</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrx</xrx:resource>
+    
+   
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/dialogEditor</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/charter</xrx:resource>
+  </xrx:jss>
   <xrx:divs>
     <xrx:div>
       <xrx:key>heading-div</xrx:key>
@@ -345,13 +368,39 @@ it leaves the active development stage.
             <span>: { $wcharter:idno }</span>  
           </div>
           }
-          <span><a href="/mom/{ $charter:rcollectionid }/{ $charter:rcharterid }/edit" target="_blank">
+<!-- the editor choice can also be realized via a dialog window, but for now it is not necessary. 
+   <button id="new-button">
+                  <xrx:i18n>
+                    <xrx:key>edit</xrx:key>
+                    <xrx:default>Edit Charter</xrx:default>
+                  </xrx:i18n>
+         </button>
+     <script>
+jQuery(document).ready(function() {{
+   var dia = $("#new-button").dialogEditor(({{ baseurl: "{ $wcharter:charter-context-url }", charterid: "{  $charter:rcharterid }" }})).data("ui-dialogEditor");
+}});
+</script>
+<div id="dialog-confirm" title="Empty the recycle bin?">
+ </div> -->
             <xrx:i18n>
-              <xrx:key>edit-charter</xrx:key>
-              <xrx:default>Edit charter</xrx:default>
-            </xrx:i18n>
-          </a></span>
-        </div>
+                <xrx:key>edit</xrx:key>
+                 <xrx:default>Edit Charter</xrx:default>
+           </xrx:i18n>
+            <span>:&#160;</span>
+ <form>     
+    <div id="radio">
+      <a href="{ $wcharter:charter-context-url }{ $charter:rcharterid }/edit" target="_blank">
+      <span>EditMOM</span> 
+      </a>      
+      <a href="mom/charter/{ $charter:rcharterid}/illurk" target="_blank">
+      <span>EditIllurk</span>
+      </a>  
+    </div>
+</form> 
+<script>
+$( "#radio" ).buttonset();
+</script>
+ </div>       
       </xrx:view>
     </xrx:div>
     <xrx:div>

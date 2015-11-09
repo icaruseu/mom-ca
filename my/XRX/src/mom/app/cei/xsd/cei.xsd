@@ -624,6 +624,15 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                                             </xs:appinfo>
                                         </xs:annotation>
                                     </xs:element>
+                                    <xs:element ref="class">
+                                        <xs:annotation>
+                                            <xs:appinfo source="EditVDU">
+                                                <xrxe:min-occur>0</xrxe:min-occur>
+                                                <xrxe:max-occur>unbounded</xrxe:max-occur>
+                                                <xrxe:content-control>annotation</xrxe:content-control>
+                                            </xs:appinfo>
+                                        </xs:annotation>
+                                    </xs:element>
                                     <xs:element ref="placeName">
                                         <xs:annotation>
                                             <xs:appinfo source="EditVDU">
@@ -869,22 +878,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                             <xs:attributeGroup ref="standard"/>
                         </xs:complexType>
                     </xs:element>
-                    <xs:element ref="witListPar"/>
-                    <xs:element name="class" type="xs:anySimpleType">
-                        <xs:annotation>
-                            <xs:appinfo source="EditVDU">
-                                <xrxe:label>
-                                    <xrx:i18n>
-                                        <xrx:key>cei_class</xrx:key>
-                                        <xrx:default>class</xrx:default>
-                                    </xrx:i18n>
-                                </xrxe:label>
-                                <xrxe:relevant>false</xrxe:relevant>
-                            </xs:appinfo>
-                            <xs:documentation xml:lang="eng">classifciation of the
-                document</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
+                    <xs:element ref="witListPar"/>                 
                     <xs:element name="diplomaticAnalysis">
                         <xs:annotation>
                             <xs:appinfo source="EditVDU">
@@ -4421,6 +4415,25 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                     <xs:element ref="persName"/>
                 </xs:choice>
             </xs:sequence>
+            <xs:attributeGroup ref="lang"/>
+            <xs:attributeGroup ref="standard"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="class">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>cei_class</xrx:key>
+                        <xrx:default>class</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+            </xs:appinfo>
+            <xs:documentation>Urkundenklassifikation
+              </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="type"/>           
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>

@@ -5,12 +5,23 @@
 // });
 
 
-function changeImage(url){
+function changeImage(url, num){	
+	var alleBilder = document.getElementsByClassName('imageLink');	
+	for (var i=0;i<alleBilder.length; i++){
+		console.log(alleBilder[i]);
+		if(alleBilder[i].text == num ){
+			alleBilder[i].setAttribute('id', 'gelb');
+		}
+		else {
+			alleBilder[i].setAttribute('id', 'black');
+		}
+		
+	}	
 	document.images["image"].src = url;
-	document.getElementById('img-link').setAttribute('href', url);
+	document.getElementById('img-link').setAttribute('href', url);	
   // reload SVG and cancel create- process
-  jQuery(document).imageTool.resetSVGId();
-  jQuery(document).imageTool.loadSVG();
+  //jQuery(document).imageTool.resetSVGId();
+  //jQuery(document).imageTool.loadSVG();
 }
 
 
@@ -60,7 +71,8 @@ function assignDiv(hide, show)
 		document.getElementsByName(divs[n])[0].style.color = "";
 		document.getElementsByName(divs[n])[0].style.borderRight = "";
 	}
-	document.getElementsByName(show)[0].style.backgroundColor = "rgb(142,163,132)";
+	document.getElementsByName(show)[0].style.backgroundColor = "rgb(255,255,255);"
+		//"rgb(142,163,132)";
 	document.getElementsByName(show)[0].style.color = "white";
 	document.getElementsByName(show)[0].style.borderRight = "solid rgb(255,151,5) 6px";
 }

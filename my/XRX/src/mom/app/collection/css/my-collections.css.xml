@@ -134,7 +134,8 @@ body {{
 .forms-mixedcontent-suggested-attributes {{
   position:relative;
   float:left;
-  width:100%;
+  width:35%;
+  padding-right:5%;
 }}
 .forms-mixedcontent-suggested-attribute {{
   position:relative;
@@ -174,6 +175,23 @@ body {{
   background: #FECA40;
   color: white;
 }}
+/* 
+* neu wegen values 
+*/
+ .forms-mixedcontent-suggested-values {{
+  position:relative;
+  float:left;
+  width:60%;
+}}
+/* überschreiben von jquery.ui.theme.css */
+/*.ui-widget-content,*/
+.choose {{
+  border:none;
+}}
+
+
+
+
 
 /*
 * Forms Mixed Content Tagname
