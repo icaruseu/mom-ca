@@ -279,6 +279,7 @@ it leaves the active development stage.
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/dialogEditor</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/charter</xrx:resource>
   </xrx:jss>
+
   <xrx:divs>
     <xrx:div>
       <xrx:key>heading-div</xrx:key>
@@ -290,6 +291,7 @@ it leaves the active development stage.
           </xrx:i18n>
         </div>
       </xrx:view>
+             
     </xrx:div>
     <xrx:div>
       <xrx:key>breadcrumb</xrx:key>

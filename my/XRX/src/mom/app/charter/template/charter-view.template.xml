@@ -65,6 +65,22 @@ it leaves the active development stage.
         <insert-witList/>
         <span style="color:white">x</span>
       </div>
+      
+      <!-- neu hinzugefügt, für deco Desc -->
+      <div class="inlinehead" data-demoid="e69c9fb5-a40e-4996-bb17-68fe163d9d8a">
+        <a href="javascript:showHideDiv('decoDesc', '')">
+          <xrx:i18n>
+            <xrx:key>decoDesc</xrx:key>
+            <xrx:default>Arthistorian Description</xrx:default>
+          </xrx:i18n>
+        </a>
+      </div>     
+     <!--  <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af" id="decoDesc" style="display:none">     -->  
+        <insert-decoDesc/>
+   <!--      <span style="color:white">x</span>     
+      </div>   -->
+       <!-- deco desc ende -->
+       
       <div class="inlinehead" data-demoid="37d4ebad-6387-4346-8c38-623c38f67c45">
         <a href="javascript:showHideDiv('tenor', '')">
           <xrx:i18n>
@@ -73,7 +89,7 @@ it leaves the active development stage.
           </xrx:i18n>
         </a>
       </div>
-      <div data-demoid="317b877a-e803-48d5-8d2e-bd9779f000bb" id="tenor">
+      <div data-demoid="317b877a-e803-48d5-8d2e-bd9779f000bb" id="tenor" style="display:none">
        <div class="p">
         <insert-tenor/>
         <insert-bibltenor/>

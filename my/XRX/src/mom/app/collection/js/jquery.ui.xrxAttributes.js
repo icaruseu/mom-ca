@@ -30,11 +30,13 @@
     var controlledVoc = true;
     /* Arrays and object to get actual values of the attributes, 
      * because property editedAttributes is not updated,
-     * befor a new methods is queried again!
+     * before the whole lifecycle of the widget is redone!
      * The solution chosen here maybe is more complicated than it has to be.
      * If there is time - this has to be rethought - simplified and generalized. 
-     * These global variables are necessary to pass on values 
-     * especially from _trashiconClickable to _newEditAttribute and in the menuliste.change-function! */
+     * The global variables are necessary to pass on values 
+     * especially from _trashiconClickable to _newEditAttribute and in the menuliste.change-function!
+     * because if the controlled Vocabulary is used, it is essential to know the values depending on following values.
+     * For the controlled Vocabulary a 3-level hierarchy is realized in the json-Object. */
     var aktuell = {
     };
     var verw =[];
@@ -56,7 +58,6 @@
         
         
         _create: function () {
-            console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
             var self = this,
             elementName = self.options.elementName,
             suggestedAttributes = self.options.suggestedAttributes,
@@ -89,7 +90,9 @@
                 var newDiv = $('<div>' + $(document).xrxI18n.translate(name, "xs:attribute") + '<div>').addClass(uiSuggestedAttributeDivsClass).attr("title", name);
                 suggestedAttributesDiv.append(newDiv);
                 self._suggestedAttributeDraggable(newDiv);
+                
             }
+            
             /* a method to switch off/on the use of the controlled Vocabulary*/
             self._onoffButton(controlledVocButton);
             
@@ -150,6 +153,10 @@
                    for (var j = 0; j < blende.length; j++) {
                        $("div[title='" + blende[j] + "']", "." + uiMainDivId).draggable("disable");
                    }
+                }
+                else if (controlledVoc == true && verw.indexOf('indexName')== -1){
+                	$("div[title='lemma']", "." + uiMainDivId).draggable("disable");
+                	$("div[title='sublemma']", "." + uiMainDivId).draggable("disable");
                 }
                 else {
                 	for (var i= 0; i < editedAttributes.length; i++){
@@ -240,8 +247,9 @@
              * if controlledVoc is true then menuliste (is a dropdown menu)is implemented
              * if false newEditAttributeInput (is an inputfield) is created.*/
             if (elementName == "cei:index") {
+                                 
                 
-                if ((controlledVoc == true) &&(mainkeys.indexOf(name) != -1)) {                 
+                if ((controlledVoc == true) &&(mainkeys.indexOf(name) != -1)) {                	
                     for (var mk in suggestedVal) {                                   
                         	        var y = suggestedVal[mk];                        
                                     var x = setoptioninSelect(y, mk, wert); 
@@ -253,7 +261,7 @@
                  else {
                     newEditAttribute.append(newEditAttributeLabel).append(newEditAttributeInput).append(newEditAttributeTrash);
                 }
-                }              
+                }            
                       
             else {
                 newEditAttribute.append(newEditAttributeLabel).append(newEditAttributeInput).append(newEditAttributeTrash);
@@ -615,7 +623,7 @@
         //End of _trashIconClickable
         
         
-        /* method to switch of/on the cv
+        /* method to switch off/on the cv
          * IDEA: maybe better to construct the whole GUI part from _newEditAttribute in this method,
          * because easier to handle the setting of the attributes*/
         _onoffButton: function (controlledVocButton) {
@@ -751,8 +759,7 @@
         /* Method to be able to drag the suggestedAttributes in the GUI*/
         _suggestedAttributeDraggable: function (suggestedAttribute) {
             
-            var self = this;            
-            
+            var self = this;          
             suggestedAttribute.draggable({                
                 containment: "." + uiMainDivId,               
                 revert: "invalid",                
