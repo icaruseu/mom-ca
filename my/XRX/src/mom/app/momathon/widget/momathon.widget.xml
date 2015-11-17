@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/momathon</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>momathon</xrx:key>
+      <xrx:default>MOMathon</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>stephan.makowski@uni-koeln.de</xrx:author>
+  <xrx:licence>
+    This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+    
+    As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+    
+    This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+    
+    The VdU/VRET is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    VdU/VRET is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+    
+    We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>    
+    <!-- 
+			widget specific variables 
+		-->
+    <xrx:variable>
+      <xrx:name>$user-collection</xrx:name>
+      <xrx:expression>$user:db-base-collection</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$mode</xrx:name>
+      <xrx:expression>request:get-parameter("mode", "full")</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/momathon</xrx:portal>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:xformsflag>true</xrx:xformsflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <xrx:css>tag:www.monasterium.net,2011:/mom/css/charter-preview</xrx:css>
+    <style type="text/css">
+      
+      
+      #dcharter-preview-main{{
+      position:relative;
+      float:left;
+      width:800px;
+      }}
+      #dcharter-preview-main .charter *{{
+      line-height:1.6em;
+      }}
+      #dcharter-preview-main .charter{{
+      position:relative;
+      width:100%;
+      float:left;
+      background:rgb(245,245,245);
+      }}
+      #dcharter-preview-main .charter-preview{{
+      position:relative;
+      float:left;
+      width:100%;
+      background:rgb(245,245,245);
+      border-bottom:solid white 5px;
+      }}
+      #dcharter-preview-main .inner-charter-preview{{
+      position:relative;
+      float:left;
+      width:100%;
+      margin:15px;
+      }}
+      #dcharter-preview-main .charter-info-and-actions{{
+      display:inline;
+      position:relative;
+      float:left;
+      width:25%;
+      border-left:solid white 3px;
+      padding-left:10px;
+      }}
+      #dcharter-preview-main .container{{
+      float:left;
+      width:65%;
+      padding-right:10px;
+      }}
+      #dcharter-preview-main .charter-info-and-actions *{{
+      font-size:13px;
+      }}
+      #dcharter-preview-main .fieldset{{
+      border:solid #C8C8C8 1px;
+      margin-top:10px;
+      }}
+      #dcharter-preview-main .inner-fieldset{{
+      margin:5px;
+      }}
+      
+      img.displayed {{
+      display: block;
+      margin-left: auto;
+      margin-right: auto }}
+
+    </style>
+  </xrx:csss>
+  <xrx:model>
+    { bookmark:model(conf:param('request-root')) }
+    { publication:model(conf:param('request-root')) } 
+  </xrx:model>
+
+
+  <xrx:view>
+    <xrx:auth>
+      <xrx:rules>
+        <xrx:rule>
+          <xrx:user/>
+          <xrx:dbgroup>atom</xrx:dbgroup>
+        </xrx:rule>
+      </xrx:rules>
+        <xrx:true>
+          <div data-demoid="f38de5bf-c619-4b59-9bc2-8df2bedf0398" id="dcharter-preview-main">
+            <div class="h2" data-demoid="7ccd5636-4729-4b52-a0bc-ca1f53ec9d07">
+            <a name="top"></a>
+             <xrx:i18n>
+               <xrx:key>momathon</xrx:key>
+               <xrx:default>MOMathon</xrx:default>
+             </xrx:i18n>
+            </div>
+            <xf:group>
+              <div data-demoid="7f01e942-bc55-4514-b6c2-830ce5f25a27" class="inner-charter-preview">
+                <div>
+                  <span>
+                    <h2>MOMathon-Event : Tuesday 24th, November 2015</h2>
+                  </span>
+                </div>
+                {
+                if($mode = "full" or $mode = "") then
+                <div>
+                    <h3>Introduction</h3><br/>
+                    
+                    Dear Participants,
+                    <br/><br/>
+                    Welcome to our first MOMathon-Event  in St. Pölten, Austria.
+                    <br/>
+                    On this and the following pages, you gain some instructions about <br/>
+                    <ul>
+                      <li>This are today's tasks: 
+                        <ul>
+                          <li><a href="{ conf:param('request-root') }momathon?mode=google"><b>&#187;Google Edit</b></a> <br/></li>
+                          <li><a href="{ conf:param('request-root') }momathon?mode=date">&#187;Date Edit</a> <br/></li>
+                          <li><a href="{ conf:param('request-root') }momathon?mode=transcription">&#187;Transcription Edit</a> <br/></li>
+                        </ul><br/>
+                      </li>
+                      <li>How to use EditMOM3:   <a target ="_new" href="{ conf:param('request-root') }editmom-documentation">&#187;EditMOM</a>  <br/></li>
+                    </ul>
+                    <br/>
+                    This happening takes place for 3h. After this, the MOM-CA-staff will evaluate the results of your work. On Wednesday we will announce the winner of the Event.<br/><br/>
+                    The Winner is, who has edited the biggest amount of charters.<br/>
+                    <br/>
+                    If there are any questions, please ask the staff for further informations about the event or the editor.<br/>
+                    <br/>
+                  Hint: <em>If supported, the language of the editor appears in your individual language. To change the language, please set your preferences on the top right of this page.</em>
+                  </div>
+                else if($mode ="task") then
+                <div>
+                  <h3>Task-Overview</h3>
+                  <br/>
+                  On this Page you find an Overview about the upcoming Tasks. 
+                  <br/>
+                  
+                </div>
+                else if($mode ="google") then
+                <div>
+                  <h2 style="float:right;"><a href="{ conf:param('request-root') }momathon-charters?mode=google" target="_new">&#187;Edit Google-Charters</a></h2><br/>
+                  <b>Task "Google"</b><br/>
+                  <br/>
+                  Within this task, you will have to edit Charters, which were digitalized by &#169;Google.<br/><br/>
+                  The Metadatas was extracted with help of the OCR-Detection made by Google.<br/><br/>
+                  This method wasn't so good in assigning all the correct categories. In particular the OCR had problems recognising the part of the text representing the date of the charter.<br/>
+                  As most of the documents are written in Latin, google produced some weird textfragments.<br/><br/>
+                  Your Task is to correct the Date-Entries inside the charters and the texts of the transcription.<br/>
+                  If possible, enter the place of issue as well. 
+                  <br/>
+                  <br/>
+                  <br/>
+                  Here you can see some possible cases: <br/><br/>
+                  <h3>Example one</h3>
+                  <div class="blocktext">
+                    <xrx:resource class="displayed" alt="Google Charter" type="image/png" width="640" height="480" >tag:www.monasterium.net,2011:/mom/resource/image/google-charter</xrx:resource>
+                  </div>
+                  <br/>
+                  <br/>
+                  As you can see, the date ("Datumsangabe") was not set automatically to the date from the charter. So you have to pick the correct date out of the image ("19. April 1322") and enter it into the corresponding field.<br/>
+                  <br/>
+                  <br/>
+                  <h3>Example two</h3><br/>
+                  <div class="blocktext">
+                    <xrx:resource class="displayed" alt="Google Charter" type="image/png" width="640" height="480" >tag:www.monasterium.net,2011:/mom/resource/image/google-translation</xrx:resource>
+                  </div>
+                  <br/>
+                  <br/>
+                  In this example, you see that the automatical OCR by Google was not able to identify most of the character or words.<br/>
+                  Our task is to correct the transcription of the charter and enter it inside the "Transcription"-tab.
+                  <br/>
+                  <br/>
+                  <b>For additional instructions how to work within the editor, please have a look into the <a href="mom/editmom-documentation" target="_new">&#187;Documentation</a> linked above or in the <a href="/mom/tutorial" target="_new">&#187;Tutorial</a> on top of the page.</b>
+                  <br/>
+                </div>
+                else if($mode ="date") then
+                <div>
+                  <h2 style="float:right;"><a href="{ conf:param('request-root') }momathon-charters?mode=date" target="_new">&#187;Edit Date-Charters</a></h2><br/>
+                  <b>Task "Date"</b><br/>
+                  <br/>
+                  Within this task, you will have to edit Charters where the date-entries are not set or set to a high value of "99999999"<br/><br/>
+                  Your Task is to correct the Date-Entries inside the charters.<br/>If you can't read the date or the daterange, please skip the charter and work on the next one.<br/>
+                  If possible, enter the place of issue as well. 
+                  <br/>
+                  <br/>
+                  <br/>
+                  Here you can see some possible cases: <br/><br/>
+                  <h3>Example one</h3>
+                  <div class="blocktext">
+                    <xrx:resource class="displayed" alt="Google Charter" type="image/png" width="640" height="480" >tag:www.monasterium.net,2011:/mom/resource/image/date</xrx:resource>
+                  </div>
+                  <br/>
+                  <br/>
+                  As you can see, the date was not set automatically to the date from the charter. So you have to pick the correct date out of the image ("19. November 1292") and enter it into the corresponding field.<br/>
+                  The placename in this case is "Neubrandenburg". <br/><br/>
+                  If there is an undefined value like "Um 1290", you can enter it inside the dateRange-Field. Please use the syntax, which is mentioned inside the Documentation. 
+                  <br/>
+                  <br/>
+                  <b>For additional instructions how to work within the editor, please have a look into the <a href="mom/editmom-documentation" target="_new">&#187;Documentation</a> linked above or in the <a href="/mom/tutorial" target="_new">&#187;Tutorial</a> on top of the page.</b>
+                  <br/>
+                </div>
+                else if($mode ="transcription") then
+                <div>
+                  <h2 style="float:right;"><a href="{ conf:param('request-root') }momathon-charters?mode=transcription" target="_new">&#187;Edit Transcription-Charters</a></h2><br/>
+                  <b>Task "Transcription"</b><br/>
+                  <br/>
+                  Within this task, you will have to edit Charters and enter the transcripted text of the charters into the corresponding field.<br/>
+                  Some of the Charters are digitalized by Google, so that it is possible to read the text without any necessarily palaeographic background.<br/><br/>
+                  If you are not able read the charter, please skip the charter and work on the next one.<br/>
+                  <br/>
+                  <br/>
+                  Here you can see some possible cases: <br/><br/>
+                  <h3>Example one</h3>
+                  <div class="blocktext">
+                    <xrx:resource class="displayed" alt="Google Charter" type="image/png" width="640" height="480" >tag:www.monasterium.net,2011:/mom/resource/image/transcription</xrx:resource>
+                  </div>
+                  <br/>
+                  <br/>
+                  
+                  <br/>
+                  <br/>
+                  <b>For additional instructions how to work within the editor, please have a look into the <a href="mom/editmom-documentation" target="_new">&#187;Documentation</a> linked above or in the <a href="/mom/tutorial" target="_new">&#187;Tutorial</a> on top of the page.</b>
+                  <br/>
+                </div>
+                else ()
+                }
+              </div>
+              <a style="float:right;" href="#top">&#187;Top</a>
+            </xf:group>
+          </div>
+        </xrx:true>
+        <xrx:false>
+          <h3>
+            <xrx:i18n>
+              <xrx:key>protected-page-message</xrx:key>
+              <xrx:default>Protected page. Please login first.</xrx:default>
+            </xrx:i18n>
+          </h3>
+        </xrx:false>
+    </xrx:auth>
+  </xrx:view>
+</xrx:widget>

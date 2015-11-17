@@ -35,6 +35,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:prefix>publication</xrx:prefix>
       <xrx:uri>http://www.monasterium.net/NS/publication</xrx:uri>
     </xrx:module>
+    <xrx:module>
+      <xrx:resource>versioning.xqm</xrx:resource>
+      <xrx:prefix>v</xrx:prefix>
+      <xrx:uri>http://exist-db.org/versioning</xrx:uri>
+    </xrx:module>
   </xrx:modules>
   <xrx:resources>
     <xrx:resource>
@@ -49,6 +54,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     </xrx:resource>
   </xrx:resources>
   <xrx:resolver>
+    <xrx:map>
+      <xrx:uripattern>/charter-versions$</xrx:uripattern>
+      <xrx:mode>mainwidget</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/charter-versions</xrx:atomid>
+    </xrx:map>
     <xrx:map>
       <xrx:uripattern>/saved-charters$</xrx:uripattern>
       <xrx:mode>mainwidget</xrx:mode>
@@ -68,6 +78,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:uripattern>/released-charters$</xrx:uripattern>
       <xrx:mode>mainwidget</xrx:mode>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/released-charters</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/patch-charter$</xrx:uripattern>
+      <xrx:mode>mainwidget</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/patch-charter</xrx:atomid>
     </xrx:map>
     <xrx:map>
       <xrx:uripattern>/service/publish-charter$</xrx:uripattern>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
-  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/charter-preview</xrx:id>
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/momathon-charter-details</xrx:id>
   <xrx:title>
     <xrx:i18n>
       <xrx:key/>
@@ -8,7 +8,7 @@
   </xrx:title>
   <xrx:subtitle/>
   <xrx:description/>
-  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:author>stephan.makowski@uni-koeln.de</xrx:author>
   <xrx:licence>
 This is a component file of the VdU Software for a Virtual Research
 Environment for the handling of Medieval charters.
@@ -40,11 +40,11 @@ it leaves the active development stage.
   </xrx:licence>
   <xrx:constructor>
     <xrx:parameter>
-      <xrx:name>$constructor:charter</xrx:name>
+      <xrx:name>$constructor:charter-id</xrx:name>
       <xrx:default>()</xrx:default>
     </xrx:parameter>
     <xrx:parameter>
-      <xrx:name>$constructor:all-user-xmls</xrx:name>
+      <xrx:name>$constructor:user</xrx:name>
       <xrx:default>()</xrx:default>
     </xrx:parameter>
     <xrx:parameter>
@@ -55,12 +55,20 @@ it leaves the active development stage.
   <xrx:variables>
   <!-- charter info -->
     <xrx:variable>
+      <xrx:name>$wcharter-preview:collection</xrx:name>
+      <xrx:expression>metadata:base-collection('charter', 'saved')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:charter</xrx:name>
+      <xrx:expression>root($wcharter-preview:collection//*[atom:id = $constructor:charter-id])</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
       <xrx:name>$wcharter-preview:atom-id</xrx:name>
-      <xrx:expression>root($constructor:charter)//atom:id/text()</xrx:expression>
+      <xrx:expression>$constructor:charter-id</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:idno-element</xrx:name>
-      <xrx:expression>$constructor:charter//cei:body/cei:idno</xrx:expression>
+      <xrx:expression>$wcharter-preview:charter//cei:body/cei:idno</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:idno</xrx:name>
@@ -72,23 +80,39 @@ it leaves the active development stage.
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:date</xrx:name>
-      <xrx:expression>($constructor:charter//cei:date/text()|$constructor:charter//cei:dateRange/text())[1]</xrx:expression>
+      <xrx:expression>($wcharter-preview:charter//cei:date/text()|$wcharter-preview:charter//cei:dateRange/text())[1]</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:abstract</xrx:name>
-      <xrx:expression>$constructor:charter//cei:abstract//text()</xrx:expression>
+      <xrx:expression>$wcharter-preview:charter//cei:abstract//text()</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:num-images</xrx:name>
-      <xrx:expression>count($constructor:charter//cei:graphic/@url)</xrx:expression>
+      <xrx:expression>count($wcharter-preview:charter//cei:graphic/@url)</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:num-images</xrx:name>
-      <xrx:expression>count($constructor:charter//cei:graphic/@url)</xrx:expression>
+      <xrx:expression>count($wcharter-preview:charter//cei:graphic/@url)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:archid</xrx:name>
+      <xrx:expression>charter:archid($wcharter-preview:atom-id)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:fondid</xrx:name>
+      <xrx:expression>charter:fondid($wcharter-preview:atom-id)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:collectionid</xrx:name>
+      <xrx:expression>charter:collectionid($wcharter-preview:atom-id)</xrx:expression>
+    </xrx:variable>    
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:context</xrx:name>
+      <xrx:expression>charter:context($wcharter-preview:atom-id)</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:charter-url</xrx:name>
-      <xrx:expression>concat(conf:param('request-root'), $charter:rarchiveid, '/', $charter:rfondid, '/', xmldb:encode(charter:charterid(root($constructor:charter)//atom:id/text())) , '/charter')</xrx:expression>
+      <xrx:expression>if($wcharter-preview:context = "collection") then concat(conf:param('request-root'), $wcharter-preview:collectionid, '/', xmldb:encode(charter:charterid(root($wcharter-preview:charter)//atom:id/text())) , '/charter') else concat(conf:param('request-root'), $wcharter-preview:archid, '/', $wcharter-preview:fondid, '/', xmldb:encode(charter:charterid(root($wcharter-preview:charter)//atom:id/text())) , '/charter')</xrx:expression>
     </xrx:variable>
   <!-- status of the charter -->
     <xrx:variable>
@@ -101,15 +125,20 @@ it leaves the active development stage.
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:saved-by-any-user</xrx:name>
-      <xrx:expression>if($user:is-loggedin = true()) then publication:is-saved($constructor:all-user-xmls, $wcharter-preview:atom-id) else false()</xrx:expression>
+      <xrx:expression>false()</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:saved-by-user</xrx:name>
-      <xrx:expression>if($user:is-loggedin = true()) then publication:saved-by-user($constructor:all-user-xmls, $wcharter-preview:atom-id) else ''</xrx:expression>
+      <xrx:expression>true()</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:saved-by-user-label</xrx:name>
       <xrx:expression>if($user:is-loggedin = true()) then concat(user:firstname-name($wcharter-preview:saved-by-user), ' (', $wcharter-preview:saved-by-user, ')') else ''</xrx:expression>
+    </xrx:variable>
+
+    <xrx:variable>
+      <xrx:name>$wcharter-preview:last-token</xrx:name>
+      <xrx:expression>if($wcharter-preview:context = "collection") then $wcharter-preview:collectionid else $wcharter-preview:fondid</xrx:expression>
     </xrx:variable>
   <!-- user status -->
     <xrx:variable>
@@ -281,22 +310,6 @@ div.bookmark-icon{{
               <xrx:default>PDF- Export</xrx:default>
             </xrx:i18n>
           </a>
-          { 
-          if($wcharter-preview:is-moderator = true() ) then
-          
-          <div>
-            <a href="{ conf:param('request-root')}charter-versions?id={ $wcharter-preview:atom-id }&amp;backlink={$charter:rcollectionid}/collection">
-              <xrx:i18n>
-                <xrx:key>charter-versions</xrx:key>
-                <xrx:default>Charter versions</xrx:default>
-              </xrx:i18n> 
-            </a>
-          </div>  
-          else
-          
-          <div/>
-          }
-          
         </div>
       </xrx:view>
     </xrx:div>
@@ -345,7 +358,7 @@ div.bookmark-icon{{
               		{
               		let $encoded-id := xmldb:encode(metadata:objectid($wcharter-preview:atom-id))
               		let $note := 
-              			doc(concat(conf:param('xrx-user-db-base-uri'), xmldb:encode($xrx:user-id), '/metadata.bookmark-notes/', xmldb:decode($charter:rarchiveid), '/', xmldb:decode($charter:rfondid), '/', xmldb:decode($encoded-id), '.xml'))//xrx:bookmark_note
+              		doc(concat(conf:param('xrx-user-db-base-uri'), xmldb:encode($xrx:user-id), '/metadata.bookmark-notes/', xmldb:decode($wcharter-preview:archid), '/', xmldb:decode($wcharter-preview:fondid), '/', xmldb:decode($encoded-id), '.xml'))//xrx:bookmark_note
               		let $note-text := 
               		if($note//xrx:bookmark/text() = xmldb:encode($wcharter-preview:atom-id))then
               		$note//xrx:note/text()
@@ -428,7 +441,7 @@ div.bookmark-icon{{
 								$num,
 								conf:param('request-root'),
 								$wcharter-preview:is-moderator,
-								$xrx:tokenized-uri[last()],
+								"mom-ca",
 								<span>
                   <xrx:i18n>
                     <xrx:key>save-and-edit-charter</xrx:key>
@@ -550,7 +563,7 @@ div.bookmark-icon{{
                 <span>: </span>
               </span>
 							{
-							if($constructor:charter//cei:tenor//text()) then
+							if($wcharter-preview:charter//cei:tenor//text()) then
 							<span>
                 <xrx:i18n>
                   <xrx:key>yes</xrx:key>

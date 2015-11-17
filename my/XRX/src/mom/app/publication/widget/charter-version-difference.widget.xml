@@ -71,11 +71,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   {
   	(: request parameter :)
     let $charter-atomid := request:get-parameter('id', '')
-    let $backlink := request:get-parameter('backlink', '') 
-    
-    (: saved charter :)
-    let $saved-base-collection := metadata:base-collection('charter', 'saved')
-    let $saved-entry := $saved-base-collection//atom:id[.=$charter-atomid]/parent::atom:entry
+    let $backlink := request:get-parameter('backlink', '')
+    let $other-id := request:get-parameter('other-id','') 
+    let $rev-id := request:get-parameter('rev', '')
     
     (: public charter :)
     let $atom-tag-name := conf:param('atom-tag-name')
@@ -88,14 +86,34 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     		metadata:base-collection('charter', ($archive-id, $fond-id), 'public')
     	else 
         metadata:base-collection('charter', $collection-id, 'public')
+        
+    (: If Revision-id is submitted: Use Versioning-Object as saved Charter :)
     let $public-entry := $public-base-collection//atom:id[.=$charter-atomid]/parent::atom:entry
+    let $public-doc := doc(base-uri($public-entry))
     
+    (: saved charter :)
+    let $saved-base-collection := metadata:base-collection('charter', 'saved')
+    let $published-base-collection := metadata:base-collection('charter', 'public')   
+    
+    let $saved-entry :=
+      if($rev-id = "" ) then
+       
+        if( $other-id = "" ) then 
+          $saved-base-collection//atom:id[.=$charter-atomid]/parent::atom:entry
+        else
+          $published-base-collection//atom:id[.=$other-id]/parent::atom:entry
+          
+      else
+        root(v:doc($public-doc, xs:int($rev-id)))//atom:entry
+
+
+        
     (: version difference :)
     let $xslt := i18n:translate-xml($xrx:db-base-collection/xsl:stylesheet[@id='cei2versiondiff'])
     let $saved-as-text := transform:transform($saved-entry/atom:content/cei:text, $xslt, ())
     let $public-as-text := transform:transform($public-entry/atom:content/cei:text, $xslt, ())
     let $diff := text:diff($public-as-text, $saved-as-text)
-    
+
     return
     
     <div data-demoid="b057d915-d868-404b-b399-84e947fbcce9" id="dcharter-version-difference">
@@ -117,7 +135,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <div class="ddiff" data-demoid="8edf8fee-0f9a-45fd-a436-1b0eb6beca35">
 	      <script type="text/javascript">
         $(document).ready(function() {{
-	        CodeMirror.fromTextArea(document.getElementById('tdiff'), {{ lineWrapping: true, readOnly: 'nocursor', lineNumbers:false, mode: 'momtextdiff' }});
+	        CodeMirror.fromTextArea(document.getElementById('tdiff'), {{ lineWrapping: true, readOnly: 'nocursor', lineNumbers:true, mode: 'momtextdiff' }});
 	      }});
 	      </script>
 	      <textarea id="tdiff" name="tdiff">{ $diff/text() }</textarea>      

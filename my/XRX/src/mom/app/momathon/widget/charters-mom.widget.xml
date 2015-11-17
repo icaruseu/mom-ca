@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+    <xrx:id>tag:www.monasterium.net,2011:/mom/widget/charters-mom</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key/>
+            <xrx:default/>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:subtitle/>
+    <xrx:description/>
+    <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+    <xrx:licence>
+        This is a component file of the VdU Software for a Virtual Research
+        Environment for the handling of Medieval charters.
+        
+        As the source code is available here, it is somewhere between an alpha-
+        and a beta-release, may be changed without any consideration of
+        backward compatibility of other parts of the system, therefore,
+        without any notice.
+        
+        This file is part of the VdU Virtual Research Environment Toolkit
+        (VdU/VRET).
+        
+        The VdU/VRET is free software: you can redistribute it and/or modify
+        it under the terms of the GNU General Public License as published by
+        the Free Software Foundation, either version 3 of the License, or
+        (at your option) any later version.
+        
+        VdU/VRET is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+        GNU General Public License for more details.
+        
+        You should have received a copy of the GNU General Public License
+        along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+        
+        We expect VdU/VRET to be distributed in the future with a license more
+        lenient towards the inclusion of components into other systems, once
+        it leaves the active development stage.
+    </xrx:licence>
+    <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+    <xrx:init>
+        <xrx:processor>
+            <xrx:xformsflag>true</xrx:xformsflag>
+        </xrx:processor>
+    </xrx:init>
+    <xrx:csss>
+        <xrx:css>tag:www.monasterium.net,2011:/mom/css/charter-preview</xrx:css>
+        <style type="text/css">
+            
+            #charters{{
+            position:relative;
+            float:left;
+            width: 960px;
+            padding:0px;
+            margin:0px;
+            }}
+            
+            #charters{{
+            margin-bottom:20px;
+            }}
+            
+            #year-navi{{
+            position:relative;
+            float:left;
+            width:120px;
+            margin:0px;
+            margin-top:100px;
+            }}
+            
+            .year-list{{
+            margin:10px;
+            }}
+            
+            .year-list *{{
+            line-height:2em;
+            color:black;
+            text-decoration:none;
+            }}
+            
+            #block-navi{{
+            padding-bottom:30px;
+            float:left;
+            left:20px;
+            }}
+            
+            #goto-search{{
+            float:right;
+            }}
+            
+            #goto-anno-overview{{
+            float:right;
+            }}
+            
+            #heading{{
+            margin-top:30px;
+            }}
+            
+            #preface{{
+            position:relative;
+            width:800px;
+            float:left;
+            }}
+        </style>
+    </xrx:csss>
+    <xrx:model>
+        { bookmark:model(conf:param('request-root')) }
+        { publication:model(conf:param('request-root')) }
+    </xrx:model>
+    <xrx:view>
+        <div data-demoid="05c16060-d07c-4d35-8991-c409ccce2619" id="charters">
+            {
+            let $block-navi-div :=
+            if($charters:rblock gt 0) then
+            <div data-demoid="e2a0a8ee-feb0-4385-aed2-2d69f63ad69e" id="block-navi">
+                <b>
+                    <a href="?block={ $wcharters:previous-block-pos }&#38;mode= {$wcharters:mode}">
+                        <span>&lt; </span>
+                        <xrx:i18n>
+                            <xrx:key>previous</xrx:key>
+                            <xrx:default>previous</xrx:default>
+                        </xrx:i18n>
+                    </a>
+                    <span>   </span>
+                    <xrx:i18n>
+                        <xrx:key>charters</xrx:key>
+                        <xrx:default>Charters</xrx:default>
+                    </xrx:i18n>
+                    <span>   { $wcharters:block-strings[$charters:rblock] } </span>
+                    <span>   </span>
+                    {
+                    if($charters:rblock lt $wcharters:blocks-count) then
+                    <a href="?block={ $wcharters:next-block-pos }&#38;mode= {$wcharters:mode}">
+                        <xrx:i18n>
+                            <xrx:key>next</xrx:key>
+                            <xrx:default>next</xrx:default>
+                        </xrx:i18n>
+                        <span> &gt;</span>
+                    </a>
+                    else()
+                    }
+                </b>
+            </div>
+            else()
+            
+            return
+            <div data-demoid="45fcb1f6-9bb0-4063-bd32-43776e219922">
+                <xrx:div>heading-div</xrx:div>
+                <xrx:div>breadcrumb-div</xrx:div>
+                <xrx:div>my-functions-div</xrx:div>
+                <div data-demoid="2982b258-e242-4d62-be6c-a4ee500222e6" id="year-navi">
+                    <xrx:div>preface-link-div</xrx:div>
+                    <div class="year-list" data-demoid="0f94dc5e-799a-4ec3-9ae7-71972cdaa805">
+                        {
+                        for $blocks-string at $pos in $wcharters:block-strings
+                        let $url := concat("?block=", $pos, "&#38;", "mode=", $wcharters:mode)
+                        return
+                        <div class="block" data-demoid="bc65615b-2241-428e-a9eb-9927607799b1" style="font-weight:{ if($pos = $charters:rblock) then 'bold' else 'normal' }">
+                            <a href=" { $url }">
+                                <span>{ $blocks-string }</span>
+                            </a>
+                        </div>
+                        }
+                    </div>
+                </div>
+                <div data-demoid="9a55835c-8d6e-446d-823f-17e8373c7db5" id="heading">
+                    <div data-demoid="1fc95caa-c729-478f-b083-f443b43e2814" id="container">
+                        { $block-navi-div }
+                        <xrx:div>goto-search-div</xrx:div>
+                    </div>
+                </div>
+                {
+                if(request:get-parameter('block', '') = '' and $wcharters:preface-exists) then
+                <xrx:div>preface-div</xrx:div>
+                else
+                <xrx:div>charter-preview-div</xrx:div>
+                }
+            </div>
+            }
+        </div>
+    </xrx:view>
+</xrx:widget>

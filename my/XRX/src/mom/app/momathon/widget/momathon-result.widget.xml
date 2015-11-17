@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/momathon-result</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>momathon</xrx:key>
+      <xrx:default>MOMathon</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>stephan.makowski@uni-koeln.de</xrx:author>
+  <xrx:licence>
+    This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+    
+    As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+    
+    This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+    
+    The VdU/VRET is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    VdU/VRET is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+    
+    We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>    
+    <!-- 
+			widget specific variables 
+		-->
+    <xrx:variable>
+      <xrx:name>$mom-col</xrx:name>
+      <xrx:expression>collection("/db/mom-data/metadata.momathon/")//*</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$mom-entry</xrx:name>
+      <xrx:expression>$mom-col//xrx:momathon[@from le $momathon:date][@to ge $momathon:date]</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$order-mode</xrx:name>
+      <xrx:expression>request:get-parameter("mode", "")</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$order-state</xrx:name>
+      <xrx:expression>if($order-mode eq "") then "alphabetical" else "most Charters first" </xrx:expression>
+    </xrx:variable>        
+    <xrx:variable>
+      <xrx:name>$is-moderator</xrx:name>
+      <xrx:expression>
+        if($user:is-loggedin = true()) then auth:matches(
+        <xrx:rule>
+          <xrx:user/>
+          <xrx:role>moderator</xrx:role>
+        </xrx:rule>
+        ) else false()
+      </xrx:expression>
+    </xrx:variable>
+    
+  </xrx:variables>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/momathon</xrx:portal>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:xformsflag>true</xrx:xformsflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <xrx:css>tag:www.monasterium.net,2011:/mom/css/charter-preview</xrx:css>
+    <style type="text/css">
+      
+      
+      #dcharter-preview-main{{
+      position:relative;
+      float:left;
+      width:800px;
+      }}
+      #dcharter-preview-main .charter *{{
+      line-height:1.6em;
+      }}
+      #dcharter-preview-main .charter{{
+      position:relative;
+      width:100%;
+      float:left;
+      background:rgb(245,245,245);
+      }}
+      #dcharter-preview-main .charter-preview{{
+      position:relative;
+      float:left;
+      width:100%;
+      background:rgb(245,245,245);
+      border-bottom:solid white 5px;
+      }}
+      #dcharter-preview-main .inner-charter-preview{{
+      position:relative;
+      float:left;
+      width:100%;
+      margin:15px;
+      }}
+      #dcharter-preview-main .charter-info-and-actions{{
+      display:inline;
+      position:relative;
+      float:left;
+      width:25%;
+      border-left:solid white 3px;
+      padding-left:10px;
+      }}
+      #dcharter-preview-main .container{{
+      float:left;
+      width:65%;
+      padding-right:10px;
+      }}
+      #dcharter-preview-main .charter-info-and-actions *{{
+      font-size:13px;
+      }}
+      #dcharter-preview-main .fieldset{{
+      border:solid #C8C8C8 1px;
+      margin-top:10px;
+      }}
+      #dcharter-preview-main .inner-fieldset{{
+      margin:5px;
+      }}
+      
+      img.displayed {{
+      display: block;
+      margin-left: auto;
+      margin-right: auto }}
+
+    </style>
+  </xrx:csss>
+  <xrx:model>
+    { bookmark:model(conf:param('request-root')) }
+    { publication:model(conf:param('request-root')) } 
+  </xrx:model>
+
+
+  <xrx:view>
+    <xrx:auth>
+      <xrx:rules>
+        <xrx:rule>
+          <xrx:user/>
+          <xrx:dbgroup>atom</xrx:dbgroup>
+        </xrx:rule>
+      </xrx:rules>
+        <xrx:true>
+          <div data-demoid="223f890b-f5ec-48ef-a924-99afbd343679" id="dcharter-preview-main">
+            <div class="h2" data-demoid="3cc8a55b-5fc7-4a1e-aaaf-a7e57454f386">
+            <a name="top"/>
+              <!--
+             <xrx:i18n>
+               <xrx:key>momathon</xrx:key>
+               <xrx:default>MOMathon</xrx:default>
+             </xrx:i18n> -->
+              
+              MOMathon-Participants from {data($mom-entry/@from)} to {data($mom-entry/@to)} in {$order-state} Order
+            
+            </div>
+              <!-- Iterate through all MOMathons order by Date @from -->
+              <div data-demoid="d4050460-16af-44e9-a339-ac4a0aec7c63" class="inner-charter-preview">
+              {
+
+              let $user_asc := for $user in $mom-entry//xrx:user
+                order by (data($user/@id))
+                return $user
+              
+              let $charter_desc := for $user in $mom-entry//xrx:user
+                order by (count($user//xrx:charter)) descending
+                return $user
+              
+              let $order-state := if ($order-mode = "charter") then $charter_desc  else $user_asc
+              
+              for $user at $pos in $order-state
+                let $user-id := data($user/@id)
+                let $user-charter := $user//xrx:charter
+                let $count-charter := count($user//xrx:charter)
+                let $amount-finished := momathon:DoneCharters($user-id, $user-charter)
+                let $output := if($is-moderator or $user-id = $xrx:user-id) then concat("| Freigeschaltet: ", $amount-finished) else ""
+                let $order-state := if ($order-mode = "charter") then $count-charter  else $user-id 
+              
+              return
+                <div>
+                  {$pos}) &#187; MOMathon-User: <b>"{$user-id}"</b> | Anzahl bearbeiteter Urkunden: <b>"{count($user-charter)}" {$output}</b><br/>
+                </div>
+              
+              } 
+              </div>
+              <a style="float:right;" href="#top">&#187;Top</a>
+            
+          </div>
+        </xrx:true>
+        <xrx:false>
+          <h3>
+            <xrx:i18n>
+              <xrx:key>protected-page-message</xrx:key>
+              <xrx:default>Protected page. Please login first.</xrx:default>
+            </xrx:i18n>
+          </h3>
+        </xrx:false>
+    </xrx:auth>
+  </xrx:view>
+</xrx:widget>

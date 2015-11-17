@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/momathon-detail</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>momathon</xrx:key>
+      <xrx:default>MOMathon</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>stephan.makowski@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/momathon</xrx:portal>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>true</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <xrx:css>tag:www.monasterium.net,2011:/mom/css/charter-preview</xrx:css>
+    <style type="text/css">
+      
+#dcharter-preview-main{{
+position:relative;
+float:left;
+width:800px;
+}}
+#dcharter-preview-main .charter *{{
+line-height:1.6em;
+}}
+#dcharter-preview-main .charter{{
+position:relative;
+width:100%;
+float:left;
+background:rgb(245,245,245);
+}}
+#dcharter-preview-main .charter-preview{{
+position:relative;
+float:left;
+width:100%;
+background:rgb(245,245,245);
+border-bottom:solid white 5px;
+}}
+#dcharter-preview-main .inner-charter-preview{{
+position:relative;
+float:left;
+width:100%;
+margin:15px;
+}}
+#dcharter-preview-main .charter-info-and-actions{{
+display:inline;
+position:relative;
+float:left;
+width:25%;
+border-left:solid white 3px;
+padding-left:10px;
+}}
+#dcharter-preview-main .container{{
+float:left;
+width:65%;
+padding-right:10px;
+}}
+#dcharter-preview-main .charter-info-and-actions *{{
+font-size:13px;
+}}
+#dcharter-preview-main .fieldset{{
+border:solid #C8C8C8 1px;
+margin-top:10px;
+}}
+#dcharter-preview-main .inner-fieldset{{
+margin:5px;
+}}
+div.bookmark-icon{{
+position:absolute;
+right:220px;
+}}
+#note-field{{
+	position:relative;
+	top: 10px;
+}}
+#noteBobble {{
+	display:none;
+	position:fixed;
+	left:400px;
+	bottom:35%;
+	z-index:20;
+	width: 400px;
+	height: 150px;
+	background-color: #F6F6F6;
+	padding:20px;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  -khtml-border-radius:3px;
+  border-radius:3px;
+  -moz-box-shadow:    4px -3px 10px 1px #202020;
+  -webkit-box-shadow: 4px -3px 10px 1px #202020;
+  box-shadow:         4px -3px 10px 1px #202020;
+}}
+#noteBobble .xfLabel{{ 
+	color:rgb(142,163,132);
+	font-weight:bold;
+}}   
+#noteBobble .xfValue{{ 
+	top: 5px !important;
+  position:relative;
+  width:400px !important;
+  max-height: 100px !important;
+}}
+#noteBobble .xfTrigger{{
+	width:30px !important;
+}}  
+#edit-box{{
+  border:solid #C8C8C8 1px;
+  padding:3px;
+}}
+
+    </style>
+  </xrx:csss>
+  <xrx:model>
+    { bookmark:model(conf:param('request-root')) }
+    { publication:model(conf:param('request-root')) }
+  </xrx:model>
+  <xrx:view>
+  {
+  	(: take submitted ID from momathon :)
+    let $mom-id := request:get-parameter("id", "")
+    (: get Collection or all momathons :)
+    let $mom-col := collection("/db/mom-data/metadata.momathon/")//*
+    (: Load single momathon-entry :)
+    let $mom-entry := $mom-col//xrx:momathon[@id = $mom-id]
+    (: Load all Charters to the momathon :)
+    let $charters-to-publish := $mom-entry//xrx:charter
+
+    (: pagination :)
+    let $numentries := count($charters-to-publish)
+    let $startstop := pagination:startstop($numentries)
+    let $navigation := pagination:navi($numentries)
+    
+    return
+    <xf:group model="msaved">
+	    <div data-demoid="94e9fa85-3165-4719-8b48-df68dd917f4a" id="dcharter-preview-main">
+	      <div class="h2" data-demoid="22533c51-aae5-4e8b-90ab-70cac0bd6c48">
+	        <xrx:i18n>
+	          <xrx:key>charters-to-publish</xrx:key>
+	          <xrx:default>Charters to publish</xrx:default>
+	        </xrx:i18n>
+	      </div>
+	      { $navigation }
+	      <div data-demoid="708fa6cb-ca30-41aa-a8a7-1b9086d98e10" id="momathon-header">
+	        <h2>Informationen zum MOMathon in der Zeit von "{data($mom-col//xrx:momathon[@id=$mom-id]/@from)}" bis "{data($mom-col//xrx:momathon[@id=$mom-id]/@to)}"</h2>
+	        <br/>       
+	        <b>Anzahl beteiligter User: {count($mom-entry/xrx:users/xrx:user)}</b><br/>
+	        <b>Anzahl bearbeitete Urkunden: {count($mom-entry//xrx:charter)}</b><br/>
+	      </div>
+	    	<div data-demoid="406c9a7e-b726-4083-b6e3-8afd7dd232bd" id="noteBobble">
+	    		<xrx:resource onClick="document.getElementById('noteBobble').style.display = 'none';" style="position:absolute;left:417px;top:8px;width:14px;" title="Close note input" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/button_close</xrx:resource>
+	    		<div data-demoid="e1641337-7d68-4a54-8d55-c905dcd39386">
+	    			<xf:group model="mbookmark">
+	    				<xf:textarea ref="//xrx:bookmarkNote">
+	    					<xf:label id="note-label">
+	    						<xrx:i18n>
+	    							<xrx:key>bookmark-note</xrx:key>
+	    							<xrx:default>Bookmark note</xrx:default>
+	    						</xrx:i18n>:
+	    					</xf:label>
+	    				</xf:textarea>
+	    				<div data-demoid="edbf3660-5d5b-4008-ab8b-f0198a7a86d0" id="note-save-trigger">
+	    					<xf:trigger>
+	    						<xf:label>
+	    							<xrx:i18n>
+	    								<xrx:key>save</xrx:key>
+	    								<xrx:default>save</xrx:default>
+	    							</xrx:i18n>
+	    						</xf:label>
+	    						<xf:action ev:event="DOMActivate">
+	    							<xf:send submission="ssave-note"/>
+	    							<script type="text/javascript">document.getElementById('noteBobble').style.display = 'none';</script>
+	    						</xf:action>
+	    					</xf:trigger>
+	    				</div>
+	    			</xf:group>
+	    		</div>
+	    	</div>
+	      {
+	      
+	      
+	      for $id-element at $num in $charters-to-publish
+	
+	      
+	      let $atom-id := data($id-element/@atomid)
+	      let $email := data($id-element/ancestor::*[local-name() = "user"]/@id)
+	      
+	      (: initialize metadata collections :)
+	      let $tokens := tokenize(substring-after($atom-id, conf:param('atom-tag-name')), '/')
+	
+	      let $charter-context := 
+	        let $probably-collection-id := $tokens[3]
+	        let $probably-collection-atom-id := metadata:atomid('collection', $probably-collection-id)
+	        return
+	        if(exists(metadata:base-collection('collection', 'public')//atom:id[.=$probably-collection-atom-id])) then 'collection' else 'fond'      
+	      
+	      let $charter-id := $tokens[last()]
+	      let $fond-id := if($charter-context = 'fond') then $tokens[last() - 1] else 'null'
+	      let $archive-id := if($charter-context = 'fond') then $tokens[last() - 2] else 'null'
+	      let $collection-id := if($charter-context = 'collection') then $tokens[last() - 1] else 'null'
+	          
+	      let $metadata-charter-collection := 
+	        if($charter-context = 'fond') then
+	          metadata:base-collection('charter', ($archive-id, $fond-id), 'public')
+	        else
+	          metadata:base-collection('charter', $collection-id, 'public')
+	      let $metadata-fond-collection := 
+	        metadata:base-collection('fond', ($archive-id, $fond-id), 'public')
+	      let $metadata-archive-collection := 
+	        metadata:base-collection('archive', $archive-id, 'public')
+	      let $metadata-collection-collection := 
+	        metadata:base-collection('collection', $collection-id, 'public')
+	      
+	      let $published-charter := root($metadata-charter-collection//atom:id[.=$atom-id])/atom:entry
+	      let $saved-charter := root(metadata:base-collection('charter', 'saved')//atom:id[.=$atom-id])/atom:entry
+	      
+	      (: fond information :)
+	      let $meta := 
+	        if($charter-context = 'fond') then $metadata-fond-collection//ead:ead//ead:c[@level='fonds']/ead:did else $metadata-collection-collection//cei:cei
+	      let $fond-name := 
+	        if($charter-context = 'fond') then $meta/ead:unittitle/text() else normalize-space($meta//cei:provenance/child::text())
+	
+	      (: get archive information :)
+	      let $arch-name := $metadata-archive-collection//eag:autform/text()    
+	        
+	      (: get info for published charter :)
+	      let $id := data($published-charter//cei:body/cei:idno/@id)
+	      let $idno := $published-charter//cei:body/cei:idno/text()
+	      let $date := ($published-charter//cei:date/text(), $published-charter//cei:dateRange/text(), $published-charter//cei:date_sort/text())[1]
+	      let $abstract := $published-charter//cei:abstract//text()
+	
+	      (: status of the charter :)
+	      let $is-bookmarked := bookmark:is-bookmarked($xrx:user-xml, $atom-id)
+	      let $saved-by-current-user := false()
+	      let $saved-by-any-user := true()
+	      let $is-moderator := true()
+	      
+	      return
+	      <div class="charter" data-demoid="0fde065e-714f-4af1-8ff9-f8c4119536f3" id="ch{ $num }"><div class="charter-preview" data-demoid="2e40613c-06cb-4210-9573-395381393cde"><div class="inner-charter-preview" data-demoid="dbc33628-24db-40ce-83f5-6b2ac12545b7">
+		      <div class="container" data-demoid="11ab7309-0446-4bd3-afa5-a0444d2dcb87">
+	          <div data-demoid="c32b0676-bfe9-438e-8811-945477b42c93">
+	            {
+	            if($charter-context = 'fond') then
+	            <div data-demoid="26e2ceaa-50d7-4148-82fc-a60b50f164be">{ $arch-name }, { $fond-name }</div>
+	            else
+	            <div data-demoid="cf9e8388-e267-4427-a7c9-68a21959ad82">{ $fond-name }</div>
+	            }
+	            <b>
+	              <xrx:i18n>
+	                <xrx:key>charter</xrx:key>
+	                <xrx:default>Charter</xrx:default>
+	              </xrx:i18n>
+	              <span>: </span>
+	            </b>
+	            <span>{ $idno }</span>
+	          </div>
+	          <div data-demoid="ccc44ab5-1a5c-4c5e-93a2-4077ba6c036a">
+	            <b>
+	              <xrx:i18n>
+	                <xrx:key>date</xrx:key>
+	                <xrx:default>Date</xrx:default>
+	              </xrx:i18n>
+	              <span>: </span>
+	            </b>
+	            <span>{ ($saved-charter//cei:date/text(), $saved-charter//cei:dateRange/text())[1] }</span>
+	          </div>
+		        <div data-demoid="465ad092-da11-4188-a290-e54c1999c918">
+		          <b>
+		            <xrx:i18n>
+		              <xrx:key>abstract</xrx:key>
+		              <xrx:default>Abstract</xrx:default>
+		            </xrx:i18n>
+		            <span>: </span>
+		          </b>
+		          <span>{ $saved-charter//cei:abstract//text() }</span>
+		        </div>
+		        <br/>
+	          <br/>
+	          <div data-demoid="aa4daa50-90cc-4395-8baa-8307763002d5">
+	            <xrx:i18n>
+	              <xrx:key>edited-by</xrx:key>
+	              <xrx:default>Edited by</xrx:default>
+	            </xrx:i18n>
+	            <span>: { user:firstname-name($email) }</span>
+	          </div>
+	          <br/>
+		      </div>
+		      <div class="charter-info-and-actions" data-demoid="84b9711f-cc67-4524-a514-695c36ca0776">
+		        <a href="{ conf:param('request-root') }charter-to-publish?id={ $atom-id }">
+		          <xrx:i18n>
+		            <xrx:key>view-editions</xrx:key>
+		            <xrx:default>View Editions</xrx:default>
+		          </xrx:i18n>
+		        </a>
+		        <div data-demoid="a2723793-71dd-4bef-ab7b-1ba2eca19430">
+		        	<a href="{ conf:param('request-root') }charter-version-difference?id={ $atom-id }&amp;backlink=charters-to-publish">
+		        		<xrx:i18n>
+		        			<xrx:key>version-difference</xrx:key>
+		        			<xrx:default>Version Difference</xrx:default>
+		        	  </xrx:i18n>
+		        	</a>
+		        </div>              
+		        { 
+	          bookmark:trigger(
+	            $is-bookmarked,
+	            $atom-id,
+	            $num,
+	            conf:param('request-root'),
+	            <span>
+	              <xrx:i18n>
+	                <xrx:key>add-bookmark</xrx:key>
+	                <xrx:default>Add bookmark</xrx:default>
+	              </xrx:i18n>
+	            </span>,
+	            <span>
+	              <xrx:i18n>
+	                <xrx:key>remove-bookmark</xrx:key>
+	                <xrx:default>Remove bookmark</xrx:default>
+	              </xrx:i18n>
+	            </span>
+	          ) 
+	          }
+	          {
+	          publication:user-actions(
+	            false(),
+	            true(),
+	            $atom-id,
+	            $num,
+	            conf:param('request-root'),
+	            true(),
+	            "charters-to-publish",
+	            <span>
+	              <xrx:i18n>
+	                <xrx:key>save-and-edit-charter</xrx:key>
+	                <xrx:default>Save and edit charter</xrx:default>
+	              </xrx:i18n>
+	            </span>,
+	            <span>
+	              <xrx:i18n>
+	                <xrx:key>edit-charter</xrx:key>
+	                <xrx:default>Edit charter</xrx:default>
+	              </xrx:i18n>
+	            </span>,
+	            <span>
+	              <xrx:i18n>
+	                <xrx:key>charter-in-use</xrx:key>
+	                <xrx:default>Charter in use</xrx:default>
+	              </xrx:i18n>
+	            </span>,
+	            <span>
+	              <xrx:i18n>
+	                <xrx:key>release-charter</xrx:key>
+	                <xrx:default>Release Charter</xrx:default>
+	              </xrx:i18n>
+	            </span>,
+	            <span>
+	              <xrx:i18n>
+	                <xrx:key>remove-charter</xrx:key>
+	                <xrx:default>Remove Charter</xrx:default>
+	              </xrx:i18n> 
+	            </span>,
+	            <span>
+	              <xrx:i18n>
+	                <xrx:key>publish-charter</xrx:key>
+	                <xrx:default>Publish Charter</xrx:default>
+	              </xrx:i18n> 
+	            </span>      
+	          )
+	          }
+		      </div>
+	      </div></div></div>
+	      }
+	      { $navigation }
+	    </div>
+	  </xf:group>
+  }
+  </xrx:view>
+</xrx:widget>

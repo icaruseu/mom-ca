@@ -1,7 +1,8 @@
 <collection xmlns="http://exist-db.org/collection-config/1.0"> 
-    <index xmlns:cei="http://www.monasterium.net/NS/cei" xmlns:tei="http://www.tei-c.org/ns/1.0">
+    <index xmlns:atom="http://www.w3.org/2005/Atom" xmlns:cei="http://www.monasterium.net/NS/cei" xmlns:tei="http://www.tei-c.org/ns/1.0">
         <lucene> 
             <analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/> 
+	        <text qname="atom:id" />
             <text qname="cei:abstract"/>
             <text qname="cei:altIdentifier"/>
             <text qname="cei:apprecatio"/>
@@ -98,5 +99,9 @@
     </index>
     <triggers>
         <trigger class="org.exist.extensions.exquery.restxq.impl.RestXqTrigger"/>
+	<trigger event="create,delete,update"
+            class="org.exist.versioning.VersioningTrigger">
+            <parameter name="overwrite" value="yes"/>
+        </trigger>
     </triggers>
 </collection>
