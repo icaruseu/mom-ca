@@ -90,7 +90,9 @@
                 var newDiv = $('<div>' + $(document).xrxI18n.translate(name, "xs:attribute") + '<div>').addClass(uiSuggestedAttributeDivsClass).attr("title", name);
                 suggestedAttributesDiv.append(newDiv);
                 self._suggestedAttributeDraggable(newDiv);
+                
             }
+            
             /* a method to switch off/on the use of the controlled Vocabulary*/
             self._onoffButton(controlledVocButton);
             
@@ -151,6 +153,10 @@
                    for (var j = 0; j < blende.length; j++) {
                        $("div[title='" + blende[j] + "']", "." + uiMainDivId).draggable("disable");
                    }
+                }
+                else if (controlledVoc == true && verw.indexOf('indexName')== -1){
+                	$("div[title='lemma']", "." + uiMainDivId).draggable("disable");
+                	$("div[title='sublemma']", "." + uiMainDivId).draggable("disable");
                 }
                 else {
                 	for (var i= 0; i < editedAttributes.length; i++){
@@ -241,8 +247,9 @@
              * if controlledVoc is true then menuliste (is a dropdown menu)is implemented
              * if false newEditAttributeInput (is an inputfield) is created.*/
             if (elementName == "cei:index") {
+                                 
                 
-                if ((controlledVoc == true) &&(mainkeys.indexOf(name) != -1)) {                 
+                if ((controlledVoc == true) &&(mainkeys.indexOf(name) != -1)) {                	
                     for (var mk in suggestedVal) {                                   
                         	        var y = suggestedVal[mk];                        
                                     var x = setoptioninSelect(y, mk, wert); 
@@ -254,7 +261,7 @@
                  else {
                     newEditAttribute.append(newEditAttributeLabel).append(newEditAttributeInput).append(newEditAttributeTrash);
                 }
-                }              
+                }            
                       
             else {
                 newEditAttribute.append(newEditAttributeLabel).append(newEditAttributeInput).append(newEditAttributeTrash);
@@ -514,7 +521,7 @@
                         sein.addAttribute(undefined, 'sublemma', 'sublemma', undefined, '');
                         var row = $("div:contains('sublemma')", "." + uiEditAttributesDivClass);            
                         row.remove();                                                
-                        $("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                        /*$("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("disable");*/
                         /*Attribute is removed from the XML-Instance. */
                         $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
                     }
@@ -524,8 +531,8 @@
                         sein.addAttribute(undefined, 'lemma', 'lemma', undefined, '');                      
                         var row = $("div:contains('lemma')", "." + uiEditAttributesDivClass);                        
                         row.remove();                        
-                        $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-                        /*Attribute is removed from the XML-Instance. */
+                        /* $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("disable");*/
+                         /*Attribute is removed from the XML-Instance. */
                         $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
                     }
                     var spantexte =[];
@@ -541,6 +548,9 @@
                         }                    
                     }  
                     $("div[title='indexName']", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                    $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("disable");
+                    $("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("disable");
+                   
                    /* for (var i = 0; i < suggestedAttributesNamen.length; i++) {                    
                     $("div[title='" + suggestedAttributesNamen[i] + "']", "." + uiSuggestedAttributesDivClass).draggable("enable");*/
                 
@@ -616,7 +626,7 @@
         //End of _trashIconClickable
         
         
-        /* method to switch of/on the cv
+        /* method to switch off/on the cv
          * IDEA: maybe better to construct the whole GUI part from _newEditAttribute in this method,
          * because easier to handle the setting of the attributes*/
         _onoffButton: function (controlledVocButton) {
@@ -727,21 +737,19 @@
                         row.remove();                        
                         $("div[title='indexName']", "." + uiSuggestedAttributesDivClass).draggable("enable");                        
                         $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
-                         /*var ind = verw.indexOf('ind');
-                         verw.splice(ind,1);
-                        }*/
+                        
                     }
                     if (titelarray.indexOf('indexName')>-1 && titelarray.indexOf('lemma')>-1){
                     	var sein = new AttributesImpl();                        
                         sein.addAttribute(undefined, 'lemma', 'lemma', undefined, '');
                         var row = $("div:contains('lemma')", "." + uiEditAttributesDivClass);                         
                         row.remove();                        
-                        $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");                        
+                                                
                         $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
-                         /*var ind = verw.indexOf('ind');
-                         verw.splice(ind,1);
-                        }*/
+                     
                     }
+                    $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("disable");
+                    $("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("disable");
                     controlledVoc = true;
                 }
             });            
@@ -752,8 +760,7 @@
         /* Method to be able to drag the suggestedAttributes in the GUI*/
         _suggestedAttributeDraggable: function (suggestedAttribute) {
             
-            var self = this;            
-            
+            var self = this;          
             suggestedAttribute.draggable({                
                 containment: "." + uiMainDivId,               
                 revert: "invalid",                
