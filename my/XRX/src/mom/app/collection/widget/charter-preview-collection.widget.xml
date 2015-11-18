@@ -198,6 +198,21 @@ it leaves the active development stage.
               <xrx:default>PDF- Export</xrx:default>
             </xrx:i18n>
           </a>
+          { 
+          if($wcharter-preview:is-moderator = true() ) then
+       
+            <div>
+              <a href="{ conf:param('request-root')}charter-versions?id={ $wcharter-preview:atom-id }&amp;backlink={$charter:rcollectionid}/collection">
+                <xrx:i18n>
+                  <xrx:key>charter-versions</xrx:key>
+                  <xrx:default>Charter versions</xrx:default>
+                </xrx:i18n> 
+              </a>
+            </div>  
+                else
+                
+          <div/>
+          }
         </div>
       </xrx:view>
     </xrx:div>

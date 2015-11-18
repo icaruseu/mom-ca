@@ -23,15 +23,23 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 :)
 
 module namespace publication="http://www.monasterium.net/NS/publication";
-
+import module namespace momathon="http://www.monasterium.net/NS/momathon" at "xmldb:exist:///db/XRX.live/mom/app/momathon/momathon.xqm";
 declare namespace xf="http://www.w3.org/2002/xforms";
 declare namespace ev="http://www.w3.org/2001/xml-events";
 declare namespace xrx="http://www.monasterium.net/NS/xrx";
 declare namespace xhtml="http://www.w3.org/1999/xhtml";
 declare namespace bfc="http://betterform.sourceforge.net/xforms/controls";
 
+declare function publication:writeMomLog($atomid as xs:string) {
+    let $log := momathon:WriteMomLog($atomid)
+    return ()
+};
+
 (: Build URL from ATOM-Tag :)
 declare function publication:build-url($atomid as xs:string) as xs:string? {
+
+    let $mode := if(request:get-parameter("mode","") != "") then request:get-parameter("mode","") else "full"
+
     let $token := tokenize($atomid, "/")
     let $sub := subsequence($token, 3, count($token) - 2)
     let $context := if(count($sub) = 2) then "collection" else "fond"
@@ -39,7 +47,9 @@ declare function publication:build-url($atomid as xs:string) as xs:string? {
     let $archiveid := $sub[1]
     let $fondid := $sub[2]
     let $collectionid := $sub[1]
-    let $url := if($context = "collection") then concat($collectionid, "/", $objectid) else concat($archiveid, "/", $fondid, "/", $objectid)
+    let $url := if($context = "collection") then concat($collectionid, "/", $objectid, "/edit?mode=", $mode) else concat($archiveid, "/", $fondid, "/", $objectid, "/edit?mode=", $mode)
+    
+    
     
     return
           $url
@@ -61,6 +71,7 @@ declare function publication:model($request-root as xs:string) as element() {
         <xf:instance>
             <data xmlns="">
                 <atomid/>
+                <mode/>
             </data>
         </xf:instance>
         
@@ -120,6 +131,32 @@ declare function publication:model($request-root as xs:string) as element() {
 
 };
 
+
+declare function publication:momathon-trigger(
+    $atomid as xs:string,
+    $num as xs:integer,
+    $request-root as xs:string,
+    $widget-key as xs:string,
+    $save-charter-message as element(xhtml:span)) {
+
+    if(matches($widget-key, '^(fond|collection|search|saved-charters|charter|bookmarks|mom-ca)$')) then
+    <div>
+        <xf:trigger appearance="minimal">
+            <xf:label>{ $save-charter-message }</xf:label>
+            <xf:action ev:event="DOMActivate">
+                <xf:setvalue ref="//atomid" value="'{ $atomid }'"/>
+                <xf:setvalue ref="//mode" value="momathon"/>
+                <xf:recalculate/>
+                <xf:send submission="ssave-charter"/>
+                <xf:load show="new" resource ="{ $request-root }/{publication:build-url($atomid)}"/>
+              
+            </xf:action>
+        </xf:trigger>
+    </div>
+    else
+    <div/>
+};
+
 declare function publication:save-trigger(
     $atomid as xs:string,
     $num as xs:integer,
@@ -127,7 +164,7 @@ declare function publication:save-trigger(
     $widget-key as xs:string,
     $save-charter-message as element(xhtml:span)) {
 
-    if(matches($widget-key, '^(fond|collection|search|saved-charters|charter|bookmarks)$')) then
+    if(matches($widget-key, '^(fond|collection|search|saved-charters|charter|bookmarks|mom-ca)$')) then
     <div>
         <xf:trigger appearance="minimal">
             <xf:label>{ $save-charter-message }</xf:label>
@@ -164,16 +201,16 @@ declare function publication:edit-trigger(
             </xf:action>
         </xf:trigger>
     </div>
-    else if(matches($widget-key, '^(fond|collection|search|saved-charters|charter|charters-to-publish|bookmarks)$')) then
+    else if(matches($widget-key, '^(fond|collection|search|saved-charters|charter|charters-to-publish|bookmarks|mom-ca)$')) then
     <div>
         <img src="{ $request-root }resource/?atomid=tag:www.monasterium.net,2011:/mom/resource/image/button_edit"/>
         <xf:trigger appearance="minimal">
             <xf:label>{ $edit-charter-message }</xf:label>
             <xf:action ev:event="DOMActivate">
             {
-              if ($edit-mode = "editmom3") then
+              if ($edit-mode = "editmom3" or $widget-key="mom-ca") then
                   <xf:load show="new">
-                    <xf:resource value="'{ $request-root }/{publication:build-url($atomid)}/edit'"/> -->
+                    <xf:resource value="'{ $request-root }/{publication:build-url($atomid)}'"/> 
                   </xf:load>
               else
                   <xf:load show="replace">
@@ -411,7 +448,13 @@ declare function publication:user-actions(
     $remove-charter-message as element(xhtml:span),
     $publish-charter-message as element(xhtml:span)) as element() {
 
-    let $editmom3msg :=           <span>EditMOM 3 beta</span>
+    let $editmom3msg :=           <span>Edit with EditMOM 3 beta</span>
+    
+    (: MOMathon-Trigger :)
+    let $case-momathon-charter :=
+    <xf:case id="cmom-charter-{ $num }">
+        { publication:momathon-trigger($atomid,$num,$request-root,$widget-key,publication:change-element-ns($editmom3msg, "http://www.w3.org/1999/xhtml", "xhtml")) }
+    </xf:case>
     
     (: charter is saved by current user :)
     let $case-save-charter :=
@@ -452,6 +495,7 @@ declare function publication:user-actions(
             if($widget-key = 'charters-to-publish') then ($case-edit-charter)
             else if($saved-by-current-user) then ($case-edit-charter, $case-save-charter)
             else if($saved-by-any-user) then $case-charter-in-use
+            else if($widget-key = "mom-ca") then ($case-momathon-charter) 
             else ($case-save-charter, $case-edit-charter)
             }
         </xf:switch>

@@ -76,6 +76,8 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 	  )
 	  else()
     
+    let $log := if (not($charter-in-use)) then publication:writeMomLog($atomid) else ()
+    
 	  return
 	  ()
 	  

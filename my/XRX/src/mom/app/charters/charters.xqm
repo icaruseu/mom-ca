@@ -27,8 +27,11 @@ module namespace charters="http://www.monasterium.net/NS/charters";
 import module namespace xrx="http://www.monasterium.net/NS/xrx"
     at "../xrx/xrx.xqm";
 
-declare namespace cei="http://www.monasterium.net/NS/cei";
+import module namespace metadata="http://www.monasterium.net/NS/metadata"
+    at "../metadata/metadata.xqm";
 
+declare namespace cei="http://www.monasterium.net/NS/cei";
+declare namespace atom="http://www.w3.org/2005/Atom";
 (:~ 
   request parameter 
 :)
@@ -36,7 +39,7 @@ declare variable $charters:rblock := xs:integer(request:get-parameter('block', '
 declare variable $charters:start := $charters:rblock * 30 - 30;
 declare variable $charters:stop := $charters:rblock * 30;
 declare variable $charters:previous-block := if($charters:rblock = 1) then 1 else $charters:rblock - 1;
-
+declare variable $charters:base-collection := metadata:base-collection('charter', 'public');
 (:~
   request related functions
 :)
@@ -91,4 +94,119 @@ declare function charters:block-strings($sorted-dates as xs:string*) as xs:strin
     return
     concat(charters:year-from-date($dates[1]), ' - ', charters:year-from-date($dates[last()]))
      
+};
+
+(:  Get all Google Charters 
+~   At first get all Collections which have "Google" inside their descriptions
+~   After this, get all Charters from the previous fetched Collections
+~   Return Charters with their cei:date or cei:dateRange Nodes
+:)
+declare function charters:getGoogleCharters() {
+
+    (: Base-Collection for all Collections :)
+    let $col-collection := metadata:base-collection('collection', 'public')
+
+    (: Query with an index -> cei:sourceDesc->cei:p :)
+    let $google_hits := $col-collection//cei:fileDesc/cei:sourceDesc[ft:query(cei:p, 'Google')]
+    
+    (: First Part for the Build-String :)
+    let $base-col := "/db/mom-data/metadata.charter.public/"
+    
+    (: Optionstring for optimized Query :)
+    let $options := 
+                        <options xmlns="">
+                            <default-operator>and</default-operator>
+                            <phrase-slop>0</phrase-slop>
+                            <leading-wildcard>no</leading-wildcard>
+                            <filter-rewrite>yes</filter-rewrite>
+                        </options>
+    
+    (: Get all charters from the fetched Collections:)
+    let $google :=
+            let $return :=
+                (: Itereate through all Collections :)
+                (: Limited to 20 Collections due Lag of Performance :)
+                for $hit in $google_hits[position() = 1 to 20]
+                    (: Get AtomId from Charter :)
+                    let $atomid := root($hit)//atom:id/text()
+                    (: Replace collection inside the string for a search for charters:)
+                    let $cleared-id := replace($atomid, "collection", "charter")
+                    
+                    (: Build a:)
+                    let $charter :=
+                            let $token_atomid := tokenize($cleared-id, "/")
+                            
+                            (: Charter mit Transkriptionen :)
+                            let $query := 
+                                            element query {
+                                                element bool {
+                                                           for $token in $token_atomid
+                                                                let $return := element {"term"} {
+                                                                            attribute occur {"must"},
+                                                                            $token }
+                                                                return $return
+                                                            }
+                                                }
+                                            
+                                            
+                            let $result := $charters:base-collection/atom:entry[ft:query(atom:id, $query, $options)] 
+                            return
+                                $result 
+            
+                    let $chars := if(exists($charter//cei:dateRange)) then $charter//cei:dateRange/@to else $charter//cei:date/@value
+                    
+                    return
+                       $chars
+            return
+                $return
+    return
+        (: Order all Charters -> cei:date/dateRange :)       
+         charters:orderDate($google)
+};
+
+(: Order all Charters and return them in an ordered state :)
+declare function charters:orderDate($quantity) {
+        let $return := for $hit in $quantity
+            let $atomentry := $hit
+            order by $atomentry
+            return
+                $atomentry 
+
+return $return
+};
+
+(: Return all Charters with Date/DateRange '99999999' :)
+declare function charters:GetDateCharters()  {
+    (: Get all Charters without any Consideration of Archive, Fond or Collection  :)
+    let $hits := $charters:base-collection//cei:issued//descendant-or-self::*[ft:query(@value, '99999999')]
+    (:let $hits_r := $charters:base-collection//cei:issued//descendant-or-self::*[ft:query(@to, '99999999')] :)
+    (: Return all Charters in an ordered State :)
+    return
+        ($hits)
+};
+(: Return all Charters with Images :)
+declare function charters:GetTranscriptionCharters() {
+    let $trans := $charters:base-collection//atom:entry[.//cei:figure/cei:graphic/@url][.//cei:tenor/normalize-space(text()[1]) !='' ]
+    let $return := for $char in $trans[position() = 1 to 2000]
+        let $single_char := root($char)//cei:text//cei:issued/(cei:date/@value|cei:dateRange/@from)
+        return
+            $single_char
+
+    return
+        charters:orderDate($return)
+};
+
+(: Main Function which calles the individual Function depending on the $parameter-Attribute :)
+declare function charters:GetMomathonCharter($parameter as xs:string)  {
+
+(: In Dependency of the given Parm, return Charterlist :)
+let $hits := 
+    switch($parameter)
+        case "date" return charters:GetDateCharters()
+        case "google" return charters:getGoogleCharters()
+        case "transcription" return charters:GetTranscriptionCharters()
+        default return charters:GetDateCharters()
+
+return
+    $hits
 };

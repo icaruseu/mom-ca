@@ -1,0 +1,440 @@
+
+<xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+    <xrx:id>tag:www.monasterium.net,2011:/mom/widget/charter-versions</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key>charter-versions</xrx:key>
+            <xrx:default>Charter Versions</xrx:default>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:subtitle/>
+    <xrx:description/>
+    <xrx:author>stephan.makowski@uni-koeln.de</xrx:author>
+    <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+    <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/desktop</xrx:portal>
+    <xrx:init>
+        <xrx:processor>
+            <xrx:xformsflag>true</xrx:xformsflag>
+        </xrx:processor>
+    </xrx:init>
+    <xrx:csss>
+        <xrx:css>tag:www.monasterium.net,2011:/mom/css/charter-preview</xrx:css>
+        <style type="text/css">
+
+#dcharter-preview-main{{
+position:relative;
+float:left;
+width:800px;
+}}
+#dcharter-preview-main .charter *{{
+line-height:1.6em;
+}}
+#dcharter-preview-main .charter{{
+position:relative;
+width:100%;
+float:left;
+background:rgb(245,245,245);
+}}
+#dcharter-preview-main .charter-preview{{
+position:relative;
+float:left;
+width:100%;
+background:rgb(245,245,245);
+border-bottom:solid white 5px;
+}}
+#dcharter-preview-main .inner-charter-preview{{
+position:relative;
+float:left;
+width:100%;
+margin:15px;
+}}
+#dcharter-preview-main .charter-info-and-actions{{
+display:inline;
+position:relative;
+float:left;
+width:25%;
+border-left:solid white 3px;
+padding-left:10px;
+}}
+#dcharter-preview-main .container{{
+float:left;
+width:65%;
+padding-right:10px;
+}}
+#dcharter-preview-main .charter-info-and-actions *{{
+font-size:13px;
+}}
+#dcharter-preview-main .fieldset{{
+border:solid #C8C8C8 1px;
+margin-top:10px;
+}}
+#dcharter-preview-main .inner-fieldset{{
+margin:5px;
+}}
+div.bookmark-icon{{
+position:absolute;
+right:220px;
+}}
+.note-field{{
+  position:relative;
+  border:solid #C8C8C8 1px;
+  padding:3px;
+}}
+.noteBobble {{
+  display:none;
+  position:fixed;
+  left:400px;
+  bottom:35%;
+  z-index:20;
+  width: 400px;
+  height: 160px;
+  background-color: #F6F6F6;
+  padding:20px;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  -khtml-border-radius:3px;
+  border-radius:3px;
+  -moz-box-shadow:    4px -3px 10px 1px #202020;
+  -webkit-box-shadow: 4px -3px 10px 1px #202020;
+  box-shadow:         4px -3px 10px 1px #202020;
+}}
+.noteBobble .xfLabel{{ 
+  color:rgb(142,163,132);
+  font-weight:bold;
+}}   
+.noteBobble .xfValue{{ 
+  top: 5px !important;
+  position:relative;
+  width:400px !important;
+  max-height: 100px !important;
+}}
+.noteBobble .xfTrigger{{
+  width:30px !important;
+}}  
+.edit-box{{
+  padding:3px;
+}}
+
+    </style>
+    </xrx:csss>
+    <xrx:model>
+    { bookmark:model(conf:param('request-root')) }
+    { publication:model(conf:param('request-root')) }
+  </xrx:model>
+    <xrx:view>
+  {
+    (: Request Parameter :)
+    let $backlink := request:get-parameter('backlink', '')
+
+    (: Current Declaration:)
+    let $published-base-collection := metadata:base-collection('charter', 'public')
+      
+    (: Get Charter Atom-Tag :)
+    let $atom-id := request:get-parameter('id', ''  )
+        
+    let $tokens := tokenize(substring-after($atom-id, conf:param('atom-tag-name')), '/')
+    
+    (: Just get Charter-Id from Token :)
+    let $charter-id :=$tokens[last()]
+    
+    (: Get Charter from Collection :)
+    let $charter := root(metadata:base-collection('charter', 'public')//atom:id[.=$atom-id])
+    
+    (: Extract Date of Publishing :)
+    let $date_published := data($charter//atom:published)
+    let $link_ref := data($charter//atom:link/@ref)
+    
+    (: Get all Revisions of the Charter:)
+    let $revisions := v:versions($charter)
+    let $count_rev := count($revisions)
+ 
+    (: pagination :)
+    let $startstop := pagination:startstop($count_rev)
+    let $navigation := pagination:navi($count_rev)
+    
+    (: Check, if private Version is available :)
+    let $private := exists(root(metadata:base-collection('charter', 'saved')//atom:email[.=xmldb:get-current-user()][1])//cei:text//cei:idno[.=xmldb:decode(data($charter-id))])
+            
+    (: Check, if User is metadata-manager :)
+    let $IsMetadataManager := role:exists(xmldb:get-current-user(), "metadata-manager")
+    
+    return
+    <div data-demoid="bbbeea5c-99a4-47e8-abc2-5aa82a49a5f0" id="dcharter-versions">
+      <xrx:auth>
+          <xrx:rules>
+            <xrx:rule>
+              <xrx:user/>
+              <xrx:dbgroup>atom</xrx:dbgroup>
+            </xrx:rule>
+          </xrx:rules>
+          <xrx:true>
+            <div>
+            {
+            if($IsMetadataManager = true() or $private = true() ) then 
+            <div>
+              <a href="{ $backlink }">
+                <span>&lt;&lt; </span>
+                <xrx:i18n>
+                  <xrx:key>back</xrx:key>
+                  <xrx:default>back</xrx:default>
+                </xrx:i18n>
+                        </a>
+                        <div class="h2" data-demoid="c6e9af97-9a53-4451-9a88-2ffee4f871a5">
+                            <xrx:i18n>
+                                <xrx:key>charter-versions</xrx:key>
+                                <xrx:default>Charter versions</xrx:default>
+                            </xrx:i18n>
+                        </div>
+                  { $navigation }
+                        <xf:group>
+                     <div data-demoid="5a92598b-dcbf-4cf7-8449-d55a272d614e" id="dcharter-preview-main">  
+             <!-- ################## Common Info ################# -->
+                      <div data-demoid="eaa667ea-0054-4d24-9164-a9a8ce5b7bc9">
+            
+                        <b>
+                            <xrx:i18n>
+                                <xrx:key>charter</xrx:key>
+                                <xrx:default>Charter</xrx:default>
+                            </xrx:i18n>
+                            <span>: </span>
+                        </b>
+                        <span>{ $charter-id }</span>
+                      </div>
+                      <div data-demoid="f58e98f7-89db-42bf-8b4c-f2283c900cfd">
+                          <b>
+                              <xrx:i18n>
+                                  <xrx:key>date</xrx:key>
+                                  <xrx:default>Date</xrx:default>
+                              </xrx:i18n>
+                              <span>: </span>
+                          </b>
+                          <span>{ $date_published }</span>
+                      </div>
+                      <div data-demoid="f58e98f7-89db-42bf-8b4c-f2283c900cfd">
+                          <b>
+                              <xrx:i18n>
+                                  <xrx:key>revisions</xrx:key>
+                                  <xrx:default>Current amount of Revisions</xrx:default>
+                              </xrx:i18n>
+                              <span>: </span>
+                          </b>
+                          <span>{ $count_rev }</span>
+                      </div>
+                      <br/>
+            
+                      {
+                      if($count_rev != 0) then
+                        <div data-demoid="f58e98f7-89db-42bf-8b4c-f2283c900cfd">
+                            <b>
+                                <xrx:i18n>
+                                    <xrx:key>original</xrx:key>
+                                    <xrx:default>Restore Baseversion of Charter</xrx:default>
+                                </xrx:i18n>
+                                <span>: </span>
+                            </b>
+                            <span><a href="{ conf:param('request-root') }patch-charter?id={ xmldb:encode($atom-id) }&amp;rev=0&amp;backlink={data($backlink)}">
+                                                          <xrx:i18n>
+                                                              <xrx:key>patch-version</xrx:key>
+                                                              <xrx:default>Patch Charter</xrx:default>
+                                                          </xrx:i18n>
+                                                      </a></span>
+                        <span> | 
+                        <a href="{ conf:param('request-root') }charter-version-difference?id={ xmldb:encode($atom-id) }&amp;backlink={data($backlink)}&amp;rev=0">
+                            <xrx:i18n>
+                                <xrx:key>version-difference</xrx:key>
+                                <xrx:default>Version Difference</xrx:default>
+                            </xrx:i18n>
+                        </a></span>
+                      
+                        </div>
+                      else 
+                        <div data-demoid="f58e98f7-89db-42bf-8b4c-f2283c900cfd"/>
+                      }
+                      
+            
+            
+                      <br/>
+                      <br/>
+                      {
+            
+                      
+                                
+                      for $rev at $num in $revisions
+            
+                      let $rev_num := $rev//v:revision/text()
+                      let $rev_date := $rev//v:date/text()
+                      let $rev_user := $rev//v:user/text()
+                        let $rev_diff := $rev//v:diff
+                      order by $rev//v:date/text() descending          
+                      
+                      return
+                     
+            
+                        <div class="charter" data-demoid="b32e2701-abf4-4310-8526-8b6f0ee44153" id="ch{ $num }">
+                                      <div class="charter-preview" data-demoid="4e02e647-178f-45e4-b62b-7077f305237e">
+                                          <div class="inner-charter-preview" data-demoid="77a34be6-a077-4229-8d0c-333834dfbb57">
+              
+            
+                        
+                        <!-- ############### Published Charter ################# -->
+                                            <div class="container" data-demoid="86686e29-b9a4-44df-ae11-4cecb09070d4">
+                                                <div data-demoid="d749430d-03bf-4f8c-9840-8ee19cf86f26">
+                                                    <b>
+                                                        <xrx:i18n>
+                                                            <xrx:key>revision-number</xrx:key>
+                                                            <xrx:default>Revision Number</xrx:default>
+                                                        </xrx:i18n>
+                                                    </b>
+                                                        <span>: { $rev_num } </span>
+            
+                                                    <span></span>
+                                                </div>
+                                                <div data-demoid="d749430d-03bf-4f8c-9840-8ee19cf86f26">
+                                                    <b>
+                                                        <xrx:i18n>
+                                                            <xrx:key>revision-date</xrx:key>
+                                                            <xrx:default>Revision Date</xrx:default>
+                                                        </xrx:i18n>
+                                                    </b>
+                                                        <span>: { $rev_date } </span>
+            
+                                                    <span></span>
+                                                </div>
+                                                <div data-demoid="d749430d-03bf-4f8c-9840-8ee19cf86f26">
+                                                    <b>
+                                                        <xrx:i18n>
+                                                            <xrx:key>revision-user</xrx:key>
+                                                            <xrx:default>Revision by User</xrx:default>
+                                                        </xrx:i18n>
+                                                    </b>
+                                                        <span>: { $rev_user } </span>
+            
+                                                    <span></span>
+                                                </div>
+                                                <div data-demoid="d749430d-03bf-4f8c-9840-8ee19cf86f26">
+                                                  <b>
+                                                      <xrx:i18n>
+                                                          <xrx:key>revision-cause</xrx:key>
+                                                          <xrx:default>Cause of Revision</xrx:default>
+                                                      </xrx:i18n>
+                                                  </b>
+                                                  
+                                                  {
+                                                    for $dif in $rev_diff/*
+                                                  
+                                                      let $find-node-by-id := if(local-name($dif) = "append") then local-name($dif//*[position() = last()]) else v:find-node-by-id($charter, data($dif//@ref) )
+                                                      (:let $nodename := node-name($find-node-by-id):)
+                                                      let $key := concat("cei_", $find-node-by-id)
+                                                      let $msg_value := i18n:value($key, $xrx:lang, $key)
+                                                      let $value := $dif//*[position() = last()]/text()
+                                                      let $attribs := $dif//*
+                                                  
+                                                    return
+                                                        if(contains($key,"atom:")) then () else
+                                                        <div>
+                                                          <span>{replace(node-name($dif), "v:", "")}: </span>
+                                                          <span>{$msg_value} : </span>
+                                                          <span>                                                      
+                                                            <xrx:i18n>
+                                                                <xrx:key>cei_at_value</xrx:key>
+                                                                <xrx:default>value</xrx:default>
+                                                            </xrx:i18n>
+                                                             : {data($dif//*//@*)} : </span>
+                                                          <span>{data($dif/@*)}</span> :
+                                                        <span>"{$value}"</span>
+                                                          <br/>
+                                                        </div>
+                                                  }
+                                                  <span></span>                                   
+                                                </div>
+            
+                                            </div>
+            
+              
+              
+                        <!-- ############## Saved Charter ################ -->
+                                            <div class="charter-info-and-actions" data-demoid="a66d8ee9-a351-4489-a0e5-0a4b0cd9299e">
+                                                <div data-demoid="ccf5e927-6e78-4b54-9647-f4f03aeef9a0">
+                                                  {
+                                                    if($link_ref != "") then
+                                                      <div>
+                                                        <a href="{ conf:param('request-root') }charter-version-difference?id={ xmldb:encode($atom-id) }&amp;backlink={$backlink}&amp;rev={$rev_num}">
+                                                            <xrx:i18n>
+                                                                <xrx:key>version-difference</xrx:key>
+                                                                <xrx:default>Version Difference</xrx:default>
+                                                            </xrx:i18n>
+                                                        </a>
+                                                      </div>
+                                                    else
+                                                      <div>
+                                                        <a href="{ conf:param('request-root') }charter-version-difference?id={ xmldb:encode($atom-id) }&amp;backlink={$backlink}&amp;rev={$rev_num}">
+                                                            <xrx:i18n>
+                                                                <xrx:key>version-difference</xrx:key>
+                                                                <xrx:default>Version Difference</xrx:default>
+                                                            </xrx:i18n>
+                                                        </a>
+                                                      </div>                                   
+                                                    }
+                                                </div>
+                                                <div data-demoid="ccf5e927-6e78-4b54-9647-f4f03aeef9a0">
+                                                    <a href="{ conf:param('request-root') }patch-charter?id={ $atom-id }&amp;rev={ $rev_num }&amp;backlink={$backlink}">
+                                                        <xrx:i18n>
+                                                            <xrx:key>patch-version</xrx:key>
+                                                            <xrx:default>Patch Charter</xrx:default>
+                                                        </xrx:i18n>
+                                                    </a>
+                                                </div>  
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+                      }
+                    
+                  { $navigation }
+                </div>
+              </xf:group>
+            </div>
+            else
+                <div>
+                  <xrx:i18n>
+                    <xrx:key>insufficient-role</xrx:key>
+                    <xrx:default>You are not authorized to see different Versions.</xrx:default>
+                  </xrx:i18n>
+                </div>
+            }
+            </div>
+        </xrx:true>
+        <xrx:false>
+          <div>
+            <xrx:i18n>
+              <xrx:key>protected-page-message</xrx:key>
+              <xrx:default>Protected page. Please login first.</xrx:default>
+            </xrx:i18n>
+          </div>
+        </xrx:false>
+      </xrx:auth>
+    </div>
+  }
+  </xrx:view>
+</xrx:widget>

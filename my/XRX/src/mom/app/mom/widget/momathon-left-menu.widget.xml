@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/momathon-left-menu</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>momathon-left-menu</xrx:key>
+      <xrx:default>Momathon left menu</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>stephan.makowski@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+	</xrx:licence>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:xformsflag>false</xrx:xformsflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <style type="text/css">
+
+#momathon-left-menu{{
+  position:relative;
+  float:left;
+  width:150px;
+}}
+
+	  </style>
+  </xrx:csss>
+  <xrx:view>
+    <div data-demoid="df374799-c1ff-4d36-9d2a-9c1b9eeac2d1">
+      <xrx:auth>
+        <xrx:rules>
+          <xrx:rule>
+            <xrx:user/>
+            <xrx:dbgroup>atom</xrx:dbgroup>
+          </xrx:rule>
+        </xrx:rules>
+        <xrx:true>
+          <div data-demoid="418f62a7-9f49-4fdc-a7f1-81295968c06d" id="momathon-left-menu">
+            <h3>
+              <xrx:i18n>
+                <xrx:key>introduction</xrx:key>
+                <xrx:default>Introduction</xrx:default>
+              </xrx:i18n>
+            </h3>
+            <div class="sub-menu-item" data-demoid="0bb3b5f5-4603-4331-9664-80653e8da0ff">
+              <a href="{ conf:param('request-root') }momathon?mode=full">
+                <xrx:i18n>
+                  <xrx:key>overview</xrx:key>
+                  <xrx:default>Overview</xrx:default>
+                </xrx:i18n>                
+              </a><br/>
+              <a href="{ conf:param('request-root') }tutorial">
+                <xrx:i18n>
+                  <xrx:key>tutorials</xrx:key>
+                  <xrx:default>Tutorials</xrx:default>
+                </xrx:i18n>
+              </a>
+            </div>
+            <h3>
+              <xrx:i18n>
+                <xrx:key>documentation</xrx:key>
+                <xrx:default>Documentation</xrx:default>
+              </xrx:i18n>
+            </h3>
+            <div class="sub-menu-item" data-demoid="babd8ffa-a31f-4937-96ae-4e5602388955">
+              <a target ="_new" href="{ conf:param('request-root') }editmom-documentation">EditMOM</a>
+            </div>
+            
+            <h3>
+              <xrx:i18n>
+                <xrx:key>tasks</xrx:key>
+                <xrx:default>Tasks</xrx:default>
+              </xrx:i18n>
+            </h3>
+            <div class="sub-menu-item" data-demoid="55139597-d362-4422-94fa-840496164be4">
+              <!--<a href="{ conf:param('request-root') }momathon?mode=task">Tasks for MOMathon</a><br/>-->
+              <b><a href="{ conf:param('request-root') }momathon?mode=google">Google Edit</a></b><br/>
+              <a href="{ conf:param('request-root') }momathon?mode=date">Date Edit</a><br/>
+              <a href="{ conf:param('request-root') }momathon?mode=transcription">Transcription Edit</a><br/> 
+              
+
+              <!--
+              <a href="{ conf:param('request-root') }momathon-charters?mode=date" target="_new">Date Edit</a><br/>
+              <a href="{ conf:param('request-root') }momathon-charters?mode=google" target="_new">Google Edit</a><br/>
+              <a href="{ conf:param('request-root') }momathon-charters?mode=transcription" target="_new">Transcription Edit</a> -->
+              
+            </div>
+            <h3>
+              <xrx:i18n>
+                <xrx:key>result</xrx:key>
+                <xrx:default>Results</xrx:default>
+              </xrx:i18n>
+            </h3>
+            <div class="sub-menu-item" data-demoid="2f227a30-39df-4b3f-9bc7-aeaff8efb8a">
+              <a href="{ conf:param('request-root') }momathon-result">Result Overview</a><br/>
+            </div>
+            <xrx:auth>
+              <xrx:rules>
+                <xrx:rule>
+                  <xrx:user/>
+                  <xrx:role>moderator</xrx:role>
+                </xrx:rule>
+              </xrx:rules>
+              <xrx:true>
+                <div>
+                  <h3>
+                    <xrx:i18n>
+                      <xrx:key>Success</xrx:key>
+                      <xrx:default>Success Overview</xrx:default>
+                    </xrx:i18n>
+                  </h3>
+                  <div class="sub-menu-item" data-demoid="75223694-24e5-49bb-aa44-2ad6b30603ed">
+                    <a href="{ conf:param('request-root') }momathon-overview">
+                      <xrx:i18n>
+                        <xrx:key>success</xrx:key>
+                        <xrx:default>Success</xrx:default>
+                      </xrx:i18n>
+                    </a>
+                  </div>
+                </div>
+              </xrx:true>
+              <xrx:false>
+                <span/>
+              </xrx:false>
+            </xrx:auth>
+          </div>
+        </xrx:true>
+        <xrx:false>
+          <div data-demoid="a5493912-a02d-42eb-8f72-2807def14e1f"/>
+        </xrx:false>
+      </xrx:auth>
+    </div>
+  </xrx:view>
+</xrx:widget>

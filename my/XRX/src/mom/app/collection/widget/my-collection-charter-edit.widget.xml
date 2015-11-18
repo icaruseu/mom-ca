@@ -497,7 +497,7 @@ form{{
                         {
                         for $folio at $p in $folios
                         return
-                        <li title="{ $urls[$p] }">{ if($p = 1) then attribute class { 'ui-widget-content ui-selected' } else attribute class { 'ui-widget-content' } }{ $folio }</li>
+                        <li title="{ if(not(contains($urls[$p], '/'))) then concat($image-base-url, $urls[$p]) else $urls[$p]    }">{ if($p = 1) then attribute class { 'ui-widget-content ui-selected' } else attribute class { 'ui-widget-content' } }{ $folio }</li>
                         }
                       </ol>
                     </div>

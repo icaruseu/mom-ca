@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+	<xrx:id>tag:www.monasterium.net,2011:/mom/widget/momathon-charters</xrx:id>
+	<xrx:inherits>tag:www.monasterium.net,2011:/mom/widget/charters-mom</xrx:inherits>
+	<xrx:title>
+		<xrx:i18n>
+			<xrx:key>momathon</xrx:key>
+			<xrx:default>MOMathon</xrx:default>
+		</xrx:i18n>
+	</xrx:title>
+	<xrx:subtitle/>
+	<xrx:description/>
+	<xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+	<xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more
+lenient towards the inclusion of components into other systems, once
+it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>
+    <!-- 
+      widget specific variables 
+    -->
+    <xrx:variable>
+      <xrx:name>$wfond:archive-atomid</xrx:name>
+      <xrx:expression>metadata:atomid($archive:metadata-object-type, $charter:rarchiveid)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wfond:metadata-charter-import-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('charter', ($charter:rarchiveid, $charter:rfondid), 'import')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wfond:imported-fond-exists</xrx:name>
+      <xrx:expression>exists($wfond:metadata-charter-import-collection/xrx:import)</xrx:expression>
+    </xrx:variable>
+    <!-- 
+    	variables for inherited widget
+     -->
+    <!-- charter context information --><!--
+    <xrx:variable>
+      <xrx:name>$wcharters:metadata-charter-context-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('fond', ($charter:rarchiveid, $charter:rfondid), 'public')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:metadata-charter-context-entry</xrx:name>
+      <xrx:expression>$wcharters:metadata-charter-context-collection//ead:ead/ancestor::atom:entry</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:charter-context-name</xrx:name>
+      <xrx:expression>$wcharters:metadata-charter-context-entry//ead:unittitle/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:charter-context-short-name</xrx:name>
+      <xrx:expression>$wcharters:metadata-charter-context-entry//ead:unittitle/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:metadata-charter-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('charter', ($charter:rarchiveid, $charter:rfondid), 'public')</xrx:expression>
+    </xrx:variable> -->
+    
+    <!-- block-wise navigation -->
+    <xrx:variable>
+      <xrx:name>$wcharters:mode</xrx:name>
+      <xrx:expression>request:get-parameter('mode', '')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:preface-exists</xrx:name>
+      <xrx:expression>false()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:block</xrx:name>
+      <xrx:expression>xs:integer(if($wcharters:preface-exists or request:get-parameter('block', '') != '') then request:get-parameter('block', '-1') else '1') </xrx:expression>
+    </xrx:variable>
+    
+    <!-- overwrite -->
+		<xrx:variable>
+		  <xrx:name>$charters:start</xrx:name>
+		  <xrx:expression>$wcharters:block * 30 - 30</xrx:expression>
+		</xrx:variable>
+		<xrx:variable>
+		  <xrx:name>$charters:stop</xrx:name>
+		  <xrx:expression>$wcharters:block * 30</xrx:expression>
+		</xrx:variable>
+		<xrx:variable>
+		  <xrx:name>$charters:previous-block</xrx:name>
+		  <xrx:expression>if($wcharters:block = 1) then 1 else $wcharters:block - 1</xrx:expression>
+		</xrx:variable>
+		
+    <!-- overwrite -->
+  	<xrx:variable>
+  		<xrx:name>$wcharter:content</xrx:name>
+  		<xrx:expression>charters:GetMomathonCharter($wcharters:mode)</xrx:expression>
+  	</xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:date-elements</xrx:name>
+      <xrx:expression>$wcharter:content</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:previous-block-pos</xrx:name>
+      <xrx:expression>if($wcharters:block = 1) then 1 else $wcharters:block - 1</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:next-block-pos</xrx:name>
+      <xrx:expression>if($wcharters:block = count($wcharter:date-elements) div 30) then 1 else $wcharters:block + 1</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:block-strings</xrx:name>
+      <xrx:expression>charters:block-strings($wcharter:date-elements)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:blocks-count</xrx:name>
+      <xrx:expression>count($wcharters:block-strings)</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:divs>
+    <xrx:div>
+      <xrx:key>heading-div</xrx:key>
+      <xrx:view>
+				<div class="h2" data-demoid="5d88dfda-ba4b-4951-861c-db1920d50430">
+					<span>
+						<xrx:i18n>
+							<xrx:key>momathon</xrx:key>
+							<xrx:default>MOMathon</xrx:default>
+						</xrx:i18n>
+					</span>
+					<span>: </span>
+					<span>
+						{$wcharters:mode}
+					</span>
+				</div>      
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>my-functions-div</xrx:key>
+      <xrx:view>
+						<div class="my-functions" data-demoid="b66d7ec4-40ef-4e6e-8d98-98024b70d3b7">
+						</div>  
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>preface-link-div</xrx:key>
+      <xrx:view>
+				<div class="year-list" data-demoid="dc2c7dbe-e33b-460a-9796-fe00c9bd249c" style="font-weight:{ if($wcharters:block = -1) then 'bold' else 'normal' }">
+
+				</div>      
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>breadcrumb-div</xrx:key>
+      <xrx:view>
+				<div data-demoid="e021b9de-e218-4b09-b42b-49e442a765e6">
+					<a href="{ conf:param('request-root') }momathon">
+						<xrx:i18n>
+							<xrx:key>momathon</xrx:key>
+							<xrx:default>MOMathon</xrx:default>
+						</xrx:i18n>
+					</a>
+					<span> &gt; </span>
+					<!--<a href="{ conf:param('request-root') }momathon"> -->Charter-Overview<!--</a>-->
+					<span> &gt; </span>
+					<a href="fond">{ xmldb:decode($charter:rfondid) }</a>
+          {
+            if($wfond:imported-fond-exists) then
+            <div data-demoid="f1548125-61e1-461c-a945-7ee05082561d">
+              <xrx:auth>
+                <xrx:rules>
+                  <xrx:or>
+                    <xrx:rule>
+                      <xrx:user/>
+                      <xrx:role>metadata-manager</xrx:role>
+                    </xrx:rule>
+                    <xrx:rule>
+                      <xrx:user/>
+                      <xrx:community>{ $wfond:archive-atomid }</xrx:community>
+                    </xrx:rule>
+                  </xrx:or>
+                </xrx:rules>
+                <xrx:true>
+                  <div data-demoid="7a2f6bdb-fa81-41e0-9ada-90d519ccd3fb">
+                    <a href="imported-fond">
+                      <xrx:i18n>
+                        <xrx:key>view-publish-imported-charters</xrx:key>
+                        <xrx:default>View/publish imported charters</xrx:default>
+                      </xrx:i18n>
+                      <span> &gt;&gt;</span>
+                    </a>
+                  </div>
+                </xrx:true>
+                <xrx:false>
+                  <span/>
+                </xrx:false>
+              </xrx:auth>
+            </div>
+            else()
+          }
+				</div>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>goto-search-div</xrx:key>
+      <xrx:view>
+				<div data-demoid="76786e2f-c292-4a0f-8b55-f37f6babaa7b" id="goto-search"><!--
+					<a href="{ conf:param('request-root') }search?q=&amp;img=false&amp;sort=date&amp;arch={ $charter:rarchiveid }&amp;col={ $charter:rfondid }&amp;p=search">
+						<xrx:i18n>
+							<xrx:key>search-in</xrx:key>
+							<xrx:default>Search in</xrx:default>
+						</xrx:i18n> 
+
+					</a> -->
+				</div>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>preface-div</xrx:key>
+      <xrx:view>
+				<div data-demoid="873b89cc-9bab-402a-9c0c-f964e9cc59db" id="preface">
+					{
+					if(not($wcharter:date-elements)) then
+					<div data-demoid="87ae69c2-f5cf-4732-8211-d742f70a0275">
+						<span>
+							<xrx:i18n>
+								<xrx:key>charters-soon-available-message</xrx:key>
+								<xrx:default>The charters of this fond will be available soon.</xrx:default>
+							</xrx:i18n>
+						</span>
+						<br/>
+						<br/>
+					</div>
+					else()
+					}
+
+				</div>      
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>charter-preview-div</xrx:key>
+      <xrx:view>
+				<div data-demoid="ecc258ea-76e8-4287-a53b-dd60969c17fc" id="dcharter-preview-main">		
+					<div data-demoid="e7bb0a0a-c8b2-425b-849c-285a84ca3c5c">
+					{
+						if(not($wcharters:preface-exists) and request:get-parameter('block', '') = '') then 
+						<span>
+							MOMathon-Event
+					  </span>
+						else()
+					}
+					</div>
+
+					{
+					let $all-user-xmls := $user:db-base-collection/xrx:user
+					for $year at $num in $wcharter:date-elements[ position() = $charters:start to $charters:stop ]
+					return
+					<div data-demoid="a0d28790-84f2-4117-bfaf-6e7137465383">
+
+					  <xrx:subwidget>
+					  	<xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/charter-preview-momathon</xrx:atomid>
+					    <xrx:pass>
+					      <xrx:parameter>
+					        <xrx:name>$constructor:charter</xrx:name>
+					        <xrx:expression>$year/ancestor::cei:text</xrx:expression>
+					      </xrx:parameter>
+					      <xrx:parameter>
+					        <xrx:name>$constructor:all-user-xmls</xrx:name>
+					        <xrx:expression>$all-user-xmls</xrx:expression>
+					      </xrx:parameter>
+					    </xrx:pass>
+					  </xrx:subwidget> 
+					</div>
+					}
+					<div data-demoid="63d59107-b162-4af7-a983-4f0da46db428">{ $block-navi-div }</div>
+				</div>
+       
+			</xrx:view>
+    </xrx:div>
+  </xrx:divs>
+</xrx:widget>

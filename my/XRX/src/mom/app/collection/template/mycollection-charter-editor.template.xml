@@ -33,6 +33,7 @@
   </xrx:licence>
   <xrx:xml> 
     <!--
+      
     <id> contains the XML-Node as a key : string
     <mult_occurence> triggers if <xrx:repeat> or not : bool
     <target_field> Just important, if <mult_occurence> is true. Contains Name of Childnode for Textarea : string
@@ -53,7 +54,9 @@
         <message>self</message>
         <groups>
           <group>full</group>
-          <group>idnoEditor</group>
+          <group>transcription</group>
+          <group>google</group>
+          <group>date</group>
         </groups>
       </editor_field>
       <editor_field>
@@ -67,6 +70,7 @@
         <groups>
           <group>full</group>
           <group>abstractEditor</group>
+          <group>google</group>
         </groups>
       </editor_field>
       <editor_field>
@@ -79,7 +83,8 @@
         <message>self</message>
         <groups>
           <group>full</group>
-          <group>dateEditor</group>
+          <group>date</group>
+          <group>google</group>
         </groups>
       </editor_field>
       <editor_field>
@@ -92,7 +97,8 @@
         <message>self</message>
         <groups>
           <group>full</group>
-          <group>dateEditor</group>
+          <group>date</group>
+          <group>google</group>
         </groups>
       </editor_field>
       <editor_field>
@@ -105,7 +111,8 @@
         <message>self</message>
         <groups>
           <group>full</group>
-          <group>placeEditor</group>
+          <group>google</group>
+          <group>date</group>
         </groups>
       </editor_field>
       <!-- Tab-Page 2 Fields -->
@@ -119,7 +126,8 @@
         <message>self</message>
         <groups>
           <group>full</group>
-          <group>transcriptionEditor</group>
+          <group>transcription</group>
+          <group>google</group>
         </groups>
       </editor_field>
       <!-- Tab-Page 3 Fields -->
@@ -134,6 +142,7 @@
         <groups>
           <group>full</group>
           <group>frontEditor</group>
+          <group>google</group>
         </groups>
       </editor_field>
       <editor_field>
@@ -147,6 +156,7 @@
         <groups>
           <group>full</group>
           <group>frontEditor</group>
+          <group>google</group>
         </groups>
       </editor_field>
       <!-- Tab-Page 4 Fields -->
