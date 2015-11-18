@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
-  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/my-collection-charter-edit</xrx:id>
-  <xrx:title>
-    <xrx:i18n>
-      <xrx:key/>
-      <xrx:default/>
-    </xrx:i18n>
-  </xrx:title>
-  <xrx:subtitle/>
-  <xrx:description/>
-  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
-  <xrx:licence>
+<xrx:widget xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns:xf="http://www.w3.org/2002/xforms">
+    <xrx:id>tag:www.monasterium.net,2011:/mom/widget/my-collection-charter-edit</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key/>
+            <xrx:default/>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:subtitle/>
+    <xrx:description/>
+    <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+    <xrx:licence>
 This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
 
 As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
@@ -31,7 +31,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 
 We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
   </xrx:licence>
-  <xrx:variables>
+    <xrx:variables>
     <!-- request parameter -->
     <xrx:variable>
       <xrx:name>$atomid</xrx:name>
@@ -127,128 +127,128 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:expression>if($context = 'fond') then $fond-image-base-url else $collection-image-base-url</xrx:expression>
     </xrx:variable>
     <!-- linked charter -->
-    <xrx:variable>
-      <xrx:name>$atomid-linked</xrx:name>
-      <xrx:expression>$entry/atom:link/@ref/string()</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$is-linked</xrx:name>
-      <xrx:expression>$atomid-linked != ''</xrx:expression>
-    </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$atomid-linked</xrx:name>
+            <xrx:expression>$entry/atom:link/@ref/string()</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$is-linked</xrx:name>
+            <xrx:expression>$atomid-linked != ''</xrx:expression>
+        </xrx:variable>
     <!-- linked charter fond and collection info -->
-    <xrx:variable>
-      <xrx:name>$context-linked</xrx:name>
-      <xrx:expression>if($is-linked) then charter:context($atomid-linked, conf:param('atom-tag-name')) else ()</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$uri-tokens-linked</xrx:name>
-      <xrx:expression>if($is-linked) then metadata:uri-tokens($atomid-linked) else ()</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$db-base-collection-linked</xrx:name>
-      <xrx:expression>if($is-linked) then metadata:base-collection($context-linked, $uri-tokens-linked, 'public') else ()</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$fond-entry-linked</xrx:name>
-      <xrx:expression>if($is-linked) then $db-base-collection-linked//ead:ead/ancestor::atom:entry else ()</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$fond-image-base-url-linked</xrx:name>
-      <xrx:expression>if($is-linked) then concat($db-base-collection-linked/xrx:preferences/xrx:param[@name='image-server-base-url'], '/') else ()</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$collection-entry-linked</xrx:name>
-      <xrx:expression>if($is-linked) then $db-base-collection-linked//cei:cei/ancestor::atom:entry else()</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$collection-image-base-url-linked</xrx:name>
-      <xrx:expression>if($is-linked) then concat('http://', $collection-entry-linked//cei:image_server_address/text(), '/', $collection-entry-linked//cei:image_server_folder/text(), '/') else ()</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$image-base-url-linked</xrx:name>
-      <xrx:expression>if($context-linked = 'fond') then $fond-image-base-url-linked else $collection-image-base-url-linked</xrx:expression>
-    </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$context-linked</xrx:name>
+            <xrx:expression>if($is-linked) then charter:context($atomid-linked, conf:param('atom-tag-name')) else ()</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$uri-tokens-linked</xrx:name>
+            <xrx:expression>if($is-linked) then metadata:uri-tokens($atomid-linked) else ()</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$db-base-collection-linked</xrx:name>
+            <xrx:expression>if($is-linked) then metadata:base-collection($context-linked, $uri-tokens-linked, 'public') else ()</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$fond-entry-linked</xrx:name>
+            <xrx:expression>if($is-linked) then $db-base-collection-linked//ead:ead/ancestor::atom:entry else ()</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$fond-image-base-url-linked</xrx:name>
+            <xrx:expression>if($is-linked) then concat($db-base-collection-linked/xrx:preferences/xrx:param[@name='image-server-base-url'], '/') else ()</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$collection-entry-linked</xrx:name>
+            <xrx:expression>if($is-linked) then $db-base-collection-linked//cei:cei/ancestor::atom:entry else()</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$collection-image-base-url-linked</xrx:name>
+            <xrx:expression>if($is-linked) then concat('http://', $collection-entry-linked//cei:image_server_address/text(), '/', $collection-entry-linked//cei:image_server_folder/text(), '/') else ()</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$image-base-url-linked</xrx:name>
+            <xrx:expression>if($context-linked = 'fond') then $fond-image-base-url-linked else $collection-image-base-url-linked</xrx:expression>
+        </xrx:variable>
     <!-- linked charter images -->
-    <xrx:variable>
-      <xrx:name>$objectid-linked</xrx:name>
-      <xrx:expression>if($is-linked) then metadata:objectid($atomid-linked) else ()</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$base-collection-linked</xrx:name>
-      <xrx:expression>if($is-linked) then metadata:base-collection('charter', $uri-tokens-linked, 'public') else ()</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$entry-linked</xrx:name>
-      <xrx:expression>if($is-linked) then $base-collection-linked//atom:id[.=$atomid-linked]/parent::atom:entry else ()</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$image-names-linked</xrx:name>
-      <xrx:expression>if($is-linked) then for $name in $entry-linked//cei:graphic/@url/string() return $name else ()</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$image-urls-linked</xrx:name>
-      <xrx:expression>if($is-linked) then for $name in $image-names-linked return concat($image-base-url-linked, $name) else ()</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$folio-names-linked</xrx:name>
-      <xrx:expression>if($is-linked) then for $name in $image-urls-linked return replace($name, "([^_]+)(_|-)([^_]+)(_|-)(.*)", "$5") else ()</xrx:expression>
-    </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$objectid-linked</xrx:name>
+            <xrx:expression>if($is-linked) then metadata:objectid($atomid-linked) else ()</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$base-collection-linked</xrx:name>
+            <xrx:expression>if($is-linked) then metadata:base-collection('charter', $uri-tokens-linked, 'public') else ()</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$entry-linked</xrx:name>
+            <xrx:expression>if($is-linked) then $base-collection-linked//atom:id[.=$atomid-linked]/parent::atom:entry else ()</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$image-names-linked</xrx:name>
+            <xrx:expression>if($is-linked) then for $name in $entry-linked//cei:graphic/@url/string() return $name else ()</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$image-urls-linked</xrx:name>
+            <xrx:expression>if($is-linked) then for $name in $image-names-linked return concat($image-base-url-linked, $name) else ()</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$folio-names-linked</xrx:name>
+            <xrx:expression>if($is-linked) then for $name in $image-urls-linked return replace($name, "([^_]+)(_|-)([^_]+)(_|-)(.*)", "$5") else ()</xrx:expression>
+        </xrx:variable>
     <!-- all image URLs and folio names -->
-    <xrx:variable>
-      <xrx:name>$urls</xrx:name>
-      <xrx:expression>($image-urls, $image-urls-linked)</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$folios</xrx:name>
-      <xrx:expression>($folio-names, $folio-names-linked)</xrx:expression>
-    </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$urls</xrx:name>
+            <xrx:expression>($image-urls, $image-urls-linked)</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$folios</xrx:name>
+            <xrx:expression>($folio-names, $folio-names-linked)</xrx:expression>
+        </xrx:variable>
     <!-- mixed content -->
-    <xrx:variable>
-      <xrx:name>$schema</xrx:name>
-      <xrx:expression>$xrx:db-base-collection/xs:schema[@id='cei']</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$xrx-schema</xrx:name>
-      <xrx:expression>xsd:get('tag:www.monasterium.net,2011:/mom/xsd/cei-collection-editor')</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$attribute-suggestions</xrx:name>
-      <xrx:expression>xmleditor:json-attribute-suggestions($schema)</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$element-suggestions</xrx:name>
-      <xrx:expression>xmleditor:json-element-suggestions($schema)</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$topics</xrx:name>
-      <xrx:expression>xmleditor:json-element-topics($xrx-schema)</xrx:expression>
-    </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$schema</xrx:name>
+            <xrx:expression>$xrx:db-base-collection/xs:schema[@id='cei']</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$xrx-schema</xrx:name>
+            <xrx:expression>xsd:get('tag:www.monasterium.net,2011:/mom/xsd/cei-collection-editor')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$attribute-suggestions</xrx:name>
+            <xrx:expression>xmleditor:json-attribute-suggestions($schema)</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$element-suggestions</xrx:name>
+            <xrx:expression>xmleditor:json-element-suggestions($schema)</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$topics</xrx:name>
+            <xrx:expression>xmleditor:json-element-topics($xrx-schema)</xrx:expression>
+        </xrx:variable>
     <!-- Annotation Tool service prefix -->
-    <xrx:variable>
-      <xrx:name>$service-prefix</xrx:name>
-      <xrx:expression>xs:string('')</xrx:expression>
-    </xrx:variable>
-  </xrx:variables>
-  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/empty</xrx:portal>
-  <xrx:init>
-    <xrx:processor>
-      <xrx:xformsflag>false</xrx:xformsflag>
-      <xrx:jqueryflag>true</xrx:jqueryflag>
-    </xrx:processor>
-    <xrx:client>
-      <xrx:messages>
-        <xrx:catalog>cei</xrx:catalog>
-      </xrx:messages>
-    </xrx:client>
-  </xrx:init>
-  <xrx:csss>
-    <xrx:css>tag:www.monasterium.net,2011:/mom/css/my-collections</xrx:css>
-    <xrx:css>tag:www.monasterium.net,2011:/mom/css/image-tools</xrx:css>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/css/codemirror/lib/codemirror</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/css/codemirror/mode/visualxml</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/css/layout</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/css/imgareaselect</xrx:resource>
-    <style type="text/css">
+        <xrx:variable>
+            <xrx:name>$service-prefix</xrx:name>
+            <xrx:expression>xs:string('')</xrx:expression>
+        </xrx:variable>
+    </xrx:variables>
+    <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/empty</xrx:portal>
+    <xrx:init>
+        <xrx:processor>
+            <xrx:xformsflag>false</xrx:xformsflag>
+            <xrx:jqueryflag>true</xrx:jqueryflag>
+        </xrx:processor>
+        <xrx:client>
+            <xrx:messages>
+                <xrx:catalog>cei</xrx:catalog>
+            </xrx:messages>
+        </xrx:client>
+    </xrx:init>
+    <xrx:csss>
+        <xrx:css>tag:www.monasterium.net,2011:/mom/css/my-collections</xrx:css>
+        <xrx:css>tag:www.monasterium.net,2011:/mom/css/image-tools</xrx:css>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/css/codemirror/lib/codemirror</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/core/resource/css/codemirror/mode/visualxml</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/css/layout</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/css/imgareaselect</xrx:resource>
+        <style type="text/css">
 
 #dmy-collection-charter-edit, #dtextann, #dinner-textann{{
   position:relative;
@@ -376,23 +376,24 @@ form{{
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/tabs</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/layout</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/imgareaselect</xrx:resource>
+
     <!-- jssaxparser resources -->
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/XMLFilterImpls</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/NamespaceSupport</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/AttributesImpl</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/SAXScanner</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/ReaderWrapper</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/Reader</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/sax</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/DefaultHandlers</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/XPath</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/XMLFilterImpls</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/NamespaceSupport</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/AttributesImpl</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/SAXScanner</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/ReaderWrapper</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/Reader</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/sax</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/DefaultHandlers</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/XPath</xrx:resource>
     <!-- codemirror resources -->
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/lib/codemirror</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/mode/xml</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/js/codemirror/mode/visualxml</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/js/codemirror/keymap/visualxml</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/lib/codemirror</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/mode/xml</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/core/resource/js/codemirror/mode/visualxml</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/core/resource/js/codemirror/keymap/visualxml</xrx:resource>
     <!-- core resources -->
-    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrxBind</xrx:resource>
+       <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrxBind</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrxInstance</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrxI18n</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrx</xrx:resource>
@@ -755,74 +756,22 @@ form{{
               <xrx:default>Show annotation</xrx:default>
             </xrx:i18n>
           </button>
-          <!-- button id="help-anno-button" class="image-tool-widget-button">
-            <xrx:i18n>
-              <xrx:key>help</xrx:key>
-              <xrx:default>Help</xrx:default>
-            </xrx:i18n>
-          </button -->
         </div>
-        <div data-demoid="0117de43-721b-46bb-84a3-18025d685f5c" id="image-tool-widget-metadata-area">
-          <div data-demoid="8aeb9681-8d6f-47e7-8c0b-56fc79cfc5a3" id="drop-area">
-            <div class="inactive-drop-annotation" data-demoid="b9b37ec7-8611-48f9-9e86-d08a36593590" id="drop-annotation-markup-tag">
-              <span>
-                <xrx:i18n>
-                  <xrx:key>drop-here</xrx:key>
-                  <xrx:default>Drop here</xrx:default>
-                </xrx:i18n>
-              </span>
-            </div>
-          </div>
-          <div data-demoid="24b30514-d664-4f20-9b43-6ac97b31c97e" id="create-metadata-field">
-            <span class="meta-caption" style="float:left;">
-              <xrx:i18n>
-                <xrx:key>selected-tag</xrx:key>
-                <xrx:default>Selected Tag</xrx:default>
-              </xrx:i18n>:  </span>
-            <span id="selected-tag"/>
-            <span class="ui-icon ui-icon-trash" id="tag-to-trash"/>
-            <br/>
-            <span class="meta-caption">
-              <xrx:i18n>
-                <xrx:key>additional-description</xrx:key>
-                <xrx:default>Additional Description</xrx:default>
-              </xrx:i18n>:
-            </span>
-            <br/>
-            <textarea id="zone-description"/>
-          </div>
-          <div data-demoid="eebbbebf-df78-439b-aa84-81c18f39ae69" id="metadata-field">
-            <span class="meta-caption">
-              <xrx:i18n>
-                <xrx:key>related-to</xrx:key>
-                <xrx:default>Related to</xrx:default>
-              </xrx:i18n>:
-            </span>
-            <a href="#" id="related-to"/>
-            <br/>
-            <span class="meta-caption">
-              <xrx:i18n>
-                <xrx:key>content</xrx:key>
-                <xrx:default>Content</xrx:default>
-              </xrx:i18n>:
-            </span>
-            <span id="anno-content"/>
-            <br/>
-            <span class="meta-caption">
-              <xrx:i18n>
-                <xrx:key>additional-description</xrx:key>
-                <xrx:default>Additional Description</xrx:default>
-              </xrx:i18n>:
-            </span>
-            <br/>
-            <div data-demoid="fc4097e7-f191-4a95-b763-c3bfc40fd29a" id="anno-desc"/>
-          </div>
-        </div>
-      </div>
+       </div>
       <div class="xrx-message" data-demoid="aa0e9f99-53e1-4893-9290-2cf835e1c3ca"/>
       <div class="xrx-forms-json-attribute-suggestions" data-demoid="a9a1b205-f185-4e4c-8fcc-8d1a397c881e" style="display:none">{ $attribute-suggestions }</div>
       <div class="xrx-forms-json-element-suggestions" data-demoid="90164e9b-8793-4426-9cb3-9c91b1252326" style="display:none">{ $element-suggestions }</div>
-      <div class="xrx-forms-json-topics" data-demoid="29dc1908-0c8d-4501-ab7d-5e0cbdc492b9" style="display:none">{ $topics }</div>
+      <div class="xrx-forms-json-topics" data-demoid="29dc1908-0c8d-4501-ab7d-5e0cbdc492b9" style="display:none">{ $topics }</div>                 
+      <div class="xrx-forms-json-attribute-valuesuggestions" style="display:none">
+    {{   
+    "cei:index":{{
+   "indexName": ["arthistorian"],
+    "lemma": ["N1", "N2", "N3"],
+    "sublemma": [{{"N1":["HistoriatedDecoration","WithAdditionalColours: Miniatures", "WithAdditionalColours: Initials", "WithAdditionalColours: Borders", "WithAdditionalColours: CoatsofArms", "WithAdditionalColours: ExecutionDraw", "WithAdditionalColours: ExecutionPainted"]}},
+    {{"N2": ["DrawnDecorationnothistoriated: DD-nh-Panels", "DrawnDecorationnothistoriated: Initials", "DrawnDecorationnothistoriated: DD-nh-Borders", "DepictiveMotivesnothistoriated: figural", "DepictiveMotivesnothistoriated: zoomorphic", "DepictiveMotivesnothistoriated: otherMotivs"]}},
+    {{"N3": ["GraphicMeansofAuthenticating: Chrismon", "GraphicMeansofAuthenticating: Monogramm", "GraphicMeansofAuthenticating: Rota", "GraphicMeansofAuthenticating: SignumRecognitionis", "GraphicMeansofAuthenticating: SignumNotarile", "GraphicMeansofAuthenticating: OtherSignsofAuthentication"]}}
+     ]}}}}
+</div>
       <script type="text/javascript">
       jQuery(document).ready(function(){{ 
         jQuery.ajaxSetup({{ cache: false }});

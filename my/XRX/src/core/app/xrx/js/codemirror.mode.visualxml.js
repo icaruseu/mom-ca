@@ -154,16 +154,25 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	function showMixedcontentAttributes(cm, element, token) {
 		
 		if(cm.visualxml.element.attr("data-xrx-attributes") == "no") return;
-
+	
 		var jsonAttributeSuggestions = jQuery.parseJSON($('.xrx-forms-json-attribute-suggestions').text());
-		var suggestedAttributes = jsonAttributeSuggestions[element.qName];
+		var suggestedAttributes = jsonAttributeSuggestions[element.qName];		
+		//console.log('die funktion showmixedcontentAttributes braucht cm, element, token');
+		//console.log(cm);
+		//console.log(element);
+		//console.log(token);
+		
 		$(".xrx-attributes").xrxAttributes({
 			elementName:element.qName,
 			suggestedAttributes:suggestedAttributes,
 			editedAttributes:element.attributes,
+			//suggestedValues:element.attributes,
 			cm:cm,
 			token:token
 		});
+		//console.log("Das sind die element Attribute");
+		//console.log(element.qName);
+	
 	}
 	
 	function hideMixedcontentAttributes(cm) {
@@ -271,6 +280,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 		else if(cursor.firstPlace == 'F9') id = cursor.firstTokenInside.state.context.id;
 
 		element = saxGetElementById(cursor.cm, id);
+		console.log('ID vom Cursor');
+		console.log(element);
+		console.log(id);
 		grandChildElements = cursor.cm.somethingSelected() ? getSelectedChildElements(cursor) : null;
 		//console.log(grandChildElements);
 		childElements = cursor.cm.somethingSelected() ? validChildElements(elementSuggestions, grandChildElements, element) : elementSuggestions[element.qName];
@@ -488,6 +500,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 			var elementContextId = cursor.cm.visualxml.contextId(controlId, idForAttribute);
 
 			window.clearTimeout(cursorDelay);
+			
 			cursorDelay = setTimeout( function() {
 				if(cursor.firstTokenOutside.string == TOKEN_ELEMENT_START || cursor.firstTokenOutside.string == TOKEN_ELEMENT_END) { 
 					showMixedcontentAttributes(cursor.cm, elementForAttribute, cursor.firstTokenOutside); 
@@ -504,7 +517,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 		return parentId;
 	}
 	
-	function clear(cursor) {
+	function clear(cursor) {		
 		clearMarkedElements(cursor.cm);
 		hideElementMenu();
 		hideMixedcontentAttributes(cursor.cm);
@@ -602,7 +615,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 		return cursor;
 	}
 	
-	function matchElement(cm) {
+	function matchElement(cm) {		
 		var cursor = new Cursor(cm);
 		clear(cursor);
 		if(cm.somethingSelected()) {
@@ -655,7 +668,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	
 	// TODO: merge with insertTextNode
 	function updateTextNode(cursor, updateType) {
-		//console.log("Update text node.");
+		console.log("Update text node.");
 		var tokenToUpdate, textToUpdate, contextId;
 		var nodeset = $(document).xrx.nodeset(cursor.cm.getInputField());
 		var controlId = nodeset.only.levelId;
@@ -804,7 +817,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 		var firstTokenInside = cm.getTokenAt(firstPositionInside);
 		var place = cursorPlace(firstTokenOutside, firstTokenInside);
 		var xml = clean(change);
-		
+		console.log('that is the place');
 		console.log(place);
 		
 		switch(place) {
