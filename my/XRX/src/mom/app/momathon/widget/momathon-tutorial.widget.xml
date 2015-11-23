@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/momathon-tutorial</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>momathon</xrx:key>
+      <xrx:default>MOMathon</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>stephan.makowski@uni-koeln.de</xrx:author>
+  <xrx:licence>
+    This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+    
+    As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+    
+    This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+    
+    The VdU/VRET is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    VdU/VRET is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+    
+    We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>    
+    <!-- 
+			widget specific variables 
+		-->
+    <xrx:variable>
+      <xrx:name>$user-collection</xrx:name>
+      <xrx:expression>$user:db-base-collection</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/momathon</xrx:portal>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:xformsflag>true</xrx:xformsflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <xrx:css>tag:www.monasterium.net,2011:/mom/css/charter-preview</xrx:css>
+    <style type="text/css">
+      
+      
+      #dcharter-preview-main{{
+      position:relative;
+      float:left;
+      width:800px;
+      }}
+      #dcharter-preview-main .charter *{{
+      line-height:1.6em;
+      }}
+      #dcharter-preview-main .charter{{
+      position:relative;
+      width:100%;
+      float:left;
+      background:rgb(245,245,245);
+      }}
+      #dcharter-preview-main .charter-preview{{
+      position:relative;
+      float:left;
+      width:100%;
+      background:rgb(245,245,245);
+      border-bottom:solid white 5px;
+      }}
+      #dcharter-preview-main .inner-charter-preview{{
+      position:relative;
+      float:left;
+      width:100%;
+      margin:15px;
+      }}
+      #dcharter-preview-main .charter-info-and-actions{{
+      display:inline;
+      position:relative;
+      float:left;
+      width:25%;
+      border-left:solid white 3px;
+      padding-left:10px;
+      }}
+      #dcharter-preview-main .container{{
+      float:left;
+      width:65%;
+      padding-right:10px;
+      }}
+      #dcharter-preview-main .charter-info-and-actions *{{
+      font-size:13px;
+      }}
+      #dcharter-preview-main .fieldset{{
+      border:solid #C8C8C8 1px;
+      margin-top:10px;
+      }}
+      #dcharter-preview-main .inner-fieldset{{
+      margin:5px;
+      }}
+      
+      img.displayed {{
+      display: block;
+      margin-left: auto;
+      margin-right: auto }}
+      
+    </style>
+  </xrx:csss>
+  <xrx:model>
+    { bookmark:model(conf:param('request-root')) }
+    { publication:model(conf:param('request-root')) } 
+  </xrx:model>
+  
+  
+  <xrx:view>
+    <xrx:auth>
+      <xrx:rules>
+        <xrx:rule>
+          <xrx:user/>
+          <xrx:dbgroup>atom</xrx:dbgroup>
+        </xrx:rule>
+      </xrx:rules>
+      <xrx:true>
+        <div data-demoid="f38de5bf-c619-4b59-9bc2-8df2bedf0398" id="dcharter-preview-main">
+          <div class="h2" data-demoid="7ccd5636-4729-4b52-a0bc-ca1f53ec9d07">
+            <a name="top"></a>
+            <xrx:i18n>
+              <xrx:key>momathon</xrx:key>
+              <xrx:default>MOMathon</xrx:default>
+            </xrx:i18n>
+          </div>
+          <xf:group>
+            <div data-demoid="7f01e942-bc55-4514-b6c2-830ce5f25a27" class="inner-charter-preview">
+              <div>
+                <span>
+                  <h2>MOMathon-Tutorial</h2>
+                </span>
+              </div>
+              <div> 
+                On this page, you will find the tutorials for this event.<br/><br/>
+                <ul>
+                  <li>The first tutorial is for a first impression of the entire MOM-CA-Framework.<br/> <b>&#187; <a href="http://monasterium.net/tut_mom" target="_blank">Tutorial "MOM-CA-Framework"</a></b></li><br/><br/>
+                  <li>The second tutorial is especially for working with EditMOM3. <br/><b>&#187; <a href="http://monasterium.net/tut_edit" target="_blank">Tutorial "EditMOM3"</a></b><br/></li>
+                </ul>
+              </div>
+            </div>
+            <a style="float:right;" href="#top">&#187;Top</a>
+          </xf:group>
+        </div>
+      </xrx:true>
+      <xrx:false>
+        <h3>
+          <xrx:i18n>
+            <xrx:key>protected-page-message</xrx:key>
+            <xrx:default>Protected page. Please login first.</xrx:default>
+          </xrx:i18n>
+        </h3>
+      </xrx:false>
+    </xrx:auth>
+  </xrx:view>
+</xrx:widget>
