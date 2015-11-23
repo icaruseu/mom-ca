@@ -67,6 +67,11 @@
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/momathon</xrx:atomid>
     </xrx:map>
     <xrx:map>
+      <xrx:uripattern>/momathon-tutorial$</xrx:uripattern>
+      <xrx:mode>mainwidget</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/momathon-tutorial</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
       <xrx:uripattern>/momathon-charters$</xrx:uripattern>
       <xrx:mode>mainwidget</xrx:mode>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/momathon-charters</xrx:atomid>
