@@ -42,7 +42,7 @@
     eXist 
   -->
   <property name="exist-home" value="localhost"/>  
-  <property name="exist-file" value="exist-eXist-2.0"/>  
+  <property name="exist-file" value="exist-eXist-2.2"/>  
   <property name="my-exist" value="my/eXist" />
   <property name="my-exist-extensions-src" value="my/eXist/extensions/modules/src" />
   <property name="my-exist-src" value="my/eXist/src" />
@@ -417,12 +417,12 @@
     <mkdir dir="tmp"/>
     
     <!-- download and unzip eXist -->
-    <get src="https://github.com/eXist-db/exist/archive/eXist-2.0.x.zip" dest="tmp/eXist.zip"/>
+    <get src="https://github.com/eXist-db/exist/archive/eXist-2.2.zip" dest="tmp/eXist.zip"/>
     <exec executable="unzip">
       <arg line="tmp/eXist.zip -d ."/>
     </exec>
     <move todir="localhost">
-      <fileset dir="exist-eXist-2.0.x"/>
+      <fileset dir="exist-eXist-2.2"/>
     </move>
     
     <!-- bugfix for eXist-2.0 -->
@@ -489,8 +489,8 @@
     <tstamp>
       <format property="time" pattern="yyyy-MM-dd-hh-mm-ss"/>
     </tstamp>
-    <delete file="localhost/extensions/betterform/main/lib/betterform.jar"/>
-    <copy tofile="localhost/extensions/betterform/main/lib/betterform${time}.jar" file="my/eXist/extensions/betterform/main/lib/betterform.jar" overwrite="true"/>
+    <!--<delete file="localhost/extensions/betterform/main/lib/betterform.jar"/>
+    <copy tofile="localhost/extensions/betterform/main/lib/betterform${time}.jar" file="my/eXist/extensions/betterform/main/lib/betterform.jar" overwrite="true"/> -->
     
     <echo message="-------------------------" />
     <echo message="Compiling eXist" />

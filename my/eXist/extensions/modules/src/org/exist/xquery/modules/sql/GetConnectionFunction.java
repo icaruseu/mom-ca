@@ -47,7 +47,6 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
-
 import java.util.Properties;
 
 
@@ -167,19 +166,7 @@ public class GetConnectionFunction extends BasicFunction
 
                 // try and get the connection
                 con = DriverManager.getConnection( dbURL, dbUser, dbPassword );
-            } else if( args.length == 5 ) {
-                // load the driver by URL
-            	driverURL		   = new URL(args[2].getStringValue());
-            	URLClassLoader ucl = new URLClassLoader(new URL[] { driverURL });
-            	Driver d		   = (Driver)Class.forName(dbDriver, true, ucl).newInstance();
-            	DriverManager.registerDriver(new DriverShim(d));
-            	
-                String dbUser      = args[3].getStringValue();
-                String dbPassword  = args[4].getStringValue();           
-
-                // try and get the connection
-                con = DriverManager.getConnection( dbURL, dbUser, dbPassword );
-            }
+            } 
 
             // store the Connection and return the uid handle of the Connection
             return( new IntegerValue( SQLModule.storeConnection( context, con ) ) );
@@ -200,35 +187,35 @@ public class GetConnectionFunction extends BasicFunction
             logger.error( "sql:get-connection() Cannot connect to database: " + dbURL, sqle );
             throw( new XPathException( this, "sql:get-connection() Cannot connect to database: " + dbURL, sqle ) );
             
-        } catch ( MalformedURLException sqle ) {
-            logger.error( "sql:get-connection() Cannot find driver: " + driverURL, sqle );
-            throw( new XPathException( this, "sql:get-connection() Cannot find driver: " + driverURL, sqle ) );
-		}
+        } 
     }
-    
-    class DriverShim implements Driver {
-    	
-    	private Driver driver;
-    	DriverShim(Driver d) {
-    		this.driver = d;
-    	}
-    	public boolean acceptsURL(String u) throws SQLException {
-    		return this.driver.acceptsURL(u);
-    	}
-    	public Connection connect(String u, Properties p) throws SQLException {
-    		return this.driver.connect(u, p);
-    	}
-    	public int getMajorVersion() {
-    		return this.driver.getMajorVersion();
-    	}
-    	public int getMinorVersion() {
-    		return this.driver.getMinorVersion();
-    	}
-    	public DriverPropertyInfo[] getPropertyInfo(String u, Properties p) throws SQLException {
-    		return this.driver.getPropertyInfo(u, p);
-    	}
-    	public boolean jdbcCompliant() {
-    		return this.driver.jdbcCompliant();
-    	}
-    }
+ //
+ //   class DriverShim implements Driver {
+ //   	
+ //   	private Driver driver;
+ //   	DriverShim(Driver d) {
+ //   		this.driver = d;
+ //   	}
+//	public java.util.logging.Logger getParentLogger() throws SQLException {
+//		throw new UnsupportedOperationException("This method is not supported");
+//	}
+ //   	public boolean acceptsURL(String u) throws SQLException {
+ //   		return this.driver.acceptsURL(u);
+ //   	}
+ //   	public Connection connect(String u, Properties p) throws SQLException {
+ //   		return this.driver.connect(u, p);
+//    	}
+ //   	public int getMajorVersion() {
+ //   		return this.driver.getMajorVersion();
+ //   	}
+ //   	public int getMinorVersion() {
+//    		return this.driver.getMinorVersion();
+ //   	}
+ //   	public DriverPropertyInfo[] getPropertyInfo(String u, Properties p) throws SQLException {
+//    		return this.driver.getPropertyInfo(u, p);
+//    	}
+//    	public boolean jdbcCompliant() {
+//    		return this.driver.jdbcCompliant();
+//    	}
+//    }
 }
