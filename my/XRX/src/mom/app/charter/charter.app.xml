@@ -64,6 +64,22 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:relativepath>xsl/</xrx:relativepath>
       <xrx:name>cei2versiondiff.xsl</xrx:name>
     </xrx:resource>
+ <!-- images -->
+   <xrx:resource>
+     <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/drop</xrx:atomid>
+      <xrx:relativepath>image/</xrx:relativepath>
+      <xrx:name>drop25.png</xrx:name>
+    </xrx:resource> 
+   <xrx:resource>
+     <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/arrow492</xrx:atomid>
+      <xrx:relativepath>image/</xrx:relativepath>
+      <xrx:name>arrow492.png</xrx:name>
+    </xrx:resource> 
+  <xrx:resource>
+     <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/karte</xrx:atomid>
+      <xrx:relativepath>image/</xrx:relativepath>
+      <xrx:name>karte.png</xrx:name>
+    </xrx:resource>
   </xrx:resources>
   <xrx:resolver>
     <!-- mainwidgets -->

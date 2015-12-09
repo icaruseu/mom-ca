@@ -84,11 +84,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   float: left;
   width: 100%;
 }}    
-#collections .country-name{{
-  font-size: 1.2em;
+#collections .country-name{{  
+  font-size: 1.1em;
   font-weight: bold;
 }}
 #collections .collections-menu{{
+  clear:both;
   position: relative;
   float: right;
   background: rgb(240,240,240);
@@ -103,7 +104,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   margin:15px;
 }}
 #collections ul{{
-  margin-left: -10px;
+  /*margin-left: -10px;*/
 }}
 #collections .collections-menu-heading{{
   font-variant: small-caps;
@@ -211,7 +212,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                       <xrx:default>Edit my Collections</xrx:default>
                     </xrx:i18n>
                   </a>
-                </div>
+                </div>           
                 <xrx:auth>
                   <xrx:rules>
                     <xrx:rule>
@@ -241,7 +242,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                         </a>
                       </div>
                     </div>
-                  </xrx:true>
+                     <div class="clear"></div>
+                   </xrx:true>
                   <xrx:false>
                     <div data-demoid="8153658a-72d8-4ad2-badf-458cfffae0b4"/>
                   </xrx:false>
@@ -249,6 +251,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               </div>
             </div>
           </div>
+       
         </xrx:true>
         <xrx:false>
           <div data-demoid="f810bd5a-e723-40e0-9640-6d6b73318c13"/>

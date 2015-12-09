@@ -32,37 +32,71 @@ function changeGraphic(wit, url)
 }
 
 
-
+/*
 function showHideDiv(id, triangle)
 {
+	
 	if(document.getElementById(id).style.display == "none")
 	{
-		document.getElementById(id).style.display = "block";
+		console.log("jetzt ist block");	
+		document.getElementById(id).style.display = "block";	
+		        
 	}
 	else
-	{
+	{	console.log("jetzt ist none dran");
 		document.getElementById(id).style.display = "none";
+		
 	}
+}*/
+
+function showHideDiv_neu(id, triangle)
+{
+	console.log('alles klar');
+	var xmlid = '#'+ id;
+		$(xmlid).toggle( function(){		
+			//var img1 = $(clonedIcon1)[0];
+			//var img2 = $(clonedIcon2)[0];	
+			
+			if ($(this)[0].style.display == 'none'){
+				var bild = $('div#Icons').find('img');				
+				var b = $(bild)[1];				
+				$(b).css("height", "20px");				
+				var cIcon2 = $(b).clone();
+				var img2 = $(cIcon2)[0];				
+				var icontillnow = $(xmlid).prev("div.cat").find("img#aus");
+				$(icontillnow[0]).replaceWith(img2);				
+				
+			}
+			else {
+				var bild = $('div#Icons').find('img');
+				var a = $(bild)[0];				
+				$(a).css("height", "20px");				
+				var cIcon1 = $(a).clone();				
+				var img1 = $(cIcon1)[0];				
+				var icontillnow = $(xmlid).prev("div.cat").find("img#ein");
+				$(icontillnow[0]).replaceWith(img1);				
+			}
+		
+		} );
 }
 
 
-
 function hideDiv(id)
-{
+{	
 	document.getElementById(id).style.display = "none";
 }
 
 
 
 function showDiv(id)
-{
+{	
 	document.getElementById(id).style.display = "block";
 }
 
 
 
 function assignDiv(hide, show)
-{
+{	
 	var divs = new Array();
 	divs = hide.split(' ');
 	for (n = 0; n < divs.length; n++)
@@ -80,7 +114,7 @@ function assignDiv(hide, show)
 
 
 function showContent(hide, show)
-{
+{	
 	var divs = new Array();
 	divs = hide.split(' ');
 	for (n = 0; n < divs.length; n++)
@@ -89,4 +123,24 @@ function showContent(hide, show)
 	}
 	showDiv(show);
 	assignDiv(hide, show);
+}
+
+/* Prüffunktion, ob kategorie offen oder zu */
+/* muss clone nehmen, weil bild nur einmal vorhanden, wills aber öfter einsetzen!!!!!!*/
+function proof(){
+console.log('hallo');
+var bild = $('div#Icons').find('img');
+
+var a = $(bild)[0];
+var b = $(bild)[1];	
+$(a).css("height", "20px");
+$(b).css("height", "20px");
+ clonedIcon1 = $(a).clone();
+ clonedIcon2 = $(b).clone();
+
+var allNone = $("div[style='display:none']").prev('div.cat').children().append(clonedIcon2);
+var show = $("div.cat").next(":not(div[style='display:none'])");
+var allShown = $(show).prev('div.cat').children().append(clonedIcon1);
+
+
 }

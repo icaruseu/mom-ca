@@ -36,7 +36,7 @@ html{{
 }}
 html *, .bf *{{
   font-family:"Trebuchet MS", regular, sans-serif;
-  font-size:14px;
+  font-size:16px;
 }}
 #main-logo{{
   height:103px;
@@ -112,10 +112,11 @@ a:hover{{
 * Function links
 *
 */
-.my-functions {{
-  //position:relative;
-  float:none;
-  margin-bottom:50px;
+.my-functions {{  
+  position:absolute;
+  float:right;
+  margin-bottom:30px;
+  
 }}
 
 .my-functions a {{
@@ -126,7 +127,7 @@ a:hover{{
   text-align:right;
   color:#EF6A2F !important;
   font-weight:bold;
-  font-size:1.1em;
+  font-size:1em;
 }}
 
 .my-functions h3{{
@@ -135,15 +136,16 @@ a:hover{{
 }}
 
 .function-links{{
-  position:relative;
-  float:left;
+  /*position:relative;
+  float:rigth;*/
   background-color:{conf:param('color7')} !important;
-  width:100%;
+  /*width:50%;*/
+  
 }}
 
 .function-link{{
-  position:relative;
-  float:left;
+  /* position:relative;
+  float:left;*/
   margin:10px;
 }}
 

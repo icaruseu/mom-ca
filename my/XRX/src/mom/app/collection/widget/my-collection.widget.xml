@@ -169,6 +169,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                 </div>
               </div>
             </div>
+            <!-- um eine my-functions-box rechtsbündig zu schaffen -->
+            <div class="clear"></div>
           </xrx:true>
           <xrx:false>
             <span/>
