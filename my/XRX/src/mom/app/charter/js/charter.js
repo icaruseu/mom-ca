@@ -142,5 +142,7 @@ var allNone = $("div[style='display:none']").prev('div.cat').children().append(c
 var show = $("div.cat").next(":not(div[style='display:none'])");
 var allShown = $(show).prev('div.cat').children().append(clonedIcon1);
 
+var arrowatgraphic  = $("div#change-image-links").next();
+$("div#graphicheader").children().append(arrowatgraphic);
 
 }

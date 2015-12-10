@@ -45,11 +45,13 @@
 				<link href="{ conf:param('request-root') }jquery/themes/base/jquery.ui.all.css" rel="stylesheet"/>
         <style type="text/css">
 				
-				.my-functions {{
-				  //position:relative;
-				  float:none;
-				  margin-bottom:50px;
-				}}
+			.my-functions {{  
+          position:relative;
+          float:right;
+          margin-bottom:30px;
+          width:32.5%;
+  
+        }}
 				
 				.my-functions span {{
 				  color:{conf:param('color6')};
@@ -72,14 +74,6 @@
 				}}
 				
 				
-				
-
-
-				
-				
-				
-				
-
 				
 				/* IMAGES */
 				#change-image-links{{
@@ -157,6 +151,9 @@
     </xrx:jss>
     <xrx:view>
         <div data-demoid="07ed1069-ea47-42b3-ac3c-d717877363b8" id="edit-charter">
+        $(document).ready(function (){{
+          $('<div class="clear"></div>').insertAfter("div.my-functions");
+          }});
             <xrx:auth>
                 <xrx:rules>
                     <xrx:rule>
@@ -354,7 +351,7 @@
 				      	 
 			let $image-header := <div class="inlinehead" data-demoid="6eb2c413-07bb-4cdd-8f97-33a06b6b235f">
                             <div data-demoid="f129b56f-26f0-40fc-a4a1-85c3a5ff804a">
-                                <div data-demoid="afbae3df-224d-49dc-a853-3e4424a6b68c" style="float:left;margin:5px;">
+                                <div data-demoid="afbae3df-224d-49dc-a853-3e4424a6b68c" style="float:left;margin:5px;" id="graphicheader">
                                     <a href="javascript:showHideDiv('viewerdiv','')">
                                         <xrx:i18n>
                                             <xrx:key>graphics</xrx:key>
@@ -362,8 +359,7 @@
                                         </xrx:i18n>
                                         <span>:</span>
                                     </a>
-                                </div>
-                                <span> </span>
+                                </div>                              
                                 <div data-demoid="9f37cc3f-eb69-4258-b3a0-5f82a7a66c02" id="change-image-links">
                        
 							            {
@@ -500,7 +496,19 @@
                     </div>
                 </xrx:false>
             </xrx:auth>
-<!-- habe hier das javascript entfernt, später wieder einsetzen -->
+ <script type="text/javascript">
+        $(document).ready(function() {{
+          $( "#zoomslider" ).slider({{ 
+            value:100, 
+            min: 100, 
+            max: 500, 
+            step: 10, 
+            slide: function( event, ui ) {{ 
+              $( "#img" ).css( "width", ui.value + "%" ); 
+            }} 
+          }}); 
+        }})
+        </script>
         </div>
     </xrx:view>
 </xrx:widget>

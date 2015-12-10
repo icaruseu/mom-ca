@@ -113,9 +113,10 @@ a:hover{{
 *
 */
 .my-functions {{  
-  position:absolute;
+  position:relative;
   float:right;
   margin-bottom:30px;
+  width:32.5%;
   
 }}
 

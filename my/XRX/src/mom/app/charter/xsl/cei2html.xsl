@@ -720,40 +720,7 @@
                 </xsl:for-each>
               </li>
             </xsl:when>
-          </xsl:choose>
-          <!-- <xsl:choose>
-            <xsl:when test="count(./cei:figure/cei:graphic) &gt; 0">
-              <b>
-                <xrx:i18n>
-                  <xrx:key>graphics</xrx:key>
-                  <xrx:default>Graphics</xrx:default>
-                </xrx:i18n>
-                <xsl:text>:&#160;</xsl:text>
-              </b>
-              <div id="change-graphic-links">
-                <xsl:for-each select="./cei:figure/cei:graphic/@url">
-                  <xsl:sort select="." />
-                  <span>
-                    <xsl:text>(</xsl:text>
-                    <xsl:element name="a">
-                      <xsl:attribute name="href">
-                        <xsl:text>javascript:changeGraphic('wit</xsl:text>
-                        <xsl:value-of select="$num" />
-                        <xsl:text>', '</xsl:text>
-                        <xsl:if test="not(contains(., '/'))">
-                         <xsl:value-of select="$image-base-uri" />
-                        </xsl:if>
-                        <xsl:value-of select="." />
-                        <xsl:text>')</xsl:text>
-                      </xsl:attribute>
-                      <xsl:value-of select="position()" />
-                    </xsl:element>
-                    <xsl:text>)</xsl:text>
-                  </span>
-                </xsl:for-each>
-              </div>
-            </xsl:when>
-          </xsl:choose> -->
+          </xsl:choose>   
         </ul>
       </div>
       <xsl:choose>

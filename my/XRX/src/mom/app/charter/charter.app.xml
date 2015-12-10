@@ -66,14 +66,14 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     </xrx:resource>
  <!-- images -->
    <xrx:resource>
-     <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/drop</xrx:atomid>
+     <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/path_down</xrx:atomid>
       <xrx:relativepath>image/</xrx:relativepath>
-      <xrx:name>drop25.png</xrx:name>
+      <xrx:name>path_down.png</xrx:name>
     </xrx:resource> 
    <xrx:resource>
-     <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/arrow492</xrx:atomid>
+     <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/path_up</xrx:atomid>
       <xrx:relativepath>image/</xrx:relativepath>
-      <xrx:name>arrow492.png</xrx:name>
+      <xrx:name>path_up.png</xrx:name>
     </xrx:resource> 
   <xrx:resource>
      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/karte</xrx:atomid>

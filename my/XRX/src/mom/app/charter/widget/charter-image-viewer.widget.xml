@@ -221,6 +221,14 @@ a#gelb {{
    border: 1px solid #72856C;  
 }}
 
+img#ein,
+img#aus {{
+    margin-right:10px;
+    margin-top:5px;
+    position:relative;
+    float:left;
+}}
+
     </style>
   </xrx:csss>
   <xrx:jss>
@@ -294,13 +302,12 @@ a#gelb {{
         </a>
 				else
 				<div>
-          <div data-demoid="0620e9b9-3056-44e9-97e0-36659b196c21" style="float:left;">
+          <div data-demoid="0620e9b9-3056-44e9-97e0-36659b196c21" id="graphicheader">
             <a href="javascript:showHideDiv_neu('graphics','')">
               <xrx:i18n>
                 <xrx:key>graphics</xrx:key>
                 <xrx:default>Graphics</xrx:default>
-              </xrx:i18n>
-              <span></span>
+              </xrx:i18n>              
             </a>
           </div>
           <div data-demoid="f52d37ea-4440-40a3-8ea5-8f0e429f550f" id="change-image-links">
