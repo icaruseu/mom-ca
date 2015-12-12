@@ -268,6 +268,19 @@
         </groups>
       </editor_field> 
       <editor_field>
+        <id>cei:rubrum</id>
+        <parent>cei:witnessOrig</parent>
+        <mult_occurence>true</mult_occurence>
+        <target_field></target_field>
+        <tab_page>4</tab_page>
+        <active>true</active>
+        <message>self</message>
+        <groups>
+          <group>full</group>
+          <group>witnessEditor</group>
+        </groups>
+      </editor_field>
+      <editor_field>
         <id>cei:witnessOrig</id>
         <parent>cei:chDesc</parent>cei:
         <mult_occurence>true</mult_occurence>
