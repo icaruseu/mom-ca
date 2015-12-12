@@ -79,6 +79,7 @@ it leaves the active development stage.
                                     <cei:sealDesc/>
                                 </cei:auth>
                                 <cei:nota/>
+                                <cei:rubrum/>
                             </cei:witnessOrig>
                             <cei:witListPar>
                                 <cei:witness>
@@ -95,6 +96,7 @@ it leaves the active development stage.
                                         <cei:notariusDesc/>
                                     </cei:auth>
                                     <cei:nota/>
+                                    <cei:rubrum/>
                                 </cei:witness>
                             </cei:witListPar>
                             <cei:diplomaticAnalysis>
