@@ -678,6 +678,7 @@
         <xs:complexType mixed="true">
             <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="class"/>
                     <xs:element ref="abstract"/>
                     <xs:element name="issued" minOccurs="1" maxOccurs="1">
                         <xs:annotation>
@@ -1043,6 +1044,7 @@
         <xs:complexType mixed="true">
             <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="class"/>
                     <xs:group ref="Sachliches"/>
                     <xs:group ref="layout"/>
                     <xs:element ref="recipient"/>
