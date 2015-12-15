@@ -356,6 +356,20 @@ form{{
 .ui-tabs-anchor{{
   font-size:.8em;
 }}
+
+span#onoff {{
+  padding-bottom:1em;
+}}
+
+div.forms-mixedcontent-attribute-droppable {{
+  color:#E8E8E8; 
+}}
+div.controlledVocabulary {{
+    font-size: 0.9em;
+}}
+span#onoff {{
+  padding-left:2em;
+}}
     </style>
   </xrx:csss>
   <xrx:jss>
