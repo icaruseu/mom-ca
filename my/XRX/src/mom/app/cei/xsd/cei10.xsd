@@ -2675,6 +2675,7 @@
                     <xs:element ref="lb"/>
                     <xs:element ref="pb"/>
                     <xs:element ref="handShift"/>
+                    <xs:element ref="pict"/>
                 </xs:choice>
             </xs:sequence>
             <xs:attribute name="extent" type="xs:anySimpleType"/>

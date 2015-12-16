@@ -1,0 +1,254 @@
+
+<xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+    <xrx:id>tag:www.monasterium.net,2011:/mom/widget/patch-charter</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key>charter-versions</xrx:key>
+            <xrx:default>Charter Versions</xrx:default>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:subtitle/>
+    <xrx:description/>
+    <xrx:author>stephan.makowski@uni-koeln.de</xrx:author>
+    <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/desktop</xrx:portal>
+
+  <xrx:init>
+   <xrx:processor>
+     <xrx:translateflag>false</xrx:translateflag>
+   </xrx:processor>
+  </xrx:init>
+    <xrx:csss>
+        <xrx:css>tag:www.monasterium.net,2011:/mom/css/charter-patch</xrx:css>
+        <style type="text/css">
+
+#vcharter-preview-main{{
+position:relative;
+float:left;
+width:800px;
+}}
+#vcharter-preview-main .charter *{{
+line-height:1.6em;
+}}
+#vcharter-preview-main .charter{{
+position:relative;
+width:100%;
+float:left;
+background:rgb(245,245,245);
+}}
+#vcharter-preview-main .charter-preview{{
+position:relative;
+float:left;
+width:100%;
+background:rgb(245,245,245);
+border-bottom:solid white 5px;
+}}
+#vcharter-preview-main .inner-charter-preview{{
+position:relative;
+float:left;
+width:100%;
+margin:15px;
+}}
+#vcharter-preview-main .charter-info-and-actions{{
+display:inline;
+position:relative;
+float:left;
+width:25%;
+border-left:solid white 3px;
+padding-left:10px;
+}}
+#vcharter-preview-main .container{{
+float:left;
+width:65%;
+padding-right:10px;
+}}
+#vcharter-preview-main .charter-info-and-actions *{{
+font-size:13px;
+}}
+#vcharter-preview-main .fieldset{{
+border:solid #C8C8C8 1px;
+margin-top:10px;
+}}
+#vcharter-preview-main .inner-fieldset{{
+margin:5px;
+}}
+div.bookmark-icon{{
+position:absolute;
+right:220px;
+}}
+.note-field{{
+  position:relative;
+  border:solid #C8C8C8 1px;
+  padding:3px;
+}}
+.noteBobble {{
+  display:none;
+  position:fixed;
+  left:400px;
+  bottom:35%;
+  z-index:20;
+  width: 400px;
+  height: 160px;
+  background-color: #F6F6F6;
+  padding:20px;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  -khtml-border-radius:3px;
+  border-radius:3px;
+  -moz-box-shadow:    4px -3px 10px 1px #202020;
+  -webkit-box-shadow: 4px -3px 10px 1px #202020;
+  box-shadow:         4px -3px 10px 1px #202020;
+}}
+.noteBobble .xfLabel{{ 
+  color:rgb(142,163,132);
+  font-weight:bold;
+}}   
+.noteBobble .xfValue{{ 
+  top: 5px !important;
+  position:relative;
+  width:400px !important;
+  max-height: 100px !important;
+}}
+.noteBobble .xfTrigger{{
+  width:30px !important;
+}}  
+.edit-box{{
+  padding:3px;
+}}
+
+    </style>
+    </xrx:csss>
+    <xrx:model>
+    { bookmark:model(conf:param('request-root')) }
+  </xrx:model>
+  <xrx:view>
+
+    { 
+      (: Get Parameters from Request :)
+      let $atomtag := request:get-parameter("id", "")
+      let $revision := request:get-parameter("rev", "")
+      let $backlink := request:get-parameter('backlink', '')
+      
+      return
+      
+      <div data-demoid="16e19fdb-a73d-42ca-ab61-a283052c8da5" id="vcharter-versions">
+        <a href="{ $backlink }">
+          <span>&lt;&lt; </span>
+          <xrx:i18n>
+            <xrx:key>back</xrx:key>
+            <xrx:default>back</xrx:default>
+          </xrx:i18n>
+        </a>
+        {
+        (: Set the Collection :)
+        let $db-link := collection("/db/mom-data/metadata.charter.public")
+        
+        (: At first, get the origin charter as document :)
+        let $cei := $db-link//*[atom:id = $atomtag]
+        let $fileuri := base-uri($cei)
+        let $origin-document := doc($fileuri)
+        
+        (: Cast Revision-Number from URL :)
+        let $rev-number := xs:int($revision)
+        
+        (: After this, patch Charter with commited Revision 
+          Returnvalue from v:doc is a document. Document should be stored in db :)
+        let $revision-charter := v:doc($origin-document, $rev-number)
+        
+        (: Build strings :)
+        let $tokens := fn:tokenize($fileuri, "/")
+        let $collection := replace($fileuri, $tokens[last()], "")
+        
+        (: Login as Admin:)
+        let $save-entry := system:as-user('admin', conf:param('dba-password'), ())
+    
+        (: if exists, delete former charter:)
+        let $path := 
+          if(doc-available($collection)) then
+            xmldb:remove($collection, $tokens[last()])
+          else ()
+     
+        (: Save restored Charter :)
+        let $stored := xmldb:store($collection, $tokens[last()], $revision-charter)     
+        
+        return 
+          <div data-demoid="742242ff-bce8-443e-a546-b7ecd7e32419">
+            <div data-demoid="b700263c-1fa1-4061-85db-fe4df92f4039">
+              <br/>
+              {    
+              if(not(empty($stored))) then
+                <div>
+                  <xrx:i18n>
+                    <xrx:key>patching-done</xrx:key>
+                    <xrx:default>Success! The former state of these Document was successfully restored!</xrx:default>
+                  </xrx:i18n>
+                  
+                  {
+                  (: After restoring the charter, all Versions of this document should be deleted, too :)
+                  let $docName := util:document-name($origin-document)
+                  let $vCollection := concat("/db/system/versions", $collection)
+              
+                  (: Delete the basement :)
+                  let $base :=
+                   if( doc-available( concat($vCollection,  $docName, ".base") ) ) then
+                    xmldb:remove($vCollection, concat($docName, ".base"))
+                   else ()
+                        
+                  (: Iterate through all Versions and delete them :)
+                  for $version at $rev in collection($vCollection)//v:properties[v:document = $docName]
+                  
+                  let $base-uri := base-uri($version)
+                  let $doc-to-remove := doc($base-uri)
+                  let $doc-name-to-remove := util:document-name($doc-to-remove)
+                  
+                  (: if exists, delete former versions of the charter:)
+                  let $path-old := 
+                    if( doc-available( concat($vCollection, $doc-name-to-remove) )) then
+                      xmldb:remove($vCollection, $doc-name-to-remove)
+                    else ()    
+              
+                  order by $rev ascending 
+                  return  
+                  <br/>
+                  }
+                  
+                </div>
+              else
+                <div>
+                  <xrx:i18n>
+                    <xrx:key>patching-error</xrx:key>
+                    <xrx:default>Error! The former state of these Document could not be restored!</xrx:default>
+                  </xrx:i18n>
+                </div>
+              }
+            </div>
+            
+          
+        </div>
+      }
+      </div>
+    }
+   </xrx:view>
+
+</xrx:widget>

@@ -279,7 +279,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	            <xf:group model="mdefault-header">
 	              { $login-link-div }
 	              { $register-link-div }
-	              <!--  span>
+	              <span>
 		              <xrx:i18n>
 		                <xrx:key>choose-a-language</xrx:key>
 		                <xrx:default>Choose a Language</xrx:default>
@@ -295,7 +295,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	                    <xf:resource value="concat('{ request:get-url() }{ xrx:request-query-string('', '') }&amp;_lang=', //xrx:lang)" />
 	                  </xf:load>
 	                </xf:action>
-	              </xf:select1-->
+	              </xf:select1>
 	            </xf:group>
 	          </div>
             else
