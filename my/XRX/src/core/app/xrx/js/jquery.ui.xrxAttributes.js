@@ -247,8 +247,13 @@
              * if controlledVoc is true then menuliste (is a dropdown menu)is implemented
              * if false newEditAttributeInput (is an inputfield) is created.*/
             if (elementName == "cei:index") {
-                                 
+
+
+                if (controlledVoc == true) {
                 
+                    $("div[title='lemma']", "." + uiMainDivId).draggable("disable");                  
+                    $("div[title='sublemma']", "." + uiMainDivId).draggable("disable");                    
+
                 if ((controlledVoc == true) &&(mainkeys.indexOf(name) != -1)) {                	
                     for (var mk in suggestedVal) {                                   
                         	        var y = suggestedVal[mk];                        
@@ -260,9 +265,16 @@
                     }
                  else {
                     newEditAttribute.append(newEditAttributeLabel).append(newEditAttributeInput).append(newEditAttributeTrash);
-                }
+
+
                 }            
+       }              
+
                       
+
+                }             
+    
+
             else {
                 newEditAttribute.append(newEditAttributeLabel).append(newEditAttributeInput).append(newEditAttributeTrash);
             }
