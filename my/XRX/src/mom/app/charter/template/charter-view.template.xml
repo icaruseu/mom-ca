@@ -30,17 +30,21 @@ We expect VdU/VRET to be distributed in the future with a license more
 lenient towards the inclusion of components into other systems, once
 it leaves the active development stage.
   </xrx:licence>
+
   <xrx:xml>
+ 
     <div data-demoid="f3b63c2b-d53e-49f3-a714-ff25a49944cd" id="cei">
-      <div class="inlinehead" data-demoid="dc8dbf22-afa4-4bd1-9a39-e8dd46cde194">
-        <a href="javascript:showHideDiv('abstract', '')">
+ 
+      <div class="inlinehead cat" data-demoid="dc8dbf22-afa4-4bd1-9a39-e8dd46cde194">
+        <a href="javascript:showHideDiv_neu('abstract', '')">
           <xrx:i18n>
             <xrx:key>abstract</xrx:key>
             <xrx:default>Abstract</xrx:default>
           </xrx:i18n>
-        </a>
-      </div>
-      <div data-demoid="b8e0ecd8-c6f1-49c3-bae2-c8b0b8c7074c" id="abstract">
+           
+       </a>         
+       </div>      
+      <div data-demoid="b8e0ecd8-c6f1-49c3-bae2-c8b0b8c7074c" id="abstract"> 
         <div class="p" data-demoid="9d6496f6-8645-4dd5-8804-ddf89e4fbc78">
           <insert-issued/>
           <insert-abstract/>
@@ -51,58 +55,93 @@ it leaves the active development stage.
             </xrx:i18n>
           </insert-biblabstract>
           <insert-abstractnotes/>
-        </div>
+     
+    </div>
       </div>
-      <div class="inlinehead" data-demoid="e69c9fb5-a40e-4996-bb17-68fe163d9d8a">
-        <a href="javascript:showHideDiv('witList', '')">
+    
+      <div class="inlinehead cat" data-demoid="e69c9fb5-a40e-4996-bb17-68fe163d9d8a">
+        <a href="javascript:showHideDiv_neu('witList', '')">
           <xrx:i18n>
             <xrx:key>witness</xrx:key>
             <xrx:default>Witness</xrx:default>
           </xrx:i18n>
         </a>
       </div>
-      <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af" id="witList" style="display: none">
+     <!--  <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af" id="witList" style="display: none"> -->
         <insert-witList/>
         <span style="color:white">x</span>
-      </div>
-      <div class="inlinehead" data-demoid="37d4ebad-6387-4346-8c38-623c38f67c45">
-        <a href="javascript:showHideDiv('tenor', '')">
+      <!-- </div>
+       -->
+      <!-- neu hinzugefügt, für deco Desc -->
+      <div class="inlinehead cat" data-demoid="e69c9fb5-a40e-4996-bb17-68fe163d9d8a">
+        <a href="javascript:showHideDiv_neu('decoDesc', '')">    
+          <xrx:i18n>
+            <xrx:key>decoDesc</xrx:key>
+            <xrx:default>Arthistorian Description</xrx:default>
+          </xrx:i18n>
+        </a>
+      </div>     
+     <!--  <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af" id="decoDesc" style="display:none">     -->  
+        <insert-decoDesc/>
+   <!--      <span style="color:white">x</span>     
+      </div>   -->
+       <!-- deco desc ende -->
+       
+      <div class="inlinehead cat" data-demoid="37d4ebad-6387-4346-8c38-623c38f67c45">
+        <a href="javascript:showHideDiv_neu('tenor', '')">
           <xrx:i18n>
             <xrx:key>transcription</xrx:key>
             <xrx:default>Transcription</xrx:default>
           </xrx:i18n>
         </a>
       </div>
-      <div data-demoid="317b877a-e803-48d5-8d2e-bd9779f000bb" id="tenor">
-       <div class="p">
+      <!-- <div data-demoid="317b877a-e803-48d5-8d2e-bd9779f000bb" id="tenor" style="display:none"> 
+       <div class="p">-->
         <insert-tenor/>
         <insert-bibltenor/>
         <insert-tenornotes/>
-       </div>
-      </div>
-      <div class="inlinehead" data-demoid="3709cbe1-7993-4a11-a5e5-846e579c935e">
-        <a href="javascript:showHideDiv('diplomaticAnalysis', '')">
+      <!--  </div>
+      </div> -->
+      <div class="inlinehead cat" data-demoid="3709cbe1-7993-4a11-a5e5-846e579c935e">
+        <a href="javascript:showHideDiv_neu('diplomaticAnalysis', '')">
           <xrx:i18n>
             <xrx:key>diplomatic-analysis</xrx:key>
             <xrx:default>Diplomatic Analysis</xrx:default>
           </xrx:i18n>
         </a>
       </div>
-      <div data-demoid="24296c88-84bc-45f1-a8c5-2703a58dfe95" id="diplomaticAnalysis">
+     <!--  <div data-demoid="24296c88-84bc-45f1-a8c5-2703a58dfe95" id="diplomaticAnalysis"> -->
         <insert-diplomaticAnalysis/>
-      </div>
-      <div class="inlinehead" data-demoid="82454989-131d-4937-b282-c64cb7ef06e2">
-        <a href="javascript:showHideDiv('index', '')">
+     <!--  </div> -->
+      <div class="inlinehead cat" data-demoid="82454989-131d-4937-b282-c64cb7ef06e2">
+        <a href="javascript:showHideDiv_neu('index', '')">
           <xrx:i18n>
             <xrx:key>index</xrx:key>
             <xrx:default>Index</xrx:default>
           </xrx:i18n>
         </a>
       </div>
-      <div data-demoid="91fd52ee-80f8-42a5-bc96-ba194ff43e58" id="index" style="display: none">
-        <insert-persName/>
+      <div data-demoid="91fd52ee-80f8-42a5-bc96-ba194ff43e58" id="index">
+   
+        <div id="indexlist">
         <insert-placeName/>
+        <insert-persName/>        
         <insert-item/>
+        </div>
+        <script type="text/javascript">      
+       $('document').ready(function(){{
+         if($('div#indexlist').length == 0){{
+          var x = $("#index").css("display", "none");          
+          console.log('das ist x');
+          console.log(x);
+          
+          }}   }}
+          );       
+        </script>
+        <div id="enhancedView">
+          <insert-enhancedView/>
+         </div>
+        
         <span style="color:white">x</span>
       </div>
     </div>
