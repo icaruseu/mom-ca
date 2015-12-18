@@ -120,8 +120,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             <xrx:default>Edit Collection Info</xrx:default>
           </xrx:i18n>
         </div>
-        <br/>
-        <br/>
+     <!--    <br/>
+        <br/> -->
         <xf:group appearance="bf:verticalTable" class="standard-form InlineRoundBordersAlert" model="mcollection-info">
           
           <!-- 

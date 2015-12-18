@@ -4,8 +4,7 @@
   xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns:cei="http://www.monasterium.net/NS/cei"
   id="cei2html" xmlns:xhtml="http://www.w3.org/1999/xhtml" version="1.0"
   xmlns="http://www.w3.org/1999/xhtml">
-  <xsl:strip-space elements="*" /> 
-
+  <xsl:strip-space elements="*" />
   <xsl:preserve-space elements="cei:*" />
   <xsl:variable name="sitemap" select="/xhtml:page/xhtml:div"/>
 

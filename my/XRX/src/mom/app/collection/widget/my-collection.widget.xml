@@ -191,10 +191,10 @@ float:left;
           <xrx:true>
             <div class="my-functions" data-demoid="bc3be704-de79-4c0c-9495-6671b758a988">
              <script type="text/javascript">
-          $(document).ready(function (){{
+          $(document).ready(function (){{         
           $('<div class="clear"></div>').insertAfter("div.my-functions");
           $("div#year-navi").insertAfter("div#heading");
-                   
+                            
           }});
           </script>
               <h3>

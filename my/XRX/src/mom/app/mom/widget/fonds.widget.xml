@@ -137,7 +137,7 @@ div.clear {{
 						<div class="my-functions" data-demoid="2e54ce28-3369-4ebe-86fb-0c1e54d58870">
 						 <script type="text/javascript">
           $(document).ready(function (){{
-          console.log("einfügen von clear in archive widget.xml");
+          console.log("einfügen von clear in fonds widget.xml");
           $('<div class="clear"></div>').insertAfter("div.my-functions");
           }});
           </script>
