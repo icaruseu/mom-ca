@@ -252,6 +252,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <xrx:element name="cei:nota">
       <xrx:topic>textual-witnesses</xrx:topic>
     </xrx:element>
+    <xrx:element name="cei:rubrum">
+      <xrx:topic>textual-witnesses</xrx:topic>
+    </xrx:element>
     <xrx:element name="cei:archIdentifier">
       <xrx:topic>reference</xrx:topic>
     </xrx:element>
@@ -364,6 +367,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:topic>original</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:supplied">
+      <xrx:topic>original</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:unclear">
       <xrx:topic>original</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:pict">

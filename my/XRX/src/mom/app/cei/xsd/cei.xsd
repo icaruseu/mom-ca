@@ -723,6 +723,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
         <xs:complexType mixed="true">
             <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="class"/>
                     <xs:element ref="abstract"/>
                     <xs:element name="issued" minOccurs="1" maxOccurs="1">
                         <xs:annotation>
@@ -855,6 +856,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                                     <xs:element ref="auth"/>
                                     <xs:element ref="physicalDesc"/>
                                     <xs:element ref="nota"/>
+                                    <xs:element ref="rubrum"/>
                                     <xs:element ref="figure">
                                         <xs:annotation>
                                             <xs:appinfo source="EditVDU">
@@ -1048,6 +1050,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                                     </xs:element>
                                     <xs:element ref="quoteOriginaldatierung"/>
                                     <xs:element ref="nota"/>
+                                    <xs:element ref="rubrum"/>
                                     <xs:element ref="divNotes"/>
                                 </xs:choice>
                             </xs:sequence>
@@ -1111,6 +1114,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
         <xs:complexType mixed="true">
             <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="class"/>
                     <xs:group ref="Sachliches"/>
                     <xs:group ref="layout"/>
                     <xs:element ref="recipient"/>
@@ -1293,6 +1297,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                     <xs:element ref="auth"/>
                     <xs:element ref="physicalDesc"/>
                     <xs:element ref="nota"/>
+                    <xs:element ref="rubrum"/>
                     <xs:element ref="figure"/>
                     <xs:group ref="layout"/>
                     <xs:group ref="textualElements"/>
@@ -1580,6 +1585,37 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                     <xs:element ref="num"/>
                 </xs:choice>
             </xs:sequence>
+            <xs:attributeGroup ref="lang"/>
+            <xs:attributeGroup ref="standard"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="rubrum">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>cei_rubrum</xrx:key>
+                        <xrx:default>rubrum</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+                <xrxe:min-occur>0</xrxe:min-occur>
+                <xrxe:max-occur>unbounded</xrxe:max-occur>
+                <xrxe:content-control>annotation</xrxe:content-control>
+            </xs:appinfo>
+            <xs:documentation xml:lang="deu"> Enthält Vermerke des verwahrenden Archivs oder des Empfängers auf der
+                Urkunde.</xs:documentation>
+            <xs:documentation xml:lang="eng">contains notes on the document applied by the preserving archives or the recipient.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:group ref="Originalbefund"/>
+                    <xs:group ref="Sachliches"/>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attributeGroup ref="type"/>
+            <xs:attribute name="position" type="xs:anySimpleType" use="optional"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -2723,6 +2759,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                 <xs:element ref="c"/>
                 <xs:element ref="sic"/>
                 <xs:element ref="handShift"/>
+                <xs:element ref="unclear"/>
             </xs:choice>
         </xs:sequence>
     </xs:group>
@@ -2827,6 +2864,55 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                             <xrx:i18n>
                                 <xrx:key>cei_at_agent</xrx:key>
                                 <xrx:default>agent</xrx:default>
+                            </xrx:i18n>
+                        </xrxe:label>
+                        <xrxe:relevant>true</xrxe:relevant>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attributeGroup ref="certainty"/>
+            <xs:attributeGroup ref="standard"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="unclear">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>cei_unclear</xrx:key>
+                        <xrx:default>unclear</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+                <xrxe:menu-item>
+                    <xrx:i18n>
+                        <xrx:key>original</xrx:key>
+                        <xrx:default>original</xrx:default>
+                    </xrx:i18n>
+                </xrxe:menu-item>
+                <xrxe:min-occur>0</xrxe:min-occur>
+                <xrxe:max-occur>unbounded</xrxe:max-occur>
+            </xs:appinfo>
+            <xs:documentation xml:lang="deu"> enthält Text, der nicht eindeutig lesbar sind. </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="expan"/>
+                    <xs:element ref="c"/>
+                    <xs:element ref="lb"/>
+                    <xs:element ref="pb"/>
+                    <xs:element ref="handShift"/>
+                    <xs:element ref="pict"/>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attribute name="extent" type="xs:anySimpleType"/>
+            <xs:attribute name="degree" type="xs:anySimpleType">
+                <xs:annotation>
+                    <xs:appinfo source="EditVDU">
+                        <xrxe:label>
+                            <xrx:i18n>
+                                <xrx:key>cei_at_degree</xrx:key>
+                                <xrx:default>degree</xrx:default>
                             </xrx:i18n>
                         </xrxe:label>
                         <xrxe:relevant>true</xrxe:relevant>
@@ -4430,8 +4516,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                     </xrx:i18n>
                 </xrxe:label>
             </xs:appinfo>
-            <xs:documentation>Urkundenklassifikation
-              </xs:documentation>
+            <xs:documentation xml:lang="de">Urkundenart</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="type"/>           
@@ -4732,6 +4817,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                     <xs:group ref="layout"/>
                     <xs:element ref="foreign"/>
                     <xs:element ref="quote"/>
+                    <xs:element ref="title"/>
                     <xs:element ref="scope"/>
                     <xs:group ref="Referenz"/>
                 </xs:choice>
