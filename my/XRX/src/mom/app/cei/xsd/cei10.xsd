@@ -3249,8 +3249,9 @@
                 Markierung als Ordinalzahl unterschieden werden kann. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:attribute name="class"/>
+            <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="standard"/>
+            <xs:attribute name="class"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="lb">
