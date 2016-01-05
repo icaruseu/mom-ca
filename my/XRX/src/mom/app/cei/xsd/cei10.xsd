@@ -3251,7 +3251,6 @@
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="standard"/>
-            <xs:attribute name="class"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="lb">
