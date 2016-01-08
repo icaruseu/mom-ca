@@ -405,7 +405,19 @@ jQuery(document).ready(function() {{
 $( "#radio" ).buttonset();
   
   $('document').ready(function() {{
- javascript:proof()
+ javascript:proof();
+      if($("div#abstract").children().children().length == 0){{
+          console.log("no abstract");
+           var x = $("#abstract").css("display", "none");
+}}
+      
+      
+      if($('div#indexlist').children().length == 0){{
+         var x = $("#index").css("display", "none");          
+         
+          
+          }}
+               
  }});
   
 

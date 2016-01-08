@@ -54,9 +54,7 @@ function showHideDiv_neu(id, triangle)
 	console.log('alles klar');
 	var xmlid = '#'+ id;
 		$(xmlid).toggle( function(){		
-			//var img1 = $(clonedIcon1)[0];
-			//var img2 = $(clonedIcon2)[0];	
-			
+		
 			if ($(this)[0].style.display == 'none'){
 				var bild = $('div#Icons').find('img');				
 				var b = $(bild)[1];				
@@ -128,7 +126,6 @@ function showContent(hide, show)
 /* Prüffunktion, ob kategorie offen oder zu */
 /* muss clone nehmen, weil bild nur einmal vorhanden, wills aber öfter einsetzen!!!!!!*/
 function proof(){
-console.log('hallo');
 var bild = $('div#Icons').find('img');
 
 var a = $(bild)[0];
@@ -137,12 +134,40 @@ $(a).css("height", "20px");
 $(b).css("height", "20px");
  clonedIcon1 = $(a).clone();
  clonedIcon2 = $(b).clone();
+ cloneI1 = $(a).clone();
+ cloneI2 = $(b).clone();
+ clone1 = $(a).clone();
+ clone2 = $(b).clone();
+ clon2 = $(b).clone();
 
 var allNone = $("div[style='display:none']").prev('div.cat').children().append(clonedIcon2);
 var show = $("div.cat").next(":not(div[style='display:none'])");
 var allShown = $(show).prev('div.cat').children().append(clonedIcon1);
 
-var arrowatgraphic  = $("div#change-image-links").next();
-$("div#graphicheader").children().append(arrowatgraphic);
+if($("div#abstract").children().children().length == 0){	
+	$("div.abs").find('img').replaceWith(clon2);
+}
+
+if($("div#indexlist").children().length == 0) {	
+	$("div.idx").find('img').replaceWith(clone2);
+	
+}
+else {
+		
+	$("div.idx").find('img').replaceWith(clone1);
+}
+if($("div.no-graphic").length >= 1) {	
+	
+	$("div#graphicheader").children().append(cloneI2);
+	$("div#graphicheader").nextAll("img").remove();	
+}
+else 	{	
+	$("div#graphicheader").children().append(cloneI1);
+	$("div#graphicheader").nextAll("img").remove();
+	}
+
+
+//var arrowatgraphic  = $("div#change-image-links").next();
+//$("div#graphicheader").children().append(arrowatgraphic);
 
 }

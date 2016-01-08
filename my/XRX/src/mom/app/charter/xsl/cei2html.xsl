@@ -62,7 +62,10 @@
     <xsl:choose>
     
     
-    <xsl:when test="$cei//cei:witnessOrig/* != '' ">
+   <!--   <xsl:when test="$cei//cei:witnessOrig/* != ''">-->
+   <xsl:when test="$cei//cei:witnessOrig/cei:traditioForm != '' or 
+                  $cei//cei:witnessOrig/cei:figure != '' or
+                   $cei//cei:witnessOrig/cei:archIdentifier != ''">
     <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af" id="witList">
       <xsl:for-each select="$cei//cei:witnessOrig ">
         <!-- <xsl:value-of select="position()"/> -->
@@ -71,6 +74,21 @@
         </xsl:call-template>
       </xsl:for-each>
       </div>
+    </xsl:when>
+    <xsl:when test="$cei//cei:witnessOrig/cei:physicalDesc/cei:material != '' or
+                    $cei//cei:witnessOrig/cei:physicalDesc/cei:dimensions != '' or
+                    $cei//cei:witnessOrig/cei:physicalDesc/cei:condition != ''">
+      <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af" id="witList">
+      <xsl:for-each select="$cei//cei:witnessOrig ">
+        <!-- <xsl:value-of select="position()"/> -->
+        <xsl:call-template name="witness">
+          <xsl:with-param name="num" select="position()" />
+        </xsl:call-template>
+      </xsl:for-each>
+      </div>
+    </xsl:when>
+    <xsl:when test="$cei//cei:witnessOrig/cei:physicalDesc/cei:decoDesc/cei:p != ''">
+     <div id="witList" style="display:none"/>
     </xsl:when>
     <xsl:when test="$ordered-witListPar/cei:witness/* != ''">
     <div id="witList">
@@ -196,9 +214,9 @@
     
   </xsl:template>
   
-  <xsl:template match="xhtml:insert-enhancedView">  
+  <!-- <xsl:template match="xhtml:insert-enhancedView">  
   <img src="tag:www.monasterium.net,2011:/mom/resource/image/karte.png" title="Karte/Glossar"/> 
-  </xsl:template>
+  </xsl:template> -->
   
   <xsl:template match="xhtml:insert-persName">
     <xsl:choose>
@@ -222,12 +240,12 @@
   </xsl:template>
   <xsl:template match="xhtml:insert-decoDesc">
   <xsl:choose>
-   <xsl:when test="count($cei//cei:decoDesc/cei:p/node()) &gt; 0">
+   <!-- <xsl:when test="count($cei//cei:decoDesc/cei:p/node()) &gt; 0"> -->
+   <xsl:when test="$cei//cei:decoDesc/cei:p != ''">   
     <div id="decoDesc">    
       <xsl:element name="div">
         <xsl:attribute name="class">p</xsl:attribute>
-          <xsl:call-template name="decoDesc" />
-          <!-- <xsl:value-of select="count($cei//cei:decoDesc/cei:p/node())"></xsl:value-of> -->
+          <xsl:call-template name="decoDesc" />         
           <span style="color:white">x</span>     
       </xsl:element>
     </div>
@@ -295,7 +313,7 @@
       <xsl:sort select="." order="ascending" />
 
       <span>
-        Wo wird das augegeben
+       
         <a
           href="javascript:changeImage('{concat($image-base-uri, .)}, 'position()')"
           class="imageLink">
@@ -888,12 +906,17 @@
   <!-- decoDesc -->
   <xsl:template name="decoDesc">
     <div>
-      <ul class="nostyle">
-      <!-- <xsl:value-of select="count(//cei:p[@n='Ekphrasis'])"></xsl:value-of> -->
-      <xsl:for-each select="//cei:p[@n='Ekphrasis']">
-      <li>
-      <xsl:choose>          
-            <xsl:when test="position()=1">
+      <ul class="nostyle">   
+      <xsl:for-each select="//cei:decoDesc/cei:p">                                
+      <xsl:choose>
+     <xsl:when test="@n='Ekphrasis'">
+        <li style="background-color:#f5f5f5;">
+        <xsl:choose>         
+            <xsl:when test="preceding-sibling::cei:p[@n='Ekphrasis']">
+              <xsl:attribute name="n">Ekphrasis</xsl:attribute>
+              <xsl:apply-templates />
+            </xsl:when>
+            <xsl:otherwise>
             <xsl:attribute name="n">Ekphrasis</xsl:attribute>
                       <b>
                         <span>
@@ -905,16 +928,11 @@
                         </span>
                       </b>
                       <xsl:apply-templates />
-            </xsl:when>
-            <xsl:otherwise>
-            <xsl:attribute name="n">Ekphrasis</xsl:attribute>
-           <xsl:apply-templates />
+            
             </xsl:otherwise>
-            </xsl:choose>     
+            </xsl:choose>      
       </li>
-      </xsl:for-each> 
-      <xsl:for-each select="//cei:decoDesc/cei:p">                                
-      <xsl:choose>          
+      </xsl:when>         
       <xsl:when test="@n='Autorensigle'">
               <xsl:if test="not(cei:index)">
                 <li class="autor">
@@ -930,14 +948,13 @@
                   <xsl:apply-templates />
                 </li>
               </xsl:if>
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:if test="not(cei:index) and not(@n='Ekphrasis')">
-                <li>
-                  <xsl:apply-templates />
-                </li>
-              </xsl:if>
-            </xsl:otherwise>
+            </xsl:when> 
+          <xsl:otherwise>                 
+                <li>                
+                <xsl:value-of select="text()"/>
+                   <!--  <xsl:apply-templates /> -->
+                </li>                   
+           </xsl:otherwise>
           </xsl:choose>
         </xsl:for-each>
       </ul>
@@ -1264,21 +1281,7 @@
             <xrx:default>Arthistorian</xrx:default>
           </xrx:i18n>
           <xsl:text>:&#160;</xsl:text>
-         <!--  <ul>
-          <li>
-          <xsl:value-of select="./@lemma" />
-          <xsl:value-of select="./@type" />
-          <xsl:text>:&#160;</xsl:text>
-          <xsl:value-of select="./@sublemma"/>
-          <xsl:if test="./parent::cei:index != ''">
-          <ul>
-          <li><xsl:value-of select="./parent::cei:index"></xsl:value-of> soll den inhalt von cei:index wiedergeben
-          </li>
-          </ul>
-          </xsl:if>
-          
-          </li>
-          </ul>    -->       
+        
         </li>
       </xsl:when>
       <xsl:when test="./@indexName='glossar'">
@@ -1313,22 +1316,19 @@
             <xsl:text>:&#160;</xsl:text>
             <xsl:value-of select="./@sublemma"/>
           </xsl:if>
-        <!--  <xsl:if test=". != ''"> --> 
+       
           <ul class="cat3">
           <li><xsl:value-of select="."></xsl:value-of> <!-- soll den inhalt von cei:index wiedergeben -->
           </li>
           </ul>
-        <!--   </xsl:if> --> 
           
     </li>
   </xsl:when>
-  <xsl:otherwise>
-  <!--  <xsl:if test="./parent::cei:index != ''"> -->
+  <xsl:otherwise>  
           <ul class="kat2ohnelemma">
           <li><xsl:value-of select="."></xsl:value-of>
           </li>
-          </ul>
-         <!-- </xsl:if>  gibt es kein @lemma, dann soll nur der text vom Index stehen -->
+          </ul>        
   </xsl:otherwise>
   </xsl:choose>
  
@@ -1355,13 +1355,9 @@
   <!-- index -->
   <xsl:template name="item">
     <xsl:for-each select="$cei//cei:index">
-     <!--   <xsl:sort select="." />-->
-      <!-- <xsl:sort select="@type" /> -->
       <xsl:if test="./node()">       
           <xsl:call-template name="indexName"/>   
-      <!--   <li>
-          <xsl:apply-templates />         
-        </li> -->
+   
         <ul class="inline">
           <xsl:call-template name="lang" />
           <xsl:call-template name="reg" />

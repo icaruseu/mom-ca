@@ -35,7 +35,7 @@ it leaves the active development stage.
  
     <div data-demoid="f3b63c2b-d53e-49f3-a714-ff25a49944cd" id="cei">
  
-      <div class="inlinehead cat" data-demoid="dc8dbf22-afa4-4bd1-9a39-e8dd46cde194">
+      <div class="inlinehead cat abs" data-demoid="dc8dbf22-afa4-4bd1-9a39-e8dd46cde194">
         <a href="javascript:showHideDiv_neu('abstract', '')">
           <xrx:i18n>
             <xrx:key>abstract</xrx:key>
@@ -113,7 +113,7 @@ it leaves the active development stage.
      <!--  <div data-demoid="24296c88-84bc-45f1-a8c5-2703a58dfe95" id="diplomaticAnalysis"> -->
         <insert-diplomaticAnalysis/>
      <!--  </div> -->
-      <div class="inlinehead cat" data-demoid="82454989-131d-4937-b282-c64cb7ef06e2">
+      <div class="inlinehead cat idx" data-demoid="82454989-131d-4937-b282-c64cb7ef06e2">
         <a href="javascript:showHideDiv_neu('index', '')">
           <xrx:i18n>
             <xrx:key>index</xrx:key>
@@ -122,25 +122,16 @@ it leaves the active development stage.
         </a>
       </div>
       <div data-demoid="91fd52ee-80f8-42a5-bc96-ba194ff43e58" id="index">
-   
+    
         <div id="indexlist">
         <insert-placeName/>
         <insert-persName/>        
         <insert-item/>
         </div>
-        <script type="text/javascript">      
-       $('document').ready(function(){{
-         if($('div#indexlist').length == 0){{
-          var x = $("#index").css("display", "none");          
-          console.log('das ist x');
-          console.log(x);
-          
-          }}   }}
-          );       
-        </script>
-        <div id="enhancedView">
+      
+       <!--  <div id="enhancedView">
           <insert-enhancedView/>
-         </div>
+         </div> -->
         
         <span style="color:white">x</span>
       </div>

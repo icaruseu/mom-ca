@@ -396,7 +396,7 @@ img#aus {{
 			</div>
 			 <script type="text/javascript">			
        $('document').ready(function(){{          
-         if($('div.no-graphic').length == 1){{          
+         if($('div.no-graphic').length >= 1 ){{          
           var x = $("#graphics").css("display", "none");          
           console.log('das ist x');
           console.log(x);
