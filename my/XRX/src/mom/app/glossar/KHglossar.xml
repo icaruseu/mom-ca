@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<atom:entry xmlns:atom="http://www.w3.org/2005/Atom">
+	<atom:id>tag:www.monasterium.net,2011:/glossar/KHglossar</atom:id>
+	<atom:title />
+	<atom:published>2015-11-08T11:23:16.857+02:00</atom:published>
+	<atom:updated>2015-11-08T11:23:16.857+02:00</atom:updated>
+	<atom:author>
+		<atom:email>martina.buergermeister@uni-graz.at</atom:email>
+	</atom:author>
+	<app:control xmlns:app="http://www.w3.org/2007/app">
+		<app:draft>no</app:draft>
+	</app:control>
+	<atom:content type="application/xml">
+		<TEI xmlns="http://www.tei-c.org/ns/1.0">
+			<teiHeader>
+				<fileDesc>
+					<titleStmt>
+						<title />
+						<author>Bartz, Gabriele</author>
+					</titleStmt>
+					<editionStmt>
+						<edition>
+							<date>2015-11-09</date>
+						</edition>
+					</editionStmt>
+					<publicationStmt>
+						<p>unknown</p>
+					</publicationStmt>
+					<sourceDesc>
+						<p>Converted from a Word document</p>
+					</sourceDesc>
+				</fileDesc>
+				<encodingDesc>
+					<appInfo>
+						<application xml:id="docxtotei" ident="TEI_fromDOCX"
+							version="2.15.0">
+							<label>DOCX to TEI</label>
+						</application>
+					</appInfo>
+				</encodingDesc>
+				<revisionDesc>
+					<listChange>
+						<change>
+							<date>2015-11-09T11:27:55Z</date>
+							<name>Bartz, Gabriele</name>
+						</change>
+					</listChange>
+				</revisionDesc>
+			</teiHeader>
+			<text>
+				<body>
+					<div>
+						<p rend="Title">Glossar</p>
+						<div>
+							<head>Fadenwerk</head>
+							<p>Federwerk</p>
+						</div>
+						<div>
+							<head>Filigran</head>
+							<p>Ranken, gezeichnet: Fadenranken</p>
+						</div>
+						<div>
+							<head>Fleuronnée</head>
+							<p>Fleuronnée</p>
+						</div>
+						<div>
+							<head>Figureninitiale</head>
+							<p>Die Figuren selbst bilden den Buchstabenkörper, oder sind ihm
+								aufgelegt.</p>
+						</div>
+						<div>
+							<head>Herzblätter</head>
+						</div>
+						<div>
+							<head>Trifoliette</head>
+						</div>
+						<div>
+							<head>Scheibe</head>
+						</div>
+						<div>
+							<head>Wellenband</head>
+						</div>
+						<div>
+							<head>Deckfarbeninitiale vor Goldgrund</head>
+							<p>Kann auch eine Dornblattinitiale sein.</p>
+						</div>
+						<div>
+							<head>Serife</head>
+							<p>„Füßchen“ an den Endstellen von Buchstaben, bei Initialen
+								bisweilen ausladend. (Jakobi-Mirwald)</p>
+						</div>
+						<div>
+							<head>Layout</head>
+							<p>
+								Bereits bei den *
+								<hi rend="bold">Avignoner Bischofsammelablässen</hi>
+								* beobachtet man ein Ausgreifen der U-Initiale in den linken
+								Rand (Bisher frühestes Beispiel: 1324 Dezember 12 für
+								Rupertsberg vom *
+								<hi rend="bold">Zeichner mit den Maßwerkmotiven</hi>
+								*). In der Indulgenz für Rupertsberg werden die großen
+								einzeiligen Initialen im Textblock geschmückt, P(ia) mit einem
+								Gesicht. Die U-Initiale gewinnt mit der bildlichen Gestaltung
+								des Binnenfeldes (*
+								<hi rend="bold">Illuminierte Avignoner Bischofsammelindulgenz</hi>
+								*) zunehmend an Höhe und wird in den Textblock eingelassen. Mit
+								der *
+								<hi rend="bold">Christusbüste</hi>
+								* und damit dem Beginn der farbigen Gestaltung der Indulgenzen
+								(1328 Juni 7 für Léau) ist letztlich festgeschrieben, dass auch
+								die weiteren vergrößerten Initialen der ersten Zeile
+								(U)n(iversis) S(ancte) M(atris) mit farbigen Aussparungen
+								versehen werden. Selten wird das „n“ zu weiteren
+								Historisierungen genutzt, so z. B. 1330 September 1 für Dinant,
+								wo die vorher das Binnenfeld der U-Initiale beherrschende Sujet
+								der Christusbüste erscheint (vgl. *
+								<hi rend="bold">Ikonographische Diversifizierung</hi>
+								*). 1328 Juni 7 für Léau wird ein erstes Mal der Rand für
+								Illuminierung genutzt. Die Christusbüste erscheint im Binnenfeld
+								der Initiale und der Titularheilige Leonhard wird in einem
+								Bildfeld links platziert, unter ihm erscheint – ohne Bildfeld -
+								der Petent. Weckte der extrem wichtige Ablass Léau den Eindruck,
+								dass weitere Gestaltungsmöglichkeiten im Hinblick auf den *
+								<hi rend="bold">Rahmentyp</hi>
+								* dort bereits angedacht waren, verstärkt auch der dort noch
+								nicht in einem Rahmen erscheinende Bittsteller diese Vermutung.
+								Auch die Urkunde 1330 September 1 für Dinant belegt, dass man in
+								der *
+								<hi rend="bold">Werkstatt der Avignoner Bischofsammelindulgenzen
+								</hi>
+								* bereits zu diesem frühen Zeitpunkt mit einer Rahmung um
+								Initiale und Textblock experimentierte, hier noch in Form eines
+								Streifens aus ausgesparten Kreuzblumen abwechselnd vor grünem
+								und rotem Grund.
+							</p>
+							<p>Die Bittsteller für die 1328 gegründete Kartause Koningsdal
+								bei Gent erbaten sich ein unikales Layout; 1330 November 12
+								datiert ihre Indulgenz, die im Binnenfeld eine Kreuzigung mit
+								Maria und Johannes enthält, im „n“ eine Christusbüste sowie im
+								Textblock im Q(uoniam) eine stehende Maria mit Kind. Offenbar
+								hat dieses Verfahren beim Schreiben zu viel Mühe bereitet,
+								weshalb man es nicht mehr anwandte.</p>
+							<p>
+								Bei 1331 Oktober 15 für Cembra endet die U-Initiale erstmals
+								tiefer als die erste Zeile. Dieses Vorgehen beobachtet man immer
+								wieder, bis zum Ende der Tätigkeit der *Werkstatt der Avignoner
+								Bischofsammelindulgenzen*, 1348 März 3 für Naklo. Doch wird es
+								sich dabei um eine individuelle Entscheidung des Ausführenden
+								handeln. Anders verhält es sich mit dem Ausgreifen in den linken
+								und den oberen Rand der Initiale: Im Ablass 1332 September 1 für
+								Zürich wird die Initiale mit einem Feld umgeben, das so weit in
+								den linken Rand geführt wird, dass darunter ein Bildfeld für den
+								bestätigenden Bischof entstehen kann. 1332 Oktober 15 für
+								Lahnstein, die erste erhaltene Indulgenz des *
+								<hi rend="bold">Rahmentyps</hi>
+								*, setzt oberhalb der U-Initiale einen Bordürenstreifen an,
+								damit sie in die Bildleiste integriert ist.
+							</p>
+						</div>
+
+					</div>
+				</body>
+			</text>
+		</TEI>
+	</atom:content>
+</atom:entry>

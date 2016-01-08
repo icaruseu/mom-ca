@@ -24,6 +24,7 @@
 					<cei:material/>
 					<cei:dimensions/>
 					<cei:condition/>
+					<cei:decoDesc/>
 				</cei:physicalDesc>
 				<cei:auth>
 					<cei:sealDesc/>
