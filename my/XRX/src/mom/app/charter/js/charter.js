@@ -32,22 +32,22 @@ function changeGraphic(wit, url)
 }
 
 
-/*
+
 function showHideDiv(id, triangle)
 {
 	
 	if(document.getElementById(id).style.display == "none")
 	{
-		console.log("jetzt ist block");	
+			
 		document.getElementById(id).style.display = "block";	
 		        
 	}
 	else
-	{	console.log("jetzt ist none dran");
+	{	
 		document.getElementById(id).style.display = "none";
 		
 	}
-}*/
+}
 
 function showHideDiv_neu(id, triangle)
 {

@@ -394,16 +394,14 @@ img#aus {{
         </div> 
         }
 			</div>
-			 <script type="text/javascript">			
-       $('document').ready(function(){{          
-         if($('div.no-graphic').length >= 1 ){{          
-          var x = $("#graphics").css("display", "none");          
-          console.log('das ist x');
-          console.log(x);
+		<!-- 	 <script type="text/javascript">			
+       $("document").ready(function(){{          
+         if($("div.no-graphic").length >= 1 ){{          
+          var x = $("#graphics").css("display", "none");      
           
-          }}   }}
-          );       
-        </script>
+          }}
+            }});       
+        </script> -->
         <div data-demoid="57df26ce-eba6-49bb-aa05-d876b453baa2" id="zoomerbar">
           <div data-demoid="51ba5857-6367-44f6-bf3a-561ebbc8cdb4" id="zoomsliderlabel">
             <span>
@@ -428,8 +426,20 @@ img#aus {{
 							$( "#img" ).css( "width", ui.value + "%" ); 
               $( "#img-svg" ).css( "width", ui.value + "%" );
 						}} 
-					}}); 
-				}})
+					}});
+					console.log("die no-grahic länge"); 
+					console.log($("div.no-graphic").length);
+					/*if($("div.no-graphic").length == 1){{  
+					console.log("no-graphic");        
+          var x = $("#graphics").css("display", "none");      
+          
+          }}
+          if($("div.no-graphic").length == 2){{  
+          console.log("no-graphic");        
+          var x = $("#graphics").css("display", "none");      
+          
+          }}*/
+				}});
 			</script>
 
     </div>

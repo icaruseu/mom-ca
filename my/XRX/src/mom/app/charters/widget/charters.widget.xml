@@ -86,11 +86,11 @@ left:20px;
 }}
 
 #goto-search{{
-/*float:right;*/
+float:right;
 }}
 
 #goto-anno-overview{{
-/*float:right;*/
+float:right;
 }}
 
 #heading{{
@@ -113,6 +113,9 @@ div.clear {{
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
+    <script type="text/javascript">
+    console.log("????????????????????????");
+    </script>
   </xrx:jss>
   <xrx:model>
     { bookmark:model(conf:param('request-root')) }
