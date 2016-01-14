@@ -606,7 +606,8 @@ img#aus {{
 }}
 
 .actions{{
-  position:relative;
+  clear:right;
+  position:relative;  
   float:right;
   width:200px;
   background-color: #ffe3d9;
@@ -1270,6 +1271,7 @@ cei-recipient {{
         <div data-demoid="92fc737f-0034-4bbc-8d4c-42038dfded81" id="image-tool-widget">
           <script type="text/javascript">
 				    $(document).ready(function(){{
+				        javascript:proof(); 
 	            jQuery(document).imageTool({{
 	              requestRoot: "{ conf:param('request-root') }",
 	              charter: "{ $charter:rcharterid }",
@@ -1281,6 +1283,24 @@ cei-recipient {{
 	              lang: "{ $xrx:lang }",
 	     	        requestRoot: "{ conf:param('request-root') }"
 	     	      }});
+	     	   console.log(" aus charter.widget");
+	     	  if($("div.no-graphic").length == 0 ){{
+           console.log("no-graphic ist 0 in image-viewer");          
+          var x = $("#graphics").css("display", "block");          
+          }}
+          else {{
+          console.log("no-graphic in image-viewer");
+          var x = $("#graphics").css("display", "none");
+          }}
+           $("div.actions").insertAfter("div#downloads");
+          if($("div#abstract").children().children().length == 0){{
+          console.log("no abstract");
+           var x = $("#abstract").css("display", "none");
+            }}      
+           if($('div#indexlist').children().length == 0){{
+            var x = $("#index").css("display", "none");         
+          
+          }}
 				    }});     
   		    </script>
           <xrx:resource id="image-tool-widget-close-button" title="Close Image Tool" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/button_close</xrx:resource>

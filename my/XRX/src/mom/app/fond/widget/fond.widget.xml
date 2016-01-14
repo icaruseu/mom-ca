@@ -154,6 +154,13 @@ it leaves the active development stage.
 					</xrx:rules>
 					<xrx:true>
 						<div class="my-functions" data-demoid="b66d7ec4-40ef-4e6e-8d98-98024b70d3b7">
+					   <script type="text/javascript">
+          $(document).ready(function (){{
+          console.log("fond.widget.xml");
+          $("div.my-functions").insertAfter("div#container");
+          $('<div class="clear"></div>').insertAfter("div.my-functions");        
+          }});
+          </script>
 							<h3>
 								<xrx:i18n>
 									<xrx:key>my-functions</xrx:key>
