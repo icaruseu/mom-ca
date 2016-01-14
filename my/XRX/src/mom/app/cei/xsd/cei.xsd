@@ -79,9 +79,8 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                             <xrxe:label>teiHeader</xrxe:label>
                             <xrxe:relevant>false</xrxe:relevant>
                         </xs:appinfo>
-                        <xs:documentation xml:lang="deu">
-              Der Dateikopf beschreibt die Datei nach den Regeln der TEI
-              (http://www.tei-c.org), Version P4
+                        <xs:documentation xml:lang="deu"> Der Dateikopf beschreibt die Datei nach
+                            den Regeln der TEI (http://www.tei-c.org), Version P4
                         </xs:documentation>
                     </xs:annotation>
                     <xs:complexType>
@@ -110,10 +109,10 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                                                         </xrx:i18n>
                                                     </xrxe:label>
                                                 </xs:appinfo>
-                                                <xs:documentation xml:lang="deu">
-                          Den Regeln der TEI entsprechend müßten hier verschiedene
-                          Elemente verpflichtend sein: title z.B. [strict!] TODO
-                        </xs:documentation>
+                                                <xs:documentation xml:lang="deu"> Den Regeln der TEI
+                                                  entsprechend müßten hier verschiedene Elemente
+                                                  verpflichtend sein: title z.B. [strict!] TODO
+                                                </xs:documentation>
                                             </xs:annotation>
                                             <xs:complexType>
                                                 <xs:sequence>
@@ -150,14 +149,13 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                                                     </xrxe:label>
                                                     <xrxe:relevant>false</xrxe:relevant>
                                                 </xs:appinfo>
-                                                <xs:documentation xml:lang="deu">
-                          enthält die bibliographischen Angaben der Quellen, aus denen der
-                          elektronische Text stammt.
+                                                <xs:documentation xml:lang="deu"> enthält die
+                                                  bibliographischen Angaben der Quellen, aus denen
+                                                  der elektronische Text stammt. </xs:documentation>
+                                                <xs:documentation xml:lang="eng"> supplies a
+                                                  bibliographic description of the copy text(s) from
+                                                  which an electronic text was derived or generated.
                                                 </xs:documentation>
-                                                <xs:documentation xml:lang="eng">
-                          supplies a bibliographic description of the copy text(s) from which
-                          an electronic text was derived or generated.
-                        </xs:documentation>
                                             </xs:annotation>
                                             <xs:complexType>
                                                 <xs:sequence>
@@ -184,9 +182,8 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                                         </xrxe:label>
                                         <xrxe:relevant>false</xrxe:relevant>
                                     </xs:appinfo>
-                                    <xs:documentation xml:lang="deu">
-                                        Angaben zum Projekt
-                  </xs:documentation>
+                                    <xs:documentation xml:lang="deu"> Angaben zum Projekt
+                                    </xs:documentation>
                                 </xs:annotation>
                                 <xs:complexType>
                                     <xs:sequence>
@@ -282,7 +279,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                                 <xrxe:relevant>false</xrxe:relevant>
                             </xs:appinfo>
                             <xs:documentation xml:lang="deu">Ort der
-                Veröffentlichung</xs:documentation>
+                                Veröffentlichung</xs:documentation>
                         </xs:annotation>
                         <xs:complexType>
                             <xs:simpleContent>
@@ -303,9 +300,8 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                                 </xrxe:label>
                                 <xrxe:relevant>false</xrxe:relevant>
                             </xs:appinfo>
-                            <xs:documentation xml:lang="deu">
-                Verfügbarkeit und insbesondere ihre Einschränkungen ("restricted")
-              </xs:documentation>
+                            <xs:documentation xml:lang="deu"> Verfügbarkeit und insbesondere ihre
+                                Einschränkungen ("restricted") </xs:documentation>
                         </xs:annotation>
                         <xs:complexType mixed="true">
                             <xs:sequence>
@@ -887,7 +883,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                                 <xrxe:label>
                                     <xrx:i18n>
                                         <xrx:key>cei_diplomaticAnalysis</xrx:key>
-                                        <xrx:default>diplomaticAnalysis</xrx:default>
+                                        <xrx:default>diplomatic analysis</xrx:default>
                                     </xrx:i18n>
                                 </xrxe:label>
                                 <xrxe:mixed>false</xrxe:mixed>
@@ -1565,7 +1561,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                     <xs:element ref="notariusSub">
                         <xs:annotation>
                             <xs:appinfo source="EditVDU">
-                                <xrxe:max-occurs>1</xrxe:max-occurs>
+                                <xrxe:max-occur>unbounded</xrxe:max-occur>
                             </xs:appinfo>
                         </xs:annotation>
                     </xs:element>
@@ -1601,6 +1597,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
                 <xrxe:content-control>annotation</xrxe:content-control>
+                <xrxe:relevant>false</xrxe:relevant>
             </xs:appinfo>
             <xs:documentation xml:lang="deu"> Enthält Vermerke des verwahrenden Archivs oder des Empfängers auf der
                 Urkunde.</xs:documentation>
@@ -2695,7 +2692,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                     </xrx:i18n>
                 </xrxe:menu-item>
                 <xrxe:min-occur>0</xrxe:min-occur>
-                <xrxe:max-occurs>unbounded</xrxe:max-occurs>
+                <xrxe:max-occur>unbounded</xrxe:max-occur>
                 <xrxe:content-control>annotation</xrxe:content-control>
                 <xrxe:rows>5</xrxe:rows>
             </xs:appinfo>
@@ -3278,7 +3275,8 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
-    </xs:element>    <xs:element name="pict">
+    </xs:element>
+    <xs:element name="pict">
         <xs:annotation>
             <xs:appinfo source="EditVDU">
                 <xrxe:label>
@@ -3395,7 +3393,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:attribute name="class"/>
+            <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
@@ -3676,6 +3674,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
             </xs:sequence>
             <xs:attribute name="place"/>
             <xs:attributeGroup ref="id"/>
+            <xs:attributeGroup ref="type"/>
             <xs:attribute name="n" type="xs:anySimpleType">
                 <xs:annotation>
                     <xs:appinfo source="EditVDU">
