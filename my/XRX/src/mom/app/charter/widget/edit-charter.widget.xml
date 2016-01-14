@@ -50,6 +50,7 @@
           float:right;
           margin-bottom:30px;
           width:32.5%;
+          clear:right;
   
         }}
 				

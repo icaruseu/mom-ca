@@ -405,7 +405,20 @@ jQuery(document).ready(function() {{
 $( "#radio" ).buttonset();
   
   $('document').ready(function() {{
- //javascript:proof();               
+ javascript:proof();               
+ 
+ if($("div#abstract").children().children().length == 0){{
+          console.log("no abstract");
+           var x = $("#abstract").css("display", "none");
+            }}
+    if($("div.no-graphic").length == 0 ){{
+           console.log("no-graphic ist 0 in image-viewer");          
+          var x = $("#graphics").css("display", "block");          
+          }}
+          else {{
+          console.log("no-graphic in image-viewer");
+          var x = $("#graphics").css("display", "none");
+          }}      
  }});
   
 

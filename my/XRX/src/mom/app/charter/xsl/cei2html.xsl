@@ -193,12 +193,13 @@
   <xsl:template match="xhtml:insert-bibltenor">
     <xsl:choose>
       <xsl:when test="count($cei//cei:sourceDesc/cei:sourceDescVolltext/cei:bibl/node()) &gt; 0">
-      <div class="p" id="bibltenor">
+      <!-- Klasse entfernt -->
+      <div id="bibltenor">
         <xsl:call-template name="bibltenor" />
         </div>
       </xsl:when>
       <xsl:otherwise>
-      <div class="p" id="bibltenor" style="display:none"></div>
+      <div id="bibltenor" style="display:none"></div>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -926,7 +927,7 @@
       <xsl:for-each select="//cei:decoDesc/cei:p">                                
       <xsl:choose>
      <xsl:when test="@n='Ekphrasis'">
-        <li style="background-color:#f5f5f5;">
+        <li>
         <xsl:choose>         
             <xsl:when test="preceding-sibling::cei:p[@n='Ekphrasis']">
               <xsl:attribute name="n">Ekphrasis</xsl:attribute>
@@ -957,8 +958,7 @@
                 </li>
               </xsl:if>
         </xsl:when>
-        <xsl:when test="@n='Stil und Einordnung'">
-             <!--  <xsl:if test="not(cei:index)"> -->
+        <xsl:when test="@n='Stil und Einordnung'">            
              <li>
               <xsl:choose>         
               <xsl:when test="preceding-sibling::cei:p[@n='Stil und Einordnung']">
@@ -980,8 +980,7 @@
             
           </xsl:otherwise>
             </xsl:choose>
-            </li>
-            <!--   </xsl:if> -->
+            </li>           
             </xsl:when> 
           <xsl:otherwise>                 
                 <li>                

@@ -158,7 +158,11 @@ it leaves the active development stage.
           $(document).ready(function (){{
           console.log("fond.widget.xml");
           $("div.my-functions").insertAfter("div#container");
-          $('<div class="clear"></div>').insertAfter("div.my-functions");        
+          $('<div class="clear"></div>').insertAfter("div.my-functions");
+          $("div#heading").insertBefore("div#year-navi");
+          var lookforfunction = $("div.function-link").children();
+          console.log("my functions leer?");
+          console.log(lookforfunction);        
           }});
           </script>
 							<h3>

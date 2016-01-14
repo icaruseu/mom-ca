@@ -393,8 +393,7 @@ it leaves the active development stage.
     
 #charter{{
   position:relative;
-  width:100%;
-  
+  width:100%;  
   
 }}
 
@@ -408,7 +407,7 @@ it leaves the active development stage.
   float:left;
   }}
 
-#graphics, #diplomaticAnalysis, #index, #versions, #tenor, #abstract, #decoDesc, #witList, #howToCite, .witness {{
+#graphics, #diplomaticAnalysis, #index, #versions, #tenor, #abstract, #decoDesc, #witList, #howToCite, #bibltenor, .witness {{
   position:relative;
   float:left;
   border:solid rgb(240,243,226) 1px;
@@ -419,7 +418,7 @@ it leaves the active development stage.
   margin-bottom:10px;
 }}
 
-#biblabstract, #bibltenor{{
+#biblabstract{{
   position:relative;
   text-align:left;
   font-size:0.8em;
@@ -573,10 +572,11 @@ div.lang-select{{
 
 #prev{{
   float: left;
+  margin-right:10px;
 }}
 
 #next{{
-  float:right;
+  float:left;
 }}
 
 img#ein,
@@ -609,10 +609,11 @@ img#aus {{
   clear:right;
   position:relative;  
   float:right;
-  width:200px;
+  width:32.5%;
   background-color: #ffe3d9;
   padding: 10px;
   margin-right: 3px;
+  margin-top:5px;
 }}
 
 .actions a{{
@@ -1115,7 +1116,7 @@ cei-recipient {{
       <xrx:key>how-to-cite</xrx:key>
       <xrx:view>
         <div class="inlinehead cat">
-          <a href="javascript:showHideDiv('howToCite', '')">
+          <a href="javascript:showHideDiv_neu('howToCite', '')">
           <xrx:i18n>
             <xrx:key>how-to-cite</xrx:key>
             <xrx:default>How to cite</xrx:default>
@@ -1293,6 +1294,7 @@ cei-recipient {{
           var x = $("#graphics").css("display", "none");
           }}
            $("div.actions").insertAfter("div#downloads");
+           
           if($("div#abstract").children().children().length == 0){{
           console.log("no abstract");
            var x = $("#abstract").css("display", "none");

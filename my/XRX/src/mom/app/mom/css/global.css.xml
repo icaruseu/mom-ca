@@ -117,6 +117,7 @@ a:hover{{
   float:right;
   margin-bottom:30px;
   width:32.5%;
+  clear:right;
   
 }}
 
@@ -137,16 +138,14 @@ a:hover{{
 }}
 
 .function-links{{
-  /*position:relative;
-  float:rigth;*/
+  
   background-color:{conf:param('color7')} !important;
-  /*width:50%;*/
+  min-height:30px;
   
 }}
 
 .function-link{{
-  /* position:relative;
-  float:left;*/
+ 
   margin:10px;
 }}
 

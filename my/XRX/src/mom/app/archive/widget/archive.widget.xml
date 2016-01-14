@@ -103,7 +103,13 @@ div#archive div#container {{
           $("div.my-functions").insertAfter("div#container");
           $('<div class="clear"></div>').insertAfter("div.my-functions");
           $('<div class="clear"></div>').insertBefore("div.my-functions");
-      //    $('<div class="clear"></div>').insertAfter("div#container");
+      
+          var lookforfunction = $("div.function-link").children("a");
+          if(lookforfunction == 0){{
+          $("div.function-link").children("span").text("not available");
+          }}
+          console.log("my functions leer?");
+          console.log(lookforfunction);
           
           }});
           </script>
