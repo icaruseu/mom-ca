@@ -335,8 +335,8 @@ it leaves the active development stage.
 								<xrx:default>The charters of this fond will be available soon.</xrx:default>
 							</xrx:i18n>
 						</span>
-						<br/>
-						<br/>
+					<!-- 	 <br/>
+						<br/>  -->
 					</div>
 					else()
 					}
@@ -361,9 +361,9 @@ it leaves the active development stage.
 							</xrx:rules>
 							<xrx:true>
 								<div data-demoid="c58cab92-b660-4532-b881-427c66c17909">
+									<!-- <br/>
 									<br/>
-									<br/>
-									<br/>
+									<br/> -->
 									<div data-demoid="f91c7b9a-7a3f-4342-954e-0376369c4b05">
 										<h2>Old preface (visible for Metadata manager)</h2>
 									</div>
