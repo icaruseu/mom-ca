@@ -59,19 +59,18 @@
         <xsl:copy-of select="." />
       </xsl:for-each>
     </xsl:variable>
-    <xsl:choose>
-    
-    
+    <xsl:choose>    
    <!--   <xsl:when test="$cei//cei:witnessOrig/* != ''">-->
    <xsl:when test="$cei//cei:witnessOrig/cei:traditioForm != '' or 
                   $cei//cei:witnessOrig/cei:figure != '' or
                    $cei//cei:witnessOrig/cei:archIdentifier != ''">
     <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af" id="witList">
       <xsl:for-each select="$cei//cei:witnessOrig ">
-        <!-- <xsl:value-of select="position()"/> -->
+              <!-- <xsl:value-of select="position()"/> -->     
         <xsl:call-template name="witness">
           <xsl:with-param name="num" select="position()" />
         </xsl:call-template>
+              
       </xsl:for-each>
       </div>
     </xsl:when>
@@ -80,10 +79,12 @@
                     $cei//cei:witnessOrig/cei:physicalDesc/cei:condition != ''">
       <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af" id="witList">
       <xsl:for-each select="$cei//cei:witnessOrig ">
+     
         <!-- <xsl:value-of select="position()"/> -->
         <xsl:call-template name="witness">
           <xsl:with-param name="num" select="position()" />
         </xsl:call-template>
+        
       </xsl:for-each>
       </div>
     </xsl:when>
@@ -561,16 +562,16 @@
   <!-- witness -->
   <xsl:template name="witness">
     <xsl:param name="num" />
-    <xsl:element name="div">
-      <xsl:attribute name="class">p</xsl:attribute>
+ <xsl:element name="div"> 
+      <xsl:attribute name="class">p</xsl:attribute> 
       <xsl:attribute name="id"><xsl:value-of select="concat('wit', $num)" /></xsl:attribute>
-      <div class="witness-text" name="wit">
-        <!-- <span class="num"> <xsl:value-of select="$num" /> </span> -->
+      <div class="witness-text" name="wit">      
         <br />
-        <xsl:call-template name="traditioForm" />
+       <xsl:call-template name="traditioForm" />
         <ul class="nostyle">
-          <li>
+         
             <xsl:if test="./cei:archIdentifier/node()">
+             <li>
               <b>
                 <xrx:i18n>
                   <xrx:key>actual-repository</xrx:key>
@@ -578,83 +579,12 @@
                 </xrx:i18n>
                 <span>:&#160;</span>
               </b>
-            </xsl:if>
-            <!-- <xsl:if test="./cei:archIdentifier/child::text()"> <li> <xsl:value-of 
-              select="./cei:archIdentifier/child::text()" /> </li> </xsl:if> -->
-          </li>
-          <xsl:if test="./cei:archIdentifier/cei:settlement/node()">
-            <xsl:value-of select="./cei:archIdentifier/cei:settlement" />
-            <span>,&#160;</span>
-          </xsl:if>
-          <xsl:if test="./cei:archIdentifier/cei:arch/node()">
-            <xsl:value-of select="./cei:archIdentifier/cei:arch" />
-          </xsl:if>
-          <ul>
-
-            <xsl:if test="./cei:archIdentifier/cei:archFond/node()">
-              <li>
-                <span>
-                  <xrx:i18n>
-                    <xrx:key>fond</xrx:key>
-                    <xrx:default>Fond</xrx:default>
-                  </xrx:i18n>
-                  <span>:&#160;</span>
-                </span>
-                <xsl:value-of select="./cei:archIdentifier/cei:archFond" />
-              </li>
-            </xsl:if>
-            <xsl:if test="./cei:archIdentifier/cei:idno/node()">
-              <li>
-                <span>
-                  <xrx:i18n>
-                    <xrx:key>signature</xrx:key>
-                    <xrx:default>Signature</xrx:default>
-                  </xrx:i18n>
-                  <span>:&#160;</span>
-                </span>
-                <xsl:value-of select="./cei:archIdentifier/cei:idno" />
-              </li>
-            </xsl:if>
-            <xsl:if test="./cei:archIdentifier/cei:altIdentifier/node()">
-              <li>
-                <span>
-                  <xrx:i18n>
-                    <xrx:key>old-signature</xrx:key>
-                    <xrx:default>Old Signature</xrx:default>
-                  </xrx:i18n>
-                  <span>:&#160;</span>
-                </span>
-                <xsl:value-of select="./cei:archIdentifier/cei:altIdentifier" />
-              </li>
-            </xsl:if>
-            <xsl:if test="./cei:archIdentifier/cei:idno/@n">
-              <li>
-                <span>
-                  <xrx:i18n>
-                    <xrx:key>internal-signature</xrx:key>
-                    <xrx:default>Internal Signature</xrx:default>
-                  </xrx:i18n>
-                  <span>:&#160;</span>
-                </span>
-                <xsl:value-of select="./cei:archIdentifier/cei:idno/@n" />
-              </li>
-            </xsl:if>
-            <xsl:if test="./cei:archIdentifier/cei:ref/@target">
-              <li style="list-style:none">
-                <a target="_blank">
-                  <xsl:attribute name="href">
-                    <xsl:value-of
-                    select="./cei:archIdentifier/cei:ref/@target" />
-                  </xsl:attribute>
-                  <xrx:i18n>
-                    <xrx:key>charter-on-archives-website</xrx:key>
-                    <xrx:default>Charter on the archive's website</xrx:default>
-                  </xrx:i18n>
-                </a>
-              </li>
-            </xsl:if>
-          </ul>
+               </li>
+              <xsl:apply-templates select="cei:archIdentifier"/>
+            </xsl:if> 
+            </ul>
           <br />
+          
           <xsl:choose>
             <xsl:when
               test="./cei:auth/cei:sealDesc/cei:seal/cei:sigillant/text() !=''">
@@ -724,7 +654,7 @@
             </xsl:when>
           </xsl:choose>
           <xsl:apply-templates select="./cei:physicalDesc" />
-
+          <ul>
           <xsl:choose>
             <xsl:when test="./cei:nota/text() != ''">
               <li>
@@ -785,6 +715,74 @@
       </xsl:choose>
     </xsl:element>
   </xsl:template>
+  
+  <xsl:template match="cei:archIdentifier">
+  <xsl:apply-templates/>  
+  
+   <xsl:if test="cei:ref/@target">
+              <li style="list-style:none">
+                <a target="_blank">
+                  <xsl:attribute name="href">
+                    <xsl:value-of
+                    select="./cei:archIdentifier/cei:ref/@target" />
+                  </xsl:attribute>
+                  <xrx:i18n>
+                    <xrx:key>charter-on-archives-website</xrx:key>
+                    <xrx:default>Charter on the archive's website</xrx:default>
+                  </xrx:i18n>
+                </a>
+              </li>
+        </xsl:if>
+  </xsl:template>    
+  <xsl:template match="cei:idno">
+              <li>
+                <span>
+                  <xrx:i18n>
+                    <xrx:key>signature</xrx:key>
+                    <xrx:default>Signature</xrx:default>
+                  </xrx:i18n>
+                  <span>:&#160;</span>
+                </span>
+                <xsl:value-of select="." />
+              </li>
+            <xsl:if test="@n">
+              <li>
+                <span>
+                  <xrx:i18n>
+                    <xrx:key>internal-signature</xrx:key>
+                    <xrx:default>Internal Signature</xrx:default>
+                  </xrx:i18n>
+                  <span>:&#160;</span>
+                </span>
+                <xsl:value-of select="@n" />
+              </li>
+            </xsl:if>
+    </xsl:template>
+     <xsl:template match="cei:altIdentifier">
+              <li>
+                <span>
+                  <xrx:i18n>
+                    <xrx:key>old-signature</xrx:key>
+                    <xrx:default>Old Signature</xrx:default>
+                  </xrx:i18n>
+                  <span>:&#160;</span>
+                </span>
+                <xsl:value-of select="." />
+              </li>           
+      </xsl:template>
+           <!--  <xsl:if test="cei:idno/@n">
+              <li>
+                <span>
+                  <xrx:i18n>
+                    <xrx:key>internal-signature</xrx:key>
+                    <xrx:default>Internal Signature</xrx:default>
+                  </xrx:i18n>
+                  <span>:&#160;</span>
+                </span>
+                <xsl:value-of select="cei:idno/@n" />
+              </li>
+            </xsl:if> -->
+  
   <xsl:template match="cei:physicalDesc">
     <xsl:if test="not(cei:decoDesc)">
       <xsl:apply-templates />
@@ -846,16 +844,34 @@
   </xsl:template>
   <xsl:template match="cei:arch">
     <xsl:apply-templates />
-    <br />
+    <!-- <br /> -->
   </xsl:template>
   <xsl:template match="cei:archFonds">
     <xsl:apply-templates />
     <br />
   </xsl:template>
-  <xsl:template match="cei:idno">
+  <xsl:template match="cei:settlement">
+              <span>       
+                <xsl:value-of select="." />
+              </span>            
+  </xsl:template>
+  <xsl:template match="cei:archFond">   
+            <li>
+                <span>
+                  <xrx:i18n>
+                    <xrx:key>fond</xrx:key>
+                    <xrx:default>Fond</xrx:default>
+                  </xrx:i18n>
+                  <span>:&#160;</span>
+                </span>
+                <xsl:value-of select="." />
+              </li>        
+  </xsl:template>
+ 
+ <!--  <xsl:template match="cei:idno">
     <xsl:apply-templates />
     <br />
-  </xsl:template>
+  </xsl:template> -->
 
   <!-- issued -->
   <xsl:template match="cei:dateRange">
@@ -922,7 +938,7 @@
                         <span>
                           <xrx:i18n>
                             <xrx:key>ekphrasis</xrx:key>
-                            <xrx:default>Ekphrasis</xrx:default>
+                            <xrx:default>Materielle Beschreibung</xrx:default>
                           </xrx:i18n>
                           <xsl:text>:&#160;</xsl:text>
                         </span>
@@ -940,19 +956,37 @@
                   <xsl:apply-templates />
                 </li>
               </xsl:if>
+        </xsl:when>
+        <xsl:when test="@n='Stil und Einordnung'">
+             <!--  <xsl:if test="not(cei:index)"> -->
+             <li>
+              <xsl:choose>         
+              <xsl:when test="preceding-sibling::cei:p[@n='Stil und Einordnung']">
+             <xsl:attribute name="n">Stil</xsl:attribute>
+              <xsl:apply-templates />
             </xsl:when>
-            <xsl:when test="@n='Stil und Einordnung'">
-              <xsl:if test="not(cei:index)">
-                <li class="stil">
-                  <xsl:attribute name="n">Stil</xsl:attribute>
-                  <xsl:apply-templates />
-                </li>
-              </xsl:if>
+              <xsl:otherwise>
+            <xsl:attribute name="n">Stil</xsl:attribute>
+                      <b>
+                        <span>
+                          <xrx:i18n>
+                            <xrx:key>stil</xrx:key>
+                            <xrx:default>Stil und Einordnung</xrx:default>
+                          </xrx:i18n>
+                          <xsl:text>:&#160;</xsl:text>
+                        </span>
+                      </b>
+                      <xsl:apply-templates />
+            
+          </xsl:otherwise>
+            </xsl:choose>
+            </li>
+            <!--   </xsl:if> -->
             </xsl:when> 
           <xsl:otherwise>                 
                 <li>                
-                <xsl:value-of select="text()"/>
-                   <!--  <xsl:apply-templates /> -->
+                <!-- <xsl:value-of select="text()"/> -->
+                    <xsl:apply-templates /> 
                 </li>                   
            </xsl:otherwise>
           </xsl:choose>
