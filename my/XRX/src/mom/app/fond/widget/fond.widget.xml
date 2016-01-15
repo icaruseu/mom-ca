@@ -160,9 +160,12 @@ it leaves the active development stage.
           $("div.my-functions").insertAfter("div#container");
           $('<div class="clear"></div>').insertAfter("div.my-functions");
           $("div#heading").insertBefore("div#year-navi");
-          var lookforfunction = $("div.function-link").children();
-          console.log("my functions leer?");
-          console.log(lookforfunction);        
+            var lookforfunction = $("div.function-link").children("a");
+          if(lookforfunction == 0){{
+          var einf= $("div.function-link").children();
+          einf.css("color", "#EF6A2F").text("not available");
+          }}
+                
           }});
           </script>
 							<h3>

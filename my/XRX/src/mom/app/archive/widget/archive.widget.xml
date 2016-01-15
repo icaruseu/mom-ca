@@ -106,10 +106,11 @@ div#archive div#container {{
       
           var lookforfunction = $("div.function-link").children("a");
           if(lookforfunction == 0){{
-          $("div.function-link").children("span").text("not available");
+          var einf= $("div.function-link").children();
+          einf.css("color", "#EF6A2F").text("not available");
           }}
           console.log("my functions leer?");
-          console.log(lookforfunction);
+          console.log(lookforfunction); 
           
           }});
           </script>

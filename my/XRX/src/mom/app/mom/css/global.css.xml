@@ -141,6 +141,7 @@ a:hover{{
   
   background-color:{conf:param('color7')} !important;
   min-height:30px;
+  padding: 5px;
   
 }}
 
