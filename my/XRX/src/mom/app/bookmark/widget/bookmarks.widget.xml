@@ -67,6 +67,9 @@
   float:left;
   width:800px;
 }}
+.my-functions {{
+  margin-top:-3em;
+}}
 
 .note-field{{
 	position:relative;

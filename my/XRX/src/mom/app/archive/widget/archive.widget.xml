@@ -99,7 +99,7 @@ div#archive div#container {{
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
     <script type="text/javascript">
           $(document).ready(function (){{
-          console.log("einfügen von clear in archive widget.xml");
+          /*console.log("einfügen von clear in archive widget.xml");*/
           $("div.my-functions").insertAfter("div#container");
           $('<div class="clear"></div>').insertAfter("div.my-functions");
           $('<div class="clear"></div>').insertBefore("div.my-functions");
@@ -108,9 +108,7 @@ div#archive div#container {{
           if(lookforfunction == 0){{
           var einf= $("div.function-link").children();
           einf.css("color", "#EF6A2F").text("not available");
-          }}
-          console.log("my functions leer?");
-          console.log(lookforfunction); 
+          }}          
           
           }});
           </script>

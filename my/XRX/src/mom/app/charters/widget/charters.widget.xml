@@ -86,10 +86,12 @@ left:20px;
 }}
 
 #goto-search{{
+margin-top:-3em;
 float:right;
 }}
 
 #goto-anno-overview{{
+margin-top:-3em;
 float:right;
 }}
 
@@ -113,9 +115,6 @@ div.clear {{
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
-    <script type="text/javascript">
-    console.log("????????????????????????");
-    </script>
   </xrx:jss>
   <xrx:model>
     { bookmark:model(conf:param('request-root')) }

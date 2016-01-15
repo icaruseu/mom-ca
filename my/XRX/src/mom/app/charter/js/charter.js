@@ -8,7 +8,7 @@
 function changeImage(url, num){	
 	var alleBilder = document.getElementsByClassName('imageLink');	
 	for (var i=0;i<alleBilder.length; i++){
-		console.log(alleBilder[i]);
+		
 		if(alleBilder[i].text == num ){
 			alleBilder[i].setAttribute('id', 'gelb');
 		}
@@ -51,7 +51,7 @@ function showHideDiv(id, triangle)
 
 function showHideDiv_neu(id, triangle)
 {
-	console.log('alles klar');
+	
 	var xmlid = '#'+ id;
 		$(xmlid).toggle( function(){		
 		
@@ -143,7 +143,7 @@ $(b).css("height", "20px");
 var allNone = $("div[style='display:none']").prev('div.cat').children().append(clonedIcon2);
 var show = $("div.cat").next(":not(div[style='display:none'])");
 var allShown = $(show).prev('div.cat').children().append(clonedIcon1);
-
+/* need to define exceptions because of irregularities in the html structure!!!!!*/
 if($("div#abstract").children().children().length == 0){	
 	$("div.abs").find('img').replaceWith(clon2);
 }
@@ -165,9 +165,5 @@ else 	{
 	$("div#graphicheader").children().append(cloneI1);
 	$("div#graphicheader").nextAll("img").remove();
 	}
-
-
-//var arrowatgraphic  = $("div#change-image-links").next();
-//$("div#graphicheader").children().append(arrowatgraphic);
 
 }
