@@ -1326,6 +1326,7 @@
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="notariusDesc"/>
                     <xs:element ref="sealDesc"/>
+                    <xs:element ref="subscriptio"/>
                 </xs:choice>
             </xs:sequence>
             <xs:attributeGroup ref="lang"/>
@@ -2777,7 +2778,18 @@
                     <xs:element ref="pict"/>
                 </xs:choice>
             </xs:sequence>
-            <xs:attribute name="extent" type="xs:anySimpleType"/>
+            <xs:attribute name="extent" type="xs:anySimpleType">
+                <xs:annotation>
+                    <xs:appinfo source="EditVDU">
+                        <xrxe:label>
+                            <xrxe:i18n>
+                                <xrxe:key>cei_at_extent</xrxe:key>
+                                <xrx:default>extent</xrx:default>
+                            </xrxe:i18n>
+                        </xrxe:label>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:attribute>
             <xs:attribute name="degree" type="xs:anySimpleType">
                 <xs:annotation>
                     <xs:appinfo source="EditVDU">
@@ -2788,6 +2800,32 @@
                             </xrx:i18n>
                         </xrxe:label>
                         <xrxe:relevant>true</xrxe:relevant>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attributeGroup ref="certainty"/>
+            <xs:attribute name="reason" type="xs:anySimpleType">
+                <xs:annotation>
+                    <xs:appinfo source="EditVDU">
+                        <xrxe:label>
+                            <xrxe:i18n>
+                                <xrxe:key>cei_at_reason</xrxe:key>
+                                <xrx:default>reason</xrx:default>
+                            </xrxe:i18n>
+                        </xrxe:label>
+                        <xrxe:relevant>true</xrxe:relevant>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="agent" type="xs:anySimpleType">
+                <xs:annotation>
+                    <xs:appinfo source="EditVDU">
+                        <xrxe:label>
+                            <xrxe:i18n>
+                                <xrxe:key>cei_at_agent</xrxe:key>
+                                <xrx:default>agent</xrx:default>
+                            </xrxe:i18n>
+                        </xrxe:label>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:attribute>
@@ -3131,6 +3169,7 @@
                     <xs:element ref="lb"/>
                     <xs:element ref="pb"/>
                     <xs:element ref="damage"/>
+                    <xs:element ref="expan"/>
                     <xs:group ref="Sachauszeichnung"/>
                     <xs:group ref="Referenz"/>
                 </xs:choice>
@@ -3161,7 +3200,8 @@
                 des type-Attribut genauer zu bestimmen, mit entity oder URL auf eine externe Art der
                 Darstellung zu verweisen. </xs:documentation>
         </xs:annotation>
-        <xs:complexType>
+        <xs:complexType mixed="true">
+            <xs:group ref="transcription"/>
             <xs:attribute name="URL" type="xs:anySimpleType"/>
             <xs:attributeGroup ref="transcription"/>
             <xs:attributeGroup ref="standard"/>
@@ -3755,6 +3795,7 @@
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachauszeichnung"/>
+                    <xs:group ref="reference"/>
                     <xs:element ref="foreign"/>
                 </xs:choice>
             </xs:sequence>
@@ -4488,12 +4529,11 @@
                         <xs:documentation xml:lang="deu"> Der Autor eines Textes. Insbesondere im
                             Rahmen einer bibliographischen Angabe gebraucht. </xs:documentation>
                     </xs:annotation>
-                    <xs:complexType>
-                        <xs:simpleContent>
-                            <xs:extension base="xs:string">
-                                <xs:attributeGroup ref="standard"/>
-                            </xs:extension>
-                        </xs:simpleContent>
+                    <xs:complexType mixed="true">
+                        <xs:sequence>
+                            <xs:element ref="persName" minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                        <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
                 </xs:element>
                 <xs:element minOccurs="0" name="title">
@@ -4610,16 +4650,15 @@
             <xs:documentation xml:lang="eng">Bibliographic informations</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:choice>
+            <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="layout"/>
                     <xs:element ref="foreign"/>
                     <xs:element ref="quote"/>
-                    <xs:element ref="title"/>
-                    <xs:element ref="scope"/>
                     <xs:group ref="Referenz"/>
+                    <xs:group ref="BibliographicInformation"></xs:group>
                 </xs:choice>
-            </xs:choice>
+            </xs:sequence>
             <xs:attributeGroup ref="key"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>

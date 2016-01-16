@@ -1402,6 +1402,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="notariusDesc"/>
                     <xs:element ref="sealDesc"/>
+                    <xs:element ref="subscriptio"/>
                 </xs:choice>
             </xs:sequence>
             <xs:attributeGroup ref="lang"/>
@@ -2902,7 +2903,18 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                     <xs:element ref="pict"/>
                 </xs:choice>
             </xs:sequence>
-            <xs:attribute name="extent" type="xs:anySimpleType"/>
+            <xs:attribute name="extent" type="xs:anySimpleType">
+                <xs:annotation>
+                    <xs:appinfo source="EditVDU">
+                        <xrxe:label>
+                            <xrxe:i18n>
+                                <xrxe:key>cei_at_extent</xrxe:key>
+                                <xrx:default>extent</xrx:default>
+                            </xrxe:i18n>
+                        </xrxe:label>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:attribute>
             <xs:attribute name="degree" type="xs:anySimpleType">
                 <xs:annotation>
                     <xs:appinfo source="EditVDU">
@@ -2917,6 +2929,31 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                 </xs:annotation>
             </xs:attribute>
             <xs:attributeGroup ref="certainty"/>
+            <xs:attribute name="reason" type="xs:anySimpleType">
+                <xs:annotation>
+                    <xs:appinfo source="EditVDU">
+                        <xrxe:label>
+                            <xrxe:i18n>
+                                <xrxe:key>cei_at_reason</xrxe:key>
+                                <xrx:default>reason</xrx:default>
+                            </xrxe:i18n>
+                        </xrxe:label>
+                        <xrxe:relevant>true</xrxe:relevant>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="agent" type="xs:anySimpleType">
+                <xs:annotation>
+                    <xs:appinfo source="EditVDU">
+                        <xrxe:label>
+                            <xrxe:i18n>
+                                <xrxe:key>cei_at_agent</xrxe:key>
+                                <xrx:default>agent</xrx:default>
+                            </xrxe:i18n>
+                        </xrxe:label>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:attribute>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
@@ -3049,7 +3086,6 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                     <xs:element ref="lb"/>
                     <xs:element ref="pb"/>
                     <xs:element ref="add"/>
-                    <xs:element ref="supplied"/>
                     <xs:element ref="corr"/>
                     <xs:element ref="sic"/>
                     <xs:element ref="damage"/>
@@ -3267,6 +3303,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                     <xs:element ref="lb"/>
                     <xs:element ref="pb"/>
                     <xs:element ref="damage"/>
+                    <xs:element ref="expan"/>
                     <xs:group ref="Sachauszeichnung"/>
                     <xs:group ref="Referenz"/>
                 </xs:choice>
@@ -3299,7 +3336,8 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
         Darstellung zu verweisen.
             </xs:documentation>
         </xs:annotation>
-        <xs:complexType>
+        <xs:complexType mixed="true">
+            <xs:group ref="transcription"/>
             <xs:attribute name="URL" type="xs:anySimpleType"/>
             <xs:attributeGroup ref="transcription"/>
             <xs:attributeGroup ref="standard"/>
@@ -3925,6 +3963,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachauszeichnung"/>
+                    <xs:group ref="reference"/>
                     <xs:element ref="foreign"/>
                 </xs:choice>
             </xs:sequence>
@@ -4086,7 +4125,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="type"/>
-            <xs:attributeGroup ref="value"/>
+            <xs:attribute name="value" type="xs:double"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="rend"/>
             <xs:attributeGroup ref="standard"/>
@@ -4223,20 +4262,35 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
         Die Angabe eines spezifischen Tages in einem Kalender (=Datumsangabe).
       </xs:documentation>
         </xs:annotation>
-        <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="foreign"/>
-                    <xs:element ref="num"/>
-                    <xs:group ref="Originalbefund"/>
-                    <xs:element ref="ref"/>
-                </xs:choice>
-            </xs:sequence>
-            <xs:attributeGroup ref="date"/>
-            <xs:attributeGroup ref="lang"/>
-            <xs:attributeGroup ref="standard"/>
-        </xs:complexType>
+        <xs:alternative test="ancestor::issued" type="dateNormalized" xpathDefaultNamespace="##targetNamespace"/>
+        <xs:alternative type="date" xpathDefaultNamespace="##targetNamespace"/>
     </xs:element>
+    <xs:complexType name="dateGeneral" mixed="true">
+        <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="foreign"/>
+                <xs:element ref="num"/>
+                <xs:group ref="Originalbefund"/>
+                <xs:element ref="ref"/>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attributeGroup ref="lang"/>
+        <xs:attributeGroup ref="standard"/>
+    </xs:complexType>
+    <xs:complexType name="date">
+        <xs:complexContent mixed="true">
+            <xs:extension base="dateGeneral">
+                <xs:attributeGroup ref="date"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="dateNormalized" >
+        <xs:complexContent mixed="true">
+            <xs:extension base="dateGeneral">
+                <xs:attributeGroup ref="dateRequired"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
     <xs:element name="dateRange">
         <xs:annotation>
             <xs:appinfo source="EditVDU">
@@ -4686,12 +4740,11 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
               bibliographischen Angabe gebraucht.
                         </xs:documentation>
                     </xs:annotation>
-                    <xs:complexType>
-                        <xs:simpleContent>
-                            <xs:extension base="xs:string">
-                                <xs:attributeGroup ref="standard"/>
-                            </xs:extension>
-                        </xs:simpleContent>
+                    <xs:complexType mixed="true">
+                        <xs:sequence>
+                            <xs:element ref="persName" minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                        <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
                 </xs:element>
                 <xs:element minOccurs="0" name="title">
@@ -4811,16 +4864,15 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
         informations</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:choice>
+            <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="layout"/>
                     <xs:element ref="foreign"/>
                     <xs:element ref="quote"/>
-                    <xs:element ref="title"/>
-                    <xs:element ref="scope"/>
                     <xs:group ref="Referenz"/>
+                    <xs:group ref="BibliographicInformation"></xs:group>
                 </xs:choice>
-            </xs:choice>
+            </xs:sequence>
             <xs:attributeGroup ref="key"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -5152,7 +5204,41 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
         <xs:attributeGroup ref="value"/>
         <xs:attributeGroup ref="certainty"/>
     </xs:attributeGroup>
+    <xs:attributeGroup name="dateRequired">
+        <xs:attributeGroup ref="valueRequired"/>
+        <xs:attributeGroup ref="certainty"/>
+    </xs:attributeGroup>
     <xs:attributeGroup name="value">
+        <xs:attribute name="value" type="normalizedDateValue">
+            <xs:annotation>
+                <xs:appinfo source="EditVDU">
+                    <xrxe:label>
+                        <xrx:i18n>
+                            <xrx:key>cei_at_value</xrx:key>
+                            <xrx:default>value</xrx:default>
+                        </xrx:i18n>
+                    </xrxe:label>
+                    <xrxe:default-value>99999999</xrxe:default-value>
+                    <xrxe:type>xs:int</xrxe:type>
+                    <xrxe:constraint>string-length(.) = 8</xrxe:constraint>
+                    <xrxe:hint>
+                        <xrx:i18n>
+                            <xrx:key>cei_value_hint</xrx:key>
+                            <xrx:default>8 Numbers of the Form: YYYYMMDD</xrx:default>
+                        </xrx:i18n>
+                    </xrxe:hint>
+                    <xrxe:alert>
+                        <xrx:i18n>
+                            <xrx:key>cei_value_hint</xrx:key>
+                            <xrx:default>8 Numbers of the Form: YYYYMMDD</xrx:default>
+                        </xrx:i18n>
+                    </xrxe:alert>
+                    <xrxe:relevant>true</xrxe:relevant>
+                </xs:appinfo>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:attributeGroup>
+    <xs:attributeGroup name="valueRequired">
         <xs:attribute name="value" type="normalizedDateValue" use="required">
             <xs:annotation>
                 <xs:appinfo source="EditVDU">
