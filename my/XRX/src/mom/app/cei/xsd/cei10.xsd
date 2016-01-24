@@ -2830,7 +2830,6 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:attribute>
-            <xs:attributeGroup ref="certainty"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
@@ -4218,6 +4217,9 @@
                         <xs:element ref="persName"/>
                         <xs:element ref="placeName"/>
                         <xs:element ref="geogName"/>
+                        <xs:element ref="forename"/>
+                        <xs:element ref="surname"/>
+                        <xs:element ref="rolename"/>
                     </xs:choice>
                     <xs:element ref="foreign"/>
                     <xs:element ref="note"/>
@@ -4225,6 +4227,111 @@
                 </xs:choice>
             </xs:sequence>
             <xs:attributeGroup ref="identification"/>
+            <xs:attributeGroup ref="lang"/>
+            <xs:attributeGroup ref="type"/>
+            <xs:attributeGroup ref="standard"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="forename">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>cei_forename</xrx:key>
+                        <xrx:default>forename</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+                <xrxe:menu-item>
+                    <xrx:i18n>
+                        <xrx:key>indexing</xrx:key>
+                        <xrx:default>indexing</xrx:default>
+                    </xrx:i18n>
+                </xrxe:menu-item>
+                <xrxe:max-occur>unbounded</xrxe:max-occur>
+            </xs:appinfo>
+            <xs:documentation xml:lang="deu">ein Vorname</xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="foreign"/>
+                    <xs:element ref="note"/>
+                    <xs:group ref="Originalbefund"/>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attributeGroup ref="lang"/>
+            <xs:attributeGroup ref="type"/>
+            <xs:attributeGroup ref="standard"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="surname">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>cei_surname</xrx:key>
+                        <xrx:default>surname</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+                <xrxe:menu-item>
+                    <xrx:i18n>
+                        <xrx:key>indexing</xrx:key>
+                        <xrx:default>indexing</xrx:default>
+                    </xrx:i18n>
+                </xrxe:menu-item>
+                <xrxe:max-occur>unbounded</xrxe:max-occur>
+            </xs:appinfo>
+            <xs:documentation xml:lang="deu">ein Familienname oder anderer Beiname, der zur Unterscheidung einer Person z.B. durch Gruppenzuordnung dient.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="rolename"/>
+                    <xs:choice>
+                        <xs:annotation>
+                            <xs:documentation xml:lang="deu">Geographische Angaben
+                            </xs:documentation>
+                        </xs:annotation>
+                        <xs:element ref="placeName"/>
+                        <xs:element ref="geogName"/>
+                    </xs:choice>
+                    <xs:element ref="foreign"/>
+                    <xs:element ref="note"/>
+                    <xs:group ref="Originalbefund"/>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attributeGroup ref="lang"/>
+            <xs:attributeGroup ref="type"/>
+            <xs:attributeGroup ref="standard"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="rolename">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>cei_rolename</xrx:key>
+                        <xrx:default>rolename</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+                <xrxe:menu-item>
+                    <xrx:i18n>
+                        <xrx:key>indexing</xrx:key>
+                        <xrx:default>indexing</xrx:default>
+                    </xrx:i18n>
+                </xrxe:menu-item>
+                <xrxe:max-occur>unbounded</xrxe:max-occur>
+            </xs:appinfo>
+            <xs:documentation xml:lang="deu">ein Rollennamen, z.B. Adelstitel, Anrede, Epitheton ...</xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="foreign"/>
+                    <xs:element ref="note"/>
+                    <xs:group ref="Originalbefund"/>
+                </xs:choice>
+            </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="standard"/>
