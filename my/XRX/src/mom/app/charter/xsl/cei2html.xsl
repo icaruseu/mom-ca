@@ -2,7 +2,7 @@
 <xsl:stylesheet xmlns:atom="http://www.w3.org/2005/Atom"
   xmlns:exist="http://exist.sourceforge.net/NS/exist" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns:cei="http://www.monasterium.net/NS/cei"
-  id="cei2html" xmlns:xhtml="http://www.w3.org/1999/xhtml" version="1.0"
+  id="cei2html" xmlns:xhtml="http://www.w3.org/1999/xhtml" version="2.0"
   xmlns="http://www.w3.org/1999/xhtml">
   <xsl:strip-space elements="*" />
   <xsl:preserve-space elements="cei:*" />
@@ -277,7 +277,8 @@
   </xsl:template>
   <xsl:template match="xhtml:insert-item">
     <xsl:choose>
-      <xsl:when test="count($cei//cei:index/node()) &gt; 0">
+     <!--  <xsl:when test="count($cei//cei:index/node()) &gt; 0">  --> 
+     <xsl:when test="$cei//cei:index/node()">   
         <div id="item">
           <b>
             <xrx:i18n>
@@ -286,12 +287,45 @@
             </xrx:i18n>
           </b>
           <ul>
-            <xsl:call-template name="item" />
+     <xsl:for-each-group select="//cei:index" group-by="@indexName">       
+     <xsl:sort select="@indexName"/>
+        <xsl:if test="./@indexName='arthistorian'">
+        <li>
+          <xrx:i18n>
+            <xrx:key>arthistorian</xrx:key>
+            <xrx:default>Arthistorian</xrx:default>
+          </xrx:i18n>
+          <xsl:text>:&#160;</xsl:text>        
+        </li>
+        </xsl:if>
+         <xsl:if test="./@indexName='glossar'">
+        <li> 
+          <xrx:i18n>
+            <xrx:key>glossar</xrx:key>
+            <xrx:default>Glossary</xrx:default>
+          </xrx:i18n>
+          <xsl:text>:&#160;</xsl:text>        
+        </li>
+        </xsl:if>                         
+           <xsl:call-template name="item"/>          
+         </xsl:for-each-group>
+         <xsl:for-each-group select="//cei:index[not(@*)]" group-by="not(@*)">
+         <xsl:sort select="cei:index"/>
+          <li> 
+          <xrx:i18n>
+            <xrx:key>general</xrx:key>
+            <xrx:default>General</xrx:default>
+          </xrx:i18n>
+          <xsl:text>:&#160;</xsl:text>              
+        </li>
+         <xsl:call-template name="item"/>
+         </xsl:for-each-group>                        
           </ul>
-        </div>
+        </div>    
       </xsl:when>
-    </xsl:choose>
+    </xsl:choose>    
   </xsl:template>
+  
   <xsl:template match="xhtml:insert-dummy" />
   <xsl:template name="message">
     <xsl:param name="message" />
@@ -1305,40 +1339,7 @@
       </xsl:when>
     </xsl:choose>
   </xsl:template>
-  <xsl:template name="indexName">
-  <xsl:choose>
-      <xsl:when test="./@indexName='arthistorian'">
-        <li>
-          <xrx:i18n>
-            <xrx:key>arthistorian</xrx:key>
-            <xrx:default>Arthistorian</xrx:default>
-          </xrx:i18n>
-          <xsl:text>:&#160;</xsl:text>
-        
-        </li>
-      </xsl:when>
-      <xsl:when test="./@indexName='glossar'">
-        <li>
-         <xrx:i18n>
-            <xrx:key>glossar</xrx:key>
-            <xrx:default>Glossary</xrx:default>
-          </xrx:i18n>
-        <xsl:text>:&#160;</xsl:text>
-        <!-- <xsl:value-of select="." /> -->
-        </li>
-      </xsl:when>
-      <xsl:when test="not(./@indexName)">
-         <li>
-         <xrx:i18n>
-            <xrx:key>general</xrx:key>
-            <xrx:default>General</xrx:default>
-          </xrx:i18n>
-          <xsl:text>:&#160;</xsl:text>
-       <!--  <xsl:value-of select="." />   -->      
-        </li>
-      </xsl:when>
-    </xsl:choose>
-  </xsl:template>
+       
   <xsl:template name="lemma">
   <xsl:choose>
    <xsl:when test="./@lemma">
@@ -1359,8 +1360,10 @@
   </xsl:when>
   <xsl:otherwise>  
           <ul class="kat2ohnelemma">
+          <xsl:if test=". != ''">
           <li><xsl:value-of select="."></xsl:value-of>
           </li>
+          </xsl:if>
           </ul>        
   </xsl:otherwise>
   </xsl:choose>
@@ -1387,19 +1390,15 @@
 
   <!-- index -->
   <xsl:template name="item">
-    <xsl:for-each select="$cei//cei:index">
-      <xsl:if test="./node()">       
-          <xsl:call-template name="indexName"/>   
-   
-        <ul class="inline">
+  <xsl:for-each select="current-group()">          
+          <ul class="inline">
           <xsl:call-template name="lang" />
           <xsl:call-template name="reg" />
           <xsl:call-template name="existent" />
           <xsl:call-template name="type" />
           <xsl:call-template name="lemma"/>       
         </ul>
-      </xsl:if>
-    </xsl:for-each>
+  </xsl:for-each>  
   </xsl:template>
 
   <!-- how to cite -->

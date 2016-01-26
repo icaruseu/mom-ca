@@ -48,6 +48,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 #goto-search {{
   float: right;
    margin-bottom:10px;
+   margin-top:-3em;
 }}
 
 #logo {{
