@@ -47,7 +47,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 }}
 #goto-search {{
   float: right;
+   margin-bottom:10px;
+   margin-top:-3em;
 }}
+
 #logo {{
   text-align: right;
   width: 100%;
@@ -57,7 +60,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   position: relative;
   float: right;
   background: rgb(240,240,240);
-  width: 30%;
+  width: 32.5%;
   margin: 0px;
   padding: 0px;
 }}
@@ -82,8 +85,35 @@ p.left {{
   color: grey;
 }}
 
+div.clear {{
+  clear:both;
+}}
+div#archive div#container {{
+        margin-top:30px;       
+}}
 	    </style>
   </xrx:csss>
+  <xrx:jss>     
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
+    <script type="text/javascript">
+          $(document).ready(function (){{
+          /*console.log("einfügen von clear in archive widget.xml");*/
+          $("div.my-functions").insertAfter("div#container");
+          $('<div class="clear"></div>').insertAfter("div.my-functions");
+          $('<div class="clear"></div>').insertBefore("div.my-functions");
+      
+          var lookforfunction = $("div.function-link").children("a");
+          if(lookforfunction == 0){{
+          var einf= $("div.function-link").children();
+          einf.css("color", "#EF6A2F").text("not available");
+          }}          
+          
+          }});
+          </script>
+  </xrx:jss>
 	<xrx:view>
 		<div data-demoid="a8810230-9c69-4c85-bc07-c8bd6469b640" id="dwidget">
 			{
@@ -125,6 +155,7 @@ p.left {{
 
 			return
 			<div data-demoid="63b0e42e-f629-49c7-a37d-b0d9fce65186" id="archive">
+			
 				<div class="h2" data-demoid="82354375-12de-4a3c-a77a-21e55f93a569">
 					<xrx:i18n>
 						<xrx:key>archive</xrx:key>
@@ -141,6 +172,7 @@ p.left {{
 					</xrx:rules>
 					<xrx:true>
 						<div class="my-functions" data-demoid="ea6bf65f-2995-4448-adde-24aceffb3b02">
+	
 							<div class="my-functions-label" data-demoid="07d13ddc-99b1-46b9-9cdc-f24acab6b1f1">
 								<xrx:i18n>
 									<xrx:key>my-functions</xrx:key>

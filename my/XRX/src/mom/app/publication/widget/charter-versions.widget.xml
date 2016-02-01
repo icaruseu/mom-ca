@@ -43,7 +43,6 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
         <style type="text/css">
 
 #dcharter-preview-main{{
-position:relative;
 float:left;
 width:800px;
 }}

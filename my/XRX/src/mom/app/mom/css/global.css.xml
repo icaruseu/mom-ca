@@ -36,7 +36,7 @@ html{{
 }}
 html *, .bf *{{
   font-family:"Trebuchet MS", regular, sans-serif;
-  font-size:14px;
+  font-size:16px;
 }}
 #main-logo{{
   height:103px;
@@ -78,10 +78,11 @@ body, #formWrapper{{
 *
 *   Headings 
 */
-.h2, .h2 span{{
-  color:{conf:param('color6')};
-  font-size:21px;
+.h2, .h2 span{{  
+  color:{conf:param('color6')};  
+  font-size:24px;
   font-weight:bold;
+  padding-bottom:1.2em;
 }}
 
 /*
@@ -92,6 +93,7 @@ body, #formWrapper{{
 ul.nostyle{{
   list-style:none;
   line-height:1.5em;
+  margin-left:-40px;
 }}
 
 /* 
@@ -110,10 +112,13 @@ a:hover{{
 * Function links
 *
 */
-.my-functions {{
-  //position:relative;
-  float:none;
-  margin-bottom:50px;
+.my-functions {{  
+  position:relative;
+  float:right;
+  margin-bottom:30px;
+  width:32.5%;
+  clear:right;
+  
 }}
 
 .my-functions a {{
@@ -124,7 +129,7 @@ a:hover{{
   text-align:right;
   color:#EF6A2F !important;
   font-weight:bold;
-  font-size:1.1em;
+  font-size:1em;
 }}
 
 .my-functions h3{{
@@ -133,15 +138,15 @@ a:hover{{
 }}
 
 .function-links{{
-  position:relative;
-  float:left;
+  
   background-color:{conf:param('color7')} !important;
-  width:100%;
+  min-height:30px;
+  padding: 5px;
+  
 }}
 
 .function-link{{
-  position:relative;
-  float:left;
+ 
   margin:10px;
 }}
 

@@ -105,8 +105,65 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:expression>count($wcharters:block-strings)</xrx:expression>
     </xrx:variable>
   </xrx:variables>
+  <xrx:csss>
+   <style type="text/css">
+div.clear {{
+  clear:both;
+}}
+
+#year-navi{{
+position:relative;
+float:left;
+width:120px;
+margin:0px;
+margin-top:100px;
+margin-right:20px;
+}}
+
+.year-list{{
+margin:10px;
+}}
+
+.year-list *{{
+line-height:2em;
+color:black;
+text-decoration:none;
+}}
+/*
+#block-navi{{
+padding-bottom:30px;
+float:left;
+left:20px;
+}}
+
+#preface{{
+position:relative;
+width:800px;
+float:left;
+}}*/
+
+</style>
+  </xrx:csss>   
+     <xrx:jss>   
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/droppable</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/position</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/resizable</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/dialog</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/effect</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/effect-pulsate</xrx:resource>
+   
+    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrxI18n</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxMessage</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrx</xrx:resource>
+  </xrx:jss>
   <xrx:divs>
-    <xrx:div>
+    <xrx:div>        
       <xrx:key>heading-div</xrx:key>
       <xrx:view>
 				<div class="h2" data-demoid="ddb0a0e1-18be-46ff-9076-f78bb0b54cd8">
@@ -133,6 +190,13 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
           </xrx:rules>
           <xrx:true>
             <div class="my-functions" data-demoid="bc3be704-de79-4c0c-9495-6671b758a988">
+             <script type="text/javascript">
+          $(document).ready(function (){{         
+          $('<div class="clear"></div>').insertAfter("div.my-functions");
+          $("div#year-navi").insertAfter("div#heading");
+                            
+          }});
+          </script>
               <h3>
                 <xrx:i18n>
                   <xrx:key>my-functions</xrx:key>
@@ -168,7 +232,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                   </a>
                 </div>
               </div>
-            </div>
+            </div>       
           </xrx:true>
           <xrx:false>
             <span/>
