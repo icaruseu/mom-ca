@@ -129,6 +129,16 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:key>heading-div</xrx:key>
       <xrx:view>
         <div class="h2" data-demoid="f108b227-0e76-478a-9703-f60701ec03ca">
+          <script type="text/javascript">
+          $(document).ready(function (){{
+          console.log("einfügen von clear in collection widget.xml");
+          $("div#heading").insertAfter("div#breadcrumb");
+          $('<div class="clear"></div>').insertAfter("div.my-functions");
+         $('<div class="clear"></div>').insertBefore("div.my-functions");
+          $('<div class="clear"></div>').insertBefore("div#year-navi");
+          
+          }});
+          </script>
           <span>
             <xrx:i18n>
               <xrx:key>collection</xrx:key>
