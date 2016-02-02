@@ -122,6 +122,10 @@ it leaves the active development stage.
 				)
       </xrx:expression>
     </xrx:variable>
+    <xrx:variable>
+    <xrx:name>$number-of-images</xrx:name>
+    <xrx:expression>count($wcharter-image-viewer:img-urls)</xrx:expression>
+    </xrx:variable>
     <!-- image access -->
     <xrx:variable>
       <xrx:name>$wcharter-image-viewer:image-access-forbidden-flag</xrx:name>
@@ -161,7 +165,7 @@ it leaves the active development stage.
 #img{{
 	position:absolute;
 	width:950px;
-	z-index:0;
+	z-index:0;	
 	margin:0px;
 	padding:0px;
 }}
@@ -210,6 +214,19 @@ it leaves the active development stage.
 	z-index:1;
 	text-align:center;
 	font-weight:bold;
+}}
+
+a#gelb {{   
+   color:#72856C !important;
+   border: 1px solid #72856C;  
+}}
+
+img#ein,
+img#aus {{
+    margin-right:10px;
+    margin-top:5px;
+    position:relative;
+    float:left;
 }}
 
     </style>
@@ -273,7 +290,7 @@ it leaves the active development stage.
   </xrx:divs>
   <xrx:view>
     <div data-demoid="2d91f46d-7972-4d83-8782-18b2721f5634">
-      <div class="inlinehead" data-demoid="9ccdd757-63d4-49b2-b897-0743dfa6174c">
+      <div class="inlinehead cat" data-demoid="9ccdd757-63d4-49b2-b897-0743dfa6174c">
 				{
 				if($wcharter-image-viewer:image-access-forbidden-flag) then
 				<a href="{ $constructor:link-to-charter-in-archive }" target="_blank">
@@ -285,13 +302,12 @@ it leaves the active development stage.
         </a>
 				else
 				<div>
-          <div data-demoid="0620e9b9-3056-44e9-97e0-36659b196c21" style="float:left;">
-            <a href="javascript:showHideDiv('graphics','')">
+          <div data-demoid="0620e9b9-3056-44e9-97e0-36659b196c21" id="graphicheader">
+            <a href="javascript:showHideDiv_neu('graphics','')">
               <xrx:i18n>
                 <xrx:key>graphics</xrx:key>
                 <xrx:default>Graphics</xrx:default>
-              </xrx:i18n>
-              <span>:</span>
+              </xrx:i18n>              
             </a>
           </div>
           <div data-demoid="f52d37ea-4440-40a3-8ea5-8f0e429f550f" id="change-image-links">
@@ -299,7 +315,12 @@ it leaves the active development stage.
 						for $img-url at $num in $wcharter-image-viewer:img-urls
 						return
 						if($charter:rarchiveid != 'DE-LABW') then
-						<a href="javascript:changeImage('{ $img-url }')">{ $num }</a>
+						  if ($num = 1) then
+						  <a class="imageLink" href="javascript:changeImage('{ $img-url }', '{$num}')" id="gelb">{ $num }</a>
+						  else (
+						  <a class="imageLink" href="javascript:changeImage('{ $img-url }', '{$num}')" id="schwarz">{ $num }</a>
+						  )
+						
 						else()
 						}
 					</div>
@@ -365,12 +386,13 @@ it leaves the active development stage.
         </div>
 				else
 				<div class="no-graphic" data-demoid="89dcbaa9-93de-4d4f-a4bb-932fd93b26a5">
+		
           <xrx:i18n>
             <xrx:key>no-graphic-available</xrx:key>
             <xrx:default>no graphic available</xrx:default>
           </xrx:i18n>
-        </div>
-				}
+        </div> 
+        }
 			</div>
         <div data-demoid="57df26ce-eba6-49bb-aa05-d876b453baa2" id="zoomerbar">
           <div data-demoid="51ba5857-6367-44f6-bf3a-561ebbc8cdb4" id="zoomsliderlabel">
@@ -385,7 +407,7 @@ it leaves the active development stage.
         <xrx:div>augiasviewer-link</xrx:div>
         <xrx:div>image-tools-link</xrx:div>
       </div>
-      <script type="text/javascript">
+  <script type="text/javascript">
 				$(document).ready(function() {{
 					$( "#zoomslider" ).slider({{ 
 						value:100, 
@@ -396,8 +418,8 @@ it leaves the active development stage.
 							$( "#img" ).css( "width", ui.value + "%" ); 
               $( "#img-svg" ).css( "width", ui.value + "%" );
 						}} 
-					}}); 
-				}})
+					}});				
+				}});
 			</script>
 
     </div>

@@ -77,6 +77,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   </xrx:init>
   <xrx:csss>
     <style type="text/css">
+div.clear {{
+  /*clear:both;*/
+  clear:left;
+}}
     
 #collections{{
   position: relative;
@@ -84,11 +88,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   float: left;
   width: 100%;
 }}    
-#collections .country-name{{
-  font-size: 1.2em;
+#collections .country-name{{  
+  font-size: 1.1em;
   font-weight: bold;
 }}
 #collections .collections-menu{{
+  clear:both;
   position: relative;
   float: right;
   background: rgb(240,240,240);
@@ -103,7 +108,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   margin:15px;
 }}
 #collections ul{{
-  margin-left: -10px;
+  /*margin-left: -10px;*/
 }}
 #collections .collections-menu-heading{{
   font-variant: small-caps;
@@ -121,6 +126,24 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 }}
     </style>
   </xrx:csss>
+     <xrx:jss>   
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/droppable</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/position</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/resizable</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/dialog</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/effect</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/effect-pulsate</xrx:resource>
+   
+    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrxI18n</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxMessage</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrx</xrx:resource>
+  </xrx:jss>
   <xrx:view>
   {
     let $metadata-charter-import-base-collection :=
@@ -174,9 +197,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
         </span>
         else ()
         }
-      </div>
-      <br/>
-      <br/>
+      </div>    
       <xrx:auth>
         <xrx:rules>
           <xrx:rule>
@@ -185,7 +206,13 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
           </xrx:rule>
         </xrx:rules>
         <xrx:true>
-          <div data-demoid="2e2a6f19-dbb3-4bbf-ab04-da244c08aa16">   
+        
+          <div data-demoid="2e2a6f19-dbb3-4bbf-ab04-da244c08aa16">
+           <script type="text/javascript">
+          $(document).ready(function (){{
+          $('<div class="clear"></div>').insertAfter("div.my-functions");
+          }});
+          </script>            
             <div class="my-functions" data-demoid="eb91e0f2-7de2-4e7c-89ce-85ab8e3a9272">
               <div class="my-functions-label" data-demoid="44068a0d-70dd-4a5d-a979-d021ae550ea5">
                 <xrx:i18n>
@@ -211,7 +238,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                       <xrx:default>Edit my Collections</xrx:default>
                     </xrx:i18n>
                   </a>
-                </div>
+                </div>           
                 <xrx:auth>
                   <xrx:rules>
                     <xrx:rule>
@@ -240,7 +267,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                           <span> ({ $count-imported-collection })</span>
                         </a>
                       </div>
-                    </div>
+                    </div>                   
                   </xrx:true>
                   <xrx:false>
                     <div data-demoid="8153658a-72d8-4ad2-badf-458cfffae0b4"/>
@@ -249,6 +276,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               </div>
             </div>
           </div>
+      
         </xrx:true>
         <xrx:false>
           <div data-demoid="f810bd5a-e723-40e0-9640-6d6b73318c13"/>

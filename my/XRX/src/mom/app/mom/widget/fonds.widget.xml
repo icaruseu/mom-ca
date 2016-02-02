@@ -47,7 +47,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 }}
 #inner-fonds{{
   position:relative;
-  float:left;
+  /*float:left;*/
   margin:0px;
   padding:0px;
 }}
@@ -92,8 +92,25 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   padding-left:0.6em;
 }}
 
+div.clear {{
+  clear:both;
+}}
+
+.my-functions {{  
+          position:relative;
+          float:right;
+          margin-bottom:30px;
+          width:32.5%;
+  
+  }}
     </style>
   </xrx:csss>
+    <xrx:jss>     
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
+  </xrx:jss>
 	<xrx:view>
 	{
 	  let $metadata-charter-import-base-collection :=
@@ -118,6 +135,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 				  </xrx:rules>
 				  <xrx:true>
 						<div class="my-functions" data-demoid="2e54ce28-3369-4ebe-86fb-0c1e54d58870">
+						 <script type="text/javascript">
+          $(document).ready(function (){{
+          console.log("einfügen von clear in fonds widget.xml");
+          $('<div class="clear"></div>').insertAfter("div.my-functions");
+          }});
+          </script>
 							<div class="my-functions-label" data-demoid="e7cb33a3-c7a3-4274-a47b-476e7c71b107">
 								<xrx:i18n>
 								  <xrx:key>my-functions</xrx:key>
