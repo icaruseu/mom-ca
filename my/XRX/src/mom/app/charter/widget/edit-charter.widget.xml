@@ -152,10 +152,12 @@
     </xrx:jss>
     <xrx:view>
         <div data-demoid="07ed1069-ea47-42b3-ac3c-d717877363b8" id="edit-charter">
-        $(document).ready(function (){{
-          console.log('edit-charter.widget');
-          $('<div class="clear"></div>').insertAfter("div.my-functions");
-          }});
+			 <script type="text/javascript">
+				$(document).ready(function (){{
+				  console.log('edit-charter.widget');
+				  $('<div class="clear"></div>').insertAfter("div.my-functions");
+				  }});
+			</script>
             <xrx:auth>
                 <xrx:rules>
                     <xrx:rule>
