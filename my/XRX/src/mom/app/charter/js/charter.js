@@ -173,3 +173,27 @@ else 	{
 	}
 
 }
+
+
+function checkglossaryentry(entry){ 
+		$("div#enhancedView").empty();
+        
+        $.ajax({     
+        	url: "/mom/service/getTextfromGlossar",
+        	type:"GET",      
+        	contentType: "application/xml",     
+        	dataType: "html",
+        	data: { id : entry},
+        	success: function(data, textStatus, jqXHR)
+        	{           		        		
+        		$("div#enhancedView").append(data);        		
+        		return true;
+        	},     
+        	error: function(){
+        		$("#result").text("Error: Failed to load script.");
+   
+        		return false;
+        	}    
+        });
+}
+

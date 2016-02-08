@@ -7,8 +7,8 @@
   <xsl:strip-space elements="*" />
   <xsl:preserve-space elements="cei:*" />
   <xsl:variable name="sitemap" select="/xhtml:page/xhtml:div"/>
-
   <xsl:variable name="cei" select="/xhtml:page//cei:text" />
+<xsl:variable name="sitemap" select="/xhtml:page/xhtml:div"/>  
 
   <xsl:template match="/">
     <xsl:apply-templates select="$sitemap" />
@@ -219,9 +219,10 @@
     
   </xsl:template>
   
-  <!-- <xsl:template match="xhtml:insert-enhancedView">  
-  <img src="tag:www.monasterium.net,2011:/mom/resource/image/karte.png" title="Karte/Glossar"/> 
-  </xsl:template> -->
+
+  <xsl:template match="xhtml:insert-enhancedView">
+  <!--creates a div for presenting a map or glossar in index category -->   
+  </xsl:template>
   
   <xsl:template match="xhtml:insert-persName">
     <xsl:choose>
@@ -302,7 +303,7 @@
         </li>
         </xsl:if>
          <xsl:if test="./@indexName='glossar'">
-        <li> 
+        <li class="glossary"> 
           <xrx:i18n>
             <xrx:key>glossar</xrx:key>
             <xrx:default>Glossary</xrx:default>
@@ -1333,9 +1334,10 @@
 
   </xsl:template>
       <xsl:template match="cei:unclear">
-  <span class="unclear" title="cei:unlcear" style="border-bottom:1px black dotted;">
-  <xsl:value-of select="."/>
-  </span>
+
+        <span class="unclear" title="cei:unclear" style="border-bottom:1px black dotted;">
+        <xsl:value-of select="."/>
+        </span>
 
   </xsl:template>
 
@@ -1431,13 +1433,23 @@
           
     </li>
   </xsl:when>
-  <xsl:otherwise>  
-          <ul class="kat2ohnelemma">
-          <xsl:if test=". != ''">
-          <li><xsl:value-of select="."></xsl:value-of>
+  <xsl:when test="./@indexName='glossar'">
+  <xsl:variable name="entry"> 
+   <xsl:value-of select="replace(replace(replace(replace(replace(replace(replace(., 'ä', 'ae'), 'ß', 'ss'), 'ö', 'oe'), 'ü', 'ue'), 'é', 'e'), ' ', ''), '&#xA;', '')"/>
+  </xsl:variable>
+    <ul class="glossary">          
+          <li><a class="press" onclick="javascript:checkglossaryentry('{$entry}')">    
+          <xsl:value-of select="."></xsl:value-of>
+          <span class="info_i">i</span>
+         </a></li>
+          </ul>
+  </xsl:when>
+   <xsl:otherwise>
+          <ul class="kat2ohnelemma">         
+          <li>    
+          <xsl:value-of select="."></xsl:value-of>          
           </li>
-          </xsl:if>
-          </ul>        
+          </ul>
   </xsl:otherwise>
   </xsl:choose>
  
