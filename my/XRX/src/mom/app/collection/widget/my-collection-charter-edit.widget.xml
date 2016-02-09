@@ -1,5 +1,5 @@
-<xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+<xrx:widget xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns:xf="http://www.w3.org/2002/xforms">
     <xrx:id>tag:www.monasterium.net,2011:/mom/widget/my-collection-charter-edit</xrx:id>
     <xrx:title>
         <xrx:i18n>
@@ -292,7 +292,9 @@
             }} form{{ margin:0; padding:0; }} /* * table layout */ .table{{ display:table; }}
             .table-row{{ display:table-row; }} .table-cell{{ width:100%; display:table-cell; }}
             .table-cell-value{{ width:79%; }} .table-cell-label{{ width:19%; }} /* * jQuery UI */
-            .ui-tabs-anchor{{ font-size:.8em; }} </style>
+            .ui-tabs-anchor{{ font-size:.8em; }} span#onoff {{ padding-bottom:1em; }}
+            div.forms-mixedcontent-attribute-droppable {{ color:#E8E8E8; }} div.controlledVocabulary
+            {{ font-size: 0.9em; }} span#onoff {{ padding-left:2em; }} </style>
     </xrx:csss>
     <xrx:jss>
         <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/collection</xrx:resource>
@@ -312,6 +314,7 @@
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/tabs</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/layout</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/imgareaselect</xrx:resource>
+
         <!-- jssaxparser resources -->
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/XMLFilterImpls</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/NamespaceSupport</xrx:resource>
@@ -338,7 +341,7 @@
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxMessage</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxVisualxml</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxElements</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xrxAttributes</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxAttributes</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxTagname</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxReport</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxRepeat</xrx:resource>
@@ -358,7 +361,6 @@
     <xrx:binds>
         <xrx:bind id="bclass" nodeset="/descendant::cei:class"/>
     </xrx:binds>
-
     <xrx:view>
         <divs> {mycollection:makeBindings($entry, $distinct_nodes)} </divs>
         <div data-demoid="393de52d-1b4f-4df8-99b1-e7af26b713fe" id="dmy-collection-charter-edit">
@@ -418,10 +420,12 @@
                                         <div data-demoid="b90a2b1c-9164-49b9-a8cb-f47f1413947c"
                                             id="folio-links">
                                             <ol id="ui-imageselect"> { for $folio at $p in $folios
-                                                return <li title="{ $urls[$p] }">{ if($p = 1) then
-                                                  attribute class { 'ui-widget-content ui-selected'
-                                                  } else attribute class { 'ui-widget-content' } }{
-                                                  $folio }</li> } </ol>
+                                                return <li
+                                                  title="{ if(not(contains($urls[$p], '/'))) then concat($image-base-url, $urls[$p]) else $urls[$p]    }"
+                                                  >{ if($p = 1) then attribute class {
+                                                  'ui-widget-content ui-selected' } else attribute
+                                                  class { 'ui-widget-content' } }{ $folio }</li> }
+                                            </ol>
                                         </div>
                                         <div data-demoid="f224f11c-46c7-41b3-839d-02eb5f9e278a"
                                             id="ui-imageann"
@@ -571,7 +575,7 @@
                                                 <div class="dmy-collection-toolbar"
                                                   data-demoid="f007ba43-bb97-4d77-b520-d58fe71674e7">
                                                   <xrx:elements/>
-                                                  <span style="font-size:1.6em;"> </span>
+                                                  <span style="font-size:1.6em;">&#160;</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -617,7 +621,7 @@
                                                 data-demoid="09c01686-e6d0-4ae7-bfa3-4692484cfac5">
                                                 <div class="dmy-collection-toolbar"
                                                   data-demoid="d77ece62-d2ce-4928-b045-5ad66686e512">
-                                                  <xrx:tagname> </xrx:tagname>
+                                                  <xrx:tagname>&#160;</xrx:tagname>
                                                 </div>
                                             </div>
                                         </div>
@@ -758,9 +762,9 @@
                 $element-suggestions }</div>
             <div class="xrx-forms-json-topics" data-demoid="29dc1908-0c8d-4501-ab7d-5e0cbdc492b9"
                 style="display:none">{ $topics }</div>
-            <div class="xrx-forms-json-values" style="display:none"> {{ "cei:index":{{ "indexName":
-                ["arthistorian"], "lemma": ["N1", "N2", "N3"], "sublemma":
-                [{{"N1":["HistoriatedDecoration","WithAdditionalColours: Miniatures",
+            <div class="xrx-forms-json-attribute-valuesuggestions" style="display:none"> {{
+                "cei:index":{{ "indexName": ["arthistorian"], "lemma": ["N1", "N2", "N3"],
+                "sublemma": [{{"N1":["HistoriatedDecoration","WithAdditionalColours: Miniatures",
                 "WithAdditionalColours: Initials", "WithAdditionalColours: Borders",
                 "WithAdditionalColours: CoatsofArms", "WithAdditionalColours: ExecutionDraw",
                 "WithAdditionalColours: ExecutionPainted"]}}, {{"N2":
