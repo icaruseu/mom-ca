@@ -65,5 +65,15 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:prefix>tei</xrx:prefix>
       <xrx:uri>http://www.tei-c.org/ns/1.0/</xrx:uri>
     </xrx:module>
+        <xrx:module>
+      <xrx:resource>rdf.xqm</xrx:resource>
+      <xrx:prefix>rdf</xrx:prefix>
+      <xrx:uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#</xrx:uri>
+    </xrx:module>    
+    <xrx:module>
+      <xrx:resource>skos.xqm</xrx:resource>
+      <xrx:prefix>skos</xrx:prefix>
+      <xrx:uri>http://www.w3.org/2004/02/skos/core#</xrx:uri>
+    </xrx:module>
   </xrx:modules>
 </xrx:app>

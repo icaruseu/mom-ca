@@ -485,13 +485,28 @@ div#indexlist {{
     float:left;
     
 }}
-div#enhancedView {{
-  padding:10px;
-  position:relative;
-  float:left;  
-  width:55%;
-  height:300px;
+div.port {{  
+  padding:10px 10px 10px 50px;
+  overflow-y:scroll;
+  height:600px;
+  text-align:justify;
+  margin-top:10px;
+ 
   }}
+div.port p {{
+    font-size:0.8em;
+}} 
+
+span.info_i {{
+    color:white;
+    background-color:#BABABA;
+    font-size:small;
+    vertical-align:super;
+    font-weight:bold;
+    padding: 0 4px;
+    margin-left:10px;
+    
+}}
 
 div.inlinehead, div.greyinlinehead, div.light-green, div.light-green:visited{{
   position:relative;
@@ -722,6 +737,7 @@ p#first {{
 cei-recipient {{
   letter-spacing: 2px;
 }}
+
 
       </style>
   </xrx:csss>
@@ -1284,6 +1300,7 @@ cei-recipient {{
 	              lang: "{ $xrx:lang }",
 	     	        requestRoot: "{ conf:param('request-root') }"
 	     	      }});
+
 	     	   console.log(" aus charter.widget");
 	     	  if($("div.no-graphic").length == 0 ){{
            console.log("no-graphic ist 0 in image-viewer");          
@@ -1303,6 +1320,7 @@ cei-recipient {{
             var x = $("#index").css("display", "none");         
           
           }}
+
 				    }});     
   		    </script>
           <xrx:resource id="image-tool-widget-close-button" title="Close Image Tool" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/button_close</xrx:resource>
