@@ -1437,12 +1437,12 @@
   <xsl:variable name="entry"> 
    <xsl:value-of select="replace(replace(replace(replace(replace(replace(replace(., 'ä', 'ae'), 'ß', 'ss'), 'ö', 'oe'), 'ü', 'ue'), 'é', 'e'), ' ', ''), '&#xA;', '')"/>
   </xsl:variable>
-    <ul class="glossary">          
-          <li><a class="press" onclick="javascript:checkglossaryentry('{$entry}')">    
+   <!--  <ul class="glossary">          
+      <li><a class="press" onclick="javascript:checkglossaryentry('{$entry}')">    
           <xsl:value-of select="."></xsl:value-of>
           <span class="info_i">i</span>
          </a></li>
-          </ul>
+          </ul> -->
   </xsl:when>
    <xsl:otherwise>
           <ul class="kat2ohnelemma">         

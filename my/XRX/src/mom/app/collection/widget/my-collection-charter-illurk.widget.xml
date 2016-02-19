@@ -350,7 +350,7 @@ span#onoff {{
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxMessage</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxVisualxml</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxElements</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxAttributes</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xrxAttributes</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxTagname</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxReport</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxRepeat</xrx:resource>
@@ -924,18 +924,7 @@ span#onoff {{
             <div class="xrx-forms-json-attribute-suggestions" data-demoid="a9a1b205-f185-4e4c-8fcc-8d1a397c881e" style="display:none">{ $attribute-suggestions }</div>
             <div class="xrx-forms-json-element-suggestions" data-demoid="90164e9b-8793-4426-9cb3-9c91b1252326" style="display:none">{ $element-suggestions }</div>
             <div class="xrx-forms-json-topics" data-demoid="29dc1908-0c8d-4501-ab7d-5e0cbdc492b9" style="display:none">{ $topics }</div>
-            <!-- fix me: the xrx-forms-json-values generate automatically, used for controlled vocabulary -->
-            <div class="xrx-forms-json-attribute-valuesuggestions" style="display:none">
-    {{   
-    "cei:index":{{
-   "indexName": ["arthistorian"],
-    "lemma": ["N1", "N2", "N3"],
-    "sublemma": [{{"N1":["HistoriatedDecoration","WithAdditionalColours: Miniatures", "WithAdditionalColours: Initials", "WithAdditionalColours: Borders", "WithAdditionalColours: CoatsofArms", "WithAdditionalColours: ExecutionDraw", "WithAdditionalColours: ExecutionPainted"]}},
-    {{"N2": ["DrawnDecorationnothistoriated: DD-nh-Panels", "DrawnDecorationnothistoriated: Initials", "DrawnDecorationnothistoriated: DD-nh-Borders", "DepictiveMotivesnothistoriated: figural", "DepictiveMotivesnothistoriated: zoomorphic", "DepictiveMotivesnothistoriated: otherMotivs"]}},
-    {{"N3": ["GraphicMeansofAuthenticating: Chrismon", "GraphicMeansofAuthenticating: Monogramm", "GraphicMeansofAuthenticating: Rota", "GraphicMeansofAuthenticating: SignumRecognitionis", "GraphicMeansofAuthenticating: SignumNotarile", "GraphicMeansofAuthenticating: OtherSignsofAuthentication"]}}
-     ]}}}}
-</div>
-            <script type="text/javascript">
+         <script type="text/javascript">
       jQuery(document).ready(function(){{ 
         jQuery.ajaxSetup({{ cache: false }});
         window.XPath = new XPath();

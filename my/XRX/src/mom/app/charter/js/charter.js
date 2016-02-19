@@ -174,15 +174,23 @@ else 	{
 
 }
 
+/*
+ * This Funktion gets the entries to indexes with the attribute glossary.
+ * The function call is in the cei2html.xsl file. 
+ * Via Ajax a SKOS file ist queried.
+ * But the skos file is still under construction,
+ * that's why function is not set active right now.
+ * 
+ * */
 
 function checkglossaryentry(entry){ 
-		$("div#enhancedView").empty();
-        
-        $.ajax({     
+		$("div#enhancedView").empty()
+      
+       $.ajax({     
         	url: "/mom/service/getTextfromGlossar",
-        	type:"GET",      
-        	contentType: "application/xml",     
-        	dataType: "html",
+      	type:"GET",      
+       	contentType: "application/xml",     
+       	dataType: "html",
         	data: { id : entry},
         	success: function(data, textStatus, jqXHR)
         	{           		        		
@@ -193,7 +201,7 @@ function checkglossaryentry(entry){
         		$("#result").text("Error: Failed to load script.");
    
         		return false;
-        	}    
+        	}   
         });
 }
 
