@@ -62,7 +62,7 @@
             elementName = self.options.elementName,
             suggestedAttributes = self.options.suggestedAttributes,
             editedAttributes = self.options.editedAttributes,
-            
+                        
             mainDiv = $('<div></div>').attr("class", uiMainDivId),
             
             editAttributesDiv = $('<div></div>').addClass(uiEditAttributesDivClass).addClass(uiFormsTableClass),
@@ -79,8 +79,7 @@
             
             /*xrx-attributes class gets method _attributeDroppable*/
             self._attributeDroppable(droppableAttributeDiv);
-            
-            
+     
             
             /* a new div-box in the GUI is created, in it there is the list of all possible Attributes for the element.
              * in Addition these Attributes get a method _suggestedAttributeDraggable, means that you are able to drag them. */
@@ -177,7 +176,7 @@
         
         _newEditAttribute: function (name, label, value) {
             /* Variables to deal with the modell */
-        
+        	
             var self = this,
             cm = self.options.cm,
             token = self.options.token,
@@ -213,47 +212,43 @@
                 verw.push(name);
                 wert.push(value);             
                 var editnew = editedAttributes.push(aktuell);
-            }               
-           
-            /*variables to get the values for the controlled vocabulary */
-            var jsonValues = jQuery.parseJSON($('.xrx-forms-json-attribute-valuesuggestions').text());
-            /*Till now suggestedVal contains only the values of the Element 'cei:index' */
-            var suggestedVal = jsonValues[elementName];                    
-            /*if condition to test, if there are values available*/
-            if (suggestedVal == undefined) {
-                controlledVoc = false;
-            } else {                
-                /*mainkeys is the array with the keys to the elementname*/
-                var mainkeys = Object.getOwnPropertyNames(suggestedVal).sort();
-                for (var mk in suggestedVal) {
-                    var mk = suggestedVal[mk];                    
-                }            
+            }         
                 
-                /* it has to be proofed if the from the last use of the attribute widget,
+                /* it has to be proofed if from the last use of the attribute widget,
                  * the user used the cv or not.
                  * if in the editedAttributes is the attr indexName with the value 'arthistorian'
                  * then the controllevVoc is true.
                  * Has to be changed, when the cv is used for other descriptions too.
                  * Till now there is only 'arthistorian'.  
                */
-                for (var i=0;i < editedAttributes.length; i++){
-                	if (editedAttributes[i].qName == 'indexName' && editedAttributes[i].value == 'arthistorian'){
-                		controlledVoc = true;
-                	}
-                }              
-                console.log('*****************************************');
-            }
-            /* In the following lines the GUI is constructed
+               if ((elementName == "cei:index") && ((name == "lemma") | (name == "sublemma") | (name == "indexName"))){
+            	   for (var i=0;i < editedAttributes.length; i++){
+                   	if (editedAttributes[i].qName == 'indexName' && editedAttributes[i].value == 'arthistorian'){
+                   		controlledVoc = true;
+                   	}
+                   
+                   }  
+               }
+               else {
+            	   controlledVoc = false;
+            	   console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');  
+            	  
+               }
+           
+           
+           
+            /* Array [ "indexName", "lemma", "sublemma" ] mainkeys
+				Object { indexName: Array[1], lemma: Array[3], sublemma: Array[3] } suggestedVal
+             * 
+             * In the following lines the GUI is constructed
              * if controlledVoc is true then menuliste (is a dropdown menu)is implemented
              * if false newEditAttributeInput (is an inputfield) is created.*/
             if (elementName == "cei:index") {
                                  
-                
-                if ((controlledVoc == true) &&(mainkeys.indexOf(name) != -1)) {                	
-                    for (var mk in suggestedVal) {                                   
-                        	        var y = suggestedVal[mk];                        
-                                    var x = setoptioninSelect(y, mk, wert); 
-                        }                        
+                if ((controlledVoc == true) && ((name == "lemma") | (name == "sublemma") | (name == "indexName")))
+                {
+            //  if ((controlledVoc == true) &&(mainkeys.indexOf(name) != -1)) {                         	                               
+                        var x = setoptioninSelect(name);                                         
                         newEditAttributeLabel.hide();
                         newEditAttributeInput.hide();
                         newEditAttribute.append(newEditValuelabel).append(menuliste).append(newEditAttributeTrash);
@@ -281,7 +276,11 @@
                 var controlId = nodeset.only.levelId;
                 var relativeId = token.state.context.id.split('.').splice(1);
                 var contextId = controlId.concat(relativeId);
-                
+                console.log("mal sehen, was controlId, relativeId und contextId so hergeben!");
+                console.log(nodeset);
+                console.log(nodeset.only);
+                console.log(contextId);
+                console.log($('.xrx-instance').xrxInstance());
                 $('.xrx-instance').xrxInstance().replaceAttributeValue(contextId, attributes);
             });            
             
@@ -294,58 +293,59 @@
              * In the 'newli' variable the option elements with the possible values
              * are appended to 'menuliste'.*/
             
-            function setoptioninSelect(sugname, key, wert) {   
-                if (key == name) {
-                	 
-                      function proofing (sugname){
-                    	  for (var i = 0; i < sugname.length; i++){
-                      		var kette = sugname[i];
-                      		if (typeof kette === 'string'){
-                      			return true;
-                      			}
-                      		
-                    	  else {
-                    		  return false;
-                    	  }
-                      }
-              	  }
-                 
-                	var proofed = proofing(sugname);
-                	if (proofed == true){
-                		 var einf = $("<option> --- </option>");
-                         menuliste.append(einf);
-                		for (var i=0; i < sugname.length; i++){
-                			console.log(sugname);                			
-                             var newli = $('<option>' + sugname[i] + '</option>').addClass(uiSuggestedValueDivsClass).attr("title", sugname[i]).attr("value", sugname[i]);
-                             if (sugname[i] == value) {
-                                  newli.attr("selected", "selected");
-                              }
-                             menuliste.append(newli);
-                             }                		 
-                		 }
+            function setoptioninSelect(name) {
+            	if (name == "indexName"){
+            		var einf = $("<option> --- </option>")
+            		var newli = $("<option title='arthistorian' value='arthistorian'>arthistorian</option>");            	
+                    if (value == 'arthistorian'){
+                    	newli.attr("selected", "selected");
+                    }
+            		menuliste.append(einf).append(newli);
+            	}          
                 	else {
                 		var einf = $("<option> --- </option>");
                         menuliste.append(einf);
-         			   for (var i=0; i<sugname.length;i++){
-         				   var props = Object.getOwnPropertyNames(sugname[i]);
-
-         				   for (var ii=0; ii<wert.length; ii++){
-         					   var ind = wert.indexOf(props[0]);
-         					   var comp = wert[ind];
-         					   }
-         					  if ( sugname[i][comp] != undefined){
-            					   var cvalues = sugname[i][comp];
-            					   for (var iii= 0; iii<cvalues.length; iii++){
-            						   var newli = $('<option>' + cvalues[iii] + '</option>').addClass(uiSuggestedValueDivsClass).attr("title", cvalues[iii]).attr("value", cvalues[iii]);
-                					   if (cvalues[iii] == value) {
-                                           newli.attr("selected", "selected");
-                                       }
-                					 menuliste.append(newli);
-            					   }  
-            				   }
-         			   }         	
-         			  }                	
-                }
+                        
+                        if (name == 'lemma'){
+                        	var lemmawert = '';
+                        }
+                        else {
+                        	var nodeset = $(document).xrx.nodeset(cm.getInputField());
+                            var regular = nodeset.only.xml.match(/lemma=".*?"/);
+                        var reg = regular.join();
+                        var lemmawert = reg.slice(7, reg.length -1);
+                        }             
+                        $.ajax({     
+                            url: "/mom/service/editMomgetControlledVoc",
+                            type:"GET",      
+                            //contentType: "application/xml",     
+                            dataType: "json", //json
+                            data: {lemma:lemmawert},
+                            success: function(data, textStatus, jqXHR)
+                            {   
+                            	console.log(data);
+                            	for (var i in data){                            		
+                            		var valeur = data[i];
+                            		console.log(valeur);
+                            		var newli = $('<option>' + valeur + '</option>')
+                        			.addClass(uiSuggestedValueDivsClass).attr("title", valeur).attr("value", i);
+                            		if (i == value){
+                           			 newli.attr("selected", "selected");
+                           		}
+                            		menuliste.append(newli);
+                            	}                          
+                                                         
+                                      return true;
+                                    },     
+                            error: function(){
+                            	console.log('Error: Failed to load script.');                           
+                             
+                             return false;
+                            }     
+                          });
+                        
+         		  }                	
+              
             }            
             //END of setOptioninselect function
             
@@ -353,13 +353,30 @@
              * the change event is triggered
              * the new current value (self.value) gets stored via codemirror in the xml-instance*/
             menuliste.change(function (event) {
-                
+            	console.log("das ist der self");
+                console.log(self);              
                 self = this;                
                 var attrvalue = self.value;
                 var nodeset = $(document).xrx.nodeset(cm.getInputField());
                 var controlId = nodeset.only.levelId;
                 var relativeId = token.state.context.id.split('.').splice(1);
-                var contextId = controlId.concat(relativeId);                
+                var contextId = controlId.concat(relativeId);
+                console.log("in der menuliste.change funktion ");
+                console.log(nodeset);
+                console.log(nodeset.only);
+                console.log(controlId);
+                console.log(relativeId);
+                console.log($('.xrx-instance').xrxInstance()[0].childNodes[0].data);
+                var instanzstring = $('.xrx-instance').xrxInstance()[0].childNodes[0].data;
+                var pos = instanzstring.search("<cei:p>");
+                var allmatches = instanzstring.match(/<cei:p>/g);
+                var ind = pos - 20;
+                var teil = instanzstring.substr(ind, 20);
+                console.log("suche nach cei:p");
+                console.log(pos);
+                console.log(teil);
+                console.log(allmatches);
+                
                 
                 var attributes = new AttributesImpl();                
                 attributes.addAttribute(undefined, name, name, undefined, attrvalue);
@@ -644,8 +661,14 @@
             
             if (controlledVoc == true) {                
                 controlledVocButton.find('#on').attr("checked", "checked");
-            } else {                
+                controlledVocButton.find('#off').removeAttr("checked", "checked");
+                
+            } else {             	
                 controlledVocButton.find('#off').attr("checked", "checked");
+                controlledVocButton.find('#on').removeAttr("checked", "checked");
+                controlledVocButton.find('#off').next("label").addClass("ui-state-active");
+                controlledVocButton.find('#on').next("label").removeClass("ui-state-active");
+                
             }         
             /* if the cv is switched off and the attributes IndexName, or lemma or sublemma are set,
              * these are going to be deleted and set to be draggable again.
