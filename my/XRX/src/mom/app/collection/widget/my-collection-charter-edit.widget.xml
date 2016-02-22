@@ -767,14 +767,11 @@
                 "sublemma": [{{"N1":["HistoriatedDecoration","WithAdditionalColours: Miniatures",
                 "WithAdditionalColours: Initials", "WithAdditionalColours: Borders",
                 "WithAdditionalColours: CoatsofArms", "WithAdditionalColours: ExecutionDraw",
-                "WithAdditionalColours: ExecutionPainted"]}}, {{"N2":
-                ["DrawnDecorationnothistoriated: DD-nh-Panels", "DrawnDecorationnothistoriated:
-                Initials", "DrawnDecorationnothistoriated: DD-nh-Borders",
-                "DepictiveMotivesnothistoriated: figural", "DepictiveMotivesnothistoriated:
-                zoomorphic", "DepictiveMotivesnothistoriated: otherMotivs"]}}, {{"N3":
-                ["GraphicMeansofAuthenticating: Chrismon", "GraphicMeansofAuthenticating:
-                Monogramm", "GraphicMeansofAuthenticating: Rota", "GraphicMeansofAuthenticating:
-                SignumRecognitionis", "GraphicMeansofAuthenticating: SignumNotarile",
+                "WithAdditionalColours: ExecutionPainted"]}}, {{"N2": ["DrawnDecorationnothistoriated: DD-nh-Panels", 
+                "DrawnDecorationnothistoriated: Initials", "DrawnDecorationnothistoriated: DD-nh-Borders",
+                "DepictiveMotivesnothistoriated: figural", "DepictiveMotivesnothistoriated: zoomorphic", "DepictiveMotivesnothistoriated: otherMotivs"]}}, 
+                {{"N3": ["GraphicMeansofAuthenticating: Chrismon", "GraphicMeansofAuthenticating: Monogramm", "GraphicMeansofAuthenticating: Rota", 
+                "GraphicMeansofAuthenticating: SignumRecognitionis", "GraphicMeansofAuthenticating: SignumNotarile",
                 "GraphicMeansofAuthenticating: OtherSignsofAuthentication"]}} ]}}}} </div>
             <script type="text/javascript"> jQuery(document).ready(function(){{ jQuery.ajaxSetup({{
                 cache: false }}); window.XPath = new XPath(); window.XPath.setNamespaceContext(
