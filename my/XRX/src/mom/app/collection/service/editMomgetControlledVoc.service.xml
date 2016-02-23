@@ -34,7 +34,12 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     <xrx:variable>
       <xrx:name>$getlemma</xrx:name>
       <xrx:expression>concat('#', request:get-parameter('lemma', ''))</xrx:expression>    
-      </xrx:variable>    
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$getlang</xrx:name>
+      <xrx:expression>request:get-parameter('sprache', '')</xrx:expression>    
+    </xrx:variable>
+          
   </xrx:variables>
 <!-- das Service ist momentan noch so konstruiert, dass 3 Hierarchieebenen abgefragt werde können.
      durch den Wert der Variablen $getlemma wird die oberste hierachiebene bestimmt, wonach die
@@ -64,8 +69,8 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
         return $jackyO
       )
       else(
-        let $children := $vocabular//skos:prefLabel[@xml:lang="de"][parent::rdf:Description[parent::skos:narrower[parent::rdf:Description[@rdf:about=$getlemma]]]]     
-        let $sublemmaLabeltext := $children/following-sibling::skos:narrower/rdf:Description/skos:prefLabel[@xml:lang="de"]
+        let $children := $vocabular//skos:prefLabel[@xml:lang=$getlang][parent::rdf:Description[parent::skos:narrower[parent::rdf:Description[@rdf:about=$getlemma]]]]     
+        let $sublemmaLabeltext := $children/following-sibling::skos:narrower/rdf:Description/skos:prefLabel[@xml:lang=$getlang]
         let $sublemmaDesc := $vocabular//rdf:Description[parent::skos:narrower[parent::rdf:Description[@rdf:about=$getlemma]]]
         let $sublemmastring := (for $i in $sublemmaDesc                                               
                                           return                                          
@@ -75,10 +80,10 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
                                                   for $ii at $pos in $sublemmaLabeltext/text()
                                                                                  
                                                         return
-                                                         (concat('"', data($sublemmaLabeltext[text()=$ii]/parent::rdf:Description/@rdf:about), '":"', $i/skos:prefLabel[@xml:lang="de"]/text(), ': ', $ii, '"'))
+                                                         (concat('"', data($sublemmaLabeltext[text()=$ii]/parent::rdf:Description/@rdf:about), '":"', $i/skos:prefLabel[@xml:lang=$getlang]/text(), ': ', $ii, '"'))
                                                 
                                            )
-                                           else concat('"',data($i/@rdf:about), '":"', $i/skos:prefLabel[@xml:lang="de"]/text(), '"'))
+                                           else concat('"',data($i/@rdf:about), '":"', $i/skos:prefLabel[@xml:lang=$getlang]/text(), '"'))
                                             
            let $sublemma := (for $entry in $sublemmastring
                               return  replace($entry, '#', '')
@@ -86,7 +91,8 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
           let $jsonO:= jsonx:object($sublemma)
           
   
-        return $jsonO          
+            return $jsonO
+            
           )
        }
   </xrx:body>

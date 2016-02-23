@@ -223,6 +223,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             <xrx:name>$topics</xrx:name>
             <xrx:expression>xmleditor:json-element-topics($xrx-schema)</xrx:expression>
         </xrx:variable>
+        <xrx:variable>
+        <xrx:name>$sprache</xrx:name>
+        <xrx:expression>if($xrx:lang = 'deu') then 'de' else if ($xrx:lang = 'fra') then 'fr' else if ($xrx:lang = 'ita') then 'it' else 'en'</xrx:expression>
+        </xrx:variable>
     <!-- Annotation Tool service prefix -->
         <xrx:variable>
             <xrx:name>$service-prefix</xrx:name>
@@ -417,7 +421,7 @@ span#onoff {{
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxMessage</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxVisualxml</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxElements</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xrxAttributes</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxAttributes</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxTagname</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxReport</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxRepeat</xrx:resource>
@@ -649,8 +653,10 @@ span#onoff {{
                                   <xrx:key>appendix</xrx:key>
                                   <xrx:default>appendix</xrx:default>
                                 </xrx:i18n>
-                              </a>
+                              </a>                             
+                              <a>{$sprache}</a>                              
                             </li>
+                          
                           else
                           ()
                           }
@@ -776,7 +782,7 @@ span#onoff {{
       <div class="xrx-forms-json-attribute-suggestions" data-demoid="a9a1b205-f185-4e4c-8fcc-8d1a397c881e" style="display:none">{ $attribute-suggestions }</div>
       <div class="xrx-forms-json-element-suggestions" data-demoid="90164e9b-8793-4426-9cb3-9c91b1252326" style="display:none">{ $element-suggestions }</div>
       <div class="xrx-forms-json-topics" data-demoid="29dc1908-0c8d-4501-ab7d-5e0cbdc492b9" style="display:none">{ $topics }</div>                 
- 
+      <div class="xrx-language-for-skos" style="display:none">{$sprache}</div>
       <script type="text/javascript">
       jQuery(document).ready(function(){{ 
         jQuery.ajaxSetup({{ cache: false }});

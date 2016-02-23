@@ -295,12 +295,17 @@
             
             function setoptioninSelect(name) {
             	if (name == "indexName"){
-            		var einf = $("<option> --- </option>")
-            		var newli = $("<option title='arthistorian' value='arthistorian'>arthistorian</option>");            	
-                    if (value == 'arthistorian'){
-                    	newli.attr("selected", "selected");
-                    }
-            		menuliste.append(einf).append(newli);
+            		var einf = $("<option> --- </option>");
+            		menuliste.append(einf);
+            		var iName = ['arthistorian', 'glossary'];
+            		for (var i=0; i<iName.length; i++){
+            			var newli = $('<option>' + iName[i] + '</option>')
+            			.addClass(uiSuggestedValueDivsClass).attr("title", iName[i]).attr("value", iName[i]);
+                		if (iName[i] == value){
+               			 newli.attr("selected", "selected");
+               		}
+                		menuliste.append(newli);
+            		}            		
             	}          
                 	else {
                 		var einf = $("<option> --- </option>");
@@ -314,17 +319,19 @@
                             var regular = nodeset.only.xml.match(/lemma=".*?"/);
                         var reg = regular.join();
                         var lemmawert = reg.slice(7, reg.length -1);
-                        }             
+                        }
+                        var sprachwert = $(".xrx-language-for-skos").text();                       
                         $.ajax({     
                             url: "/mom/service/editMomgetControlledVoc",
                             type:"GET",      
                             //contentType: "application/xml",     
                             dataType: "json", //json
-                            data: {lemma:lemmawert},
+                            data: {lemma:lemmawert, sprache:sprachwert},
                             success: function(data, textStatus, jqXHR)
                             {   
+                            	console.log("überprüfen von data");
                             	console.log(data);
-                            	for (var i in data){                            		
+                          for (var i in data){                            		
                             		var valeur = data[i];
                             		console.log(valeur);
                             		var newli = $('<option>' + valeur + '</option>')
@@ -333,7 +340,7 @@
                            			 newli.attr("selected", "selected");
                            		}
                             		menuliste.append(newli);
-                            	}                          
+                            }                        
                                                          
                                       return true;
                                     },     
@@ -402,16 +409,71 @@
                 else {                
                 	verw.splice(0, verw.length, aktuell.qName);
                 	wert.splice(0, wert.length, aktuell.value);
-                }                
-                
+                } 
+                /* attribute 'indexName can have value glossary,
+                 * then the controlled Vocabulary is switched off again.
+                 * 
+                 * */
+                if (attrvalue == 'glossary'){
+                	inallSpans = $("div", "." + uiEditAttributeDivClass).find("span").not(".ui-icon").text();                    
+                    console.log('##########################');
+                    console.log(inallSpans);
+                    console.log('##########################');
+                    var spantexte =[];
+                    var eintrag = $(".forms-mixedcontent-edit-attribute").find("span")
+                    for (var i = 0; i < eintrag.length; i++) {
+                        spantexte.push(eintrag[i].textContent);
+                    }
+                    var proofdiv = $("div", "." + uiSuggestedAttributeDivsClass);
+                    for (var i = 0; i < proofdiv.length; i++) {
+                        var proof = proofdiv[i].previousSibling.data;
+                        if (spantexte.indexOf(proof) == -1) {                       
+                            $("div:contains('" + proof + "')", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                        }                    
+                    } 
+                   /* if (indexsub == -1){
+                    	$("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                    }
+                    if (indexlem == -1){
+                    	$("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                    }*/
+                    controlledVoc = false;
+                }
                 /* attribute 'indexName' can have value arthistorian,      
                  * if it is 'arthistorian' the controlled vocabulary for the attributes lemma and sublemma is active. */              
-                if (attrvalue == 'arthistorian') {                  
-                    $("div", "." + uiSuggestedAttributeDivsClass).each(function () {                        
-                        $("div", "." + uiSuggestedAttributesDivClass).addClass("ui-state-disabled");                        
-                        //  when 'indexName' is 'arthistorian' only the attribute 'lemma' is draggable                        
-                        $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-                    });
+                if (attrvalue == 'arthistorian') { 
+                	$("div", "." + uiSuggestedAttributeDivsClass).each(function () {                        
+                     $("div", "." + uiSuggestedAttributesDivClass).addClass("ui-state-disabled");
+                     
+                	inallSpans = $("div", "." + uiEditAttributeDivClass).find("span").not(".ui-icon").text();
+                    var allselOption = $("select").find("option[selected='selected']").text();
+                    var indexsub = inallSpans.indexOf('sublemma');
+                    var indexlem = inallSpans.indexOf('lemma');
+                	if (indexsub != -1) {                                            
+                        var sein = new AttributesImpl();                        
+                        sein.addAttribute(undefined, 'sublemma', 'sublemma', undefined, '');                           
+                        var row = $("div:contains('sublemma')", "." + uiEditAttributesDivClass);                              
+                            var i = verw.indexOf('sublemma'); 
+                            verw.splice(i,1);
+                        row.remove();                        
+                        $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
+                        $("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                                 
+                    }
+                	if (indexlem != -1){
+                	    var sein = new AttributesImpl();                        
+                        sein.addAttribute(undefined, 'lemma', 'lemma', undefined, '');                           
+                        var row = $("div:contains('lemma')", "." + uiEditAttributesDivClass);                              
+                            var i = verw.indexOf('lemma'); 
+                            verw.splice(i,1);
+                        row.remove();
+                        $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
+                       
+                	}
+                	 
+                	});
+                	console.log('halllllllllllllllloooooooooooooo');
+                    $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
                 }
                 /*when lemma is changed, then sublemma is deleted.
                  * sublemma is the only attribute that is set to be draggable 
@@ -538,7 +600,7 @@
                         sein.addAttribute(undefined, 'sublemma', 'sublemma', undefined, '');
                         var row = $("div:contains('sublemma')", "." + uiEditAttributesDivClass);            
                         row.remove();                                                
-                        /*$("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("disable");*/
+                        
                         /*Attribute is removed from the XML-Instance. */
                         $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
                     }
