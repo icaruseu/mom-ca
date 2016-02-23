@@ -230,15 +230,13 @@
                    }  
                }
                else {
-            	   controlledVoc = false;
-            	   console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');  
+            	   controlledVoc = false;            	   
             	  
                }
            
            
            
-            /* Array [ "indexName", "lemma", "sublemma" ] mainkeys
-				Object { indexName: Array[1], lemma: Array[3], sublemma: Array[3] } suggestedVal
+            /* 
              * 
              * In the following lines the GUI is constructed
              * if controlledVoc is true then menuliste (is a dropdown menu)is implemented
@@ -276,11 +274,7 @@
                 var controlId = nodeset.only.levelId;
                 var relativeId = token.state.context.id.split('.').splice(1);
                 var contextId = controlId.concat(relativeId);
-                console.log("mal sehen, was controlId, relativeId und contextId so hergeben!");
-                console.log(nodeset);
-                console.log(nodeset.only);
-                console.log(contextId);
-                console.log($('.xrx-instance').xrxInstance());
+            
                 $('.xrx-instance').xrxInstance().replaceAttributeValue(contextId, attributes);
             });            
             
@@ -329,11 +323,10 @@
                             data: {lemma:lemmawert, sprache:sprachwert},
                             success: function(data, textStatus, jqXHR)
                             {   
-                            	console.log("überprüfen von data");
-                            	console.log(data);
+                            	
                           for (var i in data){                            		
                             		var valeur = data[i];
-                            		console.log(valeur);
+                            		
                             		var newli = $('<option>' + valeur + '</option>')
                         			.addClass(uiSuggestedValueDivsClass).attr("title", valeur).attr("value", i);
                             		if (i == value){
@@ -360,31 +353,13 @@
              * the change event is triggered
              * the new current value (self.value) gets stored via codemirror in the xml-instance*/
             menuliste.change(function (event) {
-            	console.log("das ist der self");
-                console.log(self);              
+            	             
                 self = this;                
                 var attrvalue = self.value;
                 var nodeset = $(document).xrx.nodeset(cm.getInputField());
                 var controlId = nodeset.only.levelId;
                 var relativeId = token.state.context.id.split('.').splice(1);
-                var contextId = controlId.concat(relativeId);
-                console.log("in der menuliste.change funktion ");
-                console.log(nodeset);
-                console.log(nodeset.only);
-                console.log(controlId);
-                console.log(relativeId);
-                console.log($('.xrx-instance').xrxInstance()[0].childNodes[0].data);
-                var instanzstring = $('.xrx-instance').xrxInstance()[0].childNodes[0].data;
-                var pos = instanzstring.search("<cei:p>");
-                var allmatches = instanzstring.match(/<cei:p>/g);
-                var ind = pos - 20;
-                var teil = instanzstring.substr(ind, 20);
-                console.log("suche nach cei:p");
-                console.log(pos);
-                console.log(teil);
-                console.log(allmatches);
-                
-                
+                var contextId = controlId.concat(relativeId);                
                 var attributes = new AttributesImpl();                
                 attributes.addAttribute(undefined, name, name, undefined, attrvalue);
                 aktuell.qName = name,                
@@ -414,11 +389,7 @@
                  * then the controlled Vocabulary is switched off again.
                  * 
                  * */
-                if (attrvalue == 'glossary'){
-                	inallSpans = $("div", "." + uiEditAttributeDivClass).find("span").not(".ui-icon").text();                    
-                    console.log('##########################');
-                    console.log(inallSpans);
-                    console.log('##########################');
+                if (attrvalue == 'glossary'){                    
                     var spantexte =[];
                     var eintrag = $(".forms-mixedcontent-edit-attribute").find("span")
                     for (var i = 0; i < eintrag.length; i++) {
@@ -430,13 +401,7 @@
                         if (spantexte.indexOf(proof) == -1) {                       
                             $("div:contains('" + proof + "')", "." + uiSuggestedAttributesDivClass).draggable("enable");
                         }                    
-                    } 
-                   /* if (indexsub == -1){
-                    	$("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-                    }
-                    if (indexlem == -1){
-                    	$("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-                    }*/
+                    }                   
                     controlledVoc = false;
                 }
                 /* attribute 'indexName' can have value arthistorian,      
@@ -471,8 +436,7 @@
                        
                 	}
                 	 
-                	});
-                	console.log('halllllllllllllllloooooooooooooo');
+                	});                	
                     $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
                 }
                 /*when lemma is changed, then sublemma is deleted.
@@ -654,9 +618,7 @@
                             var s = blende.indexOf('sublemma');
                             blende.splice(s, 1);
                         }                   
-                        for (var j = 0; j < blende.length; j++) {
-                        	console.log('Die blende');
-                        	console.log(blende[j]);
+                        for (var j = 0; j < blende.length; j++) {                        	
                             $("div[title='" + blende[j] + "']", "." + uiMainDivId).draggable("disable");
                         }
                         /*Attribute is removed from the XML-Instance. */                       
@@ -673,9 +635,7 @@
                 if (name == 'sublemma' && $(editAttribute).find("select").length == 1) {                	
                 	var regular = nodeset.only.xml.match(/lemma=".*?"/);
                     var reg = regular.join();
-                    var lemmaw = reg.slice(7, reg.length -1);
-                    console.log('lemmmmw');
-                    console.log(lemmaw);
+                    var lemmaw = reg.slice(7, reg.length -1);                   
                     if(wert.indexOf(lemmaw)== -1){
                     	 wert.push(lemmaw);
                     }                
@@ -692,10 +652,7 @@
                 /*That is the default case. Attribute is removed from the instance and in GUI set draggable again.*/
                 else {              
                 $('.xrx-instance').xrxInstance().deleteAttributes(contextId, attributes);
-                $("div[title='" + name + "']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-                /*for (var i = 0; i < suggestedAttributesNamen.length; i++) {                    
-                $("div[title='" + suggestedAttributesNamen[i] + "']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-            }*/
+                $("div[title='" + name + "']", "." + uiSuggestedAttributesDivClass).draggable("enable");           
                 }
             });
             
@@ -802,8 +759,7 @@
                         $("div[title='" + suggestedAttributesNamen[i] + "']", "." + uiSuggestedAttributesDivClass).draggable("enable");
                     }
                     
-                    controlledVoc = false;
-                    console.log(controlledVoc);
+                    controlledVoc = false;                    
            
                 } else { 
                 	var inallSpans = $("div", "." + uiEditAttributeDivClass).find("span").not(".ui-icon");                    
@@ -893,8 +849,7 @@
                     var contextId = controlId.concat(relativeId);
                     
                     $('.xrx-instance').xrxInstance().insertAttributes(contextId, attributes);
-                    
-                    console.log('the atts are inserted');
+                  
                 }
             });
         },

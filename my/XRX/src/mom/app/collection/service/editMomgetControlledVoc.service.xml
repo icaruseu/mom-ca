@@ -63,7 +63,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
                               return  replace($entry, '#', '')
                               )      
         let $lemmata := (for $i in $lemma
-                    return concat('"', $i ,'":"', $i, '"')
+                    return concat('"', $i ,'": "', $i, '"')
                     )
         let $jackyO := jsonx:object($lemmata)
         return $jackyO
@@ -80,10 +80,10 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
                                                   for $ii at $pos in $sublemmaLabeltext/text()
                                                                                  
                                                         return
-                                                         (concat('"', data($sublemmaLabeltext[text()=$ii]/parent::rdf:Description/@rdf:about), '":"', $i/skos:prefLabel[@xml:lang=$getlang]/text(), ': ', $ii, '"'))
+                                                         (concat('"', data($sublemmaLabeltext[text()=$ii]/parent::rdf:Description/@rdf:about), '": "', $i/skos:prefLabel[@xml:lang=$getlang]/text(), ': ', $ii, '"'))
                                                 
                                            )
-                                           else concat('"',data($i/@rdf:about), '":"', $i/skos:prefLabel[@xml:lang=$getlang]/text(), '"'))
+                                           else concat('"',data($i/@rdf:about), '": "', $i/skos:prefLabel[@xml:lang=$getlang]/text(), '"'))
                                             
            let $sublemma := (for $entry in $sublemmastring
                               return  replace($entry, '#', '')
