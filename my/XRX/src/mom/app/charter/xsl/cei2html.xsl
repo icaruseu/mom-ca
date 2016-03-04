@@ -7,8 +7,7 @@
   <xsl:strip-space elements="*" />
   <xsl:preserve-space elements="cei:*" />
   <xsl:variable name="sitemap" select="/xhtml:page/xhtml:div"/>
-  <xsl:variable name="cei" select="/xhtml:page//cei:text" />
-<xsl:variable name="sitemap" select="/xhtml:page/xhtml:div"/>  
+  <xsl:variable name="cei" select="/xhtml:page//cei:text" /> 
 
   <xsl:template match="/">
     <xsl:apply-templates select="$sitemap" />
