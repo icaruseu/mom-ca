@@ -1112,8 +1112,8 @@
       <xsl:if test="./cei:bibl/node()">
         <b>
           <xrx:i18n>
-            <xrx:key>references</xrx:key>
-            <xrx:default>References</xrx:default>
+            <xrx:key>cei_listBibl</xrx:key>
+            <xrx:default>Bibliography</xrx:default>
           </xrx:i18n>
           <span>:&#160;</span>
         </b>
