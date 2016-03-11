@@ -604,9 +604,7 @@
                     wert.splice(b,1);
                     editedAttributes.splice(i, 1);
                 }
-                /*the attribute is removed only from the GUI*/
-                editAttribute.remove();
-                console.log("das editAttribute von der Trash Funktion nach editAttribute.remove");
+             
                
                 
                 var nodeset = $(document).xrx.nodeset(cm.getInputField());                
@@ -672,6 +670,9 @@
                 $("div[title='" + name + "']", "." + uiSuggestedAttributesDivClass).draggable("enable");
            
                 }
+                /*the attribute is removed only from the GUI*/
+                editAttribute.remove();
+                console.log("das editAttribute von der Trash Funktion nach editAttribute.remove");
             });
             
             function eruieren(){
@@ -736,7 +737,7 @@
             
             var self = this,            
             suggestedAttributes = self.options.suggestedAttributes,            
-            //editedAttributes,            
+            editedAttributes,            
             cm = self.options.cm,            
             token = self.options.token;            
             
@@ -758,7 +759,10 @@
             }      
 
             
-            function rowremove(gewissesAttr){
+            function rowremove(gewissesAttr, editedAttributes){
+            	console.log("anfang rowremove");
+            	console.log(editedAttributes);
+            	console.log(gewissesAttr);
             	 var nodeset = $(document).xrx.nodeset(cm.getInputField());                
                  var controlId = nodeset.only.levelId;                
                  var relativeId = token.state.context.id.split('.').splice(1);                
@@ -766,8 +770,18 @@
           	   var sein = new AttributesImpl();                        
                  sein.addAttribute(undefined, gewissesAttr, gewissesAttr, undefined, '');                           
                  var row = $("div:contains('" + gewissesAttr + "')", "." + uiEditAttributesDivClass);                              
-                     var i = verw.indexOf(gewissesAttr); 
-                     verw.splice(i,1);
+                 for (i in editedAttributes){
+                	 var index = editedAttributes[i].qName;
+                	 console.log(index);
+                	 if (i > -1) {
+                    	 console.log("ahllloahoahllllioij");
+                    	 editedAttributes.splice(i, 1);
+                     }
+                 }           
+                     
+                     console.log("in der rowremove funktion");
+                     console.log(editedAttributes);
+                     
                  row.remove(); 
                  console.log("funktion rowremove ist am arbeiten");           
                  $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);            
@@ -787,8 +801,58 @@
             	console.log(editedAttributes);
                 var values = $("input:radio:checked").val();
                                                 
-                if (values == "off") {                    
-                    var inallSpans = $("div", "." + uiEditAttributeDivClass).find("span").not(".ui-icon");                    
+                if (values == "off") {      
+                	controlledVoc = false;
+                    console.log("the Blacklist2222222222222222222222222");
+                    console.log($(".forms-mixedcontent-edit-attributes").children());
+                    var liste = [];
+                  
+                    var sucheInput = $(".forms-mixedcontent-edit-attributes").children().find("input");
+                    console.log("es wird nach dem input gesucht");
+                    console.log(sucheInput);
+                    sucheInput.each( function(index) {
+                        var attrname = $(this).attr('name');
+                        console.log("was ist mit attrname?");
+                        console.log(attrname);
+                        var attrvalue = $(this).attr('value');
+                        	liste.push({qName : attrname ,
+                        				value : attrvalue
+                        	});                   
+                        	
+                        });                
+                    
+                    var sucheOptions = $(".forms-mixedcontent-edit-attributes").children().find("option[selected]");
+                    
+                    sucheOptions.each( function(index) {
+                        var attrname = $(this).attr('name');
+                        console.log("was ist mit attrname?");
+                        console.log(attrname);
+                        var attrvalue = $(this).attr('title');
+                        	liste.push({qName : attrname ,
+                        				value : attrvalue
+                        	});                   
+                        	
+                        });
+                   editedAttributes = liste; //ich glaub das muss hier global gesetzt werden, sonst gibts die editedAttrbutes nicht.
+                   console.log("Das sind die neuen EditedAttributes vor Löschung!!!!");
+                   console.log(editedAttributes);
+                   for (var i = 0; i < editedAttributes.length; i++){
+                	   if ((editedAttributes[i].qName == 'indexName')&& (editedAttributes[i].value == 'arthistorian')){
+                	   var x = rowremove('indexName', editedAttributes);
+                	   var y = rowremove('lemma', editedAttributes);
+                	   var z = rowremove('sublemma', editedAttributes);
+                	   
+                	   $("div[title='indexName']", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                	   $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                	   $("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                	 
+                	   }  
+                	   
+                   }
+                   console.log("Das sind die neuen EditedAttributes nach der For-Schleife!");
+                   console.log(editedAttributes);
+                	               	
+                   var inallSpans = $("div", "." + uiEditAttributeDivClass).find("span").not(".ui-icon");                    
                     var titelarray =[];
                     
                     for (var i = 0; i < inallSpans.length; i++) {                        
@@ -798,7 +862,7 @@
                             titelarray.push(at);
                         }
                     }
-                    if (titelarray.indexOf('indexName')>-1){
+                 /*   if (titelarray.indexOf('indexName')>-1){
                     	var x = rowremove('indexName');                   
                     	 $("div[title='indexName']", "." + uiSuggestedAttributesDivClass).draggable("enable");
                         }
@@ -814,24 +878,42 @@
                         $("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
                         }
                  
+                    */
                     
+                    console.log("die suggestedAttributes111111111111111111");
+                    console.log(suggestedAttributes);
+                    console.log(editedAttributes);
                     var suggestedAttributesNamen =[];
+                    for (i in editedAttributes){
+                    	for (var ii = 0; ii < suggestedAttributes.length; ii++){
+                    		if (editedAttributes[i].qName == suggestedAttributes[ii]){
+                    			console.log("das matschttttttttt");
+                    			console.log(suggestedAttributes[ii]);
+                    			var index = suggestedAttributes.indexOf(ii);
+                    			suggestedAttributes.splice(index, 1);
+                    		}
+                    	}
+                    }
                     
-                    for (var j = 0; j < suggestedAttributes.length; j++) {                        
+                  /*  for (var j = 0; j < suggestedAttributes.length; j++) {                        
                         var index = titelarray.indexOf(suggestedAttributes[j]);                        
                         if (index == -1) {                            
                             suggestedAttributesNamen.push(suggestedAttributes[j]);
                         }
                     }
-                    
-                    for (var i = 0; i < suggestedAttributesNamen.length; i++) {                        
-                        $("div[title='" + suggestedAttributesNamen[i] + "']", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                    */
+                    for (var i = 0; i < suggestedAttributes.length; i++){
+                    	$("div[title='" + suggestedAttributes[i] + "']", "." + uiSuggestedAttributesDivClass).draggable("enable");
                     }
+                   /* for (var i = 0; i < suggestedAttributesNamen.length; i++) {                        
+                        $("div[title='" + suggestedAttributesNamen[i] + "']", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                    }*/
                     
                     controlledVoc = false;
                     console.log(controlledVoc);
            
                 } else { 
+                	console.log("das controlierte Vorkabular ist ON!")
                 	var inallSpans = $("div", "." + uiEditAttributeDivClass).find("span").not(".ui-icon");                    
                     var titelarray =[];
                     
@@ -847,7 +929,7 @@
                     }
                     if (titelarray.indexOf('indexName')>-1 && titelarray.indexOf('lemma')>-1){
                     	var x = rowremove('lemma');                                                
-                        $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
+                       // $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
                      
                     }
                     $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("disable");
