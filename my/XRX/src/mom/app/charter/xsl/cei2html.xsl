@@ -819,9 +819,7 @@
             </xsl:if> -->
   
   <xsl:template match="cei:physicalDesc">
-    <xsl:if test="not(cei:decoDesc)">
-      <xsl:apply-templates />
-    </xsl:if>
+    <xsl:apply-templates select="*[not(name()='decoDesc')]"/>
   </xsl:template>
   <xsl:template name="traditioForm">
     <xsl:apply-templates select="./cei:traditioForm" />
