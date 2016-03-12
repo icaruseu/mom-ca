@@ -563,13 +563,19 @@
       <xsl:apply-templates />
     </span>
   </xsl:template>
-
+  
   <xsl:template match="cei:add[@rend='show']">
     <span class="cei-add-orig">
       <xsl:apply-templates />
     </span>
   </xsl:template>
 
+  <xsl:template match="cei:expan">
+    <span class="cei-expan">
+      <xsl:apply-templates/>
+    </span>
+  </xsl:template>
+  
   <xsl:template match="cei:corr">
     <span class="cei-corr">
       <xsl:apply-templates />
