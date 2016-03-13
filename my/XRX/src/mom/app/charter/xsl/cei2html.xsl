@@ -845,9 +845,9 @@
             </xsl:if> -->
   
   <xsl:template match="cei:physicalDesc">
-    <xsl:if test="not(cei:decoDesc)">
-      <xsl:apply-templates />
-    </xsl:if>
+<xsl:apply-templates select="cei:condition" />
+<xsl:apply-templates select="cei:material" />
+<xsl:apply-templates select="cei:dimensions" />
   </xsl:template>
   <xsl:template name="traditioForm">
     <xsl:apply-templates select="./cei:traditioForm" />
@@ -880,7 +880,7 @@
         </b>
         <xsl:apply-templates />
       </li>
-    </xsl:if>
+  </xsl:if>
   </xsl:template>
   <xsl:template match="cei:dimensions">
     <xsl:choose>

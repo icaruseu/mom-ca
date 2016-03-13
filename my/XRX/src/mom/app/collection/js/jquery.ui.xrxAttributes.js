@@ -51,6 +51,7 @@
             elementName: null,
             suggestedAttributes: null,
             editedAttributes: null,
+           // controlledVoc:false,
             cm: null,
             token: null
         },
@@ -152,17 +153,17 @@
               
                 	var x = ausblenden('sublemma');              
                 }
-                else if (controlledVoc == true && verw.indexOf('indexName')== -1){
+                /*else if (controlledVoc == true && verw.indexOf('indexName')== -1){
                 	$("div[title='lemma']", "." + uiMainDivId).draggable("disable");
                 	$("div[title='sublemma']", "." + uiMainDivId).draggable("disable");
-                }
+                }*/
                 else {
                 	for (var i= 0; i < editedAttributes.length; i++){
                 		$("div[title='" + editedAttributes[i].qName + "']", "." + uiMainDivId).draggable("disable");
                 	}
                 	
                 }            
-            
+            controlledVoc = false;
             /* the jquery menu is initialized. the cv is realized in a drop down menu */
             
             $(function () {
@@ -247,10 +248,11 @@
                 if ((controlledVoc == true) && ((name == "lemma") | (name == "sublemma") | (name == "indexName")))
                 {
                                     	                               
-                        var x = setoptioninSelect(name);                                         
+                                                                 
                         newEditAttributeLabel.hide();
                         newEditAttributeInput.hide();
                         newEditAttribute.append(newEditValuelabel).append(menuliste).append(newEditAttributeTrash);
+                        var x = setoptioninSelect(name);
                     }
                  else {
                     newEditAttribute.append(newEditAttributeLabel).append(newEditAttributeInput).append(newEditAttributeTrash);
@@ -311,12 +313,20 @@
                         	var lemmawert = '';
                         }
                         else {
-                        	var nodeset = $(document).xrx.nodeset(cm.getInputField());
-                            var regular = nodeset.only.xml.match(/lemma=".*?"/);
-                        var reg = regular.join();
-                        var lemmawert = reg.slice(7, reg.length -1);
+                        	var sucheOptions = $(".forms-mixedcontent-edit-attributes").children().find("option[selected]");
+                     
+                        sucheOptions.each( function(index) {                        
+                            var attrname = $(this).attr('name');
+                          if (attrname == "lemma"){                        	  
+                        	  attributswert = $(this).attr('title');                        	 
+                          }
+                        
+                            });
+                        var lemmawert = attributswert;
                         }
-                        /* die Klasse xrx-language-for-skos wurde serverseitig im widget 
+                        /*  
+                         * var sucheOptions = $(".forms-mixedcontent-edit-attributes").children().find("option[selected]");
+                         *  die Klasse xrx-language-for-skos wurde serverseitig im widget 
                         * my-collection-charter-illurk und
                         * my-collection-charter-edit eingeführt,
                         * um die Sprache des Users mit der Sprache des ControllVoc
