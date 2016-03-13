@@ -78,8 +78,16 @@
     </xsl:when>
     <xsl:when test="$cei//cei:witnessOrig/cei:physicalDesc/cei:material != '' or
                     $cei//cei:witnessOrig/cei:physicalDesc/cei:dimensions != '' or
-                    $cei//cei:witnessOrig/cei:physicalDesc/cei:condition != ''">
+                    $cei//cei:witnessOrig/cei:physicalDesc/cei:condition != ''">       
+        
       <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af" id="witList">
+      <div class="p"> 
+      <ul class="nostyle">
+      <xsl:apply-templates select="$cei//cei:witnessOrig/cei:physicalDesc/cei:material"/>
+       <xsl:apply-templates select="$cei//cei:witnessOrig/cei:physicalDesc/cei:dimensions"/>
+       <xsl:apply-templates select="$cei//cei:witnessOrig/cei:physicalDesc/cei:condition"/>
+       </ul>
+       </div>
       <xsl:for-each select="$cei//cei:witnessOrig ">
      
         <!-- <xsl:value-of select="position()"/> -->
@@ -499,7 +507,7 @@
   <xsl:template match="cei:ref">
     <xsl:element name="a">
       <xsl:attribute name="href">
-        <xsl:value-of select="./@target" />
+        <xsl:value-of select="@target" />
       </xsl:attribute>
       <xsl:choose>
         <xsl:when test="starts-with(./@target, '#')">
@@ -516,10 +524,10 @@
         <xsl:otherwise>
           <xsl:attribute name="target">
             <xsl:text>_blank</xsl:text>
-          </xsl:attribute>
+          </xsl:attribute>    
         </xsl:otherwise>
       </xsl:choose>
-      <xsl:apply-templates />
+  <xsl:apply-templates />
     </xsl:element>
   </xsl:template>
   <xsl:template match="cei:ref[@type='bibliography']">
@@ -777,7 +785,7 @@
                 <a target="_blank">
                   <xsl:attribute name="href">
                     <xsl:value-of
-                    select="./cei:archIdentifier/cei:ref/@target" />
+                    select="//cei:archIdentifier/cei:ref/@target" />
                   </xsl:attribute>
                   <xrx:i18n>
                     <xrx:key>charter-on-archives-website</xrx:key>

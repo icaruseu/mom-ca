@@ -27,7 +27,7 @@
     var uiFormsTableRowClass = "forms-table-row";
     var uiFormsTableCellClass = "forms-table-cell";
     /* controlledVoc works like a flag: when true then the controlled Vocabulary is active */
-    var controlledVoc = true;
+    var controlledVoc = false;
     /* Arrays and object to get actual values of the attributes, 
      * because property editedAttributes is not updated,
      * before the whole lifecycle of the widget is redone!
@@ -62,6 +62,7 @@
             elementName = self.options.elementName,
             suggestedAttributes = self.options.suggestedAttributes,
             editedAttributes = self.options.editedAttributes,
+            //controlledVoc = false,
                         
             mainDiv = $('<div></div>').attr("class", uiMainDivId),
             
@@ -110,7 +111,6 @@
         		var blende = suggestedAttributes;                       
                     var l = blende.indexOf(gewisseAttr);
                     blende.splice(l, 1);
-                    console.log('bin ich daaaaaaaaaaaaaaaaaaaaaaaaaaa????????');
                     for (var j = 0; j < blende.length; j++) {
                         var dis = $("div[title='" + blende[j] + "']", "." + uiMainDivId).draggable("disable");
                     }
@@ -194,9 +194,7 @@
             /* die aktuell ausgewählten Attribute werden in das aktuell objekt geschrieben,
              * nun hat aktuell die gleichen properties, wie die Objekte in editedAttributes array.*/
             aktuell.qName = name,
-            aktuell.value = value;
-            console.log("das Array aktuell wird hier angezeigt");
-            console.log(aktuell);            
+            aktuell.value = value;            
                       
             for (var i = 0; i < editedAttributes.length; i++) {                    
           	  if (verw.indexOf(editedAttributes[i].qName)== -1){
@@ -212,8 +210,7 @@
                 verw.push(name);
                 wert.push(value);             
                 //var editnew = editedAttributes.push(aktuell);
-                console.log("jetzt würd ich gerne die editedAttributes sehen");
-                console.log(editedAttributes);
+
             }         
                 
                 /* it has to be proofed if from the last use of the attribute widget,
@@ -233,7 +230,7 @@
                }
                else {
             	   controlledVoc = false;
-            	   console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');  
+  
             	  
                }
            
@@ -379,9 +376,7 @@
                 findselected.removeAttr("selected", "selected");
                 var setselected = $("option[value =" + attrvalue + "]");
                 setselected.attr('selected', 'selected');
-                console.log("Muss noch selected setzen");
-                console.log(findselected);
-                console.log(setselected);
+
                 
             var liste = [];
             for (i in editedAttributes){            	        	
@@ -390,10 +385,10 @@
             for ( var i=0; i<liste.length; i++){
             	if (liste.indexOf(name) == -1){
             		editedAttributes.push({qName:name, value:attrvalue});
-            		console.log("kann ich das so formulieren?");
+            		
             	}
             	else{
-            		console.log("die else Bedingung");
+            	
             		editedAttributes[i].value = attrvalue;
             	}
             }
@@ -452,11 +447,11 @@
                         var i = verw.indexOf(gewissesAttr); 
                         verw.splice(i,1);
                     row.remove(); 
-                    console.log("funktion rowremove ist am arbeiten");                   
+                                   
                     $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
                     var attr = editedAttributes.indexOf(gewissesAttr);
                     editedAttributes.splice(attr, 1);
-                    console.log(editedAttributes);
+                 
                     return editedAttributes;
                   
              }
@@ -480,10 +475,7 @@
                      $("div", "." + uiSuggestedAttributesDivClass).addClass("ui-state-disabled");
                      
                     var x = rowremove('lemma', editedAttributes);
-                    var y = rowremove('sublemma', editedAttributes);
-                     console.log("Das entfernen von lemma und sublemma");
-                     console.log(x);
-                     console.log(y);            
+                    var y = rowremove('sublemma', editedAttributes);                           
                 	});
                 
                     $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
@@ -538,18 +530,14 @@
                 } else {         
                     var name = editAttribute[0].firstElementChild.firstChild.firstChild.data;
                 }             
-             
-                console.log("the Blacklist");
-                console.log($(".forms-mixedcontent-edit-attributes").children());
+
                 var liste = [];
               
                 var sucheInput = $(".forms-mixedcontent-edit-attributes").children().find("input");
-                console.log("es wird nach dem input gesucht");
-                console.log(sucheInput);
+                
                 sucheInput.each( function(index) {
                     var attrname = $(this).attr('name');
-                    console.log("was ist mit attrname?");
-                    console.log(attrname);
+                  
                     var attrvalue = $(this).attr('value');
                     	liste.push({qName : attrname ,
                     				value : attrvalue
@@ -561,8 +549,7 @@
                 
                 sucheOptions.each( function(index) {
                     var attrname = $(this).attr('name');
-                    console.log("was ist mit attrname?");
-                    console.log(attrname);
+                  
                     var attrvalue = $(this).attr('title');
                     	liste.push({qName : attrname ,
                     				value : attrvalue
@@ -570,8 +557,7 @@
                     	
                     });
               editedAttributes = liste; //ich glaub das muss hier global gesetzt werden, sonst gibts die editedAttrbutes nicht.
-               console.log("Das sind die neuen EditedAttributes vor Löschung!!!!");
-               console.log(editedAttributes);
+
                 
                 var attributes = new AttributesImpl();                
                 attributes.addAttribute(null, name, name, undefined, "");
@@ -580,10 +566,9 @@
                 	
                     var raus = editedAttributes[i];                
                     if (raus.qName == name){
-                    	console.log("name name name ");
-                    	console.log(raus);
+     
                     	var ind = editedAttributes.indexOf(raus);
-                    	console.log(ind);
+   
                     	editedAttributes.splice(ind,1);
                     }                    
                 } 
@@ -616,11 +601,7 @@
                  *If this is the case, the attributes lemma and sublemma have to be deleted too.
                  *When all 3 attributes are deleted they are set to be draggable again.*/
                 if ((name == 'indexName') && ($(editAttribute).find("select").length == 1)) {                    
-              
-                	 console.log(editAttribute);
-                     console.log(inhalt);
-                     console.log(editedAttributes);
-                     console.log('-------------------------------------');	
+     
                 
                	var x = rowremove('lemma', editedAttributes);
                 var y = rowremove('sublemma', editedAttributes);
@@ -649,8 +630,7 @@
                 	var regular = nodeset.only.xml.match(/lemma=".*?"/);
                     var reg = regular.join();
                     var lemmaw = reg.slice(7, reg.length -1);
-                    console.log('lemmmmw');
-                    console.log(lemmaw);
+  
                     if(wert.indexOf(lemmaw)== -1){
                     	 wert.push(lemmaw);
                     }                
@@ -672,15 +652,12 @@
                 }
                 /*the attribute is removed only from the GUI*/
                 editAttribute.remove();
-                console.log("das editAttribute von der Trash Funktion nach editAttribute.remove");
+
             });
             
             function eruieren(){
             	inallSpans = $("div", "." + uiEditAttributeDivClass).find("span").not(".ui-icon").text();                    
-                console.log('##########################');
-                console.log(inallSpans);
-               
-                console.log('##########################');
+
                 var spantexte =[];
                 var eintrag = $(".forms-mixedcontent-edit-attribute").find("span")
                 for (var i = 0; i < eintrag.length; i++) {
@@ -702,7 +679,7 @@
                     var i = verw.indexOf(gewissesAttr); 
                     verw.splice(i,1);
                 row.remove(); 
-                console.log("funktion rowremove ist am arbeiten");
+
                 var nodeset = $(document).xrx.nodeset(cm.getInputField());                
                 var controlId = nodeset.only.levelId;                
                 var relativeId = token.state.context.id.split('.').splice(1);                
@@ -710,7 +687,7 @@
                 $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
                 var attr = editedAttributes.indexOf(gewissesAttr);
                 editedAttributes.splice(attr, 1);
-                console.log(editedAttributes);
+
                 return editedAttributes;
               
          }
@@ -741,28 +718,14 @@
             cm = self.options.cm,            
             token = self.options.token;            
             
-            controlledVocButton.append($('<span id="onoff"></span>').css("float", "right").append($('<input type="radio" name="radio" id="on" value="on" checked="checked"/><label for="on" class="plug"> On </label>').css("font-size", "0.5em")).            
-            append($('<input type="radio" name="radio" id="off" value="off"/><label class="plug" for="off"> Off </label>').css("font-size", "0.5em")))
+            controlledVocButton.append($('<span id="onoff"></span>').css("float", "right").append($('<input type="radio" name="radio" id="on" value="on"/><label for="on" class="plug"> On </label>').css("font-size", "0.5em")).            
+            append($('<input type="radio" name="radio" id="off" value="off" checked="checked"/><label class="plug" for="off"> Off </label>').css("font-size", "0.5em")))
             
-            controlledVocButton.find("span").buttonset();
-            
-            if (controlledVoc == true) {                
-                controlledVocButton.find('#on').attr("checked", "checked");
-                controlledVocButton.find('#off').removeAttr("checked", "checked");
-                
-            } else {             	
-                controlledVocButton.find('#off').attr("checked", "checked");
-                controlledVocButton.find('#on').removeAttr("checked", "checked");
-                controlledVocButton.find('#off').next("label").addClass("ui-state-active");
-                controlledVocButton.find('#on').next("label").removeClass("ui-state-active");
-                
-            }      
+            controlledVocButton.find("span").buttonset();   
 
             
             function rowremove(gewissesAttr, editedAttributes){
-            	console.log("anfang rowremove");
-            	console.log(editedAttributes);
-            	console.log(gewissesAttr);
+      
             	 var nodeset = $(document).xrx.nodeset(cm.getInputField());                
                  var controlId = nodeset.only.levelId;                
                  var relativeId = token.state.context.id.split('.').splice(1);                
@@ -772,18 +735,14 @@
                  var row = $("div:contains('" + gewissesAttr + "')", "." + uiEditAttributesDivClass);                              
                  for (i in editedAttributes){
                 	 var index = editedAttributes[i].qName;
-                	 console.log(index);
+              
                 	 if (i > -1) {
-                    	 console.log("ahllloahoahllllioij");
+                  
                     	 editedAttributes.splice(i, 1);
                      }
-                 }           
-                     
-                     console.log("in der rowremove funktion");
-                     console.log(editedAttributes);
-                     
+                 }                         
                  row.remove(); 
-                 console.log("funktion rowremove ist am arbeiten");           
+                  
                  $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);            
                
           }
@@ -796,24 +755,19 @@
                 var controlId = nodeset.only.levelId;                
                 var relativeId = token.state.context.id.split('.').splice(1);                
                 var contextId = controlId.concat(relativeId);            
-                            	
-            	console.log("§§§§§§§§§§§§§§§§§");
-            	console.log(editedAttributes);
+
                 var values = $("input:radio:checked").val();
                                                 
                 if (values == "off") {      
                 	controlledVoc = false;
-                    console.log("the Blacklist2222222222222222222222222");
-                    console.log($(".forms-mixedcontent-edit-attributes").children());
+                    
                     var liste = [];
                   
                     var sucheInput = $(".forms-mixedcontent-edit-attributes").children().find("input");
-                    console.log("es wird nach dem input gesucht");
-                    console.log(sucheInput);
+                    
                     sucheInput.each( function(index) {
                         var attrname = $(this).attr('name');
-                        console.log("was ist mit attrname?");
-                        console.log(attrname);
+ 
                         var attrvalue = $(this).attr('value');
                         	liste.push({qName : attrname ,
                         				value : attrvalue
@@ -825,8 +779,7 @@
                     
                     sucheOptions.each( function(index) {
                         var attrname = $(this).attr('name');
-                        console.log("was ist mit attrname?");
-                        console.log(attrname);
+
                         var attrvalue = $(this).attr('title');
                         	liste.push({qName : attrname ,
                         				value : attrvalue
@@ -834,8 +787,7 @@
                         	
                         });
                    editedAttributes = liste; //ich glaub das muss hier global gesetzt werden, sonst gibts die editedAttrbutes nicht.
-                   console.log("Das sind die neuen EditedAttributes vor Löschung!!!!");
-                   console.log(editedAttributes);
+
                    for (var i = 0; i < editedAttributes.length; i++){
                 	   if ((editedAttributes[i].qName == 'indexName')&& (editedAttributes[i].value == 'arthistorian')){
                 	   var x = rowremove('indexName', editedAttributes);
@@ -862,58 +814,30 @@
                             titelarray.push(at);
                         }
                     }
-                 /*   if (titelarray.indexOf('indexName')>-1){
-                    	var x = rowremove('indexName');                   
-                    	 $("div[title='indexName']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-                        }
-                 
-                    if (titelarray.indexOf('indexName')>-1 && titelarray.indexOf('lemma')>-1){
-                    	var x = rowremove('lemma');
-                       	$("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-                        }
-                
-                    if (titelarray.indexOf('indexName')>-1 && titelarray.indexOf('lemma')>-1 && titelarray.indexOf('sublemma') >-1)
-                    {
-                    	var x = rowremove('sublemma');
-                        $("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-                        }
-                 
-                    */
-                    
-                    console.log("die suggestedAttributes111111111111111111");
-                    console.log(suggestedAttributes);
-                    console.log(editedAttributes);
+       
                     var suggestedAttributesNamen =[];
-                    for (i in editedAttributes){
-                    	for (var ii = 0; ii < suggestedAttributes.length; ii++){
-                    		if (editedAttributes[i].qName == suggestedAttributes[ii]){
-                    			console.log("das matschttttttttt");
-                    			console.log(suggestedAttributes[ii]);
-                    			var index = suggestedAttributes.indexOf(ii);
-                    			suggestedAttributes.splice(index, 1);
-                    		}
-                    	}
-                    }
-                    
-                  /*  for (var j = 0; j < suggestedAttributes.length; j++) {                        
+
+                    for (var j = 0; j < suggestedAttributes.length; j++) {                        
                         var index = titelarray.indexOf(suggestedAttributes[j]);                        
                         if (index == -1) {                            
                             suggestedAttributesNamen.push(suggestedAttributes[j]);
                         }
                     }
-                    */
+
                     for (var i = 0; i < suggestedAttributes.length; i++){
-                    	$("div[title='" + suggestedAttributes[i] + "']", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                    	
+                    		$("div[title='" + suggestedAttributes[i] + "']", "." + uiSuggestedAttributesDivClass).draggable("disable");                   	
                     }
-                   /* for (var i = 0; i < suggestedAttributesNamen.length; i++) {                        
+                    for (var i = 0; i < suggestedAttributesNamen.length; i++) {                        
                         $("div[title='" + suggestedAttributesNamen[i] + "']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-                    }*/
+                    }
                     
                     controlledVoc = false;
-                    console.log(controlledVoc);
+
            
                 } else { 
-                	console.log("das controlierte Vorkabular ist ON!")
+
+                	controlledVoc = true;
                 	var inallSpans = $("div", "." + uiEditAttributeDivClass).find("span").not(".ui-icon");                    
                     var titelarray =[];
                     
@@ -992,8 +916,7 @@
                     var contextId = controlId.concat(relativeId);
                     
                     $('.xrx-instance').xrxInstance().insertAttributes(contextId, attributes);
-                    
-                    console.log('the atts are inserted');
+ 
                 }
             });
         },
