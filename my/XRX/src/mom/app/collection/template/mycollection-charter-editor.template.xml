@@ -640,7 +640,20 @@
           <group>indexEditor</group>
           <group>illurk</group>
         </groups>
-      </editor_field> 
+      </editor_field>
+      <editor_field>
+        <id>cei:class</id>
+        <parent>cei:back</parent>
+        <mult_occurence>true</mult_occurence>
+        <target_field></target_field>
+        <tab_page>7</tab_page>
+        <active>true</active>
+        <message>self</message>
+        <groups>
+          <group>full</group>
+          <group>illurk</group>
+        </groups>
+      </editor_field>
     </editor_fields>
   </xrx:xml>
 </xrx:template>
