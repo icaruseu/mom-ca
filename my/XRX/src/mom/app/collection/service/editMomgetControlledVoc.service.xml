@@ -54,7 +54,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
    </xrx:processor>
   </xrx:init> 
   <xrx:body>
-    {   let $vocabular := doc("/db/mom-data/metadata.artvocabular.public/artvocabulary.xml")/atom:entry       
+    {   let $vocabular := doc("/db/mom-data/metadata.controlledVocabulary.public/illurk-vocabulary.xml")/atom:entry       
      return if($getlemma = '#') 
         then (
         let $niveaus := data($vocabular//rdf:Description[parent::rdf:RDF]/@rdf:about)

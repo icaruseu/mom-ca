@@ -630,7 +630,8 @@
                 	var x = rowremove('lemma', editedAttributes);
                     var y = rowremove('sublemma', editedAttributes);
                     var z = eruieren();
-                    var w = ausblenden('sublemma');            
+                    var w = ausblenden('sublemma');
+                    $("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("disable");
                   
                 }
                 /*if sublemma is deleted, just sublemma should be set to be draggabel again.
