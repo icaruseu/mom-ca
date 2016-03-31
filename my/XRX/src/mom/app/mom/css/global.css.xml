@@ -209,5 +209,29 @@ img{{
   border:0;
 }}
 
+.cei-corr, .cei-supplied, .cei-unclear, .cei-sic {{
+  background-color:#eaeaea;
+  cursor:help;
+}}
+
+.cei-del {{
+  text-decoration:line-through;
+}}
+
+.cei-c {{
+  text-decoration:underline;
+}}
+
+.cei-expan::before{{
+  content:"(";
+  color:grey;
+  background-color:#f2f2f2;
+}}
+.cei-expan::after{{
+  content:")";
+  color:grey;
+  background-color:#f2f2f2;
+}}
+
   </xrx:style>
 </xrx:css>
