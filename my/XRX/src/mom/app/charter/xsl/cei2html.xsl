@@ -524,16 +524,34 @@
   </xsl:template>
   <xsl:template match="cei:persName">
     <span class="cei-persname">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_persName</xrx:key>
+          <xrx:default>person name</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
       <xsl:apply-templates />
     </span>
   </xsl:template>
   <xsl:template match="cei:issuer">
     <span class="cei-issuer">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_issuer</xrx:key>
+          <xrx:default>issuer</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
       <xsl:apply-templates />
     </span>
   </xsl:template>
   <xsl:template match="cei:recipient">
     <span class="cei-recipient">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_recipient</xrx:key>
+          <xrx:default>recipient</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
       <xsl:apply-templates />
     </span>
   </xsl:template>
@@ -542,24 +560,48 @@
   </xsl:template>
   <xsl:template match="cei:measure">
     <span class="cei-measure">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_measure</xrx:key>
+          <xrx:default>measure</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
       <xsl:apply-templates />
     </span>
   </xsl:template>
 
   <xsl:template match="cei:pb">
     <span class="cei-pb">
-      <xsl:apply-templates />
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_pb</xrx:key>
+          <xrx:default>page break</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
+      <text>||</text><xsl:apply-templates />
     </span>
   </xsl:template>
 
   <xsl:template match="cei:handshift">
     <span class="cei-handshift">
-      <xsl:apply-templates />
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_handshift</xrx:key>
+          <xrx:default>new hand</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
+      <xsl:text>//</xsl:text><xsl:apply-templates />
     </span>
   </xsl:template>
 
   <xsl:template match="cei:add">
     <span class="cei-add">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_add</xrx:key>
+          <xrx:default>addition</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
       <xsl:apply-templates />
     </span>
   </xsl:template>
@@ -572,24 +614,60 @@
 
   <xsl:template match="cei:expan">
     <span class="cei-expan">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_expan</xrx:key>
+          <xrx:default>expanded abbreviation</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
       <xsl:apply-templates/>
     </span>
   </xsl:template>
   
   <xsl:template match="cei:corr">
     <span class="cei-corr">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_corr</xrx:key>
+          <xrx:default>correction</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
+      <xsl:apply-templates />
+    </span>
+  </xsl:template>
+  
+  <xsl:template match="cei:sic">
+    <span class="cei-sic">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_sic</xrx:key>
+          <xrx:default>sic</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
       <xsl:apply-templates />
     </span>
   </xsl:template>
 
   <xsl:template match="cei:reg">
     <span class="cei-reg">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_reg</xrx:key>
+          <xrx:default>normalized</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
       <xsl:apply-templates />
     </span>
   </xsl:template>
 
   <xsl:template match="cei:del">
     <span class="cei-del">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_del</xrx:key>
+          <xrx:default>deleted</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
       <xsl:apply-templates />
     </span>
   </xsl:template>
@@ -599,7 +677,75 @@
       <xsl:apply-templates />
     </span>
   </xsl:template>
+  
+  <xsl:template match="cei:pict">
+    <span class="cei-pict">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_pict</xrx:key>
+          <xrx:default>graphical element</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
+      <xsl:text> (</xsl:text><xsl:value-of select="@type"/><xsl:text>) </xsl:text>
+      <xsl:apply-templates/>
+    </span>
+  </xsl:template>
+  
+  <xsl:template match="cei:damage">
+    <span class="cei-damage">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_damage</xrx:key>
+          <xrx:default>damage</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
+      <xsl:text>[</xsl:text>
+        <xsl:choose>
+          <xsl:when test="(not(*) or text()/normalize-space()!='')">
+            <xsl:text>...</xsl:text>
+          </xsl:when>
+          <xsl:otherwise><xsl:apply-templates/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>]</xsl:text>
+    </span>
+  </xsl:template>
+  
+  <xsl:template match="cei:c">
+    <span class="cei-c">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_c</xrx:key>
+          <xrx:default>palaeographical observation on characters</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
+      <xsl:apply-templates/>
+    </span>
+  </xsl:template>
 
+  <xsl:template match="cei:supplied">
+    <span class="cei-supplied">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_supplied</xrx:key>
+          <xrx:default>supplied</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
+      <xsl:apply-templates/>
+    </span>
+  </xsl:template>
+
+  <xsl:template match="cei:unclear">
+    <span class="cei-supplied">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_unclear</xrx:key>
+          <xrx:default>unclear</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
+      <xsl:apply-templates/>
+    </span>
+  </xsl:template>
+  
   <!-- witness -->
   <xsl:template name="witness">
     <xsl:param name="num" />

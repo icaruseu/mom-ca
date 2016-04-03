@@ -711,7 +711,7 @@ p#first {{
 
 /* cei elements */
 
-.cei-lb, .cei-add, .cei-corr, .cei-reg{{
+.cei-lb, .cei-add, .cei-reg{{
   display: none;
 }}
 

@@ -214,40 +214,42 @@ img{{
 *   Transcription
 */
 
-.cei-expan::before{content:"("; color:grey; background-color:#f2f2f2;}
-.cei-expan::after{content:")"; color:grey; background-color:#f2f2f2;}
+.cei-corr, .cei-supplied, .cei-unclear, .cei-sic {{
+  background-color:#eaeaea;
+  cursor:help;
+}}
 
+.cei-del {{
+  text-decoration:line-through;
+}}
+
+.cei-c {{
+  text-decoration:underline;
+}}
+
+.cei-expan::before{{
+  content:"(";
+  color:grey;
+  background-color:#f2f2f2;
+}}
+.cei-expan::after{{
+  content:")";
+  color:grey;
+  background-color:#f2f2f2;
+}}
+  </xrx:style>
+  <!-- 
 .cei-lb{}
-
 .cei-persname{}
-
 .cei-issuer{letter-spacing: 3px;}
-
 .cei-recipient{letter-spacing: 3px;}
-
 .cei-measure{}
-
 .cei-pb{}
-
 .cei-handshift{}
-
 .cei-add{background-color:#f2f2f2;}
-
 .cei-add-orig{text-decoration:line-through;}
-
-.cei-expan{}
-
-.cei-corr{background-color:#f2f2f2;}
-
 .cei-reg{}
-
-.cei-del{background-color:#f2f2f2;}
-
 .cei-del-orig {text-decoration:line-through;}
-
 .cei-placename{}
-
-
-
-	</xrx:style>
+-->
 </xrx:css>
