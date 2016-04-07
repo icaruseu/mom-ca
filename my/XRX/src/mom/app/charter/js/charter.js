@@ -175,7 +175,8 @@ else 	{
 }
 
 
-function checkglossaryentry(entry){ 
+/*function checkglossaryentry(entry, glossartyp){ 
+	
 		$("div#enhancedView").empty();
         
         $.ajax({     
@@ -183,7 +184,7 @@ function checkglossaryentry(entry){
         	type:"GET",      
         	contentType: "application/xml",     
         	dataType: "html",
-        	data: { id : entry},
+        	data: { id : entry, typ : glossartyp},
         	success: function(data, textStatus, jqXHR)
         	{           		        		
         		$("div#enhancedView").append(data);        		
@@ -195,5 +196,96 @@ function checkglossaryentry(entry){
         		return false;
         	}    
         });
+}*/
+
+function rapper(glossartyp, cat){		
+	
+		var infoeintrag = $('li[value="true"]');		
+		$('li[value="true"]').each(function(){
+			console.log($(this));
+			if($(this).children("a.eintrag").length == 0){				
+				
+				var entry = $(this)[0].attributes.lemma.textContent;
+				
+				var anker = $('<a><a>').addClass('eintrag');				
+				$(this).wrapInner(anker).append('<span class="info_i">i</span>');			
+				$(this).click( function(){
+					console.log("click event on list");					
+					$("div#enhancedView").empty();
+										
+			        console.log(glossartyp);
+			        $.ajax({     
+			        	url: "/mom/service/getTextfromGlossar",
+			        	type:"GET",      
+			        	contentType: "application/xml",     
+			        	dataType: "html",
+			        	data: { id : entry, typ : glossartyp},
+			        	success: function(data, textStatus, jqXHR)
+			        	{           		        		
+			        		$("div#enhancedView").append(data);        		
+			        		return true;
+			        	},     
+			        	error: function(){
+			        		$("#result").text("Error: Failed to load script.");
+			   
+			        		return false;
+			        	}    
+			        });
+					
+					
+					
+				});
+			}
+			else {
+				
+			}
+		}
+				);
+		
+	
+	}
+
+
+function addInfo(){
+	
+	var glossarcat = $("ul.glossary li[class]");
+	
+	
+	for (var i= 0; i < glossarcat.length; i++) {
+	
+		var cat = $(glossarcat[i]);		
+	
+		var glossartyp = cat.context.className;
+	
+		
+		doAnAjax(glossartyp, cat,function(wert, cat){			
+			console.log(wert);
+			var neuewerte = cat.attr("value", wert);			
+			rapper(glossartyp, cat);
+		}		
+				
+		);
+		
+		
+	}
+	
 }
 
+function doAnAjax(glossartyp,cat ,hisBack){
+$.ajax({     
+	url: "/mom/service/getTextfromGlossar",
+	type:"GET",      
+	//contentType: "application/xml",     
+	dataType: "xml",
+	data: { checktype : glossartyp},
+	success: function(data, textStatus, jqXHR)
+	{    		
+		return hisBack(data.activeElement.textContent, cat);
+	},     
+	error: function(){
+		$("#result").text("Error: Failed to load script.");
+
+		return false;
+	}    
+});
+}
