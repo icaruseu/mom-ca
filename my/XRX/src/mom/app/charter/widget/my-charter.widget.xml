@@ -406,7 +406,7 @@ $( "#radio" ).buttonset();
   
   $('document').ready(function() {{
  javascript:addInfo();
-
+javascript:transport();
  javascript:proof();               
  
  if($("div#abstract").children().children().length == 0){{

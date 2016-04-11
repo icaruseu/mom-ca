@@ -1437,43 +1437,29 @@
           <xsl:value-of select="@lemma"/>
           </xsl:attribute>
           <xsl:attribute name="value">          
-          </xsl:attribute>         
-          <xsl:value-of select="./@lemma" />
+          </xsl:attribute>
           <xsl:value-of select="./@type" />
-          <xsl:if test="./@sublemma">
+          <xsl:choose>
+          <xsl:when test="./@sublemma">
+          <xsl:attribute name="sublemma">
+          <xsl:value-of select="./@sublemma" />
+          </xsl:attribute>          
+          <!--Werte werden im javascript charter.js erstellt!
+          <xsl:value-of select="./@lemma" />
             <xsl:text>:&#160;</xsl:text>
-            <xsl:value-of select="./@sublemma"/>
-          
-       
-          <ul class="cat3">
+             <xsl:value-of select="./@sublemma"/> -->
+            <ul class="cat3">
           <li><xsl:value-of select="."></xsl:value-of> <!-- soll den inhalt von cei:index wiedergeben -->
           </li>
-          </ul>
-          </xsl:if>
+          </ul>          
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="."></xsl:value-of>
+          </xsl:otherwise>
+          </xsl:choose>       
           
     </li>
-  </xsl:when>
- <!--  <xsl:when test="$glossartyp != '' and not(@lemma)">
-  <xsl:variable name="entry"> 
-   <xsl:value-of select="replace(replace(replace(replace(replace(replace(replace(., 'ä', 'ae'), 'ß', 'ss'), 'ö', 'oe'), 'ü', 'ue'), 'é', 'e'), ' ', ''), '&#xA;', '')"/>
-  </xsl:variable>    
-    <ul class="glossary">
-                    
-          <li><xsl:attribute name="class">
-            <xsl:value-of select="$glossartyp"/>
-          </xsl:attribute>
-          <xsl:attribute name="lemma">
-          <xsl:value-of select="$entry"/>
-          </xsl:attribute>
-          <xsl:attribute name="value">          
-          </xsl:attribute>
-             
-          <xsl:value-of select="."></xsl:value-of>
-       
-        
-         </li>
-          </ul>
-  </xsl:when> -->
+  </xsl:when> 
    <xsl:otherwise>
           <ul class="kat2ohnelemma">         
           <li>    

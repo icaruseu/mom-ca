@@ -198,11 +198,13 @@ else 	{
         });
 }*/
 
-function rapper(glossartyp, cat){		
+function rapper(){		
 	
 		var infoeintrag = $('li[value="true"]');		
 		$('li[value="true"]').each(function(){
-			console.log($(this));
+			console.log($(this)[0].className);			
+			console.log("von li das class attribut");
+			var glossartyp= $(this)[0].className;
 			if($(this).children("a.eintrag").length == 0){				
 				
 				var entry = $(this)[0].attributes.lemma.textContent;
@@ -257,11 +259,12 @@ function addInfo(){
 	
 		var glossartyp = cat.context.className;
 	
-		
+		console.log("das ist der glossartyp")
+		console.log(glossartyp);
 		doAnAjax(glossartyp, cat,function(wert, cat){			
 			console.log(wert);
 			var neuewerte = cat.attr("value", wert);			
-			rapper(glossartyp, cat);
+			rapper();
 		}		
 				
 		);
@@ -288,4 +291,44 @@ $.ajax({
 		return false;
 	}    
 });
+}
+
+function transport(){
+	var sprachwert = "de";
+	
+	$('li[sublemma]').each( function() {
+		//var entry = $(this)[0].attributes.sublemma.value;
+		var self = $(this);
+		if(self[0].attributes.sublemma.value == ""){
+			console.log("no sublemma value");
+		}
+		else {
+		console.log(self);
+		var sublemmawert = self[0].attributes.sublemma.value;
+		var lemmawert = self[0].attributes.lemma.value;		
+		$.ajax({
+			url:"/mom/service/sublemma",
+			type:"GET",
+			dataType:"xml",
+			data: {sublemma : sublemmawert, sprache:sprachwert},
+			success: function(data, textStatus, jqXHR)			{
+								
+				if(data.childNodes[0].childNodes[0] == undefined){
+						}
+				else {
+					var translation = data.childNodes[0].childNodes[0].data;					
+					self.text(lemmawert +': '+ translation);
+				}
+				
+				return true;
+			},
+			error: function() {
+				console.log("Error. Failed to load script.");
+				return false;
+			}
+			
+		});
+		}
+	});
+	
 }

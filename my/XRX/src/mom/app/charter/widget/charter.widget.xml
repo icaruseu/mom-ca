@@ -1293,7 +1293,7 @@ cei-recipient {{
           <script type="text/javascript">
 				    $(document).ready(function(){{
 				        javascript:addInfo();				      
-				       
+				        javascript:transport();
 				        javascript:proof(); 
 	            jQuery(document).imageTool({{
 	              requestRoot: "{ conf:param('request-root') }",

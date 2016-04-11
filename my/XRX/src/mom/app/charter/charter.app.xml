@@ -133,5 +133,10 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
             <xrx:mode>service</xrx:mode>
             <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/getTextfromGlossar</xrx:atomid>
     </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/service/sublemma$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/sublemma</xrx:atomid>
+    </xrx:map>
   </xrx:resolver>
 </xrx:app>
