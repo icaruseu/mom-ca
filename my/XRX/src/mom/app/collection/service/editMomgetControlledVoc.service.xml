@@ -38,8 +38,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     <xrx:variable>
       <xrx:name>$getlang</xrx:name>
       <xrx:expression>request:get-parameter('sprache', '')</xrx:expression>    
-    </xrx:variable>
-          
+    </xrx:variable>          
   </xrx:variables>
 <!-- das Service ist momentan noch so konstruiert, dass 3 Hierarchieebenen abgefragt werde können.
      durch den Wert der Variablen $getlemma wird die oberste hierachiebene bestimmt, wonach die
@@ -67,7 +66,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
                     )
         let $jackyO := jsonx:object($lemmata)
         return $jackyO
-      )
+      )      
       else(
         let $children := $vocabular//skos:prefLabel[@xml:lang=$getlang][parent::rdf:Description[parent::skos:narrower[parent::rdf:Description[@rdf:about=$getlemma]]]]     
         let $sublemmaLabeltext := $children/following-sibling::skos:narrower/rdf:Description/skos:prefLabel[@xml:lang=$getlang]

@@ -391,6 +391,10 @@ it leaves the active development stage.
     <link href="{ conf:param('request-root') }jquery/themes/base/jquery.ui.all.css" rel="stylesheet"/>
     <style type="text/css">
     
+div {{
+      cursor:default;
+}}
+    
 #charter{{
   position:relative;
   width:100%;  
@@ -1288,6 +1292,8 @@ cei-recipient {{
         <div data-demoid="92fc737f-0034-4bbc-8d4c-42038dfded81" id="image-tool-widget">
           <script type="text/javascript">
 				    $(document).ready(function(){{
+				        javascript:addInfo();				      
+				        javascript:transport();
 				        javascript:proof(); 
 	            jQuery(document).imageTool({{
 	              requestRoot: "{ conf:param('request-root') }",

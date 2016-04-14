@@ -129,9 +129,9 @@ it leaves the active development stage.
         <insert-item/>
         </div>
       
-       <!--  <div id="enhancedView">
+        <div id="enhancedView">        
           <insert-enhancedView/>
-         </div> -->
+         </div>
         
         <span style="color:white">x</span>
       </div>

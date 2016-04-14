@@ -7,7 +7,7 @@
   <xsl:strip-space elements="*" />
   <xsl:preserve-space elements="cei:*" />
   <xsl:variable name="sitemap" select="/xhtml:page/xhtml:div"/>
-  <xsl:variable name="cei" select="/xhtml:page//cei:text" /> 
+  <xsl:variable name="cei" select="/xhtml:page//cei:text" />
 
   <xsl:template match="/">
     <xsl:apply-templates select="$sitemap" />
@@ -228,7 +228,8 @@
   
 
   <xsl:template match="xhtml:insert-enhancedView">
-  <!--creates a div for presenting a map or glossar in index category -->   
+   
+  <!--creates a div for presenting a map or glossar in index category see charter-view.template-->   
   </xsl:template>
   
   <xsl:template match="xhtml:insert-persName">
@@ -300,7 +301,17 @@
           <ul>
      <xsl:for-each-group select="//cei:index" group-by="@indexName">       
      <xsl:sort select="@indexName"/>
-        <xsl:if test="./@indexName='arthistorian'">
+     <xsl:variable name="indexWert">
+     <xsl:value-of select="@indexName" />
+     </xsl:variable>
+      <li>
+          <xrx:i18n>
+            <xrx:key><xsl:value-of select="$indexWert"/></xrx:key>
+            <xrx:default><xsl:value-of select="$indexWert"/></xrx:default>
+          </xrx:i18n>
+          <xsl:text>:&#160;</xsl:text>        
+        </li>
+        <!-- <xsl:if test="./@indexName='arthistorian'">
         <li>
           <xrx:i18n>
             <xrx:key>arthistorian</xrx:key>
@@ -317,7 +328,7 @@
           </xrx:i18n>
           <xsl:text>:&#160;</xsl:text>        
         </li>
-        </xsl:if>                         
+        </xsl:if>   -->                       
            <xsl:call-template name="item"/>          
          </xsl:for-each-group>
          <xsl:for-each-group select="//cei:index[not(@*)]" group-by="not(@*)">
@@ -1423,35 +1434,39 @@
   </xsl:template>
        
   <xsl:template name="lemma">
+  <xsl:variable name="glossartyp"><xsl:value-of select="./@indexName"/></xsl:variable>
   <xsl:choose>
    <xsl:when test="./@lemma">
    <li class="cat2">
-          <xsl:value-of select="./@lemma" />
+    <xsl:attribute name="class">
+            <xsl:value-of select="$glossartyp"/>
+          </xsl:attribute>
+          <xsl:attribute name="lemma">
+          <xsl:value-of select="@lemma"/>
+          </xsl:attribute>
+          <xsl:attribute name="value">          
+          </xsl:attribute>
           <xsl:value-of select="./@type" />
-          <xsl:if test="./@sublemma">
+          <xsl:choose>
+          <xsl:when test="./@sublemma">
+          <xsl:attribute name="sublemma">
+          <xsl:value-of select="./@sublemma" />
+          </xsl:attribute>          
+          <!--Werte werden im javascript charter.js erstellt!
+          <xsl:value-of select="./@lemma" />
             <xsl:text>:&#160;</xsl:text>
-            <xsl:value-of select="./@sublemma"/>
-          </xsl:if>
-       
-          <ul class="cat3">
+             <xsl:value-of select="./@sublemma"/> -->
+            <ul class="cat3">
           <li><xsl:value-of select="."></xsl:value-of> <!-- soll den inhalt von cei:index wiedergeben -->
           </li>
-          </ul>
+          </ul>          
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="."></xsl:value-of>
+          </xsl:otherwise>
+          </xsl:choose>       
           
     </li>
-  </xsl:when>
-  <xsl:when test="./@indexName='glossar'">
-  <xsl:variable name="entry"> 
-   <xsl:value-of select="replace(replace(replace(replace(replace(replace(replace(., 'ä', 'ae'), 'ß', 'ss'), 'ö', 'oe'), 'ü', 'ue'), 'é', 'e'), ' ', ''), '&#xA;', '')"/>
-  </xsl:variable>
-    <ul class="glossary">          
-      <li>
-     <!--  <a class="press" onclick="javascript:checkglossaryentry('{$entry}')">     -->
-          <xsl:value-of select="."></xsl:value-of>
-          <span class="info_i">i</span>
-       <!--   </a> -->
-         </li>
-          </ul>
   </xsl:when>
    <xsl:otherwise>
           <ul class="kat2ohnelemma">         
@@ -1485,7 +1500,7 @@
   <!-- index -->
   <xsl:template name="item">
   <xsl:for-each select="current-group()">          
-          <ul class="inline">
+          <ul class="inline glossary">
           <xsl:call-template name="lang" />
           <xsl:call-template name="reg" />
           <xsl:call-template name="existent" />

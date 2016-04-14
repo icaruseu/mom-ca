@@ -166,9 +166,17 @@
             controlledVoc = false;
             /* the jquery menu is initialized. the cv is realized in a drop down menu */
             
+          
+            
+            
             $(function () {
                 $("#choose").menu();
             });
+            
+            
+            
+            
+            
         },
         
         /*End of create function */       
@@ -187,7 +195,7 @@
             /* variables to define the GUI */
             newEditAttribute = $('<div></div>').addClass(uiFormsTableRowClass).addClass(uiEditAttributeDivClass),
             newEditAttributeLabel = $('<div><span title="' + name + '" >' + label + '<span></div>').addClass(uiFormsTableCellClass),
-            newEditAttributeInput = $('<input></input>').addClass(uiFormsTableCellClass).attr("value", value).attr("name", name),
+            newEditAttributeInput = $('<input></input>').addClass(uiFormsTableCellClass).attr("value", value).attr("name", name).attr("list", "tags"),
             newEditValuelabel = $('<div><span title="' + name + '" >' + label + '<span></div>').addClass(uiFormsTableCellClass),
             menuliste = $('<select></select>').attr('class', 'choose').addClass(uiFormsTableCellClass),
             newEditAttributeTrash = $('<div><span class="ui-icon ui-icon-trash"/></div>').
@@ -195,8 +203,18 @@
             /* die aktuell ausgewählten Attribute werden in das aktuell objekt geschrieben,
              * nun hat aktuell die gleichen properties, wie die Objekte in editedAttributes array.*/
             aktuell.qName = name,
+<<<<<<< HEAD
             aktuell.value = value;            
                       
+=======
+            aktuell.value = value;
+            
+           
+            
+           
+            
+                        
+>>>>>>> 76852cd69ca82ec3a656a6bbae61d82c8410319c
             for (var i = 0; i < editedAttributes.length; i++) {                    
           	  if (verw.indexOf(editedAttributes[i].qName)== -1){
                 	verw.push(editedAttributes[i].qName);
@@ -270,7 +288,29 @@
             /* function saves all changes in the input field */
             
             newEditAttributeInput.keyup(function () {
-                
+                if (name == 'lemma'){                    
+                   	$(function(){
+                   		$.ajax({     
+                            url: "/mom/service/datalist",
+                            type:"GET",      
+                            //contentType: "application/xml",     
+                            dataType: "html", 
+                           // data: {lemma:lemmawert, sprache:sprachwert},
+                            success: function(data, textStatus, jqXHR)
+                            {   console.log("datenliste soll erzeugt werden");      
+                            	console.log(data);
+                                  var datalist = data; 
+                                  newEditAttribute.append(datalist);
+                                      return true;
+                                    },     
+                            error: function(){
+                            	console.log('Error: Failed to load script.');                           
+                             
+                             return false;
+                            }     
+                          });
+                   	})
+                }
                 var attributes = new AttributesImpl();
                 attributes.addAttribute(null, name, name, undefined, $(this).val());
                 var nodeset = $(document).xrx.nodeset(cm.getInputField());
@@ -293,7 +333,7 @@
             	if (name == "indexName"){
             		var einf = $("<option> --- </option>");
             		menuliste.append(einf);
-            		var iName = ['arthistorian', 'glossary'];
+            		var iName = ['arthistorian', 'glossary', 'IllUrkGlossar'];
             		for (var i=0; i<iName.length; i++){
             			var newli = $('<option>' + iName[i] + '</option>')
             			.addClass(uiSuggestedValueDivsClass).attr("title", iName[i]).attr("value", iName[i]).attr("name", name);
@@ -467,11 +507,21 @@
              }
                 
                 if (attrvalue == 'glossary'){
+<<<<<<< HEAD
+=======
+                	/*autocomplete funktion einfügen !!!*/
+>>>>>>> 76852cd69ca82ec3a656a6bbae61d82c8410319c
                 	
                 	 var x = rowremove('lemma', editedAttributes);
                      var y = rowremove('sublemma', editedAttributes);
                      var x = eruieren();              
                     controlledVoc = false;
+<<<<<<< HEAD
+=======
+                   
+                    
+                    
+>>>>>>> 76852cd69ca82ec3a656a6bbae61d82c8410319c
                 }
                 
                 
@@ -516,6 +566,7 @@
             
             
             $(menuliste).menu();
+            
            
             return newEditAttribute;
         },      
