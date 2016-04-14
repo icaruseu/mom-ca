@@ -206,9 +206,10 @@ function rapper(){
 			console.log("von li das class attribut");
 			var glossartyp= $(this)[0].className;
 			if($(this).children("a.eintrag").length == 0){				
-				
+				/* es wird der lemma eintrag gesucht und dann
+				 * mit erstem Großbuchstaben im Glossar nach eintrag gesucht.*/
 				var entry = $(this)[0].attributes.lemma.textContent;
-				
+				var gentry = entry.charAt(0).toUpperCase() + entry.slice(1);				
 				var anker = $('<a><a>').addClass('eintrag');				
 				$(this).wrapInner(anker).append('<span class="info_i">i</span>');			
 				$(this).click( function(){
@@ -221,7 +222,7 @@ function rapper(){
 			        	type:"GET",      
 			        	contentType: "application/xml",     
 			        	dataType: "html",
-			        	data: { id : entry, typ : glossartyp},
+			        	data: { id : gentry, typ : glossartyp},
 			        	success: function(data, textStatus, jqXHR)
 			        	{           		        		
 			        		$("div#enhancedView").append(data);        		

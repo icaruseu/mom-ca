@@ -57,6 +57,10 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   
   <xrx:body>
     {    
+    
+
+
+ 
 let $glossarlabel := collection("/db/mom-data/metadata.glossar.public/")/atom:entry[atom:id/text()=$getTyp]//skos:Concept[@rdf:about=$getText]/skos:prefLabel/text()
 let $glossardesc := collection("/db/mom-data/metadata.glossar.public/")/atom:entry[atom:id/text()=$getTyp]//skos:Concept[@rdf:about=$getText]/skos:definition/xhtml:p
 
@@ -73,10 +77,11 @@ return if ($checkType) then(
       else(
         <div class="port">
           <h3>{$glossarlabel}</h3>
-          {
-          for $i in $glossardesc
+         {          
+          for $i in $glossardesc              
           return
-              <p>{$i/text()}</p>
+              
+              <p>{$i/node()}</p>
               }          
         </div>  )
 
