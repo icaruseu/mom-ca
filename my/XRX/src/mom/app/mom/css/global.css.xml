@@ -211,7 +211,8 @@ img{{
 
 /*
 *
-*  Transcription
+*   Transcription
+>>>>>>> 05ac7ee9fa2ef09f81acbcafe4e199644f7a6f5b
 */
 
 .cei-corr, .cei-supplied, .cei-unclear, .cei-sic {{
@@ -237,6 +238,19 @@ img{{
   color:grey;
   background-color:#f2f2f2;
 }}
-
   </xrx:style>
+  <!-- 
+.cei-lb{}
+.cei-persname{}
+.cei-issuer{letter-spacing: 3px;}
+.cei-recipient{letter-spacing: 3px;}
+.cei-measure{}
+.cei-pb{}
+.cei-handshift{}
+.cei-add{background-color:#f2f2f2;}
+.cei-add-orig{text-decoration:line-through;}
+.cei-reg{}
+.cei-del-orig {text-decoration:line-through;}
+.cei-placename{}
+-->
 </xrx:css>
