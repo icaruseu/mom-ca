@@ -209,6 +209,11 @@ img{{
   border:0;
 }}
 
+/*
+*
+*  Transcription
+*/
+
 .cei-corr, .cei-supplied, .cei-unclear, .cei-sic {{
   background-color:#eaeaea;
   cursor:help;

@@ -713,10 +713,8 @@
   <xsl:template match="cei:c">
     <span class="cei-c">
       <xsl:attribute name="title">
-        <xrx:i18n>
-          <xrx:key>cei_c</xrx:key>
-          <xrx:default>palaeographical observation on characters</xrx:default>
-        </xrx:i18n>
+        <xsl:text>palaeographical observation on characters</xsl:text>
+        <xsl:if test="normalize-space(@type)!=''"><xsl:text>: </xsl:text><xsl:value-of select="@type"/></xsl:if>
       </xsl:attribute>
       <xsl:apply-templates/>
     </span>
@@ -741,6 +739,7 @@
           <xrx:key>cei_unclear</xrx:key>
           <xrx:default>unclear</xrx:default>
         </xrx:i18n>
+        <xsl:if test="normalize-space(@type)!=''"><xsl:text>: </xsl:text><xsl:value-of select="@type"/></xsl:if>
       </xsl:attribute>
       <xsl:apply-templates/>
     </span>
