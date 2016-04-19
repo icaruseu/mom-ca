@@ -203,18 +203,10 @@
             /* die aktuell ausgewählten Attribute werden in das aktuell objekt geschrieben,
              * nun hat aktuell die gleichen properties, wie die Objekte in editedAttributes array.*/
             aktuell.qName = name,
-<<<<<<< HEAD
+
             aktuell.value = value;            
                       
-=======
-            aktuell.value = value;
-            
-           
-            
-           
-            
-                        
->>>>>>> 76852cd69ca82ec3a656a6bbae61d82c8410319c
+
             for (var i = 0; i < editedAttributes.length; i++) {                    
           	  if (verw.indexOf(editedAttributes[i].qName)== -1){
                 	verw.push(editedAttributes[i].qName);
@@ -288,14 +280,12 @@
             /* function saves all changes in the input field */
             
             newEditAttributeInput.keyup(function () {
-                if (name == 'lemma'){                    
+                /*if (name == 'lemma'){                    
                    	$(function(){
                    		$.ajax({     
                             url: "/mom/service/datalist",
-                            type:"GET",      
-                            //contentType: "application/xml",     
-                            dataType: "html", 
-                           // data: {lemma:lemmawert, sprache:sprachwert},
+                            type:"GET",                                
+                            dataType: "html",                            
                             success: function(data, textStatus, jqXHR)
                             {   console.log("datenliste soll erzeugt werden");      
                             	console.log(data);
@@ -310,7 +300,7 @@
                             }     
                           });
                    	})
-                }
+                }*/
                 var attributes = new AttributesImpl();
                 attributes.addAttribute(null, name, name, undefined, $(this).val());
                 var nodeset = $(document).xrx.nodeset(cm.getInputField());
@@ -333,7 +323,7 @@
             	if (name == "indexName"){
             		var einf = $("<option> --- </option>");
             		menuliste.append(einf);
-            		var iName = ['arthistorian', 'glossary', 'IllUrkGlossar'];
+            		var iName = ['arthistorian', 'IllUrkGlossar'];
             		for (var i=0; i<iName.length; i++){
             			var newli = $('<option>' + iName[i] + '</option>')
             			.addClass(uiSuggestedValueDivsClass).attr("title", iName[i]).attr("value", iName[i]).attr("name", name);
@@ -506,22 +496,16 @@
                   
              }
                 
-                if (attrvalue == 'glossary'){
-<<<<<<< HEAD
-=======
+                if (attrvalue == 'IllUrkGlossar'){
+
                 	/*autocomplete funktion einfügen !!!*/
->>>>>>> 76852cd69ca82ec3a656a6bbae61d82c8410319c
+
                 	
                 	 var x = rowremove('lemma', editedAttributes);
                      var y = rowremove('sublemma', editedAttributes);
                      var x = eruieren();              
-                    controlledVoc = false;
-<<<<<<< HEAD
-=======
-                   
-                    
-                    
->>>>>>> 76852cd69ca82ec3a656a6bbae61d82c8410319c
+                     controlledVoc = false;
+                     
                 }
                 
                 
@@ -951,7 +935,7 @@
         
         
         /* Method enabling the dropping of the attributes in the GUI.
-         *  'div.forms-mixed-content-attribute-droppable' in the GUI is the dashed line field, where the suggested attr are droped in */        
+         *  'div.forms-mixed-content-attribute-droppable' in the GUI is the dashed line field, where the suggested attr are dropped in */        
         _attributeDroppable: function (droppableAttribute) {            
             var self = this,            
             cm = self.options.cm,            

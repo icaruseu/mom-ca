@@ -515,8 +515,10 @@
 
 
   <!-- common elements -->
-  <xsl:template match="cei:ref">
+  <xsl:template match="cei:ref[not(parent::cei:archIdentifier)]">
     <xsl:element name="a">
+    <xsl:attribute name="class">    
+    </xsl:attribute>
       <xsl:attribute name="href">
         <xsl:value-of select="@target" />
       </xsl:attribute>
@@ -789,7 +791,7 @@
   </xsl:template>
   
   <xsl:template match="cei:archIdentifier">
-  <xsl:apply-templates/>  
+  <xsl:apply-templates/> 
   
    <xsl:if test="cei:ref/@target">
               <li style="list-style:none">
@@ -806,8 +808,10 @@
               </li>
         </xsl:if>
   </xsl:template>    
-  <xsl:template match="cei:idno">
-              <li>
+ <xsl:template match="cei:idno">
+  <br/>
+  <xsl:value-of select="." />
+         <!--      <li>
                 <span>
                   <xrx:i18n>
                     <xrx:key>signature</xrx:key>
@@ -828,7 +832,7 @@
                 </span>
                 <xsl:value-of select="@n" />
               </li>
-            </xsl:if>
+            </xsl:if> -->
     </xsl:template>
      <xsl:template match="cei:altIdentifier">
               <li>
@@ -927,8 +931,9 @@
                 <xsl:value-of select="." />
               </span>            
   </xsl:template>
-  <xsl:template match="cei:archFond">   
-            <li>
+  <xsl:template match="cei:archFond">
+    <xsl:apply-templates />   
+           <!--  <li>
                 <span>
                   <xrx:i18n>
                     <xrx:key>fond</xrx:key>
@@ -937,7 +942,7 @@
                   <span>:&#160;</span>
                 </span>
                 <xsl:value-of select="." />
-              </li>        
+              </li>    -->     
   </xsl:template>
  
  <!--  <xsl:template match="cei:idno">
