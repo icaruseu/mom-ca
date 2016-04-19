@@ -168,7 +168,7 @@ $.widget( "ui.charterItems", {
 	            .text("Default Editor") )
                 
               ).append(
-                  $('<a></a>').attr("href", requestRoot + "charter/" + key + "/illurk").attr("target", "_blank").append(
+                  $('<a></a>').attr("href", requestRoot + url + "/edit?mode=illurk").attr("target", "_blank").append(
                       $('<button></button>').text("Illurk Editor")
                       )
               );
