@@ -927,8 +927,9 @@
                 <xsl:value-of select="." />
               </span>            
   </xsl:template>
-  <xsl:template match="cei:archFond">   
-            <li>
+  <xsl:template match="cei:archFond">
+    <xsl:apply-templates />   
+           <!--  <li>
                 <span>
                   <xrx:i18n>
                     <xrx:key>fond</xrx:key>
@@ -937,7 +938,7 @@
                   <span>:&#160;</span>
                 </span>
                 <xsl:value-of select="." />
-              </li>        
+              </li>    -->     
   </xsl:template>
  
  <!--  <xsl:template match="cei:idno">

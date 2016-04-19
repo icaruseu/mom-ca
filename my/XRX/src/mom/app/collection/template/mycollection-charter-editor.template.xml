@@ -313,11 +313,12 @@
         <id>cei:decoDesc</id>
         <parent>cei:witnessOrig</parent>
         <mult_occurence>true</mult_occurence>
-        <target_field>cei:decoNote</target_field>
-        <tab_page>5</tab_page>
+        <target_field>cei:p</target_field>
+        <!-- <target_field>cei:decoNote</target_field> -->
+        <tab_page>8</tab_page>
         <active>true</active>
         <message>self</message>
-        <groups>
+        <groups>          
           <group>illurk</group>
         </groups>
       </editor_field>

@@ -65,7 +65,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
                     return concat('"', $i ,'": "', $i, '"')
                     )
         let $jackyO := jsonx:object($lemmata)
-        return $jackyO
+        return serialize($jackyO, ())
       )      
       else(
         let $children := $vocabular//skos:prefLabel[@xml:lang=$getlang][parent::rdf:Description[parent::skos:narrower[parent::rdf:Description[@rdf:about=$getlemma]]]]     
@@ -90,7 +90,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
           let $jsonO:= jsonx:object($sublemma)
           
   
-            return $jsonO
+            return serialize($jsonO, ())
             
           )
        }
