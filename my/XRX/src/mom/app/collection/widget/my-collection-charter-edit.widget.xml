@@ -33,6 +33,10 @@
         </xrx:variable>
         <!-- charter -->
         <xrx:variable>
+        <xrx:name>$modusludens</xrx:name>
+        <xrx:expression>request:get-parameter('mode', '')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
             <xrx:name>$uuid</xrx:name>
             <xrx:expression> metadata:objectid($atomid)</xrx:expression>
         </xrx:variable>
@@ -463,7 +467,14 @@
                 <xrx:north>
                     <div data-demoid="48d984c8-63e8-48df-95bc-00ad1e2b62c5"
                         id="dmy-collection-header">
+                        {if($modusludens = 'illurk')
+                          then (
+                        <h2>EditIllurk</h2>
+                        )
+                        else(
                         <h2>EditMOM</h2>
+                        )
+                        }
                         <div data-demoid="4c56fbe3-1728-47c6-af7e-ab39fb266752" id="autoSaveStatus"
                         />
                     </div>
