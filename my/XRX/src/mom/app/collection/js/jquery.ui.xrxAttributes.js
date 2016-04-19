@@ -280,7 +280,7 @@
             /* function saves all changes in the input field */
             
             newEditAttributeInput.keyup(function () {
-                /*if (name == 'lemma'){                    
+               /* if (name == 'lemma'){                    
                    	$(function(){
                    		$.ajax({     
                             url: "/mom/service/datalist",
@@ -323,7 +323,7 @@
             	if (name == "indexName"){
             		var einf = $("<option> --- </option>");
             		menuliste.append(einf);
-            		var iName = ['arthistorian', 'IllUrkGlossar'];
+            		var iName = ['arthistorian'];
             		for (var i=0; i<iName.length; i++){
             			var newli = $('<option>' + iName[i] + '</option>')
             			.addClass(uiSuggestedValueDivsClass).attr("title", iName[i]).attr("value", iName[i]).attr("name", name);
