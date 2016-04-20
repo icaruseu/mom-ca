@@ -77,6 +77,7 @@
             
             for (var i = 0 in editedAttributes) {
                 editAttributesDiv.append(self._newEditAttribute(editedAttributes[i].qName, $(document).xrxI18n.translate(editedAttributes[i].qName, "xs:attribute"), editedAttributes[i].value));
+            
             }
             
             /*xrx-attributes class gets method _attributeDroppable*/
@@ -162,7 +163,11 @@
                 		$("div[title='" + editedAttributes[i].qName + "']", "." + uiMainDivId).draggable("disable");
                 	}
                 	
-                }            
+                }
+                
+                
+                	
+                	
             controlledVoc = false;
             /* the jquery menu is initialized. the cv is realized in a drop down menu */
             
@@ -247,8 +252,7 @@
            
            
            
-            /* Array [ "indexName", "lemma", "sublemma" ] mainkeys
-				Object { indexName: Array[1], lemma: Array[3], sublemma: Array[3] } suggestedVal
+            /* 
              * 
              * In the following lines the GUI is constructed
              * if controlledVoc is true then menuliste (is a dropdown menu)is implemented
@@ -312,14 +316,14 @@
             
             /* function to set the options in the select box.
              * The fuction deals with the values from the json-object.
-             * key are the keys of the object;
-             * sugname are the values of the keys,
-             * they can be strings or arrays.
-             * That's why the function proofing is necessary.
+             * key are the keys of the object;            
              * In the 'newli' variable the option elements with the possible values
              * are appended to 'menuliste'.*/
             
             function setoptioninSelect(name) {
+            	
+            	var sublemmawert;
+            	var lemmawert;
             	if (name == "indexName"){
             		var einf = $("<option> --- </option>");
             		menuliste.append(einf);
@@ -340,45 +344,69 @@
                         menuliste.append(einf);
                         
                         if (name == 'lemma'){
-                        	var lemmawert = '';
+                        	 lemmawert = 'no';
+                        	 sublemmawert = 'leer';
                         }
                         else {
                         	var sucheOptions = $(".forms-mixedcontent-edit-attributes").children().find("option[selected]");
-                     
-                        sucheOptions.each( function(index) {                        
+                        	var subwert = 'leer';
+                        /*When sucheOptions.length is 0 then I know that the window was loaded again
+                         *  and no attribute was set.
+                         *  instead there are already editedAttributes and 
+                         *  the selected Options can be recompound.*/
+                        if(sucheOptions.length == 0){
+                        	
+                        	for (i in editedAttributes){
+                        		if (editedAttributes[i].qName == "lemma"){
+                        			var attributswert = editedAttributes[i].value;
+                        			
+                        		}
+                        		if (editedAttributes[i].qName == "sublemma"){
+                        			 var subwert = editedAttributes[i].value;
+                        			 
+                        		}
+                        	}
+                        }
+                        else {sucheOptions.each( function(index) {                         	
                             var attrname = $(this).attr('name');
                           if (attrname == "lemma"){                        	  
                         	  attributswert = $(this).attr('title');                        	 
                           }
                         
                             });
-                        var lemmawert = attributswert;
+                       
+                       
+                        }
+                        sublemmawert = subwert;
+                        lemmawert = attributswert;
+                        
                         }
                         /*  
                          * var sucheOptions = $(".forms-mixedcontent-edit-attributes").children().find("option[selected]");
                          *  die Klasse xrx-language-for-skos wurde serverseitig im widget 
-                        * my-collection-charter-illurk und
+                        * 
                         * my-collection-charter-edit eingeführt,
                         * um die Sprache des Users mit der Sprache des ControllVoc
                         * abzugleichen.                        * 
                         */
+                     
                         var sprachwert = $(".xrx-language-for-skos").text();                       
                         $.ajax({     
                             url: "/mom/service/editMomgetControlledVoc",
                             type:"GET",      
                             //contentType: "application/xml",     
                             dataType: "json", 
-                            data: {lemma:lemmawert, sprache:sprachwert},
+                            data: {lemma:lemmawert, sublemma:sublemmawert, sprache:sprachwert},
                             success: function(data, textStatus, jqXHR)
                             {                           
                           for (var i in data){                            		
-                            		var valeur = data[i];
-                            		console.log(valeur);
+                            		var valeur = data[i];                            		
                             		var newli = $('<option>' + valeur + '</option>')
                         			.addClass(uiSuggestedValueDivsClass).attr("title", valeur).attr("value", i).attr("name", name);
-                            		if (i == value){
+                            		if (i == value){                            		
                            			 newli.attr("selected", "selected");
                            		}
+                            		
                             		menuliste.append(newli);
                             }                        
                                                          
@@ -432,8 +460,7 @@
             		editedAttributes[i].value = attrvalue;
             	}
             }
-            console.log(liste);
-            console.log(editedAttributes); //nun sind die editedAttributes wieder aktuell
+             //nun sind die editedAttributes wieder aktuell
             	
             	
             	
