@@ -3896,6 +3896,7 @@
                 <xs:element ref="cit"/>
                 <xs:element ref="foreign"/>
                 <xs:group ref="Referenz"/>
+                <xs:element ref="note"/>
             </xs:choice>
         </xs:sequence>
     </xs:group>
