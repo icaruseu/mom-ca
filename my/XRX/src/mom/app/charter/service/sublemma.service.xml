@@ -1,5 +1,5 @@
-<xrx:app xmlns:xrx="http://www.monasterium.net/NS/xrx">
-  <xrx:id>tag:www.monasterium.net,2011:/mom/app/glossar</xrx:id>
+<xrx:service xmlns:eag="http://www.archivgut-online.de/eag" xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/sublemma</xrx:id>
   <xrx:title>
     <xrx:i18n>
       <xrx:key></xrx:key>
@@ -28,17 +28,38 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
-  </xrx:licence> 
-  <xrx:resolver>
-   <xrx:map>
-      <xrx:uripattern>/glossar$</xrx:uripattern>
-      <xrx:mode>mainwidget</xrx:mode>
-      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/glossar</xrx:atomid>
-    </xrx:map>
-   <!--       <xrx:map>
-            <xrx:uripattern>/service/getTextfromGlossar$</xrx:uripattern>
-            <xrx:mode>service</xrx:mode>
-            <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/getTextfromGlossar</xrx:atomid>
-        </xrx:map> -->
-     </xrx:resolver>   
-</xrx:app>
+  </xrx:licence>
+
+ <xrx:variables>
+   
+    <xrx:variable>
+      <xrx:name>$getlang</xrx:name>
+      <xrx:expression>request:get-parameter('sprache', '')</xrx:expression>    
+    </xrx:variable>
+      <xrx:variable>
+      <xrx:name>$getsublemma</xrx:name>
+      <xrx:expression>concat('#', request:get-parameter('sublemma', ''))</xrx:expression>    
+    </xrx:variable>
+          
+  </xrx:variables>
+
+  <xrx:init>
+   <xrx:processor>
+     <xrx:translateflag>false</xrx:translateflag>
+   </xrx:processor>
+  </xrx:init> 
+  <xrx:body>
+    {   let $vocabular := doc("/db/mom-data/metadata.controlledVocabulary.public/illurk-vocabulary.xml")/atom:entry       
+     return  if($getsublemma != '#')
+        then(
+
+              let $sublemmaLabeltext := $vocabular//rdf:Description[@rdf:about=$getsublemma]/skos:prefLabel[@xml:lang=$getlang]/text()
+                return
+                      <p>{$sublemmaLabeltext}</p>
+)
+      else()
+      
+      
+       }
+  </xrx:body>
+</xrx:service>

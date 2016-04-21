@@ -27,7 +27,7 @@
     var uiFormsTableRowClass = "forms-table-row";
     var uiFormsTableCellClass = "forms-table-cell";
     /* controlledVoc works like a flag: when true then the controlled Vocabulary is active */
-    var controlledVoc = true;
+    var controlledVoc = false;
     /* Arrays and object to get actual values of the attributes, 
      * because property editedAttributes is not updated,
      * before the whole lifecycle of the widget is redone!
@@ -51,6 +51,7 @@
             elementName: null,
             suggestedAttributes: null,
             editedAttributes: null,
+           // controlledVoc:false,
             cm: null,
             token: null
         },
@@ -62,7 +63,8 @@
             elementName = self.options.elementName,
             suggestedAttributes = self.options.suggestedAttributes,
             editedAttributes = self.options.editedAttributes,
-            
+            //controlledVoc = false,
+                        
             mainDiv = $('<div></div>').attr("class", uiMainDivId),
             
             editAttributesDiv = $('<div></div>').addClass(uiEditAttributesDivClass).addClass(uiFormsTableClass),
@@ -79,8 +81,7 @@
             
             /*xrx-attributes class gets method _attributeDroppable*/
             self._attributeDroppable(droppableAttributeDiv);
-            
-            
+     
             
             /* a new div-box in the GUI is created, in it there is the list of all possible Attributes for the element.
              * in Addition these Attributes get a method _suggestedAttributeDraggable, means that you are able to drag them. */
@@ -94,7 +95,7 @@
             }
             
             /* a method to switch off/on the use of the controlled Vocabulary*/
-            self._onoffButton(controlledVocButton);
+            self._onoffButton(controlledVocButton, editedAttributes);
             
             /* All GUI parts concerning the Attributes are appended */
             
@@ -107,6 +108,16 @@
             console.log(editedAttributes);
             console.log('++++++++++++++++++++++++++++');
             
+            function ausblenden(gewisseAttr){
+        		var blende = suggestedAttributes;                       
+                    var l = blende.indexOf(gewisseAttr);
+                    blende.splice(l, 1);
+                    for (var j = 0; j < blende.length; j++) {
+                        var dis = $("div[title='" + blende[j] + "']", "." + uiMainDivId).draggable("disable");
+                    }
+                    return dis;
+                    }
+                        
             /*In the GUI already set (edited) Attributes are made unable to drag from the div-box with the possible (suggested) Attributes.
              * the arrays verw and wert are filled with the values of the editedAttributes property.*/
             for (var i = 0; i < editedAttributes.length; i++) {                    
@@ -127,44 +138,32 @@
                 			&& wert.indexOf('arthistorian') > -1
                 			&& verw.indexOf('lemma') == -1 
                     		&& verw.indexOf('sublemma') == -1)
-                 {                	                  
-                    var blende = suggestedAttributes;     
-                    if (blende.indexOf('lemma') != -1) {
-                        var l = blende.indexOf('lemma');
-                        blende.splice(l, 1);
-                    }                    
-                    if (blende.indexOf('sublemma') != -1) {
-                        var s = blende.indexOf('sublemma');
-                        blende.splice(s, 1);
-                    }                   
-                    for (var j = 0; j < blende.length; j++) {
-                        $("div[title='" + blende[j] + "']", "." + uiMainDivId).draggable("disable");
-                    }
+                 {                  	
+                	
+                	/* Meiner Meinung nach muss nur lemma da rausgenommen werden,
+                	 * weil die anderen ja noch nicht gesetzt sind.*/
+                	var x = ausblenden('lemma');
+                	//var y = ausblenden('sublemma');
+                
                 }
                 else if (verw.indexOf('indexName') > -1
                 			&& wert.indexOf('arthistorian') > -1
                 			&& verw.indexOf('lemma') > -1 
                 			&& verw.indexOf('sublemma')==-1) {
-                	var blende = suggestedAttributes;                	
-                   if (blende.indexOf('sublemma') != -1) {
-                        var s = blende.indexOf('sublemma');
-                        blende.splice(s, 1);
-                    }
-                   for (var j = 0; j < blende.length; j++) {
-                       $("div[title='" + blende[j] + "']", "." + uiMainDivId).draggable("disable");
-                   }
+              
+                	var x = ausblenden('sublemma');              
                 }
-                else if (controlledVoc == true && verw.indexOf('indexName')== -1){
+                /*else if (controlledVoc == true && verw.indexOf('indexName')== -1){
                 	$("div[title='lemma']", "." + uiMainDivId).draggable("disable");
                 	$("div[title='sublemma']", "." + uiMainDivId).draggable("disable");
-                }
+                }*/
                 else {
                 	for (var i= 0; i < editedAttributes.length; i++){
                 		$("div[title='" + editedAttributes[i].qName + "']", "." + uiMainDivId).draggable("disable");
                 	}
                 	
                 }            
-            
+            controlledVoc = false;
             /* the jquery menu is initialized. the cv is realized in a drop down menu */
             
             $(function () {
@@ -172,12 +171,12 @@
             });
         },
         
-        /*End of create function*/        
-        
+        /*End of create function */       
+   
         
         _newEditAttribute: function (name, label, value) {
             /* Variables to deal with the modell */
-        
+        	
             var self = this,
             cm = self.options.cm,
             token = self.options.token,
@@ -196,8 +195,7 @@
             /* die aktuell ausgewählten Attribute werden in das aktuell objekt geschrieben,
              * nun hat aktuell die gleichen properties, wie die Objekte in editedAttributes array.*/
             aktuell.qName = name,
-            aktuell.value = value;
-            console.log(aktuell);            
+            aktuell.value = value;            
                       
             for (var i = 0; i < editedAttributes.length; i++) {                    
           	  if (verw.indexOf(editedAttributes[i].qName)== -1){
@@ -212,51 +210,49 @@
             if (verw.indexOf(name) == -1) {         
                 verw.push(name);
                 wert.push(value);             
-                var editnew = editedAttributes.push(aktuell);
-            }               
-           
-            /*variables to get the values for the controlled vocabulary */
-            var jsonValues = jQuery.parseJSON($('.xrx-forms-json-attribute-valuesuggestions').text());
-            /*Till now suggestedVal contains only the values of the Element 'cei:index' */
-            var suggestedVal = jsonValues[elementName];                    
-            /*if condition to test, if there are values available*/
-            if (suggestedVal == undefined) {
-                controlledVoc = false;
-            } else {                
-                /*mainkeys is the array with the keys to the elementname*/
-                var mainkeys = Object.getOwnPropertyNames(suggestedVal).sort();
-                for (var mk in suggestedVal) {
-                    var mk = suggestedVal[mk];                    
-                }            
+                //var editnew = editedAttributes.push(aktuell);
+
+            }         
                 
-                /* it has to be proofed if the from the last use of the attribute widget,
+                /* it has to be proofed if from the last use of the attribute widget,
                  * the user used the cv or not.
                  * if in the editedAttributes is the attr indexName with the value 'arthistorian'
                  * then the controllevVoc is true.
                  * Has to be changed, when the cv is used for other descriptions too.
                  * Till now there is only 'arthistorian'.  
                */
-                for (var i=0;i < editedAttributes.length; i++){
-                	if (editedAttributes[i].qName == 'indexName' && editedAttributes[i].value == 'arthistorian'){
-                		controlledVoc = true;
-                	}
-                }              
-                console.log('*****************************************');
-            }
-            /* In the following lines the GUI is constructed
+               if ((elementName == "cei:index") && ((name == "lemma") | (name == "sublemma") | (name == "indexName"))){
+            	   for (var i=0;i < editedAttributes.length; i++){
+                   	if (editedAttributes[i].qName == 'indexName' && editedAttributes[i].value == 'arthistorian'){
+                   		controlledVoc = true;
+                   	}
+                   
+                   }  
+               }
+               else {
+            	   controlledVoc = false;
+  
+            	  
+               }
+           
+           
+           
+            /* Array [ "indexName", "lemma", "sublemma" ] mainkeys
+				Object { indexName: Array[1], lemma: Array[3], sublemma: Array[3] } suggestedVal
+             * 
+             * In the following lines the GUI is constructed
              * if controlledVoc is true then menuliste (is a dropdown menu)is implemented
              * if false newEditAttributeInput (is an inputfield) is created.*/
             if (elementName == "cei:index") {
                                  
-                
-                if ((controlledVoc == true) &&(mainkeys.indexOf(name) != -1)) {                	
-                    for (var mk in suggestedVal) {                                   
-                        	        var y = suggestedVal[mk];                        
-                                    var x = setoptioninSelect(y, mk, wert); 
-                        }                        
+                if ((controlledVoc == true) && ((name == "lemma") | (name == "sublemma") | (name == "indexName")))
+                {
+                                    	                               
+                                                                 
                         newEditAttributeLabel.hide();
                         newEditAttributeInput.hide();
                         newEditAttribute.append(newEditValuelabel).append(menuliste).append(newEditAttributeTrash);
+                        var x = setoptioninSelect(name);
                     }
                  else {
                     newEditAttribute.append(newEditAttributeLabel).append(newEditAttributeInput).append(newEditAttributeTrash);
@@ -280,8 +276,7 @@
                 var nodeset = $(document).xrx.nodeset(cm.getInputField());
                 var controlId = nodeset.only.levelId;
                 var relativeId = token.state.context.id.split('.').splice(1);
-                var contextId = controlId.concat(relativeId);
-                
+                var contextId = controlId.concat(relativeId);                
                 $('.xrx-instance').xrxInstance().replaceAttributeValue(contextId, attributes);
             });            
             
@@ -294,90 +289,138 @@
              * In the 'newli' variable the option elements with the possible values
              * are appended to 'menuliste'.*/
             
-            function setoptioninSelect(sugname, key, wert) {   
-                if (key == name) {
-                	 
-                      function proofing (sugname){
-                    	  for (var i = 0; i < sugname.length; i++){
-                      		var kette = sugname[i];
-                      		if (typeof kette === 'string'){
-                      			return true;
-                      			}
-                      		
-                    	  else {
-                    		  return false;
-                    	  }
-                      }
-              	  }
-                 
-                	var proofed = proofing(sugname);
-                	if (proofed == true){
-                		 var einf = $("<option> --- </option>");
-                         menuliste.append(einf);
-                		for (var i=0; i < sugname.length; i++){
-                			console.log(sugname);                			
-                             var newli = $('<option>' + sugname[i] + '</option>').addClass(uiSuggestedValueDivsClass).attr("title", sugname[i]).attr("value", sugname[i]);
-                             if (sugname[i] == value) {
-                                  newli.attr("selected", "selected");
-                              }
-                             menuliste.append(newli);
-                             }                		 
-                		 }
+            function setoptioninSelect(name) {
+            	if (name == "indexName"){
+            		var einf = $("<option> --- </option>");
+            		menuliste.append(einf);
+            		var iName = ['arthistorian', 'glossary'];
+            		for (var i=0; i<iName.length; i++){
+            			var newli = $('<option>' + iName[i] + '</option>')
+            			.addClass(uiSuggestedValueDivsClass).attr("title", iName[i]).attr("value", iName[i]).attr("name", name);
+                		if (iName[i] == value){
+               			 newli.attr("selected", "selected");
+               		}
+                		
+                		menuliste.append(newli);
+            		}
+            		
+            	}          
                 	else {
                 		var einf = $("<option> --- </option>");
                         menuliste.append(einf);
-         			   for (var i=0; i<sugname.length;i++){
-         				   var props = Object.getOwnPropertyNames(sugname[i]);
-
-         				   for (var ii=0; ii<wert.length; ii++){
-         					   var ind = wert.indexOf(props[0]);
-         					   var comp = wert[ind];
-         					   }
-         					  if ( sugname[i][comp] != undefined){
-            					   var cvalues = sugname[i][comp];
-            					   for (var iii= 0; iii<cvalues.length; iii++){
-            						   var newli = $('<option>' + cvalues[iii] + '</option>').addClass(uiSuggestedValueDivsClass).attr("title", cvalues[iii]).attr("value", cvalues[iii]);
-                					   if (cvalues[iii] == value) {
-                                           newli.attr("selected", "selected");
-                                       }
-                					 menuliste.append(newli);
-            					   }  
-            				   }
-         			   }         	
-         			  }                	
-                }
+                        
+                        if (name == 'lemma'){
+                        	var lemmawert = '';
+                        }
+                        else {
+                        	var sucheOptions = $(".forms-mixedcontent-edit-attributes").children().find("option[selected]");
+                     
+                        sucheOptions.each( function(index) {                        
+                            var attrname = $(this).attr('name');
+                          if (attrname == "lemma"){                        	  
+                        	  attributswert = $(this).attr('title');                        	 
+                          }
+                        
+                            });
+                        var lemmawert = attributswert;
+                        }
+                        /*  
+                         * var sucheOptions = $(".forms-mixedcontent-edit-attributes").children().find("option[selected]");
+                         *  die Klasse xrx-language-for-skos wurde serverseitig im widget 
+                        * my-collection-charter-illurk und
+                        * my-collection-charter-edit eingeführt,
+                        * um die Sprache des Users mit der Sprache des ControllVoc
+                        * abzugleichen.                        * 
+                        */
+                        var sprachwert = $(".xrx-language-for-skos").text();                       
+                        $.ajax({     
+                            url: "/mom/service/editMomgetControlledVoc",
+                            type:"GET",      
+                            //contentType: "application/xml",     
+                            dataType: "json", 
+                            data: {lemma:lemmawert, sprache:sprachwert},
+                            success: function(data, textStatus, jqXHR)
+                            {                           
+                          for (var i in data){                            		
+                            		var valeur = data[i];
+                            		console.log(valeur);
+                            		var newli = $('<option>' + valeur + '</option>')
+                        			.addClass(uiSuggestedValueDivsClass).attr("title", valeur).attr("value", i).attr("name", name);
+                            		if (i == value){
+                           			 newli.attr("selected", "selected");
+                           		}
+                            		menuliste.append(newli);
+                            }                        
+                                                         
+                                      return true;
+                                    },     
+                            error: function(){
+                            	console.log('Error: Failed to load script.');                           
+                             
+                             return false;
+                            }     
+                          });
+                        
+         		  }                	
+              
             }            
             //END of setOptioninselect function
             
             /*the user changes the value in the dropdown-menu, then 
              * the change event is triggered
              * the new current value (self.value) gets stored via codemirror in the xml-instance*/
-            menuliste.change(function (event) {
-                
+            menuliste.change(function (event) {            	              
                 self = this;                
                 var attrvalue = self.value;
                 var nodeset = $(document).xrx.nodeset(cm.getInputField());
                 var controlId = nodeset.only.levelId;
                 var relativeId = token.state.context.id.split('.').splice(1);
                 var contextId = controlId.concat(relativeId);                
-                
                 var attributes = new AttributesImpl();                
                 attributes.addAttribute(undefined, name, name, undefined, attrvalue);
                 aktuell.qName = name,                
-                aktuell.value = attrvalue;                      
+                aktuell.value = attrvalue;
+                
+                /* hier wird bei jedem Value change dann auch das selected Attribut angepasst! */
+                var findselected = $(".xrx-attributes").find("option[name =" + name + "]");
+                findselected.removeAttr("selected", "selected");
+                var setselected = $("option[value =" + attrvalue + "]");
+                setselected.attr('selected', 'selected');
+
+                
+            var liste = [];
+            for (i in editedAttributes){            	        	
+             liste.push(editedAttributes[i].qName); //müsste so sein wie verw!!!!             
+            } 
+            for ( var i=0; i<liste.length; i++){
+            	if (liste.indexOf(name) == -1){
+            		editedAttributes.push({qName:name, value:attrvalue});
+            		
+            	}
+            	else{
+            	
+            		editedAttributes[i].value = attrvalue;
+            	}
+            }
+            console.log(liste);
+            console.log(editedAttributes); //nun sind die editedAttributes wieder aktuell
+            	
+            	
+            	
+                
                 /* the array verw and wert are updated with the new value,
                  * maybe this is not a general solution,
                  * because it is presumed that it is 
                  * the last value in the array that ist going to be updated.*/
                 if (verw.indexOf(name) == -1) {               	
-                    var i = verw.indexOf(name)       
+                        
                     verw.push(name);
-
                     var l = wert.length;
-                    wert.splice(wert.length-1,1,attrvalue);
-                   
-                   editedAttributes.splice(i, 1, aktuell);
+                    wert.splice(wert.length-1,1,attrvalue);                   
+                  
                 }
+             
+               
                 /* the arrays are emptied, and filled with aktuell.qName and value
                  * because the are necessary in the case the event change is triggered again.
                  * Attention: these values are still not in the editedAttributes Object,
@@ -385,16 +428,67 @@
                 else {                
                 	verw.splice(0, verw.length, aktuell.qName);
                 	wert.splice(0, wert.length, aktuell.value);
-                }                
+                } 
+                /* attribute 'indexName can have value glossary,
+                 * then the controlled Vocabulary is switched off again.
+                 * 
+                 * */
+                function eruieren(){
+                	inallSpans = $("div", "." + uiEditAttributeDivClass).find("span").not(".ui-icon").text();                    
+
+                    var spantexte =[];
+                    var eintrag = $(".forms-mixedcontent-edit-attribute").find("span")
+                    for (var i = 0; i < eintrag.length; i++) {
+                        spantexte.push(eintrag[i].textContent);
+                    }
+                    var proofdiv = $("div", "." + uiSuggestedAttributeDivsClass);
+                    for (var i = 0; i < proofdiv.length; i++) {
+                        var proof = proofdiv[i].previousSibling.data;
+                        if (spantexte.indexOf(proof) == -1) {                       
+                            var enable = $("div:contains('" + proof + "')", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                        }                    
+                    } 
+                return enable	
+                }
+               function rowremove(gewissesAttr, editedAttributes){
+             	   var sein = new AttributesImpl();                        
+                    sein.addAttribute(undefined, gewissesAttr, gewissesAttr, undefined, '');                           
+                    var row = $("div:contains('" + gewissesAttr + "')", "." + uiEditAttributesDivClass);                              
+                        var i = verw.indexOf(gewissesAttr); 
+                        verw.splice(i,1);
+                    row.remove(); 
+                                   
+                    $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
+                    var attr = editedAttributes.indexOf(gewissesAttr);
+                    editedAttributes.splice(attr, 1);
+                 
+                    return editedAttributes;
+                  
+             }
+                
+                if (attrvalue == 'glossary'){
+                	
+                	 var x = rowremove('lemma', editedAttributes);
+                     var y = rowremove('sublemma', editedAttributes);
+                     var x = eruieren();              
+                    controlledVoc = false;
+                }
+                
                 
                 /* attribute 'indexName' can have value arthistorian,      
                  * if it is 'arthistorian' the controlled vocabulary for the attributes lemma and sublemma is active. */              
-                if (attrvalue == 'arthistorian') {                  
-                    $("div", "." + uiSuggestedAttributeDivsClass).each(function () {                        
-                        $("div", "." + uiSuggestedAttributesDivClass).addClass("ui-state-disabled");                        
-                        //  when 'indexName' is 'arthistorian' only the attribute 'lemma' is draggable                        
-                        $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-                    });
+                if (attrvalue == 'arthistorian') { 
+                	
+            		controlledVoc = true;
+            		
+                	$("div", "." + uiSuggestedAttributeDivsClass).each(function () {                        
+                     $("div", "." + uiSuggestedAttributesDivClass).addClass("ui-state-disabled");
+                     
+                    var x = rowremove('lemma', editedAttributes);
+                    var y = rowremove('sublemma', editedAttributes);                           
+                	});
+                
+                    $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
                 }
                 /*when lemma is changed, then sublemma is deleted.
                  * sublemma is the only attribute that is set to be draggable 
@@ -406,39 +500,12 @@
                         controlledVoc = true;                        
                         $("div", "." + uiSuggestedAttributesDivClass).not("div[title='sublemma']").addClass("ui-state-disabled");                        
                         $("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-                    inallSpans = $("div", "." + uiEditAttributeDivClass).find("span").not(".ui-icon").text();
-                    var allselOption = $("select").find("option[selected='selected']").text();
-                    var indexsub = inallSpans.indexOf('sublemma');                   
-                    if (indexsub != -1) {                                            
-                        var sein = new AttributesImpl();                        
-                        sein.addAttribute(undefined, 'sublemma', 'sublemma', undefined, '');                           
-                        var row = $("div:contains('sublemma')", "." + uiEditAttributesDivClass);                              
-                            var i = verw.indexOf('sublemma'); 
-                            verw.splice(i,1);
-                        row.remove();                        
-                        $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
-                        $("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-                        // when 'lemma' and a selected value then the attribute 'sublemma' is draggable            
-                    }
-                } else if (name == 'sublemma') {              
-                    var regular = nodeset.only.xml.match(/lemma=".*?"/);
-                    var reg = regular.join();
-                    var lemmaw = reg.slice(7, reg.length -1);
-                   
-                    var spantexte =[];
-                    var eintrag = $(".forms-mixedcontent-edit-attribute").find("span")
-                    for (var i = 0; i < eintrag.length; i++) {
-                        spantexte.push(eintrag[i].textContent);
-                    }
-                    var proofdiv = $("div", "." + uiSuggestedAttributeDivsClass);
-                    for (var i = 0; i < proofdiv.length; i++) {
-                        var proof = proofdiv[i].previousSibling.data;
-                        if (spantexte.indexOf(proof) == -1) {
-                            /*  all (not edited) attributes from div.forms-mixedcontent-suggested-Attributes
-                             *  are set draggable again */
-                            $("div:contains('" + proof + "')", "." + uiSuggestedAttributesDivClass).draggable("enable");
-                        }
-                    }                   
+                        var y = rowremove('sublemma', editedAttributes);
+             
+                } else if (name == 'sublemma') {
+                	
+                	var x = eruieren();            
+                	
                 } //if wird geschlossen
                 
                 /* Set the new value of the attributes in the instance. The function replaceAttrbiuteValue of the
@@ -459,9 +526,10 @@
             
             var self = this,            
             suggestedAttributes = self.options.suggestedAttributes,            
-            editedAttributes = self.options.editedAttributes,            
+            editedAttributes,   //ich glaube das kann ruhig leer sein zuerst!         
             cm = self.options.cm,            
-            token = self.options.token;            
+            token = self.options.token;
+          
             /*when the click event is triggered, the function takes the the name of the attribute 
              * that is going to be deleted out of the input Element or out of the editedAttributes
              * the arrays 'verw' and 'wert' are updated and returned in order to be used by the method _newEditAttribute */
@@ -471,19 +539,50 @@
                     var value = ($(editAttribute).find("input")).text();
                 } else {         
                     var name = editAttribute[0].firstElementChild.firstChild.firstChild.data;
-                }
+                }             
+
+                var liste = [];
+              
+                var sucheInput = $(".forms-mixedcontent-edit-attributes").children().find("input");
+                
+                sucheInput.each( function(index) {
+                    var attrname = $(this).attr('name');
+                  
+                    var attrvalue = $(this).attr('value');
+                    	liste.push({qName : attrname ,
+                    				value : attrvalue
+                    	});                   
+                    	
+                    });                
+                
+                var sucheOptions = $(".forms-mixedcontent-edit-attributes").children().find("option[selected]");
+                
+                sucheOptions.each( function(index) {
+                    var attrname = $(this).attr('name');
+                  
+                    var attrvalue = $(this).attr('title');
+                    	liste.push({qName : attrname ,
+                    				value : attrvalue
+                    	});                   
+                    	
+                    });
+              editedAttributes = liste; //ich glaub das muss hier global gesetzt werden, sonst gibts die editedAttrbutes nicht.
+
                 
                 var attributes = new AttributesImpl();                
                 attributes.addAttribute(null, name, name, undefined, "");
+       
+                for (i in editedAttributes){
+                	
+                    var raus = editedAttributes[i];                
+                    if (raus.qName == name){
+     
+                    	var ind = editedAttributes.indexOf(raus);
+   
+                    	editedAttributes.splice(ind,1);
+                    }                    
+                } 
                 
-                aktuell.qName = name,        
-                aktuell.value = inhalt;                
-                for (var i = 0; i < editedAttributes.length; i++) {                    
-                	if (verw.indexOf(editedAttributes[i].qName)== -1){
-                	verw.push(editedAttributes[i].qName);
-                	wert.push(editedAttributes[i].value);
-                	}                   	
-          }                
                 var suggestedAttributesNamen =[];            
                 
                 for (var j = 0; j < suggestedAttributes.length; j++) {                    
@@ -498,11 +597,10 @@
                     var b = wert.indexOf(inhalt);
                     verw.splice(i,1);                    
                     wert.splice(b,1);
-                    var editnew = editedAttributes.splice(i, 1);
+                    editedAttributes.splice(i, 1);
                 }
-                /*the attribute is removed from the GUI*/
-                editAttribute.remove();             
-                console.log('-------------------------------------');
+             
+               
                 
                 var nodeset = $(document).xrx.nodeset(cm.getInputField());                
                 var controlId = nodeset.only.levelId;                
@@ -513,80 +611,28 @@
                  *If this is the case, the attributes lemma and sublemma have to be deleted too.
                  *When all 3 attributes are deleted they are set to be draggable again.*/
                 if ((name == 'indexName') && ($(editAttribute).find("select").length == 1)) {                    
-                    var row = $("div:contains('lemma')", "." + uiEditAttributesDivClass);                    
-                    var row2 = $("div:contains('sublemma')", "." + uiEditAttributesDivClass);                  
-                    
-                    if (row2.length > 0) {                       
-                        var sein = new AttributesImpl();                        
-                        sein.addAttribute(undefined, 'sublemma', 'sublemma', undefined, '');
-                        var row = $("div:contains('sublemma')", "." + uiEditAttributesDivClass);            
-                        row.remove();                                                
-                        /*$("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("disable");*/
-                        /*Attribute is removed from the XML-Instance. */
-                        $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
-                    }
-                    
-                    if (row.length > 0) {                      
-                        var sein = new AttributesImpl();                        
-                        sein.addAttribute(undefined, 'lemma', 'lemma', undefined, '');                      
-                        var row = $("div:contains('lemma')", "." + uiEditAttributesDivClass);                        
-                        row.remove();                        
-                        /* $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("disable");*/
-                         /*Attribute is removed from the XML-Instance. */
-                        $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
-                    }
-                    var spantexte =[];
-                    var eintrag = $(".forms-mixedcontent-edit-attribute").find("span")
-                    for (var i = 0; i < eintrag.length; i++) {
-                        spantexte.push(eintrag[i].textContent);
-                    }
-                    var proofdiv = $("div", "." + uiSuggestedAttributeDivsClass);
-                    for (var i = 0; i < proofdiv.length; i++) {
-                        var proof = proofdiv[i].previousSibling.data;
-                        if (spantexte.indexOf(proof) == -1) {                       
-                            $("div:contains('" + proof + "')", "." + uiSuggestedAttributesDivClass).draggable("enable");
-                        }                    
-                    }  
+     
+                
+               	var x = rowremove('lemma', editedAttributes);
+                var y = rowremove('sublemma', editedAttributes);
+                var x = eruieren();
+                
                     $("div[title='indexName']", "." + uiSuggestedAttributesDivClass).draggable("enable");
                     $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("disable");
                     $("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("disable");
-                   
-                   /* for (var i = 0; i < suggestedAttributesNamen.length; i++) {                    
-                    $("div[title='" + suggestedAttributesNamen[i] + "']", "." + uiSuggestedAttributesDivClass).draggable("enable");*/
+             
                 
                 }
                 /*if lemma (used with cv) is deleted, also sublemma has to be removed.
                  * When this is done, just lemma and sublemma are set to be draggable again.*/
-                if (name == 'lemma' && $(editAttribute).find("select").length == 1) {                
-                	var sein = new AttributesImpl();                        
-                    sein.addAttribute(undefined, 'lemma', 'lemma', undefined, '');
-                    var row2 = $("div:contains('sublemma')", "." + uiEditAttributesDivClass);
-                    if (row2.length > 0) {                        
-                        var sein = new AttributesImpl();                        
-                        sein.addAttribute(undefined, 'sublemma', 'sublemma', undefined, '');                       
-                        var row = $("div:contains('sublemma')", "." + uiEditAttributesDivClass);                        
-                        row.remove();
-                        var blende = suggestedAttributes;     
-                        if (blende.indexOf('lemma') != -1) {
-                            var l = blende.indexOf('lemma');
-                            blende.splice(l, 1);
-                        }                    
-                        if (blende.indexOf('sublemma') != -1) {
-                            var s = blende.indexOf('sublemma');
-                            blende.splice(s, 1);
-                        }                   
-                        for (var j = 0; j < blende.length; j++) {
-                        	console.log('Die blende');
-                        	console.log(blende[j]);
-                            $("div[title='" + blende[j] + "']", "." + uiMainDivId).draggable("disable");
-                        }
-                        /*Attribute is removed from the XML-Instance. */                       
-                        $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
-                        var sub = verw.indexOf('sublemma');
-                        verw.splice(sub,1);
-                    }
-                    $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
-                   // $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                if (name == 'lemma' && $(editAttribute).find("select").length == 1) { 
+                	
+                	var x = rowremove('lemma', editedAttributes);
+                    var y = rowremove('sublemma', editedAttributes);
+                    var z = eruieren();
+                    var w = ausblenden('sublemma');
+                    $("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("disable");
+                  
                 }
                 /*if sublemma is deleted, just sublemma should be set to be draggabel again.
                  * Important: sublemma depends on the value of lemma.
@@ -595,8 +641,7 @@
                 	var regular = nodeset.only.xml.match(/lemma=".*?"/);
                     var reg = regular.join();
                     var lemmaw = reg.slice(7, reg.length -1);
-                    console.log('lemmmmw');
-                    console.log(lemmaw);
+  
                     if(wert.indexOf(lemmaw)== -1){
                     	 wert.push(lemmaw);
                     }                
@@ -614,13 +659,60 @@
                 else {              
                 $('.xrx-instance').xrxInstance().deleteAttributes(contextId, attributes);
                 $("div[title='" + name + "']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-                /*for (var i = 0; i < suggestedAttributesNamen.length; i++) {                    
-                $("div[title='" + suggestedAttributesNamen[i] + "']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-            }*/
+           
                 }
+                /*the attribute is removed only from the GUI*/
+                editAttribute.remove();
+
             });
             
-            return wert;
+            function eruieren(){
+            	inallSpans = $("div", "." + uiEditAttributeDivClass).find("span").not(".ui-icon").text();                    
+
+                var spantexte =[];
+                var eintrag = $(".forms-mixedcontent-edit-attribute").find("span")
+                for (var i = 0; i < eintrag.length; i++) {
+                    spantexte.push(eintrag[i].textContent);
+                }
+                var proofdiv = $("div", "." + uiSuggestedAttributeDivsClass);
+                for (var i = 0; i < proofdiv.length; i++) {
+                    var proof = proofdiv[i].previousSibling.data;
+                    if (spantexte.indexOf(proof) == -1) {                       
+                        var enable = $("div:contains('" + proof + "')", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                    }                    
+                } 
+            return enable	
+            }
+           function rowremove(gewissesAttr, editedAttributes){
+         	   var sein = new AttributesImpl();                        
+                sein.addAttribute(undefined, gewissesAttr, gewissesAttr, undefined, '');                           
+                var row = $("div:contains('" + gewissesAttr + "')", "." + uiEditAttributesDivClass);                              
+                    var i = verw.indexOf(gewissesAttr); 
+                    verw.splice(i,1);
+                row.remove(); 
+
+                var nodeset = $(document).xrx.nodeset(cm.getInputField());                
+                var controlId = nodeset.only.levelId;                
+                var relativeId = token.state.context.id.split('.').splice(1);                
+                var contextId = controlId.concat(relativeId);
+                $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
+                var attr = editedAttributes.indexOf(gewissesAttr);
+                editedAttributes.splice(attr, 1);
+
+                return editedAttributes;
+              
+         }
+          function ausblenden(gewisseAttr){
+       		var blende = suggestedAttributes;                       
+                   var l = blende.indexOf(gewisseAttr);
+                   blende.splice(l, 1);
+                   for (var j = 0; j < blende.length; j++) {
+                   var dis = $("div[title='" + blende[j] + "']", "." + uiMainDivId).draggable("disable");
+                   }
+                   return dis;
+                   }
+            
+           return editedAttributes;
         },
         
         //End of _trashIconClickable
@@ -629,38 +721,101 @@
         /* method to switch off/on the cv
          * IDEA: maybe better to construct the whole GUI part from _newEditAttribute in this method,
          * because easier to handle the setting of the attributes*/
-        _onoffButton: function (controlledVocButton) {
+        _onoffButton: function (controlledVocButton, editedAttributes) {
             
             var self = this,            
             suggestedAttributes = self.options.suggestedAttributes,            
-            editedAttributes = self.options.editedAttributes,            
+            editedAttributes,            
             cm = self.options.cm,            
             token = self.options.token;            
             
-            controlledVocButton.append($('<span id="onoff"></span>').css("float", "right").append($('<input type="radio" name="radio" id="on" value="on" checked="checked"/><label for="on" class="plug"> On </label>').css("font-size", "0.5em")).            
-            append($('<input type="radio" name="radio" id="off" value="off"/><label class="plug" for="off"> Off </label>').css("font-size", "0.5em")))
+            controlledVocButton.append($('<span id="onoff"></span>').css("float", "right").append($('<input type="radio" name="radio" id="on" value="on"/><label for="on" class="plug"> On </label>').css("font-size", "0.5em")).            
+            append($('<input type="radio" name="radio" id="off" value="off" checked="checked"/><label class="plug" for="off"> Off </label>').css("font-size", "0.5em")))
             
-            controlledVocButton.find("span").buttonset();
+            controlledVocButton.find("span").buttonset();   
+
             
-            if (controlledVoc == true) {                
-                controlledVocButton.find('#on').attr("checked", "checked");
-            } else {                
-                controlledVocButton.find('#off').attr("checked", "checked");
-            }         
+            function rowremove(gewissesAttr, editedAttributes){
+      
+            	 var nodeset = $(document).xrx.nodeset(cm.getInputField());                
+                 var controlId = nodeset.only.levelId;                
+                 var relativeId = token.state.context.id.split('.').splice(1);                
+                 var contextId = controlId.concat(relativeId);
+          	   var sein = new AttributesImpl();                        
+                 sein.addAttribute(undefined, gewissesAttr, gewissesAttr, undefined, '');                           
+                 var row = $("div:contains('" + gewissesAttr + "')", "." + uiEditAttributesDivClass);                              
+                 for (i in editedAttributes){
+                	 var index = editedAttributes[i].qName;
+              
+                	 if (i > -1) {
+                  
+                    	 editedAttributes.splice(i, 1);
+                     }
+                 }                         
+                 row.remove(); 
+                  
+                 $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);            
+               
+          }
             /* if the cv is switched off and the attributes IndexName, or lemma or sublemma are set,
              * these are going to be deleted and set to be draggable again.
              * At the end of the function the boolean var controlledVoc is set to true or false.*/
             controlledVocButton.find("input").change(function () {
                 
-                var nodeset = $(document).xrx.nodeset(cm.getInputField());                
+            	var nodeset = $(document).xrx.nodeset(cm.getInputField());                
                 var controlId = nodeset.only.levelId;                
                 var relativeId = token.state.context.id.split('.').splice(1);                
-                var contextId = controlId.concat(relativeId);               
-                
+                var contextId = controlId.concat(relativeId);            
+
                 var values = $("input:radio:checked").val();
-                
-                if (values == "off") {                    
-                    var inallSpans = $("div", "." + uiEditAttributeDivClass).find("span").not(".ui-icon");                    
+                                                
+                if (values == "off") {      
+                	controlledVoc = false;
+                    
+                    var liste = [];
+                  
+                    var sucheInput = $(".forms-mixedcontent-edit-attributes").children().find("input");
+                    
+                    sucheInput.each( function(index) {
+                        var attrname = $(this).attr('name');
+ 
+                        var attrvalue = $(this).attr('value');
+                        	liste.push({qName : attrname ,
+                        				value : attrvalue
+                        	});                   
+                        	
+                        });                
+                    
+                    var sucheOptions = $(".forms-mixedcontent-edit-attributes").children().find("option[selected]");
+                    
+                    sucheOptions.each( function(index) {
+                        var attrname = $(this).attr('name');
+
+                        var attrvalue = $(this).attr('title');
+                        	liste.push({qName : attrname ,
+                        				value : attrvalue
+                        	});                   
+                        	
+                        });
+                   editedAttributes = liste; //ich glaub das muss hier global gesetzt werden, sonst gibts die editedAttrbutes nicht.
+
+                   for (var i = 0; i < editedAttributes.length; i++){
+                	   if ((editedAttributes[i].qName == 'indexName')&& (editedAttributes[i].value == 'arthistorian')){
+                	   var x = rowremove('indexName', editedAttributes);
+                	   var y = rowremove('lemma', editedAttributes);
+                	   var z = rowremove('sublemma', editedAttributes);
+                	   
+                	   $("div[title='indexName']", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                	   $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                	   $("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                	 
+                	   }  
+                	   
+                   }
+                   console.log("Das sind die neuen EditedAttributes nach der For-Schleife!");
+                   console.log(editedAttributes);
+                	               	
+                   var inallSpans = $("div", "." + uiEditAttributeDivClass).find("span").not(".ui-icon");                    
                     var titelarray =[];
                     
                     for (var i = 0; i < inallSpans.length; i++) {                        
@@ -670,57 +825,30 @@
                             titelarray.push(at);
                         }
                     }
-                    if (titelarray.indexOf('indexName')>-1){
-                    	var sein = new AttributesImpl();                        
-                        sein.addAttribute(undefined, 'indexName', 'indexName', undefined, '');
-                        var row = $("div:contains('indexName')", "." + uiEditAttributesDivClass);                       
-                        row.remove();                        
-                        $("div[title='indexName']", "." + uiSuggestedAttributesDivClass).draggable("enable");                        
-                        $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
-                         /*var ind = verw.indexOf('ind');
-                         verw.splice(ind,1);
-                        }*/
-                    }
-                    if (titelarray.indexOf('indexName')>-1 && titelarray.indexOf('lemma')>-1){
-                    	var sein = new AttributesImpl();                        
-                        sein.addAttribute(undefined, 'lemma', 'lemma', undefined, '');
-                        var row = $("div:contains('lemma')", "." + uiEditAttributesDivClass);
-                        row.remove();                        
-                        $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");                        
-                        $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);                        
-                         /*var ind = verw.indexOf('ind');
-                         verw.splice(ind,1);
-                        }*/
-                    }
-                    if (titelarray.indexOf('indexName')>-1 && titelarray.indexOf('lemma')>-1 && titelarray.indexOf('sublemma') >-1){
-                    	var sein = new AttributesImpl();                        
-                        sein.addAttribute(undefined, 'sublemma', 'sublemma', undefined, '');
-                        var row = $("div:contains('sublemma')", "." + uiEditAttributesDivClass);
-                        row.remove();                        
-                        $("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");                        
-                        $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);                        
-                         /*var ind = verw.indexOf('ind');
-                         verw.splice(ind,1);
-                        }*/
-                    }
-                    
+       
                     var suggestedAttributesNamen =[];
-                    
+
                     for (var j = 0; j < suggestedAttributes.length; j++) {                        
                         var index = titelarray.indexOf(suggestedAttributes[j]);                        
                         if (index == -1) {                            
                             suggestedAttributesNamen.push(suggestedAttributes[j]);
                         }
                     }
-                    
+
+                    for (var i = 0; i < suggestedAttributes.length; i++){
+                    	
+                    		$("div[title='" + suggestedAttributes[i] + "']", "." + uiSuggestedAttributesDivClass).draggable("disable");                   	
+                    }
                     for (var i = 0; i < suggestedAttributesNamen.length; i++) {                        
                         $("div[title='" + suggestedAttributesNamen[i] + "']", "." + uiSuggestedAttributesDivClass).draggable("enable");
                     }
                     
                     controlledVoc = false;
-                    console.log(controlledVoc);
+
            
                 } else { 
+
+                	controlledVoc = true;
                 	var inallSpans = $("div", "." + uiEditAttributeDivClass).find("span").not(".ui-icon");                    
                     var titelarray =[];
                     
@@ -731,21 +859,12 @@
                         }
                     }
                     if (titelarray.indexOf('indexName')>-1){
-                    	var sein = new AttributesImpl();                        
-                        sein.addAttribute(undefined, 'indexName', 'indexName', undefined, '');
-                        var row = $("div:contains('indexName')", "." + uiEditAttributesDivClass);                        
-                        row.remove();                        
-                        $("div[title='indexName']", "." + uiSuggestedAttributesDivClass).draggable("enable");                        
-                        $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
-                        
+                    	var x = rowremove('indexName');                  
+                    	$("div[title='indexName']", "." + uiSuggestedAttributesDivClass).draggable("enable");
                     }
                     if (titelarray.indexOf('indexName')>-1 && titelarray.indexOf('lemma')>-1){
-                    	var sein = new AttributesImpl();                        
-                        sein.addAttribute(undefined, 'lemma', 'lemma', undefined, '');
-                        var row = $("div:contains('lemma')", "." + uiEditAttributesDivClass);                         
-                        row.remove();                        
-                                                
-                        $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
+                    	var x = rowremove('lemma');                                                
+                       // $('.xrx-instance').xrxInstance().deleteAttributes(contextId, sein);
                      
                     }
                     $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("disable");
@@ -808,8 +927,7 @@
                     var contextId = controlId.concat(relativeId);
                     
                     $('.xrx-instance').xrxInstance().insertAttributes(contextId, attributes);
-                    
-                    console.log('the atts are inserted');
+ 
                 }
             });
         },
