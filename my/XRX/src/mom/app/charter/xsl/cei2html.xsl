@@ -746,7 +746,7 @@
       <xsl:apply-templates/>
     </span>
   </xsl:template>
-
+  
   <xsl:template match="cei:supplied">
     <span class="cei-supplied">
       <xsl:attribute name="title">
@@ -1482,36 +1482,12 @@
       </xsl:call-template>
     </div>
   </xsl:template>
-  <xsl:template match="cei:damage">
-  <span class="damage" title="cei:damage">
-  <xsl:text>[</xsl:text>
-  <xsl:choose>
-   <xsl:when test=". != ''">
-  <xsl:value-of select="."/>
-    </xsl:when>
-    <xsl:otherwise>
-    <xsl:text>...</xsl:text>
-    </xsl:otherwise>
-  </xsl:choose>
-  <xsl:text>]</xsl:text>
-  </span>
-  </xsl:template>
 
-  <xsl:template match="cei:supplied">
-  <span class="suplied" title="cei:supplied">
-  <xsl:text>&lt;</xsl:text>
-  <xsl:value-of select="."/>
-  <xsl:text>&gt;</xsl:text>
-  </span>
-
-  </xsl:template>
-      <xsl:template match="cei:unclear">
-
-        <span class="unclear" title="cei:unclear" style="border-bottom:1px black dotted;">
-        <xsl:value-of select="."/>
-        </span>
-
-  </xsl:template>
+ <!-- <xsl:template match="cei:unclear">
+    <span class="unclear" title="cei:unclear" style="border-bottom:1px black dotted;">
+      <xsl:value-of select="."/>
+    </span>
+  </xsl:template>-->
 
   <!-- index persName -->
   <xsl:template name="persName">
