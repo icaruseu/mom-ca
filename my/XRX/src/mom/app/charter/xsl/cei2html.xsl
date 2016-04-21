@@ -791,7 +791,15 @@
   </xsl:template>
   
   <xsl:template match="cei:archIdentifier">
-  <xsl:apply-templates/> 
+  <xsl:choose>
+ <xsl:when test="text()[normalize-space()!='']">
+                 <xsl:value-of select="."/>
+             </xsl:when>
+  <xsl:otherwise>
+    <xsl:apply-templates/>  
+  </xsl:otherwise>
+  </xsl:choose>
+ 
   
    <xsl:if test="cei:ref/@target">
               <li style="list-style:none">
@@ -809,8 +817,11 @@
         </xsl:if>
   </xsl:template>    
  <xsl:template match="cei:idno">
-  <br/>
-  <xsl:value-of select="." />
+  
+   <xsl:value-of select="normalize-space(replace(., ',', ''))" />
+      <xsl:if test="following-sibling::*">
+                <xsl:text>, </xsl:text>
+      </xsl:if>
          <!--      <li>
                 <span>
                   <xrx:i18n>
@@ -836,13 +847,13 @@
     </xsl:template>
      <xsl:template match="cei:altIdentifier">
               <li>
-                <span>
+               <!--  <span>
                   <xrx:i18n>
                     <xrx:key>old-signature</xrx:key>
                     <xrx:default>Old Signature</xrx:default>
                   </xrx:i18n>
                   <span>:&#160;</span>
-                </span>
+                </span> -->
                 <xsl:value-of select="." />
               </li>           
       </xsl:template>
@@ -919,8 +930,12 @@
     </xsl:choose>
   </xsl:template>
   <xsl:template match="cei:arch">
-    <xsl:apply-templates />
-    <!-- <br /> -->
+     <xsl:value-of select="normalize-space(replace(., ',', ''))" /> 
+        <xsl:if test="following-sibling::*">
+                <xsl:text>, </xsl:text>
+         </xsl:if>
+     <!--<xsl:apply-templates />
+    <br /> -->
   </xsl:template>
   <xsl:template match="cei:archFonds">
     <xsl:apply-templates />
@@ -928,12 +943,19 @@
   </xsl:template>
   <xsl:template match="cei:settlement">
               <span>       
-                <xsl:value-of select="." />
+                <xsl:value-of select="normalize-space(replace(., ',', ''))" />
+               <xsl:if test="following-sibling::*">
+                <xsl:text>, </xsl:text>
+               </xsl:if>
               </span>            
   </xsl:template>
   <xsl:template match="cei:archFond">
-    <xsl:apply-templates />   
-           <!--  <li>
+     <xsl:value-of select="normalize-space(replace(., ',', ''))" />
+      <xsl:if test="following-sibling::*">
+                <xsl:text>, </xsl:text>
+               </xsl:if>
+  <!--  <xsl:apply-templates />   
+             <li>
                 <span>
                   <xrx:i18n>
                     <xrx:key>fond</xrx:key>
@@ -942,7 +964,7 @@
                   <span>:&#160;</span>
                 </span>
                 <xsl:value-of select="." />
-              </li>    -->     
+              </li>    -->   
   </xsl:template>
  
  <!--  <xsl:template match="cei:idno">
@@ -1020,6 +1042,7 @@
                           <xsl:text>:&#160;</xsl:text>
                         </span>
                       </b>
+                      <br/>
                       <xsl:apply-templates />
             
             </xsl:otherwise>
@@ -1052,6 +1075,7 @@
                           <xsl:text>:&#160;</xsl:text>
                         </span>
                       </b>
+                      <br/>
                       <xsl:apply-templates />
             
           </xsl:otherwise>

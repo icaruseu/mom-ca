@@ -408,13 +408,17 @@ $( "#radio" ).buttonset();
  javascript:addInfo();
 javascript:transport();
  javascript:proof();               
- 
+ console.log('my-charter.widget');
  if($("div#abstract").children().children().length == 0){{
           console.log("no abstract");
            var x = $("#abstract").css("display", "none");
             }}
-    if($("div.no-graphic").length == 0 ){{
-           console.log("no-graphic ist 0 in image-viewer");          
+    var verlinkt = $("div#graphics").find("a#img-link");
+    var missinglink = $("div#graphics").find("div.no-graphic");    
+    console.log(verlinkt);
+    console.log(missinglink);
+    if(verlinkt.length != 0){{
+           console.log("es gibt imgs im viewer");          
           var x = $("#graphics").css("display", "block");          
           }}
           else {{

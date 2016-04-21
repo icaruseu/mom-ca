@@ -439,6 +439,11 @@ div {{
   padding:0;
 }}
 
+#diplomaticAnalysis div.p div {{
+     padding-top: 10px;
+     line-height: 1.5em;
+}}
+
 div.witness-text{{
   position:relative;
   float:left;
@@ -1308,8 +1313,12 @@ cei-recipient {{
 	     	      }});
 
 	     	   console.log(" aus charter.widget");
-	     	  if($("div.no-graphic").length == 0 ){{
-           console.log("no-graphic ist 0 in image-viewer");          
+	   var verlinkt = $("div#graphics").find("a#img-link");
+    var missinglink = $("div#graphics").find("div.no-graphic");    
+    console.log(verlinkt);
+    console.log(missinglink);
+	     	  if(verlinkt.length != 0){{
+           console.log("es gibt imgs im viewer");          
           var x = $("#graphics").css("display", "block");          
           }}
           else {{
