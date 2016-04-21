@@ -1,0 +1,103 @@
+<xrx:service xmlns:eag="http://www.archivgut-online.de/eag" xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/editMomgetControlledVoc</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key></xrx:key>
+      <xrx:default></xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>maburg</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+
+ <xrx:variables>
+    <xrx:variable>
+      <xrx:name>$getlemma</xrx:name>
+      <xrx:expression>concat('#', request:get-parameter('lemma', ''))</xrx:expression>    
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$getlang</xrx:name>
+      <xrx:expression>request:get-parameter('sprache', '')</xrx:expression>    
+    </xrx:variable> 
+       <xrx:variable>
+      <xrx:name>$getsublemma</xrx:name>
+      <xrx:expression>concat('#', request:get-parameter('sublemma', ''))</xrx:expression>    
+    </xrx:variable>         
+  </xrx:variables>
+<!-- das Service ist momentan noch so konstruiert, dass 3 Hierarchieebenen abgefragt werde können.
+     durch den Wert der Variablen $getlemma wird die oberste hierachiebene bestimmt, wonach die
+     children und grandchildren ausgelesen zusammengefügt und als json-objekt zurückgeliefert werden.
+     Das json-objekt ($jsonO) sieht so aus: key = @rdf:about und value = prefLabel-Text auf Deutsch.
+     Die @lang Einstellung ist derzeit noch hart gecodet, weil das widget diese info nicht bereitstellt.
+     Wär schön, wenns gefixt wird.
+ -->
+  <xrx:init>
+   <xrx:processor>
+     <xrx:translateflag>false</xrx:translateflag>
+   </xrx:processor>
+  </xrx:init> 
+  <xrx:body>
+    {   let $vocabular := doc("/db/mom-data/metadata.controlledVocabulary.public/illurk-vocabulary.xml")/atom:entry       
+     return if($getlemma = '#no') 
+        then (
+        let $niveaus := data($vocabular//rdf:Description[parent::rdf:RDF]/@rdf:about)
+        let $lemmy := $niveaus
+        let $lemma := (for $entry in $lemmy
+                              return  replace($entry, '#', '')
+                              )      
+        let $lemmata := (for $i in $lemma
+                    return concat('"', $i ,'": "', $i, '"')
+                    )
+        let $jackyO := jsonx:object($lemmata)
+        return serialize($jackyO, ())
+      )
+            
+      else(
+        let $children := $vocabular//skos:prefLabel[@xml:lang=$getlang][parent::rdf:Description[parent::skos:narrower[parent::rdf:Description[@rdf:about=$getlemma]]]]     
+        let $sublemmaLabeltext := $children/following-sibling::skos:narrower/rdf:Description/skos:prefLabel[@xml:lang=$getlang]
+        let $sublemmaDesc := $vocabular//rdf:Description[parent::skos:narrower[parent::rdf:Description[@rdf:about=$getlemma]]]
+        let $sublemmastring := (for $i in $sublemmaDesc                                               
+                                          return                                          
+                                          if($i/child::skos:narrower)
+                                                  then 
+                                                  (                                                  
+                                                  for $ii at $pos in $sublemmaLabeltext/text()
+                                                                                 
+                                                        return
+                                                         (concat('"', data($sublemmaLabeltext[text()=$ii]/parent::rdf:Description/@rdf:about), '": "', $i/skos:prefLabel[@xml:lang=$getlang]/text(), ': ', $ii, '"'))
+                                                
+                                           )
+                                           else concat('"',data($i/@rdf:about), '": "', $i/skos:prefLabel[@xml:lang=$getlang]/text(), '"'))
+                                            
+           let $sublemma := (for $entry in $sublemmastring
+                              return  replace($entry, '#', '')
+                              )                   
+          let $jsonO:= jsonx:object($sublemma)
+          
+  
+            return serialize($jsonO, ())
+            
+          )
+       }
+  </xrx:body>
+</xrx:service>

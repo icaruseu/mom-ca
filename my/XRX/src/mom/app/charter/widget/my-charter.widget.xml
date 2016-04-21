@@ -231,8 +231,12 @@ it leaves the active development stage.
       <xrx:expression>xmldb:encode-uri(concat($wcharter:charter-context-url, charter:charterid($wcharter:next-and-previous[1]/root()//atom:id/text()), '/my-charter'))</xrx:expression>
     </xrx:variable>
     <xrx:variable>
+      <xrx:name>$wcharter:next-char</xrx:name>
+      <xrx:expression>if(exists($wcharter:next-and-previous[2]))then $wcharter:next-and-previous[2] else $wcharter:next-and-previous[1]</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
       <xrx:name>$wcharter:next</xrx:name>
-      <xrx:expression>xmldb:encode-uri(concat($wcharter:charter-context-url, charter:charterid($wcharter:next-and-previous[2]/root()//atom:id/text()), '/my-charter'))</xrx:expression>
+      <xrx:expression>xmldb:encode-uri(concat($wcharter:charter-context-url, charter:charterid($wcharter:next-char/root()//atom:id/text()), '/my-charter'))</xrx:expression>
     </xrx:variable>
     <!-- 
         image tools
@@ -396,7 +400,7 @@ jQuery(document).ready(function() {{
       <a href="{ $wcharter:charter-context-url }{ $charter:rcharterid }/edit" target="_blank">
       <span>EditMOM</span> 
       </a>      
-      <a href="mom/charter/{ $charter:rcharterid}/illurk" target="_blank">
+      <a href="{ $wcharter:charter-context-url }{ $charter:rcharterid }/edit?mode=illurk" target="_blank">
       <span>EditIllurk</span>
       </a>  
     </div>
@@ -405,6 +409,8 @@ jQuery(document).ready(function() {{
 $( "#radio" ).buttonset();
   
   $('document').ready(function() {{
+ javascript:addInfo();
+javascript:transport();
  javascript:proof();               
  
  if($("div#abstract").children().children().length == 0){{

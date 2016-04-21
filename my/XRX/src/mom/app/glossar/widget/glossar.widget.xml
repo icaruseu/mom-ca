@@ -53,27 +53,43 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
           <span>
           GLOSSAR
           </span>
+        </div>
+        <div>
+        <ul><li>
+        Glossary
+        </li>
+        <ul>
+        <li><a class="press">DieU-Initiale</a></li>
+        <li><a class="press">Christuskreuz</a></li>
+        <li><a class="press">Filigran</a></li>
+        <li><a class="press">DieRandzone</a></li>
+        </ul>
+        </ul>
         </div>        
    
 
-    <div id="result"/>
-      
-    <script type="text/javascript">    
-   (function($, undefined) {{
-    var self = this,        
-        servicegetText = "/service/getTextfromGlossar";
-        var vers = "Filigran";
+    <div id="result" style="float:left;"/>
+ 
+      <script type="text/javascript">    
+   (function($, undefined) {{ 
+        
+    $(".press").mouseover(function(){{
+            var eintrag = $(this).text();
+            console.log("Das ist der Eintrag");
+            console.log(eintrag);
          
     $.ajax({{     
       url: "/mom/service/getTextfromGlossar",
       type:"GET",      
       contentType: "application/xml",     
       dataType: "xml",
-      data: {{ id : vers}},
+      data: {{ id : eintrag}},
       success: function(data, textStatus, jqXHR)
-      {{ $("#result").text("das passt, war erfolgreich:" + data );     
+      {{ 
+      //$("#result").text("das passt, war erfolgreich:" + data );     
         console.log('erfolgreich'); 
         console.log(data);
+        $("#result").append(data.activeElement);
                 return true;
       }},     
       error: function(){{
@@ -81,7 +97,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
        
        return false;
       }}     
-    }}); 
+    }});
+    }}) 
     }} )(jQuery);   
     </script>
 

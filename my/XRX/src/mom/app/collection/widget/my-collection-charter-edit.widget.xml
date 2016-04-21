@@ -33,6 +33,10 @@
         </xrx:variable>
         <!-- charter -->
         <xrx:variable>
+        <xrx:name>$modusludens</xrx:name>
+        <xrx:expression>request:get-parameter('mode', '')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
             <xrx:name>$uuid</xrx:name>
             <xrx:expression> metadata:objectid($atomid)</xrx:expression>
         </xrx:variable>
@@ -246,6 +250,10 @@
             <xrx:name>$topics</xrx:name>
             <xrx:expression>xmleditor:json-element-topics($xrx-schema)</xrx:expression>
         </xrx:variable>
+         <xrx:variable>
+        <xrx:name>$sprache</xrx:name>
+        <xrx:expression>if($xrx:lang = 'deu') then 'de' else if ($xrx:lang = 'fra') then 'fr' else if ($xrx:lang = 'ita') then 'it' else 'en'</xrx:expression>
+        </xrx:variable>
         <!-- Annotation Tool service prefix -->
         <xrx:variable>
             <xrx:name>$service-prefix</xrx:name>
@@ -341,7 +349,7 @@
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxMessage</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxVisualxml</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxElements</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxAttributes</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xrxAttributes</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxTagname</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxReport</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxRepeat</xrx:resource>
@@ -459,7 +467,14 @@
                 <xrx:north>
                     <div data-demoid="48d984c8-63e8-48df-95bc-00ad1e2b62c5"
                         id="dmy-collection-header">
+                        {if($modusludens = 'illurk')
+                          then (
+                        <h2>EditIllurk</h2>
+                        )
+                        else(
                         <h2>EditMOM</h2>
+                        )
+                        }
                         <div data-demoid="4c56fbe3-1728-47c6-af7e-ab39fb266752" id="autoSaveStatus"
                         />
                     </div>
@@ -504,7 +519,18 @@
                                                   <xrx:default>abstract</xrx:default>
                                                   </xrx:i18n>
                                                   </a>
-                                                  </li> else () } { if(contains($helper,
+                                                  </li> else () }
+                                                     { if(contains($helper,
+                                                  "<tab_page>8</tab_page>")) then <li>
+                                                  <a class="anchor" href="#tab-8">
+                                                  <xrx:i18n>
+                                                  <xrx:key>decoDesc</xrx:key>
+                                                  <xrx:default>decoDesc</xrx:default>
+                                                  </xrx:i18n>
+                                                  </a>
+                                                  </li> else () }
+                                                  
+                                                   { if(contains($helper,
                                                   "<tab_page>2</tab_page>")) then <li>
                                                   <a class="anchor" href="#tab-2">
                                                   <xrx:i18n>
@@ -552,7 +578,9 @@
                                                   <xrx:default>appendix</xrx:default>
                                                   </xrx:i18n>
                                                   </a>
-                                                  </li> else () } </ul>
+                                                  </li> else () } 
+                                               
+                                                  </ul>
                                                 <!-- Creates the Content for the specific TabPage
                         ~ Contains the Charter and the distinct nodes from the Charter
                         -->
@@ -569,7 +597,10 @@
                                                 {mycollection:returnTabPageContent("6", $entry,
                                                 $distinct_nodes)}
                                                 {mycollection:returnTabPageContent("7", $entry,
-                                                $distinct_nodes)} </div>
+                                                $distinct_nodes)} 
+                                                {mycollection:returnTabPageContent("8", $entry,
+                                                $distinct_nodes)}
+                                                </div>
                                             <div class="ui-layout-north"
                                                 data-demoid="5da89345-2191-497a-98de-b895609836b1">
                                                 <div class="dmy-collection-toolbar"
@@ -762,17 +793,7 @@
                 $element-suggestions }</div>
             <div class="xrx-forms-json-topics" data-demoid="29dc1908-0c8d-4501-ab7d-5e0cbdc492b9"
                 style="display:none">{ $topics }</div>
-            <div class="xrx-forms-json-attribute-valuesuggestions" style="display:none"> {{
-                "cei:index":{{ "indexName": ["arthistorian"], "lemma": ["N1", "N2", "N3"],
-                "sublemma": [{{"N1":["HistoriatedDecoration","WithAdditionalColours: Miniatures",
-                "WithAdditionalColours: Initials", "WithAdditionalColours: Borders",
-                "WithAdditionalColours: CoatsofArms", "WithAdditionalColours: ExecutionDraw",
-                "WithAdditionalColours: ExecutionPainted"]}}, {{"N2": ["DrawnDecorationnothistoriated: DD-nh-Panels", 
-                "DrawnDecorationnothistoriated: Initials", "DrawnDecorationnothistoriated: DD-nh-Borders",
-                "DepictiveMotivesnothistoriated: figural", "DepictiveMotivesnothistoriated: zoomorphic", "DepictiveMotivesnothistoriated: otherMotivs"]}}, 
-                {{"N3": ["GraphicMeansofAuthenticating: Chrismon", "GraphicMeansofAuthenticating: Monogramm", "GraphicMeansofAuthenticating: Rota", 
-                "GraphicMeansofAuthenticating: SignumRecognitionis", "GraphicMeansofAuthenticating: SignumNotarile",
-                "GraphicMeansofAuthenticating: OtherSignsofAuthentication"]}} ]}}}} </div>
+            <div class="xrx-language-for-skos" style="display:none">{$sprache}</div>
             <script type="text/javascript"> jQuery(document).ready(function(){{ jQuery.ajaxSetup({{
                 cache: false }}); window.XPath = new XPath(); window.XPath.setNamespaceContext(
                 ["atom", "cei"], ["http://www.w3.org/2005/Atom",
