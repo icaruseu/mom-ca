@@ -194,7 +194,7 @@ declare function search:query-string-scope($metadata-charter-db-base-collection-
 (: the basic full text query string :)
 declare function search:term-query-string() as xs:string {
 
-    concat("$context//cei:text[ft:query(./descendant-or-self::*,'", $search:q, "',$search:options)]")
+    concat("$context//cei:text[ft:query(.,'", $search:q, "',$search:options)]")
 };
 
 
@@ -466,13 +466,14 @@ declare function search:eval2($query-string) {
     if(search:is-browse-action($query-string)) then ()
         
     else if(search:is-first-action()) then 
-        
+
         let $result := util:eval($query-string)
-        
+
         let $map := search:compile-categories-map($result)
 
+let $Log := util:log("ERROR", "categries")
         let $do := search:set-categories($map)
-        
+
         let $do := search:set-categories-filtered($map, 
                 session:get-attribute($search:CATEGORIES))
         
