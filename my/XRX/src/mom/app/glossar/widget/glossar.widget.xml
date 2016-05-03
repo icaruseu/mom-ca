@@ -22,14 +22,44 @@ You should have received a copy of the GNU General Public License
 along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 
 We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
-  </xrx:licence> 
-   <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/empty</xrx:portal>
-       <xrx:init>
-        <xrx:processor>
-            <xrx:xformsflag>false</xrx:xformsflag>
-            <xrx:jqueryflag>true</xrx:jqueryflag>
-        </xrx:processor>
-    </xrx:init>
+   </xrx:licence> 
+  <xrx:variables>
+   <xrx:variable>
+      <xrx:name>$parameter</xrx:name>
+      <xrx:expression>request:get-parameter('pm','')</xrx:expression>
+    </xrx:variable>  
+  </xrx:variables> 
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/empty</xrx:portal>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:xformsflag>true</xrx:xformsflag>
+      <xrx:jqueryflag>true</xrx:jqueryflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <link href="{ conf:param('request-root') }jquery/themes/base/jquery.ui.all.css" rel="stylesheet"/>
+    <style type="text/css">
+
+div.port  {{    
+    padding: 10px;    
+    float: left;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    font-family: Tahoma;
+    font-size: 10pt;    
+    text-align:justify;
+}} 
+p {{
+  width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    padding-right: 17px;
+}}
+
+
+  </style>
+  </xrx:csss>
     <xrx:jss>   
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
@@ -48,57 +78,41 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxMessage</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrx</xrx:resource>
   </xrx:jss>
-    <xrx:view>
-        <div class="h2">
-          <span>
-          GLOSSAR
-          </span>
-        </div>
-        <div>
-        <ul><li>
-        Glossary
-        </li>
-        <ul>
-        <li><a class="press">DieU-Initiale</a></li>
-        <li><a class="press">Christuskreuz</a></li>
-        <li><a class="press">Filigran</a></li>
-        <li><a class="press">DieRandzone</a></li>
-        </ul>
-        </ul>
-        </div>        
-   
-
-    <div id="result" style="float:left;"/>
+    <xrx:view>     
+          <h1>GLOSSAR</h1>
+          <h2>Illuminierte Urkunden</h2>       
+        <div class="entry" /> 
  
       <script type="text/javascript">    
    (function($, undefined) {{ 
-        
-    $(".press").mouseover(function(){{
-            var eintrag = $(this).text();
-            console.log("Das ist der Eintrag");
-            console.log(eintrag);
-         
+     var dieurl = window.location.href;
+     var parameter = dieurl.indexOf('pm=')+3;    
+      var gesamt = dieurl.length;   
+     var pm = dieurl.substring(parameter, gesamt);
+         console.log("Such Parameter aus URL");
+         console.log(pm);
     $.ajax({{     
-      url: "/mom/service/getTextfromGlossar",
+      url: "/mom/service/getGlossar",
       type:"GET",      
-      contentType: "application/xml",     
-      dataType: "xml",
-      data: {{ id : eintrag}},
+     // contentType: "application/xml",     
+      dataType: "html",
+      data: {{ pm : pm}},
       success: function(data, textStatus, jqXHR)
       {{ 
-      //$("#result").text("das passt, war erfolgreich:" + data );     
+          
         console.log('erfolgreich'); 
         console.log(data);
-        $("#result").append(data.activeElement);
-                return true;
+        $('div.entry').append(data);
+       
+        return true;
       }},     
       error: function(){{
-       $("#result").text("Error: Failed to load script.");
+       console.log("failed");
        
        return false;
       }}     
     }});
-    }}) 
+   
     }} )(jQuery);   
     </script>
 

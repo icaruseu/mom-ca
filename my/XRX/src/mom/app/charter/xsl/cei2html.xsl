@@ -27,7 +27,7 @@
     <xsl:choose>
       <xsl:when
         test="count($cei//cei:witnessOrig/cei:figure/cei:graphic) &gt; 0">
-
+        
         <xsl:call-template name="image" />
       </xsl:when>
       <xsl:otherwise>
@@ -72,7 +72,7 @@
         <xsl:call-template name="witness">
           <xsl:with-param name="num" select="position()" />
         </xsl:call-template>
-              
+                      
       </xsl:for-each>
       </div>
     </xsl:when>
@@ -81,13 +81,14 @@
                     $cei//cei:witnessOrig/cei:physicalDesc/cei:condition != ''">       
         
       <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af" id="witList">
-      <div class="p"> 
+      <!--<div class="p"> Material wurde 2mal angezeigt!! deshalb das weg
       <ul class="nostyle">
+       <xsl:apply-templates select="$cei//cei:witnessOrig/cei:physicalDesc"/>
       <xsl:apply-templates select="$cei//cei:witnessOrig/cei:physicalDesc/cei:material"/>
        <xsl:apply-templates select="$cei//cei:witnessOrig/cei:physicalDesc/cei:dimensions"/>
        <xsl:apply-templates select="$cei//cei:witnessOrig/cei:physicalDesc/cei:condition"/>
        </ul>
-       </div>
+       </div> -->
       <xsl:for-each select="$cei//cei:witnessOrig ">
      
         <!-- <xsl:value-of select="position()"/> -->
@@ -129,7 +130,7 @@
     </xsl:choose>
   </xsl:template>
 
-  <xsl:template match="xhtml:insert-abstract">
+  <xsl:template match="xhtml:insert-abstract"> 
     <xsl:choose>
       <xsl:when test="$cei//cei:chDesc/cei:abstract/text() != ''">
       <!-- <div data-demoid="b8e0ecd8-c6f1-49c3-bae2-c8b0b8c7074c" id="abstract"> 
@@ -371,7 +372,7 @@
       <xsl:sort select="." order="ascending" />
 
       <span>
-       
+        <p><xsl:value-of select="$image-base-uri"/><xsl:text>§§§§§§§§§§§§§§</xsl:text></p>
         <a
           href="javascript:changeImage('{concat($image-base-uri, .)}, 'position()')"
           class="imageLink">
@@ -385,6 +386,7 @@
     <xsl:for-each select="$cei//cei:witnessOrig/cei:figure/cei:graphic/@url">
       <xsl:sort select="." order="ascending" />
       <xsl:if test="position() = 1">
+      
         <a>
           <xsl:attribute name="href"><xsl:value-of
             select="concat($image-base-uri, .)" /></xsl:attribute>
@@ -396,7 +398,7 @@
             </xsl:attribute>
             <xsl:attribute name="name"><xsl:text>image</xsl:text></xsl:attribute>
             <xsl:attribute name="title"><xsl:value-of
-              select="." /></xsl:attribute>
+              select="./current()" /></xsl:attribute>
           </xsl:element>
         </a>
       </xsl:if>
@@ -1537,6 +1539,22 @@
           <xsl:call-template name="lemma"/>       
         </ul>
   </xsl:for-each>  
+  </xsl:template>
+  
+  <xsl:template match="cei:index[@indexName='IllUrkGlossar']">
+  <xsl:variable name="pm" select="./@lemma" />
+    <xsl:variable name="url" select="concat('/mom/glossar?pm=', $pm )" />
+    
+    <a target="_blank"><xsl:attribute name="title">
+    <xsl:value-of select="$url" />    
+    </xsl:attribute>
+    <xsl:attribute name="class">    
+    <xsl:text>glossaryInfo</xsl:text>   
+    </xsl:attribute>
+         
+    <xsl:value-of select="."/>
+    </a>
+  
   </xsl:template>
 
   <!-- how to cite -->

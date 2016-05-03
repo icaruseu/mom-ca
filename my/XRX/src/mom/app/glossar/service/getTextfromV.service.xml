@@ -1,5 +1,5 @@
 <xrx:service xmlns:eag="http://www.archivgut-online.de/eag" xmlns:xrx="http://www.monasterium.net/NS/xrx">
-  <xrx:id>tag:www.monasterium.net,2011:/mom/service/datalist</xrx:id>
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/getTextfromV</xrx:id>
   <xrx:title>
     <xrx:i18n>
       <xrx:key></xrx:key>
@@ -31,37 +31,25 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   </xrx:licence>
 
  <xrx:variables>
-   
     <xrx:variable>
-      <xrx:name>$getlang</xrx:name>
-      <xrx:expression>request:get-parameter('sprache', '')</xrx:expression>    
-    </xrx:variable>
-      <xrx:variable>
-      <xrx:name>$getsublemma</xrx:name>
-      <xrx:expression>concat('#', request:get-parameter('sublemma', ''))</xrx:expression>    
-    </xrx:variable>
-          
+      <xrx:name>$getlemma</xrx:name>
+      <xrx:expression>concat('#', request:get-parameter('lemma', ''))</xrx:expression>    
+      </xrx:variable>    
   </xrx:variables>
-
+<!-- das Service ist momentan noch so konstruiert, dass 3 Hierarchieebenen abgefragt werde können.
+     durch den Wert der Variablen $getlemma wird die oberste hierachiebene bestimmt, wonach die
+     children und grandchildren ausgelesen zusammengefügt und als json-objekt zurückgeliefert werden.
+     Das json-objekt ($jsonO) sieht so aus: key = @rdf:about und value = prefLabel-Text auf Deutsch.
+     Die @lang Einstellung ist derzeit noch hart gecodet, weil das widget diese info nicht bereitstellt.
+     Wär schön, wenns gefixt wird.
+ -->
   <xrx:init>
    <xrx:processor>
      <xrx:translateflag>false</xrx:translateflag>
    </xrx:processor>
   </xrx:init> 
   <xrx:body>
-      {    
-let $glossarlabel := data(collection("/db/mom-data/metadata.glossar.public/")/atom:entry[atom:id/text()='tag:www.monasterium.net,2011:/IllUrkGlossar']//skos:Concept/@rdf:about)
-let $glossartitel := collection("/db/mom-data/metadata.glossar.public/")/atom:entry[atom:id/text()='tag:www.monasterium.net,2011:/IllUrkGlossar']//skos:Concept/skos:prefLabel[@xml:lang='de']/text()
-
-return <select id="tags">
-{ for $i in $glossarlabel
-    for $ii in $glossartitel
-  return <option id="{$i}">{$ii}</option>
-}
-</select>
-
-
-
-}
+    {         
+       }
   </xrx:body>
 </xrx:service>

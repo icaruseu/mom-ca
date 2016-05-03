@@ -35,10 +35,15 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:mode>mainwidget</xrx:mode>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/glossar</xrx:atomid>
     </xrx:map>
-   <!--       <xrx:map>
-            <xrx:uripattern>/service/getTextfromGlossar$</xrx:uripattern>
+         <xrx:map>
+            <xrx:uripattern>/service/getTextfromV$</xrx:uripattern>
             <xrx:mode>service</xrx:mode>
-            <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/getTextfromGlossar</xrx:atomid>
-        </xrx:map> -->
+            <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/getTextfromV</xrx:atomid>
+        </xrx:map>         
+          <xrx:map>
+            <xrx:uripattern>/service/getGlossar$</xrx:uripattern>
+            <xrx:mode>service</xrx:mode>
+            <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/getGlossar</xrx:atomid>
+        </xrx:map> 
      </xrx:resolver>   
 </xrx:app>

@@ -123,6 +123,14 @@ it leaves the active development stage.
       </xrx:expression>
     </xrx:variable>
     <xrx:variable>
+      <xrx:name>$geordnet</xrx:name>
+      <xrx:expression>(
+      for $i in $wcharter-image-viewer:img-urls
+      order by $i ascending     
+      return $i             
+      )</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
     <xrx:name>$number-of-images</xrx:name>
     <xrx:expression>count($wcharter-image-viewer:img-urls)</xrx:expression>
     </xrx:variable>
@@ -328,6 +336,12 @@ img#aus {{
 				}
 			</div>
 			<div id="graphics">
+			<p id="imageviewerurls">{$wcharter-image-viewer:img-urls}</p>
+			<p id="construktorlinkedcharter">{$constructor:linked-charter}</p>	
+			<p id="construktorcharter">{$constructor:charter//cei:graphic/@url/string()}</p>			
+			<p>{$number-of-images}</p>
+			<p>{$geordnet}</p>
+			
       <div data-demoid="d650ad67-8ffe-42d9-8ec9-1ffcdab25e09" id="viewport">
 				{
 				if(count($wcharter-image-viewer:img-urls) gt 0 and not($wcharter-image-viewer:image-access-forbidden-flag)) then
