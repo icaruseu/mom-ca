@@ -28,7 +28,19 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
-  </xrx:licence> 
+  </xrx:licence>
+  <xrx:resources>
+      <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/mom</xrx:atomid>
+      <xrx:relativepath>image/</xrx:relativepath>
+      <xrx:name>MOM-Logo-transparent.gif</xrx:name>
+    </xrx:resource>
+   <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/logo</xrx:atomid>
+      <xrx:relativepath>image/</xrx:relativepath>
+      <xrx:name>mom-logo.png</xrx:name>
+    </xrx:resource>
+  </xrx:resources> 
   <xrx:resolver>
    <xrx:map>
       <xrx:uripattern>/glossar$</xrx:uripattern>
@@ -45,5 +57,6 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
             <xrx:mode>service</xrx:mode>
             <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/getGlossar</xrx:atomid>
         </xrx:map> 
-     </xrx:resolver>   
+     </xrx:resolver>
+   
 </xrx:app>

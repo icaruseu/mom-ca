@@ -130,15 +130,14 @@
                 	}
             }
             /* These if-else-conditions are necessary to lead the user in the case the user uses the cv
-             * when indexName is set with the value arthistorian, then lemma and sublemma are the
+             * when indexName is set with the value illurk-vocabulary, then lemma and sublemma are the
              * only draggable attributes. To do so in var blende are all the attributes, 
              * which are set to 'draggable disable'
              * when indexName and lemma are already set then just sublemma will be draggable.
              * in the else-condition all attributes, which are not edited, are set to be draggable. */
                 if (verw.indexOf('indexName') > -1
-                			&& wert.indexOf('arthistorian') > -1
-                			&& verw.indexOf('lemma') == -1 
-                    		&& verw.indexOf('sublemma') == -1)
+                			&& ((wert.indexOf('illurk-vocabulary') > -1) | (wert.indexOf('IllUrkGlossar') > -1))
+                			&& verw.indexOf('lemma') == -1)
                  {                  	
                 	
                 	/* Meiner Meinung nach muss nur lemma da rausgenommen werden,
@@ -147,17 +146,7 @@
                 	//var y = ausblenden('sublemma');
                 
                 }
-                else if (verw.indexOf('indexName') > -1
-                			&& wert.indexOf('arthistorian') > -1
-                			&& verw.indexOf('lemma') > -1 
-                			&& verw.indexOf('sublemma')==-1) {
               
-                	var x = ausblenden('sublemma');              
-                }
-                /*else if (controlledVoc == true && verw.indexOf('indexName')== -1){
-                	$("div[title='lemma']", "." + uiMainDivId).draggable("disable");
-                	$("div[title='sublemma']", "." + uiMainDivId).draggable("disable");
-                }*/
                 else {
                 	for (var i= 0; i < editedAttributes.length; i++){
                 		$("div[title='" + editedAttributes[i].qName + "']", "." + uiMainDivId).draggable("disable");
@@ -231,14 +220,14 @@
                 
                 /* it has to be proofed if from the last use of the attribute widget,
                  * the user used the cv or not.
-                 * if in the editedAttributes is the attr indexName with the value 'arthistorian'
+                 * if in the editedAttributes is the attr indexName with the value 'illurk-vocabulary'
                  * then the controllevVoc is true.
                  * Has to be changed, when the cv is used for other descriptions too.
-                 * Till now there is only 'arthistorian'.  
+                 * Till now there is only 'illurk-vocabulary'.  
                */
-               if ((elementName == "cei:index") && ((name == "lemma") | (name == "sublemma") | (name == "indexName"))){
+               if ((elementName == "cei:index") && ((name == "lemma") | (name == "indexName"))){
             	   for (var i=0;i < editedAttributes.length; i++){
-                   	if (editedAttributes[i].qName == 'indexName' && editedAttributes[i].value == 'arthistorian'){
+                   	if (editedAttributes[i].qName == 'indexName' && ((editedAttributes[i].value == 'illurk-vocabulary')| (editedAttributes[i].value == 'IllUrkGlossar'))){
                    		controlledVoc = true;
                    	}
                    
@@ -259,7 +248,7 @@
              * if false newEditAttributeInput (is an inputfield) is created.*/
             if (elementName == "cei:index") {
                                  
-                if ((controlledVoc == true) && ((name == "lemma") | (name == "sublemma") | (name == "indexName")))
+                if ((controlledVoc == true) && ((name == "lemma") | (name == "indexName")))
                 {
                                     	                               
                                                                  
@@ -284,27 +273,7 @@
             /* function saves all changes in the input field */
             
             newEditAttributeInput.keyup(function () {
-               /* if (name == 'lemma'){                    
-                   	$(function(){
-                   		$.ajax({     
-                            url: "/mom/service/datalist",
-                            type:"GET",                                
-                            dataType: "html",                            
-                            success: function(data, textStatus, jqXHR)
-                            {   console.log("datenliste soll erzeugt werden");      
-                            	console.log(data);
-                                  var datalist = data; 
-                                  newEditAttribute.append(datalist);
-                                      return true;
-                                    },     
-                            error: function(){
-                            	console.log('Error: Failed to load script.');                           
-                             
-                             return false;
-                            }     
-                          });
-                   	})
-                }*/
+             
                 var attributes = new AttributesImpl();
                 attributes.addAttribute(null, name, name, undefined, $(this).val());
                 var nodeset = $(document).xrx.nodeset(cm.getInputField());
@@ -324,15 +293,16 @@
             	
             	var sublemmawert;
             	var lemmawert;
+            	var indexnamewert;
             	if (name == "indexName"){
             		var einf = $("<option> --- </option>");
             		menuliste.append(einf);
-            		var iName = ['arthistorian'];
+            		var iName = ['illurk-vocabulary', 'IllUrkGlossar'];
             		for (var i=0; i<iName.length; i++){
             			var newli = $('<option>' + iName[i] + '</option>')
             			.addClass(uiSuggestedValueDivsClass).attr("title", iName[i]).attr("value", iName[i]).attr("name", name);
                 		if (iName[i] == value){
-               			 newli.attr("selected", "selected");
+               			 newli.attr("selected", "selected");               			 
                		}
                 		
                 		menuliste.append(newli);
@@ -377,7 +347,7 @@
                        
                        
                         }
-                        sublemmawert = subwert;
+                        //sublemmawert = subwert;
                         lemmawert = attributswert;
                         
                         }
@@ -388,15 +358,29 @@
                         * my-collection-charter-edit eingeführt,
                         * um die Sprache des Users mit der Sprache des ControllVoc
                         * abzugleichen.                        * 
-                        */
-                     
+                        */                       
+                        indexnamewert = $("option[name='indexName'][selected='selected']").val();
+                       /*
+                        * Wird die seite neu geladen, dann sind ist das selected nicht gesetzt und ich
+                        * hole den wert vom Attribut indexName aus den editedAttributes Objekt.
+                        * */
+                        if ($("option[name='indexName']").length == 0){
+                        	
+                        	for (i in editedAttributes){
+                        		if (editedAttributes[i].qName == "indexName"){
+                        			var indexwert = editedAttributes[i].value;
+                        			
+                        		}
+                        	
+                        	}                        	
+                        indexnamewert = indexwert;
+                        }
                         var sprachwert = $(".xrx-language-for-skos").text();                       
                         $.ajax({     
                             url: "/mom/service/editMomgetControlledVoc",
-                            type:"GET",      
-                            //contentType: "application/xml",     
+                            type:"GET",                                
                             dataType: "json", 
-                            data: {lemma:lemmawert, sublemma:sublemmawert, sprache:sprachwert},
+                            data: {indexname: indexnamewert, sprache:sprachwert},
                             success: function(data, textStatus, jqXHR)
                             {                           
                           for (var i in data){                            		
@@ -408,8 +392,9 @@
                            		}
                             		
                             		menuliste.append(newli);
-                            }                        
-                                                         
+                            }                       
+                                      console.log("geht!!!!!!") 
+                                      console.log(data)
                                       return true;
                                     },     
                             error: function(){
@@ -529,16 +514,16 @@
 
                 	
                 	 var x = rowremove('lemma', editedAttributes);
-                     var y = rowremove('sublemma', editedAttributes);
+                     //var y = rowremove('sublemma', editedAttributes);
                      var x = eruieren();              
                      controlledVoc = false;
                      
                 }
                 
                 
-                /* attribute 'indexName' can have value arthistorian,      
-                 * if it is 'arthistorian' the controlled vocabulary for the attributes lemma and sublemma is active. */              
-                if (attrvalue == 'arthistorian') { 
+                /* attribute 'indexName' can have value illurk-vocabulary,      
+                 * if it is 'illurk-vocabulary' the controlled vocabulary for the attributes lemma and sublemma is active. */              
+                if ((attrvalue == 'illurk-vocabulary')| ((attrvalue == 'IllUrkGlossar'))) { 
                 	
             		controlledVoc = true;
             		
@@ -546,7 +531,7 @@
                      $("div", "." + uiSuggestedAttributesDivClass).addClass("ui-state-disabled");
                      
                     var x = rowremove('lemma', editedAttributes);
-                    var y = rowremove('sublemma', editedAttributes);                           
+                    //var y = rowremove('sublemma', editedAttributes);                           
                 	});
                 
                     $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
@@ -557,17 +542,18 @@
                  * by a function in the XPath.js) which is string, it is possible to find out
                  * which value lemma has. This is necessary because editedAttributes doesn't
                  * provide this info.*/
-                if (name == 'lemma') {                                
+                /*if (name == 'lemma') {                                
                         controlledVoc = true;                        
                         $("div", "." + uiSuggestedAttributesDivClass).not("div[title='sublemma']").addClass("ui-state-disabled");                        
                         $("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
                         var y = rowremove('sublemma', editedAttributes);
              
-                } else if (name == 'sublemma') {
+                } */
+                //else if (name == 'sublemma') {
                 	
-                	var x = eruieren();            
+                //	var x = eruieren();            
                 	
-                } //if wird geschlossen
+              //  } //if wird geschlossen
                 
                 /* Set the new value of the attributes in the instance. The function replaceAttrbiuteValue of the
                  * jquery wigdet xrxInstance.js is called */                
@@ -676,12 +662,12 @@
      
                 
                	var x = rowremove('lemma', editedAttributes);
-                var y = rowremove('sublemma', editedAttributes);
+               // var y = rowremove('sublemma', editedAttributes);
                 var x = eruieren();
                 
                     $("div[title='indexName']", "." + uiSuggestedAttributesDivClass).draggable("enable");
                     $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("disable");
-                    $("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("disable");
+                   // $("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("disable");
              
                 
                 }
@@ -690,15 +676,15 @@
                 if (name == 'lemma' && $(editAttribute).find("select").length == 1) { 
                 	
                 	var x = rowremove('lemma', editedAttributes);
-                    var y = rowremove('sublemma', editedAttributes);
+                   // var y = rowremove('sublemma', editedAttributes);
                     var z = eruieren();
-                    var w = ausblenden('sublemma');            
+                   // var w = ausblenden('sublemma');            
                   
                 }
                 /*if sublemma is deleted, just sublemma should be set to be draggabel again.
                  * Important: sublemma depends on the value of lemma.
                  * in order to pass on the value the 'wert'array is updated with the current value of lemma. */
-                if (name == 'sublemma' && $(editAttribute).find("select").length == 1) {                	
+                /*if (name == 'sublemma' && $(editAttribute).find("select").length == 1) {                	
                 	var regular = nodeset.only.xml.match(/lemma=".*?"/);
                     var reg = regular.join();
                     var lemmaw = reg.slice(7, reg.length -1);
@@ -715,7 +701,7 @@
                     	$("div[title='" + suggestedAttributes[i] + "']", "." + uiMainDivId).draggable("disable");
                     	}                    
                     $("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-                }
+                }*/
                 /*That is the default case. Attribute is removed from the instance and in GUI set draggable again.*/
                 else {              
                 $('.xrx-instance').xrxInstance().deleteAttributes(contextId, attributes);
@@ -861,14 +847,14 @@
                    editedAttributes = liste; //ich glaub das muss hier global gesetzt werden, sonst gibts die editedAttrbutes nicht.
 
                    for (var i = 0; i < editedAttributes.length; i++){
-                	   if ((editedAttributes[i].qName == 'indexName')&& (editedAttributes[i].value == 'arthistorian')){
+                	   if ((editedAttributes[i].qName == 'indexName')&& ((editedAttributes[i].value == 'illurk-vocabulary') | (editedAttributes[i].value == 'IllUrkGlossar'))){
                 	   var x = rowremove('indexName', editedAttributes);
                 	   var y = rowremove('lemma', editedAttributes);
-                	   var z = rowremove('sublemma', editedAttributes);
+                	   //var z = rowremove('sublemma', editedAttributes);
                 	   
                 	   $("div[title='indexName']", "." + uiSuggestedAttributesDivClass).draggable("enable");
                 	   $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-                	   $("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                	   //$("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
                 	 
                 	   }  
                 	   
@@ -929,7 +915,7 @@
                      
                     }
                     $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("disable");
-                    $("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("disable");
+                    //$("div[title='sublemma']", "." + uiSuggestedAttributesDivClass).draggable("disable");
                     controlledVoc = true;
                 }
             });            

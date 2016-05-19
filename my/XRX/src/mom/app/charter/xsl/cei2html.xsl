@@ -132,7 +132,7 @@
 
   <xsl:template match="xhtml:insert-abstract"> 
     <xsl:choose>
-      <xsl:when test="$cei//cei:chDesc/cei:abstract/text() != ''">
+      <xsl:when test="$cei//cei:chDesc/cei:abstract/node() != ''">
       <!-- <div data-demoid="b8e0ecd8-c6f1-49c3-bae2-c8b0b8c7074c" id="abstract"> 
         <div class="p" data-demoid="9d6496f6-8645-4dd5-8804-ddf89e4fbc78"> -->
         <xsl:call-template name="abstract" />
@@ -290,50 +290,44 @@
   </xsl:template>
   <xsl:template match="xhtml:insert-item">
     <xsl:choose>
-     <!--  <xsl:when test="count($cei//cei:index/node()) &gt; 0">  --> 
+    <!-- <xsl:when test="count($cei//cei:index/node()) &gt; 0">  -->
      <xsl:when test="$cei//cei:index/node()">   
         <div id="item">
           <b>
+          <!-- <xsl:value-of select="count($cei//cei:index/node())" /> -->
             <xrx:i18n>
               <xrx:key>items</xrx:key>
               <xrx:default>Items</xrx:default>
             </xrx:i18n>
           </b>
           <ul>
-     <xsl:for-each-group select="//cei:index" group-by="@indexName">       
-     <xsl:sort select="@indexName"/>
-     <xsl:variable name="indexWert">
-     <xsl:value-of select="@indexName" />
-     </xsl:variable>
+     <xsl:if test="//cei:index[@indexName]">     
+  <xsl:for-each-group select="//cei:index" group-by="@indexName">
+  <xsl:sort select="@indexName" order="descending"/>
+     <xsl:variable name="indexWert" select="@indexName" /> 
       <li>
           <xrx:i18n>
             <xrx:key><xsl:value-of select="$indexWert"/></xrx:key>
             <xrx:default><xsl:value-of select="$indexWert"/></xrx:default>
           </xrx:i18n>
           <xsl:text>:&#160;</xsl:text>        
-        </li>
-        <!-- <xsl:if test="./@indexName='arthistorian'">
-        <li>
-          <xrx:i18n>
-            <xrx:key>arthistorian</xrx:key>
-            <xrx:default>Arthistorian</xrx:default>
-          </xrx:i18n>
-          <xsl:text>:&#160;</xsl:text>        
-        </li>
-        </xsl:if>
-         <xsl:if test="./@indexName='glossar'">
-        <li class="glossary"> 
-          <xrx:i18n>
-            <xrx:key>glossar</xrx:key>
-            <xrx:default>Glossary</xrx:default>
-          </xrx:i18n>
-          <xsl:text>:&#160;</xsl:text>        
-        </li>
-        </xsl:if>   -->                       
-           <xsl:call-template name="item"/>          
+        </li>                           
+           <xsl:call-template name="item">           
+           </xsl:call-template>          
+     </xsl:for-each-group>
+    </xsl:if>
+<!--     <xsl:if test="//cei:index[@lemma]">
+    <xsl:for-each-group select="//cei:index[@lemma]" group-by="@lemma">       
+     <xsl:sort select="@lemma"/>
+                             
+           <xsl:call-template name="item">           
+           </xsl:call-template>          
          </xsl:for-each-group>
-         <xsl:for-each-group select="//cei:index[not(@*)]" group-by="not(@*)">
-         <xsl:sort select="cei:index"/>
+    </xsl:if> -->
+    
+    
+    <xsl:if test="//cei:index[not(@*)]/node()">    
+        
           <li> 
           <xrx:i18n>
             <xrx:key>general</xrx:key>
@@ -341,8 +335,17 @@
           </xrx:i18n>
           <xsl:text>:&#160;</xsl:text>              
         </li>
-         <xsl:call-template name="item"/>
-         </xsl:for-each-group>                        
+        <ul class="inline glossary">
+        <xsl:for-each select="//cei:index[not(@*)]/node()">  
+         <xsl:sort select="cei:index"/>
+        <li>
+        <xsl:value-of select="."/>
+       </li>               
+         </xsl:for-each>
+         </ul>     
+     </xsl:if>
+        
+                               
           </ul>
         </div>    
       </xsl:when>
@@ -372,7 +375,7 @@
       <xsl:sort select="." order="ascending" />
 
       <span>
-        <p><xsl:value-of select="$image-base-uri"/><xsl:text>§§§§§§§§§§§§§§</xsl:text></p>
+        <p><xsl:value-of select="$image-base-uri"/></p>
         <a
           href="javascript:changeImage('{concat($image-base-uri, .)}, 'position()')"
           class="imageLink">
@@ -398,7 +401,7 @@
             </xsl:attribute>
             <xsl:attribute name="name"><xsl:text>image</xsl:text></xsl:attribute>
             <xsl:attribute name="title"><xsl:value-of
-              select="./current()" /></xsl:attribute>
+              select="hallo" /></xsl:attribute>
           </xsl:element>
         </a>
       </xsl:if>
@@ -1004,9 +1007,9 @@
   <xsl:template match="cei:abstract">
     <xsl:apply-templates />
   </xsl:template>
-  <xsl:template match="cei:bibl">
+ <!--  <xsl:template match="cei:bibl">
     <xsl:apply-templates />
-  </xsl:template>
+  </xsl:template>-->
   <xsl:template name="biblabstract">
     <xsl:apply-templates
       select="$cei//cei:sourceDesc/cei:sourceDescRegest/cei:bibl" />
@@ -1464,16 +1467,17 @@
     </xsl:choose>
   </xsl:template>
        
-  <xsl:template name="lemma">
-  <xsl:variable name="glossartyp"><xsl:value-of select="./@indexName"/></xsl:variable>
+  <xsl:template name="lemma">  
+
   <xsl:choose>
    <xsl:when test="./@lemma">
-   <li class="cat2">
-    <xsl:attribute name="class">
-            <xsl:value-of select="$glossartyp"/>
+      
+   <xsl:for-each-group select=".[@lemma]" group-by="@lemma">   
+   <li><xsl:attribute name="class">
+            <xsl:value-of select="@indexName"/>
           </xsl:attribute>
           <xsl:attribute name="lemma">
-          <xsl:value-of select="@lemma"/>
+          <xsl:value-of select="@lemma"/>          
           </xsl:attribute>
           <xsl:attribute name="value">          
           </xsl:attribute>
@@ -1482,13 +1486,10 @@
           <xsl:when test="./@sublemma">
           <xsl:attribute name="sublemma">
           <xsl:value-of select="./@sublemma" />
-          </xsl:attribute>          
-          <!--Werte werden im javascript charter.js erstellt!
-          <xsl:value-of select="./@lemma" />
-            <xsl:text>:&#160;</xsl:text>
-             <xsl:value-of select="./@sublemma"/> -->
+          </xsl:attribute>         
+          
             <ul class="cat3">
-          <li><xsl:value-of select="."></xsl:value-of> <!-- soll den inhalt von cei:index wiedergeben -->
+          <li><xsl:value-of select="."></xsl:value-of> 
           </li>
           </ul>          
           </xsl:when>
@@ -1498,16 +1499,16 @@
           </xsl:choose>       
           
     </li>
+</xsl:for-each-group> 
   </xsl:when>
    <xsl:otherwise>
-          <ul class="kat2ohnelemma">         
-          <li>    
+          <!-- <ul class="kat2ohnelemma">  -->        
+          <li class="plaintext">    
           <xsl:value-of select="."></xsl:value-of>          
           </li>
-          </ul>
+       
   </xsl:otherwise>
-  </xsl:choose>
- 
+  </xsl:choose> 
   </xsl:template>
 
   <!-- index placeName -->
@@ -1529,16 +1530,20 @@
   </xsl:template>
 
   <!-- index -->
-  <xsl:template name="item">
-  <xsl:for-each select="current-group()">          
+  <xsl:template name="item">  
+     
+ <!--  <xsl:for-each select="current-group()"> -->           
           <ul class="inline glossary">
           <xsl:call-template name="lang" />
           <xsl:call-template name="reg" />
           <xsl:call-template name="existent" />
           <xsl:call-template name="type" />
-          <xsl:call-template name="lemma"/>       
-        </ul>
-  </xsl:for-each>  
+                    
+         <xsl:call-template name="lemma"/>
+          
+          </ul>
+  
+ 
   </xsl:template>
   
   <xsl:template match="cei:index[@indexName='IllUrkGlossar']">
@@ -1551,7 +1556,9 @@
     <xsl:attribute name="class">    
     <xsl:text>glossaryInfo</xsl:text>   
     </xsl:attribute>
-         
+    <xsl:attribute name="href">
+     <xsl:value-of select="$url" />
+    </xsl:attribute>         
     <xsl:value-of select="."/>
     </a>
   
