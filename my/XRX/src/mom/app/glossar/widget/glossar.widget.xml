@@ -41,24 +41,19 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <style type="text/css">
 
 div.port  {{    
-    padding: 10px;    
-    float: left;
-    height: 100%;
-    width: 100%;
+        
+    float: left;    
+    width: 50%;
     overflow: hidden;
     font-family: Tahoma;
     font-size: 10pt;    
     text-align:justify;
 }} 
-p {{
-  width: 100%;
-    height: 100%;
-    overflow-y: scroll;
-    padding-right: 17px;
-}}
+
 
 
   </style>
+  <xrx:css>tag:www.monasterium.net,2011:/mom/css/glossarLOOK</xrx:css>
   </xrx:csss>
     <xrx:jss>   
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
@@ -78,7 +73,10 @@ p {{
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxMessage</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrx</xrx:resource>
   </xrx:jss>
-    <xrx:view>     
+    <xrx:view> 
+     <div id="momlogo">
+       <xrx:resource alt="mom" id="mom" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/logo</xrx:resource>      
+      </div>     
           <h1>GLOSSAR</h1>
           <h2>Illuminierte Urkunden</h2>       
         <div class="entry" /> 
@@ -111,8 +109,7 @@ p {{
        
        return false;
       }}     
-    }});
-   
+    }});   
     }} )(jQuery);   
     </script>
 

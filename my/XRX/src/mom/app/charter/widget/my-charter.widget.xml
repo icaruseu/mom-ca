@@ -316,8 +316,8 @@ it leaves the active development stage.
           <a href="{ concat(conf:param('request-root'), $charter:rcollectionid, '/my-collection?block=', $wcharter:block, '#ch', $wcharter:anchor) }">{ $wcharter:fond }</a>
           <span> &gt; </span>         
           <a href="{ request:get-url() }?{ request:get-query-string() }">{ $wcharter:idno }</a>
-        <p id="preferenz">{$wcharter:preferences}</p>
-        <p id="image-base-uri">{$wcharter:image-base-uri}</p>
+       <!-- <p id="preferenz">{$wcharter:preferences}</p>
+        <p id="image-base-uri">{$wcharter:image-base-uri}</p>-->
                 </div>     
       </xrx:view>
     </xrx:div>
@@ -408,34 +408,32 @@ $( "#radio" ).buttonset();
   
   $('document').ready(function() {{
     
-  $('a.glossaryInfo').each(function(index){{
-    var adr = $(this).attr("title");    
-    $(this).click(function(){{    
-    popitup(adr);
-  }}  )
+//  $('a.glossaryInfo').each(function(index){{
+  //  var adr = $(this).attr("title");    
+  //  $(this).click(function(){{    
+  //  popitup(adr);
+ // }}  )
     
-  }});
-  function popitup(url){{
-    var newwindow = window.open(url,'_blank','height=400,width=300');
-    if (window.focus) {{newwindow.focus()}}
-    return false;
-  }}
+//  }});
+ // function popitup(url){{
+ //   var newwindow = window.open(url,'_blank','height=400,width=300');
+ //   if (window.focus) {{newwindow.focus()}}
+ //   return false;
+ // }}
   
  javascript:addInfo();
 javascript:transport();
  javascript:proof();               
  console.log('my-charter.widget');
- if($("div#abstract").children().children().length == 0){{
-          console.log("no abstract");
-           var x = $("#abstract").css("display", "none");
-            }}
+
     var verlinkt = $("div#graphics").find("a#img-link");
     var missinglink = $("div#graphics").find("div.no-graphic");    
     console.log(verlinkt);
     console.log(missinglink);
     if(verlinkt.length != 0){{
            console.log("es gibt imgs im viewer");          
-          var x = $("#graphics").css("display", "block");          
+          var x = $("#graphics").css("display", "block");
+                    
           }}
           else {{
           console.log("no-graphic in image-viewer");

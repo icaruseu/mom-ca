@@ -111,21 +111,22 @@ it leaves the active development stage.
       	if($constructor:just-linked) then ()
       	else
 		      for $url in $constructor:charter//cei:graphic/@url/string()
-					order by $url
+					(:order by $url:)
 					return
 					if(contains($url, '/')) then $url else concat($constructor:image-base-uri, xmldb:encode($url))
 				,
 				for $url in $constructor:linked-charter//cei:graphic/@url/string()
-				order by $url
+				(:order by $url:)
 				return
 				if(contains($url, '/')) then $url else concat($constructor:linked-charter-image-base-uri, xmldb:encode($url))
 				)
       </xrx:expression>
     </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$geordnet</xrx:name>
+   <xrx:variable>
+       <xrx:name>$geordnet</xrx:name>
       <xrx:expression>(
       for $i in $wcharter-image-viewer:img-urls
+      let $teil := substring-before($i, '.jpg')
       order by $i ascending     
       return $i             
       )</xrx:expression>
@@ -324,9 +325,9 @@ img#aus {{
 						return
 						if($charter:rarchiveid != 'DE-LABW') then
 						  if ($num = 1) then
-						  <a class="imageLink" href="javascript:changeImage('{ $img-url }', '{$num}')" id="gelb">{ $num }</a>
+						  <a class="imageLink" title="{$img-url}" href="javascript:changeImage('{ $img-url }', '{$num}')" id="gelb">{ $num }</a>
 						  else (
-						  <a class="imageLink" href="javascript:changeImage('{ $img-url }', '{$num}')" id="schwarz">{ $num }</a>
+						  <a class="imageLink" title="{$img-url}" href="javascript:changeImage('{ $img-url }', '{$num}')" id="schwarz">{ $num }</a>
 						  )
 						
 						else()
@@ -336,11 +337,13 @@ img#aus {{
 				}
 			</div>
 			<div id="graphics">
+			<!--Für testzwecke:
 			<p id="imageviewerurls">{$wcharter-image-viewer:img-urls}</p>
 			<p id="construktorlinkedcharter">{$constructor:linked-charter}</p>	
+			 das scheint zu funktieren hier passt die Ordnung 
 			<p id="construktorcharter">{$constructor:charter//cei:graphic/@url/string()}</p>			
 			<p>{$number-of-images}</p>
-			<p>{$geordnet}</p>
+			<p>{$geordnet}</p>-->
 			
       <div data-demoid="d650ad67-8ffe-42d9-8ec9-1ffcdab25e09" id="viewport">
 				{

@@ -1320,18 +1320,15 @@ cei-recipient {{
     console.log(missinglink);
 	     	  if(verlinkt.length != 0){{
            console.log("es gibt imgs im viewer");          
-          var x = $("#graphics").css("display", "block");          
+          var x = $("#graphics").css("display", "block");
+          console.log(verlinkt);          
           }}
           else {{
           console.log("no-graphic in image-viewer");
           var x = $("#graphics").css("display", "none");
           }}
            $("div.actions").insertAfter("div#downloads");
-           
-          if($("div#abstract").children().children().length == 0){{
-          console.log("no abstract");
-           var x = $("#abstract").css("display", "none");
-            }}      
+             
            if($('div#indexlist').children().length == 0){{
             var x = $("#index").css("display", "none");         
           
