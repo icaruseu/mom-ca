@@ -375,9 +375,11 @@
                         	}                        	
                         indexnamewert = indexwert;
                         }
+
                         console.log("Was ist der Index WERTTTTTTTTTTTTTTTTT");
                         console.log(indexnamewert);
                         console.log(lemmawert);
+
                         var sprachwert = $(".xrx-language-for-skos").text();                       
                         $.ajax({     
                             url: "/mom/service/editMomgetControlledVoc",

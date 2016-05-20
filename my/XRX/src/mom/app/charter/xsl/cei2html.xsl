@@ -1477,8 +1477,8 @@
             <xsl:value-of select="@indexName"/>
           </xsl:attribute>
           <xsl:attribute name="lemma">
-          <xsl:value-of select="replace(@lemma, '#', '')"/>          
-          </xsl:attribute>
+          <xsl:value-of select="replace(@lemma, '#', '')"/>
+                    </xsl:attribute>
           <xsl:attribute name="value">          
           </xsl:attribute>
           <xsl:value-of select="./@type" />
