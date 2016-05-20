@@ -313,11 +313,10 @@
                 		var einf = $("<option> --- </option>");
                         menuliste.append(einf);
                         
-                        if (name == 'lemma'){
-                        	// lemmawert = 'no';
-                        	// sublemmawert = 'leer';
-                        //}
-                        //else {
+                        if (name == 'lemma'){                        	
+                        	attributswert = '';
+                        }
+                        else {
                         	var sucheOptions = $(".forms-mixedcontent-edit-attributes").children().find("option[selected]");
                         	var subwert = 'leer';
                         /*When sucheOptions.length is 0 then I know that the window was loaded again
@@ -348,7 +347,7 @@
                        
                         }
                         //sublemmawert = subwert;
-                        lemmawert = attributswert;
+                        lemmawert = attributswert.replace('#', '');
                         
                         }
                         /*  
@@ -374,25 +373,22 @@
                         	
                         	}                        	
                         indexnamewert = indexwert;
-                        }
-
-                        console.log("Was ist der Index WERTTTTTTTTTTTTTTTTT");
-                        console.log(indexnamewert);
-                        console.log(lemmawert);
+                        }                       
 
                         var sprachwert = $(".xrx-language-for-skos").text();                       
                         $.ajax({     
                             url: "/mom/service/editMomgetControlledVoc",
                             type:"GET",                                
                             dataType: "json", 
-                            data: {indexname: indexnamewert, sprache:sprachwert},
+                            data: {indexname: indexnamewert, lemma: lemmawert, sprache:sprachwert},
                             success: function(data, textStatus, jqXHR)
                             {                           
                           for (var i in data){                            		
                             		var valeur = data[i];                            		
                             		var newli = $('<option>' + valeur + '</option>')
                         			.addClass(uiSuggestedValueDivsClass).attr("title", valeur).attr("value", i).attr("name", name);
-                            		if (i == value){                            		
+                            		
+                            		if (i == value.replace('#', '')){                            		
                            			 newli.attr("selected", "selected");
                            		}
                             		

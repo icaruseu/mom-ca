@@ -39,10 +39,10 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:name>$getlang</xrx:name>
       <xrx:expression>request:get-parameter('sprache', '')</xrx:expression>    
     </xrx:variable> 
-     <!--   <xrx:variable>
-      <xrx:name>$getsublemma</xrx:name>
-      <xrx:expression>concat('#', request:get-parameter('sublemma', ''))</xrx:expression>    
-    </xrx:variable>   -->       
+     <xrx:variable>
+      <xrx:name>$getlemma</xrx:name>
+      <xrx:expression>concat('#', request:get-parameter('lemma', ''))</xrx:expression>    
+    </xrx:variable>       
   </xrx:variables>
 <!-- das Service ist momentan noch so konstruiert, dass 3 Hierarchieebenen abgefragt werde können.
      durch den Wert der Variablen $getlemma wird die oberste hierachiebene bestimmt, wonach die
@@ -50,6 +50,15 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
      Das json-objekt ($jsonO) sieht so aus: key = @rdf:about und value = prefLabel-Text auf Deutsch.
      Die @lang Einstellung ist derzeit noch hart gecodet, weil das widget diese info nicht bereitstellt.
      Wär schön, wenns gefixt wird.
+    let $vocabular := collection("/db/mom-data/metadata.controlledVocabulary.public")//atom:entry[contains(child::atom:id/text(), $getindexName)]
+       return if($getlemma != '#no') 
+        then (
+        let $lemmy := if($getindexName = 'illurk-vocabulary')then
+                       ($vocabular//rdf:Description[@rdf:about=$getlemma]/skos:prefLabel[@xml:lang=$getlang]/tex())
+                       else($vocabular//skos:concept[@rdf:about=$getlemma ]/skos:prefLabel/text())
+        let $jackyO := jsonx:object(concat('"', $getlemma ,'": "', $lemmy, '"'))
+        return serialize($jackyO, ())
+      )
   
  -->
   <xrx:init>
@@ -59,15 +68,15 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   </xrx:init> 
   <xrx:body>
   { 
-    let $vocabular := collection("/db/mom-data/metadata.controlledVocabulary.public")//atom:entry[contains(child::atom:id/text(), $getindexName)] 
-    let $unbestimmteslabel := if ($getindexName = 'illurk-vocabulary') 
+   let $vocabular := collection("/db/mom-data/metadata.controlledVocabulary.public")//atom:entry[contains(child::atom:id/text(), $getindexName)]
+   let $unbestimmteslabel := if ($getindexName = 'illurk-vocabulary') 
                               then ($vocabular//rdf:Description/skos:prefLabel[@xml:lang=$getlang] )
                               else($vocabular//rdf:RDF//skos:prefLabel ) 
      
-     let $unbestimmteslemma := if ($getindexName = 'illurk-vocabulary')
+          let $unbestimmteslemma := if ($getindexName = 'illurk-vocabulary')
                                 then(data($unbestimmteslabel/parent::rdf:Description/@rdf:about) )
                                 else(data($unbestimmteslabel/parent::skos:Concept/@rdf:about))     
-     let $paare := (for $i in $unbestimmteslabel
+          let $paare := (for $i in $unbestimmteslabel
              return  
              let $liste := if ($getindexName = 'illurk-vocabulary')
                            then(concat('"',normalize-space(replace(data($i/parent::rdf:Description/@rdf:about), '#', '')), '":"',normalize-space($i), '"'))
@@ -75,8 +84,8 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
                     
              return  $liste)
       let $jsonO := jsonx:object($paare)
-      return $jsonO          
-    
+      return $jsonO 
+      
      }
   </xrx:body>
 </xrx:service>
