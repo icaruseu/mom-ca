@@ -96,9 +96,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             </h3>
             <div class="sub-menu-item" data-demoid="55139597-d362-4422-94fa-840496164be4">
               <!--<a href="{ conf:param('request-root') }momathon?mode=task">Tasks for MOMathon</a><br/>-->
-              <b><a href="{ conf:param('request-root') }momathon?mode=google">Google Edit</a></b><br/>
-              <a href="{ conf:param('request-root') }momathon?mode=date">Date Edit</a><br/>
-              <a href="{ conf:param('request-root') }momathon?mode=transcription">Transcription Edit</a><br/> 
+              <!--<b><a href="{ conf:param('request-root') }momathon?mode=google">Google Edit</a></b><br/> -->
+              <b><a href="{ conf:param('request-root') }momathon?mode=date">Date Edit</a></b><br/>
+              <a href="{ conf:param('request-root') }momathon?mode=all">Advanced Edit</a><br/> 
               
 
               <!--
@@ -106,7 +106,16 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               <a href="{ conf:param('request-root') }momathon-charters?mode=google" target="_new">Google Edit</a><br/>
               <a href="{ conf:param('request-root') }momathon-charters?mode=transcription" target="_new">Transcription Edit</a> -->
               
-            </div>
+            </div><!--
+            <h3>
+              <xrx:i18n>
+                <xrx:key>contact</xrx:key>
+                <xrx:default>Contact</xrx:default>
+              </xrx:i18n>
+            </h3>
+            <div class="sub-menu-item" data-demoid="2f227a30-39df-4b3f-9bc7-aeaff8efb83">
+              <a href="http://webchat.freenode.net/?channels=%23MOMathon&amp;uio=d4" target="_blank">Chat with our Staff</a><br/>
+            </div> -->
             <h3>
               <xrx:i18n>
                 <xrx:key>result</xrx:key>
