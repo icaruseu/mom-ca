@@ -62,7 +62,7 @@
    <!--   <xsl:when test="$cei//cei:witnessOrig/* != ''">-->
    <xsl:when test="$cei//cei:witnessOrig/cei:traditioForm != '' or 
                   $cei//cei:witnessOrig/cei:figure != '' or
-                   $cei//cei:witnessOrig/cei:archIdentifier != '' or 
+                   $cei//cei:witnessOrig/cei:archIdentifier != '' or
                    $cei//cei:witnessOrig/cei:auth != '' or
                    $cei//cei:witnessOrig/cei:nota != '' or
                    $cei//cei:witnessOrig/cei:rubrum != ''">
@@ -78,9 +78,10 @@
     </xsl:when>
     <xsl:when test="$cei//cei:witnessOrig/cei:physicalDesc/cei:material != '' or
                     $cei//cei:witnessOrig/cei:physicalDesc/cei:dimensions != '' or
-                    $cei//cei:witnessOrig/cei:physicalDesc/cei:condition != ''">       
-        
+                    $cei//cei:witnessOrig/cei:physicalDesc/cei:condition != ''">
+
       <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af" id="witList">
+
       <!--<div class="p"> Material wurde 2mal angezeigt!! deshalb das weg
       <ul class="nostyle">
        <xsl:apply-templates select="$cei//cei:witnessOrig/cei:physicalDesc"/>
@@ -229,8 +230,8 @@
   
 
   <xsl:template match="xhtml:insert-enhancedView">
-   
-  <!--creates a div for presenting a map or glossar in index category see charter-view.template-->   
+
+  <!--creates a div for presenting a map or glossar in index category see charter-view.template-->
   </xsl:template>
   
   <xsl:template match="xhtml:insert-persName">
@@ -315,16 +316,7 @@
            <xsl:call-template name="item">           
            </xsl:call-template>          
      </xsl:for-each-group>
-    </xsl:if>
-<!--     <xsl:if test="//cei:index[@lemma]">
-    <xsl:for-each-group select="//cei:index[@lemma]" group-by="@lemma">       
-     <xsl:sort select="@lemma"/>
-                             
-           <xsl:call-template name="item">           
-           </xsl:call-template>          
-         </xsl:for-each-group>
-    </xsl:if> -->
-    
+    </xsl:if>    
     
     <xsl:if test="//cei:index[not(@*)]/node()">    
         
@@ -522,7 +514,7 @@
   <!-- common elements -->
   <xsl:template match="cei:ref[not(parent::cei:archIdentifier)]">
     <xsl:element name="a">
-    <xsl:attribute name="class">    
+    <xsl:attribute name="class">
     </xsl:attribute>
       <xsl:attribute name="href">
         <xsl:value-of select="@target" />
@@ -542,7 +534,7 @@
         <xsl:otherwise>
           <xsl:attribute name="target">
             <xsl:text>_blank</xsl:text>
-          </xsl:attribute>    
+          </xsl:attribute>
         </xsl:otherwise>
       </xsl:choose>
   <xsl:apply-templates />
@@ -553,16 +545,34 @@
   </xsl:template>
   <xsl:template match="cei:persName">
     <span class="cei-persname">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_persName</xrx:key>
+          <xrx:default>person name</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
       <xsl:apply-templates />
     </span>
   </xsl:template>
   <xsl:template match="cei:issuer">
     <span class="cei-issuer">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_issuer</xrx:key>
+          <xrx:default>issuer</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
       <xsl:apply-templates />
     </span>
   </xsl:template>
   <xsl:template match="cei:recipient">
     <span class="cei-recipient">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_recipient</xrx:key>
+          <xrx:default>recipient</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
       <xsl:apply-templates />
     </span>
   </xsl:template>
@@ -571,24 +581,48 @@
   </xsl:template>
   <xsl:template match="cei:measure">
     <span class="cei-measure">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_measure</xrx:key>
+          <xrx:default>measure</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
       <xsl:apply-templates />
     </span>
   </xsl:template>
 
   <xsl:template match="cei:pb">
     <span class="cei-pb">
-      <xsl:apply-templates />
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_pb</xrx:key>
+          <xrx:default>page break</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
+      <text>||</text><xsl:apply-templates />
     </span>
   </xsl:template>
 
   <xsl:template match="cei:handshift">
     <span class="cei-handshift">
-      <xsl:apply-templates />
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_handshift</xrx:key>
+          <xrx:default>new hand</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
+      <xsl:text>//</xsl:text><xsl:apply-templates />
     </span>
   </xsl:template>
 
   <xsl:template match="cei:add">
     <span class="cei-add">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_add</xrx:key>
+          <xrx:default>addition</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
       <xsl:apply-templates />
     </span>
   </xsl:template>
@@ -599,20 +633,62 @@
     </span>
   </xsl:template>
 
+  <xsl:template match="cei:expan">
+    <span class="cei-expan">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_expan</xrx:key>
+          <xrx:default>expanded abbreviation</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
+      <xsl:apply-templates/>
+    </span>
+  </xsl:template>
+
   <xsl:template match="cei:corr">
     <span class="cei-corr">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_corr</xrx:key>
+          <xrx:default>correction</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
+      <xsl:apply-templates />
+    </span>
+  </xsl:template>
+
+  <xsl:template match="cei:sic">
+    <span class="cei-sic">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_sic</xrx:key>
+          <xrx:default>sic</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
       <xsl:apply-templates />
     </span>
   </xsl:template>
 
   <xsl:template match="cei:reg">
     <span class="cei-reg">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_reg</xrx:key>
+          <xrx:default>normalized</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
       <xsl:apply-templates />
     </span>
   </xsl:template>
 
   <xsl:template match="cei:del">
     <span class="cei-del" title="cei:del" style="text-decoration:line-through">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_del</xrx:key>
+          <xrx:default>deleted</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
       <xsl:apply-templates />
     </span>
   </xsl:template>
@@ -623,6 +699,73 @@
   <xsl:template match="cei:del[@rend='show']">
     <span class="cei-del-orig">
       <xsl:apply-templates />
+    </span>
+  </xsl:template>
+
+  <xsl:template match="cei:pict">
+    <span class="cei-pict">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_pict</xrx:key>
+          <xrx:default>graphical element</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
+      <xsl:text> (</xsl:text><xsl:value-of select="@type"/><xsl:text>) </xsl:text>
+      <xsl:apply-templates/>
+    </span>
+  </xsl:template>
+
+  <xsl:template match="cei:damage">
+    <span class="cei-damage">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_damage</xrx:key>
+          <xrx:default>damage</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
+      <xsl:text>[</xsl:text>
+        <xsl:choose>
+          <xsl:when test="(not(*) or text()/normalize-space()!='')">
+            <xsl:text>...</xsl:text>
+          </xsl:when>
+          <xsl:otherwise><xsl:apply-templates/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>]</xsl:text>
+    </span>
+  </xsl:template>
+
+  <xsl:template match="cei:c">
+    <span class="cei-c">
+      <xsl:attribute name="title">
+        <xsl:text>palaeographical observation on characters</xsl:text>
+        <xsl:if test="normalize-space(@type)!=''"><xsl:text>: </xsl:text><xsl:value-of select="@type"/></xsl:if>
+      </xsl:attribute>
+      <xsl:apply-templates/>
+    </span>
+  </xsl:template>
+  
+  <xsl:template match="cei:supplied">
+    <span class="cei-supplied">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_supplied</xrx:key>
+          <xrx:default>supplied</xrx:default>
+        </xrx:i18n>
+      </xsl:attribute>
+      <xsl:apply-templates/>
+    </span>
+  </xsl:template>
+
+  <xsl:template match="cei:unclear">
+    <span class="cei-supplied">
+      <xsl:attribute name="title">
+        <xrx:i18n>
+          <xrx:key>cei_unclear</xrx:key>
+          <xrx:default>unclear</xrx:default>
+        </xrx:i18n>
+        <xsl:if test="normalize-space(@type)!=''"><xsl:text>: </xsl:text><xsl:value-of select="@type"/></xsl:if>
+      </xsl:attribute>
+      <xsl:apply-templates/>
     </span>
   </xsl:template>
 
@@ -749,7 +892,7 @@
                   <xsl:apply-templates />
                 </xsl:for-each>
               </li>
-          </xsl:if> 
+          </xsl:if>
         </ul>
       </div>
       <xsl:choose>
@@ -804,7 +947,6 @@
     <xsl:apply-templates/>  
   </xsl:otherwise>
   </xsl:choose>
- 
   
    <xsl:if test="cei:ref/@target">
               <li style="list-style:none">
@@ -876,9 +1018,7 @@
             </xsl:if> -->
   
   <xsl:template match="cei:physicalDesc">
-<xsl:apply-templates select="cei:condition" />
-<xsl:apply-templates select="cei:material" />
-<xsl:apply-templates select="cei:dimensions" />
+    <xsl:apply-templates select="*[not(name()='cei:decoDesc')]"/>
   </xsl:template>
   <xsl:template name="traditioForm">
     <xsl:apply-templates select="./cei:traditioForm" />
@@ -959,17 +1099,6 @@
       <xsl:if test="following-sibling::*">
                 <xsl:text>, </xsl:text>
                </xsl:if>
-  <!--  <xsl:apply-templates />   
-             <li>
-                <span>
-                  <xrx:i18n>
-                    <xrx:key>fond</xrx:key>
-                    <xrx:default>Fond</xrx:default>
-                  </xrx:i18n>
-                  <span>:&#160;</span>
-                </span>
-                <xsl:value-of select="." />
-              </li>    -->   
   </xsl:template>
  
  <!--  <xsl:template match="cei:idno">
@@ -1189,7 +1318,7 @@
           </xsl:for-each>
         </ul>
     </xsl:otherwise>
-    </xsl:choose>  
+    </xsl:choose>
       </xsl:if>
     </div>
   </xsl:template>
@@ -1207,8 +1336,8 @@
     <xsl:otherwise>
      <b>
           <xrx:i18n>
-            <xrx:key>references</xrx:key>
-            <xrx:default>References</xrx:default>
+            <xrx:key>cei_listBibl</xrx:key>
+            <xrx:default>Bibliography</xrx:default>
           </xrx:i18n>
           <span>:&#160;</span>
         </b>
@@ -1218,7 +1347,7 @@
           </xsl:for-each>
         </ul>
     </xsl:otherwise>
-    </xsl:choose>  
+    </xsl:choose>
       </xsl:if>
     </div>
   </xsl:template>
@@ -1340,7 +1469,7 @@
       <xsl:apply-templates />
     </p>
   </xsl:template>
-  <xsl:template match="cei:tenor">   
+  <xsl:template match="cei:tenor">
     <xsl:apply-templates />
   </xsl:template>
   <xsl:template name="bibltenor">
@@ -1362,36 +1491,12 @@
       </xsl:call-template>
     </div>
   </xsl:template>
-  <xsl:template match="cei:damage"> 
-  <span class="damage" title="cei:damage">
-  <xsl:text>[</xsl:text>
-  <xsl:choose>
-   <xsl:when test=". != ''">
-  <xsl:value-of select="."/>
-    </xsl:when>
-    <xsl:otherwise>
-    <xsl:text>...</xsl:text>
-    </xsl:otherwise>  
-  </xsl:choose> 
-  <xsl:text>]</xsl:text>
-  </span>  
-  </xsl:template>
-  
-  <xsl:template match="cei:supplied">
-  <span class="suplied" title="cei:supplied">
-  <xsl:text>&lt;</xsl:text>
-  <xsl:value-of select="."/>
-  <xsl:text>&gt;</xsl:text>
-  </span>
 
-  </xsl:template>
-      <xsl:template match="cei:unclear">
-
-        <span class="unclear" title="cei:unclear" style="border-bottom:1px black dotted;">
-        <xsl:value-of select="."/>
-        </span>
-
-  </xsl:template>
+ <!-- <xsl:template match="cei:unclear">
+    <span class="unclear" title="cei:unclear" style="border-bottom:1px black dotted;">
+      <xsl:value-of select="."/>
+    </span>
+  </xsl:template>-->
 
   <!-- index persName -->
   <xsl:template name="persName">
@@ -1479,24 +1584,28 @@
           <xsl:attribute name="lemma">
           <xsl:value-of select="replace(@lemma, '#', '')"/>
                     </xsl:attribute>
-          <xsl:attribute name="value">          
+          <xsl:attribute name="value">
           </xsl:attribute>
           <xsl:value-of select="./@type" />
           <xsl:choose>
           <xsl:when test="./@sublemma">
           <xsl:attribute name="sublemma">
           <xsl:value-of select="./@sublemma" />
-          </xsl:attribute>         
-          
+          </xsl:attribute>
+          <!--Werte werden im javascript charter.js erstellt!
+          <xsl:value-of select="./@lemma" />
+            <xsl:text>:&#160;</xsl:text>
+             <xsl:value-of select="./@sublemma"/> -->
+
             <ul class="cat3">
           <li><xsl:value-of select="."></xsl:value-of> 
           </li>
-          </ul>          
+          </ul>
           </xsl:when>
           <xsl:otherwise>
             <xsl:value-of select="."></xsl:value-of>
           </xsl:otherwise>
-          </xsl:choose>       
+          </xsl:choose>
           
     </li>
 </xsl:for-each-group> 
@@ -1504,7 +1613,7 @@
    <xsl:otherwise>
           <!-- <ul class="kat2ohnelemma">  -->        
           <li class="plaintext">    
-          <xsl:value-of select="."></xsl:value-of>          
+          <xsl:value-of select="."></xsl:value-of> 
           </li>
        
   </xsl:otherwise>

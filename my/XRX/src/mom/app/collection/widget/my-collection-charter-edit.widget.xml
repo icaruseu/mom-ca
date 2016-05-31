@@ -327,7 +327,7 @@
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/XMLFilterImpls</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/NamespaceSupport</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/AttributesImpl</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/SAXScanner</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/SAXScanner</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/ReaderWrapper</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/Reader</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/sax</xrx:resource>
