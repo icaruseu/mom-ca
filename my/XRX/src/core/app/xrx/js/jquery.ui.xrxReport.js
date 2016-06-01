@@ -71,11 +71,14 @@ $.widget( "ui.xrxReport", {
 				.text(status + " (" + duration + ")"),
 			
 			messageDiv = $('<div></div>'),
-		
+
 			listDiv = $('<ol></ol>');
+
 		
 		for(var key in messages) {
-			listDiv.append('<li>' + messages[key] + '</li>')
+		    errorDiv = $('<div name="error-code" value="' + messages[key][1] + '" fatal-error="' + messages[key][2] +'"></div>')
+			listDiv.append('<li>' + messages[key][0] + '</li>');
+			listDiv.append(errorDiv);
 		}
 		
 		messageDiv.append(listDiv);
