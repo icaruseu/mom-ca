@@ -97,8 +97,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             <div class="sub-menu-item" data-demoid="55139597-d362-4422-94fa-840496164be4">
               <!--<a href="{ conf:param('request-root') }momathon?mode=task">Tasks for MOMathon</a><br/>-->
               <!--<b><a href="{ conf:param('request-root') }momathon?mode=google">Google Edit</a></b><br/> -->
-              <b><a href="{ conf:param('request-root') }momathon?mode=date">Date Edit</a></b><br/>
-              <a href="{ conf:param('request-root') }momathon?mode=all">Advanced Edit</a><br/> 
+
+              <b><a href="{ conf:param('request-root') }momathon?mode=date" target="_blank">Date Edit</a></b><br/>
+              <a href="{ conf:param('request-root') }momathon?mode=all" target="_blank">Advanced Edit</a><br/> 
+
               
 
               <!--

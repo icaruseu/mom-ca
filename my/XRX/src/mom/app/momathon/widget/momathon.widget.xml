@@ -251,7 +251,9 @@
                 </div>
                 else if($mode ="all") then
                 <div>
-                  <h2 style="float:right;"><a href="{ conf:param('request-root') }momathon-charters?mode=all">&#187;Edit Charters - Advanced</a></h2><br/>
+
+                  <h2 style="float:right;"><a href="{ conf:param('request-root') }momathon-charters?mode=full">&#187;Edit Charters - Advanced</a></h2><br/>
+
                   <b>Task "Advanced"</b><br/>
                   <br/>
                   Within this task, you will have to edit Charters and enter the transcripted text of the charters into the corresponding field.<br/>
