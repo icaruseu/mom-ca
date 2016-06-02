@@ -412,19 +412,8 @@ $( "#radio" ).buttonset();
   
   $('document').ready(function() {{
     
-//  $('a.glossaryInfo').each(function(index){{
-  //  var adr = $(this).attr("title");    
-  //  $(this).click(function(){{    
-  //  popitup(adr);
- // }}  )
-    
-//  }});
- // function popitup(url){{
- //   var newwindow = window.open(url,'_blank','height=400,width=300');
- //   if (window.focus) {{newwindow.focus()}}
- //   return false;
- // }}
-  
+$(".open-viewer-link").hide();
+$("#zoomsliderlabel").hide();
  javascript:addInfo();
 javascript:transport();
  javascript:proof();               

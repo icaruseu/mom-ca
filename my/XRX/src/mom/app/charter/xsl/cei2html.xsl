@@ -8,7 +8,6 @@
   <xsl:preserve-space elements="cei:*" />
   <xsl:variable name="sitemap" select="/xhtml:page/xhtml:div"/>
   <xsl:variable name="cei" select="/xhtml:page//cei:text" />
-
   <xsl:template match="/">
     <xsl:apply-templates select="$sitemap" />
   </xsl:template>
@@ -313,11 +312,19 @@
           </xrx:i18n>
           <xsl:text>:&#160;</xsl:text>        
         </li>                           
-           <xsl:call-template name="item">           
+           <xsl:call-template name="item">                      
            </xsl:call-template>          
+           <xsl:if test="((count(./@*) = 1) and @indexName)"> 
+            <ul>
+            <xsl:for-each-group select="current-group()" group-by="text()">
+            <xsl:call-template name="text">
+            <xsl:with-param name="txt" select="text()"/>
+            </xsl:call-template>            
+            </xsl:for-each-group>         
+            </ul>  
+        </xsl:if>          
      </xsl:for-each-group>
     </xsl:if>    
-    
     <xsl:if test="//cei:index[not(@*)]/node()">    
         
           <li> 
@@ -335,9 +342,7 @@
        </li>               
          </xsl:for-each>
          </ul>     
-     </xsl:if>
-        
-                               
+     </xsl:if>                               
           </ul>
         </div>    
       </xsl:when>
@@ -392,8 +397,7 @@
               <xsl:value-of select="." />
             </xsl:attribute>
             <xsl:attribute name="name"><xsl:text>image</xsl:text></xsl:attribute>
-            <xsl:attribute name="title"><xsl:value-of
-              select="hallo" /></xsl:attribute>
+           
           </xsl:element>
         </a>
       </xsl:if>
@@ -1572,52 +1576,52 @@
     </xsl:choose>
   </xsl:template>
        
-  <xsl:template name="lemma">  
-
-  <xsl:choose>
-   <xsl:when test="./@lemma">
-      
-   <xsl:for-each-group select=".[@lemma]" group-by="@lemma">   
+  <xsl:template name="lemma"> 
+  <xsl:param name="lm" />
+  
+ <xsl:choose>
+   <xsl:when test="./@lemma">      
    <li><xsl:attribute name="class">
             <xsl:value-of select="@indexName"/>
           </xsl:attribute>
           <xsl:attribute name="lemma">
-          <xsl:value-of select="replace(@lemma, '#', '')"/>
+          <xsl:value-of select="@lemma"/>
                     </xsl:attribute>
           <xsl:attribute name="value">
           </xsl:attribute>
           <xsl:value-of select="./@type" />
           <xsl:choose>
           <xsl:when test="./@sublemma">
-          <xsl:attribute name="sublemma">
-          <xsl:value-of select="./@sublemma" />
-          </xsl:attribute>
-          <!--Werte werden im javascript charter.js erstellt!
-          <xsl:value-of select="./@lemma" />
-            <xsl:text>:&#160;</xsl:text>
-             <xsl:value-of select="./@sublemma"/> -->
-
-            <ul class="cat3">
-          <li><xsl:value-of select="."></xsl:value-of> 
-          </li>
-          </ul>
+          <xsl:for-each-group select="current-group()" group-by="@sublemma">
+           <xsl:call-template name="sublemma">
+           <xsl:with-param name="sub" select="current-grouping-key()"/>
+           </xsl:call-template>          
+          </xsl:for-each-group>         
           </xsl:when>
           <xsl:otherwise>
             <xsl:value-of select="."></xsl:value-of>
           </xsl:otherwise>
-          </xsl:choose>
-          
+          </xsl:choose>          
     </li>
-</xsl:for-each-group> 
   </xsl:when>
-   <xsl:otherwise>
-          <!-- <ul class="kat2ohnelemma">  -->        
+   <xsl:otherwise>          
           <li class="plaintext">    
           <xsl:value-of select="."></xsl:value-of> 
-          </li>
-       
+          </li>       
   </xsl:otherwise>
-  </xsl:choose> 
+  </xsl:choose>
+  </xsl:template>
+  <xsl:template name="sublemma">
+  <xsl:param name="sub"/>
+  <li>
+  <xsl:value-of select="sub"></xsl:value-of>
+  </li>
+  </xsl:template>
+  <xsl:template name="text">
+  <xsl:param name="txt"/>
+    <li class="green">
+  <xsl:value-of select="."></xsl:value-of>
+    </li>    
   </xsl:template>
 
   <!-- index placeName -->
@@ -1641,18 +1645,19 @@
   <!-- index -->
   <xsl:template name="item">  
      
- <!--  <xsl:for-each select="current-group()"> -->           
-          <ul class="inline glossary">
+  <xsl:for-each-group select="current-group()" group-by="@lemma">          
+          <ul class="inline glossary">       
+         
           <xsl:call-template name="lang" />
           <xsl:call-template name="reg" />
           <xsl:call-template name="existent" />
-          <xsl:call-template name="type" />
-                    
-         <xsl:call-template name="lemma"/>
-          
+          <xsl:call-template name="type" /> 
+          <xsl:call-template name="lemma">
+          <xsl:with-param name="lm" select="current-grouping-key()"/>
+          </xsl:call-template>
+        
           </ul>
-  
- 
+    </xsl:for-each-group> 
   </xsl:template>
   
   <xsl:template match="cei:index[@indexName='IllUrkGlossar']">

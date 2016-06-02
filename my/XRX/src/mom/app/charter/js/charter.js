@@ -234,7 +234,11 @@ function rapper(){
 				 * mit erstem Großbuchstaben im Glossar nach eintrag gesucht.*/
 				var entry = $(this)[0].attributes.lemma.textContent;
 				var gentry = entry.charAt(0).toUpperCase() + entry.slice(1);				
-				var anker = $('<a><a>').addClass('eintrag');				
+				var anker = $('<a><a>').addClass('eintrag');
+				console.log("Prüfe ein paar Variablen");
+				console.log(entry);
+				console.log(gentry);
+				console.log(anker);
 				$(this).wrapInner(anker).append('<span class="info_i">i</span>');			
 				$(this).click( function(){
 					console.log("click event on list");					
@@ -325,7 +329,7 @@ function transport(){
 		//var entry = $(this)[0].attributes.sublemma.value;
 		var self = $(this);
 		if(self[0].attributes.lemma.value == ""){
-			console.log("no sublemma value");
+			console.log("no lemma value");
 		}
 		else {
 		console.log(self);
