@@ -1,5 +1,5 @@
 <xrx:service xmlns:eag="http://www.archivgut-online.de/eag" xmlns:xrx="http://www.monasterium.net/NS/xrx">
-  <xrx:id>tag:www.monasterium.net,2011:/mom/service/datalist</xrx:id>
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/getGlossar</xrx:id>
   <xrx:title>
     <xrx:i18n>
       <xrx:key></xrx:key>
@@ -29,39 +29,36 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   </xrx:licence>
-
- <xrx:variables>
-   
-    <xrx:variable>
-      <xrx:name>$getlang</xrx:name>
-      <xrx:expression>request:get-parameter('sprache', '')</xrx:expression>    
+  <xrx:variables>
+   <xrx:variable>
+      <xrx:name>$getText</xrx:name>  
+      <xrx:expression>concat('#', request:get-parameter('pm', ''))</xrx:expression>
     </xrx:variable>
-      <xrx:variable>
-      <xrx:name>$getsublemma</xrx:name>
-      <xrx:expression>concat('#', request:get-parameter('sublemma', ''))</xrx:expression>    
-    </xrx:variable>
-          
-  </xrx:variables>
-
+        
+  </xrx:variables> 
+  
   <xrx:init>
    <xrx:processor>
      <xrx:translateflag>false</xrx:translateflag>
    </xrx:processor>
-  </xrx:init> 
+  </xrx:init>
   <xrx:body>
-      {    
-let $glossarlabel := data(collection("/db/mom-data/metadata.glossar.public/")/atom:entry[atom:id/text()='tag:www.monasterium.net,2011:/IllUrkGlossar']//skos:Concept/@rdf:about)
-let $glossartitel := collection("/db/mom-data/metadata.glossar.public/")/atom:entry[atom:id/text()='tag:www.monasterium.net,2011:/IllUrkGlossar']//skos:Concept/skos:prefLabel[@xml:lang='de']/text()
-
-return <select id="tags">
-{ for $i in $glossarlabel
-    for $ii in $glossartitel
-  return <option id="{$i}">{$ii}</option>
+    {    
+   let $glossarlabel := collection("/db/mom-data/metadata.glossar.public/")/atom:entry[atom:id/text()='tag:www.monasterium.net,2011:/IllUrkGlossar']//skos:Concept[@rdf:about=$getText]/skos:prefLabel/text()
+    let $glossardesc := collection("/db/mom-data/metadata.glossar.public/")/atom:entry[atom:id/text()='tag:www.monasterium.net,2011:/IllUrkGlossar']//skos:Concept[@rdf:about=$getText]/skos:definition/xhtml:p
+  
+let $glo := $getText
+  return 
+  <div class="port">  
+  <h3>{$glossarlabel}</h3>  
+   {          
+          for $i in $glossardesc              
+          return
+              
+              <p>{$i/node()}</p>
+              } 
+  </div>
 }
-</select>
 
-
-
-}
-  </xrx:body>
+  </xrx:body> 
 </xrx:service>
