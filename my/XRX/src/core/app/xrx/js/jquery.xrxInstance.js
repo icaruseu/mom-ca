@@ -118,14 +118,31 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	 * private functions
 	 */
 	function autosave() {
-
+        var errorIndicator = false;
+        
 		clearTimeout(onautosave);
-		$("#autoSaveStatus").text("Saving ...");
-		onautosave = setTimeout( function() {
-			// TODO: replace with event handler
-			console.log($(document).xmleditor("save"));
-			$(".xrx-report").xrxReport("validate");
-		}, 1000);	
+		/* get all error-codes from DOM */
+		errors = document.getElementsByName("error-code");
+		for (var i = 0; i < errors.length; i++)
+		{
+		    if(document.getElementsByName("error-code").item(i).getAttribute("fatal-error") == "1") {
+		        errorIndicator = true;
+		    } 
+		}
+		
+		/* if fatal-error is set, dont save and throw error */
+		if(!errorIndicator) {
+    		$("#autoSaveStatus").text("Saving ...");
+    		onautosave = setTimeout( function() {
+    			// TODO: replace with event handler
+    			console.log($(document).xmleditor("save"));
+
+    		}, 1000);
+    	} else {
+    	    $("#autoSaveStatus").text("Can't save because of a fatal validation error!");
+    	}
+    	
+        $(".xrx-report").xrxReport("validate");
 	};
 	
 })(jQuery);

@@ -101,7 +101,7 @@ declare function charters:block-strings($sorted-dates as xs:string*) as xs:strin
 ~   After this, get all Charters from the previous fetched Collections
 ~   Return Charters with their cei:date or cei:dateRange Nodes
 :)
-declare function charters:getGoogleCharters() {
+declare function charters:getGoogleCharters($mode as xs:string) {
 
     (: Base-Collection for all Collections :)
     let $col-collection := metadata:base-collection('collection', 'public')
@@ -150,8 +150,14 @@ declare function charters:getGoogleCharters() {
                                             
                                             
                             let $result := $charters:base-collection/atom:entry[ft:query(atom:id, $query, $options)] 
-                            return
-                                $result 
+			    (: if charters for the "google"-collections are found, retrieve charters and sort them :)
+                            let $back :=
+                                switch ($mode)
+				case "date" return charters:GetDateCharters($result)
+				case "google" return $result
+				default return $result
+			    return $back
+
             
                     let $chars := if(exists($charter//cei:dateRange)) then $charter//cei:dateRange/@to else $charter//cei:date/@value
                     
@@ -175,14 +181,21 @@ declare function charters:orderDate($quantity) {
 return $return
 };
 
-(: Return all Charters with Date/DateRange '99999999' :)
-declare function charters:GetDateCharters()  {
-    (: Get all Charters without any Consideration of Archive, Fond or Collection  :)
-    let $hits := $charters:base-collection//cei:issued//descendant-or-self::*[ft:query(@value, '99999999')]
-    (:let $hits_r := $charters:base-collection//cei:issued//descendant-or-self::*[ft:query(@to, '99999999')] :)
-    (: Return all Charters in an ordered State :)
+(: Return all Charters with Date/DateRange '99999999' | '00010101' :)
+declare function charters:GetDateCharters($nodeset)  {
+   
+    let $hits := $nodeset//cei:issued//descendant-or-self::*[ft:query(@value, '99999999')]
+
+    (: if no record was found with "99999999" try to search for "00010101" :)
+    let $return := if(count($hits) != 0) then $hits else $nodeset//cei:issued//descendant-or-self::*[ft:query(@value, '00010101')]
+
+    (: Return root of all Charters :)
+    let $value := for $char in $return
+		let $root := root($char)
+		return
+			$root
     return
-        ($hits)
+        ($value)
 };
 (: Return all Charters with Images :)
 declare function charters:GetTranscriptionCharters() {
@@ -202,10 +215,12 @@ declare function charters:GetMomathonCharter($parameter as xs:string)  {
 (: In Dependency of the given Parm, return Charterlist :)
 let $hits := 
     switch($parameter)
-        case "date" return charters:GetDateCharters()
-        case "google" return charters:getGoogleCharters()
+	(: all charters for the MOMATHON-event have to be "google"-charters :)
+	case "date" return charters:getGoogleCharters($parameter)
+        case "google" return charters:getGoogleCharters($parameter)
         case "transcription" return charters:GetTranscriptionCharters()
-        default return charters:GetDateCharters()
+	case "all" return charters:getGoogleCharters("google")
+        default return charters:getGoogleCharters("date")
 
 return
     $hits
