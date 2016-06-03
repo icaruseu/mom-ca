@@ -4487,9 +4487,10 @@
             <xs:documentation xml:lang="de">Urkundenart</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
+            <xs:attributeGroup ref="standard"/>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
-            <xs:attributeGroup ref="standard"/>
+            <xs:attributeGroup ref="key"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="region">
