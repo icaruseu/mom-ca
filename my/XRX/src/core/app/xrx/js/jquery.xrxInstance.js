@@ -132,6 +132,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 		
 		/* if fatal-error is set, dont save and throw error */
 		if(!errorIndicator) {
+                $("#autoSaveStatus")
+			.css({'color': ''})
+			.css({'color':'green'});
     		$("#autoSaveStatus").text("Saving ...");
     		onautosave = setTimeout( function() {
     			// TODO: replace with event handler
@@ -139,6 +142,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 
     		}, 1000);
     	} else {
+
+            $("#autoSaveStatus")
+			.css({'color': ''})
+			.css({'color':'red'});
     	    $("#autoSaveStatus").text("Can't save because of a fatal validation error!");
     	}
     	

@@ -27,6 +27,9 @@ module namespace charters="http://www.monasterium.net/NS/charters";
 import module namespace xrx="http://www.monasterium.net/NS/xrx"
     at "../xrx/xrx.xqm";
 
+import module namespace charter="http://www.monasterium.net/NS/charter"
+    at "../charter/charter.xqm";
+
 import module namespace metadata="http://www.monasterium.net/NS/metadata"
     at "../metadata/metadata.xqm";
 
@@ -40,6 +43,7 @@ declare variable $charters:start := $charters:rblock * 30 - 30;
 declare variable $charters:stop := $charters:rblock * 30;
 declare variable $charters:previous-block := if($charters:rblock = 1) then 1 else $charters:rblock - 1;
 declare variable $charters:base-collection := metadata:base-collection('charter', 'public');
+declare variable $charters:user-collection := collection("/db/mom-data/xrx.user/");
 (:~
   request related functions
 :)
@@ -174,9 +178,10 @@ declare function charters:getGoogleCharters($mode as xs:string) {
 declare function charters:orderDate($quantity) {
         let $return := for $hit in $quantity
             let $atomentry := $hit
+	    let $atomid := root($atomentry)//atom:id
             order by $atomentry
             return
-                $atomentry 
+                if(charter:in-use-by($charters:user-collection, $atomid,  $xrx:user-id) != "") then () else $atomentry 		
 
 return $return
 };
