@@ -161,7 +161,8 @@
                           <li><a href="{ conf:param('request-root') }momathon?mode=all" target="_blank">&#187;Advanced Edit</a> <br/></li>
                         </ul><br/>
                       </li>
-                      <li>How to use EditMOM3:   <a target ="_new" href="{ conf:param('request-root') }editmom-documentation">&#187;EditMOM</a>  <br/></li>
+                      <li>How to use EditMOM3:   <a target ="_new" href="{ conf:param('request-root') }editmom-documentation">&#187;EditMOM</a> or <a target ="_new" href="{ conf:param('request-root') }momathon-tutorial">&#187;Tutorial</a> <br/></li>
+		    
                     </ul>
                     <br/>
                     This happening takes place from 8AM until 10PM. After this, the MOM-CA-staff will evaluate the results of your work. On Wednesday we will announce the winner of the Event.<br/><br/>
