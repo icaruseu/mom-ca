@@ -172,7 +172,18 @@
                   Hint: <em>If supported, the language of the editor appears in your individual language. To change the language, please set your preferences on the top right of this page.</em>
                   
                   <h2>Contact</h2>
-                  If you need some assistance during the event or if you are facing any problems while using EditMOM3, feel free to contact us through our chat. Our staff will be available during the entire time of this event.
+                  If you need some assistance during the event or if you are facing any problems while using EditMOM3, feel free to contact us through our chat. Our staff will be available during the entire time of this event.<br/><br/>
+If you want to enter the <b>#MOMathon-Chatroom</b>, you have to pick a Nickname first. You can choose any Name you like.<br/><br/> 
+
+We have predefined the Channel, so you do not have to make any entries here.<br/><br/> 
+
+If you have already registred a Nickname to the freenode-Service, you can enter your credentials there ("Auth to services"). Otherwise you can skip this point.<br/><br/>
+ 
+To ensure that no spammers will enter the channel, you have to proof that you are not a "robot" or a "bot", while clicking some images. Just click on "I'm not a robot" and solve the given task. <br/><br/>
+
+After the validation process, you are able to connect to the channel by pressing the button "Connect".<br/><br/>
+
+You will be redirected to the channel. It can take a moment until the chat is finally loaded. If the loading process has finished, you are now able to enter a message and send it to us by pressing Enter.<br/>
                 <br/>
                   
                   <iframe src="http://webchat.freenode.net?channels=%23MOMathon&amp;uio=d4" 
