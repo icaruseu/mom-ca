@@ -231,7 +231,7 @@ You will be redirected to the channel. It can take a moment until the chat is fi
                   Our task is to correct the transcription of the charter and enter it inside the "Transcription"-tab.
                   <br/>
                   <br/>
-                  <b>For additional instructions how to work within the editor, please have a look into the <a href="mom/editmom-documentation" target="_new">&#187;Documentation</a> linked above or in the <a href="/mom/tutorial" target="_new">&#187;Tutorial</a> on top of the page.</b>
+                  <b>For additional instructions how to work within the editor, please have a look into the <a href="mom/editmom-documentation" target="_new">&#187;Documentation</a> linked above or in the <a href="/mom/momathon-tutorial" target="_new">&#187;Tutorial</a> on top of the page.</b>
                   <br/>
                 </div>
                 else if($mode ="date") then
@@ -257,7 +257,7 @@ You will be redirected to the channel. It can take a moment until the chat is fi
                   If there is an undefined value like "Um 1290", you can enter it inside the dateRange-Field. Please use the syntax, which is mentioned inside the Documentation. 
                   <br/>
                   <br/>
-                  <b>For additional instructions how to work within the editor, please have a look into the <a href="mom/editmom-documentation" target="_new">&#187;Documentation</a> linked above or in the <a href="/mom/tutorial" target="_new">&#187;Tutorial</a> on top of the page.</b>
+                  <b>For additional instructions how to work within the editor, please have a look into the <a href="mom/editmom-documentation" target="_new">&#187;Documentation</a> linked above or in the <a href="/mom/momathon-tutorial" target="_new">&#187;Tutorial</a> on top of the page.</b>
                   <br/>
                 </div>
                 else if($mode ="all") then
