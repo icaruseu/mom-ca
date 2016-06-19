@@ -143,6 +143,7 @@
               return
                 <div>
                   &#187; <b><a href="{conf:param('request-root')}momathon-detail?id={data($momathon/@id)}">MOMathon vom {data($momathon/@from)}</a></b><br/>
+                <br/>
                 </div>
               
               } 

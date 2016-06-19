@@ -34,13 +34,15 @@ import module namespace i18n="http://www.monasterium.net/NS/i18n"
 
 declare variable $assertion:template := template:get('tag:www.monasterium.net,2011:/core/template/assertion');
 
-declare function assertion:translate($message as xs:string) as xs:string? {
+declare function assertion:translate($message as xs:string) as xs:string* {
 
     let $key := substring-before($message, ':')
     let $assertion := $assertion:template//xrx:assertion[xrx:key=$key]
     let $translation := if($assertion) then assertion:translation($assertion, $message) else $message
+    let $fatalindicator := if($assertion) then $assertion//xrx:fatal/text() else "0"
+    let $return := ($translation, $key, $fatalindicator)
     return
-    $translation
+        $return
 };
 
 declare function assertion:translation($assertion as element(xrx:assertion), $message as xs:string) as xs:string {

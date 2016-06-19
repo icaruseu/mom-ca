@@ -7,18 +7,23 @@
 
 function changeImage(url, num){
 	var alleBilder = document.getElementsByClassName('imageLink');
+
 	for (var i=0;i<alleBilder.length; i++){
 
 		if(alleBilder[i].text == num ){
 			alleBilder[i].setAttribute('id', 'gelb');
+			
 		}
 		else {
 			alleBilder[i].setAttribute('id', 'black');
-		}
-
+		}		
 	}
+	//image in ansicht mit aktuellem title ausstatten
+	document.getElementById('img').setAttribute('title', url);
 	document.images["image"].src = url;
 	document.getElementById('img-link').setAttribute('href', url);
+	
+	
   // reload SVG and cancel create- process
   //jQuery(document).imageTool.resetSVGId();
   //jQuery(document).imageTool.loadSVG();
@@ -149,13 +154,23 @@ $(b).css("height", "20px");
 var allNone = $("div[style='display:none']").prev('div.cat').children().append(clonedIcon2);
 var show = $("div.cat").next(":not(div[style='display:none'])");
 var allShown = $(show).prev('div.cat').children().append(clonedIcon1);
+var emptyabstract = $("div#abstract").children("div.p");
 /* need to define exceptions because of irregularities in the html structure!!!!!*/
-if($("div#abstract").children().children().length == 0){
+if(($("div#abstract").children().children().length == 0 ) && (emptyabstract.val()== '')){
+	console.log('was wird da ausgegeben?');
+	console.log($("div#abstract").children().children());
+	console.log($("div#abstract").children());
+	$("div#abstract").css("display", "none");
 	$("div.abs").find('img').replaceWith(clon2);
 }
+//if(($("div#abstract").children("div"))
+console.log("Abstrakt unter der Lupe!");
+console.log(emptyabstract.val());
+console.log($("div#abstract").children().children().length);
 
 if($("div#indexlist").children().length == 0) {
 	$("div.idx").find('img').replaceWith(clone2);
+	$("div#index").css("display", "none");
 
 }
 else {
@@ -219,7 +234,11 @@ function rapper(){
 				 * mit erstem Großbuchstaben im Glossar nach eintrag gesucht.*/
 				var entry = $(this)[0].attributes.lemma.textContent;
 				var gentry = entry.charAt(0).toUpperCase() + entry.slice(1);				
-				var anker = $('<a><a>').addClass('eintrag');				
+				var anker = $('<a><a>').addClass('eintrag');
+				console.log("Prüfe ein paar Variablen");
+				console.log(entry);
+				console.log(gentry);
+				console.log(anker);
 				$(this).wrapInner(anker).append('<span class="info_i">i</span>');			
 				$(this).click( function(){
 					console.log("click event on list");					
@@ -306,28 +325,29 @@ $.ajax({
 function transport(){
 	var sprachwert = "de";
 	
-	$('li[sublemma]').each( function() {
+	$('li[lemma]').each( function() {
 		//var entry = $(this)[0].attributes.sublemma.value;
 		var self = $(this);
-		if(self[0].attributes.sublemma.value == ""){
-			console.log("no sublemma value");
+		if(self[0].attributes.lemma.value == ""){
+			console.log("no lemma value");
 		}
 		else {
 		console.log(self);
-		var sublemmawert = self[0].attributes.sublemma.value;
+		var sublemmawert = self[0].attributes.lemma.value;
 		var lemmawert = self[0].attributes.lemma.value;		
 		$.ajax({
 			url:"/mom/service/sublemma",
 			type:"GET",
 			dataType:"xml",
-			data: {sublemma : sublemmawert, sprache:sprachwert},
+			data: {sublemma : lemmawert, sprache:sprachwert},
 			success: function(data, textStatus, jqXHR)			{
 								
 				if(data.childNodes[0].childNodes[0] == undefined){
 						}
 				else {
 					var translation = data.childNodes[0].childNodes[0].data;					
-					self.text(lemmawert +': '+ translation);
+					self.text(translation);
+					//sublemmawert +': '+
 				}
 				
 				return true;

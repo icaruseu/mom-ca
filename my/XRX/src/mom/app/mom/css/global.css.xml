@@ -212,8 +212,11 @@ img{{
 /*
 *
 *   Transcription
->>>>>>> 05ac7ee9fa2ef09f81acbcafe4e199644f7a6f5b
 */
+
+.cei-persname {{
+    border-bottom:1px dotted #72856C;
+}}
 
 .cei-corr, .cei-supplied, .cei-unclear, .cei-sic {{
   background-color:#eaeaea;
