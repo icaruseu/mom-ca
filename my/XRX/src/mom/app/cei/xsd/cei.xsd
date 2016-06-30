@@ -8,7 +8,7 @@
 Wurzelelement für alle Dokumente, die den Regeln der CEI (Charters Encoding
 Initiative, http://www.cei.lmu.de) folgen. CEI-Ableger mit Angaben
 zur EditMOM-Verarbeitung als appinfo und verringert auf ein
-Auszeichnungskonzept für Monasterium.net 2006-05-21 Änderungen: 2015-10-17: supplied hinzugefügt (GV) 
+Auszeichnungskonzept für Monasterium.net 2006-05-21 Änderungen: 2016-05-28: (lem|rdg)@wit eingeführt 2015-10-17: supplied hinzugefügt (GV) 
 2010-02-08: group:layout als Kind von abstract eingeführt
 2009-11-20: listBibl wieder eingeführt 2009-09-04: minOccurs="1" und
 maxOccurs="1" für Elemente "body/idno", "issued" und "date_sort" für
@@ -2138,7 +2138,6 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                     <xs:group ref="Formular"/>
-                    <xs:element ref="note"/>
                     <xs:element ref="pTenor"/>
                 </xs:choice>
             </xs:sequence>
@@ -2756,6 +2755,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                 <xs:element ref="lb"/>
                 <xs:element ref="sup"/>
                 <xs:element ref="pict"/>
+                <xs:element ref="app"/>
             </xs:choice>
         </xs:sequence>
     </xs:group>
@@ -3046,6 +3046,8 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                                 <xs:group ref="textualElements"/>
                             </xs:choice>
                         </xs:sequence>
+                        <xs:attribute ref="wit"/>
+                        <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
                 </xs:element>
                 <xs:element maxOccurs="unbounded" name="rdg">
@@ -3069,12 +3071,15 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                                 <xs:group ref="reference"/>
                             </xs:choice>
                         </xs:sequence>
+                        <xs:attribute ref="wit"/>
+                        <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
+    <xs:attribute name="wit" type="xs:anySimpleType"/>
     <xs:element name="expan">
         <xs:annotation>
             <xs:appinfo source="EditVDU">
