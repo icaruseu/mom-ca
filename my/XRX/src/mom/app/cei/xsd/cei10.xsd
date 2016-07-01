@@ -1887,6 +1887,7 @@
             <xs:simpleContent>
                 <xs:extension base="xs:string">
                     <xs:attributeGroup ref="expan"/>
+                    <xs:attributeGroup ref="key"/>
                     <xs:attributeGroup ref="lang"/>
                     <xs:attributeGroup ref="standard"/>
                 </xs:extension>
