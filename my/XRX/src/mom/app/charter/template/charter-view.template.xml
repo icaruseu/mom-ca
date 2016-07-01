@@ -77,7 +77,7 @@ it leaves the active development stage.
         <a href="javascript:showHideDiv_neu('decoDesc', '')">    
           <xrx:i18n>
             <xrx:key>decoDesc</xrx:key>
-            <xrx:default>Arthistorian Description</xrx:default>
+            <xrx:default>Arthistorian Description</xrx:default>            
           </xrx:i18n>
         </a>
       </div>     

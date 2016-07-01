@@ -140,7 +140,7 @@
               <div data-demoid="7f01e942-bc55-4514-b6c2-830ce5f25a27" class="inner-charter-preview">
                 <div>
                   <span>
-                    <h2>MOMathon-Event : Tuesday 24th, November 2015</h2>
+                    <h2>MOMathon-Event : Tuesday 14th, June 2016</h2>
                   </span>
                 </div>
                 {
@@ -150,26 +150,45 @@
                     
                     Dear Participants,
                     <br/><br/>
-                    Welcome to our first MOMathon-Event  in St. Pölten, Austria.
+                    Welcome to our MOMathon-Event.
                     <br/>
                     On this and the following pages, you gain some instructions about <br/>
                     <ul>
                       <li>This are today's tasks: 
                         <ul>
-                          <li><a href="{ conf:param('request-root') }momathon?mode=google"><b>&#187;Google Edit</b></a> <br/></li>
-                          <li><a href="{ conf:param('request-root') }momathon?mode=date">&#187;Date Edit</a> <br/></li>
-                          <li><a href="{ conf:param('request-root') }momathon?mode=transcription">&#187;Transcription Edit</a> <br/></li>
+                         <!-- <li><a href="{ conf:param('request-root') }momathon?mode=google"><b>&#187;Google Edit</b></a> <br/></li>-->
+                          <li><a href="{ conf:param('request-root') }momathon?mode=date" target="_blank">&#187;Date Edit</a> <br/></li>
+                          <li><a href="{ conf:param('request-root') }momathon?mode=all" target="_blank">&#187;Advanced Edit</a> <br/></li>
                         </ul><br/>
                       </li>
-                      <li>How to use EditMOM3:   <a target ="_new" href="{ conf:param('request-root') }editmom-documentation">&#187;EditMOM</a>  <br/></li>
+                      <li>How to use EditMOM3:   <a target ="_new" href="{ conf:param('request-root') }editmom-documentation">&#187;EditMOM</a> or <a target ="_new" href="{ conf:param('request-root') }momathon-tutorial">&#187;Tutorial</a> <br/></li>
+		    
                     </ul>
                     <br/>
-                    This happening takes place for 3h. After this, the MOM-CA-staff will evaluate the results of your work. On Wednesday we will announce the winner of the Event.<br/><br/>
+                    This happening takes place from 8AM until 10PM. After this, the MOM-CA-staff will evaluate the results of your work. On Wednesday we will announce the winner of the Event.<br/><br/>
                     The Winner is, who has edited the biggest amount of charters.<br/>
                     <br/>
                     If there are any questions, please ask the staff for further informations about the event or the editor.<br/>
                     <br/>
                   Hint: <em>If supported, the language of the editor appears in your individual language. To change the language, please set your preferences on the top right of this page.</em>
+                  
+                  <h2>Contact</h2>
+                  If you need some assistance during the event or if you are facing any problems while using EditMOM3, feel free to contact us through our chat. Our staff will be available during the entire time of this event.<br/><br/>
+If you want to enter the <b>#MOMathon-Chatroom</b>, you have to pick a Nickname first. You can choose any Name you like.<br/><br/> 
+
+We have predefined the Channel, so you do not have to make any entries here.<br/><br/> 
+
+If you have already registred a Nickname to the freenode-Service, you can enter your credentials there ("Auth to services"). Otherwise you can skip this point.<br/><br/>
+ 
+To ensure that no spammers will enter the channel, you have to proof that you are not a "robot" or a "bot", while clicking some images. Just click on "I'm not a robot" and solve the given task. <br/><br/>
+
+After the validation process, you are able to connect to the channel by pressing the button "Connect".<br/><br/>
+
+You will be redirected to the channel. It can take a moment until the chat is finally loaded. If the loading process has finished, you are now able to enter a message and send it to us by pressing Enter.<br/>
+                <br/>
+                  
+                  <iframe src="http://webchat.freenode.net?channels=%23MOMathon&amp;uio=d4" 
+                    width="100%" height="600"></iframe>
                   </div>
                 else if($mode ="task") then
                 <div>
@@ -181,7 +200,7 @@
                 </div>
                 else if($mode ="google") then
                 <div>
-                  <h2 style="float:right;"><a href="{ conf:param('request-root') }momathon-charters?mode=google" target="_new">&#187;Edit Google-Charters</a></h2><br/>
+                  <h2 style="float:right;"><a href="{ conf:param('request-root') }momathon-charters?mode=google">&#187;Edit Google-Charters</a></h2><br/>
                   <b>Task "Google"</b><br/>
                   <br/>
                   Within this task, you will have to edit Charters, which were digitalized by &#169;Google.<br/><br/>
@@ -213,12 +232,12 @@
                   Our task is to correct the transcription of the charter and enter it inside the "Transcription"-tab.
                   <br/>
                   <br/>
-                  <b>For additional instructions how to work within the editor, please have a look into the <a href="mom/editmom-documentation" target="_new">&#187;Documentation</a> linked above or in the <a href="/mom/tutorial" target="_new">&#187;Tutorial</a> on top of the page.</b>
+                  <b>For additional instructions how to work within the editor, please have a look into the <a href="mom/editmom-documentation" target="_new">&#187;Documentation</a> linked above or in the <a href="/mom/momathon-tutorial" target="_new">&#187;Tutorial</a> on top of the page.</b>
                   <br/>
                 </div>
                 else if($mode ="date") then
                 <div>
-                  <h2 style="float:right;"><a href="{ conf:param('request-root') }momathon-charters?mode=date" target="_new">&#187;Edit Date-Charters</a></h2><br/>
+                  <h2 style="float:right;"><a href="{ conf:param('request-root') }momathon-charters?mode=date">&#187;Edit Charters - Datemode</a></h2><br/>
                   <b>Task "Date"</b><br/>
                   <br/>
                   Within this task, you will have to edit Charters where the date-entries are not set or set to a high value of "99999999"<br/><br/>
@@ -239,13 +258,15 @@
                   If there is an undefined value like "Um 1290", you can enter it inside the dateRange-Field. Please use the syntax, which is mentioned inside the Documentation. 
                   <br/>
                   <br/>
-                  <b>For additional instructions how to work within the editor, please have a look into the <a href="mom/editmom-documentation" target="_new">&#187;Documentation</a> linked above or in the <a href="/mom/tutorial" target="_new">&#187;Tutorial</a> on top of the page.</b>
+                  <b>For additional instructions how to work within the editor, please have a look into the <a href="mom/editmom-documentation" target="_new">&#187;Documentation</a> linked above or in the <a href="/mom/momathon-tutorial" target="_new">&#187;Tutorial</a> on top of the page.</b>
                   <br/>
                 </div>
-                else if($mode ="transcription") then
+                else if($mode ="all") then
                 <div>
-                  <h2 style="float:right;"><a href="{ conf:param('request-root') }momathon-charters?mode=transcription" target="_new">&#187;Edit Transcription-Charters</a></h2><br/>
-                  <b>Task "Transcription"</b><br/>
+
+                  <h2 style="float:right;"><a href="{ conf:param('request-root') }momathon-charters?mode=full">&#187;Edit Charters - Advanced</a></h2><br/>
+
+                  <b>Task "Advanced"</b><br/>
                   <br/>
                   Within this task, you will have to edit Charters and enter the transcripted text of the charters into the corresponding field.<br/>
                   Some of the Charters are digitalized by Google, so that it is possible to read the text without any necessarily palaeographic background.<br/><br/>

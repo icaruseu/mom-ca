@@ -82,7 +82,7 @@ return if ($checkType) then(
           for $i in $glossardesc              
           return
               
-              <p>{$i/node()}</p>
+              <p xmlns:xhtml="http://www.w3.org/1999/xhtml">{$i/node()}</p>
               }          
         </div>  )
 

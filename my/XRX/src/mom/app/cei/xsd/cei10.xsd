@@ -2623,6 +2623,7 @@
                 <xs:element ref="lb"/>
                 <xs:element ref="sup"/>
                 <xs:element ref="pict"/>
+                <xs:element ref="app"/>
             </xs:choice>
         </xs:sequence>
     </xs:group>

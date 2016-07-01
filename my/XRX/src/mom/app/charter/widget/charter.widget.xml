@@ -439,6 +439,11 @@ div {{
   padding:0;
 }}
 
+#diplomaticAnalysis div.p div {{
+     padding-top: 10px;
+     line-height: 1.5em;
+}}
+
 div.witness-text{{
   position:relative;
   float:left;
@@ -902,6 +907,7 @@ cei-recipient {{
                 <xrx:default>Previous Charter</xrx:default>
               </xrx:i18n>
             </a>
+
           </div>
           <div data-demoid="9b2eddc0-a341-4869-b48b-e0992db9f77c" id="next">
             <span>{ $wcharter:pos } </span>
@@ -1308,20 +1314,21 @@ cei-recipient {{
 	     	      }});
 
 	     	   console.log(" aus charter.widget");
-	     	  if($("div.no-graphic").length == 0 ){{
-           console.log("no-graphic ist 0 in image-viewer");          
-          var x = $("#graphics").css("display", "block");          
+	   var verlinkt = $("div#graphics").find("a#img-link");
+    var missinglink = $("div#graphics").find("div.no-graphic");    
+    console.log(verlinkt);
+    console.log(missinglink);
+	     	  if(verlinkt.length != 0){{
+           console.log("es gibt imgs im viewer");          
+          var x = $("#graphics").css("display", "block");
+          console.log(verlinkt);          
           }}
           else {{
           console.log("no-graphic in image-viewer");
           var x = $("#graphics").css("display", "none");
           }}
            $("div.actions").insertAfter("div#downloads");
-           
-          if($("div#abstract").children().children().length == 0){{
-          console.log("no abstract");
-           var x = $("#abstract").css("display", "none");
-            }}      
+             
            if($('div#indexlist').children().length == 0){{
             var x = $("#index").css("display", "none");         
           

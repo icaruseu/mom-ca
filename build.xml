@@ -478,7 +478,7 @@
       <replacefilter token="include.module.cache = false"
        value="include.module.cache = true" />
       <replacefilter token="http://apache.cs.uu.nl/dist/xmlgraphics/fop/binaries/fop-1.1-bin.zip"
-       value="http://mirror.ox.ac.uk/sites/rsync.apache.org/xmlgraphics/fop/binaries/fop-2.1-bin.zip"/> 
+       value="http://mirror.ox.ac.uk/sites/rsync.apache.org/xmlgraphics/fop/binaries/fop-2.1-bin.zip"/>
     </replace>
     <copy todir="${jetty-home}/tmp" overwrite="true">
       <fileset dir="${my-exist-jetty}/tmp">

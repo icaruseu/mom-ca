@@ -250,16 +250,16 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 		      <attributes>
 		        <attribute>
 		          <name>value</name>
-		          <caption lang="de">Zahl (JJJJMMTT)</caption>
-		          <caption lang="en">value (YYYYMMDD)</caption>
-		          <caption lang="it">Data (aaaammgg)</caption>
-		          <caption lang="sk">Číslo (RRRRMMDD)</caption>
-		          <caption lang="si">Število (LLLLMMDD)</caption>
-		          <caption lang="cz">Číslo (RRRRMMDD)</caption>
-		          <caption lang="hu">Szám (ééééhhnn)</caption>
+		          <caption lang="de">Zahl ([J]JJJMMTT)</caption>
+		          <caption lang="en">value ([Y]YYYMMDD)</caption>
+		          <caption lang="it">Data ([a]aaammgg)</caption>
+		          <caption lang="sk">Číslo ([R]RRRMMDD)</caption>
+		          <caption lang="si">Število ([L]LLLMMDD)</caption>
+		          <caption lang="cz">Číslo ([R]RRRMMDD)</caption>
+		          <caption lang="hu">Szám ([é]éééhhnn)</caption>
 		          <caption lang="hr"/>
 		          <doc lang="de">Unvollständige Datumsangeben werden mit 99 ausgefüllt.
-		          Bsp.: 1230 Mai wird zu 1230-05-99, 843 wird zur 843-99-99</doc>
+		          Bsp.: 1230 Mai wird zu 12300599, 843 wird zur 8439999</doc>
 		        </attribute>
 		        <attribute>
 		          <name>certainty</name>
@@ -306,13 +306,13 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 		      <attributes>
 		        <attribute>
 		          <name>from</name>
-		          <caption lang="de">von (JJJJMMTT)</caption>
-		          <caption lang="en">from (YYYYMMDD)</caption>
-		          <caption lang="it">da (aaaammgg)</caption>
-		          <caption lang="sk">od (RRRRMMDD)</caption>
-		          <caption lang="si">Od (LLLLMMDD)</caption>
-		          <caption lang="cz">od (RRRRMMDD)</caption>
-		          <caption lang="hu">-tól (ééééhhnn)</caption>
+		          <caption lang="de">von ([J]JJJMMTT)</caption>
+		          <caption lang="en">from ([Y]YYYMMDD)</caption>
+		          <caption lang="it">da ([a]aaammgg)</caption>
+		          <caption lang="sk">od ([R]RRRMMDD)</caption>
+		          <caption lang="si">Od ([L]LLLMMDD)</caption>
+		          <caption lang="cz">od ([R]RRRMMDD)</caption>
+		          <caption lang="hu">-tól ([é]éééhhnn)</caption>
 		          <caption lang="hr"/>
 		          <doc lang="de">Gibt das frühest mögliche Datum an.</doc>
 		          <doc lang="en"/>
@@ -325,13 +325,13 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 		        </attribute>
 		        <attribute>
 		          <name>to</name>
-		          <caption lang="de">bis (JJJJMMTT)</caption>
-		          <caption lang="en">to (YYYYMMDD)</caption>
-		          <caption lang="it">a (aaaammgg)</caption>
-		          <caption lang="sk">do (RRRRMMDD)</caption>
-		          <caption lang="si">Do (LLLLMMDD)</caption>
-		          <caption lang="cz">do (RRRRMMDD)</caption>
-		          <caption lang="hu">-ig (ééééhhnn)</caption>
+		          <caption lang="de">bis ([J]JJJMMTT)</caption>
+		          <caption lang="en">to ([Y]YYYMMDD)</caption>
+		          <caption lang="it">a ([a]aaammgg)</caption>
+		          <caption lang="sk">do ([R]RRRMMDD)</caption>
+		          <caption lang="si">Do ([L]LLLMMDD)</caption>
+		          <caption lang="cz">do ([R]RRRMMDD)</caption>
+		          <caption lang="hu">-ig ([é]éééhhnn)</caption>
 		          <caption lang="hr"/>
 		          <doc lang="de">Gibt das spätest mögliche Datum an.</doc>
 		          <doc lang="en"/>
@@ -2723,16 +2723,16 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 		      <attributes>
 		        <attribute>
 		          <name>value</name>
-		          <caption lang="de">Zahl: (JJJJMMTT)</caption>
-		          <caption lang="en">value (YYYYMMDD)</caption>
-		          <caption lang="it">In cifre (aaaammgg)</caption>
-		          <caption lang="sk">Číslo: (RRRRMMDD)</caption>
-		          <caption lang="si">Število (LLLLMMDD)</caption>
-		          <caption lang="cz">Číslo: (RRRRMMDD)</caption>
-		          <caption lang="hu">Szám (ééééhhnn)</caption>
+		          <caption lang="de">Zahl: ([J]JJJMMTT)</caption>
+		          <caption lang="en">value ([Y]YYYMMDD)</caption>
+		          <caption lang="it">In cifre ([a]aaammgg)</caption>
+		          <caption lang="sk">Číslo: ([R]RRRMMDD)</caption>
+		          <caption lang="si">Število ([L]LLLMMDD)</caption>
+		          <caption lang="cz">Číslo: ([R]RRRMMDD)</caption>
+		          <caption lang="hu">Szám ([é]éééhhnn)</caption>
 		          <caption lang="hr"/>
 		          <doc lang="de">Unvollständige Datumsangeben werden mit 99 ausgefüllt.
-		          Bsp.: 1230 Mai wird zu 1230-05-99, 843 wird zur 843-99-99</doc>
+		          Bsp.: 1230 Mai wird zu 12300599, 843 wird zur 8439999</doc>
 		        </attribute>
 		        <attribute>
 		          <name>certainty</name>
@@ -2795,13 +2795,13 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 		      <attributes>
 		        <attribute>
 		          <name>from</name>
-		          <caption lang="de">von (JJJJMMTT)</caption>
-		          <caption lang="en">from (YYYYMMDD)</caption>
-		          <caption lang="it">da (aaaammgg)</caption>
-		          <caption lang="sk">Od (RRRRMMDD)</caption>
-		          <caption lang="si">Od (LLLLMMDD)</caption>
-		          <caption lang="cz">od (RRRRMMDD)</caption>
-		          <caption lang="hu">-tól (ééééhhnn)</caption>
+		          <caption lang="de">von ([J]JJJMMTT)</caption>
+		          <caption lang="en">from ([Y]YYYMMDD)</caption>
+		          <caption lang="it">da ([a]aaammgg)</caption>
+		          <caption lang="sk">Od ([R]RRRMMDD)</caption>
+		          <caption lang="si">Od ([L]LLLMMDD)</caption>
+		          <caption lang="cz">od ([R]RRRMMDD)</caption>
+		          <caption lang="hu">-tól ([é]éééhhnn)</caption>
 		          <caption lang="hr"/>
 		          <doc lang="de">Frühest mögliches Datum</doc>
 		          <doc lang="en"/>
@@ -2814,13 +2814,13 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 		        </attribute>
 		        <attribute>
 		          <name>to</name>
-		          <caption lang="de">bis (JJJJMMTT)</caption>
-		          <caption lang="en">to (YYYYMMDD)</caption>
-		          <caption lang="it">a (aaaammgg)</caption>
-		          <caption lang="sk">Do (RRRRMMDD)</caption>
-		          <caption lang="si">Do (LLLLMMDD)</caption>
-		          <caption lang="cz">do (RRRRMMDD)</caption>
-		          <caption lang="hu">-ig (ééééhhnn)</caption>
+		          <caption lang="de">bis ([J]JJJMMTT)</caption>
+		          <caption lang="en">to ([Y]YYYMMDD)</caption>
+		          <caption lang="it">a ([a]aaammgg)</caption>
+		          <caption lang="sk">Do ([R]RRRMMDD)</caption>
+		          <caption lang="si">Do ([L]LLLMMDD)</caption>
+		          <caption lang="cz">do ([R]RRRMMDD)</caption>
+		          <caption lang="hu">-ig ([é]éééhhnn)</caption>
 		          <caption lang="hr"/>
 		          <doc lang="de">spätest mögliches Datum</doc>
 		          <doc lang="en"/>
