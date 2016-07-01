@@ -1859,6 +1859,7 @@
                 </xs:choice>
             </xs:sequence>
             <xs:attributeGroup ref="expan"/>
+            <xs:attributeGroup ref="key"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
