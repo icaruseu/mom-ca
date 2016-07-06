@@ -164,6 +164,12 @@ div.clear {{
         <div data-demoid="2982b258-e242-4d62-be6c-a4ee500222e6" id="year-navi">
           <xrx:div>preface-link-div</xrx:div>
           <div class="year-list" data-demoid="0f94dc5e-799a-4ec3-9ae7-71972cdaa805">
+            <p class="navi-heading">
+              <xrx:i18n>
+                <xrx:key>Years</xrx:key>
+                <xrx:default>Years</xrx:default>
+              </xrx:i18n>
+            </p>
             {
             for $blocks-string at $pos in $wcharters:block-strings
             return
