@@ -1859,6 +1859,7 @@
                 </xs:choice>
             </xs:sequence>
             <xs:attributeGroup ref="expan"/>
+            <xs:attributeGroup ref="key"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -1886,6 +1887,7 @@
             <xs:simpleContent>
                 <xs:extension base="xs:string">
                     <xs:attributeGroup ref="expan"/>
+                    <xs:attributeGroup ref="key"/>
                     <xs:attributeGroup ref="lang"/>
                     <xs:attributeGroup ref="standard"/>
                 </xs:extension>
@@ -4488,9 +4490,10 @@
             <xs:documentation xml:lang="de">Urkundenart</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
+            <xs:attributeGroup ref="standard"/>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
-            <xs:attributeGroup ref="standard"/>
+            <xs:attributeGroup ref="key"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="region">
