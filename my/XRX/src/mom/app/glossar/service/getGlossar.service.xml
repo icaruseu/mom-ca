@@ -44,21 +44,15 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   </xrx:init>
   <xrx:body>
     {    
-   let $glossarlabel := collection("/db/mom-data/metadata.glossar.public/")/atom:entry[atom:id/text()='tag:www.monasterium.net,2011:/IllUrkGlossar']//skos:Concept[@rdf:about=$getText]/skos:prefLabel/text()
-    let $glossardesc := collection("/db/mom-data/metadata.glossar.public/")/atom:entry[atom:id/text()='tag:www.monasterium.net,2011:/IllUrkGlossar']//skos:Concept[@rdf:about=$getText]/skos:definition/xhtml:p
-  
-let $glo := $getText
-  return 
-  <div class="port">  
-  <h3>{$glossarlabel}</h3>  
-   {          
-          for $i in $glossardesc              
-          return
-              
-              <p>{$i/node()}</p>
-              } 
-  </div>
-}
-
+    let $glossarlabel := collection("/db/mom-data/metadata.glossar.public/")/atom:entry[atom:id/text()='tag:www.monasterium.net,2011:/IllUrkGlossar']//skos:Concept[@rdf:about=$getText]/skos:prefLabel/text()
+    let $glossardesc := collection("/db/mom-data/metadata.glossar.public/")/atom:entry[atom:id/text()='tag:www.monasterium.net,2011:/IllUrkGlossar']//skos:Concept[@rdf:about=$getText]/skos:definition
+    return 
+      <div class="port">  
+        <h3>{$glossarlabel}</h3>  
+       {          
+       for $i in $glossardesc/node()              
+          return $i
+      </div>
+    }
   </xrx:body> 
 </xrx:service>
