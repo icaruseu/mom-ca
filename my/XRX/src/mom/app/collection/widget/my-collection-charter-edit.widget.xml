@@ -254,6 +254,9 @@
         <xrx:name>$sprache</xrx:name>
         <xrx:expression>if($xrx:lang = 'deu') then 'de' else if ($xrx:lang = 'fra') then 'fr' else if ($xrx:lang = 'ita') then 'it' else 'en'</xrx:expression>
         </xrx:variable>
+        <!-- controlled Vocabularies -->
+        
+        
         <!-- Annotation Tool service prefix -->
         <xrx:variable>
             <xrx:name>$service-prefix</xrx:name>
@@ -478,6 +481,7 @@
                         <div data-demoid="4c56fbe3-1728-47c6-af7e-ab39fb266752" id="autoSaveStatus"
                         />
                     </div>
+                   
                     <div data-demoid="4e751e31-7e32-42cd-96a3-ce571b5ea97a" id="image-tool-div">
                         <button id="open-image-tool">
                             <xrx:i18n>
@@ -793,7 +797,14 @@
                 $element-suggestions }</div>
             <div class="xrx-forms-json-topics" data-demoid="29dc1908-0c8d-4501-ab7d-5e0cbdc492b9"
                 style="display:none">{ $topics }</div>
-            <div class="xrx-language-for-skos" style="display:none">{$sprache}</div>
+            <div class="xrx-language-for-skos" style="display:none">{$sprache}</div>           
+             <div class="available-controlled-vocabularies" style="display:none">{
+let $glossare := collection("/db/mom-data/metadata.controlledVocabulary.public")//atom:entry/atom:content/rdf:RDF
+let $job :=  (for $i in $glossare/skos:ConceptScheme
+let $paare := concat('"',normalize-space(replace(data($i/@rdf:about), '#', '')), '":"',normalize-space($i/skos:prefLabel[@xml:lang="de"]/text()), '"')
+return jsonx:object($paare)
+)
+return  jsonx:array($job)}</div>
             <script type="text/javascript"> jQuery(document).ready(function(){{ jQuery.ajaxSetup({{
                 cache: false }}); window.XPath = new XPath(); window.XPath.setNamespaceContext(
                 ["atom", "cei"], ["http://www.w3.org/2005/Atom",
