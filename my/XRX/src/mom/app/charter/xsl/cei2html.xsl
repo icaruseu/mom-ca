@@ -506,8 +506,8 @@
       <xsl:apply-templates />
     </sup>
   </xsl:template>
-  <xsl:template match="cei:tenor//cei:lb">
-    <span class="cei-lb">&#160;||</span>
+  <xsl:template match="cei:lb[ancestor::cei:tenor]">
+    <span class="cei-lb">||</span>
     <br />
   </xsl:template>
   <xsl:template match="cei:lb">
@@ -729,10 +729,10 @@
       </xsl:attribute>
       <xsl:text>[</xsl:text>
         <xsl:choose>
-          <xsl:when test="(not(*) or text()/normalize-space()!='')">
-            <xsl:text>...</xsl:text>
+          <xsl:when test=".//text()/normalize-space()!='' or node()">
+            <xsl:apply-templates/>
           </xsl:when>
-          <xsl:otherwise><xsl:apply-templates/></xsl:otherwise>
+          <xsl:otherwise><xsl:text>...</xsl:text></xsl:otherwise>
         </xsl:choose>
         <xsl:text>]</xsl:text>
     </span>
