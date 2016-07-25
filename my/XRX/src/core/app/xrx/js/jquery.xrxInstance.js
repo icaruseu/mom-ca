@@ -26,6 +26,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 ;(function($) {
 	
 	var onautosave;
+	var validate;
 	
 	/*
 	 * public interface
@@ -119,37 +120,47 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	 */
 	function autosave() {
         var errorIndicator = false;
-        
+
 		clearTimeout(onautosave);
-		/* get all error-codes from DOM */
-		errors = document.getElementsByName("error-code");
-		for (var i = 0; i < errors.length; i++)
-		{
-		    if(document.getElementsByName("error-code").item(i).getAttribute("fatal-error") == "1") {
-		        errorIndicator = true;
-		    } 
-		}
+		clearTimeout(validate);
+ 
+		/* get all error-codes from DOM */ 
+		var errors = document.getElementsByName("error-code");
+		var length = errors.length;
+
+		if(length > 0) {
+
+			for (var i = 0; i < errors.length; i++)
+			{
+			    if(errors[i].getAttribute("fatal-error") == "1") {
+				    $("#autoSaveStatus")
+						.css({'color': ''})
+						.css({'color':'red'});
+			    	    $("#autoSaveStatus").text("Can't save because of a fatal validation error!");
+				break;
+				
+			    } 
+			} 
+
+		} else {
 		
 		/* if fatal-error is set, dont save and throw error */
-		if(!errorIndicator) {
-                $("#autoSaveStatus")
-			.css({'color': ''})
-			.css({'color':'green'});
-    		$("#autoSaveStatus").text("Saving ...");
-    		onautosave = setTimeout( function() {
-    			// TODO: replace with event handler
-    			console.log($(document).xmleditor("save"));
+	
+		        $("#autoSaveStatus")
+				.css({'color': ''})
+				.css({'color':'green'});
+	    		$("#autoSaveStatus").text("Saving ...");
+	    		onautosave = setTimeout( function() {
+	    			// TODO: replace with event handler
+	    			console.log($(document).xmleditor("save"));
 
-    		}, 1000);
-    	} else {
+	    		}, 1000);
+    		} 
 
-            $("#autoSaveStatus")
-			.css({'color': ''})
-			.css({'color':'red'});
-    	    $("#autoSaveStatus").text("Can't save because of a fatal validation error!");
-    	}
-    	
-        $(".xrx-report").xrxReport("validate");
+		validate = 
+			setTimeout( function() {
+        			$(".xrx-report").xrxReport("validate"); 
+			}, 1000); 
 	};
 	
 })(jQuery);
