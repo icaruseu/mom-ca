@@ -293,15 +293,15 @@
     <!-- <xsl:when test="count($cei//cei:index/node()) &gt; 0">  -->
      <xsl:when test="$cei//cei:index/node()">   
         <div id="item">
-          <b>
-          <!-- <xsl:value-of select="count($cei//cei:index/node())" /> -->
+          <b>        
             <xrx:i18n>
               <xrx:key>items</xrx:key>
               <xrx:default>Items</xrx:default>
             </xrx:i18n>
           </b>
           <ul>
-     <xsl:if test="//cei:index[@indexName]">     
+  <xsl:choose>
+  <xsl:when test="//cei:index[@indexName]">
   <xsl:for-each-group select="//cei:index" group-by="@indexName">
   <xsl:sort select="@indexName" order="descending"/>
      <xsl:variable name="indexWert" select="@indexName" /> 
@@ -324,10 +324,9 @@
             </ul>  
         </xsl:if>          
      </xsl:for-each-group>
-    </xsl:if>    
-    <xsl:if test="//cei:index[not(@*)]/node()">    
-        
-          <li> 
+  </xsl:when>
+  <xsl:otherwise>
+  <li> 
           <xrx:i18n>
             <xrx:key>general</xrx:key>
             <xrx:default>General</xrx:default>
@@ -335,14 +334,16 @@
           <xsl:text>:&#160;</xsl:text>              
         </li>
         <ul class="inline glossary">
-        <xsl:for-each select="//cei:index[not(@*)]/node()">  
-         <xsl:sort select="cei:index"/>
-        <li>
+        <xsl:for-each select="//cei:index[not(@*)]/node() | //cei:index[not(@indexName)][@lemma]">  
+         <xsl:sort select="cei:index"/>        
+       <li><xsl:value-of select="@lemma"/><xsl:if test="@sublemma">
+        <span><xsl:text> </xsl:text><xsl:value-of select="@sublemma"/></span></xsl:if><xsl:if test="./@lemma"><xsl:text>: </xsl:text></xsl:if>
         <xsl:value-of select="."/>
        </li>               
          </xsl:for-each>
-         </ul>     
-     </xsl:if>                               
+         </ul>       
+  </xsl:otherwise>
+  </xsl:choose>                   
           </ul>
         </div>    
       </xsl:when>
