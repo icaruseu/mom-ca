@@ -26,16 +26,10 @@
     var uiFormsTableCellClass = "forms-table-cell";
     /* controlledVoc works like a flag: when true then the controlled Vocabulary is active */
     var controlledVoc = false;
-    /* Arrays and object to get actual values of the attributes, 
-     * because property editedAttributes is not updated,
-     * before the whole lifecycle of the widget is redone!
-     * The solution chosen here maybe is more complicated than it has to be.
-     * If there is time - this has to be rethought - simplified and generalized. 
-     * The global variables are necessary to pass on values 
-     * especially from _trashiconClickable to _newEditAttribute and in the menuliste.change-function!
-     * because if the controlled Vocabulary is used, it is essential to know the values depending on following values.
-     * For the controlled Vocabulary a 3-level hierarchy is realized in the json-Object. */
-
+    /* 
+     * For the controlled Vocabulary a 2-level hierarchy is realized in the json-Object.
+     * Til now used only in cei:index @indexName and @lemma 
+     * the var controlledVocabularies gets json from a hidden div in the mycollection-charter-edit*/
     var controlledVocabularies;
     
    
@@ -51,7 +45,9 @@
             token: null
         },
         /* option properties get values from codemirror.mode.visualxml.js*/
-                
+        
+       /* the method rowremove is used to remove Attributes from GUI, from the instance and from array-object "editedAttributes"
+         * */
        rowremove: function(gewissesAttr, editedAttributes, cm, token) {
       	   var sein = new AttributesImpl();                        
              sein.addAttribute(undefined, gewissesAttr, gewissesAttr, undefined, '');                           
@@ -67,16 +63,16 @@
              }                
             var objectindex = editedAttributes.findIndex(findEditedAttributes);              
             if (objectindex > -1){
-         	   editedAttributes.splice(objectindex,1);
-                console.log(editedAttributes); 
+         	   editedAttributes.splice(objectindex,1);                 
             }
 
              return editedAttributes;
            
       }, 
+    
+        /* the enable function is used to re-enable certain attributes on the GUI*/
         
-        
-        eruieren: function() {
+        enable: function() {
             inallSpans = $("div", "." + uiEditAttributeDivClass).find("span").not(".ui-icon").text();                    
 
             var spantexte =[];
@@ -94,19 +90,20 @@
         return enable    
         },
         
-        
+                
         _create: function () {
-        	
-        	controlledVocabularies = JSON.parse($("div.available-controlled-vocabularies").text());
-    		console.log(controlledVocabularies);
+        	/*parsing Json out of the widget, in order to know, which controlled Vocabularies are available on the server*/
+        	controlledVocabularies = JSON.parse($("div.available-controlled-vocabularies").text());    		
             var self = this,
             elementName = self.options.elementName,
             suggestedAttributes = self.options.suggestedAttributes,
-            editedAttributes = self.options.editedAttributes,
-            //controlledVoc = false,
-                        
+            editedAttributes = self.options.editedAttributes,            
+            /* creating the GUI
+             * 1. edited attributes
+             * 2. suggestedAttributes
+             * 3. field to drop attributes into
+             * 4. button to switch on/off the use of controlled vocabulary */
             mainDiv = $('<div></div>').attr("class", uiMainDivId),
-            
             editAttributesDiv = $('<div></div>').addClass(uiEditAttributesDivClass).addClass(uiFormsTableClass),
             droppableAttributeDiv = $('<div">&#160;</div>').addClass(uiDroppableAttributeDivClass),
             suggestedAttributesDiv = $('<div></div>').addClass(uiSuggestedAttributesDivClass),
@@ -137,61 +134,44 @@
             /* a method to switch off/on the use of the controlled Vocabulary*/
             self._onoffButton(controlledVocButton, editedAttributes);
             
-            /* All GUI parts concerning the Attributes are appended */
-            
+            /* All GUI parts concerning the Attributes are appended */            
             mainDiv.append(controlledVocButton).append(editAttributesDiv).append(droppableAttributeDiv).append(suggestedAttributesDiv);
-            self.element.replaceWith(mainDiv);
-            
-            console.log('++++++++++++++++ WICHTIG +++++++++++++++++++++');          
-                    	
-            console.log(elementName);
-            console.log(suggestedAttributes);
-            console.log(editedAttributes);
-            console.log('++++++++++++++++++++++++++++');
-            
+            self.element.replaceWith(mainDiv);         
+            /* function ausblenden is used for usabilty reasons, 
+             * when a controlled Vocabulary is specified in the @indexName then just @lemma should be draggable.
+             * after @lemma is set - all other attributes are draggable again.
+             * */           
             function ausblenden(gewisseAttr){
         		var blende = suggestedAttributes;                       
-                    var l = blende.indexOf(gewisseAttr);
+        		var l = blende.indexOf(gewisseAttr);
                     blende.splice(l, 1);
                     for (var j = 0; j < blende.length; j++) {
                         var dis = $("div[title='" + blende[j] + "']", "." + uiMainDivId).draggable("disable");
-                    }                    
+                   }                    
                     return dis;
-                    }
-                        
-          
-            /* These if-else-conditions are necessary to lead the user in the case the user uses the cv
-             * when indexName is set with the value illurk-vocabulary, then lemma and sublemma are the
-             * only draggable attributes. To do so in var blende are all the attributes, 
-             * which are set to 'draggable disable'
-             * when indexName and lemma are already set then just sublemma will be draggable.
-             * in the else-condition all attributes, which are not edited, are set to be draggable. */
+                   }
+            /*function backbone goes through the array controlledVocabularies
+             * and justifies if the value set in the @indexName has a reference in one of the controlled Vocabularies*/
             function backbone(attr){
                 if(attr.qName == "indexName")
-                {	console.log("stimmt");
-                	console.log(controlledVocabularies);
+                {	
                     for (var i=0; i < controlledVocabularies.length; i++){
-                        var ob = Object.keys(controlledVocabularies[i]);
-                        console.log(ob);
-                        console.log(attr.value);
+                        var ob = Object.keys(controlledVocabularies[i]);                        
                         if (ob == attr.value){                        
                         return true;
                         }
                     }
                 };              
             }
-            var vocabulartest = editedAttributes.find(backbone);
-            console.log("Is it you I was looking for?");
-            console.log(vocabulartest);
+            var vocabulartest = editedAttributes.find(backbone);            
+            /* vocabulartest is true, then one of the controlled vocabularies in used.*/
             
-            
+            /* findEditedAttributes has a look if @lemma is already set, 
+             * if so: in the GUI all @ but @lemma are disabled*/
             function findEditedAttributes(edAttr){            	
             	return edAttr.qName == 'lemma';
             }          
-            var objectindex = editedAttributes.findIndex(findEditedAttributes);
-            console.log(objectindex);
-           
-                        
+            var objectindex = editedAttributes.findIndex(findEditedAttributes);                        
             
             if((vocabulartest != undefined) && (objectindex == -1)){
             	var x = ausblenden('lemma');
@@ -201,23 +181,20 @@
             		$("div[title='" + editedAttributes[i].qName + "']", "." + uiMainDivId).draggable("disable");
             	}
             	
-            }                	
+            }
+            /*controlledVoc is as default set to false again.*/
             controlledVoc = false;
-            /* the jquery menu is initialized. the cv is realized in a drop down menu */
-                        
+            
+            /* the jquery menu is initialized. the cv is realized in a drop down menu */                        
             $(function () {
                 $("#choose").menu();
-            });
-                       
+            });            
             
-            
-        },
-        
-        /*End of create function */       
-   
+        },        
+        /*End of create function */    
         
         _newEditAttribute: function (name, label, value) {
-            /* Variables to deal with the modell */
+            
         	controlledVocabularies = JSON.parse($("div.available-controlled-vocabularies").text());
             var self = this,
             cm = self.options.cm,
@@ -234,16 +211,11 @@
             menuliste = $('<select></select>').attr('class', 'choose').addClass(uiFormsTableCellClass),
             newEditAttributeTrash = $('<div><span class="ui-icon ui-icon-trash"/></div>').
             addClass(uiFormsTableCellClass);       
-            console.log("das self bei _nweEditAttribute method");
-            console.log(self);      
-                
-                /* it has to be proofed if from the last use of the attribute widget,
+           /* it has to be proofed if from the last use of the attribute widget,
                  * the user used the cv or not.
-                 * if in the editedAttributes is the attr indexName with the value 'illurk-vocabulary'
-                 * then the controllevVoc is true.
-                 * Has to be changed, when the cv is used for other descriptions too.
-                 *   
-               
+                 * so the editedAttributes values are compared with the controlledVocabularies
+                 * is there an accordance, the controlledVoc is set to true.
+                 *               
                  * 
                */
             function backbone(attr){            	
@@ -258,9 +230,7 @@
                     }
                 };              
             }
-            var vocabulartest = editedAttributes.find(backbone);
-            console.log("Is it you I was looking for?");
-            console.log(vocabulartest);          
+            var vocabulartest = editedAttributes.find(backbone);                    
             
                if ((elementName == "cei:index") && ((name == "lemma") | (name == "indexName"))){            	  
             		   if(vocabulartest != undefined){
@@ -296,12 +266,10 @@
                 newEditAttribute.append(newEditAttributeLabel).append(newEditAttributeInput).append(newEditAttributeTrash);
             }
             
-            /*the div.forms-mixedcontent-edit-attributes gets the method _trashIconClickable */
-            
+            /*the div.forms-mixedcontent-edit-attributes gets the method _trashIconClickable */            
             self._trashIconClickable(newEditAttributeTrash, newEditAttribute, value);
             
-            /* function saves all changes in the input field */
-            
+            /* function replaces the attributes values in the instance */            
             newEditAttributeInput.keyup(function () {
              
                 var attributes = new AttributesImpl();
@@ -315,24 +283,20 @@
                 
             });            
             
-            /* function to set the options in the select box.
-             * The fuction deals with the values from the json-object.
-             * key are the keys of the object;            
+            /* Defining the SELECT box:
+             * function to set the options in the select box.
+             * The function deals with the values from the json-object.             *             
              * In the 'newli' variable the option elements with the possible values
              * are appended to 'menuliste'.*/
             
-            function setoptioninSelect(name) {
-            	
-            	var sublemmawert;
+            function setoptioninSelect(name) {            	
             	var lemmawert;
             	var indexnamewert;
             	if (name == "indexName"){
             		var einf = $("<option> --- </option>");
             		menuliste.append(einf);
             	  for (var i=0; i<controlledVocabularies.length; i++){
-                  	var werteausobjekt = Object.values(controlledVocabularies[i]);
-                  	console.log("weerte aus objekt");
-                  	console.log(werteausobjekt);
+                  	var werteausobjekt = Object.values(controlledVocabularies[i]);                  	
                 	var newli = $('<option>' + werteausobjekt + '</option>')
         			.addClass(uiSuggestedValueDivsClass).attr("title", werteausobjekt).attr("value", Object.keys(controlledVocabularies[i])).attr("name", name);
             		if (Object.keys(controlledVocabularies[i]) == value){
@@ -363,11 +327,7 @@
                              else{
                             	 lemmawert = lemma.value;
                              }                       
-                      	
-                        console.log("****************************");                       
-                        console.log(lemmawert);
-                        console.log(indexnamewert);
-                        console.log("+++++++++++++++++++++++++++++");
+                  
                         var sprachwert = $(".xrx-language-for-skos").text();                       
                         $.ajax({     
                             url: "/mom/service/editMomgetControlledVoc",
@@ -402,9 +362,11 @@
             }            
             //END of setOptioninselect function
             
-            /*the user changes the value in the dropdown-menu, then 
+            /* When the user changes the value in the dropdown-menu, then 
              * the change event is triggered
-             * the new current value (self.value) gets stored via codemirror in the xml-instance*/
+             * the new current value (this.value) gets stored via codemirror in the xml-instance
+             * I store the self variable in the ev.data (var kapsel)in order to be able to call further methods
+             * on the self-object of */
             menuliste.change( {mfg: self}, function (ev) {            	              
             	console.log( ev.data.mfg);
             	var kapsel = ev.data.mfg;
@@ -427,8 +389,7 @@
                 }                
                var objectindex = editedAttributes.findIndex(findEditedAttributes);             
                if (objectindex > -1){
-            	   editedAttributes.splice(objectindex,1, {qName: name, value: attrvalue});
-                   console.log(editedAttributes); 
+            	   editedAttributes.splice(objectindex,1, {qName: name, value: attrvalue});                  
                }
                else {            	  
             	   editedAttributes.push({qName: name, value: attrvalue});
@@ -447,7 +408,6 @@
                    };              
                }
 
-
                var vocabulartest = editedAttributes.find(backbone);                         
                                         	  
                if(vocabulartest != undefined){
@@ -460,7 +420,7 @@
                 if (name == 'lemma') {                                
                         controlledVoc = true; 
                         kapsel.rowremove('sublemma', editedAttributes, cm, token);
-                        kapsel.eruieren();
+                        kapsel.enable();
              
                 }           
                
@@ -486,9 +446,12 @@
             editedAttributes = self.options.editedAttributes,           
             cm = self.options.cm,            
             token = self.options.token;        
-            /*when the click event is triggered, the function takes the the name of the attribute 
+            /*
+             * when the click event is triggered, the function takes the the name of the attribute 
              * that is going to be deleted out of the input Element or out of the editedAttributes
-             * the arrays 'verw' and 'wert' are updated and returned in order to be used by the method _newEditAttribute */
+             * --seems complicated - is not a beautiful solution
+             *  
+             * */
             trashIcon.click(function (event) {
             	
                 if ($($(editAttribute).find("input")).length == 1) {                    
@@ -505,19 +468,21 @@
                if (objectindex > -1){
             	   editedAttributes.splice(objectindex,1); 
                }
-                                
+                 /*Via the finIndex function the editedAttributes are kept up-to-date,
+                  * deleted Attributes are removed with splice.
+                  * an in the following also removed from the xml-instance*/               
                 var attributes = new AttributesImpl();                
                 attributes.addAttribute(null, name, name, undefined, "");
                 
                 var findselect = $(editAttribute).find("select");
                 /*if indexName is going to be deleted than it is checked if indexName was used with the cv.
-                 *If this is the case, the attributes lemma and sublemma have to be deleted too.
-                 *When all 3 attributes are deleted they are set to be draggable again.*/
+                 *If this is the case, the attributes lemma has to be deleted too.
+                 *When  @indexName and @lemma are deleted they are set to be draggable again.*/
                 if ((name == 'indexName') && ($(editAttribute).find("select").length == 1)) {
                 	
                 self.rowremove('lemma', editedAttributes, cm, token);
                 self.rowremove('indexName', editedAttributes, cm, token);
-                self.eruieren();
+                self.enable();
                 
                     $("div[title='indexName']", "." + uiSuggestedAttributesDivClass).draggable("enable");              
                 
@@ -533,17 +498,12 @@
                 
                 else {  
                 self.rowremove(name, editedAttributes, cm, token);
-                self.eruieren();
-               // $('.xrx-instance').xrxInstance().deleteAttributes(contextId, attributes);
+                self.enable();
                 $("div[title='" + name + "']", "." + uiSuggestedAttributesDivClass).draggable("enable");
            
                 }
-                /*the attribute is removed only from the GUI*/
-                editAttribute.remove();
-
-               
-                console.log(editedAttributes);
-                console.log(suggestedAttributes);
+                /*the attribute is also removed from the GUI*/
+                editAttribute.remove();               
                 
             });
          
@@ -553,20 +513,16 @@
         //End of _trashIconClickable
         
         
-        /* method to switch off/on the cv
-         * IDEA: maybe better to construct the whole GUI part from _newEditAttribute in this method,
-         * because easier to handle the setting of the attributes*/
+        /* method to switch off/on the use of controlled vocabularies
+         * 
+         * */
         _onoffButton: function (controlledVocButton, editedAttributes) {
         	controlledVocabularies = JSON.parse($("div.available-controlled-vocabularies").text());
             var self = this,            
             suggestedAttributes = self.options.suggestedAttributes,            
             editedAttributes = self.options.editedAttributes,            
             cm = self.options.cm,            
-            token = self.options.token;
-            
-            console.log("Aufbau des on off Buttons");
-            console.log(self);
-            console.log(editedAttributes);
+            token = self.options.token;           
             controlledVocButton.append($('<span id="onoff"></span>').css("float", "right").append($('<input type="radio" name="radio" id="on" value="on"/><label for="on" class="plug"> On </label>').css("font-size", "0.5em")).            
             append($('<input type="radio" name="radio" id="off" value="off" checked="checked"/><label class="plug" for="off"> Off </label>').css("font-size", "0.5em")))
             
@@ -586,21 +542,14 @@
                                                 
                 if (values == "off") {      
                 	controlledVoc = false;
-                
-                	
 
                 	   self.rowremove('indexName', editedAttributes, cm, token);
                 	   self.rowremove('lemma', editedAttributes, cm, token);                	
-                	   self.eruieren();
+                	   self.enable();
                 	   $("div[title='indexName']", "." + uiSuggestedAttributesDivClass).draggable("enable");
                 	   $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-      
-                   console.log("Das sind die neuen EditedAttributes nach der For-Schleife!");
-                   console.log(editedAttributes);
 
-                    //controlledVoc = false;
-
-           
+                    //controlledVoc = false;           
                 } else { 
                    self.rowremove('indexName', editedAttributes, cm, token);
              	   self.rowremove('lemma', editedAttributes, cm, token);
@@ -611,7 +560,7 @@
             });            
             return controlledVoc;
         },
-        
+        //end of _onoffButton method
         
         /* Method to be able to drag the suggestedAttributes in the GUI*/
         _suggestedAttributeDraggable: function (suggestedAttribute) {
@@ -633,8 +582,7 @@
             });
         },
         
-        //End _suggestedAttributeDraggable
-        
+        //End _suggestedAttributeDraggable        
         
         
         /* Method enabling the dropping of the attributes in the GUI.
@@ -674,8 +622,7 @@
         },
         
         //End _attributeDroppable
-       
-        
+              
         
         hide: function () {
         }
