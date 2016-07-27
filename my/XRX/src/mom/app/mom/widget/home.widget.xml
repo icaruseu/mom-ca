@@ -141,9 +141,15 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 #dhome .nobr{{ 
   white-space:nowrap; 
 }}
+#twitter-timeline-container{{
+  margin-top: 35px;
+}}
 
     </style>
   </xrx:csss>
+  <xrx:jss>
+      <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/twitter</xrx:resource>
+  </xrx:jss>
   <xrx:view>
     <div data-demoid="ab4f631c-94b9-4658-a4ad-437849de5ae4" id="dhome">
       <div class="h2" data-demoid="09fb3343-7ae9-491a-a4f1-ed0553aa95fd">
@@ -263,9 +269,17 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 		          </xrx:i18n>
 		          <span> &gt;&gt;</span>
 		        </a>
+		        
+		 
+		        </div>
 		      </div>
+		      <div id="twitter-div"><div id="twitter-timeline-container"><script type="text/javascript">(function(){{twttr.widgets.createTimeline({{sourceType:"profil",
+                                                                                      screenName:"monasterium_net"}},
+                                                                                         document.getElementById('twitter-timeline-container'));
+                                                                                         }})();</script></div>
 	      </div>
       </div>
+
     </div>
   </xrx:view>
 </xrx:widget>
