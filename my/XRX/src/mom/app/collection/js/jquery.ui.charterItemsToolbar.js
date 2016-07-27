@@ -81,11 +81,41 @@ $.widget( "ui.charterItemsToolbar", {
       },
       complete: function(data, textStatus, jqXHR) {
         $("#dpublish-progress").hide();
+        $("#Twitter-ShareLink-Container").empty();
+        self.myCollectionTwitter(objectid);
         $(dialog).dialog("close");          
       }
     });  
   },
 
+  /** Author JBigalke **/
+  /** awaits an collection uuid creates a Twitter Button with the Text: "recently published [link-to collection] #mom_charter" **/
+  
+  myCollectionTwitter: function(objectid) {	
+ 	 
+ 	  var url = 'http://monasterium.net/mom/'+objectid+'/collection';
+ 
+ 	  twttr.widgets.createHashtagButton(
+ 			  "mom_charter",
+ 			  document.getElementById('Twitter-ShareLink-Container'),
+ 			  {
+ 			    text: 'recently published: ',
+ 			    url: url
+
+ 			    
+ 			  }
+ 			);
+ 	  $("#dmy-collection-twitter-dialog").dialog({
+           resizable: false,
+           width: 300,
+           modal: true
+        });
+ 	  
+ 	twttr.events.bind('click', function(ev){ $("#dmy-collection-twitter-dialog").dialog('close');});
+
+  },
+ /** End Author JBigalke **/
+  
 
   
   _myCollectionPublishButton: function() {
