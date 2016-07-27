@@ -513,7 +513,7 @@ right:220px;
     
     (: get collection information :)
     let $collection-entry := $metadata-collection-collection//cei:cei
-    let $collection-name := $collection-entry//cei:provenance/child::text()
+    let $collection-name := $collection-entry//(cei:titleStmt|cei:provenance)//text()
     
     (: get archive info :)
     let $archive-entry := $metadata-archive-collection//eag:eag
