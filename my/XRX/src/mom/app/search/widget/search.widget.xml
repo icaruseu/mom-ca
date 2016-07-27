@@ -490,8 +490,9 @@ right:220px;
     let $charter-context := 
       let $probably-collection-id := $tokens[3]
       let $probably-collection-atom-id := concat(conf:param('atom-tag-name'), '/collection/', $probably-collection-id)
+      let $probably-mycollection-atom-id := concat(conf:param('atom-tag-name'), '/mycollection/', $probably-collection-id)
       return
-      if(exists(metadata:base-collection('collection', 'public')//atom:id[.=$probably-collection-atom-id])) then 'collection' else if( or exists(metadata:base-collection('mycollection', 'public')//atom:id[.=$probably-collection-atom-id])) then 'mycollection' else 'fond'
+      if(exists(metadata:base-collection('collection', 'public')//atom:id[.=$probably-collection-atom-id])) then 'collection' else if(exists(metadata:base-collection('mycollection', 'public')//atom:id[.=$probably-mycollection-atom-id])) then 'mycollection' else 'fond'
     
         let $charter-id := $tokens[last()]
         let $fond-id := if($charter-context = 'fond') then $tokens[last() - 1] else 'null'
