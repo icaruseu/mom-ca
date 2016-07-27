@@ -297,6 +297,7 @@ span.invited-user {{
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/myCollectionsTree</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/myCollectionsShared</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/myCollectionsEdit</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/twitter</xrx:resource>
     
   </xrx:jss>
   <xrx:view>
@@ -355,6 +356,10 @@ span.invited-user {{
         <p><span>Click on Button "Publish now" to publish all Charters of this Collection.</span></p>
         <div data-demoid="d336b2ff-30a4-424c-aa39-5a7003701f20" id="dpublish-progress" style="display:none">Please wait ...</div>
       </div>
+            <div id="dmy-collection-twitter-dialog" style="display:none" title="Twitter" >
+        <p><span>Erfolgreich veröffentlicht. Möchtest du das auf Twitter teilen?</span>
+        <div id="Twitter-ShareLink-Container"></div></p>
+        </div>
       <div data-demoid="9da64f32-4d1a-49e1-a205-9b2c1e7bcd7e" id="dmy-collection-header">
         <h2>Edit My Collections</h2>
         <xrx:resource id="momlogo">tag:www.monasterium.net,2011:/mom/resource/image/mom-logo</xrx:resource>
