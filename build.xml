@@ -329,11 +329,11 @@
     <echo message="Download betterFORM (https://github.com/betterFORM/betterFORM.git)" />
     <echo message="-------------------------" />
     <exec executable="git">
-      <arg line=" clone https://github.com/betterFORM/betterFORM.git betterFORM"/>
-    </exec>  
+      <arg line=" clone https://github.com/betterFORM/betterFORM.git betterFORM -b master --single-branch"/>
+    </exec>  <!--
     <exec executable="git" dir="./betterFORM">
       <arg line="checkout 2ad34d165ffb19232ff6489abe5a313412f35eeb"/>
-    </exec>
+    </exec> -->
     
   </target>
   
@@ -382,7 +382,7 @@
     <echo message="-------------------------" />
     <echo message="Deploy your betterFORM code into my eXist extentions as a single jar-file" />
     <echo message="-------------------------" />
-    <!--copy file="localhost/extensions/betterform/main/lib/betterform.jar" tofile="my/eXist/extensions/betterform/main/lib/betterform.jar" overwrite="true"/-->
+    <copy file="localhost/extensions/betterform/main/lib/betterform.jar" tofile="my/eXist/extensions/betterform/main/lib/betterform.jar" overwrite="true"/>
     
   </target>
   
@@ -434,17 +434,28 @@
     <antcall target="download-jssaxparser"/>
     <antcall target="download-jquery"/>
     <antcall target="download-codemirror"/>
+	
     
     <!-- compile and deploy -->
     <antcall target="compile-exist" />
+
+    <!--highjack betterFORMS -->
+    <antcall target="install-betterform" /> 
+    <antcall target="compile-betterform-exploded" />
+
+    <!-- compile and deploy -->
     <antcall target="deploy-my-exist-webapp" />
     <antcall target="prepare-app-server"/>
+
+
 
     <!-- remove temporary diretories -->
     <delete dir="tmp"/>
     <delete dir="CodeMirror"/>
     <delete dir="jQuery"/>
     <delete dir="jssaxparser"/>
+    <delete dir="betterFORM"/>
+    <delete dir="exist-eXist-2.2"/>
 
   </target>
 
