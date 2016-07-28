@@ -3,7 +3,8 @@
   xmlns:exist="http://exist.sourceforge.net/NS/exist" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns:cei="http://www.monasterium.net/NS/cei"
   id="cei2html" xmlns:xhtml="http://www.w3.org/1999/xhtml" version="2.0"
-  xmlns="http://www.w3.org/1999/xhtml">
+  xmlns="http://www.w3.org/1999/xhtml" xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <xsl:strip-space elements="*" />
   <xsl:preserve-space elements="cei:*" />
   <xsl:variable name="sitemap" select="/xhtml:page/xhtml:div"/>
@@ -12,7 +13,35 @@
     <xsl:apply-templates select="$sitemap" />
   </xsl:template>
   <xsl:param name="image-base-uri" />
-
+  <xsl:param name="controlledvocabularies" />
+  <!-- function that looks, if there is a controlled vocabulary for cei:index/@indexName and @lemma. 
+       the Index (Item) has still many exceptions to deal with. Maybe this has to be compound in another way:
+       the cases: - cei:index just with a text node
+                  - cei:index with @lemma (@sublemma)
+                  - with @indexName general
+                  (belong to category general)
+                  - with @indexName that refers to a controlled vocabulary
+                  - with @indexName without controlled vocabulary name
+  -->
+<xsl:function name="xrx:getvocabularies">
+        <xsl:param name="indexname"/>
+        <xsl:param name="lemma"></xsl:param>
+        <xsl:param name="lang"/>
+                          
+        <xsl:variable name="sprache"><xsl:value-of select="$lang"/></xsl:variable>       
+        <xsl:choose>
+        <xsl:when test="$lemma='' and contains($controlledvocabularies, $indexname)">                     
+        <xsl:variable name="url" select="concat('/db/mom-data/metadata.controlledVocabulary.public/', $indexname, '.xml')"/>
+        <xsl:value-of select="document($url) //atom:entry/atom:content//skos:ConceptScheme/skos:prefLabel"/>
+           
+        </xsl:when>        
+        <xsl:when test="contains($controlledvocabularies, $indexname)">             
+            <xsl:variable name="url" select="concat('/db/mom-data/metadata.controlledVocabulary.public/', $indexname, '.xml')"/>
+            <xsl:value-of select="document($url)//skos:prefLabel[parent::*/@* = $lemma][@xml:lang = $lang]"/>
+            
+        </xsl:when>
+        </xsl:choose>     
+    </xsl:function>
   <!-- calling main templates to insert CEI content into the sitemap -->
   <xsl:template match="xhtml:insert-idno">
     <span>
@@ -294,28 +323,32 @@
      <xsl:when test="$cei//cei:index/node()">   
         <div id="item">
           <b>
-          <!-- <xsl:value-of select="count($cei//cei:index/node())" /> -->
+          <!-- <xsl:value-of select="count($cei//cei:index/node())" //cei:index[@indexName] and/> -->
             <xrx:i18n>
               <xrx:key>items</xrx:key>
               <xrx:default>Items</xrx:default>
             </xrx:i18n>
           </b>
           <ul>
-     <xsl:if test="//cei:index[@indexName]">     
-  <xsl:for-each-group select="//cei:index" group-by="@indexName">
+     
+     <xsl:if test="//cei:index[@indexName]">          
+  <xsl:for-each-group select="//cei:index[@indexName != 'general']" group-by="@indexName">
   <xsl:sort select="@indexName" order="descending"/>
-     <xsl:variable name="indexWert" select="@indexName" /> 
-      <li>
-          <xrx:i18n>
-            <xrx:key><xsl:value-of select="$indexWert"/></xrx:key>
-            <xrx:default><xsl:value-of select="$indexWert"/></xrx:default>
-          </xrx:i18n>
-          <xsl:text>:&#160;</xsl:text>        
-        </li>                           
+     <xsl:variable name="indexname" select="@indexName"/>         
+      <li class="indexname">      
+      <xsl:choose>      
+      <xsl:when test="xrx:getvocabularies($indexname, '', 'de')">
+      <xsl:value-of select="xrx:getvocabularies($indexname, '', 'de')"/><xsl:text>: </xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+      <xsl:value-of select="$indexname"/><xsl:text>: </xsl:text>
+      </xsl:otherwise>
+      </xsl:choose>     
+      </li>                           
            <xsl:call-template name="item">                      
            </xsl:call-template>          
            <xsl:if test="((count(./@*) = 1) and @indexName)"> 
-            <ul>
+            <ul class="indexname">
             <xsl:for-each-group select="current-group()" group-by="text()">
             <xsl:call-template name="text">
             <xsl:with-param name="txt" select="text()"/>
@@ -325,7 +358,7 @@
         </xsl:if>          
      </xsl:for-each-group>
     </xsl:if>    
-    <xsl:if test="//cei:index[not(@*)]/node()">    
+    <xsl:if test="//cei:index[not(@*)]/node()| //cei:index[@lemma][not(@indexName)]| //cei:index[@indexName = 'general']">    
         
           <li> 
           <xrx:i18n>
@@ -341,6 +374,15 @@
         <xsl:value-of select="."/>
        </li>               
          </xsl:for-each>
+        <xsl:for-each select="//cei:index[@lemma][not(@indexName)] | //cei:index[@indexName = 'general']">  
+         <xsl:sort select="cei:index"/>
+        <li><xsl:value-of select="@lemma"/> - <xsl:if test="@sublemma"><xsl:value-of select="@sublemma"/><xsl:text> - </xsl:text></xsl:if>
+        <xsl:value-of select="."/>
+       </li>               
+         </xsl:for-each>
+         <!-- <xsl:for-each select="//cei:index[@indexName = 'general']">
+         <li></li>
+         </xsl:for-each> -->
          </ul>     
      </xsl:if>                               
           </ul>
@@ -1522,15 +1564,15 @@
   <xsl:template name="lang">
     <xsl:choose>
       <xsl:when test="./@lang">
-        <li>
+       <li> 
           <xrx:i18n>
             <xrx:key>lang</xrx:key>
             <xrx:default>Language</xrx:default>
           </xrx:i18n>
           <xsl:text>:&#160;</xsl:text>
           <xsl:value-of select="./@lang" />
-        </li>
-      </xsl:when>
+       </li>
+        </xsl:when>
     </xsl:choose>
   </xsl:template>
   <xsl:template name="reg">
@@ -1578,10 +1620,19 @@
        
   <xsl:template name="lemma"> 
   <xsl:param name="lm" />
-  
  <xsl:choose>
-   <xsl:when test="./@lemma">      
-   <li><xsl:attribute name="class">
+   <xsl:when test="./@lemma">
+   <xsl:choose>
+     <xsl:when test="./@indexName = 'IllUrkGlossar'">     
+      <xsl:variable name="pm" select="replace(./@lemma, '#', '')" />
+    <xsl:variable name="url" select="concat('/mom/glossar?pm=', $pm )" />
+    <li value="true" class="IllUrkGlossar">
+    <xsl:attribute name="lemma"><xsl:value-of select="@lemma"/></xsl:attribute>          
+    <xsl:value-of select="."/>
+     </li>  
+      </xsl:when>
+     <xsl:otherwise>
+     <li><xsl:attribute name="class">
             <xsl:value-of select="@indexName"/>
           </xsl:attribute>
           <xsl:attribute name="lemma">
@@ -1598,19 +1649,29 @@
            </xsl:call-template>          
           </xsl:for-each-group>         
           </xsl:when>
-          <xsl:otherwise>
+          <xsl:otherwise>            
+            <xsl:variable name="lem" select="concat('#', @lemma)"/>
+          <xsl:choose> 
+              <xsl:when test="xrx:getvocabularies(@indexName, '', 'de')">               
+              <xsl:value-of select="xrx:getvocabularies(@indexName, $lem, 'de')"/>
+            </xsl:when>
+            <xsl:otherwise>
+                  <xsl:value-of select="@lemma"/>
+             </xsl:otherwise>
+          </xsl:choose>
+         <xsl:if test="(compare(xrx:getvocabularies(@indexName, $lem, 'de'), .)= -1)">
+            <xsl:text> - </xsl:text>
             <xsl:value-of select="."></xsl:value-of>
+         </xsl:if>        
           </xsl:otherwise>
           </xsl:choose>          
     </li>
-  </xsl:when>
-   <xsl:otherwise>          
-          <li class="plaintext">    
-          <xsl:value-of select="."></xsl:value-of> 
-          </li>       
-  </xsl:otherwise>
-  </xsl:choose>
-  </xsl:template>
+     </xsl:otherwise>  
+   </xsl:choose>
+   </xsl:when>     
+ </xsl:choose>
+  </xsl:template> 
+  
   <xsl:template name="sublemma">
   <xsl:param name="sub"/>
   <li>
@@ -1648,9 +1709,9 @@
   <xsl:for-each-group select="current-group()" group-by="@lemma">          
           <ul class="inline glossary">       
          
-          <xsl:call-template name="lang" />
+         <!--  <xsl:call-template name="lang" />
           <xsl:call-template name="reg" />
-          <xsl:call-template name="existent" />
+          <xsl:call-template name="existent" /> -->
           <xsl:call-template name="type" /> 
           <xsl:call-template name="lemma">
           <xsl:with-param name="lm" select="current-grouping-key()"/>

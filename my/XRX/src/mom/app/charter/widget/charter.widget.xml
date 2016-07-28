@@ -305,19 +305,30 @@ it leaves the active development stage.
       <xrx:name>$wcharter:archive</xrx:name>
       <xrx:expression>$wcharter:metadata-archive-collection//eag:autform/text()</xrx:expression>
     </xrx:variable>
-    <!-- XSLT transformation -->
-    <xrx:variable>
-      <xrx:name>$wcharter:xsl</xrx:name>
-      <xrx:expression>$xrx:db-base-collection/xsl:stylesheet[@id='cei2html']</xrx:expression>
+     <xrx:variable>
+        <xrx:name>$wcharter:controlledvocabularies</xrx:name>
+    <xrx:expression>       
+ for $i in collection("/db/mom-data/metadata.controlledVocabulary.public")//atom:entry//skos:ConceptScheme
+let $vocabular := replace(data($i/@rdf:about), '#', '')
+        return $vocabular         
+     </xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter:params</xrx:name>
       <xrx:expression>
         <parameters xmlns="">
           <param name="image-base-uri" value="{ $wcharter:image-base-uri }"/>
-        </parameters>
+          <param name="controlledvocabularies" value="{$wcharter:controlledvocabularies}"/>
+        </parameters>        
       </xrx:expression>
     </xrx:variable>
+    <!-- XSLT transformation -->
+    <xrx:variable>
+      <xrx:name>$wcharter:xsl</xrx:name>
+      <xrx:expression>$xrx:db-base-collection/xsl:stylesheet[@id='cei2html']</xrx:expression>
+    </xrx:variable>
+   
+
     <!-- 
       links 
     -->
@@ -502,9 +513,7 @@ div.port {{
   margin-top:10px;
  
   }}
-div.port p {{
-    font-size:0.8em;
-}} 
+ 
 
 span.info_i {{
     color:white;
@@ -1135,7 +1144,7 @@ cei-recipient {{
               </div>
             </xrx:false>
           </xrx:auth>
-        </div>
+        </div> 
       </xrx:view>
     </xrx:div>
     <xrx:div>
@@ -1291,6 +1300,9 @@ cei-recipient {{
         i18n:translate-xml(transform:transform($page, $wcharter:xsl, $wcharter:params)) 
         }
         <xrx:div>how-to-cite</xrx:div>
+        <!-- javascript:transport();
+                javascript:proof();javascript:addInfo();  -->
+        
       </div>
       {
       if($xrx:tokenized-uri[last()] = 'charter') then
@@ -1298,9 +1310,8 @@ cei-recipient {{
         <div data-demoid="92fc737f-0034-4bbc-8d4c-42038dfded81" id="image-tool-widget">
           <script type="text/javascript">
 				    $(document).ready(function(){{
-				        javascript:addInfo();				      
-				        javascript:transport();
-				        javascript:proof(); 
+				        javascript:rapper();      
+				        
 	            jQuery(document).imageTool({{
 	              requestRoot: "{ conf:param('request-root') }",
 	              charter: "{ $charter:rcharterid }",
