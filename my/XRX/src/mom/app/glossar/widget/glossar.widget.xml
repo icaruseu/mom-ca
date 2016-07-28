@@ -93,9 +93,7 @@ div.port  {{
      var dieurl = window.location.href;
      var parameter = dieurl.indexOf('pm=')+3;    
       var gesamt = dieurl.length;   
-     var pm = dieurl.substring(parameter, gesamt);
-         console.log("Such Parameter aus URL");
-         console.log(pm);
+     var pm = dieurl.substring(parameter, gesamt);      
     $.ajax({{     
       url: "/mom/service/getGlossar",
       type:"GET",      
@@ -104,9 +102,7 @@ div.port  {{
       data: {{ pm : pm}},
       success: function(data, textStatus, jqXHR)
       {{ 
-          
-        console.log('erfolgreich'); 
-        console.log(data);
+        
         $('div.entry').append(data);
        
         return true;

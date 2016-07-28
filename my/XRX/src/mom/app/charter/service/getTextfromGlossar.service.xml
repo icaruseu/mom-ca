@@ -58,12 +58,10 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   the return value is embedded in the single charter view (depends from cei2html.xsl)-->
   <xrx:body>
     {    
-    
 
-
- 
 let $glossarlabel := collection("/db/mom-data/metadata.controlledVocabulary.public/")/atom:entry[atom:id/text()=$getTyp]//skos:Concept[@rdf:about=$getText]/skos:prefLabel/text()
 let $glossardesc := collection("/db/mom-data/metadata.controlledVocabulary.public/")/atom:entry[atom:id/text()=$getTyp]//skos:Concept[@rdf:about=$getText]/skos:definition/node()
+
  let $glossarintro := collection("/db/mom-data/metadata.controlledVocabulary.public/")/atom:entry[atom:id/text()='tag:www.monasterium.net,2011:/IllUrkGlossar']//rdf:RDF/skos:ConceptScheme/skos:note/text()
 
 return if ($checkType) then(

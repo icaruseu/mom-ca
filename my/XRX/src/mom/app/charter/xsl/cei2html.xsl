@@ -14,23 +14,32 @@
   </xsl:template>
   <xsl:param name="image-base-uri" />
   <xsl:param name="controlledvocabularies" />
+  <!-- function that looks, if there is a controlled vocabulary for cei:index/@indexName and @lemma. 
+       the Index (Item) has still many exceptions to deal with. Maybe this has to be compound in another way:
+       the cases: - cei:index just with a text node
+                  - cei:index with @lemma (@sublemma)
+                  - with @indexName general
+                  (belong to category general)
+                  - with @indexName that refers to a controlled vocabulary
+                  - with @indexName without controlled vocabulary name
+  -->
 <xsl:function name="xrx:getvocabularies">
         <xsl:param name="indexname"/>
         <xsl:param name="lemma"></xsl:param>
-        <xsl:param name="lang"/>    
-                   
+        <xsl:param name="lang"/>
+                          
         <xsl:variable name="sprache"><xsl:value-of select="$lang"/></xsl:variable>       
         <xsl:choose>
-        <xsl:when test="$lemma=''">      
-        <xsl:if test="contains($controlledvocabularies, $indexname)">        
+        <xsl:when test="$lemma='' and contains($controlledvocabularies, $indexname)">                     
         <xsl:variable name="url" select="concat('/db/mom-data/metadata.controlledVocabulary.public/', $indexname, '.xml')"/>
         <xsl:value-of select="document($url) //atom:entry/atom:content//skos:ConceptScheme/skos:prefLabel"/>
-        </xsl:if>    
+           
         </xsl:when>        
-        <xsl:otherwise>
+        <xsl:when test="contains($controlledvocabularies, $indexname)">             
             <xsl:variable name="url" select="concat('/db/mom-data/metadata.controlledVocabulary.public/', $indexname, '.xml')"/>
             <xsl:value-of select="document($url)//skos:prefLabel[parent::*/@* = $lemma][@xml:lang = $lang]"/>
-        </xsl:otherwise>
+            
+        </xsl:when>
         </xsl:choose>     
     </xsl:function>
   <!-- calling main templates to insert CEI content into the sitemap -->
@@ -314,24 +323,25 @@
      <xsl:when test="$cei//cei:index/node()">   
         <div id="item">
           <b>
-          <!-- <xsl:value-of select="count($cei//cei:index/node())" /> -->
+          <!-- <xsl:value-of select="count($cei//cei:index/node())" //cei:index[@indexName] and/> -->
             <xrx:i18n>
               <xrx:key>items</xrx:key>
               <xrx:default>Items</xrx:default>
             </xrx:i18n>
           </b>
           <ul>
-     <xsl:if test="//cei:index[@indexName]">     
-  <xsl:for-each-group select="//cei:index" group-by="@indexName">
+     
+     <xsl:if test="//cei:index[@indexName]">          
+  <xsl:for-each-group select="//cei:index[@indexName != 'general']" group-by="@indexName">
   <xsl:sort select="@indexName" order="descending"/>
-     <xsl:variable name="indexWert" select="@indexName" />         
-          <li class="indexname">      
+     <xsl:variable name="indexname" select="@indexName"/>         
+      <li class="indexname">      
       <xsl:choose>      
-      <xsl:when test="xrx:getvocabularies($indexWert, '', 'de')">
-      <xsl:value-of select="xrx:getvocabularies($indexWert, '', 'de')"/><xsl:text>: </xsl:text>
+      <xsl:when test="xrx:getvocabularies($indexname, '', 'de')">
+      <xsl:value-of select="xrx:getvocabularies($indexname, '', 'de')"/><xsl:text>: </xsl:text>
       </xsl:when>
       <xsl:otherwise>
-      <xsl:value-of select="$indexWert"/><xsl:text>: </xsl:text>
+      <xsl:value-of select="$indexname"/><xsl:text>: </xsl:text>
       </xsl:otherwise>
       </xsl:choose>     
       </li>                           
@@ -348,7 +358,7 @@
         </xsl:if>          
      </xsl:for-each-group>
     </xsl:if>    
-    <xsl:if test="//cei:index[not(@*)]/node()| //cei:index[@lemma][not(@indexName)]">    
+    <xsl:if test="//cei:index[not(@*)]/node()| //cei:index[@lemma][not(@indexName)]| //cei:index[@indexName = 'general']">    
         
           <li> 
           <xrx:i18n>
@@ -364,12 +374,15 @@
         <xsl:value-of select="."/>
        </li>               
          </xsl:for-each>
-        <xsl:for-each select="//cei:index[@lemma][not(@indexName)]">  
+        <xsl:for-each select="//cei:index[@lemma][not(@indexName)] | //cei:index[@indexName = 'general']">  
          <xsl:sort select="cei:index"/>
-        <li><xsl:value-of select="@lemma"/> - 
+        <li><xsl:value-of select="@lemma"/> - <xsl:if test="@sublemma"><xsl:value-of select="@sublemma"/><xsl:text> - </xsl:text></xsl:if>
         <xsl:value-of select="."/>
        </li>               
          </xsl:for-each>
+         <!-- <xsl:for-each select="//cei:index[@indexName = 'general']">
+         <li></li>
+         </xsl:for-each> -->
          </ul>     
      </xsl:if>                               
           </ul>
