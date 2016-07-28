@@ -40,6 +40,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:relativepath>image/</xrx:relativepath>
       <xrx:name>mom-logo.png</xrx:name>
     </xrx:resource>
+    <xrx:resource>
+    <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/illumlogo</xrx:atomid>
+    <xrx:relativepath>image/</xrx:relativepath>
+    <xrx:name>illum.jpg</xrx:name>
+    </xrx:resource>
   </xrx:resources> 
   <xrx:resolver>
    <xrx:map>

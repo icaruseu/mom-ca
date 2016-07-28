@@ -208,6 +208,14 @@ it leaves the active development stage.
       XSLT transformation
      -->
     <xrx:variable>
+        <xrx:name>$wcharter:controlledvocabularies</xrx:name>
+    <xrx:expression>       
+ for $i in collection("/db/mom-data/metadata.controlledVocabulary.public")//atom:entry//skos:ConceptScheme
+let $vocabular := replace(data($i/@rdf:about), '#', '')
+        return $vocabular         
+     </xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
       <xrx:name>$wcharter:xsl</xrx:name>
       <xrx:expression>$xrx:db-base-collection/xsl:stylesheet[@id='cei2html']</xrx:expression>
     </xrx:variable>
@@ -216,6 +224,7 @@ it leaves the active development stage.
       <xrx:expression>
         <parameters xmlns="">
           <param name="image-base-uri" value="{ $wcharter:image-base-uri }"/>
+          <param name="controlledvocabularies" value="{$wcharter:controlledvocabularies}"/>
         </parameters>
       </xrx:expression>
     </xrx:variable>
@@ -407,6 +416,8 @@ jQuery(document).ready(function() {{
       </a>  
     </div>
 </form> 
+<!-- javascript:transport();
+ javascript:proof(); javascript:addInfo();-->
  <script type="text/javascript">
 $( "#radio" ).buttonset();
   
@@ -414,9 +425,8 @@ $( "#radio" ).buttonset();
     
 $(".open-viewer-link").hide();
 $("#zoomsliderlabel").hide();
- javascript:addInfo();
-javascript:transport();
- javascript:proof();               
+ javascript:rapper();
+               
  console.log('my-charter.widget');
 
     var verlinkt = $("div#graphics").find("a#img-link");
