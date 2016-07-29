@@ -26,26 +26,77 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   </xrx:licence>
   <xrx:style>
 
+
 body {{
-  margin:0;
-  padding:3em; 
-  font-family:"Trebuchet MS", regular, sans-serif;
+    
+    font-family:"Trebuchet MS", regular, sans-serif;
+}}
+div.xrx-widget {{
+    width:55%;
+    margin-left:auto;
+    margin-right:auto;
 }}
 
+
+
+#illum {{
+  margin-right:10%;
+}}
+
+
+#header{{
+  width: 40%;
+  float:left;
+  margin-left:68px;
+ 
+}}
 #momlogo {{ 
-  width:50%;
+  width:30%;
   top:0px;
+  right:0;
+  position:absolute;
+  text-align:right;
+    
+}}
+#mom {{
+  margin-right:-15px;
+}}
+#illumlogo{{
+  float:left;
+  margin-top:2%;
+}}
+div.index{{
+  width:350px;
+  float:left;
+  text-align:left;
+  
+}}
+div.index ul {{
+  padding-left:10px;
+
+}}
+
+li {{
+  padding-bottom: .5em;
 }}
 
 
-img {{ width:300px; float:right;
-       
+img {{ width:60%;        
 }}
+
 a {{
     color:#72856C;
 }}
 a:hover {{
   color:#282828;
 }}
+div.text {{
+  margin-left:350px;
+  }}
+
+div.text ul {{
+  list-style-type:square;
+}}
+
   </xrx:style>
 </xrx:css>

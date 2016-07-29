@@ -36,7 +36,6 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     </xrx:variable>
         
   </xrx:variables> 
-  
   <xrx:init>
    <xrx:processor>
      <xrx:translateflag>false</xrx:translateflag>
@@ -44,20 +43,25 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   </xrx:init>
   <xrx:body>
     {    
-    let $glossarlabel := collection("/db/mom-data/metadata.glossar.public/")/atom:entry[atom:id/text()='tag:www.monasterium.net,2011:/IllUrkGlossar']//skos:Concept[@rdf:about=$getText]/skos:prefLabel/text()
-    let $glossardesc := collection("/db/mom-data/metadata.glossar.public/")/atom:entry[atom:id/text()='tag:www.monasterium.net,2011:/IllUrkGlossar']//skos:Concept[@rdf:about=$getText]/skos:definition/xhtml:p
-      
-    let $glo := $getText
-    return 
-    <div class="port">  
-      <h3>{$glossarlabel}</h3>  
-       {          
-              for $i in $glossardesc              
-              return
-                  
-                  <p>{$i/node()}</p>
-                  } 
-      </div>
-    }
+ 
+   let $glossarlabel := collection("/db/mom-data/metadata.controlledVocabulary.public/")/atom:entry[atom:id/text()='tag:www.monasterium.net,2011:/IllUrkGlossar']//skos:Concept[@rdf:about=$getText]/skos:prefLabel/text()
+   let $glossardesc := collection("/db/mom-data/metadata.controlledVocabulary.public/")/atom:entry[atom:id/text()='tag:www.monasterium.net,2011:/IllUrkGlossar']//skos:Concept[@rdf:about=$getText]/skos:definition/node()
+    let $glossarintro := collection("/db/mom-data/metadata.controlledVocabulary.public/")/atom:entry[atom:id/text()='tag:www.monasterium.net,2011:/IllUrkGlossar']//rdf:RDF/skos:ConceptScheme/skos:note/text()
+    let $index := collection("/db/mom-data/metadata.controlledVocabulary.public/")/atom:entry[atom:id/text()='tag:www.monasterium.net,2011:/IllUrkGlossar']//skos:Concept/skos:prefLabel
+ return 
+  <div class="port">
+  <div class="index"><ul>{ for $i in $index
+  let $rdfabout := data($i/parent::*/@rdf:about)
+  order by $rdfabout ascending
+    return
+    <li><a target="_blank" href="{concat('glossar?pm=', replace($rdfabout, '#', ''))}">{normalize-space($i/text())}</a></li>
+  }</ul></div>
+  <p class="intro">{$glossarintro}</p>  
+  <h3>{$glossarlabel}</h3>  
+  <div class="text">{$glossardesc}</div>
+  
+  </div>
+}
+
   </xrx:body> 
 </xrx:service>

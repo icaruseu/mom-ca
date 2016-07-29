@@ -189,38 +189,7 @@ else 	{
 
 }
 
-/*
- * This Funktion gets the entries to indexes with the attribute glossary.
- * The function call is in the cei2html.xsl file. 
- * Via Ajax a SKOS file ist queried.
- * But the skos file is still under construction,
- * that's why function is not set active right now.
- * 
- * */
-
-/*function checkglossaryentry(entry, glossartyp){ 
-	
-		$("div#enhancedView").empty();
-        
-        $.ajax({     
-        	url: "/mom/service/getTextfromGlossar",
-        	type:"GET",      
-        	contentType: "application/xml",     
-        	dataType: "html",
-        	data: { id : entry, typ : glossartyp},
->>>>>>> 76852cd69ca82ec3a656a6bbae61d82c8410319c
-        	success: function(data, textStatus, jqXHR)
-        	{           		        		
-        		$("div#enhancedView").append(data);        		
-        		return true;
-        	},     
-        	error: function(){
-        		$("#result").text("Error: Failed to load script.");
-   
-        		return false;
-        	}   
-        });
-}*/
+/*function rapper is uses to show the clicked glossary entry in a viewport on the single charter view. */
 
 function rapper(){		
 	
@@ -232,13 +201,13 @@ function rapper(){
 			if($(this).children("a.eintrag").length == 0){				
 				/* es wird der lemma eintrag gesucht und dann
 				 * mit erstem Großbuchstaben im Glossar nach eintrag gesucht.*/
-				var entry = $(this)[0].attributes.lemma.textContent;
+				var entry = $(this)[0].attributes.lemma.value;
 				var gentry = entry.charAt(0).toUpperCase() + entry.slice(1);				
 				var anker = $('<a><a>').addClass('eintrag');
 				console.log("Prüfe ein paar Variablen");
-				console.log(entry);
 				console.log(gentry);
-				console.log(anker);
+				console.log(glossartyp);
+//				console.log(anker);
 				$(this).wrapInner(anker).append('<span class="info_i">i</span>');			
 				$(this).click( function(){
 					console.log("click event on list");					
@@ -277,88 +246,92 @@ function rapper(){
 	}
 
 
-function addInfo(){
-	
-	var glossarcat = $("ul.glossary li[class]");
-	
-	
-	for (var i= 0; i < glossarcat.length; i++) {
-	
-		var cat = $(glossarcat[i]);		
-	
-		var glossartyp = cat.context.className;
-	
-		console.log("das ist der glossartyp")
-		console.log(glossartyp);
-		doAnAjax(glossartyp, cat,function(wert, cat){			
-			console.log(wert);
-			var neuewerte = cat.attr("value", wert);			
-			rapper();
-		}		
-				
-		);
-		
-		
-	}
-	
-}
+//function addInfo(){
+//	
+//	var glossarcat = $("ul.glossary li[class]");
+//	
+//	
+//	for (var i= 0; i < glossarcat.length; i++) {
+//	
+//		var cat = $(glossarcat[i]);		
+//	
+//		var glossartyp = cat.context.className;
+//	
+//		console.log("das ist der glossartyp")
+//		console.log(glossartyp);
+//		doAnAjax(glossartyp, cat,function(wert, cat){			
+//			console.log(wert);
+//			var neuewerte = cat.attr("value", wert);			
+//			rapper();
+//		}		
+//				
+//		);
+//		
+//		
+//	}
+//	
+//}
+//
+//function doAnAjax(glossartyp,cat ,hisBack){
+//$.ajax({     
+//	url: "/mom/service/getTextfromGlossar",
+//	type:"GET",      
+//	//contentType: "application/xml",     
+//	dataType: "xml",
+//	data: { checktype : glossartyp},
+//	success: function(data, textStatus, jqXHR)
+//	{    	console.log("wann bin ich dran?");
+//	
+//		return hisBack(data.activeElement.value, cat);
+//	},     
+//	error: function(){
+//		$("#result").text("Error: Failed to load script.");
+//
+//		return false;
+//	}    
+//});
+//}
 
-function doAnAjax(glossartyp,cat ,hisBack){
-$.ajax({     
-	url: "/mom/service/getTextfromGlossar",
-	type:"GET",      
-	//contentType: "application/xml",     
-	dataType: "xml",
-	data: { checktype : glossartyp},
-	success: function(data, textStatus, jqXHR)
-	{    		
-		return hisBack(data.activeElement.textContent, cat);
-	},     
-	error: function(){
-		$("#result").text("Error: Failed to load script.");
-
-		return false;
-	}    
-});
-}
-
-function transport(){
-	var sprachwert = "de";
-	
-	$('li[lemma]').each( function() {
-		//var entry = $(this)[0].attributes.sublemma.value;
-		var self = $(this);
-		if(self[0].attributes.lemma.value == ""){
-			console.log("no lemma value");
-		}
-		else {
-		console.log(self);
-		var sublemmawert = self[0].attributes.lemma.value;
-		var lemmawert = self[0].attributes.lemma.value;		
-		$.ajax({
-			url:"/mom/service/sublemma",
-			type:"GET",
-			dataType:"xml",
-			data: {sublemma : lemmawert, sprache:sprachwert},
-			success: function(data, textStatus, jqXHR)			{
-								
-				if(data.childNodes[0].childNodes[0] == undefined){
-						}
-				else {
-					var translation = data.childNodes[0].childNodes[0].data;					
-					self.text(translation);
-					//sublemmawert +': '+
-				}
-				
-				return true;
-			},
-			error: function() {
-				console.log("Error. Failed to load script.");
-				return false;
-			}
-			
-		});
-		}
-	});
-	
-}
+//function transport(){
+//	var sprachwert = "de";
+//	var indexname = "illurk-vocabulary";
+//	console.log("wann komme ich zum Einsatz!!!!!!!!!!!!");
+//	$('li[lemma]').each( function() {
+//		//var entry = $(this)[0].attributes.sublemma.value;
+//		var self = $(this);
+//		if(self[0].attributes.lemma.value == ""){
+//			console.log("no lemma value");
+//		}
+//		else {
+//		console.log(self);
+//		var sublemmawert = self[0].attributes.lemma.value;
+//		var lemmawert = self[0].attributes.lemma.value;		
+//		$.ajax({
+//			url:"/mom/service/sublemma",
+//			type:"GET",
+//			dataType:"xml",
+//			data: {lemma : lemmawert, sprache:sprachwert, index:indexname},
+//			success: function(data, textStatus, jqXHR)			{
+//								
+//				if(data.childNodes[0].childNodes[0] == undefined){
+//					console.log("hallojjjjjjj");
+//						}
+//				else {
+//					var translation = data.childNodes[0].childNodes[0].data;					
+//					self.text(translation);
+//					console.log("was passiert da?");
+//					console.log(self.text(translation));
+//				}
+//				
+//				return true;
+//			},
+//			error: function() {
+//				console.log("Error. Failed to load script.");
+//				return false;
+//			}
+//			
+//		});
+//		}
+//	});
+//	
+//}
