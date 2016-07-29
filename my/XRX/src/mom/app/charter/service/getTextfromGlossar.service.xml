@@ -58,16 +58,14 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   the return value is embedded in the single charter view (depends from cei2html.xsl)-->
   <xrx:body>
     {    
-    
 
+let $glossarlabel := collection("/db/mom-data/metadata.controlledVocabulary.public/")/atom:entry[atom:id/text()=$getTyp]//skos:Concept[@rdf:about=$getText]/skos:prefLabel/text()
+let $glossardesc := collection("/db/mom-data/metadata.controlledVocabulary.public/")/atom:entry[atom:id/text()=$getTyp]//skos:Concept[@rdf:about=$getText]/skos:definition/node()
 
- 
-let $glossarlabel := collection("/db/mom-data/metadata.glossar.public/")/atom:entry[atom:id/text()=$getTyp]//skos:Concept[@rdf:about=$getText]/skos:prefLabel/text()
-let $glossardesc := collection("/db/mom-data/metadata.glossar.public/")/atom:entry[atom:id/text()=$getTyp]//skos:Concept[@rdf:about=$getText]/skos:definition/xhtml:p
-
+ let $glossarintro := collection("/db/mom-data/metadata.controlledVocabulary.public/")/atom:entry[atom:id/text()='tag:www.monasterium.net,2011:/IllUrkGlossar']//rdf:RDF/skos:ConceptScheme/skos:note/text()
 
 return if ($checkType) then(
-          let $checkglossar := collection("/db/mom-data/metadata.glossar.public/")//atom:id/text()= $checkglossarType
+          let $checkglossar := collection("/db/mom-data/metadata.controlledVocabulary.public/")//atom:id/text()= $checkglossarType
           return
           if ($checkglossar = true())then(
               <p>true</p>
@@ -77,13 +75,10 @@ return if ($checkType) then(
           ) 
       else(
         <div class="port">
-          <h3>{$glossarlabel}</h3>
-         {          
-          for $i in $glossardesc              
-          return
-              
-              <p xmlns:xhtml="http://www.w3.org/1999/xhtml">{$i/node()}</p>
-              }          
+         
+        <!-- <p class="intro">{$glossarintro}</p>   -->
+        <h3>{$glossarlabel}</h3>  
+        <div>{$glossardesc}</div>         
         </div>  )
 
 }
