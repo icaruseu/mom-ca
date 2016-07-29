@@ -292,23 +292,25 @@
             function setoptioninSelect(name) {            	
             	var lemmawert;
             	var indexnamewert;
-            	if (name == "indexName"){
-            		var einf = $("<option> --- </option>");
-            		menuliste.append(einf);
-            	  for (var i=0; i<controlledVocabularies.length; i++){
-                  	var werteausobjekt = Object.values(controlledVocabularies[i]);                  	
-                	var newli = $('<option>' + werteausobjekt + '</option>')
-        			.addClass(uiSuggestedValueDivsClass).attr("title", werteausobjekt).attr("value", Object.keys(controlledVocabularies[i])).attr("name", name);
-            		if (Object.keys(controlledVocabularies[i]) == value){
-           			 newli.attr("selected", "selected");
-           			 indexnamewert = value;
-           		}
+                var einf = $("<option> --- </option>");
+                if (name == "indexName") {
+                    menuliste.append(einf);
+                    for (var i = 0; i < controlledVocabularies.length; i++) {
+                        var currentVocabulary = controlledVocabularies[i];
+                        var values = Object.keys(currentVocabulary).map(function (key) {
+                            return currentVocabulary[key];
+                        });
+                        var newOption = $('<option>' + values + '</option>')
+                            .addClass(uiSuggestedValueDivsClass).attr("title", values).attr("value", Object.keys(currentVocabulary)).attr("name", name);
+                        if (Object.keys(controlledVocabularies[i]) == value) {
+                            newOption.attr("selected", "selected");
+                            indexnamewert = value;
+                        }
             		
-            		menuliste.append(newli);
+            		menuliste.append(newOption);
         		}
             	}
-                else {	
-                		var einf = $("<option> --- </option>");
+                else {
                         menuliste.append(einf);                        
                                                	
                         	 function findindexName(edAttr){                        		 
