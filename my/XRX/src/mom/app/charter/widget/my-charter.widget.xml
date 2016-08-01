@@ -426,7 +426,7 @@ $( "#radio" ).buttonset();
 $(".open-viewer-link").hide();
 $("#zoomsliderlabel").hide();
  javascript:rapper();
-               
+ javascript:proof();   
  console.log('my-charter.widget');
 
     var verlinkt = $("div#graphics").find("a#img-link");
