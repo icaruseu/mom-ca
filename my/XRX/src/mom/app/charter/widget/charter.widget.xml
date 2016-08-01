@@ -1311,7 +1311,7 @@ cei-recipient {{
           <script type="text/javascript">
 				    $(document).ready(function(){{
 				        javascript:rapper();      
-				        
+				        javascript:proof();
 	            jQuery(document).imageTool({{
 	              requestRoot: "{ conf:param('request-root') }",
 	              charter: "{ $charter:rcharterid }",
