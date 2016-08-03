@@ -41,4 +41,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:uri>http://www.monasterium.net/NS/account</xrx:uri>
     </xrx:module>
   </xrx:modules>
+   <xrx:resources>
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/core/resource/js/my-account</xrx:atomid>
+      <xrx:relativepath>js/</xrx:relativepath>
+      <xrx:name>my-account.js</xrx:name>
+    </xrx:resource>
+  </xrx:resources>
 </xrx:app>
