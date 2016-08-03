@@ -51,7 +51,7 @@ import module namespace upd="http://www.monasterium.net/NS/upd"
     at "../xrx/upd.xqm";
 import module namespace atom="http://www.w3.org/2005/Atom"
     at "../data/atom.xqm";
-
+import module namespace metadata="http://www.monasterium.net/NS/metadata" at "../xrx/metadata.xqm";
 declare namespace xrx="http://www.monasterium.net/NS/xrx";
 
 
@@ -289,4 +289,94 @@ declare function account:remove-user($email, $password) {
         else()
     return
     $auth
+};
+
+declare function account:test-account-type($user-xml){
+
+if ($user-xml//atom:id) then
+  (
+  let $result := 'true'
+  let $debug := util:log('error', concat("result: ", $result))
+  
+   return $result
+  )
+  else 
+  (
+  let $result := 'false'
+    let $debug := util:log('error', concat("result: ", $result))
+    
+  
+  return $result
+  )
+  
+ 
+};
+
+declare function account:convert-to-new-type($user-xml)
+{    
+  if(account:test-account-type($user-xml) = 'false')then(
+ let $new-xml :=
+   <xrx:user xmlns:xrx="http://www.monasterium.net/NS/xrx">
+     <atom:id xmlns:atom="http://www.w3.org/2005/Atom">{metadata:atomid('user', util:uuid())}</atom:id>
+    <xrx:username/>
+    <xrx:password/>
+    <xrx:firstname>{$user-xml//xrx:firstname/text()}</xrx:firstname>
+    <xrx:name>{$user-xml//xrx:name/text()}</xrx:name>
+    <xrx:email>{$user-xml//xrx:email/text()}</xrx:email>
+    <xrx:moderator>{$user-xml//xrx:moderator/text()}</xrx:moderator>
+    <xrx:profil>
+        <xrx:private>
+            <xrx:contact>
+                <xrx:mail/>
+                <xrx:phone/>
+                <xrx:address>
+                    <xrx:country/>
+                    <xrx:city/>
+                    <xrx:postalcode/>
+                    <xrx:street/>
+                    <xrx:housenumber/>
+                </xrx:address>
+            </xrx:contact>
+        </xrx:private>
+        <xrx:institution>
+            <xrx:institute-name>{$user-xml//institution/text()}</xrx:institute-name>
+            <xrx:contact>
+                <xrx:mail/>
+                <xrx:phone>{$user-xml//xrx:phone/text()}</xrx:phone>
+                <xrx:address>
+                    <xrx:country/>
+                    <xrx:city>{$user-xml//xrx:town/text()}</xrx:city>
+                    <xrx:postalcode>{$user-xml//xrx:zip/text()}</xrx:postalcode>
+                    <xrx:street>{$user-xml//xrx:street/text()}</xrx:street>
+                    <xrx:housenumber/>
+                </xrx:address>
+            </xrx:contact>
+        </xrx:institution>
+        <xrx:twitter/>
+        <xrx:info/>
+    </xrx:profil>
+    <xrx:storage>
+        <xrx:saved_list>
+        {let $saveds := $user-xml//xrx:saved_list/xrx:saved
+        for $saved in $saveds
+        return <xrx:saved>
+                <xrx:id>{$saved//xrx:id/text()}</xrx:id>
+                <xrx:start_time>{$saved//xrx:start_time/text()}</xrx:start_time>
+                <xrx:freigabe>{$saved//xrx:freigabe/text()}</xrx:freigabe>
+        </xrx:saved>
+        }
+        </xrx:saved_list>
+        <xrx:bookmark_list>
+        {
+        let $bookmarks := $user-xml//xrx:bookmark_list/xrx:bookmark        
+        for $bookmark in $bookmarks
+         return <xrx:bookmark>{$bookmark/text()}</xrx:bookmark>
+        }
+        </xrx:bookmark_list>
+    </xrx:storage>
+</xrx:user>
+ let $post := atom:POST(conf:param('xrx-user-atom-base-uri'),concat(xmldb:encode($user-xml//xrx:email/text()), '.xml') , $new-xml)
+ return $new-xml
+ )
+ else ()
 };
