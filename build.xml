@@ -127,7 +127,7 @@
     <echo message="Download jssaxparser (http://jssaxparser.googlecode.com/svn/trunk/)" />
     <echo message="-------------------------" />
     <delete dir="jssaxparser" failonerror="false"/>
-    <get dest="tmp/jssaxparser.zip" src="https://jssaxparser.googlecode.com/files/jssax2parser-1-5.zip"/>
+    <get dest="tmp/jssaxparser.zip" src="https://github.com/ndebeiss/jsXmlSaxParser/archive/master.zip"/>
     <unzip src="tmp/jssaxparser.zip" dest="jssaxparser"/>
     
   </target>
