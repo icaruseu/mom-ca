@@ -166,13 +166,13 @@ declare function community:emails($communityid as xs:string) as xs:string* {
 };
 
 (:
-    overload a list of userids which shall 
-    represent the actual user list whith 
+    hand over a list of userids which shall 
+    represent the current user list whith 
     instituional permissions, which means
     a comlete refresh
     (a)     remove all existing <xrx:community>ID</xrx:community>
             elements
-    (b)     insert the overloaded ones
+    (b)     insert the new ones
 :)
 declare function community:refresh($userids as xs:string*, $communityid as xs:string) {
 

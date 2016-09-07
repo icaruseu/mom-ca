@@ -944,7 +944,7 @@ declare function xrxe:create-node-instances($template, $xsd, $conf){
             )
 };
 
-(:### function to create an xforms-instance of the actual node-data. This data will be inserted into the document  ###:)
+(:### function to create an xforms-instance of the current node-data. This data will be inserted into the document  ###:)
 declare function xrxe:create-data-instance($template, $xsd, $conf){       
     
     <xf:instance id="{xrxe:data-instance-id($template, $conf)}" >

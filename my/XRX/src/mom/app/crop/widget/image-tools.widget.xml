@@ -668,7 +668,7 @@ div.no-graphic{{
       let $next-and-previous := charter:next-and-previous($charters, $charter, $count, $atom-id, xs:string('charter'))
 
       (:
-         actual position inside the charter list in the
+         current position inside the charter list in the
          fond or in saved or released charter list
       :)
       let $pos := charter:position($charters, $charter, $xrx:user-xml, $atom-id, xs:string('charter'))

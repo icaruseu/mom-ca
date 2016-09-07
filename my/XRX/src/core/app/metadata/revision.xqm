@@ -496,7 +496,7 @@ declare function revision:archive($atomid as xs:string,
         )
     let $revisionnum := revision:nextnum($revision-base-collection)
     let $revisionid := revision:atomid($atomid, $metadata-scope, $revisionnum)
-    (: insert the new Atom ID into the actual entry :)
+    (: insert the new Atom ID into the current entry :)
     let $revision-entry := 
         upd:replace-element-content(
             $entry/atom:id,

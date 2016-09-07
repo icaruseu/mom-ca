@@ -57,7 +57,7 @@ declare variable $translate:options :=
         <filter-rewrite>yes</filter-rewrite>
     </options>;
 
-(: actual mainwidget to translate :)
+(: current mainwidget to translate :)
 declare variable $translate:mainwidget := 
     if($translate:rid) then $xrx:live-project-db-base-collection//xrx:id[.=$translate:rid]/parent::xrx:widget else();
 declare variable $translate:mainwidget-title := translate:mainwidget-title();
@@ -71,7 +71,7 @@ declare variable $translate:keys := translate:keys();
     ##################
 :)
 
-(: get i18n entries according to the actual request parameters :)
+(: get i18n entries according to the current request parameters :)
 declare function translate:entries() {    
    
     util:eval(translate:query-string())
@@ -163,7 +163,7 @@ declare function translate:translations($key as xs:string*, $language as xs:stri
     return <translations xmlns="">{$translations}</translations>
 };
 
-(: title of the page actually translated :)
+(: title of the page currently translated :)
 declare function translate:mainwidget-title() {
 
     if($translate:mainwidget) then 
@@ -175,7 +175,7 @@ declare function translate:mainwidget-title() {
     else $translate:rid
 };
 
-(: sequence of all keys related to the actually translated page :)
+(: sequence of all keys related to the currently translated page :)
 declare function translate:keys() as xs:string* {
 
     if($translate:mainwidget) then

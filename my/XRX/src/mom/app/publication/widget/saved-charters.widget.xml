@@ -286,7 +286,7 @@ right:220px;
                                         <b>
                                             <xrx:i18n>
                                                 <xrx:key>actual-live-version</xrx:key>
-                                                <xrx:default>Actual live version</xrx:default>
+                                                <xrx:default>Current live version</xrx:default>
                                             </xrx:i18n>
                                             <span>: </span>
                                         </b>
