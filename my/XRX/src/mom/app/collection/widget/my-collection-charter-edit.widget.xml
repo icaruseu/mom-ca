@@ -103,10 +103,6 @@
             <xrx:name>$entry-as-string</xrx:name>
             <xrx:expression>serialize($entry, ())</xrx:expression>
         </xrx:variable>
-     <!--    <xrx:variable>
-        <xrx:name>$test</xrx:name>
-        <xrx:expression>string('&lt;cei:p n="Autorensigle"&gt;Gabriele&amp;amp;Bartz&lt;/cei:p&gt;&lt;cei:p n="Autorenschaftarbeit"&gt;')</xrx:expression>
-        </xrx:variable> -->
         <xrx:variable>
         <xrx:name>$deserial-entry</xrx:name>
         <xrx:expression>replace($entry-as-string, '&amp;amp;', '&amp;')</xrx:expression>
