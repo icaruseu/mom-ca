@@ -18,7 +18,7 @@
           <!-- each table row contains a charter description -->
           <xsl:for-each select="//xhtml:tr">
             <!-- call template 'charter', select the column values of the row and 
-              overload the values as parameters -->
+              hand over the values as parameters -->
             <xsl:call-template name="charter">
               <!-- signature (first column) -->
               <xsl:with-param name="idno"

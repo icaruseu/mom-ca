@@ -113,7 +113,7 @@ declare function auth:parse($element) as item()*{
 };
 
 (:
-    test if the overloaded unit matches
+    test if the given unit matches
     TODO: this function should be more generic
 :)
 declare function auth:matches($rule as element(xrx:rule)) as xs:boolean {

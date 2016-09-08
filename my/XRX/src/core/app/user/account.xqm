@@ -100,8 +100,8 @@ declare function account:remove-password($user-xml) {
 };
 
 (: 
-    function returns true if the overloaded user 
-    name has a database account, false if not
+    function returns true if the user 
+    name handed over has a database account, false if not
 :)
 declare function account:is-known-user($email, $password) {
     

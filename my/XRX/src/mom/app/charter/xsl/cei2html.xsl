@@ -831,7 +831,7 @@
               <b>
                 <xrx:i18n>
                   <xrx:key>actual-repository</xrx:key>
-                  <xrx:default>Actual Repository</xrx:default>
+                  <xrx:default>Current repository</xrx:default>
                 </xrx:i18n>
                 <span>:&#160;</span>
               </b>

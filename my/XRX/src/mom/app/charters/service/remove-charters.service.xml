@@ -67,7 +67,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:name>$charters-import-collection-path</xrx:name>
       <xrx:expression>concat(conf:param('atom-db-base-uri'), $charters-import-feed)</xrx:expression>
     </xrx:variable>
-    <!-- the actual collection obtained from the collection path. -->
+    <!-- the current collection obtained from the collection path. -->
     <xrx:variable>
       <xrx:name>$charters-import-collection</xrx:name>
       <xrx:expression>collection($charters-import-collection-path)</xrx:expression>

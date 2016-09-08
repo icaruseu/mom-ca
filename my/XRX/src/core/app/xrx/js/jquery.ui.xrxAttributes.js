@@ -28,7 +28,7 @@
     var uiFormsTableCellClass = "forms-table-cell";
     /* controlledVoc works like a flag: when true then the controlled Vocabulary is active */
     var controlledVoc = false;
-    /* Arrays and object to get actual values of the attributes, 
+    /* Arrays and object to get current values of the attributes, 
      * because property editedAttributes is not updated,
      * before the whole lifecycle of the widget is redone!
      * The solution chosen here maybe is more complicated than it has to be.
