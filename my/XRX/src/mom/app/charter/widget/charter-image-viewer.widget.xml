@@ -181,6 +181,10 @@ it leaves the active development stage.
 
 #change-image-links{{
 	float:right;
+    width: 50%;
+    overflow: auto;
+    padding-top: 2px;
+    text-align: right;
 }}
 
 #change-image-links a{{
