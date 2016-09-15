@@ -417,7 +417,7 @@
     <mkdir dir="tmp"/>
     
     <!-- download and unzip eXist -->
-    <get src="https://github.com/eXist-db/exist/archive/eXist-2.0.x.zip" dest="tmp/eXist.zip"/>
+    <get src="https://codeload.github.com/eXist-db/exist/zip/eXist-2.0.x" dest="tmp/eXist.zip"/>
     <exec executable="unzip">
       <arg line="tmp/eXist.zip -d ."/>
     </exec>
