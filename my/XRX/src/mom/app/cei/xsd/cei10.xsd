@@ -978,6 +978,7 @@
                                     <xs:element ref="nota"/>
                                     <xs:element ref="rubrum"/>
                                     <xs:element ref="divNotes"/>
+                                    <xs:element ref="incipit"/>
                                 </xs:choice>
                             </xs:sequence>
                             <xs:attributeGroup ref="standard"/>
@@ -1092,6 +1093,28 @@
                             <xs:choice minOccurs="0" maxOccurs="unbounded">
                                 <xs:group ref="layout"/>
                                 <xs:group ref="biblArch"/>
+                            </xs:choice>
+                        </xs:sequence>
+                        <xs:attributeGroup ref="standard"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element minOccurs="0" maxOccurs="1" name="rights">
+                    <xs:annotation>
+                        <xs:appinfo source="EditVDU">
+                            <xrxe:label>
+                                <xrx:i18n>
+                                    <xrx:key>cei_rights</xrx:key>
+                                    <xrx:default>Rights</xrx:default>
+                                </xrx:i18n>
+                            </xrxe:label>
+                            <xrxe:relevant>true</xrxe:relevant>
+                        </xs:appinfo>
+                    </xs:annotation>
+                    <xs:complexType mixed="true">
+                        <xs:sequence>
+                            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                <xs:element ref="ref"/>
+                                <xs:element ref="bibl"/>
                             </xs:choice>
                         </xs:sequence>
                         <xs:attributeGroup ref="standard"/>
@@ -1535,6 +1558,35 @@
             </xs:sequence>
             <xs:attributeGroup ref="type"/>
             <xs:attribute name="position" type="xs:anySimpleType" use="optional"/>
+            <xs:attributeGroup ref="lang"/>
+            <xs:attributeGroup ref="standard"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="incipit">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>cei_incipit</xrx:key>
+                        <xrx:default>incipit</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+                <xrxe:min-occur>0</xrxe:min-occur>
+                <xrxe:max-occur>unbounded</xrxe:max-occur>
+                <xrxe:content-control>annotation</xrxe:content-control>
+                <xrxe:relevant>false</xrxe:relevant>
+            </xs:appinfo>
+            <xs:documentation xml:lang="deu">Enthält die ersten Wörter des Textes. Im Attribute "type" wird angegeben, auf welchen Textteil es sich bezieht,</xs:documentation>
+            <xs:documentation xml:lang="eng">contains the first words of the text. The attribute "type" specifies if it refers to specific part of the text.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:group ref="Originalbefund"/>
+                    <xs:group ref="Sachliches"/>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -2883,7 +2935,7 @@
             <xs:documentation xml:lang="eng">note in a critical apparatus listing
                 variants</xs:documentation>
         </xs:annotation>
-        <xs:complexType mixed="true">
+        <xs:complexType mixed="false">
             <xs:sequence>
                 <xs:element name="lem">
                     <xs:annotation>
@@ -3765,7 +3817,7 @@
                 beschränkt, sondern kann auch kanonische Referenzen (wie z.B. Bibelzitate)
                 enthalten. </xs:documentation>
         </xs:annotation>
-        <xs:complexType mixed="true">
+        <xs:complexType mixed="false">
             <xs:sequence>
                 <xs:element ref="quote"/>
                 <xs:element ref="bibl"/>

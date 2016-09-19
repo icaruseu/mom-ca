@@ -831,7 +831,7 @@
               <b>
                 <xrx:i18n>
                   <xrx:key>actual-repository</xrx:key>
-                  <xrx:default>Actual Repository</xrx:default>
+                  <xrx:default>Current repository</xrx:default>
                 </xrx:i18n>
                 <span>:&#160;</span>
               </b>
@@ -915,8 +915,8 @@
            <li>
                 <b>
                   <xrx:i18n>
-                    <xrx:key>note</xrx:key>
-                    <xrx:default>Nota</xrx:default>
+                    <xrx:key>cei_nota</xrx:key>
+                    <xrx:default>nota</xrx:default>
                   </xrx:i18n>
                   <span>:&#160;</span>
                 </b>
@@ -929,8 +929,8 @@
            <li>
                 <b>
                   <xrx:i18n>
-                    <xrx:key>rubrum</xrx:key>
-                    <xrx:default>Rubrum</xrx:default>
+                    <xrx:key>cei_rubrum</xrx:key>
+                    <xrx:default>rubrum</xrx:default>
                   </xrx:i18n>
                   <span>:&#160;</span>
                 </b>

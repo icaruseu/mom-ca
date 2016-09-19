@@ -45,7 +45,7 @@ declare function pdf:render($xml as element(), $xsl as element(xsl:stylesheet), 
 {
 (: transform the content of the xml-document:)
 let $xml-transformed := transform:transform($xml, $xsl, $params)
-(: translate it to the actual language:) 
+(: translate it to the current language:) 
 let $xml-translated := i18n:translate-xml($xml-transformed)
 (: render the pdf- file :)
 let $pdf := xslfo:render($xml-translated, "application/pdf", (), $fopConfig)

@@ -320,7 +320,7 @@ declare function local:response($oai-collections as xs:string*, $base-url as xs:
         then
         if (count($oaiinterface:parameters)=1)
             then
-            (: list the metadata format, actually vdu/mom only uses the ese format :)
+            (: list the metadata format, currently vdu/mom only uses the ese format :)
             $oaiinterface:metadata-formats
            (: placeholder for more metadata formats in database - check the identifier:) 
          else 

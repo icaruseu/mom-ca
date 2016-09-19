@@ -30,7 +30,7 @@ import module namespace conf="http://www.monasterium.net/NS/conf"
 declare variable $eag:db-base-uri := '/metadata.archive/';
 
 (:
-    get all EAG documents by overloading
+    get all EAG documents by handing over
     a country code
     
     @param countrycode
@@ -48,7 +48,7 @@ declare function eag:documents-by-country($countrycode as xs:string, $metadata-s
 
 
 (:
-    get all EAG documents by overloading
+    get all EAG documents by handing over
     a region code
     
     @param regioncode

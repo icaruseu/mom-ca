@@ -29,7 +29,7 @@
   <!-- 
     jssaxparser
    -->
-  <property name="jssaxparser-home" value="jssaxparser/jssaxparser"/>
+  <property name="jssaxparser-home" value="jssaxparser/jsXmlSaxParser-master/jssaxparser/"/>
   <property name="my-jssaxparser-src" value="my/XRX/res/jssaxparser"/>
 
   <!-- 
@@ -127,7 +127,7 @@
     <echo message="Download jssaxparser (http://jssaxparser.googlecode.com/svn/trunk/)" />
     <echo message="-------------------------" />
     <delete dir="jssaxparser" failonerror="false"/>
-    <get dest="tmp/jssaxparser.zip" src="https://jssaxparser.googlecode.com/files/jssax2parser-1-5.zip"/>
+    <get dest="tmp/jssaxparser.zip" src="https://codeload.github.com/ndebeiss/jsXmlSaxParser/zip/master"/>
     <unzip src="tmp/jssaxparser.zip" dest="jssaxparser"/>
     
   </target>
@@ -417,7 +417,7 @@
     <mkdir dir="tmp"/>
     
     <!-- download and unzip eXist -->
-    <get src="https://github.com/eXist-db/exist/archive/eXist-2.0.x.zip" dest="tmp/eXist.zip"/>
+    <get src="https://codeload.github.com/eXist-db/exist/zip/eXist-2.0.x" dest="tmp/eXist.zip"/>
     <exec executable="unzip">
       <arg line="tmp/eXist.zip -d ."/>
     </exec>

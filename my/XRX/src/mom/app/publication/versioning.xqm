@@ -46,7 +46,7 @@ declare function v:versions($doc as node()) as element(v:version)* {
 (:~
 	Restore a certain revision of a document by applying a
 	sequence of diffs and return it as an in-memory node. If the
-	revision argument is empty or smaller than the first actual
+	revision argument is empty or smaller than the first current
 	revision of the document, the function will return the base
 	version of the document. If the revision number is greater than
 	the latest revision, the latest version will be returned.
