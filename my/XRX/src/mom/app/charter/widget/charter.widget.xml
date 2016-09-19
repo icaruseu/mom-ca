@@ -949,9 +949,11 @@ cei-recipient {{
           </div>
           
           { let $urkunde := root($wcharter:metadata-charter-collection//atom:entry[atom:id[.=$wcharter:atom-id]])
+
            let $src := if ($urkunde//atom:link/@ref) then data($urkunde//atom:link/@ref) else()        
            let $interpretationstest := if ($src != '')then
-          <div class="interpretation"><p>Diese Urkunde ist eine Interpretation der Urkunde:<br/><a href="{concat('http://www.monasterium.net/mom', substring-after($src, 'charter'), '/charter')}">{$src}</a></p></div>
+           <div class="interpretation"><p>Diese Urkunde ist eine Interpretation der Urkunde:<br/><a href="{concat('http://www.monasterium.net/mom', substring-after($src, 'charter'), '/charter')}">{$src}</a></p></div>
+
           else()
           return $interpretationstest}
         </div>
