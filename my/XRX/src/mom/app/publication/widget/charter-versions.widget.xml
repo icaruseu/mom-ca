@@ -162,7 +162,7 @@ right:220px;
     
     (: Extract Date of Publishing :)
     let $date_published := data($charter//atom:published)
-    let $link_ref := data($charter//atom:link/@ref)
+    let $link_ref := data($charter//atom:link[1]/@ref)
     
     (: Get all Revisions of the Charter:)
     let $revisions := v:versions($charter)

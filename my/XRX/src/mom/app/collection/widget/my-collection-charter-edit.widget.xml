@@ -146,7 +146,7 @@
         <!-- linked charter -->
         <xrx:variable>
             <xrx:name>$atomid-linked</xrx:name>
-            <xrx:expression>$entry/atom:link/@ref/string()</xrx:expression>
+            <xrx:expression>$entry/atom:link[1]/@ref/string()</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$is-linked</xrx:name>
@@ -346,7 +346,7 @@
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/XPath</xrx:resource>
         <!-- codemirror resources -->
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/lib/codemirror</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/mode/xml</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/mode/xml</xrx:resource>        
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/js/codemirror/mode/visualxml</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/js/codemirror/keymap/visualxml</xrx:resource>
         <!-- core resources -->
