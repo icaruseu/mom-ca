@@ -2165,6 +2165,8 @@
                 <xs:element ref="arenga"/>
                 <xs:element ref="publicatio"/>
                 <xs:element ref="narratio"/>
+                <xs:element ref="rogatio"/>
+                <xs:element ref="intercessio"/>
                 <xs:element ref="dispositio"/>
                 <xs:element ref="sanctio"/>
                 <xs:element ref="corroboratio"/>
@@ -2364,6 +2366,73 @@
             <xs:documentation xml:lang="deu"> erzählt die Ereignisse und Handlungen, die der
                 Ausstellung der Urkunde vorangegangen sind </xs:documentation>
         </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:group ref="Originalbefund"/>
+                    <xs:group ref="Sachliches"/>
+                    <xs:element ref="rogatio"/>
+                    <xs:element ref="intercessio"/>
+                    <xs:element ref="setPhrase"/>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attributeGroup ref="type"/>
+            <xs:attributeGroup ref="lang"/>
+            <xs:attributeGroup ref="standard"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="rogatio">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>cei_rogatio</xrx:key>
+                        <xrx:default>rogatio</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+                <xrxe:menu-item>
+                    <xrx:i18n>
+                        <xrx:key>diplomatic-part</xrx:key>
+                        <xrx:default>diplomatic part</xrx:default>
+                    </xrx:i18n>
+                </xrxe:menu-item>
+                <xrxe:min-occur>0</xrxe:min-occur>
+                <xrxe:max-occur>unbounded</xrxe:max-occur>
+            </xs:appinfo>
+            <xs:documentation xml:lang="en">clause expressing the request for formal documentation (cf. VID n. 326 http://www.cei.lmu.de/VID/VID.php?326)</xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:group ref="Originalbefund"/>
+                    <xs:group ref="Sachliches"/>
+                    <xs:element ref="setPhrase"/>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attributeGroup ref="type"/>
+            <xs:attributeGroup ref="lang"/>
+            <xs:attributeGroup ref="standard"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="intercessio">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">part of the text describing the intervention of a third to support a petition (cf. VID n. 328)</xs:documentation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>cei_intercessio</xrx:key>
+                        <xrx:default>intercessio</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+                <xrxe:menu-item>
+                    <xrx:i18n>
+                        <xrx:key>diplomatic-part</xrx:key>
+                        <xrx:default>diplomatic part</xrx:default>
+                    </xrx:i18n>
+                </xrxe:menu-item>
+                <xrxe:min-occur>0</xrxe:min-occur>
+                <xrxe:max-occur>unbounded</xrxe:max-occur>
+            </xs:appinfo></xs:annotation>
         <xs:complexType mixed="true">
             <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
