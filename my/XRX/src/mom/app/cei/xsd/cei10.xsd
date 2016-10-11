@@ -1355,7 +1355,7 @@
                     <xs:element ref="notariusDesc"/>
                     <xs:element ref="sealDesc"/>
                     <xs:element ref="subscriptio"/>
-                    <xs:element ref="indentura"/>
+                    <xs:element ref="chirograph"/>
                 </xs:choice>
             </xs:sequence>
             <xs:attributeGroup ref="lang"/>
@@ -1533,12 +1533,12 @@
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
-    <xs:element name="indentura">
+    <xs:element name="chirograph">
         <xs:annotation>
             <xs:appinfo source="EditVDU">
                 <xrxe:label>
                     <xrx:i18n>
-                        <xrx:key>cei_indentura</xrx:key>
+                        <xrx:key>cei_chirograph</xrx:key>
                         <xrx:default>indentura chirographi</xrx:default>
                     </xrx:i18n>
                 </xrxe:label>
@@ -1548,7 +1548,7 @@
                 <xrxe:relevant>true</xrxe:relevant>
             </xs:appinfo>
             <xs:documentation xml:lang="de">Teilurkundenschnitt</xs:documentation>
-            <xs:documentation xml:lang="en">contains a description of the method how a chirograph (cfr. VID 44, http://www.cei.lmu.de/VID/#VID_44) is executed, e.g. the text written in the place of cutting, and/or the form of the cutting.</xs:documentation>
+            <xs:documentation xml:lang="en">contains a description of the method how a chirograph/carta partita (cfr. VID 44, http://www.cei.lmu.de/VID/#VID_44) is executed, e.g. the text written in the place of cutting, and/or the form of the cutting.</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:sequence minOccurs="0" maxOccurs="unbounded">
