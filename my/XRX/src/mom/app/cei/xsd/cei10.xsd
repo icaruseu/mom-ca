@@ -3057,7 +3057,7 @@
                                 <xs:group ref="textualElements"/>
                             </xs:choice>
                         </xs:sequence>
-                        <xs:attribute ref="wit"/>
+                        <xs:attributeGroup ref="wit"/>
                         <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
                 </xs:element>
@@ -3081,7 +3081,7 @@
                                 <xs:group ref="reference"/>
                             </xs:choice>
                         </xs:sequence>
-                        <xs:attribute ref="wit"/>
+                        <xs:attributeGroup ref="wit"/>
                         <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
                 </xs:element>
@@ -3089,7 +3089,6 @@
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
-    <xs:attribute name="wit" type="xs:anySimpleType"/>
     <xs:element name="expan">
         <xs:annotation>
             <xs:appinfo source="EditVDU">
@@ -5432,6 +5431,21 @@
             </xs:annotation>
         </xs:attribute>
         <xs:attributeGroup ref="reference"/>
+    </xs:attributeGroup>
+    <xs:attributeGroup name="wit">
+        <xs:attribute name="wit" type="xs:anySimpleType">
+            <xs:annotation>
+                <xs:appinfo>
+                    <xrxe:label>
+                        <xrx:i18n>
+                            <xrx:key>cei_at_wit</xrx:key>
+                            <xrx:default>text witness</xrx:default>
+                        </xrx:i18n>
+                    </xrxe:label>
+                </xs:appinfo>
+                <xs:documentation xml:lang="en">Reference to textual witness identified in charter description.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:attributeGroup>
     <xs:attribute name="ref">
         <xs:annotation>
