@@ -583,6 +583,15 @@
                                             </xs:appinfo>
                                         </xs:annotation>
                                     </xs:element>
+                                    <xs:element ref="orgName">
+                                        <xs:annotation>
+                                            <xs:appinfo source="EditVDU">
+                                                <xrxe:min-occur>0</xrxe:min-occur>
+                                                <xrxe:max-occur>unbounded</xrxe:max-occur>
+                                                <xrxe:content-control>annotation</xrxe:content-control>
+                                            </xs:appinfo>
+                                        </xs:annotation>
+                                    </xs:element>
                                     <xs:element ref="class">
                                         <xs:annotation>
                                             <xs:appinfo source="EditVDU">
@@ -4129,6 +4138,7 @@
                     <xs:element ref="placeName"/>
                     <xs:element ref="geogName"/>
                 </xs:choice>
+                <xs:element ref="orgName"/>
                 <xs:element ref="index"/>
                 <xs:element ref="testis"/>
                 <xs:choice>
@@ -4348,6 +4358,48 @@
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
+    <xs:element name="orgName">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>cei_orgName</xrx:key>
+                        <xrx:default>Organisation name</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+                <xrxe:menu-item>
+                    <xrx:i18n>
+                        <xrx:key>indexing</xrx:key>
+                        <xrx:default>indexing</xrx:default>
+                    </xrx:i18n>
+                </xrxe:menu-item>
+                <xrxe:max-occur>unbounded</xrxe:max-occur>
+            </xs:appinfo>
+            <xs:documentation xml:lang="deu">Die Bezeichnung einer Organisation</xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:choice>
+                        <xs:annotation>
+                            <xs:documentation xml:lang="deu">Geographische Angaben
+                            </xs:documentation>
+                        </xs:annotation>
+                        <xs:element ref="persName"/>
+                        <xs:element ref="placeName"/>
+                        <xs:element ref="geogName"/>
+                    </xs:choice>
+                    <xs:element ref="foreign"/>
+                    <xs:element ref="note"/>
+                    <xs:group ref="Originalbefund"/>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attributeGroup ref="identification"/>
+            <xs:attributeGroup ref="lang"/>
+            <xs:attributeGroup ref="type"/>
+            <xs:attributeGroup ref="standard"/>
+        </xs:complexType>
+    </xs:element>
     <xs:element name="persName">
         <xs:annotation>
             <xs:appinfo source="EditVDU">
@@ -4376,6 +4428,7 @@
                             </xs:documentation>
                         </xs:annotation>
                         <xs:element ref="persName"/>
+                        <xs:element ref="orgName"/>
                         <xs:element ref="placeName"/>
                         <xs:element ref="geogName"/>
                         <xs:element ref="forename"/>
@@ -4526,6 +4579,7 @@
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="foreign"/>
                     <xs:element ref="persName"/>
+                    <xs:element ref="orgName"/>
                     <xs:choice>
                         <xs:annotation>
                             <xs:documentation xml:lang="deu">Geographische Angaben
@@ -4568,6 +4622,7 @@
             <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="persName"/>
+                    <xs:element ref="orgName"/>
                     <xs:choice>
                         <xs:annotation>
                             <xs:documentation xml:lang="deu">Geographische Angaben
@@ -5070,7 +5125,7 @@
                             <xrx:default>certainty</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant context="='persName' or $context='geogName' or $context='placeName' or $context='sic' or $context='del' or $context='expan' or $context='damage'"/>
+                    <xrxe:relevant context="='persName' or $context='orgName' or $context='geogName' or $context='placeName' or $context='sic' or $context='del' or $context='expan' or $context='damage'"/>
                 </xs:appinfo>
                 <xs:documentation xml:lang="deu"> Für Genauigkeitsangaben z.B. bei Datierungen,
                     werden mit Schlüsselwörtern (zu benennen in der encodingDesc) oder kurzen
@@ -5106,7 +5161,7 @@
                             <xrx:default>reg</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant context="='persName' or $context='geogName' or $context='placeName'"/>
+                    <xrxe:relevant context="='persName' or $context='orgName' or $context='geogName' or $context='placeName'"/>
                 </xs:appinfo>
             </xs:annotation>
         </xs:attribute>
@@ -5137,7 +5192,7 @@
                             <xrx:default>type</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant context="='persName' or $context='geogName' or $context='placeName' or $context='c'"/>
+                    <xrxe:relevant context="='persName' or $context='orgName' or $context='geogName' or $context='placeName' or $context='c'"/>
                 </xs:appinfo>
             </xs:annotation>
         </xs:attribute>
