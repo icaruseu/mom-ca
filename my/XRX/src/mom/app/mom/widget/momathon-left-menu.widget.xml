@@ -85,7 +85,11 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               </xrx:i18n>
             </h3>
             <div class="sub-menu-item" data-demoid="babd8ffa-a31f-4937-96ae-4e5602388955">
-              <a target ="_new" href="{ conf:param('request-root') }editmom-documentation">EditMOM</a>
+              <a target ="_new" href="{ conf:param('request-root') }editmom-documentation">              
+              <xrx:i18n>
+                <xrx:key>editmom</xrx:key>
+                <xrx:default>EditMOM</xrx:default>
+              </xrx:i18n></a>
             </div>
             
             <h3>
@@ -98,8 +102,16 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               <!--<a href="{ conf:param('request-root') }momathon?mode=task">Tasks for MOMathon</a><br/>-->
               <!--<b><a href="{ conf:param('request-root') }momathon?mode=google">Google Edit</a></b><br/> -->
 
-              <b><a href="{ conf:param('request-root') }momathon?mode=date" target="_blank">Date Edit</a></b><br/>
-              <a href="{ conf:param('request-root') }momathon?mode=all" target="_blank">Advanced Edit</a><br/> 
+              <b><a href="{ conf:param('request-root') }momathon?mode=date" target="_blank">              
+              <xrx:i18n>
+                <xrx:key>task-date</xrx:key>
+                <xrx:default>Date edit</xrx:default>
+              </xrx:i18n></a></b><br/>
+              <a href="{ conf:param('request-root') }momathon?mode=all" target="_blank">              
+              <xrx:i18n>
+                <xrx:key>task-all</xrx:key>
+                <xrx:default>Advanced Edit</xrx:default>
+              </xrx:i18n></a><br/> 
 
               
 
@@ -108,16 +120,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               <a href="{ conf:param('request-root') }momathon-charters?mode=google" target="_new">Google Edit</a><br/>
               <a href="{ conf:param('request-root') }momathon-charters?mode=transcription" target="_new">Transcription Edit</a> -->
               
-            </div><!--
-            <h3>
-              <xrx:i18n>
-                <xrx:key>contact</xrx:key>
-                <xrx:default>Contact</xrx:default>
-              </xrx:i18n>
-            </h3>
-            <div class="sub-menu-item" data-demoid="2f227a30-39df-4b3f-9bc7-aeaff8efb83">
-              <a href="http://webchat.freenode.net/?channels=%23MOMathon&amp;uio=d4" target="_blank">Chat with our Staff</a><br/>
-            </div> -->
+            </div>
             <h3>
               <xrx:i18n>
                 <xrx:key>result</xrx:key>
@@ -125,7 +128,11 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               </xrx:i18n>
             </h3>
             <div class="sub-menu-item" data-demoid="2f227a30-39df-4b3f-9bc7-aeaff8efb8a">
-              <a href="{ conf:param('request-root') }momathon-result">Result Overview</a><br/>
+              <a href="{ conf:param('request-root') }momathon-result">              
+              <xrx:i18n>
+                <xrx:key>resultoverview</xrx:key>
+                <xrx:default>Result Overview</xrx:default>
+              </xrx:i18n></a><br/>
             </div>
             <xrx:auth>
               <xrx:rules>
@@ -145,8 +152,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                   <div class="sub-menu-item" data-demoid="75223694-24e5-49bb-aa44-2ad6b30603ed">
                     <a href="{ conf:param('request-root') }momathon-overview">
                       <xrx:i18n>
-                        <xrx:key>success</xrx:key>
-                        <xrx:default>Success</xrx:default>
+                        <xrx:key>Success</xrx:key>
+                        <xrx:default>Success Overview</xrx:default>
                       </xrx:i18n>
                     </a>
                   </div>
