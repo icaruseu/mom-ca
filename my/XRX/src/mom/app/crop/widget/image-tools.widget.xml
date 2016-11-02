@@ -626,14 +626,14 @@ div.no-graphic{{
          if($charter-context = 'fond') then
             metadata:base-collection('charter', ($charter:rarchiveid, $charter:rfondid), 'public')
           else
-            metadata:base-collection('charter', 'IlluminierteUrkunden', 'public')
+            metadata:base-collection('charter', $charter:rcolletionid , 'public')
        
       let $metadata-fond-collection :=
           metadata:base-collection('fond', ($charter:rarchiveid, $charter:rfondid), 'public')
       let $metadata-archive-collection :=
           metadata:base-collection('archive', $charter:rarchiveid, 'public')
       let $metadata-collection-collection :=
-          metadata:base-collection('collection', 'IlluminierteUrkunden', 'public')
+          metadata:base-collection('collection', $charter:rcollectionid , 'public')
 
       (:
         getting the CEI document from public area of MOM-CA
