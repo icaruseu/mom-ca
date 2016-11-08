@@ -60,10 +60,7 @@
                 then $user:db-base-collection//atom:id[.=$atomid]/parent::atom:entry else
                 $base-collection//atom:id[.=$atomid]/parent::atom:entry</xrx:expression>
         </xrx:variable>
-   <!--      <xrx:variable><xrx:name>$korrigiert</xrx:name>
-        <xrx:expression>replace($entry, '&amp;amp;', '&amp;')
-        </xrx:expression>
-        </xrx:variable> -->
+
         <xrx:variable>
             <xrx:name>$updater</xrx:name>
             <xrx:expression>mycollection:checkUpdateCharter($entry)</xrx:expression>
@@ -106,6 +103,7 @@
         <xrx:variable>
         <xrx:name>$deserial-entry</xrx:name>
         <xrx:expression>replace($entry-as-string, '&amp;amp;', '&amp;')</xrx:expression>
+        <!-- replace(/&/g,'&amp;').replace(/&amp;amp;/g, '&amp;'); -->
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$context</xrx:name>
@@ -375,7 +373,7 @@
         <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/createanno</xrx:resource>
     </xrx:jss>
     <xrx:instances>
-        <xrx:instance id="icharter">{ $deserial-entry}</xrx:instance>
+        <xrx:instance id="icharter">{ $entry-as-string}</xrx:instance>      
     </xrx:instances>
     <xrx:binds>
         <xrx:bind id="bclass" nodeset="/descendant::cei:class"/>
@@ -388,7 +386,7 @@
                     <xrx:option key="north__resizable">false</xrx:option>
                     <xrx:option key="south__size">.5</xrx:option>
                 </xrx:options>
-                <xrx:center>
+               <xrx:center>
                     <xrx:auth>
                         <xrx:rules>
                             <xrx:rule>
@@ -396,8 +394,8 @@
                                 <xrx:dbgroup>atom</xrx:dbgroup>
                             </xrx:rule>
                         </xrx:rules>
-                        <xrx:true>
-                            <div data-demoid="09a18129-a5e4-42f7-ab9e-1d4bcf9497bb"
+                        <xrx:true>                       
+                           <div data-demoid="09a18129-a5e4-42f7-ab9e-1d4bcf9497bb"
                                 id="dui-imageann">
                                 <script type="text/javascript"> $(document).ready(function(){{
                                     jQuery(document).imageTool({{ requestRoot: "{
@@ -468,7 +466,7 @@
                                     </xrx:case>
                                     <xrx:case id="dcharter-instance"/>
                                 </xrx:switch>
-                            </div>
+                            </div> 
                         </xrx:true>
                         <xrx:false>
                             <div data-demoid="de9f813e-6b5d-49f6-91b3-eee1a1731a7b"/>
@@ -488,6 +486,8 @@
                         }
                         <div data-demoid="4c56fbe3-1728-47c6-af7e-ab39fb266752" id="autoSaveStatus"
                         />
+                        
+             
                     </div>
                    
                     <div data-demoid="4e751e31-7e32-42cd-96a3-ce571b5ea97a" id="image-tool-div">
