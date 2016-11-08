@@ -38,8 +38,7 @@ declare namespace cei="http://www.monasterium.net/NS/cei";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 (: request parameters :)
-declare variable $search:q := 
-    translate(request:get-parameter('q', ''), "'", '"');
+declare variable $search:q := translate(request:get-parameter('q', ''), "'", '?');
 declare variable $search:img := request:get-parameter('img', '');
 declare variable $search:annotations := request:get-parameter('annotations', '');
 declare variable $search:sort := request:get-parameter('sort', 'date');
