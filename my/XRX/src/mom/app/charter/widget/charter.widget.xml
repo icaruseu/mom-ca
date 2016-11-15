@@ -314,20 +314,37 @@ let $vocabular := replace(data($i/@rdf:about), '#', '')
      </xrx:expression>
     </xrx:variable>
     <xrx:variable>
-      <xrx:name>$wcharter:params</xrx:name>
-      <xrx:expression>
-        <parameters xmlns="">
-          <param name="image-base-uri" value="{ $wcharter:image-base-uri }"/>
-          <param name="controlledvocabularies" value="{$wcharter:controlledvocabularies}"/>
-        </parameters>        
-      </xrx:expression>
+        <xrx:name>$wcharter:page</xrx:name>        
+    <xrx:expression>
+       <page>
+       { template:get('tag:www.monasterium.net,2011:/mom/template/charter-view', false()) }
+          { util:expand($wcharter:charter) }
+        </page>
+    </xrx:expression>
     </xrx:variable>
+    
+
     <!-- XSLT transformation -->
     <xrx:variable>
       <xrx:name>$wcharter:xsl</xrx:name>
       <xrx:expression>$xrx:db-base-collection/xsl:stylesheet[@id='cei2html']</xrx:expression>
     </xrx:variable>
-   
+
+       <xrx:variable>
+      <xrx:name>$wcharter:params</xrx:name>
+      <xrx:expression>
+        <parameters xmlns="">
+          <param name="image-base-uri" value="{ $wcharter:image-base-uri }"/>
+          <param name="controlledvocabularies" value="{$wcharter:controlledvocabularies}"/>
+            {
+            let $keys := root($wcharter:xsl)//*[local-name(.) = "stylesheet"]/node()
+            let $i18n := $keys//xrx:i18n
+            for $key in $i18n
+            return <param name="{$key/xrx:key}" value="{i18n:translate($key)}"/>           
+          }
+        </parameters>        
+      </xrx:expression>
+    </xrx:variable>
 
     <!-- 
       links 
@@ -946,16 +963,16 @@ cei-recipient {{
               </xrx:i18n>
               <span> &gt;</span>
             </a>
-          </div>
+          </div><!-- This div shows references to other charters  -->
           
           { let $urkunde := root($wcharter:metadata-charter-collection//atom:entry[atom:id[.=$wcharter:atom-id]])
 
            let $src := if ($urkunde//atom:link/@ref) then data($urkunde//atom:link/@ref) else()        
            let $interpretationstest := if ($src != '')then
-           <div class="interpretation"><p>This charter is an interpretation of:<br/>{ for $i in $src
+           <div class="interpretation"><p><xrx:i18n><xrx:key>This charter is an interpretation of</xrx:key><xrx:default>This charter is an interpretation of</xrx:default></xrx:i18n> :<br/>{ for $i in $src
            let $teil := substring-after($i, 'charter')
            return
-           <span style="display:block"><a href="{concat('http://www.monasterium.net/mom', $teil, '/charter')}">{$i}</a></span>
+           <span style="display:block"><a href="{concat('http://www.monasterium.net/mom', $teil, '/charter')}">{substring-after($teil, '/')}</a></span>
            
            }</p></div>
 
@@ -1312,21 +1329,13 @@ cei-recipient {{
       </div>     
    
       <div data-demoid="71c8ebdc-bd3a-4327-bdda-8d41279c46cc">
-          <xrx:div>my-archive</xrx:div>
-        { 
-        (: charter view :) 
-        let $page :=
-        <page>        
-          { template:get('tag:www.monasterium.net,2011:/mom/template/charter-view', false()) }
-          { util:expand($wcharter:charter) }
-        </page>
-        return 
-        i18n:translate-xml(transform:transform($page, $wcharter:xsl, $wcharter:params)) 
-        }
-        <xrx:div>how-to-cite</xrx:div>
-        <!-- javascript:transport();
-                javascript:proof();javascript:addInfo();  -->
-        
+          <xrx:div>my-archive</xrx:div> 
+        {      
+          (: charter view :)
+          
+           i18n:translate-xml(transform:transform($wcharter:page, $wcharter:xsl, $wcharter:params))
+        }      
+        <xrx:div>how-to-cite</xrx:div> 
       </div>
       {
       if($xrx:tokenized-uri[last()] = 'charter') then

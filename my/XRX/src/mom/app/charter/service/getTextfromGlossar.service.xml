@@ -34,6 +34,10 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:name>$getText</xrx:name>  
       <xrx:expression>concat('#', request:get-parameter('id', ''))</xrx:expression>
     </xrx:variable>
+       <xrx:variable>
+      <xrx:name>$typ</xrx:name>  
+      <xrx:expression>request:get-parameter('typ', '')</xrx:expression>
+    </xrx:variable>
    <xrx:variable>
       <xrx:name>$getTyp</xrx:name>  
       <xrx:expression>concat('tag:www.monasterium.net,2011:/', request:get-parameter('typ', ''))</xrx:expression>
@@ -64,24 +68,32 @@ let $glossardesc := collection("/db/mom-data/metadata.controlledVocabulary.publi
 
  let $glossarintro := collection("/db/mom-data/metadata.controlledVocabulary.public/")/atom:entry[atom:id/text()='tag:www.monasterium.net,2011:/IllUrkGlossar']//rdf:RDF/skos:ConceptScheme/skos:note/text()
 
-return if ($checkType) then(
+return 
+if ($checkType) then(
           let $checkglossar := collection("/db/mom-data/metadata.controlledVocabulary.public/")//atom:id/text()= $checkglossarType
           return
           if ($checkglossar = true())then(
               <p>true</p>
           )else(
              <p>false</p>
-          )          
+          )         
           ) 
-      else(
-        <div class="port">
-         
-        <!-- <p class="intro">{$glossarintro}</p>   -->
-        <h3>{$glossarlabel}</h3>  
-        <div>{$glossardesc}</div>         
+      else if ($typ = 'bishop') then (
+          let $collection := collection("/db/mom-data/metadata.person.public/")
+          let $inmem := $collection//tei:TEI          
+          let $bibl := $collection//tei:person[@xml:id='P_Nikolaus_Accia_1344']/tei:occupation/tei:ref/tei:bibl/text()
+          let $bishops := $inmem//tei:person[@xml:id='P_Nikolaus_Accia_1344']/node()
+        
+          
+          return  <div class="port">{$bishops}</div>
+          )
+          
+      else (      
+        <div class="port">            
+         <h3>{$glossarlabel}</h3> 
+        <div>{$glossardesc}</div>
+       
         </div>  )
-
 }
-
   </xrx:body>
 </xrx:service>

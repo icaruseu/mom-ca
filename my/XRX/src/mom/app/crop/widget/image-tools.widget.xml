@@ -626,7 +626,7 @@ div.no-graphic{{
          if($charter-context = 'fond') then
             metadata:base-collection('charter', ($charter:rarchiveid, $charter:rfondid), 'public')
           else
-            metadata:base-collection('charter', $charter:rcolletionid , 'public')
+            metadata:base-collection('charter', $charter:rcollectionid , 'public')
        
       let $metadata-fond-collection :=
           metadata:base-collection('fond', ($charter:rarchiveid, $charter:rfondid), 'public')
