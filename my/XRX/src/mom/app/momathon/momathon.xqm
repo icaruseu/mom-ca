@@ -143,7 +143,7 @@ declare function momathon:DoneCharters($user-id as xs:string, $mom-charter as el
 };
 (: get next Momathon-object from MOMathon.log :)
 declare function momathon:getNextMomathon() as element()? {
-  let $momathon := for $entry in $momathon:base-mom-collection//xrx:momathons/xrx:momathon[@from > $momathon:date]
+  let $momathon := for $entry in $momathon:base-mom-collection//xrx:momathons/xrx:momathon[@from >= $momathon:date]
                     let $date := $entry//xrx:momathon/@from
                     order by $date descending
                     return $entry
@@ -187,10 +187,43 @@ declare function momathon:string-to-date
  
  (: retrieve Momathons from the past :)
  declare function momathon:last-momathons() as element()* {
-  let $momathon := for $entry in $momathon:base-mom-collection//xrx:momathons/xrx:momathon[@from < $momathon:date]
+  let $momathon := for $entry in $momathon:base-mom-collection//xrx:momathons/xrx:momathon[@from <= $momathon:date]
                     let $date := $entry//xrx:momathon/@from
                     order by $date descending
                     return $entry
   return
     $momathon
  };
+ 
+ (: check all charters if published or released yet :)
+ declare function momathon:retrieve-charters($momathon as element()* ) as element()* {
+ 
+ 	 (: extract charters from momathon :)
+ 	 let $charters-to-publish := $momathon
+ 	 
+ 	 (: get collection metadata.charters.saved :)
+ 	 let $collection-saved := collection("/db/mom-data/metadata.charter.saved/")
+ 	 
+ 	 (: get charters which are still "saved" :)
+ 	 let $charters-saved := $collection-saved//atom:entry[atom:id = data($charters-to-publish/@atomid)]
+ 	 
+ 	 return
+ 	 	$charters-saved
+ };
+
+(: get MOMathon-charters sorted :)
+declare function momathon:get-sorted-charters($mom-entry as element(), $sortmode as xs:string) as element()* {
+    let $user_asc := for $user in $mom-entry//xrx:user
+        order by (data($user/@id))
+        return $user
+
+    let $charter_desc := for $user in $mom-entry//xrx:user
+        order by (count($user//xrx:charter)) descending
+        return $user
+
+    let $order-state := switch ($sortmode)
+                            case "charter" return $charter_desc
+                            case "user" return $user_asc
+                            default return $user_asc
+    return $order-state
+};
