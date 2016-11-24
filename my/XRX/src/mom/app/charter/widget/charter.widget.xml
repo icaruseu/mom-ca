@@ -530,7 +530,11 @@ div.port {{
   margin-top:10px;
  
   }}
- 
+
+span.bishop {{
+          display: block;
+          backround-color: red;
+}}
 
 span.info_i {{
     color:white;

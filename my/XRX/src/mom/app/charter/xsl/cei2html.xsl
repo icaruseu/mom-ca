@@ -10,11 +10,13 @@
     <xsl:preserve-space elements="cei:*"/>
     <xsl:variable name="sitemap" select="/xhtml:page/xhtml:div"/>
     <xsl:variable name="cei" select="/xhtml:page//cei:text"/>
-    <xsl:template match="/">
+    
+    <xsl:template match="/">     
         <xsl:apply-templates select="$sitemap"/>
     </xsl:template>
+    
     <xsl:param name="image-base-uri"/>
-    <xsl:param name="controlledvocabularies"/>
+    <xsl:param name="controlledvocabularies"/>   
     
    <!-- 
    ***********************************************************
@@ -33,7 +35,8 @@
    I don't know if this takes too much performance!
    
    *************************************************************
-     -->
+      -->
+     
     <xsl:param name="cei_persName"/>
     <xsl:param name="cei_placeName"/>
     <xsl:param name="cei_issuer"/>
@@ -51,7 +54,8 @@
     <xsl:param name="cei_quote"/>
     <xsl:param name="cei_damage"/>
     <xsl:param name="cei_supplied"/>
-    <xsl:param name="cei_unclear"/>  
+    <xsl:param name="cei_unclear"/> 
+     
 
     <!-- function that looks, if there is a controlled vocabulary for cei:index/@indexName and @lemma. 
        the Index (Item) has still many exceptions to deal with. Maybe this has to be compound in another way:
@@ -407,6 +411,7 @@
                                 <xsl:sort select="@indexName" order="descending"/>
                                 <xsl:variable name="indexname" select="@indexName"/>
                                 <li class="indexname">
+                                <xsl:text>halloe</xsl:text>
                                     <xsl:choose>
                                         <xsl:when test="xrx:getvocabularies($indexname, '', 'de')">
                                             <xsl:value-of
@@ -422,8 +427,10 @@
                                 <xsl:call-template name="item"> </xsl:call-template>
                                 <xsl:if test="((count(./@*) = 1) and @indexName)">
                                     <ul class="indexname">
+                                                                          
                                         <xsl:for-each-group select="current-group()"
                                             group-by="text()">
+                                         
                                             <xsl:call-template name="text">
                                                 <xsl:with-param name="txt" select="text()"/>
                                             </xsl:call-template>
@@ -459,7 +466,7 @@
                                             <xsl:value-of select="@sublemma"/>
                                         </xsl:if>
                                         <xsl:if test="./text()">
-                                          <xsl:text> - </xsl:text>
+                                          <xsl:if test="@sublemma"><xsl:text> - </xsl:text></xsl:if>
                                             <xsl:value-of select="."/>
                                         </xsl:if>
                                     </li>
@@ -1823,8 +1830,8 @@
                             </xsl:choose>
                             <xsl:if
                                 test="(compare(xrx:getvocabularies(@indexName, $lem, 'de'), .) = -1)">
-                                <!--<xsl:text> - </xsl:text>  -->
-                                <xsl:value-of select="."/>
+                                <xsl:text> - </xsl:text>                            
+                                <xsl:value-of select="."/>                             
                             </xsl:if>
                         </xsl:otherwise>
                     </xsl:choose>
