@@ -32,7 +32,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   <xrx:variables>
      <xrx:variable>
       <xrx:name>$getText</xrx:name>  
-      <xrx:expression>concat('#', request:get-parameter('id', ''))</xrx:expression>
+      <xrx:expression>request:get-parameter('id', '')</xrx:expression>
     </xrx:variable>
        <xrx:variable>
       <xrx:name>$typ</xrx:name>  
@@ -63,8 +63,8 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   <xrx:body>
     {    
 
-let $glossarlabel := collection("/db/mom-data/metadata.controlledVocabulary.public/")/atom:entry[atom:id/text()=$getTyp]//skos:Concept[@rdf:about=$getText]/skos:prefLabel/text()
-let $glossardesc := collection("/db/mom-data/metadata.controlledVocabulary.public/")/atom:entry[atom:id/text()=$getTyp]//skos:Concept[@rdf:about=$getText]/skos:definition/node()
+let $glossarlabel := collection("/db/mom-data/metadata.controlledVocabulary.public/")/atom:entry[atom:id/text()=$getTyp]//skos:Concept[@rdf:about= concat('#', $getText)]/skos:prefLabel/text()
+let $glossardesc := collection("/db/mom-data/metadata.controlledVocabulary.public/")/atom:entry[atom:id/text()=$getTyp]//skos:Concept[@rdf:about= concat('#', $getText)]
 
  let $glossarintro := collection("/db/mom-data/metadata.controlledVocabulary.public/")/atom:entry[atom:id/text()='tag:www.monasterium.net,2011:/IllUrkGlossar']//rdf:RDF/skos:ConceptScheme/skos:note/text()
 
@@ -80,19 +80,16 @@ if ($checkType) then(
           ) 
       else if ($typ = 'bishop') then (
           let $collection := collection("/db/mom-data/metadata.person.public/")
-          let $inmem := $collection//tei:TEI          
-          let $bibl := $collection//tei:person[@xml:id='P_Nikolaus_Accia_1344']/tei:occupation/tei:ref/tei:bibl/text()
-          let $bishops := $inmem//tei:person[@xml:id='P_Nikolaus_Accia_1344']/node()
+          let $inmem := $collection//tei:TEI         
+          let $bishops := $inmem//tei:person[@xml:id=$getText]
         
           
           return  <div class="port">{$bishops}</div>
           )
           
       else (      
-        <div class="port">            
-         <h3>{$glossarlabel}</h3> 
-        <div>{$glossardesc}</div>
-       
+         <div class="port">        
+       {$glossardesc}       
         </div>  )
 }
   </xrx:body>
