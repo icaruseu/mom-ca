@@ -333,7 +333,7 @@ let $vocabular := replace(data($i/@rdf:about), '#', '')
        <xrx:variable>
       <xrx:name>$wcharter:params</xrx:name>
       <xrx:expression>
-        <parameters xmlns="">
+        <parameters>
           <param name="image-base-uri" value="{ $wcharter:image-base-uri }"/>
           <param name="controlledvocabularies" value="{$wcharter:controlledvocabularies}"/>
             {

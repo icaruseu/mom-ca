@@ -410,8 +410,7 @@
                                 group-by="@indexName">
                                 <xsl:sort select="@indexName" order="descending"/>
                                 <xsl:variable name="indexname" select="@indexName"/>
-                                <li class="indexname">
-                                <xsl:text>halloe</xsl:text>
+                                <li class="indexname">                               
                                     <xsl:choose>
                                         <xsl:when test="xrx:getvocabularies($indexname, '', 'de')">
                                             <xsl:value-of
@@ -694,10 +693,9 @@
         </xrx:i18n>
     </xsl:variable>
         <span class="cei-persname">
-            <xsl:attribute name="title">
-                <xsl:value-of select="$cei_persName"/>
-       
-            </xsl:attribute>
+            <xsl:attribute name="title">           
+                <xsl:value-of select="$cei_persName"/>       
+            </xsl:attribute>           
             <xsl:apply-templates/>
         </span>
     </xsl:template>
