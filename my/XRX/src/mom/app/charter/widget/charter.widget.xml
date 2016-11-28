@@ -532,8 +532,12 @@ div.port {{
   }}
 
 span.bishop {{
-          display: block;
-          backround-color: red;
+          display: block;          
+}}
+
+i.bishop {{
+    font-style:italic;
+    color: grey;
 }}
 
 span.info_i {{
@@ -1332,12 +1336,14 @@ cei-recipient {{
        <xrx:resource alt="einklappen" id="ein" type="image/png" class="ic">tag:www.monasterium.net,2011:/mom/resource/image/path_down</xrx:resource>
       </div>     
    
-      <div data-demoid="71c8ebdc-bd3a-4327-bdda-8d41279c46cc">
+      <div data-demoid="71c8ebdc-bd3a-4327-bdda-8d41279c46cc">      
           <xrx:div>my-archive</xrx:div> 
         {      
           (: charter view :)
           
+            
            i18n:translate-xml(transform:transform($wcharter:page, $wcharter:xsl, $wcharter:params))
+           
         }      
         <xrx:div>how-to-cite</xrx:div> 
       </div>

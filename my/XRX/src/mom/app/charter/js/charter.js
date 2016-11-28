@@ -199,8 +199,7 @@ function rapper(){
 		 * 
 		 * */
 		$('li[value="true"]:not(.illurk-vocabulary)').each(function(){
-			console.log($(this)[0].className);			
-			console.log("von li das class attribut");
+	
 			var glossartyp= $(this)[0].className;
 		//	if($(this).children("a.eintrag").length == 0){				
 				
@@ -217,12 +216,7 @@ function rapper(){
 				var gentry = entry.charAt(0).toUpperCase() + entry.slice(1);				
 				var anker = $('<a><a>').addClass('eintrag');
 				$(this).append('<span class="info_i">i</span>');
-				$(this).wrapInner(anker);
-				console.log("Prüfe ein paar Variablen");
-				console.log(gentry);
-				console.log(glossartyp);
-				console.log($(this));
-				
+				$(this).wrapInner(anker);				
 							
 				$(this).click( function(){
 					console.log("click event on list");					
@@ -243,11 +237,15 @@ function rapper(){
 			        			var pers= $("<h3></h3>").append(name);
 			        			var person = $(data).find("tei\\:person");			        			
 			        			var aufgabe = $(data).find("tei\\:occupation");
-			        			var date = $(aufgabe).find("tei\\:date").appendTo(person).wrap("<span class='bishop'></span>");			        			
+			        			
+			        			var date = $(aufgabe).find("tei\\:date").appendTo(person).wrap("<span class='bishop'></span>");
+			        			var note = $(data).find("tei\\:note").appendTo(person).wrap("<i class='bishop'></i>");
+			        			
 			        			var bibl = $(aufgabe).find("tei\\:bibl").appendTo(person).wrap("<span class='bishop'></span>");			        			
 			        			var port = $("<div class='port'></div>").append(pers).append(person);
 			        			console.log(person);
-			        			$("div#enhancedView").append(port);	
+			        			
+			        			$("div#enhancedView").append(port);				        			
 			        		}
 			        		else {
 			        			console.log("die daten");	

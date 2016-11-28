@@ -692,12 +692,9 @@
             <xrx:default>person name</xrx:default>
         </xrx:i18n>
     </xsl:variable>
-        <span class="cei-persname">
-            <xsl:attribute name="title">           
-                <xsl:value-of select="$cei_persName"/>       
-            </xsl:attribute>           
-            <xsl:apply-templates/>
-        </span>
+        <span class="cei-persname" title="{$cei_persName}">            
+            <xsl:apply-templates/>            
+        </span>     
     </xsl:template>
     <xsl:template match="cei:issuer">
      <xsl:variable name="i18n">
@@ -1322,9 +1319,9 @@
         <xsl:variable name="i18n">
     <xrx:i18n><xrx:key>cei_placeName</xrx:key><xrx:default>place name</xrx:default></xrx:i18n>
     </xsl:variable>
-        <span class="cei-placename" title="{$cei_placeName}">
+        <span class="cei-placeName" title="{$cei_placeName}">
             <xsl:apply-templates/>
-        </span>
+       </span>      
     </xsl:template>
     <xsl:template name="issued">
         <xsl:apply-templates select="$cei//cei:issued/cei:dateRange"/>
