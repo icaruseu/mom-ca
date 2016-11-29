@@ -1319,7 +1319,7 @@
         <xsl:variable name="i18n">
     <xrx:i18n><xrx:key>cei_placeName</xrx:key><xrx:default>place name</xrx:default></xrx:i18n>
     </xsl:variable>
-        <span class="cei-placeName" title="{$cei_placeName}">
+        <span class="cei-placename" title="{$cei_placeName}">
             <xsl:apply-templates/>
        </span>      
     </xsl:template>
