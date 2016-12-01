@@ -193,22 +193,31 @@ else 	{
 
 function rapper(){		
 	
-		var infoeintrag = $('li[value="true"]');		
-		$('li[value="true"]').each(function(){
-			console.log($(this)[0].className);			
-			console.log("von li das class attribut");
+		var infoeintrag = $('li[value="true"]');
+		/* normally all li where value = true (which means that there is more information provided to this index)
+		 * has an eception which is the illurk-vocabulary, because until now there is no additional info.
+		 * 
+		 * */
+		$('li[value="true"]:not(.illurk-vocabulary)').each(function(){
+	
 			var glossartyp= $(this)[0].className;
-			if($(this).children("a.eintrag").length == 0){				
-				/* es wird der lemma eintrag gesucht und dann
-				 * mit erstem Großbuchstaben im Glossar nach eintrag gesucht.*/
-				var entry = $(this)[0].attributes.lemma.value;
+		//	if($(this).children("a.eintrag").length == 0){				
+				
+				console.log("die attribute");
+				console.log($(this)[0].attributes);
+				if ($(this)[0].attributes.lemma == undefined)
+					{
+					var entry = $(this)[0].attributes.id.value;
+					}
+				else{
+					var entry = $(this)[0].attributes.lemma.value;
+				}
+				
 				var gentry = entry.charAt(0).toUpperCase() + entry.slice(1);				
 				var anker = $('<a><a>').addClass('eintrag');
-				console.log("Prüfe ein paar Variablen");
-				console.log(gentry);
-				console.log(glossartyp);
-//				console.log(anker);
-				$(this).wrapInner(anker).append('<span class="info_i">i</span>');			
+				$(this).append('<span class="info_i">i</span>');
+				$(this).wrapInner(anker);				
+							
 				$(this).click( function(){
 					console.log("click event on list");					
 					$("div#enhancedView").empty();
@@ -218,11 +227,42 @@ function rapper(){
 			        	url: "/mom/service/getTextfromGlossar",
 			        	type:"GET",      
 			        	contentType: "application/xml",     
-			        	dataType: "html",
+			        	dataType: "xml",
 			        	data: { id : gentry, typ : glossartyp},
 			        	success: function(data, textStatus, jqXHR)
-			        	{           		        		
-			        		$("div#enhancedView").append(data);        		
+			        	{    
+			        		if (glossartyp == 'bishop' ){
+			        			
+			        			var name = $(data).find("tei\\:persName");
+			        			var pers= $("<h3></h3>").append(name);
+			        			var person = $(data).find("tei\\:person");			        			
+			        			var aufgabe = $(data).find("tei\\:occupation");
+			        			
+			        			var date = $(aufgabe).find("tei\\:date").appendTo(person).wrap("<span class='bishop'></span>");
+			        			var note = $(data).find("tei\\:note").appendTo(person).wrap("<i class='bishop'></i>");
+			        			
+			        			var bibl = $(aufgabe).find("tei\\:bibl").appendTo(person).wrap("<span class='bishop'></span>");			        			
+			        			var port = $("<div class='port'></div>").append(pers).append(person);
+			        			console.log(person);
+			        			
+			        			$("div#enhancedView").append(port);				        			
+			        		}
+			        		else {
+			        			console.log("die daten");	
+			        			console.log($(data));
+			        			//var port = $(data).find("div");
+			        			var preflabel = $(data).find("skos\\:prefLabel");
+			        			var h = $("<h3></h3>").append(preflabel);			        			
+			        			console.log("preflabel wird ausgegeben");
+			        			console.log(preflabel);
+			        			var def = $(data).find("skos\\:definition");
+			        			var div = $("<div class='bla'></div>").append(def);
+			        			var port = $("<div class='port'></div>").append(h).append(div);
+			        			$("div#enhancedView").append(port);			        			
+			        		}
+			        				
+			        		;
+			        		        		
 			        		return true;
 			        	},     
 			        	error: function(){
@@ -235,10 +275,10 @@ function rapper(){
 					
 					
 				});
-			}
-			else {
+		//	}
+		//	else {
 				
-			}
+		//	}
 		}
 				);
 		

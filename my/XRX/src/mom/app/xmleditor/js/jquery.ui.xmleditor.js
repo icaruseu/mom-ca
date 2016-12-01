@@ -28,12 +28,19 @@ $.widget( "ui.xmleditor", {
 	},
 	/* ajax-request of my-collection-save.service.xml */
 	save: function() {
-		var self = this;		
+		var self = this;
+		/* proof the variable data: 
+		 * if there are ampersands, 
+		 * they are escaped 
+		 * part of issue #427
+		 * */
+		var data = $(".xrx-instance").text().replace(/&/g,'&amp;').replace(/&amp;amp;/g, '&amp;');
+		
 		$.ajax({
 			url: self.options.requestRoot + serviceMyCollectionSave,
 			type: "POST",
 			contentType: "application/xml",
-			data: $(".xrx-instance").text(),
+			data: data, 
 			dataType: "xml",
 			  /* 
 			   * success function
@@ -41,19 +48,23 @@ $.widget( "ui.xmleditor", {
 			   * if result = true the save-function is completed and the save function was a success
 			   * if result = false the save-function is completed but the save function was not a success
 			   */	
-			success: function(response){
+			success: function(response){				
+				
 				if($(response).find('result').text() == "true"){
 					$("#autoSaveStatus").text("All changes saved.");
+				
 					return true;
 				}
 				else {
+					
 					$("#autoSaveStatus").text("Failed to save changes.");
+					
 					return false;
 				}			
 			},
-			error: function(){
+			error: function(){				
 			 $("#autoSaveStatus").text("Error: Failed to load save-script.");
-			 
+			
 			 return false;
 			}			
 		});

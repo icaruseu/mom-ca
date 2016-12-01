@@ -188,7 +188,7 @@ it leaves the active development stage.
 }}
 
 #change-image-links a{{
-	padding: 5px;
+	padding: 2px;
 }}
 
 .open-viewer-link{{
