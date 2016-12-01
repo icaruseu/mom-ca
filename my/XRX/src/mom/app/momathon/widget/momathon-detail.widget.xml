@@ -149,14 +149,14 @@ right:220px;
     let $mom-col := collection("/db/mom-data/metadata.momathon/")//*
     (: Load single momathon-entry :)
     let $mom-entry := $mom-col//xrx:momathon[@id = $mom-id]
-    (: Load all Charters to the momathon :)
-    let $charters-to-publish := $mom-entry//xrx:charter
+    (: Load all Charters to the momathon but only if still saved :)
+    let $charters-to-publish := momathon:retrieve-charters($mom-entry//xrx:charter)
 
     (: pagination :)
     let $numentries := count($charters-to-publish)
     let $startstop := pagination:startstop($numentries)
     let $navigation := pagination:navi($numentries)
-    
+
     return
     <xf:group model="msaved">
 	    <div data-demoid="94e9fa85-3165-4719-8b48-df68dd917f4a" id="dcharter-preview-main">
@@ -172,6 +172,7 @@ right:220px;
 	        <br/>       
 	        <b>Anzahl beteiligter User: {count($mom-entry/xrx:users/xrx:user)}</b><br/>
 	        <b>Anzahl bearbeitete Urkunden: {count($mom-entry//xrx:charter)}</b><br/>
+			  <b>Noch freizuschaltende Urkunden: {count($charters-to-publish)}</b><br/>
 	      </div>
 	    	<div data-demoid="406c9a7e-b726-4083-b6e3-8afd7dd232bd" id="noteBobble">
 	    		<xrx:resource onClick="document.getElementById('noteBobble').style.display = 'none';" style="position:absolute;left:417px;top:8px;width:14px;" title="Close note input" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/button_close</xrx:resource>
@@ -208,8 +209,8 @@ right:220px;
 	      for $id-element at $num in $charters-to-publish
 	
 	      
-	      let $atom-id := data($id-element/@atomid)
-	      let $email := data($id-element/ancestor::*[local-name() = "user"]/@id)
+	      let $atom-id := $id-element//atom:id/text()
+	      let $email := $id-element//atom:email/text()
 	      
 	      (: initialize metadata collections :)
 	      let $tokens := tokenize(substring-after($atom-id, conf:param('atom-tag-name')), '/')

@@ -31,7 +31,55 @@
     
     We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
   </xrx:licence>
-  <xrx:variables>    
+  <xrx:variables>
+    <xrx:variable>
+      <xrx:name>$wmomathon:htdoc-home-entry</xrx:name>
+      <xrx:expression>htdoc:get('tag:www.monasterium.net,2011:/mom/htdoc/momathon-home')</xrx:expression>
+    </xrx:variable>
+        <xrx:variable>
+      <xrx:name>$wmomathon:htdoc-date-entry</xrx:name>
+      <xrx:expression>htdoc:get('tag:www.monasterium.net,2011:/mom/htdoc/momathon-date')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wmomathon:htdoc-all-entry</xrx:name>
+      <xrx:expression>htdoc:get('tag:www.monasterium.net,2011:/mom/htdoc/momathon-all')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wmomathon:htdoc-google-entry</xrx:name>
+      <xrx:expression>htdoc:get('tag:www.monasterium.net,2011:/mom/htdoc/momathon-google')</xrx:expression>
+    </xrx:variable>
+     <xrx:variable>
+      <xrx:name>$wmomathon:htdoc-home-title</xrx:name>
+      <xrx:expression>htdoc:title($wmomathon:htdoc-home-entry)/text()</xrx:expression>
+    </xrx:variable>
+     <xrx:variable>
+      <xrx:name>$wmomathon:htdoc-date-title</xrx:name>
+      <xrx:expression>htdoc:title($wmomathon:htdoc-date-entry)/text()</xrx:expression>
+    </xrx:variable>
+     <xrx:variable>
+      <xrx:name>$wmomathon:htdoc-all-title</xrx:name>
+      <xrx:expression>htdoc:title($wmomathon:htdoc-all-entry)/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wmomathon:htdoc-google-title</xrx:name>
+      <xrx:expression>htdoc:title($wmomathon:htdoc-google-entry)/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wmomathon:htdoc-home-atomid</xrx:name>
+      <xrx:expression>$wmomathon:htdoc-home-entry/atom:id/text()</xrx:expression>
+    </xrx:variable>   
+    <xrx:variable>
+      <xrx:name>$wmomathon:htdoc-date-atomid</xrx:name>
+      <xrx:expression>$wmomathon:htdoc-date-entry/atom:id/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wmomathon:htdoc-all-atomid</xrx:name>
+      <xrx:expression>$wmomathon:htdoc-all-entry/atom:id/text()</xrx:expression>
+    </xrx:variable>   
+    <xrx:variable>
+      <xrx:name>$wmomathon:htdoc-google-atomid</xrx:name>
+      <xrx:expression>$wmomathon:htdoc-google-entry/atom:id/text()</xrx:expression>
+    </xrx:variable>    
     <!-- 
 			widget specific variables 
 		-->
@@ -42,6 +90,18 @@
     <xrx:variable>
       <xrx:name>$mode</xrx:name>
       <xrx:expression>request:get-parameter("mode", "full")</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$nextMomathon</xrx:name>
+      <xrx:expression>momathon:getNextMomathon()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$scheduledMomathon</xrx:name>
+      <xrx:expression>if(exists($nextMomathon)) then true() else false()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$recentMomathons</xrx:name>
+      <xrx:expression>momathon:last-momathons()</xrx:expression>
     </xrx:variable>
   </xrx:variables>
   <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/momathon</xrx:portal>
@@ -140,154 +200,177 @@
               <div data-demoid="7f01e942-bc55-4514-b6c2-830ce5f25a27" class="inner-charter-preview">
                 <div>
                   <span>
-                    <h2>MOMathon-Event : Tuesday 14th, June 2016</h2>
+                    <h2> 
+                    {
+                      if($scheduledMomathon) then
+                        <div>           
+					               <xrx:i18n>
+						               <xrx:key>momathon-event</xrx:key>
+						               <xrx:default>MOMathon Event on </xrx:default>
+					               </xrx:i18n>
+				                 {momathon:string-to-date(data($nextMomathon/@from), "yyyymmdd")}
+			                 </div>
+			               else
+			               <div>
+	                     <xrx:i18n>
+	                       <xrx:key>no-momathon</xrx:key>
+	                       <xrx:default>No MOMathon Event scheduled yet.</xrx:default>
+	                     </xrx:i18n>	
+                     </div>		                 
+                     }
+                    </h2>
                   </span>
                 </div>
                 {
                 if($mode = "full" or $mode = "") then
                 <div>
-                    <h3>Introduction</h3><br/>
+                    <h3>{ $wmomathon:htdoc-home-title } </h3><br/>
                     
-                    Dear Participants,
-                    <br/><br/>
-                    Welcome to our MOMathon-Event.
-                    <br/>
-                    On this and the following pages, you gain some instructions about <br/>
-                    <ul>
-                      <li>This are today's tasks: 
-                        <ul>
-                         <!-- <li><a href="{ conf:param('request-root') }momathon?mode=google"><b>&#187;Google Edit</b></a> <br/></li>-->
-                          <li><a href="{ conf:param('request-root') }momathon?mode=date" target="_blank">&#187;Date Edit</a> <br/></li>
-                          <li><a href="{ conf:param('request-root') }momathon?mode=all" target="_blank">&#187;Advanced Edit</a> <br/></li>
-                        </ul><br/>
-                      </li>
-                      <li>How to use EditMOM3:   <a target ="_new" href="{ conf:param('request-root') }editmom-documentation">&#187;EditMOM</a> or <a target ="_new" href="{ conf:param('request-root') }momathon-tutorial">&#187;Tutorial</a> <br/></li>
-		    
-                    </ul>
-                    <br/>
-                    This happening takes place from 8AM until 10PM. After this, the MOM-CA-staff will evaluate the results of your work. On Wednesday we will announce the winner of the Event.<br/><br/>
-                    The Winner is, who has edited the biggest amount of charters.<br/>
-                    <br/>
-                    If there are any questions, please ask the staff for further informations about the event or the editor.<br/>
-                    <br/>
-                  Hint: <em>If supported, the language of the editor appears in your individual language. To change the language, please set your preferences on the top right of this page.</em>
+						        <xrx:auth>
+						          <xrx:rules>
+						            <xrx:rule>
+						              <xrx:user/>
+						              <xrx:role>html-author</xrx:role>
+						            </xrx:rule>
+						          </xrx:rules> 
+						          <xrx:true>
+						            <a class="edit-link" href="{ conf:param('request-root') }edit-htdoc/?atomid={ $wmomathon:htdoc-home-atomid }">
+						              <span>[</span>
+						              <xrx:i18n>
+						               <xrx:key>edit</xrx:key>
+						               <xrx:default>Edit</xrx:default>
+						              </xrx:i18n>
+						              <span>]</span>
+						            </a> 
+						          </xrx:true>
+						          <xrx:false>
+						           <span/>
+						          </xrx:false>
+						        </xrx:auth>
+                                    <br/>
+                  { htdoc:process($wmomathon:htdoc-home-entry) }
                   
-                  <h2>Contact</h2>
-                  If you need some assistance during the event or if you are facing any problems while using EditMOM3, feel free to contact us through our chat. Our staff will be available during the entire time of this event.<br/><br/>
-If you want to enter the <b>#MOMathon-Chatroom</b>, you have to pick a Nickname first. You can choose any Name you like.<br/><br/> 
-
-We have predefined the Channel, so you do not have to make any entries here.<br/><br/> 
-
-If you have already registred a Nickname to the freenode-Service, you can enter your credentials there ("Auth to services"). Otherwise you can skip this point.<br/><br/>
- 
-To ensure that no spammers will enter the channel, you have to proof that you are not a "robot" or a "bot", while clicking some images. Just click on "I'm not a robot" and solve the given task. <br/><br/>
-
-After the validation process, you are able to connect to the channel by pressing the button "Connect".<br/><br/>
-
-You will be redirected to the channel. It can take a moment until the chat is finally loaded. If the loading process has finished, you are now able to enter a message and send it to us by pressing Enter.<br/>
-                <br/>
-                  
-                  <iframe src="http://webchat.freenode.net?channels=%23MOMathon&amp;uio=d4" 
-                    width="100%" height="600"></iframe>
                   </div>
                 else if($mode ="task") then
                 <div>
-                  <h3>Task-Overview</h3>
+                  <h3>MOMathon</h3>
                   <br/>
-                  On this Page you find an Overview about the upcoming Tasks. 
+                    <xrx:i18n>
+                      <xrx:key>momathon-tasks</xrx:key>
+                      <xrx:default>On this Page you find an Overview about the upcoming Tasks.</xrx:default>
+                    </xrx:i18n> 
                   <br/>
                   
                 </div>
                 else if($mode ="google") then
                 <div>
-                  <h2 style="float:right;"><a href="{ conf:param('request-root') }momathon-charters?mode=google">&#187;Edit Google-Charters</a></h2><br/>
-                  <b>Task "Google"</b><br/>
-                  <br/>
-                  Within this task, you will have to edit Charters, which were digitalized by &#169;Google.<br/><br/>
-                  The Metadatas was extracted with help of the OCR-Detection made by Google.<br/><br/>
-                  This method wasn't so good in assigning all the correct categories. In particular the OCR had problems recognising the part of the text representing the date of the charter.<br/>
-                  As most of the documents are written in Latin, google produced some weird textfragments.<br/><br/>
-                  Your Task is to correct the Date-Entries inside the charters and the texts of the transcription.<br/>
-                  If possible, enter the place of issue as well. 
-                  <br/>
-                  <br/>
-                  <br/>
-                  Here you can see some possible cases: <br/><br/>
-                  <h3>Example one</h3>
-                  <div class="blocktext">
-                    <xrx:resource class="displayed" alt="Google Charter" type="image/png" width="640" height="480" >tag:www.monasterium.net,2011:/mom/resource/image/google-charter</xrx:resource>
-                  </div>
-                  <br/>
-                  <br/>
-                  As you can see, the date ("Datumsangabe") was not set automatically to the date from the charter. So you have to pick the correct date out of the image ("19. April 1322") and enter it into the corresponding field.<br/>
-                  <br/>
-                  <br/>
-                  <h3>Example two</h3><br/>
-                  <div class="blocktext">
-                    <xrx:resource class="displayed" alt="Google Charter" type="image/png" width="640" height="480" >tag:www.monasterium.net,2011:/mom/resource/image/google-translation</xrx:resource>
-                  </div>
-                  <br/>
-                  <br/>
-                  In this example, you see that the automatical OCR by Google was not able to identify most of the character or words.<br/>
-                  Our task is to correct the transcription of the charter and enter it inside the "Transcription"-tab.
-                  <br/>
-                  <br/>
-                  <b>For additional instructions how to work within the editor, please have a look into the <a href="mom/editmom-documentation" target="_new">&#187;Documentation</a> linked above or in the <a href="/mom/momathon-tutorial" target="_new">&#187;Tutorial</a> on top of the page.</b>
-                  <br/>
+                  <h3>{ $wmomathon:htdoc-google-title } </h3><br/>
+                    
+                    <xrx:auth>
+                      <xrx:rules>
+                        <xrx:rule>
+                          <xrx:user/>
+                          <xrx:role>html-author</xrx:role>
+                        </xrx:rule>
+                      </xrx:rules> 
+                      <xrx:true>
+                        <a class="edit-link" href="{ conf:param('request-root') }edit-htdoc/?atomid={ $wmomathon:htdoc-google-atomid }">
+                          <span>[</span>
+                          <xrx:i18n>
+                           <xrx:key>edit</xrx:key>
+                           <xrx:default>Edit</xrx:default>
+                          </xrx:i18n>
+                          <span>]</span>
+                        </a> 
+                      </xrx:true>
+                      <xrx:false>
+                       <span/>
+                      </xrx:false>
+                    </xrx:auth>
+                    <br/>
+                    { htdoc:process($wmomathon:htdoc-google-entry) }              
+                
                 </div>
                 else if($mode ="date") then
                 <div>
-                  <h2 style="float:right;"><a href="{ conf:param('request-root') }momathon-charters?mode=date">&#187;Edit Charters - Datemode</a></h2><br/>
-                  <b>Task "Date"</b><br/>
-                  <br/>
-                  Within this task, you will have to edit Charters where the date-entries are not set or set to a high value of "99999999"<br/><br/>
-                  Your Task is to correct the Date-Entries inside the charters.<br/>If you can't read the date or the daterange, please skip the charter and work on the next one.<br/>
-                  If possible, enter the place of issue as well. 
-                  <br/>
-                  <br/>
-                  <br/>
-                  Here you can see some possible cases: <br/><br/>
-                  <h3>Example one</h3>
-                  <div class="blocktext">
-                    <xrx:resource class="displayed" alt="Google Charter" type="image/png" width="640" height="480" >tag:www.monasterium.net,2011:/mom/resource/image/date</xrx:resource>
-                  </div>
-                  <br/>
-                  <br/>
-                  As you can see, the date was not set automatically to the date from the charter. So you have to pick the correct date out of the image ("19. November 1292") and enter it into the corresponding field.<br/>
-                  The placename in this case is "Neubrandenburg". <br/><br/>
-                  If there is an undefined value like "Um 1290", you can enter it inside the dateRange-Field. Please use the syntax, which is mentioned inside the Documentation. 
-                  <br/>
-                  <br/>
-                  <b>For additional instructions how to work within the editor, please have a look into the <a href="mom/editmom-documentation" target="_new">&#187;Documentation</a> linked above or in the <a href="/mom/momathon-tutorial" target="_new">&#187;Tutorial</a> on top of the page.</b>
-                  <br/>
+                    <h3>{ $wmomathon:htdoc-date-title } </h3><br/>
+                    
+                    <xrx:auth>
+                      <xrx:rules>
+                        <xrx:rule>
+                          <xrx:user/>
+                          <xrx:role>html-author</xrx:role>
+                        </xrx:rule>
+                      </xrx:rules> 
+                      <xrx:true>
+                        <a class="edit-link" href="{ conf:param('request-root') }edit-htdoc/?atomid={ $wmomathon:htdoc-date-atomid }">
+                          <span>[</span>
+                          <xrx:i18n>
+                           <xrx:key>edit</xrx:key>
+                           <xrx:default>Edit</xrx:default>
+                          </xrx:i18n>
+                          <span>]</span>
+                        </a> 
+                      </xrx:true>
+                      <xrx:false>
+                       <span/>
+                      </xrx:false>
+                    </xrx:auth>
+                    <br/>
+                    { htdoc:process($wmomathon:htdoc-date-entry) }              
                 </div>
                 else if($mode ="all") then
                 <div>
+                  <h3>{ $wmomathon:htdoc-all-title } </h3><br/>
+                    
+                    <xrx:auth>
+                      <xrx:rules>
+                        <xrx:rule>
+                          <xrx:user/>
+                          <xrx:role>html-author</xrx:role>
+                        </xrx:rule>
+                      </xrx:rules> 
+                      <xrx:true>
+                        <a class="edit-link" href="{ conf:param('request-root') }edit-htdoc/?atomid={ $wmomathon:htdoc-all-atomid }">
+                          <span>[</span>
+                          <xrx:i18n>
+                           <xrx:key>edit</xrx:key>
+                           <xrx:default>Edit</xrx:default>
+                          </xrx:i18n>
+                          <span>]</span>
+                        </a> 
+                      </xrx:true>
+                      <xrx:false>
+                       <span/>
+                      </xrx:false>
+                    </xrx:auth>
+                                    <br/>
+                  { htdoc:process($wmomathon:htdoc-all-entry) }
 
-                  <h2 style="float:right;"><a href="{ conf:param('request-root') }momathon-charters?mode=full">&#187;Edit Charters - Advanced</a></h2><br/>
-
-                  <b>Task "Advanced"</b><br/>
-                  <br/>
-                  Within this task, you will have to edit Charters and enter the transcripted text of the charters into the corresponding field.<br/>
-                  Some of the Charters are digitalized by Google, so that it is possible to read the text without any necessarily palaeographic background.<br/><br/>
-                  If you are not able read the charter, please skip the charter and work on the next one.<br/>
-                  <br/>
-                  <br/>
-                  Here you can see some possible cases: <br/><br/>
-                  <h3>Example one</h3>
-                  <div class="blocktext">
-                    <xrx:resource class="displayed" alt="Google Charter" type="image/png" width="640" height="480" >tag:www.monasterium.net,2011:/mom/resource/image/transcription</xrx:resource>
-                  </div>
-                  <br/>
-                  <br/>
-                  
-                  <br/>
-                  <br/>
-                  <b>For additional instructions how to work within the editor, please have a look into the <a href="mom/editmom-documentation" target="_new">&#187;Documentation</a> linked above or in the <a href="/mom/tutorial" target="_new">&#187;Tutorial</a> on top of the page.</b>
-                  <br/>
                 </div>
                 else ()
                 }
+                <hr/>
+              </div>
+
+              <div id="recent-momathons">
+	              <h2>
+	              <xrx:i18n>
+		              <xrx:key>recent-momathons</xrx:key>
+		              <xrx:default>List of recent MOMathons:</xrx:default>
+	              </xrx:i18n></h2>
+	              <ul>
+	              {
+	                for $momathon in $recentMomathons
+	                  let $date_from := data($momathon/@from)
+	                  let $date_to := data($momathon/@to)
+	                  let $date_from_formated := momathon:string-to-date($date_from, "yyyymmdd")
+	                  let $date_to_formated := momathon:string-to-date($date_to, "yyyymmdd")
+	                  order by $date_from descending
+	                return
+	                <li>MOMathon: {$date_from_formated} - {$date_to_formated}</li>  
+	              } 
+	              </ul>
               </div>
               <a style="float:right;" href="#top">&#187;Top</a>
             </xf:group>
