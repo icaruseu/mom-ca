@@ -124,9 +124,11 @@ function InternalEntityNotFoundException(entityName) {
 InternalEntityNotFoundException.prototype.toString = function() {
     return "InternalEntityNotFoundException";
 };
-InternalEntityNotFoundException.prototype = null; //new SAXParseException();
+/*Issue #427: These 2 lines cause error in the editor
+ * 
+ * InternalEntityNotFoundException.prototype = null; //new SAXParseException();
 InternalEntityNotFoundException.constructor = InternalEntityNotFoundException;
-
+*/
 // CUSTOM HELPER CLASSES
 /*
 in case of attributes, empty prefix will be null because default namespace is null for attributes
