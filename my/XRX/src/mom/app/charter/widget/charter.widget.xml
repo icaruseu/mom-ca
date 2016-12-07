@@ -977,7 +977,7 @@ cei-recipient {{
 
            let $src := if ($urkunde//atom:link/@ref) then data($urkunde//atom:link/@ref) else()        
            let $interpretationstest := if ($src != '')then
-           <div class="interpretation"><p><xrx:i18n><xrx:key>This charter is an interpretation of</xrx:key><xrx:default>This charter is an interpretation of</xrx:default></xrx:i18n> :<br/>{ for $i in $src
+           <div class="interpretation"><p><xrx:i18n><xrx:key>interpretation</xrx:key><xrx:default>This charter is an interpretation of</xrx:default></xrx:i18n> :<br/>{ for $i in $src
            let $teil := substring-after($i, 'charter')
            return
            <span style="display:block"><a href="{concat('http://www.monasterium.net/mom', $teil, '/charter')}">{substring-after($teil, '/')}</a></span>
