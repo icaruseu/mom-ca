@@ -271,9 +271,18 @@
             
             /* function replaces the attributes values in the instance */            
             newEditAttributeInput.keyup(function () {
-             
+            /* Proof the value of the attribute:
+             * if there is an &, it is escaped
+             * part of issue #427
+             * */
+            	if ($(this).val().includes('&')){
+            	var text = $(this).val().replace('&', '&amp;');
+            	}
+            	else{
+            	var text = $(this).val()
+            	}
                 var attributes = new AttributesImpl();
-                attributes.addAttribute(null, name, name, undefined, $(this).val());
+                attributes.addAttribute(null, name, name, undefined, text);
                 var nodeset = $(document).xrx.nodeset(cm.getInputField());
                 var controlId = nodeset.only.levelId;
                 var relativeId = token.state.context.id.split('.').splice(1);
