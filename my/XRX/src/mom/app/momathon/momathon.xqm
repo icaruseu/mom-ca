@@ -141,3 +141,89 @@ declare function momathon:DoneCharters($user-id as xs:string, $mom-charter as el
         count($user-entry)    
 
 };
+(: get next Momathon-object from MOMathon.log :)
+declare function momathon:getNextMomathon() as element()? {
+  let $momathon := for $entry in $momathon:base-mom-collection//xrx:momathons/xrx:momathon[@from >= $momathon:date]
+                    let $date := $entry//xrx:momathon/@from
+                    order by $date descending
+                    return $entry
+  return
+    $momathon[1]
+};
+
+(: convert datestring into human readable Datestring :)
+declare function momathon:string-to-date
+  ( $dateString as xs:string?, $mode as xs:string? )  as xs:date? {
+  
+   (: rege-string for validations :)
+   let $regex := 
+        switch($mode)
+        case "yyyymmdd" return  '^\D*(\d{4})\D*(\d{2})\D*(\d{2})\D*$'
+        case "ddmmyyyy" return  '^\D*(\d{2})\D*(\d{2})\D*(\d{4})\D*$'
+        case "mmddyyyy" return  '^\D*(\d{2})\D*(\d{2})\D*(\d{4})\D*$'
+        default return  '^\D*(\d{2})\D*(\d{2})\D*(\d{4})\D*$'
+        
+   (: conditions for assembling date-string :)
+   let $replace := 
+        switch($mode)
+        case "yyyymmdd" return  '$1-$2-$3'
+        case "ddmmyyyy" return  '$3-$2-$1'
+        case "mmddyyyy" return  '$3-$1-$2'
+        default return  '$3-$1-$2'
+   
+   (: if not empty, do check and build date :)
+   let $date := 
+     if (empty($dateString))
+     then ()
+     else if (not(matches($dateString, $regex
+                         )))
+     then error(xs:QName('functx:Invalid_Date_Format'))
+     else xs:date(replace($dateString,
+                          $regex,
+                          $replace))
+                          
+    return $date
+ } ;
+ 
+ (: retrieve Momathons from the past :)
+ declare function momathon:last-momathons() as element()* {
+  let $momathon := for $entry in $momathon:base-mom-collection//xrx:momathons/xrx:momathon[@from <= $momathon:date]
+                    let $date := $entry//xrx:momathon/@from
+                    order by $date descending
+                    return $entry
+  return
+    $momathon
+ };
+ 
+ (: check all charters if published or released yet :)
+ declare function momathon:retrieve-charters($momathon as element()* ) as element()* {
+ 
+ 	 (: extract charters from momathon :)
+ 	 let $charters-to-publish := $momathon
+ 	 
+ 	 (: get collection metadata.charters.saved :)
+ 	 let $collection-saved := collection("/db/mom-data/metadata.charter.saved/")
+ 	 
+ 	 (: get charters which are still "saved" :)
+ 	 let $charters-saved := $collection-saved//atom:entry[atom:id = data($charters-to-publish/@atomid)]
+ 	 
+ 	 return
+ 	 	$charters-saved
+ };
+
+(: get MOMathon-charters sorted :)
+declare function momathon:get-sorted-charters($mom-entry as element(), $sortmode as xs:string) as element()* {
+    let $user_asc := for $user in $mom-entry//xrx:user
+        order by (data($user/@id))
+        return $user
+
+    let $charter_desc := for $user in $mom-entry//xrx:user
+        order by (count($user//xrx:charter)) descending
+        return $user
+
+    let $order-state := switch ($sortmode)
+                            case "charter" return $charter_desc
+                            case "user" return $user_asc
+                            default return $user_asc
+    return $order-state
+};

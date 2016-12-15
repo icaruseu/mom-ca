@@ -313,16 +313,7 @@ let $vocabular := replace(data($i/@rdf:about), '#', '')
         return $vocabular         
      </xrx:expression>
     </xrx:variable>
-    <xrx:variable>
-        <xrx:name>$wcharter:page</xrx:name>        
-    <xrx:expression>
-       <page>
-       { template:get('tag:www.monasterium.net,2011:/mom/template/charter-view', false()) }
-          { util:expand($wcharter:charter) }
-        </page>
-    </xrx:expression>
-    </xrx:variable>
-    
+
 
     <!-- XSLT transformation -->
     <xrx:variable>
@@ -1340,9 +1331,13 @@ cei-recipient {{
           <xrx:div>my-archive</xrx:div> 
         {      
           (: charter view :)
-          
-            
-           i18n:translate-xml(transform:transform($wcharter:page, $wcharter:xsl, $wcharter:params))
+          let $page :=
+            <page>
+              { template:get('tag:www.monasterium.net,2011:/mom/template/charter-view', false()) }
+              { util:expand($wcharter:charter) }
+            </page>
+          return
+          i18n:translate-xml(transform:transform($page, $wcharter:xsl, $wcharter:params))
            
         }      
         <xrx:div>how-to-cite</xrx:div> 

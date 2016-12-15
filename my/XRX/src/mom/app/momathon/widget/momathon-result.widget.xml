@@ -41,7 +41,7 @@
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$mom-entry</xrx:name>
-      <xrx:expression>$mom-col//xrx:momathon[@from le $momathon:date][@to ge $momathon:date]</xrx:expression>
+      <xrx:expression>momathon:last-momathons()[last()]</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$order-mode</xrx:name>
@@ -50,7 +50,15 @@
     <xrx:variable>
       <xrx:name>$order-state</xrx:name>
       <xrx:expression>if($order-mode eq "") then "alphabetical" else "most Charters first" </xrx:expression>
-    </xrx:variable>        
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$sortedcharters</xrx:name>
+      <xrx:expression>momathon:get-sorted-charters($mom-entry, $order-mode)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+    <xrx:name>$total</xrx:name>
+    <xrx:expression>count($sortedcharters//xrx:charter)</xrx:expression>
+  </xrx:variable>
     <xrx:variable>
       <xrx:name>$is-moderator</xrx:name>
       <xrx:expression>
@@ -157,37 +165,37 @@
                <xrx:default>MOMathon</xrx:default>
              </xrx:i18n> -->
               
-              MOMathon-Participants from {data($mom-entry/@from)} to {data($mom-entry/@to)} in {$order-state} Order
+              MOMathon-Participants from {data($mom-entry/@from)} to {data($mom-entry/@to)} in {$order-state} Order | Total number of edited charters: <b>{$total}</b>
             
             </div>
               <!-- Iterate through all MOMathons order by Date @from -->
               <div data-demoid="d4050460-16af-44e9-a339-ac4a0aec7c63" class="inner-charter-preview">
+                <table border="1">
+                  <tr>
+                    <th>ID</th>
+                    <th>MOMathon-User</th>
+                    <th>Edited Charters</th>
+                    <th>Released</th>
+                  </tr>
               {
 
-              let $user_asc := for $user in $mom-entry//xrx:user
-                order by (data($user/@id))
-                return $user
-              
-              let $charter_desc := for $user in $mom-entry//xrx:user
-                order by (count($user//xrx:charter)) descending
-                return $user
-              
-              let $order-state := if ($order-mode = "charter") then $charter_desc  else $user_asc
-              
-              for $user at $pos in $order-state
+              for $user at $pos in $sortedcharters
                 let $user-id := data($user/@id)
                 let $user-charter := $user//xrx:charter
                 let $count-charter := count($user//xrx:charter)
                 let $amount-finished := momathon:DoneCharters($user-id, $user-charter)
-                let $output := if($is-moderator or $user-id = $xrx:user-id) then concat("| Freigeschaltet: ", $amount-finished) else ""
-                let $order-state := if ($order-mode = "charter") then $count-charter  else $user-id 
+                let $output := if($is-moderator or $user-id = $xrx:user-id) then concat(" ", $amount-finished) else ""
               
               return
-                <div>
-                  {$pos}) &#187; MOMathon-User: <b>"{$user-id}"</b> | Anzahl bearbeiteter Urkunden: <b>"{count($user-charter)}" {$output}</b><br/>
-                </div>
+                <tr>
+                  <td>{$pos}</td>
+                  <td align="center">{$user-id}</td>
+                  <td align="center">{count($user-charter)}</td>
+                  <td align="center">{$output}</td>
+                </tr>
               
-              } 
+              }
+                </table>
               </div>
               <a style="float:right;" href="#top">&#187;Top</a>
             
