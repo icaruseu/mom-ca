@@ -75,9 +75,9 @@ body{{
 }}
 
 #pushImg{{
-		position:relative;
-		left:38px;
-		height:25px;
+    position:relative;
+    left:38px;
+    height:25px;
 }}
 
 #functionField{{
@@ -101,43 +101,43 @@ body{{
 
 .idno *{{
     position:relative;
-	top:35px;
-	left: 5px;
+  top:35px;
+  left: 5px;
 }}
 
 #viewport{{
-	position:relative;
+  position:relative;
   background: white;
-	float:left;
-	width:99.8%;
-	overflow:none;
-	z-index:2;
-	margin-top:0px;
-	margin-bottom:0px;
-	padding:0;
-	border:solid rgb(240,243,226) 1px;
+  float:left;
+  width:99.8%;
+  overflow:none;
+  z-index:2;
+  margin-top:0px;
+  margin-bottom:0px;
+  padding:0;
+  border:solid rgb(240,243,226) 1px;
 }}
 
 #img{{
-	position:absolute;
+  position:absolute;
   cursor:move;
   border:solid rgb(240,243,226) 1px;
-	z-index:0;
-	margin:0px;
-	padding:0px;
+  z-index:0;
+  margin:0px;
+  padding:0px;
 }}
 
 div.inlinehead{{
-	position:relative;
-	float:left;
-	font-weight:bold;
-	z-index:5;
-	font-size:13px;
-	width:100%;
-	height:80px;
-	background-color:{ conf:param('color5') };
-	color:{ conf:param('color2') };;
-	margin: 0px;
+  position:relative;
+  float:left;
+  font-weight:bold;
+  z-index:5;
+  font-size:13px;
+  width:100%;
+  height:80px;
+  background-color:{ conf:param('color5') };
+  color:{ conf:param('color2') };;
+  margin: 0px;
 }}
 
 .link{{
@@ -145,14 +145,14 @@ div.inlinehead{{
 }}
 
 div.no-graphic{{
-	position:relative;
-	float:right;
-	right:20px;
-	top:10px;
-	color:rgb(142,163,132);
-	font-weight:bold;
-	bottom:50%;
-	z-index:2;
+  position:relative;
+  float:right;
+  right:20px;
+  top:10px;
+  color:rgb(142,163,132);
+  font-weight:bold;
+  bottom:50%;
+  z-index:2;
 }}
 
 #cropper{{
@@ -197,68 +197,68 @@ div.no-graphic{{
         
 .button {{
    -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
-				-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
-				box-shadow:inset 0px 1px 0px 0px #ffffff;
-				background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
-				background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
-				filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
-				background-color:#ededed;
-				-moz-border-radius:6px;
-				-webkit-border-radius:6px;
-				float:left;
-				border-radius:6px;
-				border:1px solid #dcdcdc;
-				display:inline;
-				color:#777777;
-				font-family:arial;
-				font-size:15px;
-				font-weight:bold;
-				padding:8px 18px;
-				text-decoration:none;
-				text-shadow:1px 1px 0px #ffffff;
-				margin:1px;
-				cursor:default;
+        -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+        box-shadow:inset 0px 1px 0px 0px #ffffff;
+        background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+        background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+        background-color:#ededed;
+        -moz-border-radius:6px;
+        -webkit-border-radius:6px;
+        float:left;
+        border-radius:6px;
+        border:1px solid #dcdcdc;
+        display:inline;
+        color:#777777;
+        font-family:arial;
+        font-size:15px;
+        font-weight:bold;
+        padding:8px 18px;
+        text-decoration:none;
+        text-shadow:1px 1px 0px #ffffff;
+        margin:1px;
+        cursor:default;
 }}
               
 .button:hover{{
    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
-			background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
-			filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
-			background-color:#dfdfdf;
-			cursor:default;
+      background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+      filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
+      background-color:#dfdfdf;
+      cursor:default;
 }}
 
 .hiddenButton{{
    -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
-			-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
-			box-shadow:inset 0px 1px 0px 0px #ffffff;
-			background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
-			background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
-			filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
-			background-color:#ededed;
-			-moz-border-radius:6px;
-			-webkit-border-radius:6px;
-			border-radius:6px;
-			border:1px solid #dcdcdc;
-			display:none;
-			float:left;
-			color:#777777;
-			font-family:arial;
-			font-size:15px;
-			font-weight:bold;
-			padding:8px 18px;
-			text-decoration:none;
-			text-shadow:1px 1px 0px #ffffff;
-			margin:1px;
-			cursor:default;
+      -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+      box-shadow:inset 0px 1px 0px 0px #ffffff;
+      background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+      background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+      filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+      background-color:#ededed;
+      -moz-border-radius:6px;
+      -webkit-border-radius:6px;
+      border-radius:6px;
+      border:1px solid #dcdcdc;
+      display:none;
+      float:left;
+      color:#777777;
+      font-family:arial;
+      font-size:15px;
+      font-weight:bold;
+      padding:8px 18px;
+      text-decoration:none;
+      text-shadow:1px 1px 0px #ffffff;
+      margin:1px;
+      cursor:default;
 }}
               
 .hiddenButton:hover{{
    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
-			 background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
-			 filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
-			 background-color:#dfdfdf;
-			 cursor:default;
+       background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+       filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
+       background-color:#dfdfdf;
+       cursor:default;
 }}
         
 .zoomer{{
@@ -449,7 +449,7 @@ div.no-graphic{{
    position:relative;
    color:#CAC6C6;
    font-weight:bold;
-	 font-size:15px;
+   font-size:15px;
 }}
         
 .extractlabel{{
@@ -541,15 +541,15 @@ div.no-graphic{{
 }}
 
 #bobbletext{{
-		font-size:15px;
+    font-size:15px;
 }}
 
 #privatAnnos{{
-	display:none;
+  display:none;
 }}
 
 #publicAnnos{{
-	display:none;
+  display:none;
 }}
 
 #logout-link{{ 
@@ -559,7 +559,7 @@ div.no-graphic{{
   right:auto; 
   float:left; 
 }} 
-			</style>
+      </style>
     </xrx:csss>
     <xrx:jss>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
@@ -587,25 +587,25 @@ div.no-graphic{{
         </xf:model>
     </xrx:model>
     <xrx:view>
-	  {
-	    (: metadata base collection for archival collections 
-	    ~ Tokenize the first Token to check if it is a collection or a "MyCollection"
-	    ~ If it has 5 Segments, it is a "MyCollection" otherwise "Collection" :)
-	    
-	    let $col-token := tokenize($xrx:tokenized-uri[1], "-")
-	    
-	    (: Decide which Collection is to choose :)
-	    let $metadata-collection-base-collection :=
-	     if(count($col-token) = 5 ) then
-	      metadata:base-collection('mycollection', 'public')
-	     else
-	      metadata:base-collection('collection', 'public')
-	      
+     {
+      (: metadata base collection for archival collections 
+      ~ Tokenize the first Token to check if it is a collection or a "MyCollection"
+      ~ If it has 5 Segments, it is a "MyCollection" otherwise "Collection" :)
+      
+      let $col-token := tokenize($xrx:tokenized-uri[1], "-")
+      
+      (: Decide which Collection is to choose !!! exception for IlluminierteUrkunden!!! :)
+      let $metadata-collection-base-collection :=
+       if((count($col-token) = 5 ) or ($xrx:tokenized-uri[1] = 'IlluminierteUrkunden')) then
+        metadata:base-collection('mycollection', 'public')
+       else
+        metadata:base-collection('collection', 'public')
+        
       (: get charter context: collection or fond? :)
       let $charter-context := 
         let $probably-collection-id := $xrx:tokenized-uri[1]
         let $probably-collection-atom-id := 
-          if(count($col-token) = 5) then
+          if((count($col-token) = 5) or ($xrx:tokenized-uri[1]= 'IlluminierteUrkunden'))then
             concat(conf:param('atom-tag-name'), '/mycollection/', $probably-collection-id)
           else 
             concat(conf:param('atom-tag-name'), '/collection/', $probably-collection-id)
@@ -626,14 +626,14 @@ div.no-graphic{{
          if($charter-context = 'fond') then
             metadata:base-collection('charter', ($charter:rarchiveid, $charter:rfondid), 'public')
           else
-            metadata:base-collection('charter', $charter:rcollectionid, 'public')
+            metadata:base-collection('charter', $charter:rcollectionid , 'public')
        
       let $metadata-fond-collection :=
           metadata:base-collection('fond', ($charter:rarchiveid, $charter:rfondid), 'public')
       let $metadata-archive-collection :=
           metadata:base-collection('archive', $charter:rarchiveid, 'public')
       let $metadata-collection-collection :=
-          metadata:base-collection('collection', $charter:rcollectionid, 'public')
+          metadata:base-collection('collection', $charter:rcollectionid , 'public')
 
       (:
         getting the CEI document from public area of MOM-CA
@@ -663,14 +663,16 @@ div.no-graphic{{
       let $count := count($charters)
 
       (:
-         get charter IDs for next / previous navigation
-      :)
+         get charter IDs for next / previous navigation :)
+     
       let $next-and-previous := charter:next-and-previous($charters, $charter, $count, $atom-id, xs:string('charter'))
-
+ 
       (:
-         current position inside the charter list in the
-         fond or in saved or released charter list
-      :)
+
+         actual position inside the charter list in the
+         fond or in saved or released charter list :)
+
+
       let $pos := charter:position($charters, $charter, $xrx:user-xml, $atom-id, xs:string('charter'))
       
       (: block number and anchor number to offer a back link :)
@@ -713,7 +715,7 @@ div.no-graphic{{
                 if(contains($url, '/')) then $url
                 else concat($image-base-uri, xmldb:encode($url))
  
-	    return
+      return
       <div data-demoid="e83f0d58-244b-47d2-a23b-979421e2a101" id="charter-template-header">
         {
         let $charter-context-url :=
@@ -740,7 +742,7 @@ div.no-graphic{{
                 <div class="inlinehead" data-demoid="568b5238-694a-45f1-ae1d-6e283dd5ea1a">
                     <div data-demoid="fd317ed8-3f88-4604-8bde-019f2cf29347" style="position:absolute;top:13px;left:2px;">
                         <a class="link" href="{ $previous }">
-                            <span>&lt; </span>
+                            <span>&lt; </span>
                             <xrx:i18n>
                                 <xrx:key>previous-charter</xrx:key>
                                 <xrx:default>Previous Charter</xrx:default>
@@ -761,7 +763,7 @@ div.no-graphic{{
                                 <xrx:key>next-charter</xrx:key>
                                 <xrx:default>Next Charter</xrx:default>
                             </xrx:i18n>
-                            <span> &gt;</span>
+                            <span> &gt;</span>
                         </a>
                     </div> 
                     <div data-demoid="da742fab-28ac-4d3b-981d-11bac8125332" id="logout-link"> 
@@ -777,12 +779,12 @@ div.no-graphic{{
                       } 
                     </div>
                     <div data-demoid="29d4e685-e807-42ce-8ace-28c69c10f2e3" style="position:absolute;right:5px;top:35px;">
-                        <span>{ $pos } </span>
+                        <span>{ $pos } </span>
                         <xrx:i18n>
                             <xrx:key>of</xrx:key>
                             <xrx:default>of</xrx:default>
                         </xrx:i18n>
-                        <span> { $count } </span>
+                        <span> { $count } </span>
                         <span>(</span>
                         <xrx:i18n>
                             <xrx:key>by-date</xrx:key>
@@ -800,7 +802,7 @@ div.no-graphic{{
                         for $img-url at $num in $img-urls
                         return
                         if($charter:rarchiveid != 'DE-LABW') then
-                        <a href="javascript:changeImage('{ $img-url }')">{ $num } </a>
+                        <a href="javascript:changeImage('{ $img-url }')">{ $num } </a>
                         else()
                         }
                     </div>
@@ -812,7 +814,7 @@ div.no-graphic{{
                                 <xrx:key>signature</xrx:key>
                                 <xrx:default>Signature</xrx:default>
                             </xrx:i18n>
-                            <span>: { $idno }</span>
+                            <span>: { $idno }</span>
                         </div>,
                         
                         <div data-demoid="fd6c206e-6997-47fd-ba02-bf1e24130342" style="position:relative;left:170px;margin-bottom:10px;">
@@ -833,7 +835,7 @@ div.no-graphic{{
                                     <xrx:default>Signature</xrx:default>
                                 </xrx:i18n>
                             </span>
-                            <span>: { $idno }</span>
+                            <span>: { $idno }</span>
                         </div>
                         }
                     </div>
@@ -847,11 +849,11 @@ div.no-graphic{{
                                     <xrx:default>Fonds</xrx:default>
                                 </xrx:i18n>
                             </a>
-                            <span> &gt; </span>
+                            <span> &gt; </span>
                             <a class="link" href="{ concat(conf:param('request-root'), $charter:rarchiveid, '/archive') }">{ $charter:rarchiveid }</a>
-                            <span> &gt; </span>
+                            <span> &gt; </span>
                             <a class="link" href="{ concat(conf:param('request-root'), $charter:rarchiveid, '/', $charter:rfondid, '/fond?block=', $block, '#ch', $anchor) }">{ $charter:rfondid }</a>
-                            <span> &gt; </span>
+                            <span> &gt; </span>
                             <a class="link" href="{ $self-charter }">{ $idno }</a>
                         </div>
                         else
@@ -862,9 +864,9 @@ div.no-graphic{{
                                     <xrx:default>Collections</xrx:default>
                                 </xrx:i18n>
                             </a>
-                            <span> &gt; </span>
+                            <span> &gt; </span>
                             <a class="link" href="{ concat(conf:param('request-root'), $charter:rcollectionid, '/collection') }">{ xmldb:decode($charter:rcollectionid) }</a>
-                            <span> &gt; </span>
+                            <span> &gt; </span>
                             <a class="link" href="{ request:get-url() }?{ request:get-query-string() }">{ $idno }</a>
                         </div>
                           }
@@ -1323,7 +1325,7 @@ div.no-graphic{{
                                                         <xrx:default>Help</xrx:default>
                                                     </xrx:i18n>
                                                 </p>
-                                                <span> </span>
+                                                <span> </span>
                                                 <br/>
                                             </div>
                                             <div data-demoid="30b012bf-7f93-4325-aa9f-2cb2ac8a5be7" id="cropeditor">
@@ -1545,9 +1547,9 @@ div.no-graphic{{
                     </xrx:auth>
                 </div>
                 <script type="text/javascript">
-		      	$(document).ready(function() {{
-		          	loadDoc('{$conf:project-name}');
-		          }});
+            $(document).ready(function() {{
+                loadDoc('{$conf:project-name}');
+              }});
          </script>
           <!-- JS - ajax i18n text messages -->
                 <div data-demoid="874d8b29-fa57-4f3b-a4f1-a9ed6eff7030" style="display:none;">
@@ -1653,8 +1655,9 @@ div.no-graphic{{
                     </xrx:i18n>
                 </div>
             </div> 
-          }	
+          } 
         </div>
   }
   </xrx:view>
 </xrx:widget>
+

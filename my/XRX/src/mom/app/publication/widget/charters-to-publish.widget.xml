@@ -142,12 +142,14 @@ right:220px;
   </xrx:model>
   <xrx:view>
   {
+	let $community-member-charters := publication:checkForArchivist($xrx:user-id)
     let $charters-to-publish := 
     (
       for $moderators-user in $user:db-base-collection//xrx:moderator[.=$xrx:user-id]
       return 
       root($moderators-user)//xrx:saved[xrx:freigabe='yes']/xrx:id,
-      $user:db-base-collection//xrx:email[.=$xrx:user-id]//xrx:saved[xrx:freigabe='yes']/xrx:id
+      $user:db-base-collection//xrx:email[.=$xrx:user-id]//xrx:saved[xrx:freigabe='yes']/xrx:id,
+	  $community-member-charters
     )
 
     (: pagination :)

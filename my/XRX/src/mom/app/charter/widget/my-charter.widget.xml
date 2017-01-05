@@ -106,7 +106,7 @@ it leaves the active development stage.
     <!-- does this charter link a version of a archival charter? -->
     <xrx:variable>
       <xrx:name>$wcharter:linked-charter-atomid</xrx:name>
-      <xrx:expression>$wcharter:private-charter/ancestor::atom:entry/atom:link[@rel='versionOf']/@ref/string()</xrx:expression>
+      <xrx:expression>$wcharter:private-charter/ancestor::atom:entry/atom:link[@rel='versionOf'][1]/@ref/string()</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter:metadata-linked-charter-fond-collection</xrx:name>
@@ -215,6 +215,15 @@ let $vocabular := replace(data($i/@rdf:about), '#', '')
         return $vocabular         
      </xrx:expression>
     </xrx:variable>
+   <xrx:variable>
+    <xrx:name>$wcharter:page</xrx:name>
+    <xrx:expression>
+       <page>      
+         { template:get('tag:www.monasterium.net,2011:/mom/template/charter-view', false()) }
+          { util:expand($wcharter:charter) }
+        </page>
+    </xrx:expression>
+    </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter:xsl</xrx:name>
       <xrx:expression>$xrx:db-base-collection/xsl:stylesheet[@id='cei2html']</xrx:expression>
@@ -225,6 +234,12 @@ let $vocabular := replace(data($i/@rdf:about), '#', '')
         <parameters xmlns="">
           <param name="image-base-uri" value="{ $wcharter:image-base-uri }"/>
           <param name="controlledvocabularies" value="{$wcharter:controlledvocabularies}"/>
+          {
+            let $keys := root($wcharter:xsl)//*[local-name(.) = "stylesheet"]/node()
+            let $i18n := $keys//xrx:i18n
+            for $key in $i18n
+            return <param name="{$key/xrx:key}" value="{i18n:translate($key)}"/>           
+          }
         </parameters>
       </xrx:expression>
     </xrx:variable>
