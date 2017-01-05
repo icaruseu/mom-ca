@@ -60,6 +60,7 @@
                 then $user:db-base-collection//atom:id[.=$atomid]/parent::atom:entry else
                 $base-collection//atom:id[.=$atomid]/parent::atom:entry</xrx:expression>
         </xrx:variable>
+
         <xrx:variable>
             <xrx:name>$updater</xrx:name>
             <xrx:expression>mycollection:checkUpdateCharter($entry)</xrx:expression>
@@ -100,6 +101,11 @@
             <xrx:expression>serialize($entry, ())</xrx:expression>
         </xrx:variable>
         <xrx:variable>
+        <xrx:name>$deserial-entry</xrx:name>
+        <xrx:expression>replace($entry-as-string, '&amp;amp;', '&amp;')</xrx:expression>
+        <!-- replace(/&/g,'&amp;').replace(/&amp;amp;/g, '&amp;'); -->
+        </xrx:variable>
+        <xrx:variable>
             <xrx:name>$context</xrx:name>
             <xrx:expression>charter:context($atomid, conf:param('atom-tag-name'))</xrx:expression>
         </xrx:variable>
@@ -138,7 +144,7 @@
         <!-- linked charter -->
         <xrx:variable>
             <xrx:name>$atomid-linked</xrx:name>
-            <xrx:expression>$entry/atom:link/@ref/string()</xrx:expression>
+            <xrx:expression>$entry/atom:link[1]/@ref/string()</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$is-linked</xrx:name>
@@ -338,7 +344,7 @@
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/XPath</xrx:resource>
         <!-- codemirror resources -->
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/lib/codemirror</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/mode/xml</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/mode/xml</xrx:resource>        
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/js/codemirror/mode/visualxml</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/js/codemirror/keymap/visualxml</xrx:resource>
         <!-- core resources -->
@@ -346,7 +352,7 @@
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrxInstance</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrxI18n</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrx</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxLayout</xrx:resource>
+       <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxLayout</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxTabs</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxSelect1</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxMessage</xrx:resource>
@@ -367,7 +373,7 @@
         <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/createanno</xrx:resource>
     </xrx:jss>
     <xrx:instances>
-        <xrx:instance id="icharter">{ $entry-as-string }</xrx:instance>
+        <xrx:instance id="icharter">{ $entry-as-string}</xrx:instance>      
     </xrx:instances>
     <xrx:binds>
         <xrx:bind id="bclass" nodeset="/descendant::cei:class"/>
@@ -380,7 +386,7 @@
                     <xrx:option key="north__resizable">false</xrx:option>
                     <xrx:option key="south__size">.5</xrx:option>
                 </xrx:options>
-                <xrx:center>
+               <xrx:center>
                     <xrx:auth>
                         <xrx:rules>
                             <xrx:rule>
@@ -388,8 +394,8 @@
                                 <xrx:dbgroup>atom</xrx:dbgroup>
                             </xrx:rule>
                         </xrx:rules>
-                        <xrx:true>
-                            <div data-demoid="09a18129-a5e4-42f7-ab9e-1d4bcf9497bb"
+                        <xrx:true>                       
+                           <div data-demoid="09a18129-a5e4-42f7-ab9e-1d4bcf9497bb"
                                 id="dui-imageann">
                                 <script type="text/javascript"> $(document).ready(function(){{
                                     jQuery(document).imageTool({{ requestRoot: "{
@@ -460,7 +466,7 @@
                                     </xrx:case>
                                     <xrx:case id="dcharter-instance"/>
                                 </xrx:switch>
-                            </div>
+                            </div> 
                         </xrx:true>
                         <xrx:false>
                             <div data-demoid="de9f813e-6b5d-49f6-91b3-eee1a1731a7b"/>
@@ -480,6 +486,8 @@
                         }
                         <div data-demoid="4c56fbe3-1728-47c6-af7e-ab39fb266752" id="autoSaveStatus"
                         />
+                        
+             
                     </div>
                    
                     <div data-demoid="4e751e31-7e32-42cd-96a3-ce571b5ea97a" id="image-tool-div">
@@ -507,7 +515,7 @@
                                         <xrx:option key="east__size">.3</xrx:option>
                                     </xrx:options>
                                     <xrx:center>
-                                        <div class="xrx-layout"
+                                      <div class="xrx-layout"
                                             data-demoid="bd089740-6647-48f3-9042-544ae9d31cae"
                                             onclick="return {{ north__resizable: false, north__showOverflowOnHover: true }}">
                                             <div class="ui-layout-center xrx-tabs"
@@ -582,13 +590,13 @@
                                                   <xrx:default>appendix</xrx:default>
                                                   </xrx:i18n>
                                                   </a>
-                                                  </li> else () } 
-                                               
-                                                  </ul>
+                                                  </li> else () }                                                
+                                                  </ul>                                     
+                                                 <!--  <div data-demoid="c0ca5834-6e65-4b0a-bd53-c1ecdfd5ee2f" id="tab-1">{$entry}</div> -->
                                                 <!-- Creates the Content for the specific TabPage
                         ~ Contains the Charter and the distinct nodes from the Charter
                         -->
-                                                {mycollection:returnTabPageContent("1", $entry,
+                                               {mycollection:returnTabPageContent("1", $entry,
                                                 $distinct_nodes)}
                                                 {mycollection:returnTabPageContent("2", $entry,
                                                 $distinct_nodes)}
@@ -612,7 +620,7 @@
                                                   <xrx:elements/>
                                                   <span style="font-size:1.6em;">&#160;</span>
                                                 </div>
-                                            </div>
+                                            </div> 
                                         </div>
                                     </xrx:center>
                                     <xrx:east>

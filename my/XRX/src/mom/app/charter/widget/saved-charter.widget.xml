@@ -98,7 +98,7 @@ it leaves the active development stage.
     <!-- does this charter link a version of a archival charter? -->
     <xrx:variable>
       <xrx:name>$wcharter:linked-charter-atomid</xrx:name>
-      <xrx:expression>$wcharter:charter/ancestor::atom:entry/atom:link[@rel='versionOf']/@ref/string()</xrx:expression>
+      <xrx:expression>$wcharter:charter/ancestor::atom:entry/atom:link[@rel='versionOf'][1]/@ref/string()</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter:metadata-linked-charter-base-collection</xrx:name>

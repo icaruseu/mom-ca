@@ -57,7 +57,7 @@ it leaves the active development stage.
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:linked-atomid</xrx:name>
-      <xrx:expression>root($constructor:charter)//atom:link[@rel='versionOf']/@ref/string()</xrx:expression>
+      <xrx:expression>root($constructor:charter)//atom:link[@rel='versionOf'][1]/@ref/string()</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:just-linked</xrx:name>

@@ -214,7 +214,8 @@ img{{
 *   Transcription
 */
 
-.cei-persname {{
+.cei-persname,
+.cei-placename {{
     border-bottom:1px dotted #72856C;
 }}
 
