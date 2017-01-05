@@ -23,12 +23,62 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 :)
 
 module namespace publication="http://www.monasterium.net/NS/publication";
+
 import module namespace momathon="http://www.monasterium.net/NS/momathon" at "xmldb:exist:///db/XRX.live/mom/app/momathon/momathon.xqm";
+import module namespace charter="http://www.monasterium.net/NS/charter" at "xmldb:exist:///db/XRX.live/mom/app/charter/charter.xqm";
+import module namespace metadata="http://www.monasterium.net/NS/metadata" at "xmldb:exist:///db/XRX.live/mom/app/metadata/metadata.xqm";
+import module namespace community="http://www.monasterium.net/NS/community" at "xmldb:exist:///db/XRX.live/mom/app/auth/community.xqm";
 declare namespace xf="http://www.w3.org/2002/xforms";
 declare namespace ev="http://www.w3.org/2001/xml-events";
 declare namespace xrx="http://www.monasterium.net/NS/xrx";
 declare namespace xhtml="http://www.w3.org/1999/xhtml";
 declare namespace bfc="http://betterform.sourceforge.net/xforms/controls";
+
+
+(: input:
+userid from current user : xs:string
+$charters which have the state freigabe=yes : xs:string*
+
+return:
+charterids which are available in the archive of the archivist/userid : xs:string*
+:)
+declare function publication:checkForArchivist($userid as xs:string) as element()* {
+    let $released-charter := collection("/db/mom-data/xrx.user/")//xrx:saved[xrx:freigabe='yes']/xrx:id
+    let $archive-charters := for $charterid in $released-charter
+    let $archive-id := publication:retrieveAtomToken($charterid, "archive")
+    let $arch-atomid := metadata:atomid('archive', $archive-id)
+    let $archivists := community:emails($arch-atomid)
+    let $hit := if(index-of($archivists, $userid)) then $charterid else ()
+    return $hit
+
+    return $archive-charters
+};
+
+(: input:
+atomid from a charter : xs:string
+switch indicates returning part of the tokens : xs:string
+
+return:
+indicated token (archive/fond/charterid; collection/charterid)
+:)
+declare function publication:retrieveAtomToken($atomid as xs:string, $switch as xs:string) {
+
+(: Catch error, if atomid is missformed :)
+    let $return :=
+        try {
+            let $tokens := charter:object-uri-tokens($atomid, "tag:www.monasterium.net,2011:")
+            let $value := switch($switch)
+                case "archive" return $tokens[1]
+                case "fond" return $tokens[2]
+                case "charter" return (if(count($tokens) = 3 ) then $tokens[3] else $tokens[2])
+                case "collection" return $tokens[1]
+                default return $tokens[2]
+            return $value
+        } catch * { () }
+
+    return
+    $return
+};
 
 declare function publication:writeMomLog($atomid as xs:string) {
     let $log := momathon:WriteMomLog($atomid)
