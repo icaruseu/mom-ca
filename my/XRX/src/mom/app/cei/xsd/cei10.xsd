@@ -583,6 +583,15 @@
                                             </xs:appinfo>
                                         </xs:annotation>
                                     </xs:element>
+                                    <xs:element ref="orgName">
+                                        <xs:annotation>
+                                            <xs:appinfo source="EditVDU">
+                                                <xrxe:min-occur>0</xrxe:min-occur>
+                                                <xrxe:max-occur>unbounded</xrxe:max-occur>
+                                                <xrxe:content-control>annotation</xrxe:content-control>
+                                            </xs:appinfo>
+                                        </xs:annotation>
+                                    </xs:element>
                                     <xs:element ref="class">
                                         <xs:annotation>
                                             <xs:appinfo source="EditVDU">
@@ -683,79 +692,7 @@
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="class"/>
                     <xs:element ref="abstract"/>
-                    <xs:element name="issued" minOccurs="1" maxOccurs="1">
-                        <xs:annotation>
-                            <xs:appinfo source="EditVDU">
-                                <xrxe:label>
-                                    <xrx:i18n>
-                                        <xrx:key>cei_issued</xrx:key>
-                                        <xrx:default>issued</xrx:default>
-                                    </xrx:i18n>
-                                </xrxe:label>
-                                <xrxe:mixed>false</xrxe:mixed>
-                            </xs:appinfo>
-                            <xs:documentation xml:lang="deu"> Diese Konstruktion kann allgemeine
-                                Elemente für die Beschreibung von Ausstellungsort und -zeit
-                                verwenden und ist deshalb den Konstrukten "issuePlace" und "date"
-                                bzw. "publicationStmt" vorzuziehen. [strict!] </xs:documentation>
-                        </xs:annotation>
-                        <xs:complexType mixed="true">
-                            <xs:annotation>
-                                <xs:appinfo source="EditVDU">
-                                    <xrxe:mixed>false</xrxe:mixed>
-                                </xs:appinfo>
-                            </xs:annotation>
-                            <xs:sequence>
-                                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                                    <xs:element ref="placeName">
-                                        <xs:annotation>
-                                            <xs:appinfo source="EditVDU">
-                                                <xrxe:min-occur>1</xrxe:min-occur>
-                                                <xrxe:max-occur>1</xrxe:max-occur>
-                                            </xs:appinfo>
-                                        </xs:annotation>
-                                    </xs:element>
-                                    <xs:choice>
-                                        <xs:element ref="date">
-                                            <xs:annotation>
-                                                <xs:appinfo source="EditVDU">
-                                                    <xrxe:min-occur>0</xrxe:min-occur>
-                                                    <xrxe:max-occur>1</xrxe:max-occur>
-                                                </xs:appinfo>
-                                                <xs:documentation>
-                                                    <xrx:description>
-                                                        <xrx:i18n>
-                                                            <xrx:key>cei_issued_date_description</xrx:key>
-                                                            <xrx:default>Datum, an dem die Urkunde ausgestellt
-                                                  ist. Die Daten werden im Format 'Jahr Monat (als
-                                                  Wort) Tag' angegeben.</xrx:default>
-                                                        </xrx:i18n>
-                                                    </xrx:description>
-                                                    <xrx:example>
-                                                        <xrx:i18n>
-                                                            <xrx:key>cei_issued_date_example</xrx:key>
-                                                            <xrx:default>&lt;cei:date
-                                                  value="16091001">1609 Oktober
-                                                  1&lt;/cei:date></xrx:default>
-                                                        </xrx:i18n>
-                                                    </xrx:example>
-                                                </xs:documentation>
-                                            </xs:annotation>
-                                        </xs:element>
-                                        <xs:element ref="dateRange">
-                                            <xs:annotation>
-                                                <xs:appinfo source="EditVDU">
-                                                    <xrxe:min-occur>0</xrxe:min-occur>
-                                                    <xrxe:max-occur>1</xrxe:max-occur>
-                                                </xs:appinfo>
-                                            </xs:annotation>
-                                        </xs:element>
-                                    </xs:choice>
-                                </xs:choice>
-                            </xs:sequence>
-                            <xs:attributeGroup ref="standard"/>
-                        </xs:complexType>
-                    </xs:element>
+                    <xs:element ref="issued" minOccurs="1" maxOccurs="1"/>
                     <xs:element name="witnessOrig">
                         <xs:annotation>
                             <xs:documentation xml:lang="deu">Der einzelne Textzeuge
@@ -1010,6 +947,79 @@
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
+    <xs:element name="issued">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>cei_issued</xrx:key>
+                        <xrx:default>issued</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+                <xrxe:mixed>false</xrxe:mixed>
+            </xs:appinfo>
+            <xs:documentation xml:lang="deu"> Diese Konstruktion kann allgemeine
+                Elemente für die Beschreibung von Ausstellungsort und -zeit
+                verwenden und ist deshalb den Konstrukten "issuePlace" und "date"
+                bzw. "publicationStmt" vorzuziehen. [strict!] </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:annotation>
+                <xs:appinfo source="EditVDU">
+                    <xrxe:mixed>false</xrxe:mixed>
+                </xs:appinfo>
+            </xs:annotation>
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="placeName">
+                        <xs:annotation>
+                            <xs:appinfo source="EditVDU">
+                                <xrxe:min-occur>1</xrxe:min-occur>
+                                <xrxe:max-occur>1</xrxe:max-occur>
+                            </xs:appinfo>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:choice>
+                        <xs:element ref="date">
+                            <xs:annotation>
+                                <xs:appinfo source="EditVDU">
+                                    <xrxe:min-occur>0</xrxe:min-occur>
+                                    <xrxe:max-occur>1</xrxe:max-occur>
+                                </xs:appinfo>
+                                <xs:documentation>
+                                    <xrx:description>
+                                        <xrx:i18n>
+                                            <xrx:key>cei_issued_date_description</xrx:key>
+                                            <xrx:default>Datum, an dem die Urkunde ausgestellt
+                                                ist. Die Daten werden im Format 'Jahr Monat (als
+                                                Wort) Tag' angegeben.</xrx:default>
+                                        </xrx:i18n>
+                                    </xrx:description>
+                                    <xrx:example>
+                                        <xrx:i18n>
+                                            <xrx:key>cei_issued_date_example</xrx:key>
+                                            <xrx:default>&lt;cei:date
+                                                value="16091001">1609 Oktober
+                                                1&lt;/cei:date></xrx:default>
+                                        </xrx:i18n>
+                                    </xrx:example>
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element ref="dateRange">
+                            <xs:annotation>
+                                <xs:appinfo source="EditVDU">
+                                    <xrxe:min-occur>0</xrxe:min-occur>
+                                    <xrxe:max-occur>1</xrxe:max-occur>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:choice>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attributeGroup ref="standard"/>
+        </xs:complexType>
+    </xs:element>
     <xs:element name="abstract">
         <xs:annotation>
             <xs:appinfo source="EditVDU">
@@ -1247,6 +1257,7 @@
                         <xs:element ref="archIdentifier"/>
                         <xs:element ref="msIdentifier"/>
                     </xs:choice>
+                    <xs:element ref="issued" maxOccurs="1"/>
                     <xs:element ref="auth"/>
                     <xs:element ref="physicalDesc"/>
                     <xs:element ref="nota"/>
@@ -4129,6 +4140,7 @@
                     <xs:element ref="placeName"/>
                     <xs:element ref="geogName"/>
                 </xs:choice>
+                <xs:element ref="orgName"/>
                 <xs:element ref="index"/>
                 <xs:element ref="testis"/>
                 <xs:choice>
@@ -4348,6 +4360,48 @@
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
+    <xs:element name="orgName">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>cei_orgName</xrx:key>
+                        <xrx:default>Organisation name</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+                <xrxe:menu-item>
+                    <xrx:i18n>
+                        <xrx:key>indexing</xrx:key>
+                        <xrx:default>indexing</xrx:default>
+                    </xrx:i18n>
+                </xrxe:menu-item>
+                <xrxe:max-occur>unbounded</xrxe:max-occur>
+            </xs:appinfo>
+            <xs:documentation xml:lang="deu">Die Bezeichnung einer Organisation</xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:choice>
+                        <xs:annotation>
+                            <xs:documentation xml:lang="deu">Geographische Angaben
+                            </xs:documentation>
+                        </xs:annotation>
+                        <xs:element ref="persName"/>
+                        <xs:element ref="placeName"/>
+                        <xs:element ref="geogName"/>
+                    </xs:choice>
+                    <xs:element ref="foreign"/>
+                    <xs:element ref="note"/>
+                    <xs:group ref="Originalbefund"/>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attributeGroup ref="identification"/>
+            <xs:attributeGroup ref="lang"/>
+            <xs:attributeGroup ref="type"/>
+            <xs:attributeGroup ref="standard"/>
+        </xs:complexType>
+    </xs:element>
     <xs:element name="persName">
         <xs:annotation>
             <xs:appinfo source="EditVDU">
@@ -4376,6 +4430,7 @@
                             </xs:documentation>
                         </xs:annotation>
                         <xs:element ref="persName"/>
+                        <xs:element ref="orgName"/>
                         <xs:element ref="placeName"/>
                         <xs:element ref="geogName"/>
                         <xs:element ref="forename"/>
@@ -4526,6 +4581,7 @@
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="foreign"/>
                     <xs:element ref="persName"/>
+                    <xs:element ref="orgName"/>
                     <xs:choice>
                         <xs:annotation>
                             <xs:documentation xml:lang="deu">Geographische Angaben
@@ -4568,6 +4624,7 @@
             <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="persName"/>
+                    <xs:element ref="orgName"/>
                     <xs:choice>
                         <xs:annotation>
                             <xs:documentation xml:lang="deu">Geographische Angaben
@@ -5070,7 +5127,7 @@
                             <xrx:default>certainty</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant context="='persName' or $context='geogName' or $context='placeName' or $context='sic' or $context='del' or $context='expan' or $context='damage'"/>
+                    <xrxe:relevant context="='persName' or $context='orgName' or $context='geogName' or $context='placeName' or $context='sic' or $context='del' or $context='expan' or $context='damage'"/>
                 </xs:appinfo>
                 <xs:documentation xml:lang="deu"> Für Genauigkeitsangaben z.B. bei Datierungen,
                     werden mit Schlüsselwörtern (zu benennen in der encodingDesc) oder kurzen
@@ -5106,7 +5163,7 @@
                             <xrx:default>reg</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant context="='persName' or $context='geogName' or $context='placeName'"/>
+                    <xrxe:relevant context="='persName' or $context='orgName' or $context='geogName' or $context='placeName'"/>
                 </xs:appinfo>
             </xs:annotation>
         </xs:attribute>
@@ -5137,7 +5194,7 @@
                             <xrx:default>type</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant context="='persName' or $context='geogName' or $context='placeName' or $context='c'"/>
+                    <xrxe:relevant context="='persName' or $context='orgName' or $context='geogName' or $context='placeName' or $context='c'"/>
                 </xs:appinfo>
             </xs:annotation>
         </xs:attribute>

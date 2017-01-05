@@ -50,7 +50,7 @@ it leaves the active development stage.
       <xrx:expression>
         if($wcharter:context = 'fond') then
           metadata:atomid('charter', ($charter:rarchiveid, $charter:rfondid, $charter:rcharterid))
-        else if($wcharter:context = 'collection') then
+        else if(($wcharter:context = 'collection')or ($wcharter:context = 'mycollection'))then
           metadata:atomid('charter', ($charter:rcollectionid, $charter:rcharterid))
         else request:get-parameter('atomid', '')
       </xrx:expression>
@@ -94,7 +94,7 @@ it leaves the active development stage.
       <xrx:expression>
         if($wcharter:context = 'fond') then
           metadata:base-collection('charter', ($charter:rarchiveid, $charter:rfondid), 'public')
-        else if($wcharter:context = 'collection') then
+        else if(($wcharter:context = 'collection')or ($wcharter:context = 'mycollection')) then
           metadata:base-collection('charter', $charter:rcollectionid, 'public')
         else 
           $wcharter:linked-fond-charter-collection
@@ -166,7 +166,7 @@ it leaves the active development stage.
     <!-- does this charter link a version of a archival charter? -->
     <xrx:variable>
       <xrx:name>$wcharter:linked-charter-atomid</xrx:name>
-      <xrx:expression>$wcharter:charter/ancestor::atom:entry/atom:link[@rel='versionOf']/@ref/string()</xrx:expression>
+      <xrx:expression>$wcharter:charter/ancestor::atom:entry/atom:link[@rel='versionOf'][1]/@ref/string()</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter:metadata-linked-charter-base-collection</xrx:name>
@@ -191,7 +191,7 @@ it leaves the active development stage.
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter:linked-atomid</xrx:name>
-      <xrx:expression>root($wcharter:charter)//atom:link[@rel='versionOf']/@ref/string()</xrx:expression>
+      <xrx:expression>root($wcharter:charter)//atom:link[@rel='versionOf'][1]/@ref/string()</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter:just-linked</xrx:name>
@@ -258,8 +258,8 @@ it leaves the active development stage.
       <xrx:expression>
         if($wcharter:context = 'fond') then
           $wcharter:metadata-fond-collection//ead:ead//ead:c[@level='fonds']/ead:did
-        else if($wcharter:context = 'collection') then
-          $wcharter:metadata-collection-collection//cei:cei
+        else if($wcharter:context = 'collection') then         
+          $wcharter:metadata-collection-collection//cei:cei       
         else
           $wcharter:linked-fond-base-collection//ead:ead//ead:c[@level='fonds']/ead:did
       </xrx:expression>
@@ -314,20 +314,37 @@ let $vocabular := replace(data($i/@rdf:about), '#', '')
      </xrx:expression>
     </xrx:variable>
     <xrx:variable>
-      <xrx:name>$wcharter:params</xrx:name>
-      <xrx:expression>
-        <parameters xmlns="">
-          <param name="image-base-uri" value="{ $wcharter:image-base-uri }"/>
-          <param name="controlledvocabularies" value="{$wcharter:controlledvocabularies}"/>
-        </parameters>        
-      </xrx:expression>
+        <xrx:name>$wcharter:page</xrx:name>        
+    <xrx:expression>
+       <page>
+       { template:get('tag:www.monasterium.net,2011:/mom/template/charter-view', false()) }
+          { util:expand($wcharter:charter) }
+        </page>
+    </xrx:expression>
     </xrx:variable>
+    
+
     <!-- XSLT transformation -->
     <xrx:variable>
       <xrx:name>$wcharter:xsl</xrx:name>
       <xrx:expression>$xrx:db-base-collection/xsl:stylesheet[@id='cei2html']</xrx:expression>
     </xrx:variable>
-   
+
+       <xrx:variable>
+      <xrx:name>$wcharter:params</xrx:name>
+      <xrx:expression>
+        <parameters>
+          <param name="image-base-uri" value="{ $wcharter:image-base-uri }"/>
+          <param name="controlledvocabularies" value="{$wcharter:controlledvocabularies}"/>
+            {
+            let $keys := root($wcharter:xsl)//*[local-name(.) = "stylesheet"]/node()
+            let $i18n := $keys//xrx:i18n
+            for $key in $i18n
+            return <param name="{$key/xrx:key}" value="{i18n:translate($key)}"/>           
+          }
+        </parameters>        
+      </xrx:expression>
+    </xrx:variable>
 
     <!-- 
       links 
@@ -513,7 +530,15 @@ div.port {{
   margin-top:10px;
  
   }}
- 
+
+span.bishop {{
+          display: block;          
+}}
+
+i.bishop {{
+    font-style:italic;
+    color: grey;
+}}
 
 span.info_i {{
     color:white;
@@ -610,6 +635,11 @@ div.lang-select{{
 
 #next{{
   float:left;
+}}
+
+.interpretation {{
+  clear:both;
+  padding-top:10px;
 }}
 
 img#ein,
@@ -930,7 +960,9 @@ p#first {{
               <xrx:key>by-date</xrx:key>
               <xrx:default>by date</xrx:default>
             </xrx:i18n>
-            <span>)</span-->
+            <span>)</span <atom:link rel="versionOf" ref="tag:www.monasterium.net,2011:/charter/CH-StiASG/StiAPfae/0000.468"/>
+            http://www.monasterium.net/mom/AT-StiAStP/BlUKBebenhausen/BU_267/charter
+            -->
             <span>   </span>
             <a href="{ $wcharter:next }">
               <xrx:i18n>
@@ -939,8 +971,23 @@ p#first {{
               </xrx:i18n>
               <span> &gt;</span>
             </a>
-          </div>
+          </div><!-- This div shows references to other charters  -->
+          
+          { let $urkunde := root($wcharter:metadata-charter-collection//atom:entry[atom:id[.=$wcharter:atom-id]])
+
+           let $src := if ($urkunde//atom:link/@ref) then data($urkunde//atom:link/@ref) else()        
+           let $interpretationstest := if ($src != '')then
+           <div class="interpretation"><p><xrx:i18n><xrx:key>This charter is an interpretation of</xrx:key><xrx:default>This charter is an interpretation of</xrx:default></xrx:i18n> :<br/>{ for $i in $src
+           let $teil := substring-after($i, 'charter')
+           return
+           <span style="display:block"><a href="{concat('http://www.monasterium.net/mom', $teil, '/charter')}">{substring-after($teil, '/')}</a></span>
+           
+           }</p></div>
+
+          else()
+          return $interpretationstest}
         </div>
+        
       </xrx:view>
     </xrx:div>
     <xrx:div>
@@ -1179,7 +1226,9 @@ p#first {{
             <span>, </span>
             <span>{ request:get-url() }</span>  --> 
             <span>{ for $archive in $wcharter:archive return concat($archive, '&#160;') }{ $wcharter:fond }&#160;{ $wcharter:idno }, in: monasterium.net, URL &lt;{ $wcharter:default-url }/charter&gt;, accessed at { current-date() }</span>
+          
            </p>
+           
           </div>
         </div>
       </xrx:view>
@@ -1287,22 +1336,16 @@ p#first {{
        <xrx:resource alt="einklappen" id="ein" type="image/png" class="ic">tag:www.monasterium.net,2011:/mom/resource/image/path_down</xrx:resource>
       </div>     
    
-      <div data-demoid="71c8ebdc-bd3a-4327-bdda-8d41279c46cc">
-          <xrx:div>my-archive</xrx:div>
-        { 
-        (: charter view :) 
-        let $page :=
-        <page>        
-          { template:get('tag:www.monasterium.net,2011:/mom/template/charter-view', false()) }
-          { util:expand($wcharter:charter) }
-        </page>
-        return 
-        i18n:translate-xml(transform:transform($page, $wcharter:xsl, $wcharter:params)) 
-        }
-        <xrx:div>how-to-cite</xrx:div>
-        <!-- javascript:transport();
-                javascript:proof();javascript:addInfo();  -->
-        
+      <div data-demoid="71c8ebdc-bd3a-4327-bdda-8d41279c46cc">      
+          <xrx:div>my-archive</xrx:div> 
+        {      
+          (: charter view :)
+          
+            
+           i18n:translate-xml(transform:transform($wcharter:page, $wcharter:xsl, $wcharter:params))
+           
+        }      
+        <xrx:div>how-to-cite</xrx:div> 
       </div>
       {
       if($xrx:tokenized-uri[last()] = 'charter') then
