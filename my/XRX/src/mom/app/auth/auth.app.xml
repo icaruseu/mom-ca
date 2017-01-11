@@ -80,6 +80,12 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
             <xrx:default>Metadata manager</xrx:default>
           </xrx:i18n>
         </xrx:role>
+        <xrx:role>
+          <xrx:i18n>
+            <xrx:key>archivist</xrx:key>
+            <xrx:default>Archivists</xrx:default>
+          </xrx:i18n>
+        </xrx:role>
       </xrx:roles>
     </xrx:param>
   </xrx:conf>
