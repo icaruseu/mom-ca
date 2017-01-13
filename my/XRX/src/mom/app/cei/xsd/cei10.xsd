@@ -583,6 +583,15 @@
                                             </xs:appinfo>
                                         </xs:annotation>
                                     </xs:element>
+                                    <xs:element ref="orgName">
+                                        <xs:annotation>
+                                            <xs:appinfo source="EditVDU">
+                                                <xrxe:min-occur>0</xrxe:min-occur>
+                                                <xrxe:max-occur>unbounded</xrxe:max-occur>
+                                                <xrxe:content-control>annotation</xrxe:content-control>
+                                            </xs:appinfo>
+                                        </xs:annotation>
+                                    </xs:element>
                                     <xs:element ref="class">
                                         <xs:annotation>
                                             <xs:appinfo source="EditVDU">
@@ -1186,10 +1195,12 @@
                     </xrx:i18n>
                 </xrxe:label>
             </xs:appinfo>
+            <xs:documentation xml:lang="en">add complex text to a tagged part of the document.</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
+            <xs:attributeGroup ref="resp"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="witListPar">
@@ -1353,6 +1364,7 @@
                     <xs:element ref="notariusDesc"/>
                     <xs:element ref="sealDesc"/>
                     <xs:element ref="subscriptio"/>
+                    <xs:element ref="chirograph"/>
                 </xs:choice>
             </xs:sequence>
             <xs:attributeGroup ref="lang"/>
@@ -1527,6 +1539,31 @@
                 </xs:choice>
             </xs:sequence>
             <xs:attributeGroup ref="lang"/>
+            <xs:attributeGroup ref="standard"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="chirograph">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>cei_chirograph</xrx:key>
+                        <xrx:default>indentura chirographi</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+                <xrxe:min-occur>0</xrxe:min-occur>
+                <xrxe:max-occur>1</xrxe:max-occur>
+                <xrxe:content-control>annotation</xrxe:content-control>
+                <xrxe:relevant>true</xrxe:relevant>
+            </xs:appinfo>
+            <xs:documentation xml:lang="de">Teilurkundenschnitt</xs:documentation>
+            <xs:documentation xml:lang="en">contains a description of the method how a chirograph/carta partita (cfr. VID 44, http://www.cei.lmu.de/VID/#VID_44) is executed, e.g. the text written in the place of cutting, and/or the form of the cutting.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="transcription"/>
+                <xs:element ref="desc"/>
+            </xs:sequence>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
@@ -2165,6 +2202,8 @@
                 <xs:element ref="arenga"/>
                 <xs:element ref="publicatio"/>
                 <xs:element ref="narratio"/>
+                <xs:element ref="rogatio"/>
+                <xs:element ref="intercessio"/>
                 <xs:element ref="dispositio"/>
                 <xs:element ref="sanctio"/>
                 <xs:element ref="corroboratio"/>
@@ -2364,6 +2403,73 @@
             <xs:documentation xml:lang="deu"> erzählt die Ereignisse und Handlungen, die der
                 Ausstellung der Urkunde vorangegangen sind </xs:documentation>
         </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:group ref="Originalbefund"/>
+                    <xs:group ref="Sachliches"/>
+                    <xs:element ref="rogatio"/>
+                    <xs:element ref="intercessio"/>
+                    <xs:element ref="setPhrase"/>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attributeGroup ref="type"/>
+            <xs:attributeGroup ref="lang"/>
+            <xs:attributeGroup ref="standard"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="rogatio">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>cei_rogatio</xrx:key>
+                        <xrx:default>rogatio</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+                <xrxe:menu-item>
+                    <xrx:i18n>
+                        <xrx:key>diplomatic-part</xrx:key>
+                        <xrx:default>diplomatic part</xrx:default>
+                    </xrx:i18n>
+                </xrxe:menu-item>
+                <xrxe:min-occur>0</xrxe:min-occur>
+                <xrxe:max-occur>unbounded</xrxe:max-occur>
+            </xs:appinfo>
+            <xs:documentation xml:lang="en">clause expressing the request for formal documentation (cf. VID n. 326 http://www.cei.lmu.de/VID/VID.php?326)</xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:group ref="Originalbefund"/>
+                    <xs:group ref="Sachliches"/>
+                    <xs:element ref="setPhrase"/>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attributeGroup ref="type"/>
+            <xs:attributeGroup ref="lang"/>
+            <xs:attributeGroup ref="standard"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="intercessio">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">part of the text describing the intervention of a third to support a petition (cf. VID n. 328)</xs:documentation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>cei_intercessio</xrx:key>
+                        <xrx:default>intercessio</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+                <xrxe:menu-item>
+                    <xrx:i18n>
+                        <xrx:key>diplomatic-part</xrx:key>
+                        <xrx:default>diplomatic part</xrx:default>
+                    </xrx:i18n>
+                </xrxe:menu-item>
+                <xrxe:min-occur>0</xrxe:min-occur>
+                <xrxe:max-occur>unbounded</xrxe:max-occur>
+            </xs:appinfo></xs:annotation>
         <xs:complexType mixed="true">
             <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -2960,7 +3066,7 @@
                                 <xs:group ref="textualElements"/>
                             </xs:choice>
                         </xs:sequence>
-                        <xs:attribute ref="wit"/>
+                        <xs:attributeGroup ref="wit"/>
                         <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
                 </xs:element>
@@ -2984,7 +3090,7 @@
                                 <xs:group ref="reference"/>
                             </xs:choice>
                         </xs:sequence>
-                        <xs:attribute ref="wit"/>
+                        <xs:attributeGroup ref="wit"/>
                         <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
                 </xs:element>
@@ -2992,7 +3098,6 @@
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
-    <xs:attribute name="wit" type="xs:anySimpleType"/>
     <xs:element name="expan">
         <xs:annotation>
             <xs:appinfo source="EditVDU">
@@ -4033,6 +4138,7 @@
                     <xs:element ref="placeName"/>
                     <xs:element ref="geogName"/>
                 </xs:choice>
+                <xs:element ref="orgName"/>
                 <xs:element ref="index"/>
                 <xs:element ref="testis"/>
                 <xs:choice>
@@ -4252,6 +4358,48 @@
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
+    <xs:element name="orgName">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>cei_orgName</xrx:key>
+                        <xrx:default>Organisation name</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+                <xrxe:menu-item>
+                    <xrx:i18n>
+                        <xrx:key>indexing</xrx:key>
+                        <xrx:default>indexing</xrx:default>
+                    </xrx:i18n>
+                </xrxe:menu-item>
+                <xrxe:max-occur>unbounded</xrxe:max-occur>
+            </xs:appinfo>
+            <xs:documentation xml:lang="deu">Die Bezeichnung einer Organisation</xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:choice>
+                        <xs:annotation>
+                            <xs:documentation xml:lang="deu">Geographische Angaben
+                            </xs:documentation>
+                        </xs:annotation>
+                        <xs:element ref="persName"/>
+                        <xs:element ref="placeName"/>
+                        <xs:element ref="geogName"/>
+                    </xs:choice>
+                    <xs:element ref="foreign"/>
+                    <xs:element ref="note"/>
+                    <xs:group ref="Originalbefund"/>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attributeGroup ref="identification"/>
+            <xs:attributeGroup ref="lang"/>
+            <xs:attributeGroup ref="type"/>
+            <xs:attributeGroup ref="standard"/>
+        </xs:complexType>
+    </xs:element>
     <xs:element name="persName">
         <xs:annotation>
             <xs:appinfo source="EditVDU">
@@ -4280,6 +4428,7 @@
                             </xs:documentation>
                         </xs:annotation>
                         <xs:element ref="persName"/>
+                        <xs:element ref="orgName"/>
                         <xs:element ref="placeName"/>
                         <xs:element ref="geogName"/>
                         <xs:element ref="forename"/>
@@ -4430,6 +4579,7 @@
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="foreign"/>
                     <xs:element ref="persName"/>
+                    <xs:element ref="orgName"/>
                     <xs:choice>
                         <xs:annotation>
                             <xs:documentation xml:lang="deu">Geographische Angaben
@@ -4472,6 +4622,7 @@
             <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="persName"/>
+                    <xs:element ref="orgName"/>
                     <xs:choice>
                         <xs:annotation>
                             <xs:documentation xml:lang="deu">Geographische Angaben
@@ -4974,7 +5125,7 @@
                             <xrx:default>certainty</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant context="='persName' or $context='geogName' or $context='placeName' or $context='sic' or $context='del' or $context='expan' or $context='damage'"/>
+                    <xrxe:relevant context="='persName' or $context='orgName' or $context='geogName' or $context='placeName' or $context='sic' or $context='del' or $context='expan' or $context='damage'"/>
                 </xs:appinfo>
                 <xs:documentation xml:lang="deu"> Für Genauigkeitsangaben z.B. bei Datierungen,
                     werden mit Schlüsselwörtern (zu benennen in der encodingDesc) oder kurzen
@@ -5010,7 +5161,7 @@
                             <xrx:default>reg</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant context="='persName' or $context='geogName' or $context='placeName'"/>
+                    <xrxe:relevant context="='persName' or $context='orgName' or $context='geogName' or $context='placeName'"/>
                 </xs:appinfo>
             </xs:annotation>
         </xs:attribute>
@@ -5041,7 +5192,7 @@
                             <xrx:default>type</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant context="='persName' or $context='geogName' or $context='placeName' or $context='c'"/>
+                    <xrxe:relevant context="='persName' or $context='orgName' or $context='geogName' or $context='placeName' or $context='c'"/>
                 </xs:appinfo>
             </xs:annotation>
         </xs:attribute>
@@ -5335,6 +5486,21 @@
             </xs:annotation>
         </xs:attribute>
         <xs:attributeGroup ref="reference"/>
+    </xs:attributeGroup>
+    <xs:attributeGroup name="wit">
+        <xs:attribute name="wit" type="xs:anySimpleType">
+            <xs:annotation>
+                <xs:appinfo>
+                    <xrxe:label>
+                        <xrx:i18n>
+                            <xrx:key>cei_at_wit</xrx:key>
+                            <xrx:default>text witness</xrx:default>
+                        </xrx:i18n>
+                    </xrxe:label>
+                </xs:appinfo>
+                <xs:documentation xml:lang="en">Reference to textual witness identified in charter description.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:attributeGroup>
     <xs:attribute name="ref">
         <xs:annotation>
