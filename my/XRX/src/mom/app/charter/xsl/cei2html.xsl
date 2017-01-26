@@ -1639,7 +1639,25 @@
     <xsl:template match="cei:p" mode="diplA">
         <xsl:if test="./node()">
             <div>          
+                <xsl:if test="count(preceding-sibling::cei:p) = 0">
+                    <p class="localheading">
+                        <b>
+                            <xrx:i18n>
+                                <xrx:key>comment</xrx:key>
+                                <xrx:default>Comment</xrx:default>
+                            </xrx:i18n>
+                        </b>
+                    </p>
+                </xsl:if>
                 <xsl:for-each select=".">
+                    <xsl:if test="@n != ''">
+                        <span class="localheading">
+                            <b>
+                                <xsl:value-of select="@n"/>
+                                <xsl:text>:&#160;</xsl:text>
+                            </b>
+                        </span>
+                    </xsl:if>
                     <xsl:apply-templates/>
                 </xsl:for-each>
             </div>
