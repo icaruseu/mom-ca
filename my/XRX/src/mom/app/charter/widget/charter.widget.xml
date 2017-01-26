@@ -773,7 +773,7 @@ p#first {{
   letter-spacing: 2px;
 }}
 
-cei-recipient {{
+.cei-recipient {{
   letter-spacing: 2px;
 }}
 

@@ -1650,8 +1650,8 @@
             <p>
                 <b>
                     <xrx:i18n>
-                        <xrx:key>quote</xrx:key>
-                        <xrx:default>Quote</xrx:default>
+                        <xrx:key>quoteDate</xrx:key>
+                        <xrx:default>Original dating clause</xrx:default>
                     </xrx:i18n>
                 </b>
                 <xsl:text>:&#160;</xsl:text>
