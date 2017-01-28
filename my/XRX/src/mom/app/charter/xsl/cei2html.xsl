@@ -259,7 +259,7 @@
     </xsl:template>
     <xsl:template match="xhtml:insert-diplomaticAnalysis">
         <xsl:choose>
-            <xsl:when test="count($cei//cei:chDesc/cei:diplomaticAnalysis//text()) > 0">
+            <xsl:when test="count($cei//cei:chDesc/cei:diplomaticAnalysis//text()) > 0 or $cei//cei:lang_MOM or $cei//cei:divNotes/cei:note">
                 <div data-demoid="24296c88-84bc-45f1-a8c5-2703a58dfe95" id="diplomaticAnalysis">
                     <xsl:call-template name="diplomaticAnalysis"/>
                 </div>
