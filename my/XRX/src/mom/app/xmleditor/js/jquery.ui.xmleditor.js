@@ -70,7 +70,32 @@ $.widget( "ui.xmleditor", {
 		});
 
 	}
-	
 });
 	
 })( jQuery );
+
+
+function PermisDialog(){
+	$("#permission_dialog").dialog({
+		position: {my: "center", at: "center", of: "center"},
+		width: 525,
+		modal: true,
+		buttons: {
+			"back": function(){
+				window.location="/mom/home";
+			}
+		}
+	});
+
+	$("div#permission_dialog").on('dialogclose', function(event){
+		window.location="/mom/home";
+		
+	});
+	
+	
+}
+
+
+
+
+
