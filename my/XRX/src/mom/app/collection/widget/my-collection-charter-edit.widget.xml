@@ -30,8 +30,6 @@
             <xrx:name>$atomid</xrx:name>
             <xrx:expression>replace(metadata:atomid('charter', $xrx:tokenized-uri), "/edit","")</xrx:expression>
         </xrx:variable>
-        
-
         <!-- charter -->
         <xrx:variable>
         <xrx:name>$modusludens</xrx:name>
@@ -61,7 +59,6 @@
                 then $user:db-base-collection//atom:id[.=$atomid]/parent::atom:entry else
                 $base-collection//atom:id[.=$atomid]/parent::atom:entry</xrx:expression>
         </xrx:variable>
-        
                 <!--  parameters for saved-charter protection -->
         <xrx:variable>
         	<xrx:name>$owner_mail</xrx:name>
@@ -402,12 +399,8 @@
         <divs> {mycollection:makeBindings($entry, $distinct_nodes)} </divs>
         <div data-demoid="393de52d-1b4f-4df8-99b1-e7af26b713fe" id="dmy-collection-charter-edit">
          {if($xrx:user-id = $owner_mail or $is-shared) then ()
-         else (<script type="text/javascript"> $(document).ready(function(){{ 
-         									   $('#dinner-textann').empty();
-         									   $('#icharter').css("filter", "blur(2px)");
-         									   
-         									   PermisDialog();
-         									   	}})</script>
+         else (<script type="text/javascript"> $(document).ready(function(){{ $('#dinner-textann').empty();
+         									   PermisDialog();}})</script>
 											  	)}
             <xrx:layout>
                 <xrx:options>
@@ -423,10 +416,8 @@
                             </xrx:rule>
                         </xrx:rules>
                         <xrx:true>                   
-                        
                            <div data-demoid="09a18129-a5e4-42f7-ab9e-1d4bcf9497bb"
                                 id="dui-imageann">
-
                                 <script type="text/javascript"> $(document).ready(function(){{
                                     jQuery(document).imageTool({{ requestRoot: "{
                                     conf:param('request-root') }", charter: "{ $uuid }", collection:
