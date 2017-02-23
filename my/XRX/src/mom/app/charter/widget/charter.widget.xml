@@ -542,6 +542,17 @@ span.info_i {{
     
 }}
 
+/* css angaben für search-result aus search app*/
+span {{
+      padding:5px;
+}}
+span.back {{
+      margin-left:3em;
+}}
+div.browse {{
+        padding-bottom:20px;
+}}
+
 div.inlinehead, div.greyinlinehead, div.light-green, div.light-green:visited{{
   position:relative;
   float:left;

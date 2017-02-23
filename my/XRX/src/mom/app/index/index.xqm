@@ -1,6 +1,6 @@
 xquery version "3.0";
 
-module namespace register="http://www.monasterium.net/NS/register";
+module namespace index="http://www.monasterium.net/NS/index";
 
 import module namespace kwic="http://exist-db.org/xquery/kwic";
 
@@ -12,7 +12,7 @@ declare namespace svg="http://www.w3.org/2000/svg";
 declare namespace atom="http://www.w3.org/2005/Atom";
 declare namespace image="http://exist-db.org/xquery/image";
 
-declare function register:index-abfrage($term){
+declare function index:index-abfrage($term){
       if (starts-with($term, 'P_')) then
       let $resultat := session:set-attribute('result', collection("/db/mom-data/metadata.charter.public")//cei:text[ft:query(.//@key, $term)])
       for $m in collection("/db/mom-data/metadata.charter.public")//cei:text[ft:query(.//@key, $term)]      
@@ -31,15 +31,15 @@ declare function register:index-abfrage($term){
 };
 
 
-declare function register:years($register:index-abfrage){
-    for $year in $register:index-abfrage//cei:issued/(cei:date/@value|cei:dateRange/@from)
+declare function index:years($index:index-abfrage){
+    for $year in $index:index-abfrage//cei:issued/(cei:date/@value|cei:dateRange/@from)
     order by xs:integer($year)
     return
           $year 
 
 };
 
-declare function register:if-absent
+declare function index:if-absent
   ( $arg as item()* ,
     $value as item()* )  as item()* {
 
@@ -48,15 +48,15 @@ declare function register:if-absent
     else $value
  } ;
  
-declare function register:replace-multi
+declare function index:replace-multi
   ( $arg as xs:string? ,
     $changeFrom as xs:string* ,
     $changeTo as xs:string* )  as xs:string? {
 
    if (count($changeFrom) > 0)
-   then register:replace-multi(
+   then index:replace-multi(
           replace($arg, $changeFrom[1],
-                     register:if-absent($changeTo[1],'')),
+                     index:if-absent($changeTo[1],'')),
           $changeFrom[position() > 1],
           $changeTo[position() > 1])
    else $arg

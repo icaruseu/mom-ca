@@ -152,7 +152,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:name>$wcharter-preview:num-images</xrx:name>
       <xrx:expression>count($constructor:charter//cei:graphic/@url)</xrx:expression>
     </xrx:variable>
-    <!-- needed for the index app -->
+    <!-- needed for the index app, show hits in xml-code -->
       <xrx:variable>
       <xrx:name>$exzerpt</xrx:name>
       <xrx:expression>if(starts-with($terminus, 'P_'))then serialize($constructor:charter//cei:abstract/node()) 
@@ -500,25 +500,34 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               <span>{ $wcharter-preview:date }</span>
             </div>
            {
+           
            let $suchbegriff := string($terminus)
            let $vorderteil := substring-before($exzerpt, $suchbegriff)
+           let $minvorderteil := substring($vorderteil,string-length($vorderteil)-99, 100)
            let $teil := replace($vorderteil, '([.])([A-Z])', '$1 $2')
            let $prae := tokenize($teil, '([.][ ])')[last()]          
            let $hinterteil := substring-after(substring-after($exzerpt, $vorderteil), $suchbegriff)
+           let $minhinterteil := substring($hinterteil,0, 100)
            let $post := tokenize($hinterteil, '([.][ ])')[1]
            
-           return                     
+           return
+           if ($terminus)then                               
              <div>
-              <b>
+              <b><!-- brauche bedingung: wenn das prae nicht leer und string-length kleiner 300 ACHTUNG Denkfehler bei minvorderteil zürückzählen-->
                 <xrx:i18n>
                   <xrx:key>abstract</xrx:key>
                   <xrx:default>abstract</xrx:default>
                 </xrx:i18n>
                 <span>: </span>
               </b>
-              <span class="klein">{if(string($prae)!='')then $prae else($vorderteil)}<b>{$suchbegriff}</b>{if(string($post) !='')then $post else($hinterteil)} ...</span>
+              <span class="klein">{if(string($prae)!='' and string-length($prae) lt 300)then $prae else($minvorderteil)}<b>{$suchbegriff}</b>{if(string($post) !='' and string-length($post) lt 300)then $post else($minhinterteil)} ...            
+              </span>
             </div>
-                       
+            else(
+                 <div>
+              <span>{ $wcharter-preview:abstract }</span>
+            </div>)
+                      
             }
             <!-- <div data-demoid="b6903f38-a42f-4214-a41c-bb68f608161d">
               <span>{ $wcharter-preview:abstract }</span>

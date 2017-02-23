@@ -41,7 +41,7 @@ it leaves the active development stage.
   </xrx:licence>
   <xrx:variables>
     <!-- widget specific -->
-    <xrx:variable>
+    <xrx:variable><!-- scheinba wird der treffer über uri identifiziert, warum eigentlich nicht session? -->
       <xrx:name>$wsearch-result:pos</xrx:name>
       <xrx:expression>xs:integer($xrx:tokenized-uri[(last() - 1)])</xrx:expression>
     </xrx:variable>
@@ -141,7 +141,24 @@ it leaves the active development stage.
       <xrx:name>$wcharter:pos</xrx:name>
       <xrx:expression>$wsearch-result:pos</xrx:expression>
     </xrx:variable>
-    <!-- 
+    <xrx:variable>
+    <xrx:name>$wsearch-result:query-string</xrx:name>
+    <xrx:expression>concat('?', request:get-query-string())</xrx:expression>
+    </xrx:variable>
+        <xrx:variable>
+      <xrx:name>$wcharter:backwhereicamefrom</xrx:name><!-- das ist problematisch weil ich auch in search2 ev search diese var setzen muss -->
+      <xrx:expression>if(contains(session:get-attribute('whereami'), 'index')) then session:get-attribute('whereami')
+      else(concat(conf:param('request-root'), 'search2', $wsearch-result:query-string))</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+    <xrx:name>$wcharter:previous</xrx:name>
+    <xrx:expression>if ($wsearch-result:pos gt 1) then concat(conf:param('request-root'), $wsearch-result:pos -1,'/', $xrx:tokenized-uri[last()], $wsearch-result:query-string) else()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+    <xrx:name>$wcharter:next</xrx:name>
+    <xrx:expression>if ($wsearch-result:pos lt $wcharter:count) then concat(conf:param('request-root'), $wsearch-result:pos +1,'/', $xrx:tokenized-uri[last()], $wsearch-result:query-string) else()</xrx:expression>
+    </xrx:variable>
+   <!-- 
       back link to fond or collection 
     -->
     <xrx:variable>
@@ -219,14 +236,14 @@ it leaves the active development stage.
       <xrx:name>$wcharter:charter-context-url</xrx:name>
       <xrx:expression>concat(conf:param('request-root'), string-join($wcharter:uri-tokens, '/'), '/')</xrx:expression>
     </xrx:variable>
-    <xrx:variable>
+  <!--   <xrx:variable>
       <xrx:name>$wcharter:previous</xrx:name>
       <xrx:expression>if(($wsearch-result:pos - 1) eq 0) then concat(conf:param('request-root'), '1', '/search-result', '?', request:get-query-string()) else concat(conf:param('request-root'), $wsearch-result:pos - 1, '/search-result', '?', request:get-query-string())</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter:next</xrx:name>
       <xrx:expression>if(($wsearch-result:pos) eq $wcharter:count) then concat(conf:param('request-root'), $wcharter:count, '/search-result', '?', request:get-query-string()) else concat(conf:param('request-root'), $wsearch-result:pos + 1, '/search-result', '?', request:get-query-string())</xrx:expression>
-    </xrx:variable>
+    </xrx:variable> -->
     <!-- 
       image tools
     -->
@@ -307,14 +324,49 @@ it leaves the active development stage.
       <xrx:key>breadcrumb</xrx:key>
       <xrx:view>
         <div data-demoid="fbc2501c-1c48-443a-982f-112f3301e478">
-          <a href="{ conf:param('request-root') }search2?{ request:get-query-string() }">
+          <div class="browse">
+         { if ($wsearch-result:pos gt 1) then
+          ( <a href="{ $wcharter:previous }">
             <xrx:i18n>
+              <xrx:key>previous</xrx:key>
+              <xrx:default>Previous</xrx:default>
+            </xrx:i18n>
+          </a>,
+           <span>&lt;</span>)
+           else()}
+                    
+          <span>{ $wsearch-result:pos }</span>
+          <span>
+          <xrx:i18n>
+            <xrx:key>to</xrx:key>
+            <xrx:default>to</xrx:default>
+          </xrx:i18n>
+          </span>
+          <span>{$wcharter:count}</span>
+         { if ($wsearch-result:pos lt $wcharter:count) then (
+          <span>&gt;</span>,
+          <a href="{ $wcharter:next}">
+            <xrx:i18n>
+              <xrx:key>next</xrx:key>
+              <xrx:default>Next</xrx:default>
+            </xrx:i18n>
+          </a>)
+          else()
+          }
+          
+          <span class="back">         
+          <!--   <xrx:i18n>
               <xrx:key>results</xrx:key>
               <xrx:default>Results</xrx:default>
+            </xrx:i18n> -->
+         <a href="{$wcharter:backwhereicamefrom}">
+             <xrx:i18n>
+              <xrx:key>result_overview</xrx:key>
+              <xrx:default>Back to results</xrx:default>
             </xrx:i18n>
           </a>
-          <span> &gt; </span>
-          <a href="{ conf:param('request-root') }search2?{ request:get-query-string() }">{ $wsearch-result:pos }</a>
+          </span>          
+         </div>          
 	        {
 	        if($wcharter:context = 'fond') then
 	        let $archid := charter:archid($wcharter:atom-id)
@@ -378,7 +430,7 @@ it leaves the active development stage.
     <xrx:div>
       <xrx:key>download-xml-link</xrx:key>
       <xrx:view>
-        <div data-demoid="8834d70a-5a8f-4ce6-8e56-29dbfa97d049">
+        <div data-demoid="8834d70a-5a8f-4ce6-8e56-29dbfa97d049" class="p">
           <a href="{ $wcharter:atom-uri }" target="_blank">
             <xrx:i18n>
               <xrx:key>download-xml</xrx:key>

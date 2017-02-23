@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml">
-  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/register</xrx:id>
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/index</xrx:id>
   <xrx:inherits>tag:www.monasterium.net,2011:/mom/widget/charter-preview</xrx:inherits>
   <xrx:author>martina.buergermeister@uni-graz.at</xrx:author>
   <xrx:licence>
@@ -54,7 +54,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     </xrx:variable>
     <!-- block-wise navigation -->
     <xrx:variable>
-      <xrx:name>$wregister:block</xrx:name><!-- schon angepasst -->
+      <xrx:name>$windex:block</xrx:name><!-- schon angepasst -->
       <xrx:expression>xs:integer(if(request:get-parameter('block', '') != '') then request:get-parameter('block', '-1') else '1')</xrx:expression>
     </xrx:variable>
      <!-- suchergebnisse -->
@@ -64,49 +64,49 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     </xrx:variable>
     
     <xrx:variable>    
-      <xrx:name>$wregister:index</xrx:name>
-      <xrx:expression>if($xrx:tokenized-uri[3]!= '#') then register:index-abfrage($indexterm) else()</xrx:expression>
+      <xrx:name>$windex:index</xrx:name>
+      <xrx:expression>if($xrx:tokenized-uri[3]!= '#') then index:index-abfrage($indexterm) else()</xrx:expression>
     </xrx:variable>
     
      <xrx:variable>    
-      <xrx:name>$wregister:index-abfrage</xrx:name>
-      <xrx:expression>$wregister:index/ancestor::atom:entry/atom:id</xrx:expression>
+      <xrx:name>$windex:index-abfrage</xrx:name>
+      <xrx:expression>$windex:index/ancestor::atom:entry/atom:id</xrx:expression>
     </xrx:variable>
     <xrx:variable>
-    <xrx:name>$wregister:hits</xrx:name>
-    <xrx:expression>count($wregister:index-abfrage)</xrx:expression>
+    <xrx:name>$windex:hits</xrx:name>
+    <xrx:expression>count($windex:index-abfrage)</xrx:expression>
     </xrx:variable>    
    <xrx:variable>
     <xrx:name>$blocks</xrx:name>
-    <xrx:expression>floor(number($wregister:hits) div 7) +1 </xrx:expression>
+    <xrx:expression>floor(number($windex:hits) div 7) +1 </xrx:expression>
     </xrx:variable>
     <!-- overwrite -->
     <xrx:variable>
       <xrx:name>$charters:start</xrx:name>
-      <xrx:expression>$wregister:block * 7 - 6</xrx:expression>
+      <xrx:expression>$windex:block * 7 - 6</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$charters:stop</xrx:name>
-      <xrx:expression>if($wregister:hits lt 7) then $wregister:hits else($wregister:block * 7)</xrx:expression>
+      <xrx:expression>if($windex:hits lt 7) then $windex:hits else($windex:block * 7)</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$charters:previous-block</xrx:name>
-      <xrx:expression>if($wregister:block = 1) then 1 else $wregister:block - 1</xrx:expression>
+      <xrx:expression>if($windex:block = 1) then 1 else $windex:block - 1</xrx:expression>
     </xrx:variable>
 
     
     <!-- overwrite -->
     <xrx:variable>
       <xrx:name>$wcharter:date-elements</xrx:name>
-      <xrx:expression>register:years($wregister:index-abfrage)</xrx:expression>
+      <xrx:expression>index:years($windex:index-abfrage)</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharters:previous-block-pos</xrx:name>
-      <xrx:expression>if($wregister:block = 1) then 1 else $wregister:block - 1</xrx:expression>
+      <xrx:expression>if($windex:block = 1) then 1 else $windex:block - 1</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharters:next-block-pos</xrx:name>
-      <xrx:expression>if($wregister:block = count($wcharter:date-elements) div 7) then 1 else $wregister:block + 1</xrx:expression>
+      <xrx:expression>if($windex:block = count($wcharter:date-elements) div 7) then 1 else $windex:block + 1</xrx:expression>
     </xrx:variable>
  
     <!-- Session Variablen -->
@@ -560,7 +560,7 @@ span.klein b {{
   </xrx:csss>
     <xrx:jss> 
 
-     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/register</xrx:resource>
+     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/index</xrx:resource>
      
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
@@ -595,7 +595,7 @@ span.klein b {{
         
          return          
          
-         <li><a class="ui-button ui-widget ui-corner-all" href="{concat(conf:param('request-root'), 'register/',tokenize($i//atom:id/text(), 'controlledVocabulary/')[2])}">{$text}</a></li>
+         <li><a class="ui-button ui-widget ui-corner-all" href="{concat(conf:param('request-root'), 'index/',tokenize($i//atom:id/text(), 'controlledVocabulary/')[2])}">{$text}</a></li>
          
              
          }
@@ -609,7 +609,7 @@ span.klein b {{
          
          return        
          
-         <li><a class="ui-button ui-widget ui-corner-all" href="{concat(conf:param('request-root'), 'register/',tokenize($p//atom:id/text(), 'person/')[2])}">{$text}</a></li>
+         <li><a class="ui-button ui-widget ui-corner-all" href="{concat(conf:param('request-root'), 'index/',tokenize($p//atom:id/text(), 'person/')[2])}">{$text}</a></li>
         
          
          }
@@ -623,7 +623,7 @@ span.klein b {{
         let $coll := if($voc='BischoefeAblaesse')then ('person') else('controlledVocabulary')
         let $atomid := concat('tag:www.monasterium.net,2011:/',$coll,'/', $voc)
         return         
-        if($xrx:tokenized-uri[last()] != 'register') then
+        if($xrx:tokenized-uri[last()] != 'index') then
         let $momcoll := concat('/db/mom-data/metadata.', $coll, '.public/')       
         let $glossarlabel := collection($momcoll)/atom:entry[atom:id/text()= $atomid]
 
@@ -635,14 +635,14 @@ span.klein b {{
               let $rdfabout := substring-after(data($g/@rdf:about), '#')
               let $memo := session:set-attribute($rdfabout, $g/skos:prefLabel/text())
               return 
-              <li><a href="{concat(conf:param('request-root'),'register/', $voc, '/', $rdfabout)}">{$g/skos:prefLabel/text()}</a></li>
+              <li><a href="{concat(conf:param('request-root'),'index/', $voc, '/', $rdfabout)}">{$g/skos:prefLabel/text()}</a></li>
              else if ($glossarlabel//rdf:Description) then 
                         
              for $g in $glossarlabel//rdf:Description[child::skos:prefLabel/text()]
              let $rdfabout := substring-after(data($g/@rdf:about), '#')
              let $memo := session:set-attribute($rdfabout, $g/skos:prefLabel[@xml:lang= $sprache]/text())
              return
-              <li><a href="{concat(conf:param('request-root'),'register/', $voc, '/', $rdfabout)}">{$g/skos:prefLabel[@xml:lang= $sprache]/text()}</a> </li>
+              <li><a href="{concat(conf:param('request-root'),'index/', $voc, '/', $rdfabout)}">{$g/skos:prefLabel[@xml:lang= $sprache]/text()}</a> </li>
               else(
               <div class="buchstaben">
               {for $a in $alphabet
@@ -666,7 +666,7 @@ span.klein b {{
               order by $name
               return              
                                       
-                <li><a href="{concat(conf:param('request-root'),'register/', $voc, '/', $personid)}">{$inhalt}</a></li>                        
+                <li><a href="{concat(conf:param('request-root'),'index/', $voc, '/', $personid)}">{$inhalt}</a></li>                        
               else()
                 )
                
@@ -694,7 +694,7 @@ span.klein b {{
         
          return          
          
-         <li><a class="ui-button ui-widget ui-corner-all" href="{concat(conf:param('request-root'), 'register/',tokenize($i//atom:id/text(), 'controlledVocabulary/')[2])}">{$text}</a></li>
+         <li><a class="ui-button ui-widget ui-corner-all" href="{concat(conf:param('request-root'), 'index/',tokenize($i//atom:id/text(), 'controlledVocabulary/')[2])}">{$text}</a></li>
          
              
          }
@@ -708,7 +708,7 @@ span.klein b {{
          
          return        
          
-         <li><a class="ui-button ui-widget ui-corner-all" href="{concat(conf:param('request-root'), 'register/',tokenize($p//atom:id/text(), 'person/')[2])}">{$text}</a></li>
+         <li><a class="ui-button ui-widget ui-corner-all" href="{concat(conf:param('request-root'), 'index/',tokenize($p//atom:id/text(), 'person/')[2])}">{$text}</a></li>
         
          
          }
@@ -756,7 +756,7 @@ span.klein b {{
       let $glossar := data($vocabulary//tei:person[@xml:id = $term])
       let $from := ('([0-9])([A-Z])', '([a-z])([A-Z])', '([a-z])(\()', '(.)([A-Z])', '(,)([a-z][A-Z])', '(\))([0-9a-zA-Z])', '(\()(\s)' )
       let $to := ('$1 $2', '$1 $2', '$1 $2', '$1 $2', '. $2', '$1 $2', '$1')      
-      let $ausgabe := <div>{register:replace-multi($glossar, $from, $to)}</div>
+      let $ausgabe := <div>{index:replace-multi($glossar, $from, $to)}</div>
       let $vorname := <h2>{if(session:get-attribute($term)= '')then $breadcrumb2 else(session:get-attribute($term))}</h2>        
       return ($vorname,$ausgabe)
      
@@ -765,7 +765,7 @@ span.klein b {{
       </div>      
      {
         
-         if ($wregister:hits = 0)then
+         if ($windex:hits = 0)then
           <span class="no-result"><xrx:i18n><xrx:key>no-results-message</xrx:key><xrx:default>No results were found for your search.</xrx:default></xrx:i18n></span>
          else(
          <div class="hits">
@@ -790,7 +790,7 @@ span.klein b {{
           </xrx:i18n>
           </span>
                     
-          <span class="light-grey"> { $wregister:hits }</span>
+          <span class="light-grey"> { $windex:hits }</span>
           <p id="block-navi">  
           {if ($blocks != 1)then        
            <a href="?block={ $wcharters:previous-block-pos }"> <span>&lt; </span>
@@ -808,7 +808,7 @@ span.klein b {{
            
          </span>
          
-         <span> {$wregister:block}</span>
+         <span> {$windex:block}</span>
           <span>
           <xrx:i18n>
             <xrx:key>of</xrx:key>
@@ -831,7 +831,7 @@ span.klein b {{
            {
           let $uri := request:get-uri()
           let $whereami := session:set-attribute('whereami', $uri)
-          for $charter at $num in $wregister:index-abfrage[ position() = $charters:start to $charters:stop ]
+          for $charter at $num in $windex:index-abfrage[ position() = $charters:start to $charters:stop ]
                    
           return
        <div id="dcharter-preview-main">                
@@ -859,7 +859,7 @@ span.klein b {{
           </div>
           }
        <div>{
-         if ($wregister:hits gt 0)then
+         if ($windex:hits gt 0)then
        <div class="hits">
          <span>
             <xrx:i18n>
@@ -882,7 +882,7 @@ span.klein b {{
           </xrx:i18n>
           </span>
                     
-          <span class="light-grey"> { $wregister:hits }</span>
+          <span class="light-grey"> { $windex:hits }</span>
           <p id="block-navi">  
           {if ($blocks != 1)then        
            <a href="?block={ $wcharters:previous-block-pos }"> <span>&lt; </span>
@@ -900,7 +900,7 @@ span.klein b {{
            
          </span>
          
-         <span> {$wregister:block}</span>
+         <span> {$windex:block}</span>
           <span>
           <xrx:i18n>
             <xrx:key>of</xrx:key>
@@ -931,7 +931,8 @@ span.klein b {{
   $( function() {{
    $( ".radio" ).buttonset();
    $(".choose-menu").menu();     
-   $(".buchstaben").menu();  
+   $(".buchstaben").menu();
+   
   }} );
   
 </script>

@@ -69,6 +69,11 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:expression>xs:integer(session:get-attribute($search:HITS_FILTERED)//*:count/text())</xrx:expression>
     </xrx:variable>
     <xrx:variable>
+    <xrx:name>$wsearch:whereami</xrx:name><!-- alle anderen sessionvars werden in xqm gesetzt, todo. -->
+    
+    <xrx:expression>session:set-attribute('whereami', 'search2')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
       <xrx:name>$wsearch:block</xrx:name>
       <xrx:expression>xs:integer(request:get-parameter('block', '1'))</xrx:expression>
     </xrx:variable>
@@ -262,7 +267,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               <xrx:key>conjunction</xrx:key>
               <xrx:default>conjunction</xrx:default>
             </xrx:i18n>
-          </span>
+          </span>           
+        
           <input name="option" type="radio" value="or"/>
           <span>
             <xrx:i18n>
@@ -273,19 +279,21 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
           <input name="option" type="radio" value="phrase"/>
           <span>
             <xrx:i18n>
-              <xrx:key>phrase</xrx:key>
+              <xrx:key>phrase</xrx:key>              
               <xrx:default>phrase</xrx:default>
             </xrx:i18n>
           </span>
 	        <div data-demoid="27ae8693-da56-4e32-8665-f30827136a5f" style="display: none">
-	          <input id="search-only-image" name="img" type="hidden" value="{ $search:img }"/>
-            <input id="search-only-annotations" name="annotations" type="hidden" value="{ $search:annotations }"/>
+	          <!-- <input id="search-only-image" name="img" type="hidden" value=""/>{ $search:img } -->
+	          <!--  der name des input-feldes wird an die http URL als Parameter übergeben -->
+            <input id="search-only-annotations" name="an" type="hidden" value=""/><!-- { $search:annotations } -->
             <input id="search-sort-date" name="sort" type="radio" value="date">
                { if(request:get-parameter('sort', 'date') = 'date') then attribute checked { 'checked' } else () }
             </input>
             <input id="search-sort-ranking" name="sort" type="radio" value="ranking">
               { if(request:get-parameter('sort', '') = 'ranking') then attribute checked { 'checked' } else () }
             </input>
+    
 	        </div>
         </div>
       </xrx:view>
@@ -303,7 +311,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 			    <input id="search-field" name="q" type="text" value="{ request:get-parameter('q', '') }"/>
 			    <input id="search-trigger" type="submit" value="{ i18n:value('search', $xrx:lang, 'Search') }"/>
           <xrx:div>search-options-div</xrx:div>
-			    <xrx:div>search2-description</xrx:div>
+			    <xrx:div>search2-description</xrx:div>			    
 			  </div>
       </xrx:view>
     </xrx:div>
@@ -447,9 +455,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               <xrx:default>sort</xrx:default>
             </xrx:i18n>
           </b>
+         <input name="neuesding" type="radio" value="and" checked="checked">         
+         </input>
+            <span>noch ein input</span>
           <div data-demoid="661f6e11-775f-4957-b9db-36b7e7b886d1">
 	          <input id="result-sort-date" name="sort" type="radio" value="date">
-	             { if(request:get-parameter('sort', 'date') = 'date') then attribute checked { 'checked' } else () }
+	           <!--   { if(request:get-parameter('sort', 'date') = 'date') then attribute checked { 'checked' } else () } -->
 	          </input>
 	          <xrx:i18n>
 	            <xrx:key>by-date</xrx:key>
@@ -524,7 +535,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	          </div>
 	          <input name="to" value="" placeholder="{ i18n:value('eg', $xrx:lang, 'e.g.') } 03-04-1254"/-->
 	          <div data-demoid="d136e8ec-bb5e-48a8-b17e-16d08ef8b611">
-	            <input id="result-only-image" name="img" type="checkbox" value="">
+	           <input id="result-only-image" name="bli" type="checkbox" value="">
 	               { if(request:get-parameter('img', '') = 'true') then attribute checked { 'checked' } else () }
 	            </input>
 	            <xrx:i18n>
@@ -533,8 +544,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	            </xrx:i18n>
 	          </div>
 	          <div data-demoid="91886b73-db22-4cbd-90bc-c9a4da3b6bfd">
-	            <input id="result-only-annotations" name="annotations" type="checkbox" value="">
-	              { if(request:get-parameter('annotations', '') = 'true') then attribute checked { 'checked' } else () }
+	            <input id="result-only-annotations" name="an" type="checkbox" value="">
+	             <!--   { if(request:get-parameter('annotations', '') = 'true') then attribute checked { 'checked' } else () }-->
 	            </input>
 	            <xrx:i18n>
 	              <xrx:key>only-hits-with-annotations</xrx:key>
