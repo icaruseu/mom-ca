@@ -200,11 +200,11 @@ right:220px;
 	      
 	      
 	      for $id-element at $num in $charters-to-publish
-	
-	      
+		  let $releasedate-time := root($id-element)//xrx:saved[xrx:id=$id-element]/xrx:released
+		  let $releaseddate := tokenize($releasedate-time,'T')[1]
 	      let $atom-id := $id-element/text()
 	      let $email := root($id-element)//xrx:email/text()
-	      
+	      	      
 	      (: initialize metadata collections :)
 	      let $tokens := tokenize(substring-after($atom-id, conf:param('atom-tag-name')), '/')
 	
@@ -302,6 +302,13 @@ right:220px;
 	              <xrx:default>Edited by</xrx:default>
 	            </xrx:i18n>
 	            <span>: { user:firstname-name($email) }</span>
+	          </div>
+	          <div>
+	          	<xrx:i18n>
+	          		<xrx:key>released-at</xrx:key>
+	          		<xrx:default>Released</xrx:default>
+	          	</xrx:i18n>
+	          	<span>: {$releaseddate}</span>
 	          </div>
 	          <br/>
 		      </div>

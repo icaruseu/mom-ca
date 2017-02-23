@@ -89,7 +89,8 @@ declare function charters:year-from-date($date as xs:string) as xs:string {
 };
 
 declare function charters:block-strings($sorted-dates as xs:string*) as xs:string* {
-    let $log := util:log('error', $sorted-dates)
+   (: let $log := util:log('error', $sorted-dates) :)
+    let $log := ""
     return
     for $dates at $pos in $sorted-dates
     let $group := xs:integer($pos div 30)
