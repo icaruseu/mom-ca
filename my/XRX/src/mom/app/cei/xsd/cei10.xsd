@@ -1310,7 +1310,12 @@
             </xs:appinfo>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:group ref="layout"/>
+            <xs:sequence>
+                <xs:choice>
+                    <xs:element ref="foreign"/>
+                    <xs:group ref="layout"/>
+                </xs:choice>
+            </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -1747,6 +1752,7 @@
             <xs:sequence minOccurs="0" maxOccurs="unbounded">
                 <xs:choice>
                     <xs:group ref="layout"/>
+                    <xs:element ref="foreign"/>
                 </xs:choice>
             </xs:sequence>
             <xs:attributeGroup ref="lang"/>

@@ -1394,7 +1394,12 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
             </xs:appinfo>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:group ref="layout"/>
+            <xs:sequence>
+                <xs:choice>
+                    <xs:element ref="foreign"/>
+                    <xs:group ref="layout"/>
+                </xs:choice>
+            </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -1845,6 +1850,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
         <xs:complexType mixed="true">
             <xs:sequence minOccurs="0" maxOccurs="unbounded">
                 <xs:choice>
+                    <xs:element ref="foreign"/>
                     <xs:group ref="layout"/>
                 </xs:choice>
             </xs:sequence>
