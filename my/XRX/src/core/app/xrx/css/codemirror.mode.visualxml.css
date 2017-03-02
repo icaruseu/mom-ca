@@ -58,9 +58,12 @@ input{
 }
 
 span.cm-element-start {
+	color: #8e8a01; /* yellow-green for spotting mark up*/
   border-bottom: rgb(220, 220, 220);
 }
 span.cm-element-end {
+	/*color: #0c96f2; Blauton*/
+	color: #8e8a01; /* yellow-green for spotting mark up*/
   border-bottom: rgb(220, 220, 220);
 }
 span.cm-text {

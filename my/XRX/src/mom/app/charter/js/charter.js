@@ -232,29 +232,30 @@ function rapper(){
 			        	success: function(data, textStatus, jqXHR)
 			        	{    
 			        		if (glossartyp == 'bishop' ){
-			        			
-			        			var name = $(data).find("tei\\:persName");
-			        			var pers= $("<h3></h3>").append(name);
-			        			var person = $(data).find("tei\\:person");			        			
-			        			var aufgabe = $(data).find("tei\\:occupation");
-			        			
-			        			var date = $(aufgabe).find("tei\\:date").appendTo(person).wrap("<span class='bishop'></span>");
-			        			var note = $(data).find("tei\\:note").appendTo(person).wrap("<i class='bishop'></i>");
-			        			
-			        			var bibl = $(aufgabe).find("tei\\:bibl").appendTo(person).wrap("<span class='bishop'></span>");			        			
-			        			var port = $("<div class='port'></div>").append(pers).append(person);
-			        			console.log(person);
-			        			
+			        			var person = $(data).text();			        			
+			        			/* Person data is retrieved as text
+			        			 * Problem of textformatting: 
+				        		 * in order to be able to insert whitespaces again
+				        		 * this is done via regex. 
+				        		 * Some cases may be not considered! */
+			        			var reguliert = person.replace(/([0-9])([A-Z])/g, '$1 $2')
+			        									.replace(/([a-z])([A-Z])/g, '$1 $2')
+			        									.replace(/([a-z])(\()/g, '$1 $2')
+			        									.replace(/(.)([A-Z])/g, '$1 $2')
+			        									.replace(/(,)([a-z][A-Z])/g, ', $2')
+			        									.replace(/(\))([0-9a-zA-Z])/g, '$1 $2')
+			        									.replace(/(\()(\s)/g, '$1')
+			        									.replace(/([A-Za-z]*)(,|\s)/, '<h2 class="bishop">$1$2</h2>');			        
+
+			        			var port = $("<div class='port'></div>").append(reguliert);			        			
 			        			$("div#enhancedView").append(port);				        			
+			        	
 			        		}
 			        		else {
 			        			console.log("die daten");	
-			        			console.log($(data));
-			        			//var port = $(data).find("div");
+			        			console.log($(data));			        			
 			        			var preflabel = $(data).find("skos\\:prefLabel");
 			        			var h = $("<h3></h3>").append(preflabel);			        			
-			        			console.log("preflabel wird ausgegeben");
-			        			console.log(preflabel);
 			        			var def = $(data).find("skos\\:definition");
 			        			var div = $("<div class='bla'></div>").append(def);
 			        			var port = $("<div class='port'></div>").append(h).append(div);
