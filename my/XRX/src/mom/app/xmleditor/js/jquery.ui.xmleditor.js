@@ -11,6 +11,7 @@
 var serviceMyCollectionSave             =        "service/my-collection-save";
 var serviceValidateInstance             =        "service/my-collection-charter-validate";
 
+
 $.widget( "ui.xmleditor", {
 
 	options: {
@@ -75,6 +76,7 @@ $.widget( "ui.xmleditor", {
 })( jQuery );
 
 
+
 function PermisDialog(){
 	$("#permission_dialog").dialog({
 		position: {my: "center", at: "center", of: "center"},
@@ -93,9 +95,31 @@ function PermisDialog(){
 	});
 	
 	
+};
+
+
+function CheckSessionStatus(){
+
+	
+	$.ajax({
+		url: "service/CheckSessionStatus",
+		type: "POST",
+		contentType: "application/xml",
+		data: "",
+		dataType: "xml",
+		success: function(response){				
+			if($(response).find("result").text()=='true'){}
+			else {
+				location.reload();
+				$('#dinner-textann').append("<div>you are logged-out. Please Relog");
+			}
+			},
+	
+		error: function(){				
+	
+			return false;
+		}			
+	});
 }
-
-
-
 
 
