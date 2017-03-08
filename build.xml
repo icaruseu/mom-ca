@@ -29,7 +29,7 @@
   <!-- 
     jssaxparser
    -->
-  <property name="jssaxparser-home" value="jssaxparser/jssaxparser"/>
+  <property name="jssaxparser-home" value="jssaxparser/jsXmlSxParser-master/jssaxparser"/>
   <property name="my-jssaxparser-src" value="my/XRX/res/jssaxparser"/>
 
   <!-- 
@@ -57,7 +57,7 @@
     Jetty
    -->
   <property name="jetty-home" value="${exist-home}/tools/jetty" />
-  <property name="wrapper-home" value="${exist-home}/tools/wrapper" />
+  <property name="wrapper-home" value="${exist-home}/tools/yajsw" />
   <property name="webinf-home" value="${exist-home}/webapp/WEB-INF" />
 
   <!-- 
@@ -124,10 +124,10 @@
   <target name="download-jssaxparser">
 
     <echo message="-------------------------" />
-    <echo message="Download jssaxparser (http://jssaxparser.googlecode.com/svn/trunk/)" />
+    <echo message="Download jssaxparser (https://github.com/ndebeiss/jsXmlSaxParser/archive/master.zip)" />
     <echo message="-------------------------" />
     <delete dir="jssaxparser" failonerror="false"/>
-    <get dest="tmp/jssaxparser.zip" src="https://jssaxparser.googlecode.com/files/jssax2parser-1-5.zip"/>
+    <get dest="tmp/jssaxparser.zip" src="https://codeload.github.com/ndebeiss/jsXmlSaxParser/zip/master"/>
     <unzip src="tmp/jssaxparser.zip" dest="jssaxparser"/>
     
   </target>
@@ -306,20 +306,34 @@
    -->
   <target name="install-betterform">
 
-    <echo message="-------------------------" />
+    <echo message="" />
     <echo message="Download and configure betterFORM" />
-    <echo message="-------------------------" />
+    <echo message="" />
     <delete failonerror="false">
       <fileset dir="${betterform-home}" />
     </delete>
-    <antcall target="download-betterform" />
+    <antcall target="download-betterform" /> 
     <antcall target="configure-betterform" />
-    <echo message="-------------------------" />
+    <echo message="" />
     <echo message="Patch betterFORM code project, compile it and deploy it to the localhost" />
-    <echo message="-------------------------" />
-    <antcall target="patch-my-betterform" />
-    <antcall target="compile-betterform" />
+    <echo message="" />
+
+    <replace file="${betterform-home}/XRX/build-XRX.xml">
+      <replacefilter token='file="${betterFORM.extension}/main/lib/betterform.jar" todir="${betterFORM.extension}/backup-libs"'
+        value='file="${betterFORM.extension}/main/lib/betterform-exist-5.1-SNAPSHOT-20160615.jar" todir="${betterFORM.extension}/backup-libs"' />
+    </replace>
+
+    <antcall target="patch-my-betterform" /> 
+
+
+    <replace file="${betterform-home}/XRX/build-XRX.xml">
+      <replacefilter token='file="${betterFORM.extension}/backup-libs/betterform.jar" tofile="${betterFORM.extension}/main/lib/betterform.jar"'
+        value='file="${betterFORM.extension}/backup-libs/betterform-exist-5.1-SNAPSHOT-20160615.jar" tofile="${betterFORM.extension}/main/lib/betterform.jar"' />
+    </replace> 
+
+    <antcall target="compile-betterform-exploded" /> 
     
+   <!-- <delete file="${exist-home}/extensions/betterform/main/lib/betterform-exist-5.1-SNAPSHOT-20160615.jar" /> -->
 
   </target>
   
@@ -329,7 +343,8 @@
     <echo message="Download betterFORM (https://github.com/betterFORM/betterFORM.git)" />
     <echo message="-------------------------" />
     <exec executable="git">
-      <arg line=" clone https://github.com/betterFORM/betterFORM.git betterFORM -b master --single-branch"/>
+      <!--<arg line=" clone https://github.com/betterFORM/betterFORM.git betterFORM -b release/betterFORM5 -single-branch"/> -->
+<arg line=" clone https://github.com/betterFORM/betterFORM.git betterFORM -b development --single-branch"/>
     </exec>  <!--
     <exec executable="git" dir="./betterFORM">
       <arg line="checkout 2ad34d165ffb19232ff6489abe5a313412f35eeb"/>
@@ -352,6 +367,7 @@
     
   </target>
   
+
   <target name="patch-my-betterform">
 
     <echo message="-------------------------" />
@@ -377,13 +393,22 @@
     <antcall target="patch-my-betterform"/>  
     <ant antfile="build-dojo.xml" dir="${betterform-home}/web" target="build-dojo"/>
     <ant antfile="build-XRX.xml" dir="${betterform-home}/XRX" target="update-betterFORM"/>
+
     <antcall target="restart"/>
     
     <echo message="-------------------------" />
     <echo message="Deploy your betterFORM code into my eXist extentions as a single jar-file" />
     <echo message="-------------------------" />
-    <copy file="localhost/extensions/betterform/main/lib/betterform.jar" tofile="my/eXist/extensions/betterform/main/lib/betterform.jar" overwrite="true"/>
+ 
     
+  </target>
+
+	
+ 
+
+
+  <target name="copy-betterform" >
+    <copy file="my/betterFORM/betterform-exist-5.1-SNAPSHOT-20160615.jar" tofile="localhost/extensions/betterform/main/lib/betterform-exist-5.1-SNAPSHOT-20160615.jar" overwrite="true" failonerror="false"/> 
   </target>
   
   <target name="compile-betterform-exploded" 
@@ -413,17 +438,22 @@
     <echo message="-------------------------" />
     <echo message="Install eXist" />
     <echo message="-------------------------" />
-    <delete dir="${exist-home}" failonerror="false"/>
-    <mkdir dir="tmp"/>
+    <!--<delete dir="${exist-home}" failonerror="false"/>-->
+    <mkdir dir="tmp"/> 
     
     <!-- download and unzip eXist -->
-    <get src="https://github.com/eXist-db/exist/archive/eXist-2.2.zip" dest="tmp/eXist.zip"/>
+   <!--<exec executable="git">
+      <arg line=" clone https://github.com/eXist-db/exist exist-eXist-3.0 -b develop -single-branch -depth 1"/>
+    </exec>-->
+ <!--
+   <get src="https://github.com/eXist-db/exist/archive/eXist-3.0.RC1.zip" dest="tmp/eXist.zip"/> 
     <exec executable="unzip">
       <arg line="tmp/eXist.zip -d ."/>
-    </exec>
+    </exec> -->
+<!--
     <move todir="localhost">
-      <fileset dir="exist-eXist-2.2"/>
-    </move>
+      <fileset dir="exist-eXist-3.0"/>
+    </move>  -->
     
     <!-- bugfix for eXist-2.0 -->
     <mkdir dir="${exist-home}/extensions/modules/lib"/>
@@ -438,27 +468,26 @@
     
     <!-- compile and deploy -->
     <antcall target="compile-exist" />
-
+    <antcall target="install-daemon"/>
     <!--highjack betterFORMS -->
-    <antcall target="install-betterform" /> 
-    <antcall target="compile-betterform-exploded" />
+   <antcall target="install-betterform" />
 
     <!-- compile and deploy -->
     <antcall target="deploy-my-exist-webapp" />
     <antcall target="prepare-app-server"/>
-
-
-
-    <!-- remove temporary diretories -->
+    <antcall target="clean-up" />
+  </target>
+  
+  <target name="clean-up">
+	
+     <!-- remove temporary diretories -->
     <delete dir="tmp"/>
     <delete dir="CodeMirror"/>
     <delete dir="jQuery"/>
     <delete dir="jssaxparser"/>
     <delete dir="betterFORM"/>
-    <delete dir="exist-eXist-2.2"/>
-
-  </target>
-
+    <!--<delete dir="exist-eXist-3.0"/>-->
+</target>
   <target name="deploy-my-exist-webapp">
     <copy todir="${exist-home}/webapp" overwrite="true">
       <fileset dir="${my-exist-webapp}"/>
@@ -537,9 +566,7 @@
     <echo message="-------------------------" />
     <echo message="Starting XRX Application Server" />
     <echo message="-------------------------" />
-    <exec executable="${exist-home}/tools/wrapper/bin/exist.sh">
-      <arg value="start"/>
-    </exec>
+    <exec executable="${exist-home}/tools/yajsw/bin/startDaemon.sh"/>
   </target>
   
   <target name="stop"
@@ -547,20 +574,34 @@
     <echo message="-------------------------" />
     <echo message="Stopping XRX Application Server" />
     <echo message="-------------------------" />
-    <exec executable="${exist-home}/tools/wrapper/bin/exist.sh">
-      <arg value="stop"/>
-    </exec>
+    <exec executable="${exist-home}/tools/yajsw/bin/stopDaemon.sh"/>
+  </target>
+
+  <target name="install-daemon"
+    description="Installs the eXist-db daemon">
+    <echo message="-------------------------" />
+    <echo message="Installs the eXist-db daemon" />
+    <echo message="-------------------------" />
+    <exec executable="${exist-home}/tools/yajsw/bin/installDaemon.sh" />
   </target>
   
+  <target name="remove-daemon"
+    description="Removes the eXist-db daemon">
+    <echo message="-------------------------" />
+    <echo message="Removes the eXist-db daemon" />
+    <echo message="-------------------------" />
+    <exec executable="${exist-home}/tools/yajsw/bin/uninstallDaemon.sh" />
+  </target>
+
   <target name="restart"
     description="Restarts the XRX Application Server">
     <echo message="-------------------------" />
     <echo message="Restarting XRX Application Server" />
     <echo message="-------------------------" />
-    <exec executable="${exist-home}/tools/wrapper/bin/exist.sh">
+    <exec executable="${exist-home}/tools/yajsw/bin/stopDaemon.sh">
       <arg value="stop"/>
     </exec>
-    <exec executable="${exist-home}/tools/wrapper/bin/exist.sh">
+    <exec executable="${exist-home}/tools/yajsw/bin/startDaemon.sh">
       <arg value="start"/>
     </exec>
   </target>
@@ -571,7 +612,7 @@
       query="system:as-user('admin', '', xmldb:change-user('admin', '${XRX.password}', 'dba', '/db'))"
       user="guest"
       password="guest"
-      failonerror="false"/>
+      failonerror="true"/>
   </target>
 
   <target name="deploy-exist-xconf"
@@ -620,13 +661,23 @@
     </typedef>
           
     <echo message="# jetty.xml" />
-    <copy file="${jetty-home}/etc/jetty.xml" tofile="${jetty-home}/etc/jetty.xml.original" />
-    <xslt in="${jetty-home}/etc/jetty.xml.original" style="${build-scripts-home}/jetty.xsl"
-      out="${jetty-home}/etc/jetty.xml">
+    <copy file="${jetty-home}/etc/jetty-http.xml" tofile="${jetty-home}/etc/jetty-http.xml.original" />
+    <xslt in="${jetty-home}/etc/jetty-http.xml.original" style="${build-scripts-home}/jetty.xsl"
+      out="${jetty-home}/etc/jetty-http.xml">
       <param name="jetty-port" expression="${XRX.jetty.port}" />
-      <param name="jetty-port-ssl" expression="${XRX.jetty.port-ssl}" />
-    </xslt>
+    </xslt><!--
+    <echo message="parsing jetty ssl" />
+    <copy file="${jetty-home}/etc/jetty-ssl.xml" tofile="${jetty-home}/etc/jetty-ssl.xml.original" /> 
+    <xslt in="${jetty-home}/etc/jetty-ssl.xml.original" style="${build-scripts-home}/jetty-ssl.xsl"
+      out="${jetty-home}/etc/jetty-ssl.xml">
+      <param name="jetty-ssl-port" expression="${XRX.jetty.port-ssl}" />
+    </xslt> -->
 
+    <echo message="parsing exist-webapp-context" />
+    <copy file="${jetty-home}/webapps/exist-webapp-context.xml" tofile="${jetty-home}/webapps/exist-webapp-context.xml.original" /> 
+    <xslt in="${jetty-home}/webapps/exist-webapp-context.xml.original" style="${build-scripts-home}/jetty-context.xsl"
+      out="${jetty-home}/webapps/exist-webapp-context.xml">
+    </xslt> 
     <echo message="# conf.xml" />
     <copy file="${exist-home}/conf.xml" tofile="${exist-home}/conf.xml.original" />
     <xslt in="${exist-home}/conf.xml.original" style="${build-scripts-home}/conf.xsl"
@@ -650,7 +701,7 @@
     </replace>
     <echo file="${wrapper-home}/conf/wrapper.conf" append="true">
 wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
-    </echo>
+    </echo> 
 
     <echo message="# controller-config.xml" />
     <copy file="${webinf-home}/controller-config.xml" tofile="${webinf-home}/controller-config.xml.original" />
@@ -659,6 +710,7 @@ wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
       <param name="project-name" expression="${XRX.project-name}" />
       <param name="xrx-live-db-base-collection-path" expression="${xrx-live-db-base-collection-path}" />
     </xslt>
+
     
     <echo message="# controller.xql" />
     <copy file="${exist-home}/webapp/controller.xql" tofile="${exist-home}/webapp/controller.xql.original" />
@@ -687,8 +739,11 @@ wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
       <param name="project-name" expression="${XRX.project-name}" />
     </xslt>
     
+
+    <!-- install wrapper service -->
     <antcall target="restart"/>
-    <antcall target="setpassword"/>
+    <antcall target="sleep" />
+    <antcall target="setpassword"/> 
     
     <!--echo message="Setting collection permissions for database root collection /db"/>
     <xdb:xquery xmlns:xdb="http://exist-db.org/ant"
@@ -696,7 +751,7 @@ wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
       query="system:as-user('admin', '${XRX.password}', xmldb:set-collection-permissions('/db', 'admin', 'dba', 504))"/-->
     
     <!-- clean XRX src and XRX live -->
-    <antcall target="clean-xrx"/>
+    <antcall target="clean-xrx"/> 
     
     <!-- deploy XRX res and compile XRX src -->
     <antcall target="prepare-xrx-res-collection"/>
@@ -710,7 +765,14 @@ wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
     
   </target>
 
-
+<target name="sleep">
+	<echo message="Wait until eXist has started..."/>
+	<waitfor maxwait="3" maxwaitunit="minute" checkevery="250">
+		<and>
+		    <socket server="localhost" port="${XRX.jetty.port}"/>
+		</and>
+	</waitfor>
+</target>
   <!-- 
   #
   #  XRX
@@ -864,7 +926,7 @@ wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
     <echo message="-------------------------"/>
     <echo message="Creating user admin"/>
     <echo message="-------------------------"/>
-    
+    <antcall target="sleep" />
     <antcall target="store-project-data"/>
     
     <antcall target="add-group">
