@@ -330,10 +330,11 @@
       <replacefilter token='file="${betterFORM.extension}/backup-libs/betterform.jar" tofile="${betterFORM.extension}/main/lib/betterform.jar"'
         value='file="${betterFORM.extension}/backup-libs/betterform-exist-5.1-SNAPSHOT-20160615.jar" tofile="${betterFORM.extension}/main/lib/betterform.jar"' />
     </replace> 
+    
 
     <antcall target="compile-betterform-exploded" /> 
     
-   <!-- <delete file="${exist-home}/extensions/betterform/main/lib/betterform-exist-5.1-SNAPSHOT-20160615.jar" /> -->
+<!--   <delete file="${exist-home}/extensions/betterform/main/lib/betterform-exist-5.1-SNAPSHOT-20160615.jar" /> -->
 
   </target>
   
@@ -342,13 +343,16 @@
     <echo message="-------------------------" />
     <echo message="Download betterFORM (https://github.com/betterFORM/betterFORM.git)" />
     <echo message="-------------------------" />
-    <exec executable="git">
-      <!--<arg line=" clone https://github.com/betterFORM/betterFORM.git betterFORM -b release/betterFORM5 -single-branch"/> -->
-<arg line=" clone https://github.com/betterFORM/betterFORM.git betterFORM -b development --single-branch"/>
-    </exec>  <!--
+   <exec executable="git">
+     <!--> <arg line=" clone https://github.com/betterFORM/betterFORM.git betterFORM -b master -single-branch"/>  -->
+      
+<arg line=" clone https://github.com/betterFORM/betterFORM.git betterFORM -b development --single-branch --depth 1"/> 
+
+    </exec> <!-- 
     <exec executable="git" dir="./betterFORM">
-      <arg line="checkout 2ad34d165ffb19232ff6489abe5a313412f35eeb"/>
-    </exec> -->
+      <arg line="checkout d9d7611fb4319008eb1e7f9e5e7495baa05963c3"/>
+    </exec>-->
+
     
   </target>
   
@@ -408,7 +412,7 @@
 
 
   <target name="copy-betterform" >
-    <copy file="my/betterFORM/betterform-exist-5.1-SNAPSHOT-20160615.jar" tofile="localhost/extensions/betterform/main/lib/betterform-exist-5.1-SNAPSHOT-20160615.jar" overwrite="true" failonerror="false"/> 
+    <!--<copy file="my/betterFORM/betterform-exist-5.1-SNAPSHOT-20160615.jar" tofile="localhost/extensions/betterform/main/lib/betterform-exist-5.1-SNAPSHOT-20160615.jar" overwrite="true" failonerror="false"/> -->
   </target>
   
   <target name="compile-betterform-exploded" 
@@ -442,9 +446,9 @@
     <mkdir dir="tmp"/> 
     
     <!-- download and unzip eXist -->
-   <!--<exec executable="git">
+<!-- <exec executable="git">
       <arg line=" clone https://github.com/eXist-db/exist exist-eXist-3.0 -b develop -single-branch -depth 1"/>
-    </exec>-->
+    </exec> -->
  <!--
    <get src="https://github.com/eXist-db/exist/archive/eXist-3.0.RC1.zip" dest="tmp/eXist.zip"/> 
     <exec executable="unzip">
@@ -453,7 +457,7 @@
 <!--
     <move todir="localhost">
       <fileset dir="exist-eXist-3.0"/>
-    </move>  -->
+    </move> -->
     
     <!-- bugfix for eXist-2.0 -->
     <mkdir dir="${exist-home}/extensions/modules/lib"/>
@@ -582,7 +586,7 @@
     <echo message="-------------------------" />
     <echo message="Installs the eXist-db daemon" />
     <echo message="-------------------------" />
-    <exec executable="${exist-home}/tools/yajsw/bin/installDaemon.sh" />
+    <exec executable="${exist-home}/tools/yajsw/bin/installDaemonNoPriv.sh" />
   </target>
   
   <target name="remove-daemon"
@@ -590,7 +594,7 @@
     <echo message="-------------------------" />
     <echo message="Removes the eXist-db daemon" />
     <echo message="-------------------------" />
-    <exec executable="${exist-home}/tools/yajsw/bin/uninstallDaemon.sh" />
+    <exec executable="${exist-home}/tools/yajsw/bin/uninstallDaemonNoPriv.sh" />
   </target>
 
   <target name="restart"
@@ -659,12 +663,12 @@
     <typedef resource="org/exist/ant/antlib.xml" uri="http://exist-db.org/ant">
       <classpath refid="classpath-exist-a-core" />
     </typedef>
-          
+         
     <echo message="# jetty.xml" />
     <copy file="${jetty-home}/etc/jetty-http.xml" tofile="${jetty-home}/etc/jetty-http.xml.original" />
     <xslt in="${jetty-home}/etc/jetty-http.xml.original" style="${build-scripts-home}/jetty.xsl"
       out="${jetty-home}/etc/jetty-http.xml">
-      <param name="jetty-port" expression="${XRX.jetty.port}" />
+      <param name="jetty-port" expression="${XRX.jetty.port}" /> 
     </xslt><!--
     <echo message="parsing jetty ssl" />
     <copy file="${jetty-home}/etc/jetty-ssl.xml" tofile="${jetty-home}/etc/jetty-ssl.xml.original" /> 
@@ -672,12 +676,12 @@
       out="${jetty-home}/etc/jetty-ssl.xml">
       <param name="jetty-ssl-port" expression="${XRX.jetty.port-ssl}" />
     </xslt> -->
-
+<!--
     <echo message="parsing exist-webapp-context" />
     <copy file="${jetty-home}/webapps/exist-webapp-context.xml" tofile="${jetty-home}/webapps/exist-webapp-context.xml.original" /> 
     <xslt in="${jetty-home}/webapps/exist-webapp-context.xml.original" style="${build-scripts-home}/jetty-context.xsl"
       out="${jetty-home}/webapps/exist-webapp-context.xml">
-    </xslt> 
+    </xslt> -->
     <echo message="# conf.xml" />
     <copy file="${exist-home}/conf.xml" tofile="${exist-home}/conf.xml.original" />
     <xslt in="${exist-home}/conf.xml.original" style="${build-scripts-home}/conf.xsl"

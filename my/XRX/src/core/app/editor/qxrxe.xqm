@@ -266,11 +266,15 @@ declare function qxrxe:get-label($node-info, $xsd){
     let $appinfos := qxrxe:get-appinfos($node-info, $xsd)
     
     let $xrxe-label := $appinfos/xrxe:label[1] 
+
     let $label := 
         if($xrxe-label) then
-            $xrxe-label/node()[1]
+            $xrxe-label[1]
         else 
             xs:string($node-info/@name)
+
+
+
     return $label
 };
 
