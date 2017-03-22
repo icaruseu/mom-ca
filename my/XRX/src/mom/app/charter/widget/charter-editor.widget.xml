@@ -5,24 +5,24 @@
     <xrx:author>daniel.ebner@uni-koeln.de</xrx:author>
     <xrx:licence>
 		This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
-		
+
 		As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
-		
+
 		This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
-		
+
 		The VdU/VRET is free software: you can redistribute it and/or modify
 		it under the terms of the GNU General Public License as published by
 		the Free Software Foundation, either version 3 of the License, or
 		(at your option) any later version.
-		
+
 		VdU/VRET is distributed in the hope that it will be useful,
 		but WITHOUT ANY WARRANTY; without even the implied warranty of
 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 		GNU General Public License for more details.
-		
+
 		You should have received a copy of the GNU General Public License
 		along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
-		
+
 		We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
 	</xrx:licence>
     <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/subeditor</xrx:portal>
@@ -38,39 +38,27 @@
     </xrx:init>
     <xrx:model/>
     <xrx:view>
-        <div data-demoid="bbaa8f25-4182-4784-b625-8ff7fbc10c51">            
+        <div data-demoid="bbaa8f25-4182-4784-b625-8ff7fbc10c51">
             {
 
             let $atom-id := url:atom-id-from-url(conf:param('atom-tag-name'), $charter:ratomid)
-            
+
             let $saved-charter := root(metadata:base-collection('charter', 'saved')//atom:id[.=$atom-id])//cei:text
 
             let $entry := root($saved-charter)/atom:entry
-            
+
             let $atom-url :=
-                 if(request:get-parameter('atom','') = 'revise-charter') then 
+                 if(request:get-parameter('atom','') = 'revise-charter') then
                     concat('atom/CONTRIBUTE', metadata:feed('charter', (), 'saved'), '/', util:document-name($saved-charter)) (:conf:param('request-root'),:)
-                 else 
+                 else
                     concat('atom/POST', metadata:feed('charter', (), 'saved'), '/',util:document-name($saved-charter)) (:conf:param('request-root'),:)
-            
+
             let $servername := request:get-server-name()
-            
-            let $server := 
-                if($servername = 'monasterium.net') then
-                    concat('http://ftp.dioezesanarchiv.acw.at:8181', conf:param('request-root'))
-                else if($servername = 'www.mom-ca.uni-koeln.de') then
-                    concat('http://ftp.dioezesanarchiv.acw.at:8181', conf:param('request-root'))
-                else if ($servername = 'www.vdu.uni-koeln.de') then
-                    concat('http://ftp.dioezesanarchiv.acw.at:8585', conf:param('request-root'))
-                else if ($servername = 'localhost') then
-                	concat('http://localhost:8181', conf:param('request-root'))
-				else if ($servername = 'dd-dariah.uni-koeln.de') then
-                	concat('http://dd-dariah.uni-koeln.de', conf:param('request-root'))                	
-                else
-                    ''
-                             
-             return      
-             
+
+            let $server := concat('http://localhost:',conf:param('jetty-port'), conf:param('request-root'))
+
+             return
+
                 xrxe:editor(
                     <div data-demoid="cc78c361-9dae-4efa-b458-615b3ce3eabe" save="{$server}{$atom-url}" save-close="{concat(conf:param('request-root'), '/saved-charters') }" services="{conf:param('request-root')}xrxe-services.xql" wrapper="/atom:entry/atom:content" xsd="{ concat('/db/XRX.live', conf:param('request-root'), 'app/cei/xsd/cei.xsd') }">
                 <xrxe:doc>{$entry}</xrxe:doc>
@@ -182,7 +170,7 @@
                 </xrxe:ui-template>
             </div>)
             }
-            
+
         </div>
     </xrx:view>
 </xrx:widget>
