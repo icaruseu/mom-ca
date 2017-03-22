@@ -259,7 +259,7 @@
     </xsl:template>
     <xsl:template match="xhtml:insert-diplomaticAnalysis">
         <xsl:choose>
-            <xsl:when test="count($cei//cei:chDesc/cei:diplomaticAnalysis//text()) > 0">
+            <xsl:when test="count($cei//cei:chDesc/cei:diplomaticAnalysis//text()) > 0 or $cei//cei:lang_MOM or $cei//cei:divNotes/cei:note">
                 <div data-demoid="24296c88-84bc-45f1-a8c5-2703a58dfe95" id="diplomaticAnalysis">
                     <xsl:call-template name="diplomaticAnalysis"/>
                 </div>
@@ -1639,7 +1639,25 @@
     <xsl:template match="cei:p" mode="diplA">
         <xsl:if test="./node()">
             <div>          
+                <xsl:if test="count(preceding-sibling::cei:p) = 0">
+                    <p class="localheading">
+                        <b>
+                            <xrx:i18n>
+                                <xrx:key>comment</xrx:key>
+                                <xrx:default>Comment</xrx:default>
+                            </xrx:i18n>
+                        </b>
+                    </p>
+                </xsl:if>
                 <xsl:for-each select=".">
+                    <xsl:if test="@n != ''">
+                        <span class="localheading">
+                            <b>
+                                <xsl:value-of select="@n"/>
+                                <xsl:text>:&#160;</xsl:text>
+                            </b>
+                        </span>
+                    </xsl:if>
                     <xsl:apply-templates/>
                 </xsl:for-each>
             </div>
@@ -1650,8 +1668,8 @@
             <p>
                 <b>
                     <xrx:i18n>
-                        <xrx:key>quote</xrx:key>
-                        <xrx:default>Quote</xrx:default>
+                        <xrx:key>quoteDate</xrx:key>
+                        <xrx:default>Original dating clause</xrx:default>
                     </xrx:i18n>
                 </b>
                 <xsl:text>:&#160;</xsl:text>

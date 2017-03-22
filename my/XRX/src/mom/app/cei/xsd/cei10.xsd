@@ -2878,6 +2878,7 @@
                     <xs:element ref="c"/>
                     <xs:element ref="lb"/>
                     <xs:element ref="pb"/>
+                    <xs:element ref="hi"/>
                     <xs:element ref="handShift"/>
                     <xs:element ref="pict"/>
                     <xs:group ref="Sachliches"/>
