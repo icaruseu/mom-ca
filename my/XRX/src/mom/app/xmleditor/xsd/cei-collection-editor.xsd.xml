@@ -26,11 +26,24 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 
 We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
   </xrx:licence>
+  <!-- This defines the menus in EditMOM3 (xrx:topic) and assignes elements (xrx:element) to them. -->
   <xrx:topics>
     <xrx:topic>
       <xrx:i18n>
         <xrx:key>original</xrx:key>
-        <xrx:default>Original</xrx:default>
+        <xrx:default>Palaeography</xrx:default>
+      </xrx:i18n>
+    </xrx:topic>
+    <xrx:topic>
+      <xrx:i18n>
+        <xrx:key>layout</xrx:key>
+        <xrx:default>Layout</xrx:default>
+      </xrx:i18n>
+    </xrx:topic>
+    <xrx:topic>
+      <xrx:i18n>
+        <xrx:key>edition</xrx:key>
+        <xrx:default>Edition</xrx:default>
       </xrx:i18n>
     </xrx:topic>
     <xrx:topic>
@@ -286,9 +299,15 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:topic>textual-witnesses</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:pTenor">
-      <xrx:topic>original</xrx:topic>
+      <xrx:topic>layout</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:invocatio">
+      <xrx:topic>formulary</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:intercessio">
+      <xrx:topic>formulary</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:rogatio">
       <xrx:topic>formulary</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:intitulatio">
@@ -367,22 +386,22 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:topic>original</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:supplied">
-      <xrx:topic>original</xrx:topic>
+      <xrx:topic>edition</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:unclear">
       <xrx:topic>original</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:pict">
-      <xrx:topic>original</xrx:topic>
+      <xrx:topic>layout</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:sup">
       <xrx:topic>original</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:lb">
-      <xrx:topic>original</xrx:topic>
+      <xrx:topic>layout</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:pb">
-      <xrx:topic>original</xrx:topic>
+      <xrx:topic>layout</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:c">
       <xrx:topic>original</xrx:topic>
@@ -417,6 +436,18 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <xrx:element name="cei:quote">
       <xrx:topic>indexing</xrx:topic>
     </xrx:element>
+    <xrx:element name="cei:class">
+      <xrx:topic>indexing</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:app">
+      <xrx:topic>edition</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:lem">
+      <xrx:topic>edition</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:rdg">
+      <xrx:topic>edition</xrx:topic>
+    </xrx:element>
     <xrx:element name="cei:h1">
       <xrx:topic />
     </xrx:element>
@@ -445,6 +476,18 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:topic>indexing</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:persName">
+      <xrx:topic>indexing</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:orgName">
+      <xrx:topic>indexing</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:foreame">
+      <xrx:topic>indexing</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:surname">
+      <xrx:topic>indexing</xrx:topic>
+    </xrx:element>
+    <xrx:element name="cei:rolename">
       <xrx:topic>indexing</xrx:topic>
     </xrx:element>
     <xrx:element name="cei:recipient">
