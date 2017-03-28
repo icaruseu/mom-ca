@@ -398,7 +398,8 @@
     <xrx:view>
         <divs> {mycollection:makeBindings($entry, $distinct_nodes)} </divs>
         <div data-demoid="393de52d-1b4f-4df8-99b1-e7af26b713fe" id="dmy-collection-charter-edit">
-         {if($xrx:user-id = $owner_mail or $is-shared) then ()
+         {if($xrx:user-id = $owner_mail or $is-shared) then ( <script type="text/javascript">window.setInterval(function(){{CheckSessionStatus();}},30000); </script>  )
+         else if($xrx:user-id = 'guest') then()
          else (<script type="text/javascript"> $(document).ready(function(){{ $('#dinner-textann').empty();
          									   PermisDialog();}})</script>
 											  	)}

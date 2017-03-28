@@ -216,6 +216,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:mode>service</xrx:mode>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/datalist</xrx:atomid>
     </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/service/CheckSessionStatus$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/CheckSessionStatus</xrx:atomid>
+    </xrx:map>
     <!-- main widgets -->
     <xrx:map>
       <xrx:uripattern>/new-collection</xrx:uripattern>
