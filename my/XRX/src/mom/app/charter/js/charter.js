@@ -229,6 +229,10 @@ function rapper(){
 			        	success: function(data, textStatus, jqXHR)
 			        	{    
 			        		if (glossartyp == 'bishop' ){
+			        			var note = $(data).find("tei\\:note");
+			        			console.log("Note NOte");
+			        			console.log(note);
+			        			console.log($(data));
 			        			var person = $(data).text();			        			
 			        			/* Person data is retrieved as text
 			        			 * Problem of textformatting: 

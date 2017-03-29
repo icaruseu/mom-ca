@@ -81,8 +81,7 @@ if ($checkType) then(
       else if ($typ = 'bishop') then (
           let $collection := collection("/db/mom-data/metadata.person.public/")
           let $inmem := $collection//tei:TEI         
-          let $bishops := data($inmem//tei:person[@xml:id=$getText])
-        
+          let $bishops := data($inmem//tei:person[@xml:id=$getText])    
           
           return  <div class="port">{$bishops}</div>
           )
