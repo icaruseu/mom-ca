@@ -1323,7 +1323,7 @@
             </xs:appinfo>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
+            <xs:sequence minOccurs="0" maxOccurs="unbounded">
                 <xs:choice>
                     <xs:element ref="foreign"/>
                     <xs:group ref="layout"/>
