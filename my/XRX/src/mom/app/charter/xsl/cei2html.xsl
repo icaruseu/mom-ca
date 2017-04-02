@@ -682,9 +682,6 @@
             <xsl:apply-templates/>
         </xsl:element>
     </xsl:template>
-    <xsl:template match="cei:ref[@type = 'bibliography']">
-        <xsl:apply-templates/>
-    </xsl:template>
     <xsl:template match="cei:persName">
     <xsl:variable name="i18n">
         <xrx:i18n>
