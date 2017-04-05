@@ -51,7 +51,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   </xrx:init> 
   <xrx:body>
  {
-   let $vocabular := collection("/db/mom-data/metadata.controlledVocabulary.public/")/atom:entry[contains(child::atom:id/text(), $getindexName)]
+  let $vocabular := collection("/db/mom-data/metadata.controlledVocabulary.public/")/atom:entry[contains(child::atom:id/text(), $getindexName)]
  let $unbestimmteslabel := $vocabular//skos:ConceptScheme/skos:prefLabel/text()
  let $conceptscheme := replace(data($vocabular//skos:ConceptScheme/@rdf:about), '#', '')
  return
@@ -80,7 +80,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
                                 let $h3 := if ($vocabular//skos:Concept[child::skos:broader[@rdf:resource=$sla]]) then
                                             let $h4:= jsonx:string($sla)
                                             let $h5 := (for $v in $vocabular//skos:Concept[child::skos:broader[@rdf:resource=$sla]]
-                                                        let $st := if($v/skos:prefLabel/@xml:lang="de") then  jsonx:string($v/skos:prefLabel[@xml:lang="de"]/text()) else if($v/skos:prefLabel[1]/text()) then  jsonx:string($v/skos:prefLabel[1]/text()) else '{}'
+                                                        let $st := if($v/skos:prefLabel/@xml:lang="de") then  jsonx:string($v/skos:prefLabel[@xml:lang="de"]/text()) else if($v/skos:prefLabel[1]/text()) then  jsonx:string($v/skos:prefLabel[1]/text())                                                            else if($v/skos:narrower) then jsonx:object(let $narrow := $v/skos:narrower
+                                                                                                    for $n in $narrow
+                                                                                                     let $narrowlabel := $vocabular//skos:Concept[@rdf:about = data($n/@rdf:resource)]/skos:prefLabel[1]/text()
+                                                                                                     return jsonx:pair(jsonx:string(data($n/@rdf:resource)), jsonx:string($narrowlabel)))
+                                                        else '{}'
                                                         let $concept := replace(data($v/@rdf:about), '#', '')
                                                         let $kat3 := concat('"',$concept, '":', $st , '')
                                                         return $kat3)

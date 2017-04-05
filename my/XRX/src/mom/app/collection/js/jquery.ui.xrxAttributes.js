@@ -344,7 +344,7 @@
                             url: "/mom/service/editMomgetControlledVoc",
                             type:"GET",                            
                             dataType: "json", 
-                            data: {indexname: indexnamewert, lemma: lemmawert, sprache:"de"},
+                            data: {indexname: indexnamewert, lemma: lemmawert, sprache: sprachwert},
                             success: function(data, textStatus, jqXHR)
                             {                     
                      var auswahl = {};
@@ -391,11 +391,21 @@
                     	{
                     		 var data4 = data3[m];                     		 
                     		 for (var o in data4){
-                    			 console.log(o);
+                    			 if (typeof data4[o] != 'string'){                    			
+                    				 var data5 = data4[o];
+                    				 for (p in data5){
+                    					 var key = p;
+                    					 var values = data5[p];
+                    					 var sortedID = n.concat("+", key);
+                    				 }
+                    					 
+                    			 }
+                    			 else{
+                    		
                     			 var key = o;
                     			 var values = data4[o];
                     			 var sortedID = n.concat("+", key);
-                    			 auswahl[sortedID] = values;
+                    			 auswahl[sortedID] = values;}
                     		 }
                     		
                     	 }
@@ -404,11 +414,7 @@
                      }
                      }
                      }   
-                     console.log("Das endergebnis");
-                     console.log(auswahl);
-                                          
-                                                  
-                                 	
+                                    	
                                            
                          for (var z in auswahl){                       		  
                     
@@ -422,10 +428,13 @@
                            		var valeur = auswahl[z];                            		
                            		var newli = $('<option>' + valeur + '</option>')
                        			.addClass(uiSuggestedValueDivsClass).attr("title", valeur).attr("value", norm).attr("name", name);
+                           	
+                           	if (z.substring(z.indexOf('+')+1, z.length) == value){
                            		
-                           		if (z == value.replace('#', '')){                            		
-                          			 newli.attr("selected", "selected");
-                          		}
+                           		console.log(z + "ist gleich" + value);
+                           		newli.attr("selected", "selected");
+                           	}
+                         
                            		
                            		menuliste.append(newli);
                        	  }}
@@ -452,7 +461,7 @@
             	console.log( ev.data.mfg);
             	var kapsel = ev.data.mfg;
             	var self = this;           
-                var attrvalue = this.value;
+                var attrvalue = this.value;                
                 var nodeset = $(document).xrx.nodeset(cm.getInputField());
                 var controlId = nodeset.only.levelId;
                 var relativeId = token.state.context.id.split('.').splice(1);

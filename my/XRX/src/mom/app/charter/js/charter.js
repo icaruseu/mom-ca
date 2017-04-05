@@ -195,10 +195,10 @@ function rapper(){
 	
 		var infoeintrag = $('li[value="true"]');
 		/* normally all li where value = true (which means that there is more information provided to this index)
-		 * has an eception which is the illurk-vocabulary, because until now there is no additional info.
+		 * has an eception which is the illurk-vocabulary and vis, because until now there is no additional info.
 		 * 
 		 * */
-		$('li[value="true"]:not(.illurk-vocabulary)').each(function(){
+		$('li[value="true"]:not(.illurk-vocabulary):not(.vis)').each(function(){
 	
 			var glossartyp= $(this)[0].className;
 			
