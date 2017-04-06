@@ -5191,8 +5191,8 @@
                         </xrx:i18n>
                     </xrxe:label>
                 </xs:appinfo>
-                <xs:documentation xml:lang="deu"> Der verantwortliche Bearbeiter für die
-                    normalisierten Angaben und die Angaben zum Befund. </xs:documentation>
+                <xs:documentation xml:lang="deu">Der verantwortliche Bearbeiter für die
+                    Kodierung, den Inhalt der Kodierung oder die vergebenen Attribute.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:attributeGroup>
@@ -5382,6 +5382,7 @@
         <xs:attributeGroup ref="id"/>
         <xs:attributeGroup ref="n"/>
         <xs:attributeGroup ref="facs"/>
+        <xs:attributeGroup ref="resp"/>
     </xs:attributeGroup>
     <xs:attributeGroup name="facs">
         <xs:attribute name="facs">
