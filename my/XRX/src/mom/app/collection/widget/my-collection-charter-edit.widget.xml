@@ -68,7 +68,6 @@
        		<xrx:name>$is-shared</xrx:name>
        		<xrx:expression>mycharter:is-shared-with($entry, $xrx:user-id)</xrx:expression>
        </xrx:variable>
-
         <xrx:variable>
             <xrx:name>$updater</xrx:name>
             <xrx:expression>mycollection:checkUpdateCharter($entry)</xrx:expression>
@@ -416,7 +415,7 @@
                                 <xrx:dbgroup>atom</xrx:dbgroup>
                             </xrx:rule>
                         </xrx:rules>
-                        <xrx:true>                   
+                        <xrx:true>             
                            <div data-demoid="09a18129-a5e4-42f7-ab9e-1d4bcf9497bb"
                                 id="dui-imageann">
                                 <script type="text/javascript"> $(document).ready(function(){{
