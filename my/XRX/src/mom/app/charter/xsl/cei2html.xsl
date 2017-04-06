@@ -248,7 +248,6 @@
         <xsl:choose>
             <xsl:when test="count($cei//cei:abstract//cei:hi) > 0">
                 <div class="note">
-                    <div class="line">x</div>
                     <xsl:call-template name="abstractnotes"/>
                 </div>
             </xsl:when>
