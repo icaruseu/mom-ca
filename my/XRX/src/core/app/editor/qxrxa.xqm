@@ -325,7 +325,7 @@ element name {xs:string(qxrxe:get-name($node-info))}
 
 declare function qxrxa:element-name($node-info, $path, $xsd){
 element name {concat(qxrxe:prefix-string($path), qxrxe:get-name($node-info))}
-};qxrxa:get-annotation
+};
 
 
 declare function  qxrxa:label($node-info, $xsd){
