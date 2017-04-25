@@ -96,6 +96,7 @@
     <fileset dir="${exist-home}/extensions">
       <include name="**/lib/*.jar" />
     </fileset>
+
     <fileset dir="${exist-home}/tools/ant/lib">
       <include name="*.jar" />
     </fileset>
@@ -308,11 +309,11 @@
 
     <echo message="" />
     <echo message="Download and configure betterFORM" />
-    <echo message="" /><!--
+    <echo message="" />
     <delete failonerror="false">
       <fileset dir="${betterform-home}" />
     </delete>
-    <antcall target="download-betterform" /> -->
+    <antcall target="download-betterform" />
     <antcall target="configure-betterform" />
     <echo message="" />
     <echo message="Patch betterFORM code project, compile it and deploy it to the localhost" />
@@ -472,6 +473,9 @@
 
     <!-- compile and deploy -->
     <antcall target="compile-exist" />
+
+    <!-- before install the daemon, check if necessary extended libs are presend from yajsw -->
+    <antcall target="check-yajsw" />
     <antcall target="install-daemon"/>
     <!--highjack betterFORMS -->
    <antcall target="install-betterform" />
@@ -490,6 +494,7 @@
     <delete dir="jQuery"/>
     <delete dir="jssaxparser"/>
     <delete dir="betterFORM"/>
+    <delete dir="yajsw"/>
     <!--<delete dir="exist-eXist-3.0"/>-->
 </target>
   <target name="deploy-my-exist-webapp">
@@ -664,24 +669,13 @@
       <classpath refid="classpath-exist-a-core" />
     </typedef>
 
-    <echo message="# jetty.xml" />
-    <copy file="${jetty-home}/etc/jetty-http.xml" tofile="${jetty-home}/etc/jetty-http.xml.original" />
-    <xslt in="${jetty-home}/etc/jetty-http.xml.original" style="${build-scripts-home}/jetty.xsl"
-      out="${jetty-home}/etc/jetty-http.xml">
-      <param name="jetty-port" expression="${XRX.jetty.port}" />
-    </xslt>-->
-    <echo message="parsing jetty ssl" />
-    <copy file="${jetty-home}/etc/jetty-ssl.xml" tofile="${jetty-home}/etc/jetty-ssl.xml.original" />
-    <xslt in="${jetty-home}/etc/jetty-ssl.xml.original" style="${build-scripts-home}/jetty-ssl.xsl"
-      out="${jetty-home}/etc/jetty-ssl.xml">
-      <param name="jetty-ssl-port" expression="${XRX.jetty.port-ssl}" />
-    </xslt>
+    <antcall target="config-jetty" />
 
     <echo message="parsing exist-webapp-context" />
     <copy file="${jetty-home}/webapps/exist-webapp-context.xml" tofile="${jetty-home}/webapps/exist-webapp-context.xml.original" />
     <xslt in="${jetty-home}/webapps/exist-webapp-context.xml.original" style="${build-scripts-home}/jetty-context.xsl"
       out="${jetty-home}/webapps/exist-webapp-context.xml">
-    </xslt> 
+    </xslt>
     <echo message="# conf.xml" />
     <copy file="${exist-home}/conf.xml" tofile="${exist-home}/conf.xml.original" />
     <xslt in="${exist-home}/conf.xml.original" style="${build-scripts-home}/conf.xsl"
@@ -766,9 +760,22 @@ wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
     <antcall target="compile-xrx-project"/>
 
     <antcall target="stop"/>
-
   </target>
-
+  
+<target name="config-jetty">
+  <echo message="# jetty.xml" />
+  <copy file="${jetty-home}/etc/jetty-http.xml" tofile="${jetty-home}/etc/jetty-http.xml.original" />
+  <xslt in="${jetty-home}/etc/jetty-http.xml.original" style="${build-scripts-home}/jetty.xsl"
+    out="${jetty-home}/etc/jetty-http.xml">
+    <param name="jetty-port" expression="${XRX.jetty.port}" />
+  </xslt>
+  <echo message="parsing jetty ssl" />
+  <copy file="${jetty-home}/etc/jetty-ssl.xml" tofile="${jetty-home}/etc/jetty-ssl.xml.original" />
+  <xslt in="${jetty-home}/etc/jetty-ssl.xml.original" style="${build-scripts-home}/jetty-ssl.xsl"
+    out="${jetty-home}/etc/jetty-ssl.xml">
+    <param name="jetty-port" expression="${XRX.jetty.port-ssl}" />
+  </xslt>
+</target>
 <target name="sleep">
 	<echo message="Wait until eXist has started..."/>
 	<waitfor maxwait="3" maxwaitunit="minute" checkevery="250">
@@ -977,5 +984,42 @@ wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
     <xdb:xquery xmlns:xdb="http://exist-db.org/ant" uri="xmldb:exist://localhost:${XRX.jetty.port}/xmlrpc/db" query="system:as-user('admin', '${XRX.password}', sm:add-group-member('${GROUP-NAME}', '${USERNAME}'))" user="admin" password="${XRX.password}"/>
   </target>
 
+  <target name="check-yajsw">
+    <echo message="-------------------------" />
+    <echo message="copy extended libaries from yajsw source" />
+    <echo message="-------------------------" />
+    <echo message="-------------------------" />
+    <echo message="Download yajsw (http://sourceforge.net/projects/yajsw/files/yajsw/yajsw-stable-12.08/yajsw-stable-12.08.zip/download?use_mirror=netcologne)" />
+    <echo message="-------------------------" />
+    <delete dir="yajsw" failonerror="false"/>
+    <exec executable="wget">
+      <arg line=" --content-disposition http://sourceforge.net/projects/yajsw/files/yajsw/yajsw-stable-12.08/yajsw-stable-12.08.zip/download?use_mirror=netcologne -P tmp/yajsw "/>
+    </exec>
+
+    <unzip src="tmp/yajsw/yajsw-stable-12.08.zip" dest="yajsw"/>
+<!--
+    <move todir="yajsw">
+      <fileset dir="yajsw-stable-12.08"/>
+    </move>-->
+
+    <delete dir="tmp/yajsw"/>
+    <echo message="-------------------------" />
+    <echo message="clear yajsw extended directory" />
+    <echo message="-------------------------" />
+    <delete>
+      <fileset dir="${wrapper-home}/lib/extended">
+        <include name="*"/>
+      </fileset>
+    </delete>
+    <echo message="-------------------------" />
+    <echo message="copy yajsw extended directory" />
+    <echo message="-------------------------" />
+    <move todir="${wrapper-home}/lib/extended" includeEmptyDirs="yes" verbose="true">
+      <fileset dir="yajsw/yajsw-stable-12.08/lib/extended" >
+          <include name="**/*" />
+      </fileset>
+    </move>
+
+  </target>
 
 </project>
