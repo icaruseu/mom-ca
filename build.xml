@@ -730,12 +730,12 @@ wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
 
     </echo>
 
-    <echo message="# web.xml" /><!--
+    <echo message="# web.xml" />
     <copy file="${webinf-home}/web.xml" tofile="${webinf-home}/web.xml.original" />
     <xslt in="${webinf-home}/web.xml.original" style="${build-scripts-home}/web.xsl"
       out="${webinf-home}/web.xml">
       <param name="project-name" expression="${XRX.project-name}" />
-    </xslt> -->
+    </xslt>
 
 
     <!-- install wrapper service -->
@@ -761,7 +761,7 @@ wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
 
     <antcall target="stop"/>
   </target>
-  
+
 <target name="config-jetty">
   <echo message="# jetty.xml" />
   <copy file="${jetty-home}/etc/jetty-http.xml" tofile="${jetty-home}/etc/jetty-http.xml.original" />
