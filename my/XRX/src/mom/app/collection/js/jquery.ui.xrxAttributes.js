@@ -309,7 +309,7 @@
                         var values = Object.keys(currentVocabulary).map(function (key) {
                             return currentVocabulary[key];
                         });
-                        var newOption = $('<option>' + values + '</option>')
+                        var newOption = $('<option>' + values.sort() + '</option>')
                             .addClass(uiSuggestedValueDivsClass).attr("title", values).attr("value", Object.keys(currentVocabulary)).attr("name", name);
                         if (Object.keys(controlledVocabularies[i]) == value) {
                             newOption.attr("selected", "selected");
@@ -339,7 +339,9 @@
                             	 lemmawert = lemma.value;
                              }                       
                   
-                        var sprachwert = $(".xrx-language-for-skos").text();                       
+                        var sprachwert = $(".xrx-language-for-skos").text();
+                        console.log("sprachwert");
+                        console.log(sprachwert);
                         $.ajax({     
                             url: "/mom/service/editMomgetControlledVoc",
                             type:"GET",                            

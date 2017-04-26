@@ -36,7 +36,7 @@ html{{
 }}
 html *, .bf *{{
   font-family:"Trebuchet MS", regular, sans-serif;
-  font-size:16px;
+  font-size:1em;/*16px;*/
 }}
 #main-logo{{
   height:103px;
@@ -80,7 +80,7 @@ body, #formWrapper{{
 */
 .h2, .h2 span{{  
   color:{conf:param('color6')};  
-  font-size:24px;
+  font-size:1.5em;/*24px;*/
   font-weight:bold;
   padding-bottom:1.2em;
 }}
