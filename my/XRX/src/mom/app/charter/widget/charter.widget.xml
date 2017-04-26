@@ -313,7 +313,11 @@ let $vocabular := replace(data($i/@rdf:about), '#', '')
         return $vocabular         
      </xrx:expression>
     </xrx:variable>
-
+    <!--  Sprache für Vokabulare ändern? -->    
+      <xrx:variable>
+        <xrx:name>$wcharter:sprache</xrx:name>
+        <xrx:expression>if($xrx:lang = 'deu') then 'de' else if ($xrx:lang = 'fra') then 'fr' else if ($xrx:lang = 'ita') then 'it' else 'en'</xrx:expression>
+      </xrx:variable>
 
     <!-- XSLT transformation -->
     <xrx:variable>
@@ -326,7 +330,7 @@ let $vocabular := replace(data($i/@rdf:about), '#', '')
       <xrx:expression>
         <parameters>
           <param name="image-base-uri" value="{ $wcharter:image-base-uri }"/>
-          <param name="lang" value="{$xrx:lang}"/>
+          <param name="sprache" value="{$wcharter:sprache}"/>
           <param name="controlledvocabularies" value="{$wcharter:controlledvocabularies}"/>
             {
             let $keys := root($wcharter:xsl)//*[local-name(.) = "stylesheet"]/node()
