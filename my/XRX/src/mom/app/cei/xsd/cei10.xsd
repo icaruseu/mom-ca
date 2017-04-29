@@ -3907,6 +3907,7 @@
             <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
+		    <xs:group ref="Sachauszeichnung"/>
                 </xs:choice>
             </xs:sequence>
             <xs:attributeGroup ref="lang"/>
