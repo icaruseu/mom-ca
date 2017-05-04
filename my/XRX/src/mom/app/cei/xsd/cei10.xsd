@@ -422,12 +422,10 @@
                                                   </xs:annotation>
                                                   </xs:element>
                                                   </xs:sequence>
-                                                  <xs:attribute ref="ref">
-                                                  <xs:annotation>
-                                                  <xs:documentation xml:lang="deu"> Verweis auf eine
-                                                  Textpassage, zu der hier die Quelle angegeben
-                                                  wird. </xs:documentation>
-                                                  </xs:annotation>
+                                                  <xs:attribute name="ref">
+                                                        <xs:annotation>
+                                                            <xs:documentation xml:lang="deu"> Verweis auf eine Textpassage, zu der hier die Quelle angegeben wird. </xs:documentation>
+                                                    </xs:annotation>
                                                   </xs:attribute>
                                                   <xs:attributeGroup ref="standard"/>
                                                   </xs:complexType>
@@ -3907,6 +3905,7 @@
             <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
+		    <xs:group ref="Sachauszeichnung"/>
                 </xs:choice>
             </xs:sequence>
             <xs:attributeGroup ref="lang"/>
@@ -4241,7 +4240,7 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:attribute>
-            <xs:attribute ref="ref"/>
+            <xs:attributeGroup ref="ref"/>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -5517,21 +5516,23 @@
             </xs:annotation>
         </xs:attribute>
     </xs:attributeGroup>
-    <xs:attribute name="ref">
-        <xs:annotation>
-            <xs:appinfo>
-                <xrxe:label>
-                    <xrx:i18n>
-                        <xrx:key>cei_ref</xrx:key>
-                        <xrx:default>reference</xrx:default>
-                    </xrx:i18n>
-                </xrxe:label>
-            </xs:appinfo>
-            <xs:documentation xml:lang="deu">Bezeichner der 
-                Ressource (bevorzugt eine URI), auf der Inhalt eines Textes verweist.</xs:documentation>
-            <xs:documentation xml:lang="en">Reference to a resource (preferable URI) wich is referenced by the content of a text.</xs:documentation>
-        </xs:annotation>
-    </xs:attribute>
+    <xs:attributeGroup name="ref">
+        <xs:attribute name="ref">
+            <xs:annotation>
+                <xs:appinfo>
+                    <xrxe:label>
+                        <xrx:i18n>
+                            <xrx:key>cei_ref</xrx:key>
+                            <xrx:default>reference</xrx:default>
+                        </xrx:i18n>
+                    </xrxe:label>
+                </xs:appinfo>
+                <xs:documentation xml:lang="deu">Bezeichner der 
+                    Ressource (bevorzugt eine URI), auf der Inhalt eines Textes verweist.</xs:documentation>
+                <xs:documentation xml:lang="en">Reference to a resource (preferable URI) wich is referenced by the content of a text.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:attributeGroup>
     <xs:simpleType name="normalizedDateValue">
         <xs:restriction base="xs:string">
             <xs:pattern value="-?[129]?[0-9][0-9][0-9][019][0-9][01239][0-9]"/>
