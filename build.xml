@@ -42,7 +42,7 @@
     eXist
   -->
   <property name="exist-home" value="localhost"/>
-  <property name="exist-file" value="exist-eXist-2.2"/>
+  <property name="exist-file" value="exist-eXist-3.0"/>
   <property name="my-exist" value="my/eXist" />
   <property name="my-exist-extensions-src" value="my/eXist/extensions/modules/src" />
   <property name="my-exist-src" value="my/eXist/src" />
@@ -481,9 +481,15 @@
    <antcall target="install-betterform" />
 
     <!-- compile and deploy -->
+    <antcall target="make-single-context" />
     <antcall target="deploy-my-exist-webapp" />
     <antcall target="prepare-app-server"/>
     <antcall target="clean-up" />
+  </target>
+
+<!-- cleans portal in jetty/webapps -->
+  <target name="make-single-context">
+    <delete dir="${jetty-home}/webapps/portal" />
   </target>
 
   <target name="clean-up">
@@ -495,7 +501,7 @@
     <delete dir="jssaxparser"/>
     <delete dir="betterFORM"/>
     <delete dir="yajsw"/>
-    <!--<delete dir="exist-eXist-3.0"/>-->
+    <delete dir="exist-eXist-3.0"/>
 </target>
   <target name="deploy-my-exist-webapp">
     <copy todir="${exist-home}/webapp" overwrite="true">
@@ -617,7 +623,7 @@
 
   <target name="setpassword" depends="exist-classpath">
     <xdb:xquery xmlns:xdb="http://exist-db.org/ant"
-      uri="xmldb:exist://localhost:${XRX.jetty.port}/xmlrpc/db"
+      uri="${xrx-base-xmldb-uri}"
       query="system:as-user('admin', '', xmldb:change-user('admin', '${XRX.password}', 'dba', '/db'))"
       user="guest"
       password="guest"
@@ -635,7 +641,7 @@
     <echo message="Deploying XRX Project ${XRX.project-name}" />
     <echo message="-------------------------" />
     <xdb:store xmlns:xdb="http://exist-db.org/ant"
-      uri="xmldb:exist://localhost:${XRX.jetty.port}/xmlrpc/db/system/config"
+      uri="${xrx-base-xmldb-uri}/system/config"
       createsubcollections="true" createcollection="true"
       user="admin"
       password="${XRX.password}"
@@ -981,7 +987,7 @@ wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
     <echo message="Adding user ${USERNAME} to group ${GROUP-NAME}"/>
     <echo message="-------------------------"/>
 
-    <xdb:xquery xmlns:xdb="http://exist-db.org/ant" uri="xmldb:exist://localhost:${XRX.jetty.port}/xmlrpc/db" query="system:as-user('admin', '${XRX.password}', sm:add-group-member('${GROUP-NAME}', '${USERNAME}'))" user="admin" password="${XRX.password}"/>
+    <xdb:xquery xmlns:xdb="http://exist-db.org/ant" uri="${xrx-base-xmldb-uri}" query="system:as-user('admin', '${XRX.password}', sm:add-group-member('${GROUP-NAME}', '${USERNAME}'))" user="admin" password="${XRX.password}"/>
   </target>
 
   <target name="check-yajsw">
