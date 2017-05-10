@@ -436,7 +436,6 @@
    -->
   <target name="install"
     description="Installs the XRX Application Server">
-
     <echo message="-------------------------" />
     <echo message="Installing XRX Application Server" />
     <echo message="-------------------------" />
@@ -446,18 +445,18 @@
     <!--<delete dir="${exist-home}" failonerror="false"/>-->
     <mkdir dir="tmp"/>
 
-    <!-- download and unzip eXist -->
+    <!-- download and unzip eXist --><!--
  <exec executable="git">
-      <arg line=" clone https://github.com/StephanMa/exist exist-eXist-3.0 -b develop --single-branch --depth 1"/>
-    </exec>
- <!--
-   <get src="https://github.com/eXist-db/exist/archive/eXist-3.0.RC1.zip" dest="tmp/eXist.zip"/>
+      <arg line=" clone https://github.com/eXIst-db/exist exist-eXist-3.0 -b master -single-branch"/>
+    </exec> -->
+ 
+   <get src="https://github.com/eXist-db/exist/archive/eXist-3.2.0.zip" dest="tmp/eXist.zip"/>
     <exec executable="unzip">
       <arg line="tmp/eXist.zip -d ."/>
-    </exec> -->
+    </exec> 
 
     <move todir="localhost">
-      <fileset dir="exist-eXist-3.0"/>
+      <fileset dir="exist-eXist-3.2.0"/>
     </move>
 
     <!-- bugfix for eXist-2.0 -->
