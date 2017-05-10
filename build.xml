@@ -29,7 +29,8 @@
   <!--
     jssaxparser
    -->
-  <property name="jssaxparser-home" value="jssaxparser/jsXmlSxParser-master/jssaxparser"/>
+  <property name="jssaxparser-home" value="jssaxparser/jsXmlSaxParser-master/jssaxparser/"/>
+
   <property name="my-jssaxparser-src" value="my/XRX/res/jssaxparser"/>
 
   <!--
@@ -445,12 +446,10 @@
     <!--<delete dir="${exist-home}" failonerror="false"/>-->
     <mkdir dir="tmp"/>
 
-    <!-- download and unzip eXist --><!--
- <exec executable="git">
-      <arg line=" clone https://github.com/eXIst-db/exist exist-eXist-3.0 -b master -single-branch"/>
-    </exec> -->
- 
-   <get src="https://github.com/eXist-db/exist/archive/eXist-3.2.0.zip" dest="tmp/eXist.zip"/>
+    
+    <!-- download and unzip eXist -->
+    <get src="https://codeload.github.com/eXist-db/exist/zip/eXist-2.0.x" dest="tmp/eXist.zip"/>
+
     <exec executable="unzip">
       <arg line="tmp/eXist.zip -d ."/>
     </exec> 
@@ -528,11 +527,11 @@
     <replace file="${exist-home}/extensions/build.properties">
       <replacefilter token="include.module.xslfo = false"
         value="include.module.xslfo = true" />
-      <replacefilter token="include.module.xslfo.url = http://apache.cs.uu.nl/dist/xmlgraphics/fop/binaries/fop-1.1-bin.zip" value="include.module.xslfo.url = https://archive.apache.org/dist/xmlgraphics/fop/binaries/fop-1.1-bin.zip"/>
+      <replacefilter token="include.module.xslfo.url = http://apache.cs.uu.nl/dist/xmlgraphics/fop/binaries/fop-1.1-bin.zip" value="include.module.xslfo.url = http://mirror.ox.ac.uk/sites/rsync.apache.org/xmlgraphics/fop/binaries/fop-2.1-bin.zip"/>
       <replacefilter token="include.module.cache = false"
        value="include.module.cache = true" />
       <replacefilter token="http://apache.cs.uu.nl/dist/xmlgraphics/fop/binaries/fop-1.1-bin.zip"
-       value="http://apache.cs.uu.nl/xmlgraphics/fop/binaries/fop-1.1-bin.zip"/>
+       value="http://mirror.ox.ac.uk/sites/rsync.apache.org/xmlgraphics/fop/binaries/fop-2.1-bin.zip"/>
     </replace>
     <copy todir="${jetty-home}/tmp" overwrite="true">
       <fileset dir="${my-exist-jetty}/tmp">

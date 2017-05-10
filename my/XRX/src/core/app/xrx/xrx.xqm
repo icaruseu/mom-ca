@@ -72,7 +72,7 @@ declare variable $xrx:db-base-collection :=
 (:
     ##################
     #
-    # Pointers for the actual
+    # Pointers for the current
     # xrx object(s)
     #
     ##################    
@@ -221,7 +221,7 @@ declare variable $xrx:user-xml :=
 (: only for internal usage :)
 declare variable $xrx:lang-as-string := 
     xs:string(session:get-attribute('lang'));
-(: the actual language as xs:string :)
+(: the current language as xs:string :)
 
 declare variable $xrx:session-id := 
     xs:string(session:get-id());
@@ -233,7 +233,7 @@ declare variable $xrx:lang :=
     else if($xrx:_platform-lang-key != '') then $xrx:_platform-lang-key
     
     else conf:param('default-lang');
-(: set the actual language as session attribute :)
+(: set the current language as session attribute :)
 
 declare variable $xrx:_create-session := 
     if(not(session:exists())) then

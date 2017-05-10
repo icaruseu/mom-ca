@@ -96,7 +96,7 @@ declare function charter:object-uri-tokens($atomid as xs:string) as xs:string* {
 
 (: 
     returns the arch ID of a charter's Atom ID by 
-    overloading the Atom ID and the Atom tag name 
+    handing over the Atom ID and the Atom tag name 
 :)
 declare function charter:context($atomid as xs:string, $atom-tag-name as xs:string) as xs:string {
 
@@ -117,7 +117,7 @@ declare function charter:context($atomid as xs:string) as xs:string {
 
 (: 
     returns the arch ID of a charter's Atom ID by 
-    overloading the Atom ID and the Atom tag name 
+    handing over the Atom ID and the Atom tag name 
 :)
 declare function charter:archid($atomid as xs:string, $atom-tag-name as xs:string) as xs:string* {
 
@@ -137,7 +137,7 @@ declare function charter:archid($atomid as xs:string) as xs:string {
 
 (: 
     returns the fond ID of a charter's Atom ID by 
-    overloading the Atom ID and the Atom tag name 
+    handing over the Atom ID and the Atom tag name 
 :)
 declare function charter:fondid($atomid as xs:string, $atom-tag-name as xs:string) as xs:string {
 
@@ -157,7 +157,7 @@ declare function charter:fondid($atomid as xs:string) as xs:string {
 
 (: 
     returns the collection ID of a charter's Atom ID by 
-    overloading the Atom ID and the Atom tag name 
+    handing over the Atom ID and the Atom tag name 
 :)
 declare function charter:collectionid($atomid as xs:string, $atom-tag-name as xs:string) as xs:string {
 
@@ -177,7 +177,7 @@ declare function charter:collectionid($atomid as xs:string) as xs:string {
 
 (: 
     returns the charter ID of a charter's Atom ID by 
-    overloading the Atom ID and the Atom tag name 
+    handing over the Atom ID and the Atom tag name 
 :)
 declare function charter:charterid($atomid as xs:string, $atom-tag-name as xs:string) as xs:string {
 
@@ -369,7 +369,7 @@ declare function charter:anchor($charter-pos as xs:integer*) as xs:integer* {
 (:
     helper function for charter import
     returns a sequence of cei:idno elements,
-    sorted, by overloading a cei document
+    sorted, by handing over a cei document
     or a database collection
 :)
 declare function charter:ordered-idnos($cei) {

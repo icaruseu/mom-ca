@@ -56,10 +56,10 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
           let $content           := $searched-tag/descendant::text()
           let $searched-tag-name := node-name($searched-tag)
           let $desc              := $charter-file//cei:zone[@id = $annotation:zone-id]/cei:desc/text()
-          let $url               := if($annotation:scope="private")then
+          let $url               := (: if($annotation:scope="private")then
                                       concat(conf:param('request-root'), 'charter/', $annotation:charter, '/edit')
-                                    else
-                                      concat(conf:param('request-root'), $collection, '/', $annotation:charter, '/charter')
+                                    else :)
+                                      concat(conf:param('request-root'), $collection, '/', $annotation:charter, '/edit')
           return                      
             <response>
               <relationStatus>{ xs:string("ok") }</relationStatus>

@@ -134,9 +134,8 @@ it leaves the active development stage.
     <style type="text/css">
     
 #dcharter-preview-main{{
-	position:relative;
 	float:left;
-	width:800px;
+	width:800px;	
 }}
 
 #dcharter-preview-main .charter *{{

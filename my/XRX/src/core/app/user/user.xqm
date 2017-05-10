@@ -87,7 +87,7 @@ declare function user:update($user-xml as element(xrx:user)) {
     atom:POST($user:feed, user:entry-name($userid), $user-xml)
 };
 
-(: returns a user document by overloading a email address :)
+(: returns a user document by handing over a email address :)
 declare function user:document($email as xs:string*) as node()* {
 
     root($user:db-base-collection//xrx:email[.=$email])
@@ -118,7 +118,7 @@ declare function user:home-collection($email as xs:string) as node()* {
     collection(user:home-collection-path($email))
 };
 
-(: returns the user name (firstname name) by overloading a email address :)
+(: returns the user name (firstname name) by handing over a email address :)
 declare function user:firstname-name($email as xs:string*) as xs:string* {
 
     let $doc := user:document($email)

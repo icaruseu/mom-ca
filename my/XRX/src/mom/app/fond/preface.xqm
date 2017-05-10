@@ -103,9 +103,7 @@ declare function preface:link-menu($preface-items, $intros){
                  </a>
                </li>
             }                            
-            </ol>    
- 	      <br/>
-          <br/>
+            </ol>  	 
  		</div>
         
      else 
@@ -162,9 +160,7 @@ declare function preface:content-item($preface-item, $preface-items){
                      return
                         transform:transform($preface-item-content, $preface:xsl, $preface:params)
                  }
-                
-                 <br/>                             
-                 <br/>
+
             </span>
 };
 

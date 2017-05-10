@@ -1,0 +1,102 @@
+<xrx:css xmlns:xrx="http://www.monasterium.net/NS/xrx" 
+  xmlns="http://www.w3.org/1999/xhtml">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/css/glossarLOOK</xrx:id>
+  <xrx:author></xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:style>
+
+
+body {{
+    
+    font-family:"Trebuchet MS", regular, sans-serif;
+}}
+div.xrx-widget {{
+    width:55%;
+    margin-left:auto;
+    margin-right:auto;
+}}
+
+
+
+#illum {{
+  margin-right:10%;
+}}
+
+
+#header{{
+  width: 40%;
+  float:left;
+  margin-left:68px;
+ 
+}}
+#momlogo {{ 
+  width:30%;
+  top:0px;
+  right:0;
+  position:absolute;
+  text-align:right;
+    
+}}
+#mom {{
+  margin-right:-15px;
+}}
+#illumlogo{{
+  float:left;
+  margin-top:2%;
+}}
+div.index{{
+  width:350px;
+  float:left;
+  text-align:left;
+  
+}}
+div.index ul {{
+  padding-left:10px;
+
+}}
+
+li {{
+  padding-bottom: .5em;
+}}
+
+
+img {{ width:60%;        
+}}
+
+a {{
+    color:#72856C;
+}}
+a:hover {{
+  color:#282828;
+}}
+div.text {{
+  margin-left:350px;
+  }}
+
+div.text ul {{
+  list-style-type:square;
+}}
+
+  </xrx:style>
+</xrx:css>

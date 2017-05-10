@@ -112,12 +112,12 @@ $.widget( "ui.charterItems", {
     itemsDiv.append(toolbarDiv)
         //.append(itemDivPreface)
         .append(table);
-    
-    // compose DIVs for charters
+    var coll = "graz";
+    // compose DIVs for charters   
     $.ajax({
-      url: self._serviceUrl(serviceMyCollectionItems),
+      url: self._serviceUrl(serviceMyCollectionItems),      
       dataType: 'json',
-      data: { mycollection: atomid },
+      data: { mycollection : atomid },
       success: function(data, textStatus, jqXHR) { 
         var length = 0;
         $.each(data, function(key, value) { 
@@ -168,11 +168,12 @@ $.widget( "ui.charterItems", {
 	            .text("Default Editor") )
                 
               ).append(
-                  $('<a></a>').attr("href", requestRoot + "charter/" + key + "/illurk").attr("target", "_blank").append(
+                  $('<a></a>').attr("href", requestRoot + url + "/edit?mode=illurk").attr("target", "_blank").append(
                       $('<button></button>').text("Illurk Editor")
                       )
               );
-          
+          console.log('Das ist ein ajax test');
+          console.log(self._serviceUrl(serviceMyCollectionItems));
           var itemLinkDisplay = $('<div></div>')
               .addClass("forms-table-cell");
           if (versionOfTitle !== '') {
@@ -242,7 +243,7 @@ $.widget( "ui.charterItems", {
     // replace the initial DIV
     myCollectionItemsDiv.replaceWith(itemsDiv);  
   }
-
 });
+
   
 })( jQuery );

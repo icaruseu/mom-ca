@@ -63,7 +63,7 @@ declare function metadata:entry($base-collection-path as xs:string,
 
 
 
-(: compose a entry name by overloading a object type and a single URI token :)
+(: compose an entry name by handing over a object type and a single URI token :)
 declare function metadata:entryname($object-type as xs:string, $objectid as xs:string) as xs:string {
 
     xmldb:encode(
@@ -105,7 +105,7 @@ declare function metadata:object-type($atomid as xs:string) as xs:string {
 
     data:object-type($atomid, $metadata:datatype)
 };
-(: compose a Atom ID by overloading a object type and URI tokens :)
+(: compose an Atom ID by handing over an object type and URI tokens :)
 declare function metadata:atomid($object-type as xs:string, 
                                  $object-uri-tokens as xs:string*) as xs:string {
     

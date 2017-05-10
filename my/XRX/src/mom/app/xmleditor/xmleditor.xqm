@@ -146,7 +146,7 @@ declare function xmleditor:json-attr-values($xrx-schemaV as element(xrx:xsd)) {
     )
 };:)
 
-declare function xmleditor:validation-report-message($message as xs:string) as xs:string {
+declare function xmleditor:validation-report-message($message as xs:string) as xs:string* {
 
     assertion:translate($message)
 };
@@ -178,8 +178,16 @@ declare function xmleditor:validation-report($instance as element()) {
                     return
                     xmleditor:json-pair(
                         xmleditor:json-string($nodeId),
-                        xmleditor:json-string($text)
+                        xmleditor:json-array(
+                                for $entry in $text
+                                    let $returner := $entry
+                                    return
+                                    xmleditor:json-string($returner)
+                                
+                        )
                     )
+
+                    
                 )
             )
         else()
