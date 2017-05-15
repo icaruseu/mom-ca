@@ -126,6 +126,7 @@ ul.navi {{
     margin-top: -0.3%;
     padding:0 2px;
     list-style-type:none;  
+
 }}
 
 
@@ -161,9 +162,7 @@ form span {{
     width:15%;
 }}
 
-.menu-item {{
-    text-align:center;
-}}*/
+
       </style>
     </xrx:csss>
     <xrx:jss>
@@ -312,6 +311,7 @@ form span {{
                                 </xrx:i18n>
                             </a>
                         </div>
+
                         <div class="menu-item navi" data-demoid="82f277c2-4292-4a81-93b2-bb2cc0e7aefa">
                           <ul class="navi"><li>
                             <a href="{ conf:param('request-root') }search">
@@ -426,8 +426,8 @@ form span {{
   <script type="text/javascript">
  $( document ).ready(function() {{
     console.log( "ready!" );
-  $(".navi").hover(function(){{     
-        $("li.facet").css("display", "inline");
+  $(".navi").hover(function(){{   
+     $("li.facet").css("display", "inline");
   }}, function(){{
       $("li.facet").css("display", "none");
   }});    
