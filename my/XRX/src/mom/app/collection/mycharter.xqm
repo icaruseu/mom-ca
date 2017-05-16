@@ -45,10 +45,10 @@ declare function mycharter:is-shared-with($entry as element(atom:entry), $userid
     let $collection-name-charter-shared := replace($collection-name-charter, 'charter', 'charter.share')
     let $document-name-charter-shared := replace($document-name-charter, 'charter', 'charter.share')
     let $document-share := doc(concat($collection-name-charter-shared, '/', $document-name-charter-shared))
-    let $log := util:log('error', $document-share)
     return
     count($document-share//xrx:userid[.=$userid]) gt 0
 };
+
 
 
 
@@ -74,6 +74,7 @@ declare function mycharter:share($base-collection-path as xs:string, $entryname 
         else if(not($document-exists)) then
             let $data := 
                 <xrx:share>
+                  <xrx:userid type="owner">{$xrx:user-id}</xrx:userid>
                   <xrx:userid>{ $userid }</xrx:userid>
                 </xrx:share>
             let $post := 

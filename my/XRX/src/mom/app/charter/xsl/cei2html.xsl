@@ -247,7 +247,6 @@
         <xsl:choose>
             <xsl:when test="count($cei//cei:abstract//cei:hi) > 0">
                 <div class="note">
-                    <div class="line">x</div>
                     <xsl:call-template name="abstractnotes"/>
                 </div>
             </xsl:when>
@@ -680,9 +679,6 @@
             </xsl:choose>
             <xsl:apply-templates/>
         </xsl:element>
-    </xsl:template>
-    <xsl:template match="cei:ref[@type = 'bibliography']">
-        <xsl:apply-templates/>
     </xsl:template>
     <xsl:template match="cei:persName">
     <xsl:variable name="i18n">
