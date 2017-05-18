@@ -115,6 +115,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 #dregister-link, #dlogin-link{{
   position:relative;
   float:right;
+  padding:2px;
 }}
 
 ul.navi {{
@@ -143,33 +144,46 @@ li.facet {{
             float:right;
             padding-right:5px
 }}
+form {{
+      padding-left:1em;
+}}
 
 form span {{
         font-size:0.8em;
+        display:block;
+        margin-left:2%;
 
 }}
-/*.extras {{
-      width:40%;
-}}*/
+
 .menu {{
-      /*width:60%;*/
+     
       margin:0 !important;
 }}
 .inner-menu {{
       width:100%;
 }}
-/*.menu-item {{
-    width:15%;
-}}
 
-*/
+ #navigation {{
+   postion:absolute;
+   height:4em;
+   
+   }}
       </style>
     </xrx:csss>
     <xrx:jss>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>      
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/resizable</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/selectable</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/droppable</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/menu</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/accordion</xrx:resource>
     </xrx:jss>
     <xrx:model>
      {
@@ -312,7 +326,7 @@ form span {{
                             </a>
                         </div>
 
-                        <div class="menu-item navi" data-demoid="82f277c2-4292-4a81-93b2-bb2cc0e7aefa">
+                        <div  id="navigation" class="menu-item" data-demoid="82f277c2-4292-4a81-93b2-bb2cc0e7aefa">
                           <ul class="navi"><li>
                             <a href="{ conf:param('request-root') }search">
                                 <xrx:i18n>
@@ -388,7 +402,7 @@ form span {{
                                         <xrx:key>choose-a-language</xrx:key>
                                         <xrx:default>Choose a Language</xrx:default>
                                     </xrx:i18n>
-                                    <span>: </span>
+                                   <!--  <span>: </span>-->
                                 </span>
                                 <select name="_lang" onchange="this.langselect-form.submit();">
                   {
@@ -425,12 +439,16 @@ form span {{
                     
   <script type="text/javascript">
  $( document ).ready(function() {{
-    console.log( "ready!" );
-  $(".navi").hover(function(){{   
-     $("li.facet").css("display", "inline");
-  }}, function(){{
-      $("li.facet").css("display", "none");
-  }});    
+    console.log( "ready!" );    
+ 
+    $("#navigation").mouseenter(function(){{      
+        $("li.facet").show();        
+    }});
+    
+    $("#navigation").mouseleave(function(){{
+        $("li.facet").hide();       
+    }});
+ 
  
 }});
 </script>
