@@ -144,10 +144,15 @@ li.facet {{
 #lang-select-form {{
      text-align:right;
 }}
+form {{
+      padding-left:1em;
+}}
+
 
 form span.lang {{
         font-size:0.8em;       
         margin-right:2%;
+
 
 }}
 
