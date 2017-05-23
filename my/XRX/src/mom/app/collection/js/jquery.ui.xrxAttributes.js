@@ -351,7 +351,8 @@
                             {                     
                      var auswahl = {};
                  
-                     if (indexnamewert == 'IllUrkGlossar'){
+                     if (indexnamewert == 'IllUrkGlossar'){ 
+                    	 //Ausnahme für IllurkGlossar weil es noch nicht hierarchisch aufgebaut ist.
                     
                     	   for (var i in data){                            		
                        		var valeur = data[i];                            		
@@ -369,36 +370,33 @@
                      var data2 = data[Object.keys(data)];
                      var key3 = data[Object.keys(data)];                                         
                      console.log(data2); //Das ist Obj mit ARRAYS                    
-                     for (var n in data2){
-                    	 var keys2 = n;
+                     for (var keys2 in data2){                    	
                     	 var values2 = data2[keys2];//sind array-keys
-                    	 var named = data2[n][0];//das bleibt immer gleich, weil zuerst die Superkonzepte mit Array                       
-                    	 console.log ("der name:" + named + "und key" + n);
+                    	 var named = data2[keys2][0];//das bleibt immer gleich, weil zuerst die Superkonzepte mit Array                       
+                    	 console.log ("der name:" + named + "und key" + keys2);
                     	 //das Objekt wird mit Superkonzepten gefüllt
-                    	 auswahl[n] = named;
-                     var data3 = data2[n][1];
+                    	 auswahl[keys2] = named;
+                     var data3 = data2[keys2][1];
                      if (data3 == undefined){
                     	 
                      }
                      else{                  
-                     for (var m in data3){
-                    	 var key = m;
+                     for (var key in data3){                    	 
                     	 var values = data3[key];                    
-                    	 if (typeof data3[m] == 'string'){
-                    		 var sortedID = n.concat("+", key);                    	 
+                    	 if (typeof data3[key] == 'string'){
+                    		 var sortedID = keys2.concat("+", key);                    	 
                         	 auswahl[sortedID] = values;
                         	  
                     	 }
                     	 else                     	 
                     	{
-                    		 var data4 = data3[m];                     		 
+                    		 var data4 = data3[key];                     		 
                     		 for (var o in data4){
                     			 if (typeof data4[o] != 'string'){                    			
                     				 var data5 = data4[o];
-                    				 for (p in data5){
-                    					 var key = p;
+                    				 for (p in data5){                    					
                     					 var values = data5[p];
-                    					 var sortedID = n.concat("+", key);
+                    					 var sortedID = keys2.concat("+", p);
                     				 }
                     					 
                     			 }
@@ -406,7 +404,7 @@
                     		
                     			 var key = o;
                     			 var values = data4[o];
-                    			 var sortedID = n.concat("+", key);
+                    			 var sortedID = keys2.concat("+", key);
                     			 auswahl[sortedID] = values;}
                     		 }
                     		

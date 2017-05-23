@@ -26,7 +26,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <xrx:init>
     <xrx:processor>
       <xrx:xformsflag>false</xrx:xformsflag>
-      <xrx:jqueryflag>true</xrx:jqueryflag>
+     <!--  <xrx:jqueryflag>false</xrx:jqueryflag> -->
     </xrx:processor>
   </xrx:init>
   <xrx:csss>
@@ -171,8 +171,8 @@ form span.lang {{
    }}
       </style>
     </xrx:csss>
-    <xrx:jss>
-        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+  <!-- <xrx:jss>
+         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>      
@@ -184,8 +184,8 @@ form span.lang {{
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/droppable</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/menu</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/accordion</xrx:resource>
-    </xrx:jss>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/accordion</xrx:resource> 
+    </xrx:jss>-->
     <xrx:model>
      {
       if($xrx:xformsflag) then

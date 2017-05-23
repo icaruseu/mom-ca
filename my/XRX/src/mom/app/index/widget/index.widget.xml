@@ -586,7 +586,7 @@ div.filterbox {{
   </xrx:csss>
     <xrx:jss> 
 
-     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/index</xrx:resource>     
+    <!--  <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/index</xrx:resource>      -->
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
