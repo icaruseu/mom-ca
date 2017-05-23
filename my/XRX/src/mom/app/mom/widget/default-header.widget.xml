@@ -22,16 +22,24 @@ You should have received a copy of the GNU General Public License
 along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 
 We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
-	</xrx:licence>
+  </xrx:licence>
+    <xrx:init>
+    <xrx:processor>
+      <xrx:xformsflag>false</xrx:xformsflag>
+     <!--  <xrx:jqueryflag>false</xrx:jqueryflag> -->
+    </xrx:processor>
+  </xrx:init>
   <xrx:csss>
+ <!--  <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/css/layout</xrx:resource> -->
+  
     <style type="text/css">
 
 #header{{
-	position:relative;
-	float:left;
-	width:100%;
-	margin:0px;
-	padding:0px;
+  position:relative;
+  float:left;
+  width:100%;
+  margin:0px;
+  padding:0px;
 }}
 
 /*
@@ -39,11 +47,11 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 *   Menu
 */
 #header .menu{{
-	position:relative;
-	float:left;
-	margin:0px;
-	padding:0px;
-	margin-left:15px;
+  position:relative;
+  float:left;
+  margin:0px;
+  padding-left:10px;
+  /*margin-left:15px;*/
 }}
 
 #header .inner-menu{{
@@ -55,28 +63,27 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   position:relative;
   float:left;
   margin:0px;
-  margin-right:7px;
   padding:0px;
 }}
 
 #header .menu-item *{{
-  text-decoration:none;
-	font-size:1.1em;
-	font-weight:bold;
+  text-decoration:none; 
+  font-weight:bold;
 }}
 
 #header .menu-item a{{
-  margin-right:8px;
+  margin-right:0.5em;
+  font-size:1.1em;
 }}
 
 #header .menu-item a:link{{
-	color:{conf:param('color3')};
+  color:{conf:param('color3')};
 }}
 
 #header .menu-item a:hover{{
   cursor:pointer;
-	color:{conf:param('color6')};
-	text-decoration:none;
+  color:{conf:param('color6')};
+  text-decoration:none;
 }}
 
 #header .stuff{{
@@ -91,6 +98,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   right:10px;
   margin:0px;
   padding:3px 0 0 0;
+  width:30%;
 }}
 
 #logged-in-info{{
@@ -107,11 +115,77 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 
 #dregister-link, #dlogin-link{{
   position:relative;
-  float:left;
+  float:right;
+  padding:2px;
 }}
 
+
+ul.navi {{
+    background:none !important;
+  
+}}
+ul.navi {{
+   
+    margin-top: -0.3%;
+    padding:0 2px;
+    list-style-type:none;  
+
+}}
+
+
+li.facet {{
+          position:absolute;
+          width: 150px;
+          box-shadow: 3px 3px 5px #888888;
+          padding-top: 0.5em;
+}}
+
+
+#lang-select-form {{
+     text-align:right;
+}}
+form {{
+      padding-left:1em;
+}}
+
+
+form span.lang {{
+        font-size:0.8em;       
+        margin-right:2%;
+
+
+}}
+
+.menu {{
+     
+      margin:0 !important;
+}}
+.inner-menu {{
+      width:100%;
+}}
+
+ #navigation {{
+   postion:absolute;
+   height:4em;
+   
+   }}
       </style>
     </xrx:csss>
+  <!-- <xrx:jss>
+         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>      
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/resizable</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/selectable</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/droppable</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/menu</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/accordion</xrx:resource> 
+    </xrx:jss>-->
     <xrx:model>
      {
       if($xrx:xformsflag) then
@@ -128,8 +202,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
      }
     </xrx:model>
     <xrx:view>
-	{
-	  let $register-link-div := 
+  {
+    let $register-link-div := 
     <div data-demoid="e5abcd35-6337-4892-a86d-9e39ad42eb6f" id="dregister-link">
             <xrx:auth>
                 <xrx:rules>
@@ -149,12 +223,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                                 <xrx:default>Register</xrx:default>
                             </xrx:i18n>
                         </a>
-                        <span> </span>
-                    </div>
+                        <span> </span>
+                  </div>
                 </xrx:false>
             </xrx:auth>
-            <span> </span>
-        </div>
+           <!--  <span> </span>-->
+         </div>
     let $login-link-div :=
     <div data-demoid="bf251b73-1f3f-41bc-8f4f-4c2fba4463a5" id="dlogin-link">
      {
@@ -174,8 +248,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                                 <xrx:i18n>
                                     <xrx:key>logout</xrx:key>
                                     <xrx:default>Logout</xrx:default>
-                                </xrx:i18n>
+                                </xrx:i18n>                                
                             </a>
+                            <span> </span>
                         </span>
                     </xrx:true>
                     <xrx:false>
@@ -186,19 +261,19 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                                     <xrx:default>Login</xrx:default>
                                 </xrx:i18n>
                             </a>
-                            <span> </span>
+                            <span> </span>
                         </span>
                     </xrx:false>
                 </xrx:auth>
             </span>
      }
-     <span> </span>
+     <span> </span>
         </div>  
     return
-		<div data-demoid="0260507f-0cf8-4426-bc8f-d9cbf1191ebf" id="header">
+    <div data-demoid="0260507f-0cf8-4426-bc8f-d9cbf1191ebf" id="header">
             <div data-demoid="7ac5a0f7-19b6-496e-ba61-b95f8a19ff08" id="main-logo">
                 <a href="{ conf:param('request-root') }home">
-	                <xrx:resource alt="Monasterium Logo" type="image/jpg">tag:www.monasterium.net,2011:/mom/resource/image/mom-logo</xrx:resource>
+                  <xrx:resource alt="Monasterium Logo" type="image/jpg">tag:www.monasterium.net,2011:/mom/resource/image/mom-logo</xrx:resource>
                 </a>
             </div>
             <xrx:auth>
@@ -215,7 +290,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                                 <xrx:key>logged-in-as</xrx:key>
                                 <xrx:default>Logged in as</xrx:default>
                             </xrx:i18n>
-                            <span>: </span>
+                            <span>: </span>
                         </span>
                         <a href="{ conf:param('request-root') }my-account">{ user:firstname-name($xrx:user-id) }</a>
                     </div>
@@ -251,14 +326,27 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                                 </xrx:i18n>
                             </a>
                         </div>
-                        <div class="menu-item" data-demoid="82f277c2-4292-4a81-93b2-bb2cc0e7aefa">
+
+                        <div  id="navigation" class="menu-item" data-demoid="82f277c2-4292-4a81-93b2-bb2cc0e7aefa">
+                          <ul class="navi"><li>
                             <a href="{ conf:param('request-root') }search">
                                 <xrx:i18n>
                                     <xrx:key>search</xrx:key>
                                     <xrx:default>Search</xrx:default>
                                 </xrx:i18n>
+                            </a></li>
+                            <li style="display:none;" class="facet"><a href="{ conf:param('request-root') }index">
+                            <xrx:i18n>
+                            <xrx:key>index</xrx:key>
+                            <xrx:default>Index search</xrx:default>
+                            </xrx:i18n>                            
                             </a>
+                            </li>                           
+                           
+                           </ul>                          
                         </div>
+                                         
+                     
                         <div class="menu-item" data-demoid="047d9574-6371-46a1-b51e-657fbebb2bf3">
                             <a href="{ conf:param('request-root') }help">
                                 <xrx:i18n>
@@ -283,10 +371,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             {
             if($xrx:xformsflag) then
             <div data-demoid="56201e27-24eb-4da5-bfee-3f14cacd4199" id="lang-select-form">
+              
                             <xf:group model="mdefault-header">
-	              { $login-link-div }
-	              { $register-link-div }
-	              <span>
+               { $login-link-div }
+                { $register-link-div }
+                <div style="clear:both;"/>
+                   <span class="lang">
                                     <xrx:i18n>
                                         <xrx:key>choose-a-language</xrx:key>
                                         <xrx:default>Choose a Language</xrx:default>
@@ -303,43 +393,46 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                                         </xf:load>
                                     </xf:action>
                                 </xf:select1>
+              
                             </xf:group>
                         </div>
             else
             <div data-demoid="dc721b5b-a0ad-4ac0-a381-d3cab4a492b3" id="lang-select-form">
-              { $login-link-div }
+                { $login-link-div }
               { $register-link-div }
-	            <form method="get" name="langselect-form">
-                                <span>
+              <div style="clear:both;"/>
+              <form method="get" name="langselect-form">
+                                <span class="lang">
                                     <xrx:i18n>
                                         <xrx:key>choose-a-language</xrx:key>
                                         <xrx:default>Choose a Language</xrx:default>
                                     </xrx:i18n>
-                                    <span>: </span>
+                                   <!--  <span>: </span>-->
                                 </span>
                                 <select name="_lang" onchange="this.langselect-form.submit();">
-	                {
-	                for $language in conf:param('languages')//xrx:lang
-	                let $lang-name := data($language/@name)
-	                let $lang-key := $language/@key/string()
-	                return
-	                element option
-	                {
-	                attribute value { $lang-key },
-	                if($lang-key = xs:string($xrx:lang)) then attribute selected {'selected'} else
-	                (),
-	                text { $lang-name }
-	                }
-	                }
-	             </select>
-	              {
-	              for $param in request:get-parameter-names()
-	              return
-	              if(not(starts-with($param, '_'))) then
-	              <input name="{ $param }" type="hidden" value="{ request:get-parameter($param, ()) }"/>
-	              else()
-	              }
-	            </form>
+                  {
+                  for $language in conf:param('languages')//xrx:lang
+                  let $lang-name := data($language/@name)
+                  let $lang-key := $language/@key/string()
+                  return
+                  element option
+                  {
+                  attribute value { $lang-key },
+                  if($lang-key = xs:string($xrx:lang)) then attribute selected {'selected'} else
+                  (),
+                  text { $lang-name }
+                  }
+                  }
+               </select>
+                {
+                for $param in request:get-parameter-names()
+                return
+                if(not(starts-with($param, '_'))) then
+                <input name="{ $param }" type="hidden" value="{ request:get-parameter($param, ()) }"/>
+                else()
+                }
+              </form>
+            
                         </div>
             }
           </div>
@@ -347,5 +440,21 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             </div>
         </div>
   }
-	</xrx:view>
+                    
+  <script type="text/javascript">
+ $( document ).ready(function() {{
+    console.log( "ready!" );    
+ 
+    $("#navigation").mouseenter(function(){{      
+        $("li.facet").show();        
+    }});
+    
+    $("#navigation").mouseleave(function(){{
+        $("li.facet").hide();       
+    }});
+ 
+ 
+}});
+</script>
+  </xrx:view>
 </xrx:widget>
