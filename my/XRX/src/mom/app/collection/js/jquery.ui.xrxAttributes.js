@@ -56,7 +56,7 @@
            // var reihe = $("div", "."+ uiEditAttributesDivClass).find("[title='" + gewissesAttr + "']");
              if ($("div", "."+ uiEditAttributesDivClass).find("[title='" + gewissesAttr + "']")) {
             	 var meinort = $("div", "."+ uiEditAttributesDivClass).find("[title='" + gewissesAttr + "']");
-            	 console.log(meinort);
+            	
             	 var row = $(meinort).closest("div.forms-table-row"); //,"." + uiEditAttributesDivClass
             	 
              }        
@@ -93,8 +93,7 @@
                 var proof = proofdiv[i].previousSibling.data;
                 if (spantexte.indexOf(proof) == -1) {                       
                     var enable = $("div:contains('" + proof + "')", "." + uiSuggestedAttributesDivClass).removeClass("ui-state-disabled");
-                   console.log("die enable function und die proofs, die Ã¼brig bleiben");
-                   console.log(proof);
+              
                 }                    
             } 
         return enable    
@@ -207,9 +206,9 @@
         /*End of create function */    
         
         _newEditAttribute: function (name, label, value) {
-            console.log("werde ich aufgefrufen????????????");
-            console.log(controlledVoc);
+          
         	controlledVocabularies = JSON.parse($("div.available-controlled-vocabularies").text());
+        	/* the variable is needed in the case any controlled vocabulary was usedin or will be set in the indexName Attribute*/
             var self = this,
             cm = self.options.cm,
             token = self.options.token,
@@ -313,7 +312,8 @@
              * In the 'newli' variable the option elements with the possible values
              * are appended to 'menuliste'.*/
             
-            function setoptioninSelect(name) {            	
+            function setoptioninSelect(name) {
+            	
             	var lemmawert;
             	var indexnamewert;
                 var einf = $("<option> --- </option>");
@@ -340,7 +340,8 @@
                         	 function findindexName(edAttr){                        		 
                               	  return edAttr.qName == 'indexName';                              	  
                                 }
-                            indexnamewert = editedAttributes.find(findindexName).value;                        	
+                            indexnamewert = editedAttributes.find(findindexName).value;
+                        
                   
                      
                         	 function findEditedAttributes(edAttr){
@@ -353,10 +354,9 @@
                              else{
                             	 lemmawert = lemma.value;
                              }                       
-                  
+                          
                         var sprachwert = $(".xrx-language-for-skos").text();
-                        console.log("sprachwert");
-                        console.log(sprachwert);
+               
                         $.ajax({     
                             url: "/mom/service/editMomgetControlledVoc",
                             type:"GET",                            
@@ -381,12 +381,11 @@
                        } 
                      }
                      else {
-                     var data2 = data[Object.keys(data)];
-                     var key3 = data[Object.keys(data)];                                         
-                     console.log(data2); //Das ist Obj mit ARRAYS                    
-                     for (var n in data2){
-                    	 var keys2 = n;
-                    	 var values2 = data2[keys2];//sind array-keys
+                
+                     var data2 = data[Object.keys(data)];                                                             
+                                  
+                     for (var n in data2){                    	 
+                    	 var values2 = data2[n];//sind array-keys
                     	 var named = data2[n][0];//das bleibt immer gleich, weil zuerst die Superkonzepte mit Array                       
                     	 console.log ("der name:" + named + "und key" + n);
                     	 //das Objekt wird mit Superkonzepten gefÃ¼llt
@@ -434,7 +433,8 @@
                                     	
                                            
                          for (var z in auswahl){                       		  
-                    
+                        	console.log("Was ist die Auswahl?");
+                        	console.log(auswahl[z]);
                        	  if (z.includes('+')){
                        		var norm = z.substring(z.indexOf('+')+1, z.length);
                        	  }
@@ -521,7 +521,7 @@
                           	controlledVoc = true;
                           	 $("div.forms-mixedcontent-suggested-attribute").addClass("ui-state-disabled");             
                           	 kapsel.rowremove('lemma', editedAttributes, cm, token);              
-                             //$("div[title='lemma']").draggable("enable");
+                             
                           	 $("div[title='lemma']").removeClass("ui-state-disabled");
                           	 
                           }                    
@@ -530,11 +530,7 @@
                         controlledVoc = true; 
                         kapsel.rowremove('sublemma', editedAttributes, cm, token);
                         kapsel.enable();
-                        console.log("Die Zeitkapsel fÃ¼rr das lemma ");
-                        console.log(kapsel.enable());
-                        /*?????????????????????????*/
-                        //kapsel._suggestedAttributeClickable(kapsel);
-             
+                     
                 } 
                 
              
@@ -608,10 +604,8 @@
             suggestedAttributes = self.options.suggestedAttributes,            
             editedAttributes = self.options.editedAttributes,           
             cm = self.options.cm,            
-            token = self.options.token; 
-            console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-           
-            console.log(inhalt);
+            token = self.options.token;
+          
             /*
              * when the click event is triggered, the function takes the the name of the attribute 
              * that is going to be deleted out of the input Element or out of the editedAttributes
@@ -653,7 +647,7 @@
                     
                     $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).addClass("ui-state-disabled");
                     self._suggestedAttributeClickable(div);                  
-                    console.log("szenario 1");
+                   
             
                
                 }
