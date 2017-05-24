@@ -170,6 +170,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
  /* **************************
     Seite einrichten
    ************************ 
+   
+  
   
   div#this-main {{
           position:relative;
@@ -579,12 +581,12 @@ div.filterbox {{
       width: 108%;
 }}
 
+
   </style> 
   </xrx:csss>
     <xrx:jss> 
 
-     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/index</xrx:resource>
-     
+    <!--  <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/index</xrx:resource>      -->
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
@@ -601,7 +603,7 @@ div.filterbox {{
      
   </xrx:jss>
     <xrx:view>  
-    <div id="this-main">   
+    <div id="this-main">  
     <div id="leftframe">{ 
     if (count($xrx:tokenized-uri) gt 1)then
     let $indexliste := collection('/db/mom-data/metadata.controlledVocabulary.public')
@@ -986,7 +988,7 @@ div.filterbox {{
         <script type="text/javascript">
   $( function() {{
    
-   $( ".radio" ).buttonset();
+   
    $(".choose-menu").menu();     
    $(".buchstaben").menu();
    $(".accordion").accordion({{active: true, collapsible: true, heightStyle: "auto"}});    
@@ -1001,7 +1003,9 @@ div.filterbox {{
     $(ac).accordion({{active:0}});
      }}    
    }}); 
-   
+    
+   $( ".radio" ).buttonset(); 
+  
   }} );
   
 </script>
