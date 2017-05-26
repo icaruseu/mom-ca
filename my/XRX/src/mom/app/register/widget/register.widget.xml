@@ -1,0 +1,939 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/register</xrx:id>
+  <xrx:inherits>tag:www.monasterium.net,2011:/mom/widget/charter-preview</xrx:inherits>
+  <xrx:author>martina.buergermeister@uni-graz.at</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+   </xrx:licence>
+   <xrx:variables>
+      <!-- charter context information -->
+    <xrx:variable>
+      <xrx:name>$wcharters:metadata-charter-context-collection</xrx:name>
+      <xrx:expression>(metadata:base-collection('collection', $charter:rcollectionid, 'public')|metadata:base-collection('mycollection', $charter:rcollectionid, 'public'))</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:metadata-charter-context-entry</xrx:name>
+      <xrx:expression>$wcharters:metadata-charter-context-collection//cei:cei/ancestor::atom:entry</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:charter-context-name</xrx:name>
+      <xrx:expression>($wcharters:metadata-charter-context-entry//cei:provenance/text(),$wcharters:metadata-charter-context-entry//cei:titleStmt/cei:title/text())</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:charter-context-short-name</xrx:name>
+      <xrx:expression>($wcharters:metadata-charter-context-entry//cei:provenance/@abbr/string(),$wcharters:charter-context-name)[1]</xrx:expression>
+    </xrx:variable>
+    <!-- linked archival fonds -->
+    <xrx:variable>
+      <xrx:name>$wcharters:linked-fond-charter-base-collection</xrx:name>
+      <xrx:expression>mycollection:linked-fond-charter-base-collection($wcharters:metadata-charter-context-collection)</xrx:expression>
+    </xrx:variable>
+    <!-- charter base collection -->
+    <xrx:variable>
+      <xrx:name>$wcharters:metadata-charter-collection</xrx:name>
+      <xrx:expression>(metadata:base-collection('charter', $charter:rcollectionid, 'public'), $wcharters:linked-fond-charter-base-collection)</xrx:expression>
+    </xrx:variable>
+    <!-- block-wise navigation -->
+    <xrx:variable>
+      <xrx:name>$wregister:block</xrx:name><!-- schon angepasst -->
+      <xrx:expression>xs:integer(if(request:get-parameter('block', '') != '') then request:get-parameter('block', '-1') else '1')</xrx:expression>
+    </xrx:variable>
+     <!-- suchergebnisse -->
+     <xrx:variable>
+      <xrx:name>$indexterm</xrx:name>
+      <xrx:expression>if(starts-with($xrx:tokenized-uri[3], 'P_')) then $xrx:tokenized-uri[3] else(concat('#', $xrx:tokenized-uri[3]))</xrx:expression>
+    </xrx:variable>
+    
+    <xrx:variable>    
+      <xrx:name>$wregister:index</xrx:name>
+      <xrx:expression>if($xrx:tokenized-uri[3]!= '#') then register:index-abfrage($indexterm) else()</xrx:expression>
+    </xrx:variable>
+    
+     <xrx:variable>    
+      <xrx:name>$wregister:index-abfrage</xrx:name>
+      <xrx:expression>$wregister:index/ancestor::atom:entry/atom:id</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+    <xrx:name>$wregister:hits</xrx:name>
+    <xrx:expression>count($wregister:index-abfrage)</xrx:expression>
+    </xrx:variable>    
+   <xrx:variable>
+    <xrx:name>$blocks</xrx:name>
+    <xrx:expression>floor(number($wregister:hits) div 7) +1 </xrx:expression>
+    </xrx:variable>
+    <!-- overwrite -->
+    <xrx:variable>
+      <xrx:name>$charters:start</xrx:name>
+      <xrx:expression>$wregister:block * 7 - 6</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$charters:stop</xrx:name>
+      <xrx:expression>if($wregister:hits lt 7) then $wregister:hits else($wregister:block * 7)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$charters:previous-block</xrx:name>
+      <xrx:expression>if($wregister:block = 1) then 1 else $wregister:block - 1</xrx:expression>
+    </xrx:variable>
+
+    
+    <!-- overwrite -->
+    <xrx:variable>
+      <xrx:name>$wcharter:date-elements</xrx:name>
+      <xrx:expression>register:years($wregister:index-abfrage)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:previous-block-pos</xrx:name>
+      <xrx:expression>if($wregister:block = 1) then 1 else $wregister:block - 1</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:next-block-pos</xrx:name>
+      <xrx:expression>if($wregister:block = count($wcharter:date-elements) div 7) then 1 else $wregister:block + 1</xrx:expression>
+    </xrx:variable>
+ 
+    <!-- Session Variablen -->
+    <xrx:variable>
+      <xrx:name>$getattnames</xrx:name>
+      <xrx:expression>session:get-attribute-names()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$getsessionid</xrx:name>
+      <xrx:expression>session:get-id()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$index-use-text</xrx:name>
+      <xrx:expression>htdoc:process(htdoc:get('tag:www.monasterium.net,2011:/mom/htdoc/index-use'))</xrx:expression>
+    </xrx:variable>  
+      <xrx:variable>
+      <xrx:name>$bread1</xrx:name>
+      <xrx:expression>if($xrx:tokenized-uri[2]) then string($xrx:tokenized-uri[2]) else('')</xrx:expression>
+    </xrx:variable>
+      <xrx:variable>
+      <xrx:name>$breadcrumb1</xrx:name>
+      <xrx:expression>if($bread1) then session:get-attribute($bread1) else()</xrx:expression>
+    </xrx:variable>
+     <xrx:variable>
+      <xrx:name>$bread2</xrx:name>
+      <xrx:expression>if($xrx:tokenized-uri[3]) then string($xrx:tokenized-uri[3]) else('')</xrx:expression>
+
+    </xrx:variable> 
+     <xrx:variable>
+      <xrx:name>$breadcrumb2</xrx:name>
+      <xrx:expression>if($bread2) then session:get-attribute($bread2) else ()</xrx:expression>      
+    </xrx:variable>
+    <xrx:variable>
+   <xrx:name>$sprache</xrx:name>
+   <xrx:expression>if($xrx:lang = 'deu') then 'de' else if ($xrx:lang = 'fra') then 'fr' else if ($xrx:lang = 'ita') then 'it' else 'en'</xrx:expression>
+   </xrx:variable>
+   
+   <xrx:variable>
+   <xrx:name>$alphabet</xrx:name>
+   <xrx:expression>('A', 'B','C','D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y','Z')</xrx:expression>
+   </xrx:variable>
+
+       
+   </xrx:variables>
+   
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:xformsflag>true</xrx:xformsflag>
+      <xrx:jqueryflag>true</xrx:jqueryflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+     
+   <xrx:css>tag:www.monasterium.net,2011:/mom/css/charter-preview</xrx:css>
+  <!-- <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/css/layout</xrx:resource> -->
+   <link href="{ conf:param('request-root') }jquery1.12.1/jquery-ui.css" rel="stylesheet"/>
+    <style type="text/css">
+
+     
+     
+ /* **************************
+    Seite einrichten
+   ************************ 
+  
+  div#this-main {{
+          position:relative;
+  }}
+          
+            
+ 
+ .ui-button {{
+           padding: .4em 1em;
+           display: inline-block;
+           position: relative;
+           line-height: normal;
+           margin-right: .1em;
+           cursor: pointer;
+           vertical-align: middle;
+           text-align: center;
+           -webkit-user-select: none;
+           -moz-user-select: none;
+           -ms-user-select: none;
+            user-select: none;
+             
+           }}
+        
+            
+  
+   /* *********
+       Filter button
+        ***********
+  */
+            button#button{{
+                width: 150px;
+                text-align: center;
+                padding: 20px;
+            
+            }}
+
+
+#leftframe {{
+      position:relative;
+      float:left;     
+      width: 30%;      
+      left:5px;
+}}
+
+#rightframe{{
+      position:relative;      
+      float:left;
+      width:60%;      
+      
+            
+}}
+
+#rightframe p {{
+      margin-top:0;      
+}}
+
+.hits {{
+    position:relative;
+    float:left;    
+    width:100%;
+    padding: 5px;
+    margin-top:5px;
+    margin-bottom:5px;
+    background:rgb(245, 245, 245);
+    border-bottom: 3px solid #9e9e9e;
+    clear:both;    
+}}
+
+.hits span {{
+      padding:3px;
+}}
+#block-navi a{{
+    padding: 3px;
+}}
+
+span.breadcrumb {{
+  color:#72856C; /*dunkelgrün*/
+}}
+
+/* *****************************
+    übernommen aus search2.widget.xml
+*************************************/
+#dcharter-preview-main {{
+  position:relative;
+  float:left; 
+  
+}}
+
+#dcharter-preview-main .charter-preview
+ {{
+  position:relative;
+  float:left; 
+  /*width:60%; */
+  background:rgb(245,245,245);
+  border-bottom:solid white 5px;
+}}
+
+#dcharter-preview-main .charter *{{
+  line-height:1.6em;
+}}
+
+#dcharter-preview-main .charter{{
+  position:relative;
+  width:73% !important;
+  float:left;
+  background:rgb(245,245,245);
+}}
+
+
+.glossary-entry {{    
+    margin-top:0;
+    padding-top:0;
+    top:50px;
+    right:1em;       
+    background:rgb(245, 245, 245);    
+    border-bottom: 3px solid #9e9e9e; /*#8EA384;*/
+    padding-left: 3px;
+    max-height: 200px;    
+    overflow-y:auto;
+    width:101%;
+    
+}}
+
+
+.choose ul {{
+  margin:0;
+  padding:10px 10px; 
+  list-style-type:none;
+  width:70%; /*50%*/
+}}
+li {{
+    margin:0;
+    padding:0;
+}}
+
+li a {{
+    font-size:1.1em !important;
+}}
+
+ul {{
+  margin:0;
+  list-style-type:none;
+  padding: 7px;
+  
+}}
+
+ul.menu span.ui-button-text {{
+    font-size: 0.8em !important;
+    padding:0 !important;
+    margin: 0 !important;
+    
+}}
+
+.glossary-entry h2 {{
+    background:rgb(158, 158, 158);
+    padding: 5px 0 5px 5px;
+    margin-top:0;
+    color: white;
+    /*boder-top: 10px sodid white;*/
+   
+
+}}
+
+.glossary-entry div {{
+  padding:5px;
+}}
+
+#dcharter-preview-main .inner-charter-preview{{
+  position:relative;
+  float:left;
+  width:100%;
+  margin:15px;
+}}
+
+#dcharter-preview-main .charter-info-and-actions{{
+  display:inline;
+  position:relative;
+  float:left;
+  width:25%;
+  border-left:solid white 3px;
+  padding-left:10px;
+}}
+
+#dcharter-preview-main .container{{
+  float:left;
+  width:65%;
+  padding-right:10px;
+}}
+
+#dcharter-preview-main .charter-info-and-actions *{{
+  font-size:13px;
+}}
+
+#dcharter-preview-main .fieldset{{
+  border:solid #C8C8C8 1px;
+  margin-top:10px;
+}}
+
+#dcharter-preview-main .inner-fieldset{{
+  margin:5px;
+}}
+
+
+
+
+
+#dsearch {{
+  position:relative;
+  float:left;
+  width:960px;
+  text-align:left;
+}}
+
+#search-form {{
+  margin-left: 25%;
+  margin-top: 100px;
+}}
+
+#search-options {{
+  margin-top:20px;
+  font-size: .9em;
+}}
+
+#result {{
+  width:960px;
+  position:relative;
+  float:left;
+  text-align:left;
+}}
+
+#result .hi {{
+  background:yellow;
+}}
+
+#input .xfValue {{
+  height:32px;
+  width:300px;
+}}
+
+#input-search .xfValue {{
+  padding-top:10px;
+}}
+
+#input-search * {{
+  font-size:110%;
+}}
+
+#input .dijitButtonText {{
+  padding:6px;
+}}
+
+#result .select-block {{
+  position: relative;
+  float: right;
+  margin-top: 10px;
+  margin-bottom:20px;
+  margin-right: 10px;
+}}
+
+#result .hits {{
+  position: relative;
+  float: right;
+  margin-right: 10px;
+}}
+
+#result .block-navi-link {{
+  float:left;
+}}
+
+#archives-search, #col-select {{
+  width:80%;
+}}
+
+#search-field, #search-trigger {{
+  height:40px;
+  font-size:110%;
+}}
+
+#search-field {{
+  width:50%;
+}}
+
+.confine-label {{
+  width:200px;
+}}
+
+.confine-trigger-div {{
+  width: 100%;
+  text-align: right;
+  margin-bottom: 20px;
+}}
+
+.confine-trigger {{
+  margin-right: 10px;
+}}
+
+#result-options {{
+  padding-left:0;
+  position: relative;
+  float: left;
+  width: 79%;
+
+}}
+
+#result-options div {{
+  position: relative;
+}}
+
+#result-options * {{
+  font-size: .95em;
+}}
+
+.light-grey {{
+  color: rgb(160, 160, 160);
+}}
+
+#result .charter-context * {{
+  font-size: .8em;
+}}
+
+#result .archive-label {{
+  margin-top: 8px;
+  text-decoration: underline;
+}}
+
+
+
+.buchstaben span.ui-menu-item {{
+    width:10%;
+    float:left;
+    
+}}
+.buchstaben {{
+    height:80px;
+    width:100%;
+    margin-left: -7px;
+    border: 1px solid #aaaaa;
+    margin-bottom:5px;
+}}
+
+#zentral ul {{
+  /*height:300px;
+  width:100%;*/
+  border: none !important;
+
+}}
+
+#zentral ul li {{
+   width:40%;
+   float:left;
+}}
+
+#zentral a.ui-button {{
+     height:100px;
+     position:relative;     
+     margin:3px;
+}}
+
+#zentral a.ui-button span {{
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    }}
+.none {{
+        visibility:hidden;
+}}
+
+span.no-result {{
+    display:block;
+    width:50%;
+    padding:10px;
+    margin-top:30px !important;
+}}
+
+span.klein {{
+    font-size: 0.6em;
+    color:grey;
+    
+}}
+span.klein b {{
+      font-size:1em;
+      background-color:yellow;
+}}
+  </style> 
+  </xrx:csss>
+    <xrx:jss> 
+
+     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/register</xrx:resource>
+     
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/resizable</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/selectable</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/droppable</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/menu</xrx:resource>
+     
+  </xrx:jss>
+    <xrx:view>  
+    <div id="this-main">   
+    <div id="leftframe">{ 
+    if (count($xrx:tokenized-uri) gt 1)then
+           <div class="choose radio" id="links">         
+          <!--  <xrx:i18n>
+              <xrx:key>choose-an-index</xrx:key>
+              <xrx:default>Choose an Index</xrx:default>
+            </xrx:i18n> -->
+         <ul class="choose-menu">
+            {
+         let $indexliste := collection('/db/mom-data/metadata.controlledVocabulary.public')         
+         for $i in $indexliste
+         let $text := $i//atom:content//skos:ConceptScheme/skos:prefLabel/text()
+         let $name := tokenize($i//atom:id/text(), '/')[last()]
+         let $memo := session:set-attribute($name, $text)
+        
+         return          
+         
+         <li><a class="ui-button ui-widget ui-corner-all" href="{concat(conf:param('request-root'), 'register/',tokenize($i//atom:id/text(), 'controlledVocabulary/')[2])}">{$text}</a></li>
+         
+             
+         }
+         {
+         let $personendb := collection('/db/mom-data/metadata.person.public')
+         for $p in $personendb
+         let $files := util:document-name($personendb)         
+         let $text := $p//atom:content//tei:title[@xml:lang='de']/text()
+         let $name := tokenize($p//atom:id/text(), '/')[last()]         
+         let $memo := session:set-attribute($name, $text)
+         
+         return        
+         
+         <li><a class="ui-button ui-widget ui-corner-all" href="{concat(conf:param('request-root'), 'register/',tokenize($p//atom:id/text(), 'person/')[2])}">{$text}</a></li>
+        
+         
+         }
+       </ul>  
+       </div> else(
+       <div class="none">//</div>
+       )}
+         {   
+          
+  let $voc := $xrx:tokenized-uri[2]
+        let $coll := if($voc='BischoefeAblaesse')then ('person') else('controlledVocabulary')
+        let $atomid := concat('tag:www.monasterium.net,2011:/',$coll,'/', $voc)
+        return         
+        if($xrx:tokenized-uri[last()] != 'register') then
+        let $momcoll := concat('/db/mom-data/metadata.', $coll, '.public/')       
+        let $glossarlabel := collection($momcoll)/atom:entry[atom:id/text()= $atomid]
+
+         return
+          <div id="result-options" class="this-widget">          
+          <ul>{
+              if ($glossarlabel//skos:Concept) then               
+              for $g in $glossarlabel//skos:Concept
+              let $rdfabout := substring-after(data($g/@rdf:about), '#')
+              let $memo := session:set-attribute($rdfabout, $g/skos:prefLabel/text())
+              return 
+              <li><a href="{concat(conf:param('request-root'),'register/', $voc, '/', $rdfabout)}">{$g/skos:prefLabel/text()}</a></li>
+             else if ($glossarlabel//rdf:Description) then 
+                        
+             for $g in $glossarlabel//rdf:Description[child::skos:prefLabel/text()]
+             let $rdfabout := substring-after(data($g/@rdf:about), '#')
+             let $memo := session:set-attribute($rdfabout, $g/skos:prefLabel[@xml:lang= $sprache]/text())
+             return
+              <li><a href="{concat(conf:param('request-root'),'register/', $voc, '/', $rdfabout)}">{$g/skos:prefLabel[@xml:lang= $sprache]/text()}</a> </li>
+              else(
+              <div class="buchstaben">
+              {for $a in $alphabet
+              return
+              <span><a class="ui-button ui-widget ui-corner-all" href="?pm={$a}">{$a}</a></span> }</div>,
+              
+              let $parameter:= if (request:get-parameter("pm", "")) then request:get-parameter("pm", "")  else (substring($xrx:tokenized-uri[3],3,1)) 
+          
+              return                     
+              if($parameter != '' ) then
+              let $person := $glossarlabel//tei:person              
+              for $p in $person
+              return
+              let $personid := data($p/@xml:id)
+              let $name := $p/tei:persName[starts-with(., $parameter)]
+              let $place := $name/following-sibling::tei:occupation/tei:placeName[1]/text()
+              let $ser := serialize($place)
+              let $inhalt := concat($name/text(), ' ',substring-before($ser, ' '))
+              let $memo := session:set-attribute($personid, $inhalt)             
+              for $n in  $name
+              order by $name
+              return              
+                                      
+                <li><a href="{concat(conf:param('request-root'),'register/', $voc, '/', $personid)}">{$inhalt}</a></li>                        
+              else()
+                )
+               
+              }
+             </ul></div>
+                      
+          else()  }
+  
+    </div> 
+  
+    {
+    let $teile := count($xrx:tokenized-uri)
+    return if($teile = 1)then (<div id ="rightframe">{$index-use-text} <div class="radio" id="zentral">         
+          <!--  <xrx:i18n>
+              <xrx:key>choose-an-index</xrx:key>
+              <xrx:default>Choose an Index</xrx:default>
+            </xrx:i18n> -->
+         <ul class="choose-menu">
+            {
+         let $indexliste := collection('/db/mom-data/metadata.controlledVocabulary.public')         
+         for $i in $indexliste
+         let $text := $i//atom:content//skos:ConceptScheme/skos:prefLabel/text()
+         let $name := tokenize($i//atom:id/text(), '/')[last()]
+         let $memo := session:set-attribute($name, $text)
+        
+         return          
+         
+         <li><a class="ui-button ui-widget ui-corner-all" href="{concat(conf:param('request-root'), 'register/',tokenize($i//atom:id/text(), 'controlledVocabulary/')[2])}">{$text}</a></li>
+         
+             
+         }
+         {
+         let $personendb := collection('/db/mom-data/metadata.person.public')
+         for $p in $personendb
+         let $files := util:document-name($personendb)         
+         let $text := $p//atom:content//tei:title[@xml:lang='de']/text()
+         let $name := tokenize($p//atom:id/text(), '/')[last()]         
+         let $memo := session:set-attribute($name, $text)
+         
+         return        
+         
+         <li><a class="ui-button ui-widget ui-corner-all" href="{concat(conf:param('request-root'), 'register/',tokenize($p//atom:id/text(), 'person/')[2])}">{$text}</a></li>
+        
+         
+         }
+       </ul>  
+       </div></div>)
+    
+    
+    else if($teile = 2) then <div id ="rightframe"><p><xrx:i18n>
+              <xrx:key>search-in</xrx:key>
+              <xrx:default>Search the Index</xrx:default>
+            </xrx:i18n>: <span class="breadcrumb">{$breadcrumb1}</span></p></div>
+    else(
+    <div id="rightframe">
+      <div id="breadcrumb"><p><xrx:i18n>
+              <xrx:key>search-in</xrx:key>
+              <xrx:default>Search the Index</xrx:default>
+            </xrx:i18n>: <span class="breadcrumb">{$breadcrumb1} &gt; {$breadcrumb2}</span></p></div>         
+      <div class="glossary-entry">
+      {
+      let $teile := count($xrx:tokenized-uri)
+      let $voc := $xrx:tokenized-uri[2]      
+      let $coll := if($voc='BischoefeAblaesse')then ('person') else('controlledVocabulary')
+      let $atomid := concat('tag:www.monasterium.net,2011:/',$coll,'/', $voc)
+      let $momcoll := concat('/db/mom-data/metadata.', $coll, '.public/')
+      let $vocabulary := collection($momcoll)/atom:entry[atom:id/text()= $atomid]
+      return 
+      if ($teile = 3 and $vocabulary//skos:Concept) then
+      let $term := concat('#', $xrx:tokenized-uri[3])
+      let $glossartitel := <h2>{$vocabulary//skos:Concept[@rdf:about = $term]/skos:prefLabel/text()}</h2>     
+      let $glossar := <div>{$vocabulary//skos:Concept[@rdf:about = $term]/skos:definition/node()}</div>
+    
+      return      
+        ($glossartitel, $glossar)
+     
+      else if($teile = 3 and $vocabulary//rdf:Description)then
+      let $term := concat('#', $xrx:tokenized-uri[3])     
+      let $glossar := $vocabulary//rdf:Description[@rdf:about = $term]/skos:prefLabel[@xml:lang= $sprache]/text()
+      return
+      <h2>
+        {$glossar}
+      </h2>
+      
+      else(
+      let $term := $xrx:tokenized-uri[3]
+      let $glossar := data($vocabulary//tei:person[@xml:id = $term])
+      let $from := ('([0-9])([A-Z])', '([a-z])([A-Z])', '([a-z])(\()', '(.)([A-Z])', '(,)([a-z][A-Z])', '(\))([0-9a-zA-Z])', '(\()(\s)' )
+      let $to := ('$1 $2', '$1 $2', '$1 $2', '$1 $2', '. $2', '$1 $2', '$1')      
+      let $ausgabe := <div>{register:replace-multi($glossar, $from, $to)}</div>
+      let $vorname := <h2>{if(session:get-attribute($term)= '')then $breadcrumb2 else(session:get-attribute($term))}</h2>        
+      return ($vorname,$ausgabe)
+     
+      )     
+      }   
+      </div>      
+     {
+        
+         if ($wregister:hits = 0)then
+          <span class="no-result"><xrx:i18n><xrx:key>no-results-message</xrx:key><xrx:default>No results were found for your search.</xrx:default></xrx:i18n></span>
+         else(
+         <div class="hits">
+         <span>
+            <xrx:i18n>
+            <xrx:key>hits</xrx:key>
+            <xrx:default>Hits</xrx:default>
+          </xrx:i18n></span>
+          <span> { $charters:start } </span>
+          <span>
+          <xrx:i18n>
+            <xrx:key>to</xrx:key>
+            <xrx:default>to</xrx:default>
+          </xrx:i18n>
+          </span>
+          
+          <span> { $charters:stop } </span>
+          <span>
+          <xrx:i18n>
+            <xrx:key>of</xrx:key>
+            <xrx:default>of</xrx:default>
+          </xrx:i18n>
+          </span>
+                    
+          <span class="light-grey"> { $wregister:hits }</span>
+          <p id="block-navi">  
+          {if ($blocks != 1)then        
+           <a href="?block={ $wcharters:previous-block-pos }"> <span>&lt; </span>
+                        <xrx:i18n>
+                            <xrx:key>previous</xrx:key>
+                            <xrx:default>previous</xrx:default>
+                        </xrx:i18n> 
+          </a>
+          else()
+          }
+         <span>          <xrx:i18n>
+                            <xrx:key>page</xrx:key>
+                            <xrx:default>page</xrx:default>
+                        </xrx:i18n>
+           
+         </span>
+         
+         <span> {$wregister:block}</span>
+          <span>
+          <xrx:i18n>
+            <xrx:key>of</xrx:key>
+            <xrx:default>of</xrx:default>
+          </xrx:i18n>
+          </span>
+          <span>{$blocks}</span>
+         { if ($blocks != 1)then
+         <a href="?block={ $wcharters:next-block-pos }">
+                        <xrx:i18n>
+                            <xrx:key>next</xrx:key>
+                            <xrx:default>next</xrx:default>
+                        </xrx:i18n>
+                        <span> &gt;</span>
+          </a>
+          else()}
+          </p> </div>)         
+        }
+             
+           {
+          let $uri := request:get-uri()
+          let $whereami := session:set-attribute('whereami', $uri)
+          for $charter at $num in $wregister:index-abfrage[ position() = $charters:start to $charters:stop ]
+                   
+          return
+       <div id="dcharter-preview-main">                
+            <xrx:subwidget>
+              <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/result</xrx:atomid>
+              <xrx:pass>
+                <xrx:parameter>
+                  <xrx:name>$constructor:charter</xrx:name>
+                  <xrx:expression>root($charter)</xrx:expression>
+                </xrx:parameter>              
+                <xrx:parameter>
+                  <xrx:name>$constructor:pos</xrx:name>
+                  <xrx:expression>$num + $charters:start -1</xrx:expression>
+                </xrx:parameter>
+                <xrx:parameter>
+                <xrx:name>$terminus</xrx:name>
+                <xrx:expression>$xrx:tokenized-uri[3]</xrx:expression>
+                </xrx:parameter>
+                 <xrx:parameter>
+                <xrx:name>$vocabular</xrx:name>
+                <xrx:expression>$xrx:tokenized-uri[2]</xrx:expression>
+                </xrx:parameter>             
+              </xrx:pass>
+            </xrx:subwidget>
+          </div>
+          }
+       <div>{
+         if ($wregister:hits gt 0)then
+       <div class="hits">
+         <span>
+            <xrx:i18n>
+            <xrx:key>hits</xrx:key>
+            <xrx:default>Hits</xrx:default>
+          </xrx:i18n></span>
+          <span> { $charters:start } </span>
+          <span>
+          <xrx:i18n>
+            <xrx:key>to</xrx:key>
+            <xrx:default>to</xrx:default>
+          </xrx:i18n>
+          </span>
+          
+          <span> { $charters:stop } </span>
+          <span>
+          <xrx:i18n>
+            <xrx:key>of</xrx:key>
+            <xrx:default>of</xrx:default>
+          </xrx:i18n>
+          </span>
+                    
+          <span class="light-grey"> { $wregister:hits }</span>
+          <p id="block-navi">  
+          {if ($blocks != 1)then        
+           <a href="?block={ $wcharters:previous-block-pos }"> <span>&lt; </span>
+                        <xrx:i18n>
+                            <xrx:key>previous</xrx:key>
+                            <xrx:default>previous</xrx:default>
+                        </xrx:i18n> 
+          </a>
+          else()
+          }
+         <span>          <xrx:i18n>
+                            <xrx:key>page</xrx:key>
+                            <xrx:default>page</xrx:default>
+                        </xrx:i18n>
+           
+         </span>
+         
+         <span> {$wregister:block}</span>
+          <span>
+          <xrx:i18n>
+            <xrx:key>of</xrx:key>
+            <xrx:default>of</xrx:default>
+          </xrx:i18n>
+          </span>
+          <span>{$blocks}</span>
+         { if ($blocks != 1)then
+         <a href="?block={ $wcharters:next-block-pos }">
+                        <xrx:i18n>
+                            <xrx:key>next</xrx:key>
+                            <xrx:default>next</xrx:default>
+                        </xrx:i18n>
+                        <span> &gt;</span>
+          </a>
+          else()}
+          </p>          
+        </div>
+      else()
+      }</div></div>
+      
+  )
+    }</div>
+ 
+      <!-- <xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/default-footer</xrx:subwidget> -->
+                  
+        <script type="text/javascript">
+  $( function() {{
+   $( ".radio" ).buttonset();
+   $(".choose-menu").menu();     
+   $(".buchstaben").menu();  
+  }} );
+  
+</script>
+      </xrx:view>
+      </xrx:widget>

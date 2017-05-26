@@ -40,7 +40,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     </xrx:variable>
    <xrx:variable>
       <xrx:name>$getTyp</xrx:name>  
-      <xrx:expression>concat('tag:www.monasterium.net,2011:/', request:get-parameter('typ', ''))</xrx:expression>
+      <xrx:expression>concat('tag:www.monasterium.net,2011:/controlledVocabulary/', request:get-parameter('typ', ''))</xrx:expression>
     </xrx:variable>
        <xrx:variable>
       <xrx:name>$checkType</xrx:name>  
@@ -66,7 +66,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 let $glossarlabel := collection("/db/mom-data/metadata.controlledVocabulary.public/")/atom:entry[atom:id/text()=$getTyp]//skos:Concept[@rdf:about= concat('#', $getText)]/skos:prefLabel/text()
 let $glossardesc := collection("/db/mom-data/metadata.controlledVocabulary.public/")/atom:entry[atom:id/text()=$getTyp]//skos:Concept[@rdf:about= concat('#', $getText)]
 
- let $glossarintro := collection("/db/mom-data/metadata.controlledVocabulary.public/")/atom:entry[atom:id/text()='tag:www.monasterium.net,2011:/IllUrkGlossar']//rdf:RDF/skos:ConceptScheme/skos:note/text()
+ let $glossarintro := collection("/db/mom-data/metadata.controlledVocabulary.public/")/atom:entry[atom:id/text()='tag:www.monasterium.net,2011:/controlledVocabulary/IllUrkGlossar']//rdf:RDF/skos:ConceptScheme/skos:note/text()
 
 return 
 if ($checkType) then(
@@ -81,15 +81,14 @@ if ($checkType) then(
       else if ($typ = 'bishop') then (
           let $collection := collection("/db/mom-data/metadata.person.public/")
           let $inmem := $collection//tei:TEI         
-          let $bishops := data($inmem//tei:person[@xml:id=$getText])
-        
+          let $bishops := data($inmem//tei:person[@xml:id=$getText])    
           
           return  <div class="port">{$bishops}</div>
           )
           
       else (      
          <div class="port">        
-       {$glossardesc}       
+     {$glossardesc}
         </div>  )
 }
   </xrx:body>
