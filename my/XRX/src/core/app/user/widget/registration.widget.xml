@@ -35,6 +35,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   <xrx:init>
    <xrx:processor>
      <xrx:xformsflag>true</xrx:xformsflag>
+     <xrx:jqueryflag>true</xrx:jqueryflag>
    </xrx:processor>
   </xrx:init>
 	<xrx:model>
@@ -81,6 +82,12 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 				instance="iresponse"/>
 		</xf:model>
 	</xrx:model>
+	<xrx:jss>
+	      <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+	</xrx:jss>
 	<xrx:view>
 	  <div id="dregistration">
       <div class="h2">

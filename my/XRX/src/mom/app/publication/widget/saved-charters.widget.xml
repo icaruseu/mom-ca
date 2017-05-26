@@ -35,6 +35,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <xrx:init>
         <xrx:processor>
             <xrx:xformsflag>true</xrx:xformsflag>
+            <xrx:jqueryflag>true</xrx:jqueryflag>
         </xrx:processor>
     </xrx:init>
     <xrx:csss>
