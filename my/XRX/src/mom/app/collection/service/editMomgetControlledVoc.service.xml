@@ -50,25 +50,68 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
    </xrx:processor>
   </xrx:init> 
   <xrx:body>
-  { 
-   let $vocabular := collection("/db/mom-data/metadata.controlledVocabulary.public")//atom:entry[contains(child::atom:id/text(), $getindexName)]
-   let $unbestimmteslabel := if ($getindexName = 'illurk-vocabulary') 
-                              then ($vocabular//rdf:Description/skos:prefLabel[@xml:lang=$getlang] )
-                              else($vocabular//rdf:RDF//skos:Concept/skos:prefLabel ) 
-     
-   let $unbestimmteslemma := if ($getindexName = 'illurk-vocabulary')
-                                then(data($unbestimmteslabel/parent::rdf:Description/@rdf:about) )
-                                else(data($unbestimmteslabel/parent::skos:Concept/@rdf:about))     
-   let $paare := (for $i in $unbestimmteslabel
-             return  
-             let $liste := if ($getindexName = 'illurk-vocabulary')
-                           then(concat('"',normalize-space(replace(data($i/parent::rdf:Description/@rdf:about), '#', '')), '":"',normalize-space($i), '"'))
-                           else(concat('"',normalize-space(replace(data($i/parent::skos:Concept/@rdf:about), '#', '')), '":"',normalize-space($i), '"'))
-                    
-             return  $liste)
+ {
+  let $vocabular := collection("/db/mom-data/metadata.controlledVocabulary.public/")/atom:entry[contains(child::atom:id/text(), $getindexName)]
+ let $unbestimmteslabel := $vocabular//skos:ConceptScheme/skos:prefLabel/text()
+ let $conceptscheme := replace(data($vocabular//skos:ConceptScheme/@rdf:about), '#', '')
+ return
+ if($getindexName = 'IllUrkGlossar')then  
+    let $label := $vocabular//rdf:RDF//skos:Concept/skos:prefLabel
+    let $lemma := data($label/parent::skos:Concept/@rdf:about)
+    let $paare := (for $i in $label
+                    return  concat('"',normalize-space(replace(data($i/parent::skos:Concept/@rdf:about), '#', '')), '":"',normalize-space($i), '"'))
+           
       let $jsonO := jsonx:object($paare)
       return $jsonO 
+ else(
+ 
+ let $topconcepte := $vocabular//skos:hasTopConcept[@rdf:resource] 
+ let $superobject := for $top in $topconcepte
+                    let $res := data($top/@rdf:resource)
+                    let $toplabel := $vocabular//skos:Concept[@rdf:about=$res]/skos:prefLabel[1]/text()
+ 
+                     let $h2 := let $konzept2 := $vocabular//skos:Concept[child::skos:broader[@rdf:resource=$res]][child::skos:prefLabel]
+                                for $i in $konzept2
+                                let $sla := data($i/@rdf:about)   (:jsonx:string(data($i/@rdf:about)):)
+                                let $ohne := replace($sla, '#', '')
+                                let $itext := if($i/skos:prefLabel/@xml:lang="de") then jsonx:string($i/skos:prefLabel[@xml:lang="de"]/text()) else if ($i/skos:prefLabel[1]/text()) then   jsonx:string($i/skos:prefLabel[1]/text()) else '{}'
+                               
+                                let $paar := concat('"', $itext, '":"', $ohne, '"')
+                                let $h3 := if ($vocabular//skos:Concept[child::skos:broader[@rdf:resource=$sla]]) then
+                                            let $h4:= jsonx:string($sla)
+                                            let $h5 := (for $v in $vocabular//skos:Concept[child::skos:broader[@rdf:resource=$sla]]
+                                                        let $st := if($v/skos:prefLabel/@xml:lang="de") then  jsonx:string($v/skos:prefLabel[@xml:lang="de"]/text()) else if($v/skos:prefLabel[1]/text()) then  jsonx:string($v/skos:prefLabel[1]/text())                                                            else if($v/skos:narrower) then jsonx:object(let $narrow := $v/skos:narrower
+                                                                                                    for $n in $narrow
+                                                                                                     let $narrowlabel := $vocabular//skos:Concept[@rdf:about = data($n/@rdf:resource)]/skos:prefLabel[1]/text()
+                                                                                                     return jsonx:pair(jsonx:string(data($n/@rdf:resource)), jsonx:string($narrowlabel)))
+                                                        else '{}'
+                                                        let $concept := replace(data($v/@rdf:about), '#', '')
+                                                        let $kat3 := concat('"',$concept, '":', $st , '')
+                                                        return $kat3)
+                                            return  jsonx:pair($h4, 
+                                                    jsonx:object(
+                                                        string-join($h5, ',')
+                                                        )
+                                                    
+                                                    
+                                                    )
+                                         else(jsonx:pair(jsonx:string($sla),$itext))
+                                return $h3
+                     order by $top
       
-     }
+                    
+                return  let $vereint := jsonx:object(string-join($h2, ','))
+                        let $array := concat('["',$toplabel,'" ,', $vereint, ']')
+                        return jsonx:pair( jsonx:string($res),$array)
+                       
+     
+         let $ausgabe := replace(jsonx:object($superobject),'#','')
+         let $alsstring := concat('"', $conceptscheme, '"')         
+         let $ausgabeplus := jsonx:pair($alsstring, $ausgabe)    
+
+         
+         return jsonx:object($ausgabeplus)
+)
+}
   </xrx:body>
 </xrx:service>

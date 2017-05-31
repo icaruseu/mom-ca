@@ -174,7 +174,8 @@
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/js/oai-functions</xrx:atomid>
       <xrx:relativepath>js/</xrx:relativepath>
       <xrx:name>oai-functions.js</xrx:name>
-    </xrx:resource>
+    </xrx:resource> 
+  
     <!-- XSL -->
     <xrx:resource>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/xsl/cei2ese</xrx:atomid>

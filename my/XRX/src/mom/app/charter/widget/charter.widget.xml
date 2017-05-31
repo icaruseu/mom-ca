@@ -313,7 +313,11 @@ let $vocabular := replace(data($i/@rdf:about), '#', '')
         return $vocabular         
      </xrx:expression>
     </xrx:variable>
-
+    <!--  Sprache für Vokabulare ändern? -->    
+      <xrx:variable>
+        <xrx:name>$wcharter:sprache</xrx:name>
+        <xrx:expression>substring($xrx:lang,1,2)</xrx:expression>
+      </xrx:variable>
 
     <!-- XSLT transformation -->
     <xrx:variable>
@@ -326,12 +330,13 @@ let $vocabular := replace(data($i/@rdf:about), '#', '')
       <xrx:expression>
         <parameters>
           <param name="image-base-uri" value="{ $wcharter:image-base-uri }"/>
+          <param name="sprache" value="{$wcharter:sprache}"/>
           <param name="controlledvocabularies" value="{$wcharter:controlledvocabularies}"/>
             {
             let $keys := root($wcharter:xsl)//*[local-name(.) = "stylesheet"]/node()
             let $i18n := $keys//xrx:i18n
             for $key in $i18n
-            return <param name="{$key/xrx:key}" value="{i18n:translate($key)}"/>           
+            return if ($key != '') then <param name="{$key/xrx:key}" value="{i18n:translate($key)}"/> else()       
           }
         </parameters>        
       </xrx:expression>
@@ -403,7 +408,7 @@ let $vocabular := replace(data($i/@rdf:about), '#', '')
   <xrx:init>
     <xrx:processor>
       <xrx:xformsflag>true</xrx:xformsflag>
-      <xrx:jqueryflag>true</xrx:jqueryflag>
+      <xrx:jqueryflag>false</xrx:jqueryflag>
     </xrx:processor>
   </xrx:init>
   <xrx:csss>
@@ -540,6 +545,17 @@ span.info_i {{
     padding: 0 4px;
     margin-left:10px;
     
+}}
+
+/* css angaben für search-result aus search app*/
+span {{
+      padding:5px;
+}}
+span.back {{
+      margin-left:3em;
+}}
+div.browse {{
+        padding-bottom:20px;
 }}
 
 div.inlinehead, div.greyinlinehead, div.light-green, div.light-green:visited{{
@@ -782,6 +798,7 @@ p#first {{
   </xrx:csss>
   <xrx:jss>
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/charter</xrx:resource>
+   
   </xrx:jss>
   <xrx:model>
     { bookmark:model(conf:param('request-root')) }
@@ -1348,8 +1365,8 @@ p#first {{
         <div data-demoid="92fc737f-0034-4bbc-8d4c-42038dfded81" id="image-tool-widget">
           <script type="text/javascript">
 				    $(document).ready(function(){{
-				        javascript:rapper();      
-				        javascript:proof();
+				        rapper();				        
+				        proof();
 	            jQuery(document).imageTool({{
 	              requestRoot: "{ conf:param('request-root') }",
 	              charter: "{ $charter:rcharterid }",

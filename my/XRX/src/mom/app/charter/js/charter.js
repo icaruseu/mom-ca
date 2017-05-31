@@ -193,18 +193,15 @@ else 	{
 
 function rapper(){		
 	
-		var infoeintrag = $('li[value="true"]');
+		var infoeintrag = $('li[value="true"]');		
 		/* normally all li where value = true (which means that there is more information provided to this index)
-		 * has an eception which is the illurk-vocabulary, because until now there is no additional info.
+		 * has an eception which is the illurk-vocabulary and vis, because until now there is no additional info.
 		 * 
 		 * */
-		$('li[value="true"]:not(.illurk-vocabulary)').each(function(){
+		$('li[value="true"]:not(.illurk-vocabulary):not(.vis)').each(function(){
 	
 			var glossartyp= $(this)[0].className;
-		//	if($(this).children("a.eintrag").length == 0){				
-				
-				console.log("die attribute");
-				console.log($(this)[0].attributes);
+			
 				if ($(this)[0].attributes.lemma == undefined)
 					{
 					var entry = $(this)[0].attributes.id.value;
@@ -232,6 +229,10 @@ function rapper(){
 			        	success: function(data, textStatus, jqXHR)
 			        	{    
 			        		if (glossartyp == 'bishop' ){
+			        			var note = $(data).find("tei\\:note");
+			        			console.log("Note NOte");
+			        			console.log(note);
+			        			console.log($(data));
 			        			var person = $(data).text();			        			
 			        			/* Person data is retrieved as text
 			        			 * Problem of textformatting: 
@@ -251,18 +252,14 @@ function rapper(){
 			        			$("div#enhancedView").append(port);				        			
 			        	
 			        		}
-			        		else {
-			        			console.log("die daten");	
-			        			console.log($(data));			        			
+			        		else {				        		
 			        			var preflabel = $(data).find("skos\\:prefLabel");
 			        			var h = $("<h3></h3>").append(preflabel);			        			
-			        			var def = $(data).find("skos\\:definition");
+			        				var def = $(data).find("skos\\:definition");
 			        			var div = $("<div class='bla'></div>").append(def);
 			        			var port = $("<div class='port'></div>").append(h).append(div);
 			        			$("div#enhancedView").append(port);			        			
-			        		}
-			        				
-			        		;
+			        		};
 			        		        		
 			        		return true;
 			        	},     
@@ -276,10 +273,7 @@ function rapper(){
 					
 					
 				});
-		//	}
-		//	else {
-				
-		//	}
+		
 		}
 				);
 		

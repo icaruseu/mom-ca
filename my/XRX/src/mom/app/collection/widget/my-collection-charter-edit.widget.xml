@@ -830,7 +830,8 @@
              <div class="available-controlled-vocabularies" style="display:none">{
 let $glossare := collection("/db/mom-data/metadata.controlledVocabulary.public")//atom:entry/atom:content/rdf:RDF
 let $job :=  (for $i in $glossare/skos:ConceptScheme
-let $paare := concat('"',normalize-space(replace(data($i/@rdf:about), '#', '')), '":"',normalize-space($i/skos:prefLabel[@xml:lang="de"]/text()), '"')
+let $cvtranslated := if($i/skos:prefLabel/@xml:lang=$sprache)then normalize-space($i/skos:prefLabel[@xml:lang=$sprache]/text()) else(normalize-space($i/skos:prefLabel[1]/text()))
+let $paare := concat('"',normalize-space(replace(data($i/@rdf:about), '#', '')), '":"',$cvtranslated, '"')
 return jsonx:object($paare)
 )
 return  jsonx:array($job)}</div>

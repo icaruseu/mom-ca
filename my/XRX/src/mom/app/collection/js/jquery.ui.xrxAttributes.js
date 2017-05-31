@@ -51,7 +51,15 @@
        rowremove: function(gewissesAttr, editedAttributes, cm, token) {
       	   var sein = new AttributesImpl();                        
              sein.addAttribute(undefined, gewissesAttr, gewissesAttr, undefined, '');                           
-             var row = $("div:contains('" + gewissesAttr + "')", "." + uiEditAttributesDivClass);
+            // var row = $("div:contains("[title=''" + gewissesAttr + "']"), "." + uiEditAttributesDivClass);
+            	 
+           // var reihe = $("div", "."+ uiEditAttributesDivClass).find("[title='" + gewissesAttr + "']");
+             if ($("div", "."+ uiEditAttributesDivClass).find("[title='" + gewissesAttr + "']")) {
+            	 var meinort = $("div", "."+ uiEditAttributesDivClass).find("[title='" + gewissesAttr + "']");
+            	
+            	 var row = $(meinort).closest("div.forms-table-row"); //,"." + uiEditAttributesDivClass
+            	 
+             }        
              row.remove(); 
              var nodeset = $(document).xrx.nodeset(cm.getInputField());                
              var controlId = nodeset.only.levelId;                
@@ -84,7 +92,8 @@
             for (var i = 0; i < proofdiv.length; i++) {
                 var proof = proofdiv[i].previousSibling.data;
                 if (spantexte.indexOf(proof) == -1) {                       
-                    var enable = $("div:contains('" + proof + "')", "." + uiSuggestedAttributesDivClass).draggable("enable");
+                    var enable = $("div:contains('" + proof + "')", "." + uiSuggestedAttributesDivClass).removeClass("ui-state-disabled");
+              
                 }                    
             } 
         return enable    
@@ -105,12 +114,16 @@
              * 4. button to switch on/off the use of controlled vocabulary */
             mainDiv = $('<div></div>').attr("class", uiMainDivId),
             editAttributesDiv = $('<div></div>').addClass(uiEditAttributesDivClass).addClass(uiFormsTableClass),
-            droppableAttributeDiv = $('<div">&#160;</div>').addClass(uiDroppableAttributeDivClass),
+            //droppableAttributeDiv = $('<div">&#160;</div>').addClass(uiDroppableAttributeDivClass),
             suggestedAttributesDiv = $('<div></div>').addClass(uiSuggestedAttributesDivClass),
-            controlledVocButton = $('<div>Controlled Vocabulary</div>').addClass('controlledVocabulary').css("text-align", "right");
+            controlledVocButton = $('<div>Use Controlled Vocabulary:</div>').addClass('controlledVocabulary').css("text-align", "right");
+            
+            
+            /* a method to switch off/on the use of the controlled Vocabulary*/
+            self._onoffButton(controlledVocButton, editedAttributes);
             
              /*xrx-attributes class gets method _attributeDroppable*/
-            self._attributeDroppable(droppableAttributeDiv);
+            /*self._attributeDroppable(droppableAttributeDiv);*/
             
             /*when editor is opened, look if there are already attributes set,
              * then append to the div.forms-mixedcontent-edit-attributes the attributes that already exist.  */
@@ -127,15 +140,14 @@
                 var name = suggestedAttributes[i];
                 var newDiv = $('<div>' + $(document).xrxI18n.translate(name, "xs:attribute") + '<div>').addClass(uiSuggestedAttributeDivsClass).attr("title", name);
                 suggestedAttributesDiv.append(newDiv);
-                self._suggestedAttributeDraggable(newDiv);
+               self._suggestedAttributeClickable(newDiv);
+                //self._suggestedAttributeDraggable(newDiv);
                 
             }
-            
-            /* a method to switch off/on the use of the controlled Vocabulary*/
-            self._onoffButton(controlledVocButton, editedAttributes);
+       
             
             /* All GUI parts concerning the Attributes are appended */            
-            mainDiv.append(controlledVocButton).append(editAttributesDiv).append(droppableAttributeDiv).append(suggestedAttributesDiv);
+            mainDiv.append(controlledVocButton).append(editAttributesDiv).append(suggestedAttributesDiv); //.append(droppableAttributeDiv)
             self.element.replaceWith(mainDiv);         
             /* function ausblenden is used for usabilty reasons, 
              * when a controlled Vocabulary is specified in the @indexName then just @lemma should be draggable.
@@ -146,7 +158,7 @@
         		var l = blende.indexOf(gewisseAttr);
                     blende.splice(l, 1);
                     for (var j = 0; j < blende.length; j++) {
-                        var dis = $("div[title='" + blende[j] + "']", "." + uiMainDivId).draggable("disable");
+                        var dis = $("div[title='" + blende[j] + "']", "." + uiMainDivId).addClass("ui-state-disabled");//.off("click")draggable("disable");
                    }                    
                     return dis;
                    }
@@ -178,7 +190,7 @@
             }
             else {
             	for (var i= 0; i < editedAttributes.length; i++){
-            		$("div[title='" + editedAttributes[i].qName + "']", "." + uiMainDivId).draggable("disable");
+            		$("div[title='" + editedAttributes[i].qName + "']", "." + uiMainDivId).addClass("ui-state-disabled");//.draggable("disable").off("click");
             	}
             	
             }
@@ -194,8 +206,9 @@
         /*End of create function */    
         
         _newEditAttribute: function (name, label, value) {
-            
+          
         	controlledVocabularies = JSON.parse($("div.available-controlled-vocabularies").text());
+        	/* the variable is needed in the case any controlled vocabulary was usedin or will be set in the indexName Attribute*/
             var self = this,
             cm = self.options.cm,
             token = self.options.token,
@@ -247,7 +260,7 @@
              * if controlledVoc is true then menuliste (is a dropdown menu)is implemented
              * if false newEditAttributeInput (is an inputfield) is created.*/
             if (elementName == "cei:index") {
-                                 
+            
                 if ((controlledVoc == true) && ((name == "lemma") | (name == "indexName")))
                 {
                                     	                               
@@ -266,7 +279,8 @@
                 newEditAttribute.append(newEditAttributeLabel).append(newEditAttributeInput).append(newEditAttributeTrash);
             }
             
-            /*the div.forms-mixedcontent-edit-attributes gets the method _trashIconClickable */            
+            /*the div.forms-mixedcontent-edit-attributes gets the method _trashIconClickable */
+        
             self._trashIconClickable(newEditAttributeTrash, newEditAttribute, value);
             
             /* function replaces the attributes values in the instance */            
@@ -298,7 +312,8 @@
              * In the 'newli' variable the option elements with the possible values
              * are appended to 'menuliste'.*/
             
-            function setoptioninSelect(name) {            	
+            function setoptioninSelect(name) {
+            	
             	var lemmawert;
             	var indexnamewert;
                 var einf = $("<option> --- </option>");
@@ -309,7 +324,7 @@
                         var values = Object.keys(currentVocabulary).map(function (key) {
                             return currentVocabulary[key];
                         });
-                        var newOption = $('<option>' + values + '</option>')
+                        var newOption = $('<option>' + values.sort() + '</option>')
                             .addClass(uiSuggestedValueDivsClass).attr("title", values).attr("value", Object.keys(currentVocabulary)).attr("name", name);
                         if (Object.keys(controlledVocabularies[i]) == value) {
                             newOption.attr("selected", "selected");
@@ -325,7 +340,8 @@
                         	 function findindexName(edAttr){                        		 
                               	  return edAttr.qName == 'indexName';                              	  
                                 }
-                            indexnamewert = editedAttributes.find(findindexName).value;                        	
+                            indexnamewert = editedAttributes.find(findindexName).value;
+                        
                   
                      
                         	 function findEditedAttributes(edAttr){
@@ -338,27 +354,107 @@
                              else{
                             	 lemmawert = lemma.value;
                              }                       
-                  
-                        var sprachwert = $(".xrx-language-for-skos").text();                       
+                          
+                        var sprachwert = $(".xrx-language-for-skos").text();
+               
                         $.ajax({     
                             url: "/mom/service/editMomgetControlledVoc",
-                            type:"GET",                                
+                            type:"GET",                            
                             dataType: "json", 
-                            data: {indexname: indexnamewert, lemma: lemmawert, sprache:sprachwert},
+                            data: {indexname: indexnamewert, lemma: lemmawert, sprache: sprachwert},
                             success: function(data, textStatus, jqXHR)
-                            {                           
-                          for (var i in data){                            		
-                            		var valeur = data[i];                            		
-                            		var newli = $('<option>' + valeur + '</option>')
-                        			.addClass(uiSuggestedValueDivsClass).attr("title", valeur).attr("value", i).attr("name", name);
-                            		
-                            		if (i == value.replace('#', '')){                            		
-                           			 newli.attr("selected", "selected");
-                           		}
-                            		
-                            		menuliste.append(newli);
-                            }                       
-                                    
+                            {                     
+                     var auswahl = {};
+                 
+                     if (indexnamewert == 'IllUrkGlossar'){
+                    
+                    	   for (var i in data){                            		
+                       		var valeur = data[i];                            		
+                       		var newli = $('<option>' + valeur + '</option>')
+                   			.addClass(uiSuggestedValueDivsClass).attr("title", valeur).attr("value", i).attr("name", name);
+                       		
+                       		if (i == value.replace('#', '')){                            		
+                      			 newli.attr("selected", "selected");
+                      		}
+                       		
+                       		menuliste.append(newli);
+                       } 
+                     }
+                     else {
+                
+                     var data2 = data[Object.keys(data)];                                                             
+                                  
+                     for (var n in data2){                    	 
+                    	 var values2 = data2[n];//sind array-keys
+                    	 var named = data2[n][0];//das bleibt immer gleich, weil zuerst die Superkonzepte mit Array                       
+                    	 console.log ("der name:" + named + "und key" + n);
+                    	 //das Objekt wird mit Superkonzepten gefÃ¼llt
+                    	 auswahl[n] = named;
+                     var data3 = data2[n][1];
+                     if (data3 == undefined){
+                    	 
+                     }
+                     else{                  
+                     for (var m in data3){
+                    	 var key = m;
+                    	 var values = data3[key];                    
+                    	 if (typeof data3[m] == 'string'){
+                    		 var sortedID = n.concat("+", key);                    	 
+                        	 auswahl[sortedID] = values;
+                        	  
+                    	 }
+                    	 else                     	 
+                    	{
+                    		 var data4 = data3[m];                     		 
+                    		 for (var o in data4){
+                    			 if (typeof data4[o] != 'string'){                    			
+                    				 var data5 = data4[o];
+                    				 for (p in data5){
+                    					 var key = p;
+                    					 var values = data5[p];
+                    					 var sortedID = n.concat("+", key);
+                    				 }
+                    					 
+                    			 }
+                    			 else{
+                    		
+                    			 var key = o;
+                    			 var values = data4[o];
+                    			 var sortedID = n.concat("+", key);
+                    			 auswahl[sortedID] = values;}
+                    		 }
+                    		
+                    	 }
+                    	 
+                    	 
+                     }
+                     }
+                     }   
+                                    	
+                                           
+                         for (var z in auswahl){                       		  
+                        	console.log("Was ist die Auswahl?");
+                        	console.log(auswahl[z]);
+                       	  if (z.includes('+')){
+                       		var norm = z.substring(z.indexOf('+')+1, z.length);
+                       	  }
+                       	  else {
+                       		  var norm = z;
+                       	  }
+                       	  		
+                           		var valeur = auswahl[z];                            		
+                           		var newli = $('<option>' + valeur + '</option>')
+                       			.addClass(uiSuggestedValueDivsClass).attr("title", valeur).attr("value", norm).attr("name", name);
+                           	
+                           	if (z.substring(z.indexOf('+')+1, z.length) == value){
+                           		
+                           		console.log(z + "ist gleich" + value);
+                           		newli.attr("selected", "selected");
+                           	}
+                         
+                           		
+                           		menuliste.append(newli);
+                       	  }}
                                       return true;
                                     },     
                             error: function(){
@@ -382,7 +478,7 @@
             	console.log( ev.data.mfg);
             	var kapsel = ev.data.mfg;
             	var self = this;           
-                var attrvalue = this.value;
+                var attrvalue = this.value;                
                 var nodeset = $(document).xrx.nodeset(cm.getInputField());
                 var controlId = nodeset.only.levelId;
                 var relativeId = token.state.context.id.split('.').splice(1);
@@ -425,16 +521,19 @@
                           	controlledVoc = true;
                           	 $("div.forms-mixedcontent-suggested-attribute").addClass("ui-state-disabled");             
                           	 kapsel.rowremove('lemma', editedAttributes, cm, token);              
-                             $("div[title='lemma']").draggable("enable");
+                             
+                          	 $("div[title='lemma']").removeClass("ui-state-disabled");
+                          	 
                           }                    
       
                 if (name == 'lemma') {                                
                         controlledVoc = true; 
                         kapsel.rowremove('sublemma', editedAttributes, cm, token);
                         kapsel.enable();
+                     
+                } 
+                
              
-                }           
-               
                 /* Set the new value of the attributes in the instance. The function replaceAttrbiuteValue of the
                  * jquery wigdet xrxInstance.js is called */                
                 $('.xrx-instance').xrxInstance().replaceAttributeValue(contextId, attributes);
@@ -447,7 +546,56 @@
             return newEditAttribute;
         },      
         /*End of _newEditAttribute */    
+        /* method to switch off/on the use of controlled vocabularies
+         * 
+         * */
+        _onoffButton: function (controlledVocButton, editedAttributes) {
+        	controlledVocabularies = JSON.parse($("div.available-controlled-vocabularies").text());
+            var self = this,            
+            suggestedAttributes = self.options.suggestedAttributes,            
+            editedAttributes = self.options.editedAttributes,            
+            cm = self.options.cm,            
+            token = self.options.token;           
+            controlledVocButton.append($('<span id="onoff"></span>').css("float", "right").append($('<input type="radio" name="radio" id="on" value="on"/><label for="on" class="plug"> Yes </label>').css("font-size", "0.5em")).            
+            append($('<input type="radio" name="radio" id="off" value="off" checked="checked"/><label class="plug" for="off"> No </label>').css("font-size", "0.5em")))
+            
+            controlledVocButton.find("span").buttonset();   
+
+            /* if the cv is switched off and the attributes IndexName, or lemma or sublemma are set,
+             * these are going to be deleted and set to be draggable again.
+             * At the end of the function the boolean var controlledVoc is set to true or false.*/
+            controlledVocButton.find("input").change(function () {
                 
+            	var nodeset = $(document).xrx.nodeset(cm.getInputField());                
+                var controlId = nodeset.only.levelId;                
+                var relativeId = token.state.context.id.split('.').splice(1);                
+                var contextId = controlId.concat(relativeId);            
+
+                var values = $("input:radio:checked").val();
+                                                
+                if (values == "off") {      
+                	controlledVoc = false;
+
+                	   self.rowremove('indexName', editedAttributes, cm, token);
+                	   self.rowremove('lemma', editedAttributes, cm, token);                	
+                	   self.enable();
+                	   $("div[title='indexName']", "." + uiSuggestedAttributesDivClass).removeClass("ui-state-disabled");
+                	   $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).removeClass("ui-state-disabled");
+
+                    //controlledVoc = false;           
+                } else { 
+                   self.rowremove('indexName', editedAttributes, cm, token);
+             	   self.rowremove('lemma', editedAttributes, cm, token);
+             	   controlledVoc = true;
+            	   $("div[title='indexName']", "." + uiSuggestedAttributesDivClass).removeClass("ui-state-disabled");
+            	   $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).addClass("ui-state-disabled");
+                }
+           
+                
+            });            
+            return controlledVoc;
+        },
+        //end of _onoffButton method
         
         /*the Delete Method: in GUI you can click a trash-icon*/
         _trashIconClickable: function (trashIcon, editAttribute, inhalt) {          
@@ -456,7 +604,8 @@
             suggestedAttributes = self.options.suggestedAttributes,            
             editedAttributes = self.options.editedAttributes,           
             cm = self.options.cm,            
-            token = self.options.token;        
+            token = self.options.token;
+          
             /*
              * when the click event is triggered, the function takes the the name of the attribute 
              * that is going to be deleted out of the input Element or out of the editedAttributes
@@ -493,28 +642,33 @@
                 	
                 self.rowremove('lemma', editedAttributes, cm, token);
                 self.rowremove('indexName', editedAttributes, cm, token);
-                self.enable();
-                
-                    $("div[title='indexName']", "." + uiSuggestedAttributesDivClass).draggable("enable");              
-                
+                //self.enable();                
+                    var div = $("div[title='indexName']", "." + uiSuggestedAttributesDivClass).removeClass("ui-state-disabled");
+                    
+                    $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).addClass("ui-state-disabled");
+                    self._suggestedAttributeClickable(div);                  
+                   
+            
+               
                 }
                 /*if lemma (used with cv) is deleted, also sublemma has to be removed.
-                 * When this is done, just lemma and sublemma are set to be draggable again.*/
-                if (name == 'lemma' && $(editAttribute).find("select").length == 1) { 
-                	
+                 * When this is done, just lemma and sublemma are set to be draggable again.
+                else if (name == 'lemma' && $(editAttribute).find("select").length == 1) { 
+                	var div = $("div[title='lemma']").removeClass("ui-state-disabled");
                 	self.rowremove('lemma', editedAttributes, cm, token);
-                	$("div.forms-mixedcontent-suggested-attribute").addClass("ui-state-disabled");
-                	$("div[title='lemma']").draggable("enable");
-                }
+                  	self._suggestedAttributeClickable(div);
+                    
+                 
+                }*/
                 
                 else {  
-                self.rowremove(name, editedAttributes, cm, token);
-                self.enable();
-                $("div[title='" + name + "']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-           
+                self.rowremove(name, editedAttributes, cm, token);             
+         
+                var div = $("div[title='" + name + "']", "." + uiSuggestedAttributesDivClass).removeClass("ui-state-disabled");              
                 }
-                /*the attribute is also removed from the GUI*/
-                editAttribute.remove();               
+                /*the attribute is also removed from the GUI*/          
+             
+                editAttribute.remove();                 		               
                 
             });
          
@@ -524,115 +678,46 @@
         //End of _trashIconClickable
         
         
-        /* method to switch off/on the use of controlled vocabularies
-         * 
-         * */
-        _onoffButton: function (controlledVocButton, editedAttributes) {
-        	controlledVocabularies = JSON.parse($("div.available-controlled-vocabularies").text());
-            var self = this,            
-            suggestedAttributes = self.options.suggestedAttributes,            
-            editedAttributes = self.options.editedAttributes,            
-            cm = self.options.cm,            
-            token = self.options.token;           
-            controlledVocButton.append($('<span id="onoff"></span>').css("float", "right").append($('<input type="radio" name="radio" id="on" value="on"/><label for="on" class="plug"> On </label>').css("font-size", "0.5em")).            
-            append($('<input type="radio" name="radio" id="off" value="off" checked="checked"/><label class="plug" for="off"> Off </label>').css("font-size", "0.5em")))
-            
-            controlledVocButton.find("span").buttonset();   
-
-            /* if the cv is switched off and the attributes IndexName, or lemma or sublemma are set,
-             * these are going to be deleted and set to be draggable again.
-             * At the end of the function the boolean var controlledVoc is set to true or false.*/
-            controlledVocButton.find("input").change(function () {
-                
-            	var nodeset = $(document).xrx.nodeset(cm.getInputField());                
-                var controlId = nodeset.only.levelId;                
-                var relativeId = token.state.context.id.split('.').splice(1);                
-                var contextId = controlId.concat(relativeId);            
-
-                var values = $("input:radio:checked").val();
-                                                
-                if (values == "off") {      
-                	controlledVoc = false;
-
-                	   self.rowremove('indexName', editedAttributes, cm, token);
-                	   self.rowremove('lemma', editedAttributes, cm, token);                	
-                	   self.enable();
-                	   $("div[title='indexName']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-                	   $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-
-                    //controlledVoc = false;           
-                } else { 
-                   self.rowremove('indexName', editedAttributes, cm, token);
-             	   self.rowremove('lemma', editedAttributes, cm, token);
-             	   controlledVoc = true;
-            	   $("div[title='indexName']", "." + uiSuggestedAttributesDivClass).draggable("enable");
-            	   $("div[title='lemma']", "." + uiSuggestedAttributesDivClass).draggable("disable");
-                }
-            });            
-            return controlledVoc;
-        },
-        //end of _onoffButton method
+   
         
-        /* Method to be able to drag the suggestedAttributes in the GUI*/
-        _suggestedAttributeDraggable: function (suggestedAttribute) {
-            
-            var self = this;          
-            suggestedAttribute.draggable({                
-                containment: "." + uiMainDivId,               
-                revert: "invalid",                
-                cursor: "move",                
-                helper: "clone",                
-                start: function (event, ui) {                    
-                    $("." + uiDroppableAttributeDivClass, "." + uiMainDivId).addClass("edit-attributes-droppable-active");                    
-                    suggestedAttribute.addClass("suggested-attribute-draggable-disabled");                },
-                
-                stop: function (event, ui) {                    
-                    $("." + uiDroppableAttributeDivClass, "." + uiMainDivId).removeClass("edit-attributes-droppable-active");                    
-                    suggestedAttribute.removeClass("suggested-attribute-draggable-disabled");
-                }
-            });
-        },
+        _suggestedAttributeClickable: function (suggestedAttribute){
+        	  var self = this,            
+              cm = self.options.cm,            
+              token = self.options.token,            
+              elementName = self.options.elementName,
+              suggestedAttributes = self.options.suggestedAttributes,
+              editedAttributes = self.options.editedAttributes;
+           
+        	suggestedAttribute.on("click", function(){
+        		 var klasse = suggestedAttribute.attr("class");
+        		 if (klasse == "forms-mixedcontent-suggested-attribute ui-state-disabled"){
+        			
+        		 } else {
+        			
+            		 var qName = suggestedAttribute.attr("title"),                    
+                     label = suggestedAttribute.text();                    
+                     editWidget = self._newEditAttribute(qName, label, "");
+            	
+            		 $("." + uiEditAttributesDivClass, "." + uiMainDivId).append(editWidget);
+            		
+            		  var attributes = new AttributesImpl();                    
+                      attributes.addAttribute(null, qName, qName, undefined, "");
+            		  var nodeset = $(document).xrx.nodeset(cm.getInputField());                    
+                      var controlId = nodeset.only.levelId;                    
+                      var relativeId = token.state.context.id.split('.').splice(1);                    
+                      var contextId = controlId.concat(relativeId);
+                      
+                      $('.xrx-instance').xrxInstance().insertAttributes(contextId, attributes);
+                      
+                      editedAttributes.push({qName: qName, value: ""});
+                      suggestedAttribute.addClass("ui-state-disabled");        			 
+        		 }
+        	
+        	}); 
         
-        //End _suggestedAttributeDraggable        
-        
-        
-        /* Method enabling the dropping of the attributes in the GUI.
-         *  'div.forms-mixed-content-attribute-droppable' in the GUI is the dashed line field, where the suggested attr are dropped in */        
-        _attributeDroppable: function (droppableAttribute) {            
-            var self = this,            
-            cm = self.options.cm,            
-            token = self.options.token,            
-            elementName = self.options.elementName,
-            suggestedAttributes = self.options.suggestedAttributes,
-            editedAttributes = self.options.editedAttributes;
-            
-            droppableAttribute.droppable({                
-                accept: "." + uiSuggestedAttributeDivsClass,                
-                drop: function (event, ui) {                    
-                    
-                    var draggable = ui.draggable,                    
-                    qName = draggable.attr("title"),                    
-                    label = draggable.text(),                    
-                    editWidget = self._newEditAttribute(qName, label, "");                    
-                    var attributes = new AttributesImpl();                    
-                    attributes.addAttribute(null, qName, qName, undefined, "");                    
-                    $("." + uiEditAttributesDivClass, "." + uiMainDivId).append(editWidget);                  
-                    draggable.draggable("disable");                    
-                    
-                    var nodeset = $(document).xrx.nodeset(cm.getInputField());                    
-                    var controlId = nodeset.only.levelId;                    
-                    var relativeId = token.state.context.id.split('.').splice(1);                    
-                    var contextId = controlId.concat(relativeId);
-                    
-                    $('.xrx-instance').xrxInstance().insertAttributes(contextId, attributes);
-                    
-                    editedAttributes.push({qName: qName, value: ""});                    
-                    
-                }
-            });
-        },
-        
-        //End _attributeDroppable
+        },        
+      
+       
               
         
         hide: function () {
