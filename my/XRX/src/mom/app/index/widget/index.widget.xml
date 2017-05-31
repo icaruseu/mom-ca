@@ -581,7 +581,11 @@ div.filterbox {{
       width: 108%;
 }}
 
-
+.zur {{
+    padding-bottom: 10px;
+    padding-left:0;
+    padding-top:0;
+}}
   </style> 
   </xrx:csss>
     <xrx:jss> 
@@ -612,13 +616,13 @@ div.filterbox {{
     let $ausnahme := 'BischoefeAblaesse' (: because there is only just this one in the collection; not a general solution :)
     let $text := if ($xrx:tokenized-uri[2]= $ausnahme)then $personenliste[atom:id=contains(., $xrx:tokenized-uri[2])]//atom:content//tei:title[@xml:lang= $sprache]/text() else($indexliste//atom:content//skos:ConceptScheme[@rdf:about= $rdfabout]/skos:prefLabel[1]/text())
      return
-           <div class="choose radio" id="links">         
+           <div id="links">         
           <!--  <xrx:i18n>
               <xrx:key>choose-an-index</xrx:key>
               <xrx:default>Choose an Index</xrx:default>
             </xrx:i18n> -->
-         <ul class="choose-menu">         
-            <li><a class="ui-button ui-widget ui-corner-all" href="{concat(conf:param('request-root'),'index')}">Back to index overview</a></li>  
+         <ul class="zur">         
+            <li><a href="{concat(conf:param('request-root'),'index')}">Back to index overview</a></li>  
        </ul>  
        </div> else(
        <div class="none">//</div>
