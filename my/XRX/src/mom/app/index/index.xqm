@@ -1,4 +1,5 @@
 xquery version "3.0";
+
 (:~
 This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
 
@@ -22,12 +23,14 @@ along with VdU/VRET.  If not, see <http://www.gnu.org/licenses/>.
 We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
 :)
 
+
 module namespace index="http://www.monasterium.net/NS/index";
 
 import module namespace kwic="http://exist-db.org/xquery/kwic";
 
 import module namespace conf="http://www.monasterium.net/NS/conf" 
       at "../xrx/conf.xqm";
+
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare namespace xrx="http://www.monasterium.net/NS/xrx";
 declare namespace cei="http://www.monasterium.net/NS/cei";
@@ -35,7 +38,6 @@ declare namespace tei="http://www.monasterium.net/NS/tei";
 declare namespace svg="http://www.w3.org/2000/svg";
 declare namespace atom="http://www.w3.org/2005/Atom";
 declare namespace image="http://exist-db.org/xquery/image";
-
 
 declare variable $index:chartercollection := collection(concat(conf:param("data-db-base-uri"), "/metadata.charter.public"));
 
@@ -49,6 +51,7 @@ declare function index:index-abfrage($term){
       
       else(
       let $resultat := session:set-attribute('result', $index:chartercollection//cei:text[ft:query(.//@lemma, substring-after($term, '#'))])
+
       for $m in collection("/db/mom-data/metadata.charter.public")//cei:text[ft:query(.//@lemma, substring-after($term, '#'))]      
       order by ft:score($m) descending      
       return   $m

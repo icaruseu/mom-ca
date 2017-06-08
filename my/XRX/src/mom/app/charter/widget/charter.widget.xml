@@ -330,7 +330,9 @@ let $vocabular := replace(data($i/@rdf:about), '#', '')
       <xrx:expression>
         <parameters>
           <param name="image-base-uri" value="{ $wcharter:image-base-uri }"/>
+
           <param name="sprache" value="{$wcharter:sprache}"/>
+
           <param name="controlledvocabularies" value="{$wcharter:controlledvocabularies}"/>
             {
             let $keys := root($wcharter:xsl)//*[local-name(.) = "stylesheet"]/node()

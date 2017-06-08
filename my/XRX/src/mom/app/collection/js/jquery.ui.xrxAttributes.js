@@ -389,6 +389,7 @@
                     	 var named = data2[n][0];//das bleibt immer gleich, weil zuerst die Superkonzepte mit Array                       
                     	 console.log ("der name:" + named + "und key" + n);
                     	 //das Objekt wird mit Superkonzepten gefÃ¼llt
+
                     	 auswahl[n] = named;
                      var data3 = data2[n][1];
                      if (data3 == undefined){
@@ -433,8 +434,7 @@
                                     	
                                            
                          for (var z in auswahl){                       		  
-                        	console.log("Was ist die Auswahl?");
-                        	console.log(auswahl[z]);
+
                        	  if (z.includes('+')){
                        		var norm = z.substring(z.indexOf('+')+1, z.length);
                        	  }

@@ -14,7 +14,9 @@
     <xsl:template match="/">     
         <xsl:apply-templates select="$sitemap"/>
     </xsl:template>
+
     <xsl:param name="sprache"/>
+
     <xsl:param name="image-base-uri"/>
     <xsl:param name="controlledvocabularies"/>   
     
@@ -85,11 +87,12 @@
                     select="document($url)//atom:entry/atom:content//skos:ConceptScheme/skos:prefLabel[1]"/>
                 </xsl:otherwise>
                 </xsl:choose>               
+
             </xsl:when>
             <xsl:when test="contains($controlledvocabularies, $indexname)">
                 <xsl:variable name="url"
                     select="concat('/db/mom-data/metadata.controlledVocabulary.public/', $indexname, '.xml')"/>
-               
+
                <xsl:choose>
                <xsl:when test="document($url)//skos:prefLabel[upper-case(parent::*/@*) = $lemma]/@xml:lang = $sprache">
                   <xsl:value-of
@@ -430,6 +433,7 @@
                                         <xsl:when test="xrx:getvocabularies($indexname, '', $sprache)">
                                             <xsl:value-of
                                                 select="xrx:getvocabularies($indexname, '', $sprache)"/>
+
                                             <xsl:text>: </xsl:text>
                                         </xsl:when>
                                         <xsl:otherwise>
@@ -1810,6 +1814,7 @@
                 <xsl:variable name="cv">
                     <xsl:choose>
                         <xsl:when test="xrx:getvocabularies(@indexName, '', $sprache)">
+
                             <xsl:text>true</xsl:text>
                         </xsl:when>
                         <xsl:otherwise>
@@ -1826,6 +1831,7 @@
                     <xsl:attribute name="value">
                         <xsl:choose>
                             <xsl:when test="xrx:getvocabularies(@indexName, '', $sprache)">
+
                                 <xsl:text>true</xsl:text>
                             </xsl:when>
                             <xsl:otherwise>
@@ -1848,6 +1854,7 @@
                             <xsl:value-of select="concat('#',upper-case($lem))"></xsl:value-of>
                             </xsl:variable>
                             <xsl:choose>
+
                                 <xsl:when test="xrx:getvocabularies(@indexName, '', $sprache)">                           
                                 <!-- der übersetzte Lemma wert kommt hier hin -->                                                             
                                     <xsl:value-of
@@ -1860,6 +1867,7 @@
                           <!--  Das verwirrt nur den user <xsl:if
                                 test="(compare(xrx:getvocabularies(@indexName, $norm, $sprache), .) = -1)">
                                 <xsl:text>  </xsl:text>                            
+
                                 <xsl:value-of select="."/>                             
                             </xsl:if> -->
                         </xsl:otherwise>
