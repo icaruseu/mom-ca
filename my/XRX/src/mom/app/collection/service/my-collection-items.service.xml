@@ -56,8 +56,8 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
           jsonx:object(
             for $entry at $num in $entries
             
-            (:let $objectid := $entry/atom:id/text():)
-            let $objectid := metadata:objectid($entry/atom:id/text())
+           
+            let $objectid := metadata:objectid($entry//atom:id/text())
             
             (: These is part of the function publication:build-url
             ~ function is not callable from service :)
@@ -72,7 +72,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
             let $date := $entry//cei:dateRange/@from/string()
             let $idno := $entry//cei:body/cei:idno/text()
             let $title := 
-              let $charter-title := concat(substring(string-join($entry//cei:abstract//text(), ''), 1, 50), ' ...')
+              let $charter-title := normalize-space(concat(substring(string-join($entry//cei:abstract//text(), ''), 1, 50), ' ...'))
               return
               if($charter-title != ' ...') then concat($idno, ', ', $charter-title) else $idno
             let $atomid-linked-charter := $entry/atom:link/@ref/string()
