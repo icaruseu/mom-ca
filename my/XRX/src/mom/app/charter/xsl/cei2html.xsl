@@ -14,7 +14,7 @@
     <xsl:template match="/">     
         <xsl:apply-templates select="$sitemap"/>
     </xsl:template>
-    
+    <xsl:param name="lang"/>
     <xsl:param name="image-base-uri"/>
     <xsl:param name="controlledvocabularies"/>   
     
@@ -79,14 +79,13 @@
                 <xsl:variable name="url"
                     select="concat('/db/mom-data/metadata.controlledVocabulary.public/', $indexname, '.xml')"/>
                 <xsl:value-of
-                    select="document($url)//atom:entry/atom:content//skos:ConceptScheme/skos:prefLabel"/>
-
+                    select="document($url)//atom:entry/atom:content//skos:ConceptScheme/skos:prefLabel[@xml:lang= $lang]|document($url)//atom:entry/atom:content//skos:ConceptScheme/skos:prefLabel[1]"/>
             </xsl:when>
             <xsl:when test="contains($controlledvocabularies, $indexname)">
                 <xsl:variable name="url"
                     select="concat('/db/mom-data/metadata.controlledVocabulary.public/', $indexname, '.xml')"/>
                 <xsl:value-of
-                    select="document($url)//skos:prefLabel[parent::*/@* = $lemma][@xml:lang = $lang]"/>
+                    select="document($url)//skos:prefLabel[parent::*/@* = $lemma][@xml:lang = $lang]| document($url)//skos:prefLabel[parent::*/@* = $lemma][1]"/>
 
             </xsl:when>
         </xsl:choose>
@@ -405,15 +404,15 @@
                     </b>
                     <ul>
                         <xsl:if test="//cei:index[@indexName]">
-                            <xsl:for-each-group select="//cei:index[@indexName != 'general']"
+                            <xsl:for-each-group select="//cei:index[@indexName != 'general'][@indexName !='']"
                                 group-by="@indexName">
                                 <xsl:sort select="@indexName" order="descending"/>
                                 <xsl:variable name="indexname" select="@indexName"/>
                                 <li class="indexname">                               
                                     <xsl:choose>
-                                        <xsl:when test="xrx:getvocabularies($indexname, '', 'de')">
+                                        <xsl:when test="xrx:getvocabularies($indexname, '', $lang)">
                                             <xsl:value-of
-                                                select="xrx:getvocabularies($indexname, '', 'de')"/>
+                                                select="xrx:getvocabularies($indexname, '', $lang)"/>
                                             <xsl:text>: </xsl:text>
                                         </xsl:when>
                                         <xsl:otherwise>
@@ -1793,7 +1792,7 @@
             <xsl:when test="./@lemma">
                 <xsl:variable name="cv">
                     <xsl:choose>
-                        <xsl:when test="xrx:getvocabularies(@indexName, '', 'de')">
+                        <xsl:when test="xrx:getvocabularies(@indexName, '', $lang)">
                             <xsl:text>true</xsl:text>
                         </xsl:when>
                         <xsl:otherwise>
@@ -1809,7 +1808,7 @@
                     </xsl:attribute>
                     <xsl:attribute name="value">
                         <xsl:choose>
-                            <xsl:when test="xrx:getvocabularies(@indexName, '', 'de')">
+                            <xsl:when test="xrx:getvocabularies(@indexName, '', $lang)">
                                 <xsl:text>true</xsl:text>
                             </xsl:when>
                             <xsl:otherwise>
@@ -1829,16 +1828,17 @@
                         <xsl:otherwise>
                             <xsl:variable name="lem" select="concat('#', @lemma)"/>
                             <xsl:choose>
-                                <xsl:when test="xrx:getvocabularies(@indexName, '', 'de')">
+                                <xsl:when test="xrx:getvocabularies(@indexName, '', $lang)">                                                              
                                     <xsl:value-of
-                                        select="xrx:getvocabularies(@indexName, $lem, 'de')"/>
+                                        select="xrx:getvocabularies(@indexName, $lem, $lang)"/>
                                 </xsl:when>
                                 <xsl:otherwise>
+                                
                                     <xsl:value-of select="@lemma"/>
                                 </xsl:otherwise>
                             </xsl:choose>
                             <xsl:if
-                                test="(compare(xrx:getvocabularies(@indexName, $lem, 'de'), .) = -1)">
+                                test="(compare(xrx:getvocabularies(@indexName, $lem, $lang), .) = -1)">
                                 <xsl:text> - </xsl:text>                            
                                 <xsl:value-of select="."/>                             
                             </xsl:if>

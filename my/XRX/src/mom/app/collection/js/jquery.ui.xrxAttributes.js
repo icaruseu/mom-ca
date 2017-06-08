@@ -342,23 +342,102 @@
                         var sprachwert = $(".xrx-language-for-skos").text();                       
                         $.ajax({     
                             url: "/mom/service/editMomgetControlledVoc",
-                            type:"GET",                                
+                            type:"GET",                            
                             dataType: "json", 
-                            data: {indexname: indexnamewert, lemma: lemmawert, sprache:sprachwert},
+                            data: {indexname: indexnamewert, lemma: lemmawert, sprache: sprachwert},
                             success: function(data, textStatus, jqXHR)
-                            {                           
-                          for (var i in data){                            		
-                            		var valeur = data[i];                            		
-                            		var newli = $('<option>' + valeur + '</option>')
-                        			.addClass(uiSuggestedValueDivsClass).attr("title", valeur).attr("value", i).attr("name", name);
-                            		
-                            		if (i == value.replace('#', '')){                            		
-                           			 newli.attr("selected", "selected");
-                           		}
-                            		
-                            		menuliste.append(newli);
-                            }                       
-                                    
+                            {                     
+                     var auswahl = {};
+                 
+                     if (indexnamewert == 'IllUrkGlossar'){
+                    
+                    	   for (var i in data){                            		
+                       		var valeur = data[i];                            		
+                       		var newli = $('<option>' + valeur + '</option>')
+                   			.addClass(uiSuggestedValueDivsClass).attr("title", valeur).attr("value", i).attr("name", name);
+                       		
+                       		if (i == value.replace('#', '')){                            		
+                      			 newli.attr("selected", "selected");
+                      		}
+                       		
+                       		menuliste.append(newli);
+                       } 
+                     }
+                     else {
+                     var data2 = data[Object.keys(data)];
+                     var key3 = data[Object.keys(data)];                                         
+                     console.log(data2); //Das ist Obj mit ARRAYS                    
+                     for (var n in data2){
+                    	 var keys2 = n;
+                    	 var values2 = data2[keys2];//sind array-keys
+                    	 var named = data2[n][0];//das bleibt immer gleich, weil zuerst die Superkonzepte mit Array                       
+                    	 console.log ("der name:" + named + "und key" + n);
+                    	 //das Objekt wird mit Superkonzepten gefüllt
+                    	 auswahl[n] = named;
+                     var data3 = data2[n][1];
+                     if (data3 == undefined){
+                    	 
+                     }
+                     else{                  
+                     for (var m in data3){
+                    	 var key = m;
+                    	 var values = data3[key];                    
+                    	 if (typeof data3[m] == 'string'){
+                    		 var sortedID = n.concat("+", key);                    	 
+                        	 auswahl[sortedID] = values;
+                        	  
+                    	 }
+                    	 else                     	 
+                    	{
+                    		 var data4 = data3[m];                     		 
+                    		 for (var o in data4){
+                    			 if (typeof data4[o] != 'string'){                    			
+                    				 var data5 = data4[o];
+                    				 for (p in data5){
+                    					 var key = p;
+                    					 var values = data5[p];
+                    					 var sortedID = n.concat("+", key);
+                    				 }
+                    					 
+                    			 }
+                    			 else{
+                    		
+                    			 var key = o;
+                    			 var values = data4[o];
+                    			 var sortedID = n.concat("+", key);
+                    			 auswahl[sortedID] = values;}
+                    		 }
+                    		
+                    	 }
+                    	 
+                    	 
+                     }
+                     }
+                     }   
+                                    	
+                                           
+                         for (var z in auswahl){                       		  
+                    
+                       	  if (z.includes('+')){
+                       		var norm = z.substring(z.indexOf('+')+1, z.length);
+                       	  }
+                       	  else {
+                       		  var norm = z;
+                       	  }
+                       	  		
+                           		var valeur = auswahl[z];                            		
+                           		var newli = $('<option>' + valeur + '</option>')
+                       			.addClass(uiSuggestedValueDivsClass).attr("title", valeur).attr("value", norm).attr("name", name);
+                           	
+                           	if (z.substring(z.indexOf('+')+1, z.length) == value){
+                           		
+                           		console.log(z + "ist gleich" + value);
+                           		newli.attr("selected", "selected");
+                           	}
+                         
+                           		
+                           		menuliste.append(newli);
+                       	  }}
                                       return true;
                                     },     
                             error: function(){
@@ -382,7 +461,7 @@
             	console.log( ev.data.mfg);
             	var kapsel = ev.data.mfg;
             	var self = this;           
-                var attrvalue = this.value;
+                var attrvalue = this.value;                
                 var nodeset = $(document).xrx.nodeset(cm.getInputField());
                 var controlId = nodeset.only.levelId;
                 var relativeId = token.state.context.id.split('.').splice(1);

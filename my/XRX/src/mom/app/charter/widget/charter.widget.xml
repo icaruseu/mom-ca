@@ -326,12 +326,13 @@ let $vocabular := replace(data($i/@rdf:about), '#', '')
       <xrx:expression>
         <parameters>
           <param name="image-base-uri" value="{ $wcharter:image-base-uri }"/>
+          <param name="lang" value="{$xrx:lang}"/>
           <param name="controlledvocabularies" value="{$wcharter:controlledvocabularies}"/>
             {
             let $keys := root($wcharter:xsl)//*[local-name(.) = "stylesheet"]/node()
             let $i18n := $keys//xrx:i18n
             for $key in $i18n
-            return <param name="{$key/xrx:key}" value="{i18n:translate($key)}"/>           
+            return if ($key != '') then <param name="{$key/xrx:key}" value="{i18n:translate($key)}"/> else()       
           }
         </parameters>        
       </xrx:expression>
@@ -540,6 +541,17 @@ span.info_i {{
     padding: 0 4px;
     margin-left:10px;
     
+}}
+
+/* css angaben für search-result aus search app*/
+span {{
+      padding:5px;
+}}
+span.back {{
+      margin-left:3em;
+}}
+div.browse {{
+        padding-bottom:20px;
 }}
 
 div.inlinehead, div.greyinlinehead, div.light-green, div.light-green:visited{{

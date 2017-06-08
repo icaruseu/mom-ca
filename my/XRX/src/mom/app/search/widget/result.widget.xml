@@ -41,6 +41,14 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:name>$constructor:pos</xrx:name>
       <xrx:default>()</xrx:default>
     </xrx:parameter>
+    <xrx:parameter>
+    <xrx:name>$terminus</xrx:name>
+    <xrx:default>()</xrx:default>
+    </xrx:parameter>
+        <xrx:parameter>
+    <xrx:name>$vocabular</xrx:name>
+    <xrx:default>()</xrx:default>
+    </xrx:parameter>   
     </xrx:constructor>
   <xrx:variables>
     <xrx:variable>
@@ -144,6 +152,13 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:name>$wcharter-preview:num-images</xrx:name>
       <xrx:expression>count($constructor:charter//cei:graphic/@url)</xrx:expression>
     </xrx:variable>
+    <!-- needed for the index app, show hits in xml-code -->
+      <xrx:variable>
+      <xrx:name>$exzerpt</xrx:name>
+      <xrx:expression>if(starts-with($terminus, 'P_'))then serialize($constructor:charter//cei:abstract/node()) 
+      else if($vocabular = 'illurk-vocabulary')then serialize($constructor:charter//cei:text/cei:back/node()) else(serialize($constructor:charter//cei:decoDesc//cei:p/node()))</xrx:expression>
+    </xrx:variable>
+    <!-- -->
     <xrx:variable>
       <xrx:name>$wcharter-preview:date</xrx:name>
       <xrx:expression>($constructor:charter//cei:date/text(), $constructor:charter//cei:dateRange/text(), data($constructor:charter//cei:date/@vlaue), data($constructor:charter//cei:dateRange/@from))[1]</xrx:expression>
@@ -196,14 +211,18 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               <xrx:key>charter</xrx:key>
               <xrx:default>Charter</xrx:default>
             </xrx:i18n>
-            <span>: </span>
-          </b>
+            <span>: </span>
+          </b>          
           <span>
             <a href="{ $wcharter-preview:charter-url }">
               <span>{ $wcharter-preview:idno }</span>
             </a>
-          </span>
+          </span>            
         </div>
+        
+      <!--      <div data-demoid="b6903f38-a42f-4214-a41c-bb68f608161d">
+              <span>{ $wcharter-preview:abstract }</span>
+            </div> -->
       </xrx:view>
     </xrx:div>
     <xrx:div>
@@ -468,21 +487,54 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	            </span>
 	          </div>
 	          }
+	        
+	        
             <div data-demoid="c56ab599-35a9-439f-bb2a-f42282dd6c74">
               <b>
                 <xrx:i18n>
                   <xrx:key>date</xrx:key>
                   <xrx:default>Date</xrx:default>
                 </xrx:i18n>
-                <span>: </span>
+                <span>:</span>
               </b>
               <span>{ $wcharter-preview:date }</span>
             </div>
-            <div data-demoid="b6903f38-a42f-4214-a41c-bb68f608161d">
-              <span>{ $wcharter-preview:abstract }</span>
+           {
+           
+           let $suchbegriff := string($terminus)
+           let $vorderteil := substring-before($exzerpt, $suchbegriff)
+           let $minvorderteil := substring($vorderteil,string-length($vorderteil)-99, 100)
+           let $teil := replace($vorderteil, '([.])([A-Z])', '$1 $2')
+           let $prae := tokenize($teil, '([.][ ])')[last()]          
+           let $hinterteil := substring-after(substring-after($exzerpt, $vorderteil), $suchbegriff)
+           let $minhinterteil := substring($hinterteil,0, 100)
+           let $post := tokenize($hinterteil, '([.][ ])')[1]
+           
+           return
+           if ($terminus)then                               
+             <div>
+              <b><!-- brauche bedingung: wenn das prae nicht leer und string-length kleiner 300 ACHTUNG Denkfehler bei minvorderteil zürückzählen-->
+                <xrx:i18n>
+                  <xrx:key>abstract</xrx:key>
+                  <xrx:default>abstract</xrx:default>
+                </xrx:i18n>
+                <span>: </span>
+              </b>
+              <span class="klein">{if(string($prae)!='' and string-length($prae) lt 300)then $prae else($minvorderteil)}<b>{$suchbegriff}</b>{if(string($post) !='' and string-length($post) lt 300)then $post else($minhinterteil)} ...            
+              </span>
             </div>
-            <br/>
-            <xrx:div>original-context-div</xrx:div>
+            else(
+                 <div>
+              <span>{ $wcharter-preview:abstract }</span>
+            </div>)
+                      
+            }
+            <!-- <div data-demoid="b6903f38-a42f-4214-a41c-bb68f608161d">
+              <span>{ $wcharter-preview:abstract }</span>
+            </div> -->
+            <br/>          
+          
+          <!--   <xrx:div>original-context-div</xrx:div> -->
           </div>
           <div class="charter-info-and-actions" data-demoid="016b2664-fa00-4acc-951c-97ea31c3452a" id="charter-info-and-actions">
             <div data-demoid="928d74c7-44f2-4a45-9bd8-9f7197e63b35">
