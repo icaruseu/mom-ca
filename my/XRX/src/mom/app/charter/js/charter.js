@@ -253,6 +253,7 @@ function rapper(){
 			        	
 			        		}
 			        		else {				        		
+
 			        			var preflabel = $(data).find("skos\\:prefLabel");
 			        			var h = $("<h3></h3>").append(preflabel);			        			
 			        				var def = $(data).find("skos\\:definition");

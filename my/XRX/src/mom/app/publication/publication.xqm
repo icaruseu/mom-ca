@@ -106,7 +106,7 @@ declare function publication:build-url($atomid as xs:string) as xs:string? {
 };
 
 declare function publication:is-saved($user-xml as element(xrx:user)*, $atomid as xs:string) as xs:boolean {
-	exists($user-xml//xrx:saved[xrx:id=$atomid])
+  exists($user-xml//xrx:saved[xrx:id=$atomid])
 };
 
 declare function publication:saved-by-user($user-xml as element(xrx:user)*, $atomid as xs:string*) as xs:string? {
@@ -207,6 +207,29 @@ declare function publication:momathon-trigger(
     <div/>
 };
 
+declare function publication:mom3-trigger(
+    $atomid as xs:string,
+    $num as xs:integer,
+    $request-root as xs:string,
+    $widget-key as xs:string,
+    $save-charter-message as element(xhtml:span)) {
+
+    if(matches($widget-key, '^(fond|collection|search|saved-charters|charter|bookmarks|mom-ca)$')) then
+    <div>
+        <xf:trigger appearance="minimal">
+            <xf:label>{ $save-charter-message }</xf:label>
+            <xf:action ev:event="DOMActivate">
+                <xf:setvalue ref="//atomid" value="'{ $atomid }'"/>               
+                <xf:recalculate/>
+                <xf:send submission="ssave-charter"/>
+                <xf:load show="new" resource ="{ $request-root }/{publication:build-url($atomid)}"/>              
+            </xf:action>
+        </xf:trigger>
+    </div>
+    else
+    <div/>
+};
+
 declare function publication:save-trigger(
     $atomid as xs:string,
     $num as xs:integer,
@@ -237,7 +260,8 @@ declare function publication:edit-trigger(
     $is-moderator as xs:boolean,
     $widget-key as xs:string,
     $edit-charter-message as element(xhtml:span),
-    $edit-mode as xs:string) {
+    $edit-mom3-message as element(xhtml:span)
+    ) {
 
     if($is-moderator and (matches($widget-key,'charters-to-publish'))) then
     <div>
@@ -252,13 +276,14 @@ declare function publication:edit-trigger(
         </xf:trigger>
     </div>
     else if(matches($widget-key, '^(fond|collection|search|saved-charters|charter|charters-to-publish|bookmarks|mom-ca)$')) then
-    <div>
-        <img src="{ $request-root }resource/?atomid=tag:www.monasterium.net,2011:/mom/resource/image/button_edit"/>
-        <xf:trigger appearance="minimal">
+    <div>  
+       <div>
+       <img src="{ $request-root }resource/?atomid=tag:www.monasterium.net,2011:/mom/resource/image/button_edit"/>
+       <xf:trigger appearance="minimal">
             <xf:label>{ $edit-charter-message }</xf:label>
             <xf:action ev:event="DOMActivate">
             {
-              if ($edit-mode = "editmom3" or $widget-key="mom-ca") then
+              if ($widget-key="mom-ca") then
                   <xf:load show="new">
                     <xf:resource value="'{ $request-root }/{publication:build-url($atomid)}'"/> 
                   </xf:load>
@@ -269,7 +294,24 @@ declare function publication:edit-trigger(
               }
             </xf:action>
         </xf:trigger>
+       </div><!-- Editmom3 added as 2nd editing possibility #583-->
+       { if($widget-key !="mom-ca") then
+        <div>        
+        <img src="{ $request-root }resource/?atomid=tag:www.monasterium.net,2011:/mom/resource/image/button_edit"/>        
+        <xf:trigger appearance="minimal">
+            <xf:label>Edit with EditMOM 3 beta</xf:label><!-- Label for editMOM3, used just here -->
+            <xf:action ev:event="DOMActivate">              
+                  <xf:load show="new">
+                    <xf:resource value="'{ $request-root }/{publication:build-url($atomid)}'"/> 
+                  </xf:load>              
+            </xf:action>
+        </xf:trigger>
+     </div>
+     else
+     <div/>
+      }
     </div>
+   
     else
     <div/>
 };
@@ -490,7 +532,7 @@ declare function publication:user-actions(
     $num as xs:integer, 
     $request-root as xs:string,
     $is-moderator as xs:boolean,
-    $widget-key as xs:string,
+    $widget-key as xs:string,    
     $save-charter-message as element(xhtml:span), 
     $edit-charter-message as element(xhtml:span), 
     $charter-in-use-message as element(xhtml:span), 
@@ -515,8 +557,7 @@ declare function publication:user-actions(
     (: charter is free to edit :)
     let $case-edit-charter :=
     <xf:case id="cedit-charter-{ $num }">
-        { publication:edit-trigger($atomid,$num,$request-root,$is-moderator,$widget-key,$edit-charter-message, "") }
-        { if($widget-key = "saved-charters") then publication:edit-trigger($atomid,$num,$request-root,$is-moderator,$widget-key,publication:change-element-ns($editmom3msg, "http://www.w3.org/1999/xhtml", "xhtml"), "editmom3") else ""}
+        { publication:edit-trigger($atomid,$num,$request-root,$is-moderator,$widget-key,$edit-charter-message, publication:change-element-ns($editmom3msg, "http://www.w3.org/1999/xhtml", "xhtml")) }      
         {
         if($is-moderator) then 
             publication:publish-trigger($atomid,$num,$request-root,$widget-key,$publish-charter-message)
@@ -535,8 +576,8 @@ declare function publication:user-actions(
         else 
         <div/>
         }
-    </xf:case>
-    
+    </xf:case>    
+        
     return
 
     <xf:group model="msaved">
@@ -546,7 +587,7 @@ declare function publication:user-actions(
             else if($saved-by-current-user) then ($case-edit-charter, $case-save-charter)
             else if($saved-by-any-user) then $case-charter-in-use
             else if($widget-key = "mom-ca") then ($case-momathon-charter) 
-            else ($case-save-charter, $case-edit-charter)
+            else ($case-save-charter, $case-edit-charter )
             }
         </xf:switch>
     </xf:group>
