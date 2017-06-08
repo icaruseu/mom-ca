@@ -193,7 +193,7 @@ else 	{
 
 function rapper(){		
 	
-		var infoeintrag = $('li[value="true"]');
+		var infoeintrag = $('li[value="true"]');		
 		/* normally all li where value = true (which means that there is more information provided to this index)
 		 * has an eception which is the illurk-vocabulary and vis, because until now there is no additional info.
 		 * 
@@ -252,7 +252,8 @@ function rapper(){
 			        			$("div#enhancedView").append(port);				        			
 			        	
 			        		}
-			        		else {			        					        			
+			        		else {				        		
+
 			        			var preflabel = $(data).find("skos\\:prefLabel");
 			        			var h = $("<h3></h3>").append(preflabel);			        			
 			        				var def = $(data).find("skos\\:definition");

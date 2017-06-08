@@ -33,9 +33,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   </xrx:licence>
   <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
   <xrx:init>
-    <xrx:processor>
-      <xrx:xformsflag>true</xrx:xformsflag>
-    </xrx:processor>
+   <xrx:processor>
+     <xrx:xformsflag>true</xrx:xformsflag>
+     <xrx:jqueryflag>true</xrx:jqueryflag>
+   </xrx:processor>
   </xrx:init>
   <xrx:csss>
     <xrx:css>tag:www.monasterium.net,2011:/mom/css/charter-preview</xrx:css>
@@ -193,6 +194,9 @@ right:220px;
 
     </style>
   </xrx:csss>
+  <xrx:jss>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+  </xrx:jss>
   <xrx:model>
     { bookmark:model(conf:param('request-root')) }
     { publication:model(conf:param('request-root')) }

@@ -63,6 +63,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 }}    
     </style>
   </xrx:csss>
+  <xrx:jss>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+  </xrx:jss>
   <xrx:view>
     <div data-demoid="bed67d1f-6e67-4e2e-ac78-fdc41196cec9" id="dmy-collections">
 			<div class="h2" data-demoid="4f97035f-08d5-4f85-9aa4-a6d7ab1b0016">

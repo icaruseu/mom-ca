@@ -135,6 +135,7 @@ body {{
   position:relative;
   float:left;
   width:35%;
+  padding-top:5%;
   padding-right:5%;
 }}
 .forms-mixedcontent-suggested-attribute {{
@@ -188,10 +189,18 @@ body {{
 .choose {{
   border:none;
 }}
+/* controlled Vocabulary*/
 
+.controlledVocabulary {{
+  border:dashed rgb(200,200,200) 1px;
+  flaot:right;
+  margin-bottom:3%;
+  padding:2%;
+}}
 
-
-
+.choose {{
+      border:dashed rgb(200,200,200) 1px;
+}}
 
 /*
 * Forms Mixed Content Tagname
@@ -200,6 +209,10 @@ body {{
   padding-left:7px;
   font-weight:bold;
   font-size:1.6em;
+}}
+
+a.ui-corner-all {{
+        font-size:0.9em !important;
 }}
 
 /*
