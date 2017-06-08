@@ -732,116 +732,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="class"/>
                     <xs:element ref="abstract"/>
-                    <xs:element name="issued" minOccurs="1" maxOccurs="1">
-                        <xs:annotation>
-                            <xs:appinfo source="EditVDU">
-                                <xrxe:label>
-                                    <xrx:i18n>
-                                        <xrx:key>cei_issued</xrx:key>
-                                        <xrx:default>issued</xrx:default>
-                                    </xrx:i18n>
-                                </xrxe:label>
-                                <xrxe:mixed>false</xrxe:mixed>
-                            </xs:appinfo>
-                            <xs:documentation xml:lang="deu">
-                Diese Konstruktion kann allgemeine Elemente für die Beschreibung von
-                Ausstellungsort und -zeit verwenden und ist deshalb den
-                Konstrukten "issuePlace" und "date" bzw. "publicationStmt"
-                vorzuziehen. [strict!]
-                            </xs:documentation>
-                        </xs:annotation>
-                        <xs:complexType mixed="true">
-                            <xs:annotation>
-                                <xs:appinfo source="EditVDU">
-                                    <xrxe:mixed>false</xrxe:mixed>
-                                </xs:appinfo>
-                            </xs:annotation>
-                            <xs:sequence>
-                                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                                    <xs:element ref="placeName">
-                                        <xs:annotation>
-                                            <xs:appinfo source="EditVDU">
-                                                <xrxe:min-occur>1</xrxe:min-occur>
-                                                <xrxe:max-occur>1</xrxe:max-occur>
-                                            </xs:appinfo>
-                                        </xs:annotation>
-                                    </xs:element>
-                                    <xs:choice>
-                                        <xs:element ref="date">
-                                            <xs:annotation>
-                                                <xs:appinfo source="EditVDU">
-                                                    <xrxe:min-occur>0</xrxe:min-occur>
-                                                    <xrxe:max-occur>1</xrxe:max-occur>
-                                                </xs:appinfo>
-                                                <xs:documentation>
-                                                    <xrx:description>
-                                                        <xrx:i18n>
-                                                            <xrx:key>cei_issued_date_description</xrx:key>
-                                                            <xrx:default>Datum, an dem die Urkunde ausgestellt ist. Die Daten werden im Format 'Jahr Monat (als Wort) Tag' angegeben.</xrx:default>
-                                                        </xrx:i18n>
-                                                    </xrx:description>
-                                                    <xrx:example>
-                                                        <xrx:i18n>
-                                                            <xrx:key>cei_issued_date_example</xrx:key>
-                                                            <xrx:default>&lt;cei:date value="16091001">1609 Oktober 1&lt;/cei:date></xrx:default>
-                                                        </xrx:i18n>
-                                                    </xrx:example>
-                                                </xs:documentation>
-                                            </xs:annotation>
-                                        </xs:element>
-                                        <xs:element ref="dateRange">
-                                            <xs:annotation>
-                                                <xs:appinfo source="EditVDU">
-                                                    <xrxe:min-occur>0</xrxe:min-occur>
-                                                    <xrxe:max-occur>1</xrxe:max-occur>
-                                                </xs:appinfo>
-                                            </xs:annotation>
-                                        </xs:element>
-                                    </xs:choice>
-                                </xs:choice>
-                            </xs:sequence>
-                            <xs:attributeGroup ref="standard"/>
-                            <xs:assert
-                                test="(matches(string(date/@value), '-?[129]?[0-9][0-9][0-9][019][0-9][01239][0-9]') and date) or not(date)"
-                                xpathDefaultNamespace="##targetNamespace"
-                                xerces:message="i18n:wrong-date-format-message">
-                                <xs:annotation>
-                                    <xs:appinfo>
-                                        <xrx:i18n>
-                                            <xrx:key>wrong-date-format-message</xrx:key>
-                                            <xrx:default>Wrong date format. YYYYMMDD is expected.</xrx:default>
-                                        </xrx:i18n>
-                                    </xs:appinfo>
-                                </xs:annotation>
-                            </xs:assert>
-                            <xs:assert
-                                test="(matches(string(dateRange/@from), '-?[129]?[0-9][0-9][0-9][019][0-9][01239][0-9]') and dateRange) or not(dateRange)"
-                                xpathDefaultNamespace="##targetNamespace"
-                                xerces:message="i18n:wrong-date-format-message">
-                                <xs:annotation>
-                                    <xs:appinfo>
-                                        <xrx:i18n>
-                                            <xrx:key>wrong-date-format-message</xrx:key>
-                                            <xrx:default>Wrong date format. YYYYMMDD is expected.</xrx:default>
-                                        </xrx:i18n>
-                                    </xs:appinfo>
-                                </xs:annotation>
-                            </xs:assert>
-                            <xs:assert
-                                test="(matches(string(dateRange/@to), '-?[129]?[0-9][0-9][0-9][019][0-9][01239][0-9]') and dateRange) or not(dateRange)"
-                                xpathDefaultNamespace="##targetNamespace"
-                                xerces:message="i18n:wrong-date-format-message">
-                                <xs:annotation>
-                                    <xs:appinfo>
-                                        <xrx:i18n>
-                                            <xrx:key>wrong-date-format-message</xrx:key>
-                                            <xrx:default>Wrong date format. YYYYMMDD is expected.</xrx:default>
-                                        </xrx:i18n>
-                                    </xs:appinfo>
-                                </xs:annotation>
-                            </xs:assert>
-                        </xs:complexType>
-                    </xs:element>
+                    <xs:element ref="issued" minOccurs="1" maxOccurs="1"/>
                     <xs:element name="witnessOrig">
                         <xs:annotation>
                             <xs:documentation xml:lang="deu">Der einzelne Textzeuge (MOM)</xs:documentation>
@@ -1101,6 +992,116 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
+    <xs:element name="issued">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>cei_issued</xrx:key>
+                        <xrx:default>issued</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+                <xrxe:mixed>false</xrxe:mixed>
+            </xs:appinfo>
+            <xs:documentation xml:lang="deu">
+                Diese Konstruktion kann allgemeine Elemente für die Beschreibung von
+                Ausstellungsort und -zeit verwenden und ist deshalb den
+                Konstrukten "issuePlace" und "date" bzw. "publicationStmt"
+                vorzuziehen. [strict!]
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:annotation>
+                <xs:appinfo source="EditVDU">
+                    <xrxe:mixed>false</xrxe:mixed>
+                </xs:appinfo>
+            </xs:annotation>
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="placeName">
+                        <xs:annotation>
+                            <xs:appinfo source="EditVDU">
+                                <xrxe:min-occur>1</xrxe:min-occur>
+                                <xrxe:max-occur>1</xrxe:max-occur>
+                            </xs:appinfo>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:choice>
+                        <xs:element ref="date">
+                            <xs:annotation>
+                                <xs:appinfo source="EditVDU">
+                                    <xrxe:min-occur>0</xrxe:min-occur>
+                                    <xrxe:max-occur>1</xrxe:max-occur>
+                                </xs:appinfo>
+                                <xs:documentation>
+                                    <xrx:description>
+                                        <xrx:i18n>
+                                            <xrx:key>cei_issued_date_description</xrx:key>
+                                            <xrx:default>Datum, an dem die Urkunde ausgestellt ist. Die Daten werden im Format 'Jahr Monat (als Wort) Tag' angegeben.</xrx:default>
+                                        </xrx:i18n>
+                                    </xrx:description>
+                                    <xrx:example>
+                                        <xrx:i18n>
+                                            <xrx:key>cei_issued_date_example</xrx:key>
+                                            <xrx:default>&lt;cei:date value="16091001">1609 Oktober 1&lt;/cei:date></xrx:default>
+                                        </xrx:i18n>
+                                    </xrx:example>
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element ref="dateRange">
+                            <xs:annotation>
+                                <xs:appinfo source="EditVDU">
+                                    <xrxe:min-occur>0</xrxe:min-occur>
+                                    <xrxe:max-occur>1</xrxe:max-occur>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:choice>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attributeGroup ref="standard"/>
+            <xs:assert
+                test="(matches(string(date/@value), '-?[129]?[0-9][0-9][0-9][019][0-9][01239][0-9]') and date) or not(date)"
+                xpathDefaultNamespace="##targetNamespace"
+                xerces:message="i18n:wrong-date-format-message">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <xrx:i18n>
+                            <xrx:key>wrong-date-format-message</xrx:key>
+                            <xrx:default>Wrong date format. YYYYMMDD is expected.</xrx:default>
+                        </xrx:i18n>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:assert>
+            <xs:assert
+                test="(matches(string(dateRange/@from), '-?[129]?[0-9][0-9][0-9][019][0-9][01239][0-9]') and dateRange) or not(dateRange)"
+                xpathDefaultNamespace="##targetNamespace"
+                xerces:message="i18n:wrong-date-format-message">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <xrx:i18n>
+                            <xrx:key>wrong-date-format-message</xrx:key>
+                            <xrx:default>Wrong date format. YYYYMMDD is expected.</xrx:default>
+                        </xrx:i18n>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:assert>
+            <xs:assert
+                test="(matches(string(dateRange/@to), '-?[129]?[0-9][0-9][0-9][019][0-9][01239][0-9]') and dateRange) or not(dateRange)"
+                xpathDefaultNamespace="##targetNamespace"
+                xerces:message="i18n:wrong-date-format-message">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <xrx:i18n>
+                            <xrx:key>wrong-date-format-message</xrx:key>
+                            <xrx:default>Wrong date format. YYYYMMDD is expected.</xrx:default>
+                        </xrx:i18n>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:assert>
+        </xs:complexType>
+    </xs:element>
     <xs:element name="abstract">
         <xs:annotation>
             <xs:appinfo source="EditVDU">
@@ -1335,6 +1336,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                         <xs:element ref="archIdentifier"/>
                         <xs:element ref="msIdentifier"/>
                     </xs:choice>
+                    <xs:element ref="issued" maxOccurs="1"/>
                     <xs:element ref="auth"/>
                     <xs:element ref="physicalDesc"/>
                     <xs:element ref="nota"/>
