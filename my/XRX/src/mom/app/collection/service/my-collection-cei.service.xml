@@ -64,7 +64,8 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       </cei:teiHeader>
       <cei:text>
         <cei:group>{
-          for $u in $entries
+          for $content in $entries//atom:content
+	  let $u := $content/cei:text
           return
           $u
           }
