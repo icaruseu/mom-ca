@@ -426,10 +426,7 @@ jQuery(document).ready(function() {{
     <div id="radio">
       <a href="{ $wcharter:charter-context-url }{ $charter:rcharterid }/edit" target="_blank">
       <span>EditMOM</span> 
-      </a>      
-      <a href="{ $wcharter:charter-context-url }{ $charter:rcharterid }/edit?mode=illurk" target="_blank">
-      <span>EditIllurk</span>
-      </a>  
+      </a>       
     </div>
 </form> 
 <!-- javascript:transport();
