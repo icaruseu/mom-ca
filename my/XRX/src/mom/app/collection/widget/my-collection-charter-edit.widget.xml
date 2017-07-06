@@ -510,6 +510,7 @@
                         
              
                     </div>
+                    <div id="header-options-div">
                     <div id="mode-select-div" >
                          <select id="mode-select">
                          	<option value="">Standard</option>
@@ -525,6 +526,7 @@
                                 <xrx:default>Open Image Tools</xrx:default>
                             </xrx:i18n>
                         </button>
+                    </div>
                     </div>
                 </xrx:north>
                 <xrx:south id="dtextann">
