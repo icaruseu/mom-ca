@@ -165,12 +165,8 @@ $.widget( "ui.charterItems", {
                 .attr("href", requestRoot + url + "/edit")
 	            .attr("target", "_blank")
 	            .append($('<button></button>')
-	            .text("Default Editor") )
+	            .text("Editor") )
                 
-              ).append(
-                  $('<a></a>').attr("href", requestRoot + url + "/edit?mode=illurk").attr("target", "_blank").append(
-                      $('<button></button>').text("Illurk Editor")
-                      )
               );
           console.log('Das ist ein ajax test');
           console.log(self._serviceUrl(serviceMyCollectionItems));
