@@ -141,13 +141,9 @@ $.widget( "ui.charterItemsShared", {
               .attr("href", requestRoot + url + "/edit")
                   .attr("target", "_blank")
                   .append($('<button></button>')
-                  .text("Default Editor")
+                  .text("Editor")
             )
             
-          ).append(
-              $('<a></a>').attr("href", requestRoot + "charter/" + key + "/illurk").attr("target", "_blank").append(
-                  $('<button></button>').text("Illurk Editor")
-                  )
           );
           
           var itemOwner = $('<div></div>')

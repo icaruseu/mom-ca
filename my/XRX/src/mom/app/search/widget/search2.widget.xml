@@ -454,10 +454,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               <xrx:key>sort</xrx:key>
               <xrx:default>sort</xrx:default>
             </xrx:i18n>
-          </b>
-         <input name="neuesding" type="radio" value="and" checked="checked">         
-         </input>
-            <span>noch ein input</span>
+          </b>       
           <div data-demoid="661f6e11-775f-4957-b9db-36b7e7b886d1">
 	          <input id="result-sort-date" name="sort" type="radio" value="date">
 	           <!--   { if(request:get-parameter('sort', 'date') = 'date') then attribute checked { 'checked' } else () } -->
