@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
-  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/collection</xrx:id>
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/illurk-images</xrx:id>
   <xrx:inherits>tag:www.monasterium.net,2011:/mom/widget/charters</xrx:inherits>
   <xrx:title>
     <xrx:i18n>
-      <xrx:key>collection</xrx:key>
-      <xrx:default>Collection</xrx:default>
+      <xrx:key />
+      <xrx:default/>
     </xrx:i18n>
   </xrx:title>
   <xrx:subtitle/>
   <xrx:description/>
-  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:author>maburg</xrx:author>
   <xrx:licence>
 This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
 
@@ -36,7 +36,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <!-- 
       variables for inherited widget
      -->
-    <!-- charter context information -->
+    <!-- charter context information $charter:rcollectionid-->
     <xrx:variable>
       <xrx:name>$wcharters:metadata-charter-context-collection</xrx:name>
       <xrx:expression>(metadata:base-collection('collection', $charter:rcollectionid, 'public')|metadata:base-collection('mycollection', $charter:rcollectionid, 'public'))</xrx:expression>
@@ -58,39 +58,25 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:name>$wcharters:linked-fond-charter-base-collection</xrx:name>
       <xrx:expression>mycollection:linked-fond-charter-base-collection($wcharters:metadata-charter-context-collection)</xrx:expression>
     </xrx:variable>
-    <!-- charter base collection -->
+    <!-- charter base collection $charter:rcollectionid $wcharters:linked-fond-charter-base-collection -->
     <xrx:variable>
       <xrx:name>$wcharters:metadata-charter-collection</xrx:name>
-      <xrx:expression>(metadata:base-collection('charter', $charter:rcollectionid, 'public'), $wcharters:linked-fond-charter-base-collection)</xrx:expression>
+      <xrx:expression>(metadata:base-collection('charter', $charter:rcollectionid, 'public'))</xrx:expression>
     </xrx:variable>
     <!-- block-wise navigation -->
-    <xrx:variable>
+      <xrx:variable>
       <xrx:name>$wcharters:preface-exists</xrx:name>
-      <xrx:expression>exists($wcharters:metadata-charter-context-collection//cei:div[@type='preface']//text())</xrx:expression>
+      <xrx:expression>true()</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharters:block</xrx:name>
-      <xrx:expression>xs:integer(if($wcharters:preface-exists or request:get-parameter('block', '') != '') then request:get-parameter('block', '-1') else '1')</xrx:expression>
-    </xrx:variable>
-    <!-- overwrite -->
-    <xrx:variable>
-      <xrx:name>$charters:start</xrx:name>
-      <xrx:expression>$wcharters:block * 30 - 30</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$charters:stop</xrx:name>
-      <xrx:expression>$wcharters:block * 30</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$charters:previous-block</xrx:name>
-      <xrx:expression>if($wcharters:block = 1) then 1 else $wcharters:block - 1</xrx:expression>
-    </xrx:variable>
-    <!-- overwrite -->
+      <xrx:expression>xs:integer(if(request:get-parameter('block', '') != '') then request:get-parameter('block', '-1') else '1')</xrx:expression>
+    </xrx:variable>     
     <xrx:variable>
       <xrx:name>$wcharter:date-elements</xrx:name>
-      <xrx:expression>charters:years($wcharters:metadata-charter-collection)</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
+      <xrx:expression>img:years($wcharters:metadata-charter-collection)</xrx:expression>
+    </xrx:variable>      
+    <xrx:variable>    
       <xrx:name>$wcharters:previous-block-pos</xrx:name>
       <xrx:expression>if($wcharters:block = 1) then 1 else $wcharters:block - 1</xrx:expression>
     </xrx:variable>
@@ -105,26 +91,87 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <xrx:variable>
       <xrx:name>$wcharters:blocks-count</xrx:name>
       <xrx:expression>count($wcharters:block-strings)</xrx:expression>
-    </xrx:variable>
+    </xrx:variable> 
     <!-- widget specific variables -->
     <xrx:variable>
       <xrx:name>$wcollection:atomid</xrx:name>
-      <xrx:expression>$wcharters:metadata-charter-context-entry/atom:id/text()</xrx:expression>
+      <xrx:expression>$wcharters:metadata-charter-context-collection//atom:id/text()</xrx:expression> 
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcollection:type</xrx:name>
-      <xrx:expression>if($wcharters:linked-fond-charter-base-collection) then 'linked-fond' else metadata:object-type($wcollection:atomid)</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$wcollection:metadata-charter-import-collection</xrx:name>
-      <xrx:expression>metadata:base-collection('charter', $charter:rcollectionid, 'import')</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$wcollection:imported-collection-exists</xrx:name>
-      <xrx:expression>exists($wcollection:metadata-charter-import-collection/xrx:import)</xrx:expression>
+      <xrx:expression>metadata:object-type($wcollection:atomid)</xrx:expression>
     </xrx:variable>
   </xrx:variables>
+    <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:xformsflag>true</xrx:xformsflag>
+      <xrx:jqueryflag>true</xrx:jqueryflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <style type="text/css">
+ 
+
+    #year-navi {{
+    position:relative;
+    width:10%;
+    float:left;
+    }}
+    #dcharter-preview-main {{
+    position:relative;
+    float:left;
+    width:90% !important;
+    font-size:0.7em;
+    margin-top:3em;
+    }}  
+    
+    .datum {{
+    position:relative;
+    float:left;
+    width:30%;
+    padding-left: 5px;
+    padding-top: 5px;
+    }}
+    
+    .datum span {{
+    display:block;
+    }}
+    /*.abstract {{
+    position:relative;
+    float:left;
+    width:100px;
+    height: 150px;
+    height-max: auto;
+    padding:5px;    
+    }}*/
+    
+    .images {{
+      position:relative;
+      float:left;
+      width:500px;
+    }}
+    
+    .bilder {{
+    position:relative;
+    float:left;    
+    background-color:#f5f5f5;
+    margin-top: 1em;
+    margin-left: 1em; 
+    padding:10px;
+    }}
+    
+    .bilder img {{
+      margin:5px;
+    }}
+    
+    .xrx-subwidget {{
+    clear:both;
+    }}
+    </style>
+    </xrx:csss>
   <xrx:divs>
+   
     <xrx:div>
       <xrx:key>heading-div</xrx:key>
       <xrx:view>
@@ -146,7 +193,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             </xrx:i18n>
           </span>
           <span>: </span>
-          <span>{ $wcharters:charter-context-name }</span>
+          <span>{ $wcharters:charter-context-name }</span>          
         </div>
       </xrx:view>
     </xrx:div>
@@ -219,17 +266,13 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
           </xrx:false>
         </xrx:auth>
       </xrx:view>
-    </xrx:div>
-    <xrx:div>
+    </xrx:div>    
+     <xrx:div>
       <xrx:key>preface-link-div</xrx:key>
       <xrx:view>
         <div class="year-list" data-demoid="3eca9a34-7bc2-498b-ab12-a8154b3885ce" style="font-weight:{ if($wcharters:block = -1) then 'bold' else 'normal' }">
-          <a href="collection">
-            <xrx:i18n>
-              <xrx:key>preface</xrx:key>
-              <xrx:default>Preface</xrx:default>
-            </xrx:i18n>
-          </a>
+         <a href="collection">     
+          </a> 
         </div>
       </xrx:view>
     </xrx:div>
@@ -245,10 +288,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
           </a>
           <span> &gt; </span>
           <a href="collection">{ $wcharters:charter-context-short-name }</a>
-          {
+        {
           let $fond-atomids := $wcharters:metadata-charter-context-collection//cei:text[@type='fond']/@id/string()
           return
-          if(count($fond-atomids) gt 0 and ($wcharters:block = -1 or ($wcharters:block = 1 and not($wcharters:preface-exists)))) then
+          if(count($fond-atomids) gt 0 and ($wcharters:block = -1 or ($wcharters:block = 1))) then
           <div data-demoid="fee1f30f-ebdd-4135-975c-458112e6c88e" id="dlinked-archives" style="float:none;margin-top:15px">
             <xrx:i18n>
               <xrx:key>collection-contains-charters-of-archival-fonds</xrx:key>
@@ -262,65 +305,24 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               let $archive-entry := fond:archive-base-collection($fond-entry)/atom:entry
               let $archive-name := $archive-entry//eag:autform/text()
               order by $archive-name, $fond-name
-              return 
-              <li>
+              return
+              <li>leer</li> 
+           
+              }
+            </ul>  <!--  <li>
                 <a href="{ archive:permalink($archive-entry) }">{ $archive-name }</a>
                 <span> &gt; </span>
                 <a href="{ fond:permalink($fond-entry) }">{ $fond-name }</a>
-              </li>
-              }
-            </ul>
+              </li> -->
           </div>
           else()
-          }
-          {
-          if($wcollection:imported-collection-exists) then
-          <div data-demoid="480cffd2-134a-4267-bf7f-72e4a980abc5">
-            <xrx:auth>
-              <xrx:rules>
-                <xrx:rule>
-                  <xrx:user/>
-                  <xrx:role>metadata-manager</xrx:role>
-                </xrx:rule>
-              </xrx:rules>
-              <xrx:true>
-                <div data-demoid="f543b98d-41b0-475b-a546-cd236d544d84">
-                  <a href="imported-collection">
-                    <xrx:i18n>
-                      <xrx:key>view-publish-imported-charters</xrx:key>
-                      <xrx:default>View/publish imported charters</xrx:default>
-                    </xrx:i18n>
-                    <span> &gt;&gt;</span>
-                  </a>
-                </div>
-              </xrx:true>
-              <xrx:false>
-                <span/>
-              </xrx:false>
-            </xrx:auth>
-          </div>
-          else()
-          }
+          } 
+          
         </div>
       </xrx:view>
-    </xrx:div>
-    <xrx:div>
-      <xrx:key>goto-search-div</xrx:key>
-      <xrx:view>
-        <div data-demoid="e423483e-df37-4787-87ab-4ce3a8947d56" id="goto-search"/>
-        <div data-demoid="548bbfaa-a9ba-4ad8-aea2-cac5c7f5a76b" id="goto-anno-overview">
-          <a href="{ conf:param('request-root') }{ $charter:rcollectionid }/annotation-overview">
-            <xrx:i18n>
-              <xrx:key>annotation-overview</xrx:key>
-              <xrx:default>Annotation overview</xrx:default>
-            </xrx:i18n>
-            <span>  &gt;&gt;</span>
-          </a>
-        </div>
-      </xrx:view>
-    </xrx:div>
-    <xrx:div>
-      <xrx:key>preface-div</xrx:key>
+    </xrx:div> 
+  <xrx:div>
+     <xrx:key>preface-div</xrx:key>
       <xrx:view>
         <div data-demoid="4e1c4d3a-5351-4edf-b9aa-4c6796674243" id="preface">
           {
@@ -337,8 +339,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
           </div>
           else()
           }
-          <div data-demoid="50435ac8-a37a-4d0d-8c25-863eedd94766">{ util:parse-html(string-join($wcharters:metadata-charter-context-collection//cei:cei//cei:div[@type='preface']/text(),'')) }</div>
-        </div>
+        <div data-demoid="50435ac8-a37a-4d0d-8c25-863eedd94766">        
+        </div> 
+        </div> 
       </xrx:view>
     </xrx:div>
     <xrx:div>
@@ -346,23 +349,13 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:view>
         <div data-demoid="4fdf46b9-0bab-45fa-b210-de3ced2594c4" id="dcharter-preview-main">
           <div data-demoid="7ba7d430-65c8-4192-b850-f6a6179dd425">
-          {
-            if(not($wcharters:preface-exists) and request:get-parameter('block', '') = '') then 
-            <span>
-              <xrx:i18n>
-                <xrx:key>a-preface-will-be-available-soon</xrx:key>
-                <xrx:default>A preface will be available soon.</xrx:default>
-              </xrx:i18n>
-            </span>
-            else()
-          }
+         
           </div>
           {
           let $all-user-xmls := $user:db-base-collection/xrx:user
           for $year at $num in $wcharter:date-elements[ position() = $charters:start to $charters:stop ]
-          return
-          <div data-demoid="53d4004e-0082-4a14-97ee-4bb9fa1f77d8">        
-            <xrx:subwidget>
+          return                
+          <xrx:subwidget>
               <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/charter-preview-collection</xrx:atomid>
               <xrx:pass>
                 <xrx:parameter>
@@ -377,11 +370,15 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                   <xrx:name>$constructor:charter-context</xrx:name>
                   <xrx:expression>$wcollection:type</xrx:expression>
                 </xrx:parameter>
+                   <xrx:parameter>
+                  <xrx:name>$illurkimages</xrx:name>
+                  <xrx:expression>'yes'</xrx:expression>
+                </xrx:parameter>
               </xrx:pass>
-            </xrx:subwidget>
-          </div>
+            </xrx:subwidget> 
+         
           }
-          <div data-demoid="344c0cdd-f72f-4f4c-81e8-53dcd1dbf43d">{ $block-navi-div }</div>
+          <div data-demoid="344c0cdd-f72f-4f4c-81e8-53dcd1dbf43d" style="clear:both;">{ $block-navi-div }</div>
         </div>
       </xrx:view>
     </xrx:div>
