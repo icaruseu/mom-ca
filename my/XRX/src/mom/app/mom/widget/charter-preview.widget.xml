@@ -582,7 +582,9 @@ div.bookmark-icon{{
           </div>         
         </div> 
       </div>
-    </div> 
+    </div>
+    <!-- This condition is provided to give an thumbnail overview of the collection, it is until now just available for the IlluminierteUrkunden collection.
+    will be continued soon --> 
     else(
     if(starts-with(data($constructor:charter//cei:graphic/@url), 'http://images.monasterium.net/illum/IllUrk'))
     then

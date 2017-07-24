@@ -222,6 +222,15 @@ float:left;
                     </xrx:i18n>
                   </a>
                 </div>
+                <div class="function-link" data-demoid="48bdde04-b19f-4c84-9517-6a1973b0e590">
+                  <a href="{ conf:param('request-root') }service/my-collection-cei?mycollection={ $xrx:tokenized-uri[1] }" target="_blank">
+                    <span>‣ </span>
+                    <xrx:i18n>
+                      <xrx:key>show-collection-cei-xml</xrx:key>
+                      <xrx:default>Download collection as XML/CEI</xrx:default>
+                    </xrx:i18n>
+                  </a>
+                </div>
                 <div class="function-link" data-demoid="63533b84-a9f9-4882-9d73-e45ae52952c7">
                   <a href="{ conf:param('request-root') }my-collections-edit">
                     <span>‣ </span>

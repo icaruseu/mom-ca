@@ -122,7 +122,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     position:relative;
     float:left;
     width:90% !important;
-    font-size:0.7em;
+    font-size:0.8em;
     margin-top:3em;
     }}  
     
@@ -132,19 +132,13 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     width:30%;
     padding-left: 5px;
     padding-top: 5px;
+    min-height:100px;
     }}
     
     .datum span {{
     display:block;
     }}
-    /*.abstract {{
-    position:relative;
-    float:left;
-    width:100px;
-    height: 150px;
-    height-max: auto;
-    padding:5px;    
-    }}*/
+    
     
     .images {{
       position:relative;
@@ -159,6 +153,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     margin-top: 1em;
     margin-left: 1em; 
     padding:10px;
+    width:90%;
     }}
     
     .bilder img {{
