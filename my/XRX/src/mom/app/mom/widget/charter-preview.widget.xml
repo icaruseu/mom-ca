@@ -593,16 +593,21 @@ div.bookmark-icon{{
     return
           <div class="bilder">
            <!-- This condition is provided to give an thumbnail overview of the collection, it is until now just available for the IlluminierteUrkunden collection.
-    will be continued soon -->
+    will be continued soon substring-after(data($i/@url), 'http://images.monasterium.net/illum/IllUrk')-->
            <span class="datum"><a href="{$charter}">{ $wcharter-preview:date }<span>{$short}</span></a></span>                     
            <span class= "images">
           {
            for $i in $constructor:charter//cei:graphic
           return
           if(starts-with(data($i/@url), 'http://images.monasterium.net/illum/IllUrk')) then
-          let $url  := concat('http://images.monasterium.net/illum/IllUrk/thumbnails', substring-after(data($i/@url), 'http://images.monasterium.net/illum/IllUrk'))
+          let $crop := string-length(data($i/@url))          
+          let $cropstart := string-length('http://images.monasterium.net/illum/IllUrk')+1
+          let $cropend :=  $crop - $cropstart -3 
+          let $filename := substring(data($i/@url), $cropstart, $cropend)
+          let $url := if(ends-with(data($i/@url), 'JPG')) then concat('http://images.monasterium.net/illum/IllUrk/thumbnails', $filename,'.JPG')
+          else(concat('http://images.monasterium.net/illum/IllUrk/thumbnails', $filename,'.jpg'))
           return
-          <span title="{substring-after(data($i/@url), 'http://images.monasterium.net/illum/IllUrk')}" class="bild"><img src="{$url}" alt="{substring-after(data($i/@url), 'http://images.monasterium.net/illum/IllUrk')}" width="150"/></span>
+          <span title="{$filename}" class="bild"><img src="{$url}" alt="{data($i/@url)}" width="150"/></span>
           else()
           }
           </span>

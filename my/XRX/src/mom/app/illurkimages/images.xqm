@@ -36,7 +36,7 @@ import module namespace metadata="http://www.monasterium.net/NS/metadata"
 (: function does same as charters:years in the year-navi but has condition to get charters with graphics only :)
 declare function img:years($charter-base-collection) {
 
-    for $year in $charter-base-collection//cei:text[descendant::cei:graphic]//cei:issued/(cei:date/@value|cei:dateRange/@from)
+    for $year in $charter-base-collection//cei:text[descendant::cei:graphic/@url !='']//cei:issued/(cei:date/@value|cei:dateRange/@from)
     order by xs:integer($year)
     return
     $year    
