@@ -602,7 +602,7 @@ div.bookmark-icon{{
           if(starts-with(data($i/@url), 'http://images.monasterium.net/illum/IllUrk')) then
           let $crop := string-length(data($i/@url))          
           let $cropstart := string-length('http://images.monasterium.net/illum/IllUrk')+1
-          let $cropend :=  $crop - $cropstart -3 
+          let $cropend :=  if (ends-with(data($i/@url), 'jpeg')) then $crop - $cropstart -4 else($crop - $cropstart -3)
           let $filename := substring(data($i/@url), $cropstart, $cropend)
           let $url := if(ends-with(data($i/@url), 'JPG')) then concat('http://images.monasterium.net/illum/IllUrk/thumbnails', $filename,'.JPG')
           else(concat('http://images.monasterium.net/illum/IllUrk/thumbnails', $filename,'.jpg'))
