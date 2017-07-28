@@ -111,8 +111,7 @@ $.widget( "ui.charterItems", {
     // insert all into items DIV
     itemsDiv.append(toolbarDiv)
         //.append(itemDivPreface)
-        .append(table);
-    var coll = "graz";
+        .append(table);   
     // compose DIVs for charters   
     $.ajax({
       url: self._serviceUrl(serviceMyCollectionItems),      
@@ -151,7 +150,7 @@ $.widget( "ui.charterItems", {
             itemLinkDate = $('<div></div>')
               .addClass("forms-table-cell")
               .append($('<span/>')
-                .text(date)
+                .css("margin", "10px").text(date)
               ),
             itemLinkCharter = $('<div></div>')
              .addClass("forms-table-cell")

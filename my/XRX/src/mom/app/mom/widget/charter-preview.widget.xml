@@ -51,6 +51,10 @@ it leaves the active development stage.
       <xrx:name>$constructor:charter-context</xrx:name>
       <xrx:default>''</xrx:default>
     </xrx:parameter>
+       <xrx:parameter>
+      <xrx:name>$illurkimages</xrx:name>
+      <xrx:default>''</xrx:default>
+    </xrx:parameter>
   </xrx:constructor>
   <xrx:variables>
   <!-- charter info -->
@@ -77,7 +81,7 @@ it leaves the active development stage.
     <xrx:variable>
       <xrx:name>$wcharter-preview:abstract</xrx:name>
       <xrx:expression>$constructor:charter//cei:abstract//text()</xrx:expression>
-    </xrx:variable>
+    </xrx:variable>    
     <xrx:variable>
       <xrx:name>$wcharter-preview:num-images</xrx:name>
       <xrx:expression>count($constructor:charter//cei:graphic/@url)</xrx:expression>
@@ -85,6 +89,10 @@ it leaves the active development stage.
     <xrx:variable>
       <xrx:name>$wcharter-preview:num-images</xrx:name>
       <xrx:expression>count($constructor:charter//cei:graphic/@url)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+    <xrx:name>$wcharter:image-urls</xrx:name>
+    <xrx:expression>$constructor:charter//cei:graphic</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:charter-url</xrx:name>
@@ -500,6 +508,7 @@ div.bookmark-icon{{
     </xrx:div>
   </xrx:divs>
   <xrx:view>
+  { if($illurkimages = '') then
     <div class="charter" data-demoid="de2d1a7c-69f1-4f01-a2d2-4591bc56c20d">
       <div class="charter-preview" data-demoid="7c4f5f0e-a642-47e2-87e9-22f8e0418492">
         <div class="inner-charter-preview" data-demoid="e02073e0-abe8-4052-bc14-6939eec495fb">
@@ -529,6 +538,8 @@ div.bookmark-icon{{
             <br/>
             <xrx:div>original-context-div</xrx:div>
           </div>
+          
+          
           <div class="charter-info-and-actions" data-demoid="798a9afb-4ffc-4ac2-95d9-589879d3e442" id="charter-info-and-actions">
             <div data-demoid="11f09d60-b012-4f82-889a-a653c1ecc2b5">
               <span>
@@ -568,9 +579,41 @@ div.bookmark-icon{{
             <div data-demoid="a856f698-a09d-439b-88be-27f2114b329f"> </div>
             <xrx:div>view-charter-link-div</xrx:div>
             <xrx:div>my-archive-functions-div</xrx:div>
-          </div>
-        </div>
+          </div>         
+        </div> 
       </div>
     </div>
+    
+    else(
+    if(starts-with(data($constructor:charter//cei:graphic/@url), 'http://images.monasterium.net/illum/IllUrk'))
+    then
+    let $abs := $constructor:charter//cei:abstract//text()
+    let $short := concat(substring(concat($abs[1],$abs[2]), 0, 100), '...')
+    let $charter := $wcharter-preview:charter-url    
+    return
+          <div class="bilder">
+           <!-- This condition is provided to give an thumbnail overview of the collection, it is until now just available for the IlluminierteUrkunden collection.
+    will be continued soon substring-after(data($i/@url), 'http://images.monasterium.net/illum/IllUrk')-->
+           <span class="datum"><a href="{$charter}">{ $wcharter-preview:date }<span>{$short}</span></a></span>                     
+           <span class= "images">
+          {
+           for $i in $constructor:charter//cei:graphic
+          return
+          if(starts-with(data($i/@url), 'http://images.monasterium.net/illum/IllUrk')) then
+          let $crop := string-length(data($i/@url))          
+          let $cropstart := string-length('http://images.monasterium.net/illum/IllUrk')+1
+          let $cropend :=  if (ends-with(data($i/@url), 'jpeg')) then $crop - $cropstart -4 else($crop - $cropstart -3)
+          let $filename := substring(data($i/@url), $cropstart, $cropend)
+          let $url := if(ends-with(data($i/@url), 'JPG')) then concat('http://images.monasterium.net/illum/IllUrk/thumbnails', $filename,'.JPG')
+          else(concat('http://images.monasterium.net/illum/IllUrk/thumbnails', $filename,'.jpg'))
+          return
+          <span title="{$filename}" class="bild"><img src="{$url}" alt="{data($i/@url)}" width="150"/></span>
+          else()
+          }
+          </span>
+          </div>
+      else()
+          )
+          }     
   </xrx:view>
 </xrx:widget>
