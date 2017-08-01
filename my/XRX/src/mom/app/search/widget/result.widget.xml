@@ -105,7 +105,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:metadata-collection-collection</xrx:name>
-      <xrx:expression>metadata:base-collection('collection', $wcharter-preview:collection-id, 'public')</xrx:expression>
+      <xrx:expression>metadata:base-collection('collection', $wcharter-preview:collection-id, 'public') | metadata:base-collection('mycollection', $wcharter-preview:collection-id, 'public')</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:eaddid</xrx:name>
@@ -121,7 +121,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:collection-name</xrx:name>
-      <xrx:expression>$wcharter-preview:collection-entry//cei:provenance/child::text()</xrx:expression>
+      <xrx:expression>$wcharter-preview:collection-entry//cei:provenance/child::text() | $wcharter-preview:collection-entry//cei:titleStmt/cei:title/text()</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:archive-entry</xrx:name>
@@ -476,7 +476,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	          </div>
 	          else
 	          <div class="charter-context" data-demoid="e2710891-2ee1-4f19-a9f5-17289ddbfa54">
-	            <a href="{ conf:param('request-root') }{ $wcharter-preview:collection-id }/collection">{ $wcharter-preview:collection-name }</a>
+	            <a href="{ conf:param('request-root') }{ $wcharter-preview:collection-id }/collection">{ $wcharter-preview:collection-name}</a>
 	            <span class="light-grey">
 	              <span>
 	                 (<xrx:i18n>
