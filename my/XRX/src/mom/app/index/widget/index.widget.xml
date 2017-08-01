@@ -706,34 +706,40 @@ div.filterbox {{
               <li><a href="{concat(conf:param('request-root'),'index/', $voc, '/', $rdfabout)}">{$g/skos:prefLabel[@xml:lang= $sprache]/text()}</a> </li>
 
               else(
-              <div class="buchstaben">
+              <div class="buchstaben">              
               {for $a in $alphabet
+              let $teile := $xrx:tokenized-uri
+              let $href :=  concat(conf:param('request-root'),'index/BischoefeAblaesse?pm=', $a )
+            
               return
-              <span><a class="ui-button ui-widget ui-corner-all" href="?pm={$a}">{$a}</a></span> }</div>,
-              
+              <span><a class="ui-button ui-widget ui-corner-all" href="{$href}">{$a}</a></span> }</div>,              
               let $parameter:= if (request:get-parameter("pm", "")) then request:get-parameter("pm", "")  else (substring($xrx:tokenized-uri[3],3,1)) 
-          
-              return                     
-              if($parameter != '' ) then
-              let $person := $glossarlabel//tei:person              
-              for $p in $person
               return
-              let $personid := data($p/@xml:id)
-              let $name := $p/tei:persName[starts-with(., $parameter)]
-              let $place := $name/following-sibling::tei:occupation/tei:placeName[1]/text()
-              let $ser := serialize($place)
-              let $inhalt := concat($name/text(), ' ',substring-before($ser, ' '))
-              let $memo := session:set-attribute($personid, $inhalt)             
-              for $n in  $name
-              order by $name
-              return              
-                                      
-                <li><a href="{concat(conf:param('request-root'),'index/', $voc, '/', $personid)}">{$inhalt}</a></li>                        
-              else()
+              if($parameter != '')then
+              let $personenliste := $index:personcollection//tei:text
+              let $eintrag := $personenliste//tei:person[starts-with(substring-after(@xml:id, 'P_'), $parameter)]
+              let $zahlen := count($eintrag)              
+              return   
+               if($zahlen = 0) then <li class="no-result"><xrx:i18n><xrx:key>no-results-message</xrx:key><xrx:default>No results were found for your search.</xrx:default></xrx:i18n></li>
+               (: das trifft dann zu, wenn ein Buchstabe keine Namenseinträge hat:)
+                else(
+                for $person in $eintrag
+                return
+                let $personid := data($person/@xml:id)
+                let $name := $person/tei:persName[starts-with(., $parameter)]
+                let $place := $name/following-sibling::tei:occupation/tei:placeName[1]/text()
+                let $ser := serialize($place)
+                let $inhalt := concat($name/text(), ' ',substring-before($ser, ' '))
+                let $memo := session:set-attribute($personid, $inhalt)             
+                for $n in  $name
+                order by $name
+                return                                      
+                <li><a href="{concat(conf:param('request-root'),'index/', $voc, '/', $personid)}">{$inhalt, $parameter}</a></li>   
+                
                 )
-               
-              }
-
+                else() (: trifft zu wenn kein parameter übergeben wird und die Hauptseite leer sein soll:)
+            )
+            }
              </ul>)
                }</div>
              </div>
@@ -741,7 +747,7 @@ div.filterbox {{
                       
           else()  }
   
-    </div> 
+    </div>
   
     {
     let $teile := count($xrx:tokenized-uri)
