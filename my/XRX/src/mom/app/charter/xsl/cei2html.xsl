@@ -148,64 +148,69 @@
                 <xsl:copy-of select="."/>
             </xsl:for-each>
         </xsl:variable>
-        <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af" id="witList">
-            <xsl:choose>
-                <xsl:when test="$cei//(cei:witnessOrig|cei:witListPar)//text() != ''">
-                    <xsl:if test="$cei//cei:witnessOrig//text() != ''">
-                    <xsl:choose>
-                        <!--   <xsl:when test="$cei//cei:witnessOrig/* != ''">-->
-                        <xsl:when
-                            test="
-                                $cei//cei:witnessOrig/cei:traditioForm != '' or
-                                $cei//cei:witnessOrig/cei:figure != '' or
-                                $cei//cei:witnessOrig/cei:archIdentifier != '' or
-                                $cei//cei:witnessOrig/cei:auth != '' or
-                                $cei//cei:witnessOrig/cei:nota != '' or
-                                $cei//cei:witnessOrig/cei:rubrum != ''">
-                            <xsl:for-each select="$cei//cei:witnessOrig">
-                                <xsl:call-template name="witness">
-                                    <xsl:with-param name="num" select="position()"/>
-                                </xsl:call-template>
-                            </xsl:for-each>
-                        </xsl:when>
-                        <xsl:when
-                            test="
-                                $cei//cei:witnessOrig/cei:physicalDesc/cei:material != '' or
-                                $cei//cei:witnessOrig/cei:physicalDesc/cei:dimensions != '' or
-                                $cei//cei:witnessOrig/cei:physicalDesc/cei:condition != ''">
-                                <!--<div class="p"> Material wurde 2mal angezeigt!! deshalb das weg
-                    <ul class="nostyle">
-                     <xsl:apply-templates select="$cei//cei:witnessOrig/cei:physicalDesc"/>
-                    <xsl:apply-templates select="$cei//cei:witnessOrig/cei:physicalDesc/cei:material"/>
-                     <xsl:apply-templates select="$cei//cei:witnessOrig/cei:physicalDesc/cei:dimensions"/>
-                     <xsl:apply-templates select="$cei//cei:witnessOrig/cei:physicalDesc/cei:condition"/>
-                     </ul>
-                     </div> -->
-                              <xsl:for-each select="$cei//cei:witnessOrig">
-                                  <xsl:call-template name="witness">
-                                      <xsl:with-param name="num" select="position()"/>
-                                  </xsl:call-template>
-                              </xsl:for-each>
-                          </xsl:when>
-<!--                          <xsl:when test="$cei//cei:witnessOrig/cei:physicalDesc/cei:decoDesc/cei:p != ''">
-                              <xsl:attribute name="style">display:none</xsl:attribute>
-                          </xsl:when>-->
-                      </xsl:choose>
-                  </xsl:if>
-                  <xsl:if test="$ordered-witListPar/cei:witness//text() != ''">
-                      <xsl:for-each select="$ordered-witListPar/cei:witness">
-                          <!-- <xsl:value-of select="position()"/> -->
-                          <xsl:call-template name="witness">
-                              <xsl:with-param name="num" select="position()"/>
-                          </xsl:call-template>
-                      </xsl:for-each>
-                  </xsl:if>
+        <xsl:choose>
+            <!--   <xsl:when test="$cei//cei:witnessOrig/* != ''">-->
+            <xsl:when
+                test="
+                    $cei//cei:witnessOrig/cei:traditioForm != '' or
+                    $cei//cei:witnessOrig/cei:figure != '' or
+                    $cei//cei:witnessOrig/cei:archIdentifier != '' or
+                    $cei//cei:witnessOrig/cei:auth != '' or
+                    $cei//cei:witnessOrig/cei:nota != '' or
+                    $cei//cei:witnessOrig/cei:rubrum != ''">
+                <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af" id="witList">
+                    <xsl:for-each select="$cei//cei:witnessOrig">
+                        <!-- <xsl:value-of select="position()"/> -->
+                        <xsl:call-template name="witness">
+                            <xsl:with-param name="num" select="position()"/>
+                        </xsl:call-template>
+
+                    </xsl:for-each>
+                </div>
             </xsl:when>
-                <xsl:otherwise>
-                    <xsl:attribute name="style"><xsl:text>display:none</xsl:text></xsl:attribute>
-                </xsl:otherwise>
-            </xsl:choose>
-        </div>
+            <xsl:when
+                test="
+                    $cei//cei:witnessOrig/cei:physicalDesc/cei:material != '' or
+                    $cei//cei:witnessOrig/cei:physicalDesc/cei:dimensions != '' or
+                    $cei//cei:witnessOrig/cei:physicalDesc/cei:condition != ''">
+
+                <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af" id="witList">
+
+                    <!--<div class="p"> Material wurde 2mal angezeigt!! deshalb das weg
+      <ul class="nostyle">
+       <xsl:apply-templates select="$cei//cei:witnessOrig/cei:physicalDesc"/>
+      <xsl:apply-templates select="$cei//cei:witnessOrig/cei:physicalDesc/cei:material"/>
+       <xsl:apply-templates select="$cei//cei:witnessOrig/cei:physicalDesc/cei:dimensions"/>
+       <xsl:apply-templates select="$cei//cei:witnessOrig/cei:physicalDesc/cei:condition"/>
+       </ul>
+       </div> -->
+                    <xsl:for-each select="$cei//cei:witnessOrig">
+
+                        <!-- <xsl:value-of select="position()"/> -->
+                        <xsl:call-template name="witness">
+                            <xsl:with-param name="num" select="position()"/>
+                        </xsl:call-template>
+
+                    </xsl:for-each>
+                </div>
+            </xsl:when>
+            <xsl:when test="$cei//cei:witnessOrig/cei:physicalDesc/cei:decoDesc/cei:p != ''">
+                <div id="witList" style="display:none"/>
+            </xsl:when>
+            <xsl:when test="$ordered-witListPar/cei:witness/* != ''">
+                <div id="witList">
+                    <xsl:for-each select="$ordered-witListPar/cei:witness">
+                        <!-- <xsl:value-of select="position()"/> -->
+                        <xsl:call-template name="witness">
+                            <xsl:with-param name="num" select="position()"/>
+                        </xsl:call-template>
+                    </xsl:for-each>
+                </div>
+            </xsl:when>
+            <xsl:otherwise>
+                <div id="witList" style="display:none"/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
     <xsl:template match="xhtml:insert-issued">
         <xsl:choose>
@@ -330,41 +335,9 @@
                             <xrx:default>Persons</xrx:default>
                         </xrx:i18n>
                     </b>
-                    <xsl:choose>
-                        <xsl:when test="$cei//cei:persName/@key"> 
-                         <ul>                          
-                            <xsl:for-each select="$cei//cei:persName/@key">
-                                <xsl:variable name="key" select="."/>
-                               
-                                <xsl:choose>
-                                    <!-- compare with TEI of bishops --> 
-                                   
-                                    <xsl:when
-                                        test="document('/db/mom-data/metadata.person.public/Bischofsliste_Ablaesse.tei.xml')//tei:person/@xml:id = .">
-                                       
-                                            <li value="true" class="bishop" id="{$key}">
-                                                <xsl:value-of select="parent::cei:persName"/>
-                                            </li>
-                                       
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                       
-                                            <xsl:call-template name="persName"/>
-                                       
-                                    </xsl:otherwise>
-                                     
-                                </xsl:choose>
-                               
-                            </xsl:for-each>
-                            </ul>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <ul>
-                                <xsl:call-template name="persName"/>
-                            </ul>
-                        </xsl:otherwise>
-                    </xsl:choose>
-
+                    <ul>
+                        <xsl:call-template name="persName"/>
+                    </ul>
                 </div>
             </xsl:when>
             <xsl:otherwise>
@@ -1733,15 +1706,20 @@
         <xsl:for-each select="$cei//cei:persName">
             <xsl:sort select="."/>
             <xsl:if test="./node()">
-                <li id="{./@key}">
-                    <xsl:apply-templates/>
-                </li>
-                <ul class="inline">
-                    <xsl:call-template name="language"/>
-                    <xsl:call-template name="reg"/>
-                    <xsl:call-template name="existent"/>
-                    <xsl:call-template name="type"/>
-                </ul>
+              <li id="{./@key}">
+                <!-- compare with TEI of bishops --> 
+        	    <xsl:if test="document('/db/mom-data/metadata.person.public/Bischofsliste_Ablaesse.tei.xml')//tei:person/@xml:id = ./@key">
+                  <xsl:attribute name="value">true</xsl:attribute>
+        		  <xsl:attribute name="class">bishop</xsl:attribute>
+        		</xsl:if>
+                <xsl:apply-templates/>
+		      </li>
+	          <ul class="inline">
+	            <xsl:call-template name="language"/>
+	            <xsl:call-template name="reg"/>
+	            <xsl:call-template name="existent"/>
+	            <xsl:call-template name="type"/>
+	          </ul>
             </xsl:if>
         </xsl:for-each>
     </xsl:template>
