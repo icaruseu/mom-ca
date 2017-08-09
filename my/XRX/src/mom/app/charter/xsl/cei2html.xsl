@@ -1928,8 +1928,8 @@
 
     <xsl:template match="cei:index[@indexName = 'IllUrkGlossar']">
         <xsl:variable name="pm" select="replace(./@lemma, '#', '')"/>
-        <xsl:variable name="url" select="concat('/mom/glossar?pm=', $pm)"/>
-
+        <xsl:variable name="url" select="concat('/mom/index/IllUrkGlossar/', $pm, '?pm=charter')"/>
+        
         <a target="_blank">
             <xsl:attribute name="title">
                 <xsl:value-of select="$url"/>

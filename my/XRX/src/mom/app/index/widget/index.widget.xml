@@ -139,14 +139,42 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:name>$breadcrumb2</xrx:name>
       <xrx:expression>if($bread2) then session:get-attribute($bread2) else ()</xrx:expression>      
     </xrx:variable>
-    <xrx:variable>
+   <xrx:variable>
    <xrx:name>$sprache</xrx:name>
-   <xrx:expression>if($xrx:lang = 'deu') then 'de' else if ($xrx:lang = 'fra') then 'fr' else if ($xrx:lang = 'ita') then 'it' else 'en'</xrx:expression>
-   </xrx:variable>
+   <xrx:expression>if(index-of(('deu', 'fra','ita','eng'), $xrx:lang)) then substring($xrx:lang, 0,3) else 'en'</xrx:expression>   
+   </xrx:variable> 
+   <!--  <xrx:variable>
+   <xrx:name>$sprache</xrx:name>
+   <xrx:expression>substring($xrx:lang, 0,3)</xrx:expression>   
+   </xrx:variable> -->
    
    <xrx:variable>
    <xrx:name>$alphabet</xrx:name>
    <xrx:expression>('A', 'B','C','D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y','Z')</xrx:expression>
+   </xrx:variable>
+   <xrx:variable>
+   <xrx:name>$voc</xrx:name>
+   <xrx:expression>$xrx:tokenized-uri[2]</xrx:expression>
+   </xrx:variable>
+      <xrx:variable>
+   <xrx:name>$coll</xrx:name>
+   <xrx:expression>if($voc='BischoefeAblaesse')then ('person') else('controlledVocabulary')</xrx:expression>
+   </xrx:variable>
+      <xrx:variable>
+   <xrx:name>$atomid</xrx:name>
+   <xrx:expression>concat('tag:www.monasterium.net,2011:/',$coll,'/', $voc)</xrx:expression>
+   </xrx:variable>
+       <xrx:variable>
+   <xrx:name>$momcollpath</xrx:name>
+   <xrx:expression>concat('/db/mom-data/metadata.', $coll, '.public/')</xrx:expression>
+   </xrx:variable>
+       <xrx:variable>
+   <xrx:name>$vocabulary</xrx:name>
+   <xrx:expression>collection($momcollpath)/atom:entry[atom:id/text()= $atomid]</xrx:expression>
+   </xrx:variable>
+    <xrx:variable>
+   <xrx:name>$teile</xrx:name>
+   <xrx:expression>count($xrx:tokenized-uri)</xrx:expression>
    </xrx:variable>
 
        
@@ -172,10 +200,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     Seite einrichten
    ************************ 
 
+
   
   div#this-main {{
           position:relative;
-  }}
+          
+         }}
           
             
  
@@ -185,7 +215,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
            position: relative;
            line-height: normal;
            margin-right: .1em;
-           cursor: pointer;
+          /* cursor: pointer;*/
            vertical-align: middle;
            text-align: center;
            -webkit-user-select: none;
@@ -214,6 +244,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       float:left;     
       width: 30%;      
       left:5px;
+      margin-right:3em;
 }}
 
 #rightframe{{
@@ -225,7 +256,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 }}
 
 #rightframe p {{
-      margin-top:0;      
+      margin-top:0;
+      font-size:0.8em;
+      padding:1em;      
 }}
 
 .hits {{
@@ -282,10 +315,7 @@ span.breadcrumb {{
 
 
 .glossary-entry {{    
-    margin-top:0;
-    padding-top:0;
-    top:50px;
-    right:1em;       
+         
     background:rgb(245, 245, 245);    
     border-bottom: 3px solid #9e9e9e; /*#8EA384;*/
     padding-left: 3px;
@@ -293,6 +323,26 @@ span.breadcrumb {{
     overflow-y:auto;
     width:101%;
     
+}}
+
+.glossary-open {{
+    background:rgb(245, 245, 245);    
+    border-bottom: 3px solid #9e9e9e; /*#8EA384;*/
+    padding-left: 3px;    
+    width:101%;
+}}
+
+.moreless {{
+        position:relative;
+        float:left;
+        font-size:0.6em;
+        color: white;
+        margin-right:.7em;
+        cursor:pointer;
+}}
+
+.moreless:hover {{
+      background-color:#4d4d4d;
 }}
 
 
@@ -326,27 +376,34 @@ ul.menu span.ui-button-text {{
     
 }}
 
-.glossary-entry h2 {{
+.glossary-entry h2,
+.glossary-open h2 {{
     background:rgb(158, 158, 158);
     padding: 5px 0 5px 5px;
     margin-top:0;
-    color: white;
-    /*boder-top: 10px sodid white;*/
-   
+    color: white;   
 
 }}
 
-.glossary-entry div {{
+.glossary-entry div,
+.glossary-open div {{
   padding:5px;
 }}
 
-/* hierarchie auf 3 Ebenen im Dropdown wiedergeben */
 
 
-div.zwei a {{
-          padding-left:0.5em;
-          /*margin-left:1em;*/
+ .glossary-open div ul li,
+ .glossary-entry div ul li
+ {{
+  font-size:0.7em !important;
 }}
+
+
+.ui-accordion .ui-accordion-content {{
+    padding:1em .2em;
+
+}}
+
 div.accordion div {{
         padding:0.2em;        
 }}
@@ -362,18 +419,11 @@ a.filter {{
   margin:15px;
 }}
 
-#dcharter-preview-main .charter-info-and-actions{{
-  display:inline;
-  position:relative;
-  float:left;
-  width:25%;
-  border-left:solid white 3px;
-  padding-left:10px;
-}}
+
 
 #dcharter-preview-main .container{{
   float:left;
-  width:65%;
+  width:60% !important;
   padding-right:10px;
 }}
 
@@ -524,8 +574,35 @@ a.filter {{
     height:80px;
     width:100%;
     margin-left: -7px;
-    border: 1px solid #aaaaa;
+    /*border: 1px solid #aaaaa;*/
     margin-bottom:5px;
+    padding-bottom:15px;
+}}
+/*.buchstaben */
+
+.ui-menu-item a{{
+          padding:0px !important;
+          margin:0 !important;          
+         
+          
+}}
+
+.buchstaben .ui-menu-item a.ui-state-focus {{
+          border:0;
+          background:#EFF3E1;
+          margin:0;
+          padding:0;
+
+}}
+
+
+
+
+
+
+#centre {{
+    margin: 0 auto;
+    width:60%;
 }}
 
 #zentral ul {{
@@ -566,7 +643,7 @@ span.no-result {{
 }}
 
 span.klein {{
-    font-size: 0.6em;
+    font-size: 0.7em;
     color:grey;
     
 }}
@@ -576,7 +653,7 @@ span.klein b {{
 }}
 
 div.filterbox {{
-      width: 108%;
+      width: 100%;
 }}
 
 .zur {{
@@ -585,12 +662,31 @@ div.filterbox {{
     padding-top:0;
 }}
 
+
+.zusatz {{
+      background:#9e9e9e;
+      color:white;
+      text-align:left;
+      margin-left: -0.2em;
+      width:99%;
+      padding:0.5em !important;
+      font-size:0.6em;
+      font-weight:bold;
+}}
+
+#charter-info-and-actions {{
+        width:auto;
+}}
+
+div.narrower {{        
+        padding-left:0.5em;
+}}
+
+
+
   </style> 
   </xrx:csss>
     <xrx:jss> 
-
-    <!--  <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/index</xrx:resource>      -->
-
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
@@ -604,116 +700,65 @@ div.filterbox {{
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/droppable</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/menu</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/accordion</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/animate</xrx:resource>
      
   </xrx:jss>
-    <xrx:view>  
-    <div id="this-main">  
-    <div id="leftframe">{ 
-    if (count($xrx:tokenized-uri) gt 1)then
-    let $indexliste := collection('/db/mom-data/metadata.controlledVocabulary.public')
-    let $personenliste := collection('/db/mom-data/metadata.person.public')
-    let $rdfabout := concat('#', $xrx:tokenized-uri[2])
-    let $ausnahme := 'BischoefeAblaesse' (: because there is only just this one in the collection; not a general solution :)
-    let $text := if ($xrx:tokenized-uri[2]= $ausnahme)then $personenliste[atom:id=contains(., $xrx:tokenized-uri[2])]//atom:content//tei:title[@xml:lang= $sprache]/text() else($indexliste//atom:content//skos:ConceptScheme[@rdf:about= $rdfabout]/skos:prefLabel[1]/text())
-     return
-           <div id="links">         
-
-          <!--  <xrx:i18n>
-              <xrx:key>choose-an-index</xrx:key>
-              <xrx:default>Choose an Index</xrx:default>
-            </xrx:i18n> -->
-
+    <xrx:view>
+    <div id="this-main">
+    {  
+      if (count($xrx:tokenized-uri) gt 1)then
+      <div id="leftframe">
+        <div id="links">
          <ul class="zur">         
-            <li><a href="{concat(conf:param('request-root'),'index')}">Back to index overview</a></li>  
+            <li><a href="{concat(conf:param('request-root'),'index')}"><xrx:i18n>
+              <xrx:key>back-to-index-overview</xrx:key>
+              <xrx:default>Back to index overview</xrx:default>
+            </xrx:i18n></a></li>  
        </ul>  
-       </div> else(
-       <div class="none">//</div>
-       )
-       }
-
-         {   
-          
-  let $voc := $xrx:tokenized-uri[2]
-        let $coll := if($voc='BischoefeAblaesse')then ('person') else('controlledVocabulary')
-        let $atomid := concat('tag:www.monasterium.net,2011:/',$coll,'/', $voc)
-        return         
-        if($xrx:tokenized-uri[last()] != 'index') then
-        let $momcoll := concat('/db/mom-data/metadata.', $coll, '.public/')       
-        let $glossarlabel := collection($momcoll)/atom:entry[atom:id/text()= $atomid]
-
-         return
-          <div id="result-options" class="this-widget">						
-          <div class="filterbox">
+       </div> 
+        <div id="reslut-options" class="this-widget">           
+          <div class="filterbox">          
           <h2>Choose a lemma:</h2>
-            { 
-            
-            if ($glossarlabel//skos:hasTopConcept) then
-                  for $top in $glossarlabel//skos:hasTopConcept
-                  let $konz := <h3>{ $glossarlabel//skos:Concept[@rdf:about= data($top/@rdf:resource)]}</h3>
-                  let $liste := 
-                  <div><span class="superkonzept">
-                  { for $e in $glossarlabel//skos:Concept[skos:broader/@rdf:resource = data($top/@rdf:resource)]
-                    let $label1 := if($e/skos:prefLabel/@xml:lang= $sprache) then $e/skos:prefLabel[@xml:lang= $sprache]/text() else($e/skos:prefLabel[1]/text())
-                    let $rdfabout1 := data($e/@rdf:about)
-                    let $memo1 := session:set-attribute(replace($rdfabout1,'#', ''), $label1)
-                    return  <div><a class="filter" href="{concat(conf:param('request-root'),'index/', $voc, '/', replace($rdfabout1, '#', ''))}">{$label1}</a>
-                    <span>{ for $f in $glossarlabel//skos:Concept[skos:broader/@rdf:resource = $rdfabout1]
-                          let $label2 := if($f/skos:prefLabel/@xml:lang= $sprache) then $f/skos:prefLabel[@xml:lang= $sprache]/text() else($f/skos:prefLabel[1]/text())
-                          let $rdfabout2 := data($f/@rdf:about)
-                          let $memo2:= session:set-attribute(replace($rdfabout2,'#', ''), $label2)
-                          return if ($glossarlabel//skos:Concept[skos:broader/@rdf:resource = $rdfabout2] and $label2 !='') then <div class="zwei"><a class="filter" href="{concat(conf:param('request-root'),'index/', $voc, '/', replace($rdfabout2, '#', ''))}">{$label2}</a> <span>
-                          {for $g in $glossarlabel//skos:Concept[skos:broader/@rdf:resource = $rdfabout2]
-                          let $label3 := if($g/skos:prefLabel/@xml:lang= $sprache) then $g/skos:prefLabel[@xml:lang= $sprache]/text() else($g/skos:prefLabel[1]/text())
-                          let $rdfabout3 := data($g/@rdf:about)
-                          let $memo3:= session:set-attribute(replace($rdfabout3,'#', ''), $label3)
-                          return if ($glossarlabel//skos:Concept[skos:broader/@rdf:resource = $rdfabout3] and $label3 !='') then <div class="tiefste"><a class="filter" href="{concat(conf:param('request-root'),'index/', $voc, '/',  replace($rdfabout3, '#', ''))}">{$label3}</a> <div>
-                          {for $h in $glossarlabel//skos:Concept[skos:broader/@rdf:resource = $rdfabout3]
-                          let $label4 := if($h/skos:prefLabel/@xml:lang= $sprache) then $h/skos:prefLabel[@xml:lang= $sprache]/text() else($h/skos:prefLabel[1]/text())
-                          let $rdfabout4 := data($h/@rdf:about)
-                          let $memo4:= session:set-attribute(replace($rdfabout3,'#', ''), $label3)
-                          return <a class="label4" href="{concat(conf:param('request-root'),'index/', $voc, '/',  replace($rdfabout4, '#', ''))}">{$label4}</a>}
-                          </div></div>
-                          else if($label3 !='')then <div class="dreiELSE"><a class="filter" href="{concat(conf:param('request-root'),'index/', $voc, '/', replace($rdfabout3, '#', ''))}">{$label3}</a></div> else()
-                          }
-                          </span>
-                          </div> else if ($label2 !='') then <div class="zweiELSE"><a class="filter" href="{concat(conf:param('request-root'),'index/', $voc, '/',  replace($rdfabout2, '#', ''))}">{$label2}</a></div> else()
-                    }
-                    </span>
-                    </div>}
-                  </span>
-                  </div>
-                 
-                  return  <div class="accordion">{$konz, $liste}</div>
-                  
-                  else(          
-
-          <ul>{
-              if ($glossarlabel//skos:Concept) then               
-              for $g in $glossarlabel//skos:Concept
+           {                   
+         if ($vocabulary//skos:hasTopConcept) then                
+                 for $top in $vocabulary//skos:hasTopConcept
+                 let $label1 := <a>{ $vocabulary//skos:Concept[@rdf:about= data($top/@rdf:resource)]//text()}</a>
+                 let $rdfabout1 := data($top/@rdf:resource)
+                 let $memo:= session:set-attribute(replace($rdfabout1,'#', ''), $label1)
+                 return              
+                 <div class="accordion">
+                 <h3>{ $vocabulary//skos:Concept[@rdf:about= data($top/@rdf:resource)]//text()}</h3>
+                 <div>{index:read-hierarchie($vocabulary, $rdfabout1, $label1, $voc, $sprache)}</div>
+                 </div>              
+              
+                
+          else if($coll != 'person') then
+          <ul>
+          {
+              if ($vocabulary//skos:Concept) then               
+              for $g in $vocabulary//skos:Concept
               let $rdfabout := substring-after(data($g/@rdf:about), '#')
 
               let $label:= if ($g/prefLabel/@xml:lang= $sprache) then $g/prefLabel[@xml:lang= $sprache]/text() else($g/skos:prefLabel[1]/text())
               let $memo := session:set-attribute($rdfabout, $label)
+              order by $label
               return 
               <li><a href="{concat(conf:param('request-root'),'index/', $voc, '/', $rdfabout)}">{$label}</a></li>
-
-             else if ($glossarlabel//rdf:Description) then 
-                        
-             for $g in $glossarlabel//rdf:Description[child::skos:prefLabel/text()]
-             let $rdfabout := substring-after(data($g/@rdf:about), '#')
-             let $memo := session:set-attribute($rdfabout, $g/skos:prefLabel[@xml:lang= $sprache]/text())
-             return
-              <li><a href="{concat(conf:param('request-root'),'index/', $voc, '/', $rdfabout)}">{$g/skos:prefLabel[@xml:lang= $sprache]/text()}</a> </li>
-
-              else(
+             
+            else()
+          }
+          </ul>
+            
+        else(
               <div class="buchstaben">              
-              {for $a in $alphabet
-              let $teile := $xrx:tokenized-uri
+              {for $a in $alphabet           
               let $href :=  concat(conf:param('request-root'),'index/BischoefeAblaesse?pm=', $a )
             
               return
-              <span><a class="ui-button ui-widget ui-corner-all" href="{$href}">{$a}</a></span> }</div>,              
-              let $parameter:= if (request:get-parameter("pm", "")) then request:get-parameter("pm", "")  else (substring($xrx:tokenized-uri[3],3,1)) 
+              <span><a class="ui-button ui-widget ui-corner-all" href="{$href}">{$a}</a></span> }</div>,
+               <ul>{           
+              let $parameter:= if (request:get-parameter("pm", "")) then request:get-parameter("pm", "")
+              else (substring($xrx:tokenized-uri[3],3,1)) 
               return
               if($parameter != '')then
               let $personenliste := $index:personcollection//tei:text
@@ -724,6 +769,7 @@ div.filterbox {{
                (: das trifft dann zu, wenn ein Buchstabe keine Namenseinträge hat:)
                 else(
                 for $person in $eintrag
+                order by $person/tei:persName
                 return
                 let $personid := data($person/@xml:id)
                 let $name := $person/tei:persName[starts-with(., $parameter)]
@@ -731,37 +777,36 @@ div.filterbox {{
                 let $ser := serialize($place)
                 let $inhalt := concat($name/text(), ' ',substring-before($ser, ' '))
                 let $memo := session:set-attribute($personid, $inhalt)             
-                for $n in  $name
-                order by $name
+                for $n in  $name                
                 return                                      
-                <li><a href="{concat(conf:param('request-root'),'index/', $voc, '/', $personid)}">{$inhalt, $parameter}</a></li>   
-                
+                <li class="list"><a href="{concat(conf:param('request-root'),'index/', $voc, '/', $personid)}">{$inhalt}</a>
+                </li>   
                 )
-                else() (: trifft zu wenn kein parameter übergeben wird und die Hauptseite leer sein soll:)
+              else()
+               }
+               </ul>
             )
-            }
-             </ul>)
-               }</div>
+                  }
+                </div>
              </div>
-
-                      
-          else()  }
-  
-    </div>
-  
+            </div> 
+            
+          else(
+       <div class="none">//</div>
+       ) 
+    }  
+ <div>
     {
-    let $teile := count($xrx:tokenized-uri)
-    return if($teile = 1)then (<div id ="rightframe">{$index-use-text} <div class="radio" id="zentral">         
-          <!--  <xrx:i18n>
-              <xrx:key>choose-an-index</xrx:key>
-              <xrx:default>Choose an Index</xrx:default>
-            </xrx:i18n> -->
+     if($teile = 1)then (
+    <div id ="centre">{$index-use-text} 
+      <div class="radio" id="zentral">         
+        
          <ul class="choose-menu">
-            {
-         let $indexliste := collection('/db/mom-data/metadata.controlledVocabulary.public')         
-         for $i in $indexliste
-
-         let $text := if($i//atom:content//skos:ConceptScheme/skos:prefLabel/@xml:lang = $sprache) then $i//atom:content//skos:ConceptScheme/skos:prefLabel[@xml:lang = $sprache]/text()else($i//atom:content//skos:ConceptScheme/skos:prefLabel[1]/text())
+            {           
+         for $i in $index:vocabularycollection
+         let $text := if($i//atom:content//skos:ConceptScheme/skos:prefLabel/@xml:lang = $sprache) 
+         then $i//atom:content//skos:ConceptScheme/skos:prefLabel[@xml:lang = $sprache]/text()
+         else($i//atom:content//skos:ConceptScheme/skos:prefLabel[1]/text())
 
          let $name := tokenize($i//atom:id/text(), '/')[last()]
          let $memo := session:set-attribute($name, $text)
@@ -773,10 +818,12 @@ div.filterbox {{
              
          }
          {
-         let $personendb := collection('/db/mom-data/metadata.person.public')
-         for $p in $personendb
-         let $files := util:document-name($personendb)         
-         let $text := $p//atom:content//tei:title[@xml:lang='de']/text()
+        
+         for $p in $index:personcollection
+         let $files := util:document-name($index:personcollection)         
+         let $text := if($p//atom:content//tei:title[@xml:lang=$sprache]/text() !='')
+          then $p//atom:content//tei:title[@xml:lang=$sprache]/text()
+         else($p//atom:content//tei:title[1]/text())
          let $name := tokenize($p//atom:id/text(), '/')[last()]         
          let $memo := session:set-attribute($name, $text)
          
@@ -787,50 +834,61 @@ div.filterbox {{
          
          }
        </ul>  
-       </div></div>)
+       </div>
+       </div>
+) 
     
     
-    else if($teile = 2) then <div id ="rightframe"><p><xrx:i18n>
+    else if($teile = 2) then 
+    let $note := if($coll = 'person') then $vocabulary//tei:sourceDesc/node()
+    else(if ($vocabulary//skos:note[@xml:lang=$sprache]/text()) 
+    then $vocabulary//skos:note[@xml:lang=$sprache]/text()
+    else($vocabulary//skos:note[1]/text())
+    )
+    return
+    <div id ="rightframe"><h2><xrx:i18n>
               <xrx:key>search-in</xrx:key>
               <xrx:default>Search the Index</xrx:default>
-            </xrx:i18n>: <span class="breadcrumb">{$breadcrumb1}</span></p></div>
+            </xrx:i18n>: <span class="breadcrumb">{$breadcrumb1}</span></h2>
+             <div>
+            {$note}
+            </div>    <!-- noch keine Sprachunterscheidung bei skos:note -->   
+            </div>
+           
     else(
     <div id="rightframe">
-      <div id="breadcrumb"><p><xrx:i18n>
+      <div id="breadcrumb"><h2><xrx:i18n>
               <xrx:key>search-in</xrx:key>
               <xrx:default>Search the Index</xrx:default>
-            </xrx:i18n>: <span class="breadcrumb">{$breadcrumb1} &gt; {$breadcrumb2}</span></p></div>         
+            </xrx:i18n>: <span class="breadcrumb">{$breadcrumb1} &gt; {$breadcrumb2}</span></h2></div>         
       <div class="glossary-entry">
-      {
-      let $teile := count($xrx:tokenized-uri)
-      let $voc := $xrx:tokenized-uri[2]      
-      let $coll := if($voc='BischoefeAblaesse')then ('person') else('controlledVocabulary')
-      let $atomid := concat('tag:www.monasterium.net,2011:/',$coll,'/', $voc)
-      let $momcoll := concat('/db/mom-data/metadata.', $coll, '.public/')
-      let $vocabulary := collection($momcoll)/atom:entry[atom:id/text()= $atomid]
-      return 
+      {  
+      
       if ($teile = 3 and $vocabulary//skos:Concept) then
       let $term := concat('#', $xrx:tokenized-uri[3])
-
+      let $beschreibung:= $vocabulary//skos:Concept[@rdf:about = $term]/skos:definition/node()
+      let $anzahlknoten := count($beschreibung)
+      let $glossar := <div>{$beschreibung}</div>
       let $glossartitel := <h2>
+        { if ($beschreibung and ($anzahlknoten gt 2))then  
+        <span>   
+      <span class="moreless">     
+         <xrx:resource alt="einklappen" id="ein" height="20" type="image/png" title="show more" class="ic">tag:www.monasterium.net,2011:/mom/resource/image/path_down</xrx:resource>
+      </span>      
+      <span class="moreless" style="display:none">
+         <xrx:resource alt="ausklappen" id="aus" height="20" type="image/png" title="show less" class="ic">tag:www.monasterium.net,2011:/mom/resource/image/path_up</xrx:resource>
+      </span>
+      </span> 
+
+          else()}
       {if ($vocabulary//skos:Concept[@rdf:about = $term]/skos:prefLabel/@xml:lang = $sprache)then 
       $vocabulary//skos:Concept[@rdf:about = $term]/skos:prefLabel[@xml:lang= $sprache]/text()
-      else($vocabulary//skos:Concept[@rdf:about = $term]/skos:prefLabel[1]/text()) }</h2>     
-
-      let $glossar := <div>{$vocabulary//skos:Concept[@rdf:about = $term]/skos:definition/node()}</div>
-    
+      else($vocabulary//skos:Concept[@rdf:about = $term]/skos:prefLabel[1]/text()) }
+      
+          </h2>    
       return      
-        ($glossartitel, $glossar)
-     
-      else if($teile = 3 and $vocabulary//rdf:Description)then
-      let $term := concat('#', $xrx:tokenized-uri[3])     
-      let $glossar := $vocabulary//rdf:Description[@rdf:about = $term]/skos:prefLabel[@xml:lang= $sprache]/text()
-      return
-
-      <h2 class="glosass">
-
-        {$glossar}
-      </h2>
+        ($glossartitel, $glossar)     
+    
       
       else(
       let $term := $xrx:tokenized-uri[3]
@@ -913,8 +971,8 @@ div.filterbox {{
           let $uri := request:get-uri()
           let $whereami := session:set-attribute('whereami', $uri)
           for $charter at $num in $windex:index-abfrage[ position() = $charters:start to $charters:stop ]
-                   
-          return
+          order by $charter//cei:dateRange/@from    
+          return    
        <div id="dcharter-preview-main">                
             <xrx:subwidget>
               <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/result</xrx:atomid>
@@ -1001,18 +1059,18 @@ div.filterbox {{
           </p>          
         </div>
       else()
-      }</div></div>
+      }</div>
+      </div>
       
   )
-    }</div>
- 
-
-      <!-- <xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/default-footer</xrx:subwidget>{{collapsible: true}} -->
-                  
+    }
+     </div>
+    
+   </div>
+                   
         <script type="text/javascript">
   $( function() {{
-   
-   
+      
    $(".choose-menu").menu();     
    $(".buchstaben").menu();
    $(".accordion").accordion({{active: true, collapsible: true, heightStyle: "auto"}});    
@@ -1028,8 +1086,42 @@ div.filterbox {{
      }}    
    }}); 
     
-   $( ".radio" ).buttonset(); 
-  
+   $( ".radio" ).buttonset();
+    var parameter = window.location.href;
+    if(parameter.includes('?pm=charter')){{
+    $("span.moreless").toggle();    
+   
+    $("div.glossary-entry").addClass("glossary-open").removeClass("glossary-entry");    
+    var pfeil = $("#aus").clone();
+    var spanless = $('<p></p>').addClass("moreless zusatz").append(pfeil);    
+    var letztesp = $(".glossary-open").append(spanless);
+    spanless.click( function() {{
+    $("div.glossary-open").addClass("glossary-entry").removeClass("glossary-open");
+    $("span.moreless").toggle(); 
+    $(".zusatz").remove();
+     window.scrollTo(0,0);
+    }})    
+    }}    
+    $("span.moreless").click(function(){{
+    $("span.moreless").toggle();  
+     if($("div.glossary-open").length == 0) {{
+    $("div.glossary-entry").addClass("glossary-open").removeClass("glossary-entry");    
+    var pfeil = $("#aus").clone();
+    var spanless = $('<p></p>').addClass("moreless zusatz").append(pfeil);    
+    var letztesp = $(".glossary-open").append(spanless);
+    spanless.click( function() {{
+    $("div.glossary-open").addClass("glossary-entry").removeClass("glossary-open");
+    $("span.moreless").toggle(); 
+    $(".zusatz").remove();
+     window.scrollTo(0,0);
+    }})
+    }}
+    else {{    
+    $("div.glossary-open").addClass("glossary-entry").removeClass("glossary-open"); 
+    $(".zusatz").remove(); 
+    }}        
+   
+   }})
 
   }} );
   

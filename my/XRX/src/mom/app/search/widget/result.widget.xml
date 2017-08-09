@@ -161,7 +161,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <!-- -->
     <xrx:variable>
       <xrx:name>$wcharter-preview:date</xrx:name>
-      <xrx:expression>($constructor:charter//cei:date/text(), $constructor:charter//cei:dateRange/text(), data($constructor:charter//cei:date/@vlaue), data($constructor:charter//cei:dateRange/@from))[1]</xrx:expression>
+      <xrx:expression>($constructor:charter//cei:date/text(), $constructor:charter//cei:dateRange/text(), data($constructor:charter//cei:date/@value), data($constructor:charter//cei:dateRange/@from))[1]</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:is-bookmarked</xrx:name>

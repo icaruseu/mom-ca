@@ -35,26 +35,26 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare namespace xrx="http://www.monasterium.net/NS/xrx";
 declare namespace cei="http://www.monasterium.net/NS/cei";
 declare namespace tei="http://www.monasterium.net/NS/tei";
-declare namespace svg="http://www.w3.org/2000/svg";
+declare namespace skos="http://www.w3.org/2004/02/skos/core#";
+declare namespace rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 declare namespace atom="http://www.w3.org/2005/Atom";
-declare namespace image="http://exist-db.org/xquery/image";
 
 declare variable $index:chartercollection := collection(concat(conf:param("data-db-base-uri"), "/metadata.charter.public"));
+declare variable $index:personcollection := collection(concat(conf:param("data-db-base-uri"), "/metadata.person.public"));
+declare variable $index:vocabularycollection := collection(concat(conf:param("data-db-base-uri"), "/metadata.controlledVocabulary.public"));
 
 declare function index:index-abfrage($term){
       if (starts-with($term, 'P_')) then
-      let $resultat := session:set-attribute('result', $index:chartercollection//cei:text[ft:query(.//@key, $term)])
-      for $m in collection("/db/mom-data/metadata.charter.public")//cei:text[ft:query(.//@key, $term)]      
-      order by ft:score($m) descending      
-      return  $m   
+      let $resultat := session:set-attribute('result', $index:chartercollection//cei:text[.//@key= $term])
+      for $treffer in $index:chartercollection//cei:text[.//@key = $term]           
+      return  $treffer   
       
       
       else(
-      let $resultat := session:set-attribute('result', $index:chartercollection//cei:text[ft:query(.//@lemma, substring-after($term, '#'))])
+      let $resultat := session:set-attribute('result', $index:chartercollection//cei:text[.//@lemma = substring-after($term, '#')])
 
-      for $m in collection("/db/mom-data/metadata.charter.public")//cei:text[ft:query(.//@lemma, substring-after($term, '#'))]      
-      order by ft:score($m) descending      
-      return   $m
+      for $treffer in $index:chartercollection//cei:text[.//@lemma = substring-after($term, '#')]        
+      return   $treffer
        )                
 };
 
@@ -89,3 +89,23 @@ declare function index:replace-multi
           $changeTo[position() > 1])
    else $arg
  } ;
+ 
+ declare function index:check-person($param) {
+  let $personenliste := $index:personcollection//tei:text
+    let $eintrag := $personenliste//tei:person[starts-with(substring-after(@xml:id, 'P_'), $param)]
+    let $zahlen := count($eintrag)                             
+    return
+      $personenliste
+     
+ };
+ 
+ 
+ declare function index:read-hierarchie($glossarlabel,$rdf, $label, $voc, $sprache){       
+             for $g in $glossarlabel//skos:Concept[skos:broader/@rdf:resource = $rdf]
+                  
+                  let $newrdf := data($g/@rdf:about)
+                  let $newlabel := <a href="{concat(conf:param('request-root'),'index/',$voc, '/',  replace($newrdf, '#', ''))}">{if($g/skos:prefLabel/@xml:lang= $sprache) then $g/skos:prefLabel[@xml:lang= $sprache]/text() else($g/skos:prefLabel[1]/text())}</a>
+               
+                  let $memo:= session:set-attribute(replace($newrdf,'#', ''), $newlabel)
+            return  <div class="narrower">{$newlabel}<span>{index:read-hierarchie($glossarlabel, $newrdf, $newlabel, $voc, $sprache)}</span></div>    
+            };
