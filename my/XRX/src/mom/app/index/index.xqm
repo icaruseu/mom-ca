@@ -99,7 +99,7 @@ declare function index:replace-multi
      
  };
  
- 
+ (: function that reads terms from RDF :)
  declare function index:read-hierarchie($glossarlabel,$rdf, $label, $voc, $sprache){       
              for $g in $glossarlabel//skos:Concept[skos:broader/@rdf:resource = $rdf]
                   
