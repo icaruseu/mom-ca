@@ -686,7 +686,7 @@ div.narrower {{
 
   </style> 
   </xrx:csss>
-    <xrx:jss> 
+    <xrx:jss>     
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
@@ -699,8 +699,9 @@ div.narrower {{
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/droppable</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/menu</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/accordion</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/animate</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/accordion</xrx:resource>        
+        
+        <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/index</xrx:resource>
      
   </xrx:jss>
     <xrx:view>
@@ -718,7 +719,10 @@ div.narrower {{
        </div> 
         <div id="reslut-options" class="this-widget">           
           <div class="filterbox">          
-          <h2>Choose a lemma:</h2>
+          <h2><xrx:i18n>
+              <xrx:key>choose-a-lemma</xrx:key>
+              <xrx:default>Choose a lemma</xrx:default>
+            </xrx:i18n>:</h2>
            {                   
          if ($vocabulary//skos:hasTopConcept) then                
                  for $top in $vocabulary//skos:hasTopConcept
@@ -869,9 +873,11 @@ div.narrower {{
       let $beschreibung:= $vocabulary//skos:Concept[@rdf:about = $term]/skos:definition/node()
       let $anzahlknoten := count($beschreibung)
       let $glossar := <div>{$beschreibung}</div>
+       (: wenn die Beschreibung länger ist, soll ein Pfeil gesetzt werden, der anzeigt, dass noch mehr Info da ist :)
       let $glossartitel := <h2>
         { if ($beschreibung and ($anzahlknoten gt 2))then  
-        <span>   
+        <span>
+          
       <span class="moreless">     
          <xrx:resource alt="einklappen" id="ein" height="20" type="image/png" title="show more" class="ic">tag:www.monasterium.net,2011:/mom/resource/image/path_down</xrx:resource>
       </span>      
@@ -1067,64 +1073,9 @@ div.narrower {{
      </div>
     
    </div>
-                   
-        <script type="text/javascript">
-  $( function() {{
-      
-   $(".choose-menu").menu();     
-   $(".buchstaben").menu();
-   $(".accordion").accordion({{active: true, collapsible: true, heightStyle: "auto"}});    
-   $(".ui-accordion-content").css("height", "auto");
+ <!--   <script type="text/javascript">   
    
-   $("a.filter").each(function (){{
-   if($(".glossary-entry").children("h2")[0]){{
-   var term = $(".glossary-entry").children("h2")[0].textContent;
-   }}   
-   if ($(this).text() == term){{   
-    var ac = $(this).parents("div.accordion");
-    $(ac).accordion({{active:0}});
-     }}    
-   }}); 
-    
-   $( ".radio" ).buttonset();
-    var parameter = window.location.href;
-    if(parameter.includes('?pm=charter')){{
-    $("span.moreless").toggle();    
    
-    $("div.glossary-entry").addClass("glossary-open").removeClass("glossary-entry");    
-    var pfeil = $("#aus").clone();
-    var spanless = $('<p></p>').addClass("moreless zusatz").append(pfeil);    
-    var letztesp = $(".glossary-open").append(spanless);
-    spanless.click( function() {{
-    $("div.glossary-open").addClass("glossary-entry").removeClass("glossary-open");
-    $("span.moreless").toggle(); 
-    $(".zusatz").remove();
-     window.scrollTo(0,0);
-    }})    
-    }}    
-    $("span.moreless").click(function(){{
-    $("span.moreless").toggle();  
-     if($("div.glossary-open").length == 0) {{
-    $("div.glossary-entry").addClass("glossary-open").removeClass("glossary-entry");    
-    var pfeil = $("#aus").clone();
-    var spanless = $('<p></p>').addClass("moreless zusatz").append(pfeil);    
-    var letztesp = $(".glossary-open").append(spanless);
-    spanless.click( function() {{
-    $("div.glossary-open").addClass("glossary-entry").removeClass("glossary-open");
-    $("span.moreless").toggle(); 
-    $(".zusatz").remove();
-     window.scrollTo(0,0);
-    }})
-    }}
-    else {{    
-    $("div.glossary-open").addClass("glossary-entry").removeClass("glossary-open"); 
-    $(".zusatz").remove(); 
-    }}        
-   
-   }})
-
-  }} );
-  
-</script>
+   </script> -->
       </xrx:view>
       </xrx:widget>
