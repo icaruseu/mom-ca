@@ -90,16 +90,8 @@ declare function index:replace-multi
    else $arg
  } ;
  
- declare function index:check-person($param) {
-  let $personenliste := $index:personcollection//tei:text
-    let $eintrag := $personenliste//tei:person[starts-with(substring-after(@xml:id, 'P_'), $param)]
-    let $zahlen := count($eintrag)                             
-    return
-      $personenliste
-     
- };
  
- 
+ (: function that reads terms from RDF :)
  declare function index:read-hierarchie($glossarlabel,$rdf, $label, $voc, $sprache){       
              for $g in $glossarlabel//skos:Concept[skos:broader/@rdf:resource = $rdf]
                   

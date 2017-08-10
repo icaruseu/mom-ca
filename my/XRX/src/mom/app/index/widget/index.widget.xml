@@ -717,7 +717,7 @@ div.narrower {{
             </xrx:i18n></a></li>  
        </ul>  
        </div> 
-        <div id="reslut-options" class="this-widget">           
+        <div id="result-options" class="this-widget">           
           <div class="filterbox">          
           <h2><xrx:i18n>
               <xrx:key>choose-a-lemma</xrx:key>
@@ -845,9 +845,9 @@ div.narrower {{
     
     else if($teile = 2) then 
     let $note := if($coll = 'person') then $vocabulary//tei:sourceDesc/node()
-    else(if ($vocabulary//skos:note[@xml:lang=$sprache]/text()) 
-    then $vocabulary//skos:note[@xml:lang=$sprache]/text()
-    else($vocabulary//skos:note[1]/text())
+    else(if ($vocabulary//skos:ConceptScheme/skos:note[@xml:lang=$sprache]/text()) 
+    then $vocabulary//skos:ConceptScheme/skos:note[@xml:lang=$sprache]/text()
+    else($vocabulary//skos:ConceptScheme/skos:note[1]/text())
     )
     return
     <div id ="rightframe"><h2><xrx:i18n>
@@ -977,7 +977,7 @@ div.narrower {{
           let $uri := request:get-uri()
           let $whereami := session:set-attribute('whereami', $uri)
           for $charter at $num in $windex:index-abfrage[ position() = $charters:start to $charters:stop ]
-          order by $charter//cei:dateRange/@from    
+          order by $charter//cei:issued/(cei:dateRange/@from | cei:date/@value)    
           return    
        <div id="dcharter-preview-main">                
             <xrx:subwidget>
@@ -1073,9 +1073,5 @@ div.narrower {{
      </div>
     
    </div>
- <!--   <script type="text/javascript">   
-   
-   
-   </script> -->
       </xrx:view>
       </xrx:widget>
