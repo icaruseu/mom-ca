@@ -4,7 +4,7 @@
   <!-- ################################ XRX Project Settings ################################ -->
   <project-name>mom</project-name>
   <deploy>core/**,mom/**</deploy>
-  <password></password>
+  <password>d5xp3ST4c</password>
 
 
   <!-- ################################ Java Settings ################################ -->

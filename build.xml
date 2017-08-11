@@ -249,7 +249,7 @@
     <move todir="CodeMirror">
       <fileset dir="CodeMirror-2"/>
     </move>
-    <delete dir="CodeMirror-2"/>
+    <delete dir="CodeMirror-2" failonerror="fales"/>
     
   </target>
 
@@ -560,7 +560,7 @@
       query="system:as-user('admin', '', xmldb:change-user('admin', '${XRX.password}', 'dba', '/db'))"
       user="guest"
       password="guest"
-      failonerror="false"/>
+      failonerror="true"/>
   </target>
 
   <target name="deploy-exist-xconf"

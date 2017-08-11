@@ -10,6 +10,7 @@
     <xsl:preserve-space elements="cei:*"/>
     <xsl:variable name="sitemap" select="/xhtml:page/xhtml:div"/>
     <xsl:variable name="cei" select="/xhtml:page//cei:text"/>
+    <xsl:variable name="persons" select="collection('/db/mom-data/metadata.person.public/')"/>
     
     <xsl:template match="/">     
         <xsl:apply-templates select="$sitemap"/>
@@ -1707,8 +1708,8 @@
             <xsl:sort select="."/>
             <xsl:if test="./node()">
               <li id="{./@key}">
-                <!-- compare with TEI of bishops --> 
-        	    <xsl:if test="document('/db/mom-data/metadata.person.public/Bischofsliste_Ablaesse.tei.xml')//tei:person/@xml:id = ./@key">
+                <!-- compare with TEI of persons --> 
+        	    <xsl:if test="$persons//tei:person/@xml:id = ./@key">
                   <xsl:attribute name="value">true</xsl:attribute>
         		  <xsl:attribute name="class">bishop</xsl:attribute>
         		</xsl:if>
