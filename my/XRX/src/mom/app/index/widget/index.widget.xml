@@ -68,13 +68,13 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:expression>if($xrx:tokenized-uri[3]!= '#') then index:index-abfrage($indexterm) else()</xrx:expression>
     </xrx:variable>
     
-     <xrx:variable>    
+    <!--  <xrx:variable>    
       <xrx:name>$windex:index-abfrage</xrx:name>
       <xrx:expression>$windex:index/ancestor::atom:entry/atom:id</xrx:expression>
-    </xrx:variable>
+    </xrx:variable> -->
     <xrx:variable>
     <xrx:name>$windex:hits</xrx:name>
-    <xrx:expression>count($windex:index-abfrage)</xrx:expression>
+    <xrx:expression>count($windex:index)</xrx:expression>
     </xrx:variable>    
    <xrx:variable>
     <xrx:name>$blocks</xrx:name>
@@ -95,18 +95,18 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     </xrx:variable>
 
     
-    <!-- overwrite -->
+    <!-- overwrite 
     <xrx:variable>
       <xrx:name>$wcharter:date-elements</xrx:name>
       <xrx:expression>index:years($windex:index-abfrage)</xrx:expression>
-    </xrx:variable>
+    </xrx:variable>-->
     <xrx:variable>
       <xrx:name>$wcharters:previous-block-pos</xrx:name>
       <xrx:expression>if($windex:block = 1) then 1 else $windex:block - 1</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharters:next-block-pos</xrx:name>
-      <xrx:expression>if($windex:block = count($wcharter:date-elements) div 7) then 1 else $windex:block + 1</xrx:expression>
+      <xrx:expression>if($windex:block = $windex:hits div 7) then 1 else $windex:block + 1</xrx:expression>
     </xrx:variable>
  
     <!-- Session Variablen -->
@@ -864,7 +864,8 @@ div.narrower {{
       <div id="breadcrumb"><h2><xrx:i18n>
               <xrx:key>search-in</xrx:key>
               <xrx:default>Search the Index</xrx:default>
-            </xrx:i18n>: <span class="breadcrumb">{$breadcrumb1} &gt; {$breadcrumb2}</span></h2></div>         
+            </xrx:i18n>: <span class="breadcrumb">{$breadcrumb1} &gt; {$breadcrumb2}</span></h2></div> 
+            
       <div class="glossary-entry">
       {  
       
@@ -937,7 +938,7 @@ div.narrower {{
                     
           <span class="light-grey"> { $windex:hits }</span>
           <p id="block-navi">  
-          {if ($blocks != 1)then        
+          {if ($windex:block != 1)then        
            <a href="?block={ $wcharters:previous-block-pos }"> <span>&lt; </span>
                         <xrx:i18n>
                             <xrx:key>previous</xrx:key>
@@ -961,7 +962,7 @@ div.narrower {{
           </xrx:i18n>
           </span>
           <span>{$blocks}</span>
-         { if ($blocks != 1)then
+         { if ($blocks != 1 and $windex:block != $blocks)then
          <a href="?block={ $wcharters:next-block-pos }">
                         <xrx:i18n>
                             <xrx:key>next</xrx:key>
@@ -975,9 +976,9 @@ div.narrower {{
              
            {
           let $uri := request:get-uri()
-          let $whereami := session:set-attribute('whereami', $uri)
-          for $charter at $num in $windex:index-abfrage[ position() = $charters:start to $charters:stop ]
-          order by $charter//cei:issued/(cei:dateRange/@from | cei:date/@value)    
+          let $whereami := session:set-attribute('whereami', $uri) (: $windex:index-abfrage :)
+          for $charter at $num in $windex:index[ position() = $charters:start to $charters:stop ]
+                   
           return    
        <div id="dcharter-preview-main">                
             <xrx:subwidget>
@@ -999,7 +1000,7 @@ div.narrower {{
                 <xrx:name>$vocabular</xrx:name>
                 <xrx:expression>$xrx:tokenized-uri[2]</xrx:expression>
                 </xrx:parameter>             
-              </xrx:pass>
+              </xrx:pass>              
             </xrx:subwidget>
           </div>
           }
@@ -1029,7 +1030,7 @@ div.narrower {{
                     
           <span class="light-grey"> { $windex:hits }</span>
           <p id="block-navi">  
-          {if ($blocks != 1)then        
+          {if ($windex:block != 1)then        
            <a href="?block={ $wcharters:previous-block-pos }"> <span>&lt; </span>
                         <xrx:i18n>
                             <xrx:key>previous</xrx:key>
@@ -1053,7 +1054,7 @@ div.narrower {{
           </xrx:i18n>
           </span>
           <span>{$blocks}</span>
-         { if ($blocks != 1)then
+         { if ($blocks != 1 and $windex:block != $blocks)then
          <a href="?block={ $wcharters:next-block-pos }">
                         <xrx:i18n>
                             <xrx:key>next</xrx:key>

@@ -46,25 +46,19 @@ declare variable $index:vocabularycollection := collection(concat(conf:param("da
 declare function index:index-abfrage($term){
       if (starts-with($term, 'P_')) then
       let $resultat := session:set-attribute('result', $index:chartercollection//cei:text[.//@key= $term])
-      for $treffer in $index:chartercollection//cei:text[.//@key = $term]           
-      return  $treffer   
+      let $treffergesamt := $index:chartercollection//cei:text[.//@key = $term]
+      for $treffer in $treffergesamt
+      order by $treffer//cei:issued/(cei:dateRange/@from | cei:date/@value) ascending
+      return  $treffer/ancestor::atom:entry/atom:id   
       
       
       else(
       let $resultat := session:set-attribute('result', $index:chartercollection//cei:text[.//@lemma = substring-after($term, '#')])
-
-      for $treffer in $index:chartercollection//cei:text[.//@lemma = substring-after($term, '#')]        
-      return   $treffer
+      let $treffergesamt := $index:chartercollection//cei:text[.//@lemma = substring-after($term, '#')]
+      for $treffer in $treffergesamt
+      order by $treffer//cei:issued/(cei:dateRange/@from | cei:date/@value) ascending
+      return   $treffer/ancestor::atom:entry/atom:id  
        )                
-};
-
-
-declare function index:years($index:index-abfrage){
-    for $year in $index:index-abfrage//cei:issued/(cei:date/@value|cei:dateRange/@from)
-    order by xs:integer($year)
-    return
-          $year 
-
 };
 
 declare function index:if-absent
@@ -74,7 +68,7 @@ declare function index:if-absent
     if (exists($arg))
     then $arg
     else $value
- } ;
+ };
  
 declare function index:replace-multi
   ( $arg as xs:string? ,
@@ -89,14 +83,13 @@ declare function index:replace-multi
           $changeTo[position() > 1])
    else $arg
  } ;
- 
- 
+  
  (: function that reads terms from RDF :)
  declare function index:read-hierarchie($glossarlabel,$rdf, $label, $voc, $sprache){       
              for $g in $glossarlabel//skos:Concept[skos:broader/@rdf:resource = $rdf]
                   
                   let $newrdf := data($g/@rdf:about)
-                  let $newlabel := <a href="{concat(conf:param('request-root'),'index/',$voc, '/',  replace($newrdf, '#', ''))}">{if($g/skos:prefLabel/@xml:lang= $sprache) then $g/skos:prefLabel[@xml:lang= $sprache]/text() else($g/skos:prefLabel[1]/text())}</a>
+                  let $newlabel := <a class="filter" href="{concat(conf:param('request-root'),'index/',$voc, '/',  replace($newrdf, '#', ''))}">{if($g/skos:prefLabel/@xml:lang= $sprache) then $g/skos:prefLabel[@xml:lang= $sprache]/text() else($g/skos:prefLabel[1]/text())}</a>
                
                   let $memo:= session:set-attribute(replace($newrdf,'#', ''), $newlabel)
             return  <div class="narrower">{$newlabel}<span>{index:read-hierarchie($glossarlabel, $newrdf, $newlabel, $voc, $sprache)}</span></div>    
