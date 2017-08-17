@@ -43,6 +43,8 @@ declare variable $index:chartercollection := collection(concat(conf:param("data-
 declare variable $index:personcollection := collection(concat(conf:param("data-db-base-uri"), "/metadata.person.public"));
 declare variable $index:vocabularycollection := collection(concat(conf:param("data-db-base-uri"), "/metadata.controlledVocabulary.public"));
 
+(: function searches hits of a lemma in @ of published charters. It returns the ids of the hits
+and saves the hits in a session variable in order to be able to browse through the hits :)
 declare function index:index-abfrage($term){
       if (starts-with($term, 'P_')) then
       let $resultat := session:set-attribute('result', $index:chartercollection//cei:text[.//@key= $term])
@@ -61,6 +63,7 @@ declare function index:index-abfrage($term){
        )                
 };
 
+(: the following two functions are needed to cut TEI data in order to get a userfriendly representation of the text in the UI :)
 declare function index:if-absent
   ( $arg as item()* ,
     $value as item()* )  as item()* {

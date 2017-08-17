@@ -67,11 +67,6 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:name>$windex:index</xrx:name>
       <xrx:expression>if($xrx:tokenized-uri[3]!= '#') then index:index-abfrage($indexterm) else()</xrx:expression>
     </xrx:variable>
-    
-    <!--  <xrx:variable>    
-      <xrx:name>$windex:index-abfrage</xrx:name>
-      <xrx:expression>$windex:index/ancestor::atom:entry/atom:id</xrx:expression>
-    </xrx:variable> -->
     <xrx:variable>
     <xrx:name>$windex:hits</xrx:name>
     <xrx:expression>count($windex:index)</xrx:expression>
@@ -93,13 +88,6 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:name>$charters:previous-block</xrx:name>
       <xrx:expression>if($windex:block = 1) then 1 else $windex:block - 1</xrx:expression>
     </xrx:variable>
-
-    
-    <!-- overwrite 
-    <xrx:variable>
-      <xrx:name>$wcharter:date-elements</xrx:name>
-      <xrx:expression>index:years($windex:index-abfrage)</xrx:expression>
-    </xrx:variable>-->
     <xrx:variable>
       <xrx:name>$wcharters:previous-block-pos</xrx:name>
       <xrx:expression>if($windex:block = 1) then 1 else $windex:block - 1</xrx:expression>
@@ -141,13 +129,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     </xrx:variable>
    <xrx:variable>
    <xrx:name>$sprache</xrx:name>
-   <xrx:expression>if(index-of(('deu', 'fra','ita','eng'), $xrx:lang)) then substring($xrx:lang, 0,3) else 'en'</xrx:expression>   
-   </xrx:variable> 
-   <!--  <xrx:variable>
-   <xrx:name>$sprache</xrx:name>
    <xrx:expression>substring($xrx:lang, 0,3)</xrx:expression>   
-   </xrx:variable> -->
-   
+   </xrx:variable>   
    <xrx:variable>
    <xrx:name>$alphabet</xrx:name>
    <xrx:expression>('A', 'B','C','D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y','Z')</xrx:expression>
@@ -317,8 +300,7 @@ span.breadcrumb {{
 .glossary-entry {{    
          
     background:rgb(245, 245, 245);    
-    border-bottom: 3px solid #9e9e9e; /*#8EA384;*/
-    padding-left: 3px;
+    border-bottom: 3px solid #9e9e9e; /*#8EA384;*/    
     max-height: 200px;    
     overflow-y:auto;
     width:101%;
@@ -705,6 +687,13 @@ div.narrower {{
      
   </xrx:jss>
     <xrx:view>
+    <!-- the widget starts at uri mom/index
+    this lists all vocabularies in the db
+    when you choose a voc the uri grows and ends with the name of the voc (xrx:tokenized-uri[2])
+    then  your can choose a lemma in the voc, the uri grows again xrx:tokenized-uri[3] returns the lemma.
+    The UI has 2 main parts leftframe and rightframe, leftframe is used vor the index-search-navi
+    and rightframe shows the results.
+    -->
     <div id="this-main">
     {  
       if (count($xrx:tokenized-uri) gt 1)then
@@ -718,7 +707,12 @@ div.narrower {{
        </ul>  
        </div> 
         <div id="result-options" class="this-widget">           
-          <div class="filterbox">          
+          <div class="filterbox">
+          <!-- the index app provides prosopografic data and other vocs
+          They are stored in different locations and standards (skos, TEI).
+          If there is a skos: the ui tranlates the skos into a drop down menu
+          if there is a TEI: an alphabetical order filters prosopografic data.         
+           -->          
           <h2><xrx:i18n>
               <xrx:key>choose-a-lemma</xrx:key>
               <xrx:default>Choose a lemma</xrx:default>
@@ -856,7 +850,7 @@ div.narrower {{
             </xrx:i18n>: <span class="breadcrumb">{$breadcrumb1}</span></h2>
              <div>
             {$note}
-            </div>    <!-- noch keine Sprachunterscheidung bei skos:note -->   
+            </div>   
             </div>
            
     else(
@@ -865,7 +859,7 @@ div.narrower {{
               <xrx:key>search-in</xrx:key>
               <xrx:default>Search the Index</xrx:default>
             </xrx:i18n>: <span class="breadcrumb">{$breadcrumb1} &gt; {$breadcrumb2}</span></h2></div> 
-            
+       <!-- special solution for glossary-entries in order to be able to present more or less text -->
       <div class="glossary-entry">
       {  
       
