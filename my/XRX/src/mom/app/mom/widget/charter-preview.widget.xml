@@ -581,34 +581,35 @@ div.bookmark-icon{{
             <xrx:div>my-archive-functions-div</xrx:div>
           </div>         
         </div> 
-      </div>
+      </div><!-- was geschieht mit köln bilder?
+      http://www.mom-image.uni-koeln.de/google/Teil1/MerkwuerdigeUrkundenI/00000086.png
+      lokaler pfad: de_stadtarchivwuerzburg_heidingsfeld_058_15510613_r.JPG 
+      http://images.monasterium.net/pics/DE-StadtAWuerzburg/Heidingsfeld/de_stadtarchivwuerzburg_heidingsfeld_058_15510613_r.JPG
+   
+      -->
     </div>
     
     else(
-    if(starts-with(data($constructor:charter//cei:graphic/@url), 'http://images.monasterium.net/illum/IllUrk'))
+    if(starts-with(data($constructor:charter//cei:graphic/@url), 'http://images.monasterium.net'))
     then
     let $abs := $constructor:charter//cei:abstract//text()
     let $short := concat(substring(concat($abs[1],$abs[2]), 0, 100), '...')
     let $charter := $wcharter-preview:charter-url    
     return
-          <div class="bilder">
-           <!-- This condition is provided to give an thumbnail overview of the collection, it is until now just available for the IlluminierteUrkunden collection.
-    will be continued soon substring-after(data($i/@url), 'http://images.monasterium.net/illum/IllUrk')-->
+          <div class="bilder">       
            <span class="datum"><a href="{$charter}">{ $wcharter-preview:date }<span>{$short}</span></a></span>                     
            <span class= "images">
           {
            for $i in $constructor:charter//cei:graphic
+          
+          let $bildurl := img:get-url(data($i/@url), $wcharter-preview:atom-id)
           return
-          if(starts-with(data($i/@url), 'http://images.monasterium.net/illum/IllUrk')) then
-          let $crop := string-length(data($i/@url))          
-          let $cropstart := string-length('http://images.monasterium.net/illum/IllUrk')+1
-          let $cropend :=  if (ends-with(data($i/@url), 'jpeg')) then $crop - $cropstart -4 else($crop - $cropstart -3)
-          let $filename := substring(data($i/@url), $cropstart, $cropend)
-          let $url := if(ends-with(data($i/@url), 'JPG')) then concat('http://images.monasterium.net/illum/IllUrk/thumbnails', $filename,'.JPG')
-          else(concat('http://images.monasterium.net/illum/IllUrk/thumbnails', $filename,'.jpg'))
-          return
-          <span title="{$filename}" class="bild"><img src="{$url}" alt="{data($i/@url)}" width="150"/></span>
-          else()
+          if ($bildurl = 'no') then <span class="bild">
+          <xrx:resource alt="no thumb available" height="120" type="image/png" title="no_thumb">tag:www.monasterium.net,2011:/mom/resource/image/no_thumb</xrx:resource>
+          </span>
+          else(       
+          <span title="{$bildurl}" class="bild"><img src="{$bildurl}" alt="{$bildurl}" />                  
+          </span>)     
           }
           </span>
           </div>

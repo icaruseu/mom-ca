@@ -32,7 +32,10 @@ import module namespace conf="http://www.monasterium.net/NS/conf"
     at "../xrx/conf.xqm";
 import module namespace metadata="http://www.monasterium.net/NS/metadata"
     at "../metadata/metadata.xqm";
-    
+
+declare variable $img:bildserver := 'http://images.icar-us.eu/iiif/2/';
+declare variable $img:thumbnail := '/full/120,/0/default.jpg';
+
 (: function does same as charters:years in the year-navi but has condition to get charters with graphics only :)
 declare function img:years($charter-base-collection) {
 
@@ -42,4 +45,18 @@ declare function img:years($charter-base-collection) {
     $year    
 };
 
-
+declare function img:get-url($url as xs:string, $atomid  as xs:string?){     
+      if(starts-with($url, 'http://images.monasterium.net')) then
+          let $cropend := string-length($url)          
+          let $cropstart := string-length('http://images.monasterium.net/')+1          
+          let $filename := replace(replace(substring($url, $cropstart, $cropend), '%', '%25'), '/', '%2F')          
+          let $iiifurl :=  concat($img:bildserver, $filename, $img:thumbnail)
+          return $iiifurl
+      else if(not(starts-with($url, 'http'))) then
+              let $tokens := tokenize($atomid, '/')
+              let $teile := for $num in 3 to count($tokens)-1 return $tokens[$num]
+              let $filename := concat(string-join($teile, '%2F'), '%2F', replace(replace($url, '%', '%25'), '/', '%2F'))
+              let $iiifurl :=  concat($img:bildserver, $filename, $img:thumbnail)
+              return $iiifurl
+        else('no')
+};
