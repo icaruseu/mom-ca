@@ -581,31 +581,24 @@ div.bookmark-icon{{
             <xrx:div>my-archive-functions-div</xrx:div>
           </div>         
         </div> 
-      </div><!-- was geschieht mit köln bilder?
-      http://www.mom-image.uni-koeln.de/google/Teil1/MerkwuerdigeUrkundenI/00000086.png
-      lokaler pfad: de_stadtarchivwuerzburg_heidingsfeld_058_15510613_r.JPG 
-      http://images.monasterium.net/pics/DE-StadtAWuerzburg/Heidingsfeld/de_stadtarchivwuerzburg_heidingsfeld_058_15510613_r.JPG
-   
-      -->
+      </div>
     </div>
     
-    else(
-    if(starts-with(data($constructor:charter//cei:graphic/@url), 'http://images.monasterium.net'))
-    then
+    else(     
     let $abs := $constructor:charter//cei:abstract//text()
     let $short := concat(substring(concat($abs[1],$abs[2]), 0, 100), '...')
-    let $charter := $wcharter-preview:charter-url    
+    let $charter := $wcharter-preview:charter-url
     return
-          <div class="bilder">       
+          <div class="bilder">             
            <span class="datum"><a href="{$charter}">{ $wcharter-preview:date }<span>{$short}</span></a></span>                     
            <span class= "images">
           {
-           for $i in $constructor:charter//cei:graphic
-          
-          let $bildurl := img:get-url(data($i/@url), $wcharter-preview:atom-id)
+          let $bilder := img:suchebilder($constructor:charter)
+          for $i in $bilder          
+          let $bildurl := img:get-url($i, $wcharter-preview:atom-id, $constructor:charter-context)
           return
           if ($bildurl = 'no') then <span class="bild">
-          <xrx:resource alt="no thumb available" height="120" type="image/png" title="no_thumb">tag:www.monasterium.net,2011:/mom/resource/image/no_thumb</xrx:resource>
+          <xrx:resource alt="no thumb available" width="120" type="image/png" title="no_thumb">tag:www.monasterium.net,2011:/mom/resource/image/no_thumb</xrx:resource>
           </span>
           else(       
           <span title="{$bildurl}" class="bild"><img src="{$bildurl}" alt="{$bildurl}" />                  
@@ -613,7 +606,7 @@ div.bookmark-icon{{
           }
           </span>
           </div>
-      else()
+ 
           )
           }     
   </xrx:view>
