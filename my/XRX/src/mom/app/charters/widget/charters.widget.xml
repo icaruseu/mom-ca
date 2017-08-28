@@ -188,7 +188,7 @@ div.clear {{
           </div>
         </div>
         {
-        if(request:get-parameter('block', '') = '' and $wcharters:preface-exists) then
+        if(request:get-parameter('block', '') = '' and $wcharters:preface-exists ) then
         <xrx:div>preface-div</xrx:div>
         else
         <xrx:div>charter-preview-div</xrx:div>

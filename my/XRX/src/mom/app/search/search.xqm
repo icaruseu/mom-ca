@@ -218,7 +218,7 @@ declare function search:anno-query-string() {
 declare function search:sort-query-string() {
 
     if($search:sort = 'date') then
-    ' order by (number($charter//cei:issued/cei:date[1]/@value), number($charter//cei:issued/cei:dateRange[1]/@from), number($charter//cei:issued/cei:dateRange[1]/@to))[1] ascending '
+    ' order by (number($charter//cei:issued/(cei:date/@value[.!=""]|cei:dateRange/@to)[1]), number($charter//cei:issued/cei:dateRange[1]/@from))[1] ascending '
     else
     ' order by ft:score($charter) descending '    
 };

@@ -53,7 +53,7 @@ declare function mycharter:is-shared-with($entry as element(atom:entry), $userid
 
 
 declare function mycharter:shared-users($base-collection-path as xs:string, $entryname as xs:string) {
-    doc(concat($base-collection-path, $entryname))//xrx:userid/text()
+    doc(concat($base-collection-path, $entryname))//xrx:userid[not(@type="owner")]/text()
 };
 
 

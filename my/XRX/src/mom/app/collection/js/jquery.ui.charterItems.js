@@ -111,8 +111,7 @@ $.widget( "ui.charterItems", {
     // insert all into items DIV
     itemsDiv.append(toolbarDiv)
         //.append(itemDivPreface)
-        .append(table);
-    var coll = "graz";
+        .append(table);   
     // compose DIVs for charters   
     $.ajax({
       url: self._serviceUrl(serviceMyCollectionItems),      
@@ -151,7 +150,7 @@ $.widget( "ui.charterItems", {
             itemLinkDate = $('<div></div>')
               .addClass("forms-table-cell")
               .append($('<span/>')
-                .text(date)
+                .css("margin", "10px").text(date)
               ),
             itemLinkCharter = $('<div></div>')
              .addClass("forms-table-cell")
@@ -165,12 +164,8 @@ $.widget( "ui.charterItems", {
                 .attr("href", requestRoot + url + "/edit")
 	            .attr("target", "_blank")
 	            .append($('<button></button>')
-	            .text("Default Editor") )
+	            .text("Editor") )
                 
-              ).append(
-                  $('<a></a>').attr("href", requestRoot + url + "/edit?mode=illurk").attr("target", "_blank").append(
-                      $('<button></button>').text("Illurk Editor")
-                      )
               );
           console.log('Das ist ein ajax test');
           console.log(self._serviceUrl(serviceMyCollectionItems));
