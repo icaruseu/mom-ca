@@ -32,14 +32,79 @@ import module namespace conf="http://www.monasterium.net/NS/conf"
     at "../xrx/conf.xqm";
 import module namespace metadata="http://www.monasterium.net/NS/metadata"
     at "../metadata/metadata.xqm";
-    
-(: function does same as charters:years in the year-navi but has condition to get charters with graphics only :)
-declare function img:years($charter-base-collection) {
+import module namespace xrx="http://www.monasterium.net/NS/xrx"
+    at "../xrx/xrx.xqm";
 
-    for $year in $charter-base-collection//cei:text[descendant::cei:graphic/@url !='']//cei:issued/(cei:date/@value|cei:dateRange/@from)
+declare variable $img:bildserver := 'http://images.icar-us.eu/iiif/2/';
+declare variable $img:thumbnail := '/full/120,/0/default.jpg';
+declare variable $img:collection :=  collection(concat(conf:param("data-db-base-uri"), "/metadata.collection.public"));
+declare variable $img:mycollection :=  collection(concat(conf:param("data-db-base-uri"), "/metadata.mycollection.public"));
+
+
+(: function does same as charters:years in the year-navi but has condition to get charters with graphics only :)
+declare function img:years($charter-base-coll) {
+
+    for $year in $charter-base-coll//cei:text[descendant::cei:graphic/@url !='']//cei:issued/(cei:date/@value|cei:dateRange/@from)
     order by xs:integer($year)
     return
     $year    
 };
 
+(: function takes graphic/@url and the atomid and returns a new url-string to the IIIF-server
+http://images.monasterium.net/pics/AES<
+:)
 
+declare function img:get-url($url as xs:string, $atomid  as xs:string?, $context as xs:string){     
+      if(starts-with($url, 'http://images.monasterium.net')) then
+          let $cropend := string-length($url)          
+          let $cropstart := string-length('http://images.monasterium.net/')+1          
+          let $filename := replace(replace(replace(substring($url, $cropstart, $cropend), '%', '%25'), '/', '%2F'), '&amp;', '%27')          
+          let $iiifurl :=  concat($img:bildserver, $filename, $img:thumbnail)
+          return $iiifurl
+     else if($context = 'collection' and not(starts-with($url, 'http')))then
+       let $collectionname := tokenize($atomid, '/')[3]
+       let $address := $img:collection//atom:entry[ends-with(atom:id, $collectionname)]
+       let $serveraddress := $address//cei:image_server_address/text()
+       return
+       if (contains($serveraddress, 'images.monasterium.net') ) then
+              let $folder := concat($address//cei:image_server_folder/text(), '%2F', $url) 
+              let $filename := replace(replace(replace($folder, '%', '%25'), '&amp;', '%27'), '/', '%2F')
+              let $iiifurl :=  concat($img:bildserver, $filename, $img:thumbnail)
+              return $iiifurl
+        else('no')
+      else if($context = 'fond' and not(starts-with($url, 'http')))then
+      let $archive := tokenize($atomid, '/')[3]
+      let $fond := tokenize($atomid, '/')[4]
+      let $path := concat('/metadata.fond.public/', $archive, '/', $fond)
+      let $fondcollection := collection(concat(conf:param("data-db-base-uri"), $path))
+      let $archiv-image-server := $fondcollection//xrx:preferences//xrx:param[@name='image-server-base-url']/text()
+      return     
+      if (contains($archiv-image-server, 'monasterium.net')) then
+      let $archivbilder := substring-after($archiv-image-server,'.net/')
+      let $filename := concat(replace(replace(replace($archivbilder, '%', '%25'), '&amp;', '%27'), '/', '%2F'),'%2F', $url)
+      let $iiifurl := concat($img:bildserver, $filename, $img:thumbnail)
+      return $iiifurl
+      else('no')
+      
+      
+        else('no')
+};
+
+declare function img:checkifmycollection ($urltoken){
+let $atomabgleich := $img:mycollection//ends-with(atom:id/text(), $urltoken)
+let $entscheidung := if ($atomabgleich) then 'mycollection' else('collection')
+
+return $entscheidung
+    
+};
+
+declare function img:suchebilder($charter){
+if ($charter//atom:content/@src) then 
+let $src := data($charter//atom:content/@src)
+let $charters := collection("/db/mom-data/metadata.charter.public")//atom:entry[atom:id = $src]
+let $bilder := data($charters//cei:graphic/@url)
+return $bilder
+else(let $bilder := data($charter//cei:graphic/@url)
+            return $bilder
+    )
+};
