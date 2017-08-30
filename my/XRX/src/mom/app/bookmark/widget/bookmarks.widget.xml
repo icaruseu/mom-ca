@@ -224,8 +224,7 @@
 							</a>
 						</div>
 					</div>
-				</div>
-				
+				</div>				
 				{ $wbookmarks:navigation }
 				
 				<xrx:div>charter-preview-div</xrx:div>
