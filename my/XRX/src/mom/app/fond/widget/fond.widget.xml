@@ -139,6 +139,16 @@ it leaves the active development stage.
 					</span>
 					<span>: </span>
 					<span>{ $wcharters:charter-context-name }</span>
+					<div id="image-preview">    
+           <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ xmldb:decode($charter:rfondid) }/images?block=1">
+             <button class="image-overview" title="go to image preview">
+           <xrx:i18n>
+              <xrx:key>image_preview</xrx:key>
+              <xrx:default>Image preview</xrx:default>
+            </xrx:i18n>
+            </button>
+          </a>      
+        </div>
 				</div>      
       </xrx:view>
     </xrx:div>
@@ -158,8 +168,7 @@ it leaves the active development stage.
           $(document).ready(function (){{
           console.log("fond.widget.xml");
           $("div.my-functions").insertAfter("div#container");
-          $('<div class="clear"></div>').insertAfter("div.my-functions");
-          $("div#heading").insertBefore("div#year-navi");
+          $('<div class="clear"></div>').insertAfter("div.my-functions");                    
             var lookforfunction = $("div.function-link").children("a");
           if(lookforfunction == 0){{
           var einf= $("div.function-link").children();
@@ -258,19 +267,21 @@ it leaves the active development stage.
 				</xrx:auth>      
       </xrx:view>
     </xrx:div>
-    <xrx:div>
-      <xrx:key>preface-link-div</xrx:key>
+     <xrx:div>
+      <xrx:key>image-preview-div</xrx:key>
       <xrx:view>
-				<div class="year-list" data-demoid="dc2c7dbe-e33b-460a-9796-fe00c9bd249c" style="font-weight:{ if($wcharters:block = -1) then 'bold' else 'normal' }">
-					<a href="fond">
-						<xrx:i18n>
-							<xrx:key>preface</xrx:key>
-							<xrx:default>Preface</xrx:default>
-						</xrx:i18n>
-					</a>
-				</div>      
-      </xrx:view>
-    </xrx:div>
+        <div id="image-preview">    
+           <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ xmldb:decode($charter:rfondid) }/images?block=1">
+             <button class="image-overview" title="go to image preview">
+           <xrx:i18n>
+              <xrx:key>image_preview</xrx:key>
+              <xrx:default>Image preview</xrx:default>
+            </xrx:i18n>
+            </button>
+          </a>      
+        </div>
+        </xrx:view>
+        </xrx:div>   
     <xrx:div>
       <xrx:key>breadcrumb-div</xrx:key>
       <xrx:view>
@@ -336,6 +347,22 @@ it leaves the active development stage.
 				</div>
       </xrx:view>
     </xrx:div>
+        
+        
+         <xrx:div>
+      <xrx:key>preface-link-div</xrx:key>
+      <xrx:view>
+        <div class="year-list" data-demoid="dc2c7dbe-e33b-460a-9796-fe00c9bd249c" style="font-weight:{ if($wcharters:block = -1) then 'bold' else 'normal' }">
+          <a href="fond">
+            <xrx:i18n>
+              <xrx:key>preface</xrx:key>
+              <xrx:default>Preface</xrx:default>
+            </xrx:i18n>
+          </a>
+        </div>      
+      </xrx:view>
+    </xrx:div>        
+            
     <xrx:div>
       <xrx:key>preface-div</xrx:key>
       <xrx:view>

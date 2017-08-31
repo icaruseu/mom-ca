@@ -108,6 +108,14 @@ float:left;
 div.clear {{
   clear:both;
 }}
+
+button.image-overview {{
+      margin-top:1em;     
+      padding:0 1em;
+      font-size:10px !important;
+      width:7em;
+}}
+
   </style>
   </xrx:csss>
       <xrx:jss>     
@@ -181,12 +189,12 @@ div.clear {{
             }
           </div>
         </div>
-        <div data-demoid="9a55835c-8d6e-446d-823f-17e8373c7db5" id="heading">
-          <div data-demoid="1fc95caa-c729-478f-b083-f443b43e2814" id="container">
-            { $block-navi-div }
-          <xrx:div>goto-search-div</xrx:div>
+        <div data-demoid="9a55835c-8d6e-446d-823f-17e8373c7db5" id="heading"/>
+          <div data-demoid="1fc95caa-c729-478f-b083-f443b43e2814" id="container">           
+          <xrx:div>goto-search-div</xrx:div>       
+           { $block-navi-div }
           </div>
-        </div>
+       
         {
         if(request:get-parameter('block', '') = '' and $wcharters:preface-exists ) then
         <xrx:div>preface-div</xrx:div>

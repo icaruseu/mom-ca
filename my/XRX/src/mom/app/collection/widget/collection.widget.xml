@@ -147,6 +147,16 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
           </span>
           <span>: </span>
           <span>{ $wcharters:charter-context-name }</span>
+          <div id="image-preview">    
+           <a href="{ conf:param('request-root') }{ $charter:rcollectionid }/images?block=1">
+             <button class="image-overview" title="go to image preview">
+           <xrx:i18n>
+              <xrx:key>image_preview</xrx:key>
+              <xrx:default>Image preview</xrx:default>
+            </xrx:i18n>
+            </button>
+          </a>      
+        </div>
         </div>
       </xrx:view>
     </xrx:div>
@@ -318,11 +328,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
           </a>
         </div>
       </xrx:view>
-    </xrx:div>
+    </xrx:div>         
     <xrx:div>
       <xrx:key>preface-div</xrx:key>
       <xrx:view>
         <div data-demoid="4e1c4d3a-5351-4edf-b9aa-4c6796674243" id="preface">
+       
           {
           if(not($wcharter:date-elements)) then
           <div data-demoid="06898244-3483-4615-a3f1-f1cfcba655bf">
@@ -343,7 +354,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     </xrx:div>
     <xrx:div>
       <xrx:key>charter-preview-div</xrx:key>
-      <xrx:view>
+      <xrx:view>    
         <div data-demoid="4fdf46b9-0bab-45fa-b210-de3ced2594c4" id="dcharter-preview-main">
           <div data-demoid="7ba7d430-65c8-4192-b850-f6a6179dd425">
           {
@@ -357,6 +368,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             else()
           }
           </div>
+         
           {
           let $all-user-xmls := $user:db-base-collection/xrx:user
           for $year at $num in $wcharter:date-elements[ position() = $charters:start to $charters:stop ]
