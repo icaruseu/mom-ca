@@ -185,6 +185,10 @@
 									<xrx:name>$constructor:collection-id</xrx:name>
 									<xrx:expression>$collection-id</xrx:expression>
 								</xrx:parameter>
+								  <xrx:parameter>
+                  <xrx:name>$illurkimages</xrx:name>
+                  <xrx:expression>''</xrx:expression>
+                </xrx:parameter>
 							</xrx:pass>
 						</xrx:subwidget>
 					</div>
