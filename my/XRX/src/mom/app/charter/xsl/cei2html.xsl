@@ -10,7 +10,6 @@
     <xsl:preserve-space elements="cei:*"/>
     <xsl:variable name="sitemap" select="/xhtml:page/xhtml:div"/>
     <xsl:variable name="cei" select="/xhtml:page//cei:text"/>
-    <xsl:variable name="persons" select="collection('/db/mom-data/metadata.person.public/')"/>
     
     <xsl:template match="/">     
         <xsl:apply-templates select="$sitemap"/>
@@ -1704,6 +1703,7 @@
 
     <!-- index persName -->
     <xsl:template name="persName">
+	<xsl:variable name="persons" select="document('/db/mom-data/metadata.person.public/Bischofsliste_Ablaesse.tei.xml')"/>
         <xsl:for-each select="$cei//cei:persName">
             <xsl:sort select="."/>
             <xsl:if test="./node()">
