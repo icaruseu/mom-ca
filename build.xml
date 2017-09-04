@@ -446,16 +446,20 @@
     <!--<delete dir="${exist-home}" failonerror="false"/>-->
     <mkdir dir="tmp"/>
 
-    
-    <!-- download and unzip eXist -->
-    <get src="https://codeload.github.com/eXist-db/exist/zip/eXist-3.2.0" dest="tmp/eXist.zip"/>
+
+    <!-- download and unzip eXist --><!--
+ <exec executable="git">
+      <arg line=" clone https://github.com/eXIst-db/exist exist-eXist-3.0 -b master -single-branch"/>
+    </exec> -->
+ 
+   <get src="https://github.com/eXist-db/exist/archive/eXist-3.4.1.zip" dest="tmp/eXist.zip"/>
 
     <exec executable="unzip">
       <arg line="tmp/eXist.zip -d ."/>
     </exec> 
 
     <move todir="localhost">
-      <fileset dir="exist-eXist-3.2.0"/>
+      <fileset dir="exist-eXist-3.4.1"/>
     </move>
 
     <!-- bugfix for eXist-2.0 -->
