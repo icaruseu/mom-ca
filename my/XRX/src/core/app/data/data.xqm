@@ -244,7 +244,7 @@ declare function data:uri($uri as xs:string) as xs:anyURI {
 
     (: 
         Be careful! The xmldb:encode-uri() function
-        removes any slash at the end of the overloaded
+        removes any slash at the end of a given
         string 
     :)
     xmldb:encode-uri(xmldb:decode($uri))

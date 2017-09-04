@@ -249,6 +249,48 @@ it leaves the active development stage.
       <xrx:jqueryflag>true</xrx:jqueryflag>
     </xrx:processor>
   </xrx:init>
+  <xrx:jss>   
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/droppable</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/position</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/resizable</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/dialog</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/effect</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/effect-pulsate</xrx:resource>
+   
+    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrxI18n</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxMessage</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrx</xrx:resource>
+    
+   
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/dialogEditor</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/charter</xrx:resource>
+     <script type="text/javascript">
+//$( "#radio" ).buttonset();
+  
+  $('document').ready(function() {{
+ javascript:proof();               
+ 
+ if($("div#abstract").children().children().length == 0){{
+          console.log("no abstract");
+           var x = $("#abstract").css("display", "none");
+            }}
+    if($("div.no-graphic").length == 0 ){{
+           console.log("no-graphic ist 0 in image-viewer");          
+          var x = $("#graphics").css("display", "block");          
+          }}
+          else {{
+          console.log("no-graphic in image-viewer");
+          var x = $("#graphics").css("display", "none");
+          }}      
+ }});
+</script>
+  </xrx:jss>
   <xrx:divs>
     <xrx:div>
       <xrx:key>heading-center-div</xrx:key>

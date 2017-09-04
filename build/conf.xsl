@@ -24,6 +24,11 @@
     </scheduler>
   </xsl:template>
 
+<!--
+  <xsl:template match="//indexer/@preserve-whitespace-mixed-content">
+    <xsl:attribute name="preserve-whitespace-mixed-content">yes</xsl:attribute>
+  </xsl:template> -->
+
   <xsl:template match="//pool/@max">
     <xsl:attribute name="max">40</xsl:attribute>
   </xsl:template>

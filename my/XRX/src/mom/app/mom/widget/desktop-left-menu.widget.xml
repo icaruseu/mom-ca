@@ -129,6 +129,27 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                 <span/>
               </xrx:false>
             </xrx:auth>
+            <xrx:auth>
+              <xrx:rules>
+                <xrx:rule>
+                  <xrx:user/>
+                  <xrx:role>archivist</xrx:role>
+                </xrx:rule>
+              </xrx:rules>
+              <xrx:true>
+                <div class="sub-menu-item" data-demoid="8c0975c0-2102-4da7-912f-1a0c1f509c20">
+                  <a href="{ conf:param('request-root') }charters-to-publish">
+                    <xrx:i18n>
+                      <xrx:key>charters-to-publish</xrx:key>
+                      <xrx:default>Charters to publish</xrx:default>
+                    </xrx:i18n>
+                  </a>
+                </div>
+              </xrx:true>
+              <xrx:false>
+                <span/>
+              </xrx:false>
+            </xrx:auth>
             <div class="sub-menu-item" data-demoid="910559c1-f715-4b70-92e7-0ea0125480f4">
               <a href="{ conf:param('request-root') }saved-charters">
                 <xrx:i18n>

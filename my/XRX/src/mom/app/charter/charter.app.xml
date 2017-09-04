@@ -43,6 +43,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:relativepath>js/</xrx:relativepath>
       <xrx:name>charter.js</xrx:name>
     </xrx:resource>
+     <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/dialogEditor</xrx:atomid>
+      <xrx:relativepath>js/</xrx:relativepath>
+      <xrx:name>jquery.ui.dialogEditor.js</xrx:name>
+    </xrx:resource>
     <!-- XSL -->
     <xrx:resource>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/xsl/cei2html</xrx:atomid>
@@ -58,6 +63,22 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/xsl/cei2versiondiff</xrx:atomid>
       <xrx:relativepath>xsl/</xrx:relativepath>
       <xrx:name>cei2versiondiff.xsl</xrx:name>
+    </xrx:resource>
+ <!-- images -->
+   <xrx:resource>
+     <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/path_down</xrx:atomid>
+      <xrx:relativepath>image/</xrx:relativepath>
+      <xrx:name>path_down.png</xrx:name>
+    </xrx:resource> 
+   <xrx:resource>
+     <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/path_up</xrx:atomid>
+      <xrx:relativepath>image/</xrx:relativepath>
+      <xrx:name>path_up.png</xrx:name>
+    </xrx:resource> 
+  <xrx:resource>
+     <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/karte</xrx:atomid>
+      <xrx:relativepath>image/</xrx:relativepath>
+      <xrx:name>karte.png</xrx:name>
     </xrx:resource>
   </xrx:resources>
   <xrx:resolver>
@@ -106,6 +127,16 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:uripattern>/charter-subeditor$</xrx:uripattern>
       <xrx:mode>embeddedwidget</xrx:mode>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/charter-subeditor</xrx:atomid>
+    </xrx:map>
+     <xrx:map>
+            <xrx:uripattern>/service/getTextfromGlossar$</xrx:uripattern>
+            <xrx:mode>service</xrx:mode>
+            <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/getTextfromGlossar</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/service/sublemma$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/sublemma</xrx:atomid>
     </xrx:map>
   </xrx:resolver>
 </xrx:app>

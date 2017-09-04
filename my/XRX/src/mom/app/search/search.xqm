@@ -38,8 +38,7 @@ declare namespace cei="http://www.monasterium.net/NS/cei";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 (: request parameters :)
-declare variable $search:q := 
-    translate(request:get-parameter('q', ''), "'", '"');
+declare variable $search:q := translate(request:get-parameter('q', ''), "'", '?');
 declare variable $search:img := request:get-parameter('img', '');
 declare variable $search:annotations := request:get-parameter('annotations', '');
 declare variable $search:sort := request:get-parameter('sort', 'date');
@@ -194,7 +193,7 @@ declare function search:query-string-scope($metadata-charter-db-base-collection-
 (: the basic full text query string :)
 declare function search:term-query-string() as xs:string {
 
-    concat("$context//cei:text[ft:query(./descendant-or-self::*,'", $search:q, "',$search:options)]")
+    concat("$context//cei:text[ft:query(.,'", $search:q, "',$search:options)]")
 };
 
 
@@ -219,7 +218,7 @@ declare function search:anno-query-string() {
 declare function search:sort-query-string() {
 
     if($search:sort = 'date') then
-    ' order by ($charter//cei:date/@value, $charter//cei:dateRange/@from, $charter//cei:dateRange/@to)[1] ascending '
+    ' order by (number($charter//cei:issued/cei:date[1]/@value), number($charter//cei:issued/cei:dateRange[1]/@from), number($charter//cei:issued/cei:dateRange[1]/@to))[1] ascending '
     else
     ' order by ft:score($charter) descending '    
 };
@@ -466,13 +465,14 @@ declare function search:eval2($query-string) {
     if(search:is-browse-action($query-string)) then ()
         
     else if(search:is-first-action()) then 
-        
+
         let $result := util:eval($query-string)
-        
+
         let $map := search:compile-categories-map($result)
 
+let $Log := util:log("ERROR", "categries")
         let $do := search:set-categories($map)
-        
+
         let $do := search:set-categories-filtered($map, 
                 session:get-attribute($search:CATEGORIES))
         
