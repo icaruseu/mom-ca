@@ -27,16 +27,16 @@ module namespace resolver="http://www.monasterium.net/NS/resolver";
 declare namespace xrx="http://www.monasterium.net/NS/xrx";
 
 declare function resolver:resolve($live-project-db-base-collection) as element()* {
-
+    let $url := request:get-uri()
     let $first-match :=
         (
-            for $uri-pattern in $live-project-db-base-collection//xrx:resolver/xrx:map/xrx:uripattern
+            for $uri-pattern in $live-project-db-base-collection//xrx:resolver/xrx:map/xrx:uripattern[matches($url, text())]
             let $priority := ($uri-pattern/parent::xrx:map/@priority/string(), '999')[1]
             order by $priority ascending
             return
-            if(matches(request:get-uri(), $uri-pattern/text())) then
+            
                 $uri-pattern/parent::xrx:map
-            else()
+            
         )[1]
     return
     $first-match
