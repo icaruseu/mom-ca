@@ -51,6 +51,10 @@
 			<xrx:name>$wbookmarks:navigation</xrx:name>
 			<xrx:expression>pagination:navi($wbookmarks:numentries)</xrx:expression>
 		</xrx:variable>
+		  <xrx:variable>
+      <xrx:name>$illurkimages</xrx:name>
+      <xrx:expression>''</xrx:expression>
+    </xrx:variable>
 	</xrx:variables>
 	<xrx:portal>tag:www.monasterium.net,2011:/mom/portal/desktop</xrx:portal>
 	<xrx:init>
