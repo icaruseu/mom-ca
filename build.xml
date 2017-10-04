@@ -447,17 +447,17 @@
     <mkdir dir="tmp"/>
 
     <!-- download and unzip eXist -->
- <exec executable="git">
-      <arg line=" clone https://github.com/StephanMa/exist exist-eXist-3.0 -b develop --single-branch --depth 1"/>
-    </exec>
- <!--
-   <get src="https://github.com/eXist-db/exist/archive/eXist-3.0.RC1.zip" dest="tmp/eXist.zip"/>
-    <exec executable="unzip">
-      <arg line="tmp/eXist.zip -d ."/>
+ <!--<exec executable="git"
+      <arg line=" clone https://github.com/eXist-db/exist exist-eXist-3.0 -b develop -single-branch -depth 1"/>
     </exec> -->
 
+   <get src="https://github.com/eXist-db/exist/archive/eXist-3.4.1.zip" dest="tmp/eXist.zip"/>
+    <exec executable="unzip">
+      <arg line="tmp/eXist.zip -d ."/>
+    </exec>
+
     <move todir="localhost">
-      <fileset dir="exist-eXist-3.0"/>
+      <fileset dir="exist-eXist-3.4.1"/>
     </move>
 
     <!-- bugfix for eXist-2.0 -->
@@ -495,7 +495,7 @@
     <delete dir="jssaxparser"/>
     <delete dir="betterFORM"/>
     <delete dir="yajsw"/>
-    <!--<delete dir="exist-eXist-3.0"/>-->
+    <delete dir="exist-eXist-3.4.1"/>
 </target>
   <target name="deploy-my-exist-webapp">
     <copy todir="${exist-home}/webapp" overwrite="true">
@@ -523,11 +523,11 @@
     <replace file="${exist-home}/extensions/build.properties">
       <replacefilter token="include.module.xslfo = false"
         value="include.module.xslfo = true" />
-      <replacefilter token="include.module.xslfo.url = http://apache.cs.uu.nl/dist/xmlgraphics/fop/binaries/fop-1.1-bin.zip" value="include.module.xslfo.url = https://archive.apache.org/dist/xmlgraphics/fop/binaries/fop-1.1-bin.zip"/>
+      <replacefilter token="include.module.xslfo.url = http://apache.cs.uu.nl/dist/xmlgraphics/fop/binaries/fop-1.1-bin.zip" value="include.module.xslfo.url = https://archive.apache.org/dist/xmlgraphics/fop/binaries/fop-2.1-bin.zip"/>
       <replacefilter token="include.module.cache = false"
        value="include.module.cache = true" />
       <replacefilter token="http://apache.cs.uu.nl/dist/xmlgraphics/fop/binaries/fop-1.1-bin.zip"
-       value="http://apache.cs.uu.nl/xmlgraphics/fop/binaries/fop-1.1-bin.zip"/>
+       value="http://apache.cs.uu.nl/xmlgraphics/fop/binaries/fop-2.1-bin.zip"/>
     </replace>
     <copy todir="${jetty-home}/tmp" overwrite="true">
       <fileset dir="${my-exist-jetty}/tmp">
@@ -1019,6 +1019,42 @@ wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
           <include name="**/*" />
       </fileset>
     </move>
+
+  </target>
+
+  <!-- restore latest backup -->
+  <target name="restore-last">
+
+    <typedef resource="org/exist/ant/antlib.xml" uri="http://exist-db.org/ant">
+      <classpath refid="classpath-exist-a-core" />
+    </typedef>
+
+    <antcall target="restart" />
+    <!-- get latest backup -->
+    <last id="last.file">
+     <sort>
+      <date xmlns="antlib:org.apache.tools.ant.types.resources.comparators"/>
+
+      <resources>
+          <fileset dir ="${db-files}/export" >
+              <include name="**/*" />
+          </fileset>
+      </resources>
+
+     </sort>
+    </last>
+
+    <ant target="sleep" />
+
+    <echo message="-------------------------" />
+    <echo message="restoring latest backup ${latest.modified}" />
+    <echo message="-------------------------" />
+    <xdb:restore xmlns:xdb="http://exist-db.org/ant"
+    uri="xmldb:exist://localhost:${XRX.jetty.port}/xmlrpc" user="admin" password="${XRX.password}"
+    file="${ant.refid:last.file}"/>
+    <echo message="-------------------------" />
+    <echo message="finished restoring latest backup" />
+    <echo message="-------------------------" />
 
   </target>
 
