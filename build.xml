@@ -451,13 +451,13 @@
       <arg line=" clone https://github.com/eXist-db/exist exist-eXist-3.0 -b develop -single-branch -depth 1"/>
     </exec> -->
 
-   <get src="https://github.com/eXist-db/exist/archive/eXist-3.4.1.zip" dest="tmp/eXist.zip"/>
+   <get src="https://github.com/eXist-db/exist/archive/eXist-3.5.0.zip" dest="tmp/eXist.zip"/>
     <exec executable="unzip">
       <arg line="tmp/eXist.zip -d ."/>
     </exec>
 
     <move todir="localhost">
-      <fileset dir="exist-eXist-3.4.1"/>
+      <fileset dir="exist-eXist-3.5.0"/>
     </move>
 
     <!-- bugfix for eXist-2.0 -->
@@ -495,7 +495,7 @@
     <delete dir="jssaxparser"/>
     <delete dir="betterFORM"/>
     <delete dir="yajsw"/>
-    <delete dir="exist-eXist-3.4.1"/>
+    <delete dir="exist-eXist-3.5.0"/>
 </target>
   <target name="deploy-my-exist-webapp">
     <copy todir="${exist-home}/webapp" overwrite="true">
