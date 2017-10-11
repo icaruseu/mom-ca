@@ -55,12 +55,29 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:expression>$wcharters:metadata-charter-context-collection//ancestor::atom:entry</xrx:expression>
     </xrx:variable>
     <xrx:variable>
+    <xrx:name>$archivname</xrx:name>
+    <xrx:expression>if($wcharter:context = 'fond') then
+    let $archivcoll := metadata:base-collection('archive', $charter:rarchiveid, 'public')
+    let $eag := $archivcoll//atom:entry[ends-with(atom:id/text(), $xrx:tokenized-uri[1])]//eag:autform/text()
+    return $eag
+    else()
+    </xrx:expression>
+    </xrx:variable>
+    
+   <xrx:variable>
       <xrx:name>$wcharters:charter-context-name</xrx:name>
-      <xrx:expression>($wcharters:metadata-charter-context-entry//cei:provenance/text(),$wcharters:metadata-charter-context-entry//cei:titleStmt/cei:title/text())</xrx:expression>
+      <xrx:expression>
+      if ($wcharter:context = 'fond') then concat($archivname,' - ', $wcharters:metadata-charter-context-entry//ead:unittitle/text())
+      else if ($wcharter:context = 'collection') then $wcharters:metadata-charter-context-entry//cei:provenance/text()
+      else($wcharters:metadata-charter-context-entry//cei:titleStmt/cei:title/text())
+      </xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharters:charter-context-short-name</xrx:name>
       <xrx:expression>($wcharters:metadata-charter-context-entry//cei:provenance/@abbr/string(),$wcharters:charter-context-name)[1]</xrx:expression>
+    </xrx:variable>
+    <xrx:variable><xrx:name>$shortname-fond</xrx:name>
+    <xrx:expression>if($wcharter:context = 'fond') then $xrx:tokenized-uri[2] else()</xrx:expression>
     </xrx:variable>
     <!-- linked archival fonds -->
     <xrx:variable>
@@ -192,6 +209,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     .block {{
     width:120px;
     }}
+    
+   
     </style>
     </xrx:csss>
   <xrx:divs>
@@ -217,7 +236,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               <xrx:default>Collection</xrx:default>
             </xrx:i18n>
           </span>
-          <span>: </span>
+          <span>: </span>
           <span>{ $wcharters:charter-context-name }</span>                
         </div>
       </xrx:view>
@@ -245,7 +264,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                 if($wcollection:type = 'collection' or $wcollection:type = 'linked-fond') then
                 <div class="function-link" data-demoid="1b61b99f-4cf6-496a-b872-3b5f44296200">
                   <a href="edit-collection-info">
-                    <span>‣ </span>
+                    <span>‣ </span>
                     <xrx:i18n>
                       <xrx:key>edit-collection-info</xrx:key>
                       <xrx:default>Edit Collection Information</xrx:default>
@@ -253,13 +272,13 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                   </a>
                 </div>
                 else
-                <div class="function-link" data-demoid="d4f55ef2-7215-481b-b6ff-49c0827079fd"> </div>
+                <div class="function-link" data-demoid="d4f55ef2-7215-481b-b6ff-49c0827079fd"> </div>
                 }
                 {
                 if($wcollection:type = 'collection') then
                   <div class="function-link" data-demoid="81e21b49-2873-4d2d-aa62-3504bef3b545">
                   <a href="{ conf:param('request-root') }{ $charter:rcollectionid }/remove-collection">
-                    <span>‣ </span>
+                    <span>‣ </span>
                     <xrx:i18n>
                       <xrx:key>remove-collection</xrx:key>
                       <xrx:default>Remove collection</xrx:default>
@@ -272,12 +291,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                 if($wcollection:type = 'collection') then
                 <div class="function-link" data-demoid="bfd723c2-6b9c-46ed-81e1-9c2de4486947">
                   <a href="{ conf:param('request-root') }{ $charter:rcollectionid }/import-charters">
-                    <span>‣ </span>
+                    <span>‣ </span>
                     <xrx:i18n>
                       <xrx:key>import-charters</xrx:key>
                       <xrx:default>Import Charters</xrx:default>
                     </xrx:i18n>
-                    <span> </span>
+                    <span> </span>
                     <span>(Excel, CEI, EAD, XML, OAI, SQL)</span>
                   </a>
                 </div>
@@ -306,24 +325,32 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:view>
         <div data-demoid="55a90db0-7890-416c-958f-ae0e9b367304" id="breadcrumb">
         {if ($wcharter:context = 'fond') then
+          <div>
           <a href="{ conf:param('request-root') }fonds">
             <xrx:i18n>
               <xrx:key>fonds</xrx:key>
-              <xrx:default>Archives</xrx:default>
+              <xrx:default>Fonds</xrx:default>
             </xrx:i18n>
-          </a>          
-
+          </a>
+          <span> &gt; </span>
+          <a href="archive">{ $wcharters:charter-context-short-name }</a>
+          <span> &gt;</span>
+          <a href="fonds">{ $shortname-fond }</a>        
+          </div>
         else(
+        <div>
            <a href="{ conf:param('request-root') }collections">
             <xrx:i18n>
               <xrx:key>collections</xrx:key>
               <xrx:default>Collections</xrx:default>
             </xrx:i18n>
-          </a>       
+          </a>
+           <span> &gt; </span>
+          <a href="collection">{ $wcharters:charter-context-short-name }</a>
+          </div>       
         )        
         }
-          <span> &gt; </span>
-          <a href="collection">{ $wcharters:charter-context-short-name }</a>
+         
         
         {
           let $fond-atomids := $wcharters:metadata-charter-context-collection//cei:text[@type='fond']/@id/string()
@@ -348,7 +375,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               }
             </ul>  <!--  <li>
                 <a href="{ archive:permalink($archive-entry) }">{ $archive-name }</a>
-                <span> &gt; </span>
+                <span> &gt; </span>
                 <a href="{ fond:permalink($fond-entry) }">{ $fond-name }</a>
               </li> -->
           </div>

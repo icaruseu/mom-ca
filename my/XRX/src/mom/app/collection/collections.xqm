@@ -77,10 +77,7 @@ declare function collections:list($label as xs:string, $collections) as element(
  
         return
         if($collection-id != '')then
-        <li><a href="{ conf:param('request-root') }{ $collection-id }/collection">{ $collection-name }</a>
-        <a href="{ conf:param('request-root') }{ $collection-id }/images"><button class="image-overview">
-          {i18n:translate(<xrx:i18n><xrx:key>image_preview</xrx:key><xrx:default>Image Preview</xrx:default></xrx:i18n>)}
-        </button></a></li>
+        <li><a href="{ conf:param('request-root') }{ $collection-id }/collection">{ $collection-name }</a></li>
         else()
         }
       </ul>

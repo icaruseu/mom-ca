@@ -80,10 +80,11 @@ text-decoration:none;
 }}
 
 #block-navi{{
-padding-bottom:30px;
+padding:10px;
+margin-left: 3em;
 float:left;
-left:20px;
 }}
+
 
 #goto-search{{
 margin-top:-3em;
@@ -109,12 +110,6 @@ div.clear {{
   clear:both;
 }}
 
-button.image-overview {{
-      margin-top:1em;     
-      padding:0 1em;
-      font-size:10px !important;
-      width:7em;
-}}
 
   </style>
   </xrx:csss>

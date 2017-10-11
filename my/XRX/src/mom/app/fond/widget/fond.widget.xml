@@ -139,16 +139,7 @@ it leaves the active development stage.
 					</span>
 					<span>: </span>
 					<span>{ $wcharters:charter-context-name }</span>
-					<div id="image-preview">    
-           <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ xmldb:decode($charter:rfondid) }/images?block=1">
-             <button class="image-overview" title="go to image preview">
-           <xrx:i18n>
-              <xrx:key>image_preview</xrx:key>
-              <xrx:default>Image preview</xrx:default>
-            </xrx:i18n>
-            </button>
-          </a>      
-        </div>
+				
 				</div>      
       </xrx:view>
     </xrx:div>
@@ -337,6 +328,14 @@ it leaves the active development stage.
       <xrx:key>goto-search-div</xrx:key>
       <xrx:view>
 				<div data-demoid="76786e2f-c292-4a0f-8b55-f37f6babaa7b" id="goto-search">
+		 		<div>				   
+         <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ xmldb:decode($charter:rfondid) }/images?block=1">
+            <xrx:i18n>
+              <xrx:key>image_preview</xrx:key>
+              <xrx:default>Image preview</xrx:default>
+            </xrx:i18n><span> &gt;&gt;</span> 
+        </a>      
+      </div>
 					<a href="{ conf:param('request-root') }search?q=&amp;img=false&amp;sort=date&amp;arch={ $charter:rarchiveid }&amp;col={ $charter:rfondid }&amp;p=search">
 						<xrx:i18n>
 							<xrx:key>search-in</xrx:key>
