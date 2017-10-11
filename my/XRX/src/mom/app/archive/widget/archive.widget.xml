@@ -285,6 +285,14 @@ div#archive div#container {{
 				</div>
 				<div data-demoid="ca52ba2c-9366-4679-ba18-6323cdfbd919" id="container">
 					<div data-demoid="119aa847-ef57-4fbc-83ac-4cab9684ced7" id="goto-search">
+					 <div>          
+         <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ xmldb:decode($charter:rfondid) }/images?block=1">
+            <xrx:i18n>
+              <xrx:key>image_preview</xrx:key>
+              <xrx:default>Image preview</xrx:default>
+            </xrx:i18n><span> &gt;&gt;</span> 
+        </a>      
+      </div>
 						<a href="{ conf:param('request-root') }search?q=&amp;img=false&amp;sort=date&amp;arch={ $archive-id }&amp;p=search">
 							<xrx:i18n>
 								<xrx:key>search-in</xrx:key>

@@ -146,17 +146,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             </xrx:i18n>
           </span>
           <span>: </span>
-          <span>{ $wcharters:charter-context-name }</span>
-          <div id="image-preview">    
-           <a href="{ conf:param('request-root') }{ $charter:rcollectionid }/images?block=1">
-             <button class="image-overview" title="go to image preview">
-           <xrx:i18n>
-              <xrx:key>image_preview</xrx:key>
-              <xrx:default>Image preview</xrx:default>
-            </xrx:i18n>
-            </button>
-          </a>      
-        </div>
+          <span>{ $wcharters:charter-context-name }</span>       
         </div>
       </xrx:view>
     </xrx:div>
@@ -317,8 +307,18 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <xrx:div>
       <xrx:key>goto-search-div</xrx:key>
       <xrx:view>
+      
         <div data-demoid="e423483e-df37-4787-87ab-4ce3a8947d56" id="goto-search"/>
         <div data-demoid="548bbfaa-a9ba-4ad8-aea2-cac5c7f5a76b" id="goto-anno-overview">
+         <div id="image-preview">    
+           <a href="{ conf:param('request-root') }{ $charter:rcollectionid }/images?block=1">     
+           <xrx:i18n>
+              <xrx:key>image_preview</xrx:key>
+              <xrx:default>Image preview</xrx:default>
+            </xrx:i18n>
+            <span>  &gt;&gt;</span>
+          </a>      
+        </div>
           <a href="{ conf:param('request-root') }{ $charter:rcollectionid }/annotation-overview">
             <xrx:i18n>
               <xrx:key>annotation-overview</xrx:key>
