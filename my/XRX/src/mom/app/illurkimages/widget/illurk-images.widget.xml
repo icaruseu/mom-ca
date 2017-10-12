@@ -33,32 +33,58 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
   </xrx:licence>
   <xrx:variables>
-    <!-- 
-      variables for inherited widget
+ 
+    <!-- charter context: collection or fond?
+      tokenized-uri[1] = Sammlungsname oder Archivname
+      tokenized-uri[2] = Fondname oder 'images'
      -->
-    <!-- charter context information $charter:rcollectionid-->
     <xrx:variable>
-      <xrx:name>$wcharters:metadata-charter-context-collection</xrx:name>
-      <xrx:expression>(metadata:base-collection('collection', $charter:rcollectionid, 'public')|metadata:base-collection('mycollection', $charter:rcollectionid, 'public'))</xrx:expression>
+      <xrx:name>$wcharter:context</xrx:name>
+      <xrx:expression>if(count($xrx:tokenized-uri) = 2) then img:checkifmycollection($xrx:tokenized-uri[1]) else if(count($xrx:tokenized-uri) = 3) then 'fond' else() </xrx:expression>
     </xrx:variable>
+   <xrx:variable>
+    <xrx:name>$wcharters:metadata-charter-context-collection</xrx:name>
+    <xrx:expression>
+    if($wcharter:context = 'fond')then metadata:base-collection('fond', ($charter:rarchiveid, $charter:rfondid), 'public')
+        else if ($wcharter:context = 'collection') then(metadata:base-collection('collection', ($charter:rcollectionid), 'public') )
+        else(metadata:base-collection('mycollection', ($charter:rcollectionid), 'public'))       
+    </xrx:expression>
+</xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharters:metadata-charter-context-entry</xrx:name>
-      <xrx:expression>$wcharters:metadata-charter-context-collection//cei:cei/ancestor::atom:entry</xrx:expression>
+      <xrx:expression>$wcharters:metadata-charter-context-collection//ancestor::atom:entry</xrx:expression>
     </xrx:variable>
     <xrx:variable>
+    <xrx:name>$archivname</xrx:name>
+    <xrx:expression>if($wcharter:context = 'fond') then
+    let $archivcoll := metadata:base-collection('archive', $charter:rarchiveid, 'public')
+    let $eag := $archivcoll//atom:entry[ends-with(atom:id/text(), $xrx:tokenized-uri[1])]//eag:autform/text()
+    return $eag
+    else()
+    </xrx:expression>
+    </xrx:variable>
+    
+   <xrx:variable>
       <xrx:name>$wcharters:charter-context-name</xrx:name>
-      <xrx:expression>($wcharters:metadata-charter-context-entry//cei:provenance/text(),$wcharters:metadata-charter-context-entry//cei:titleStmt/cei:title/text())</xrx:expression>
+      <xrx:expression>
+      if ($wcharter:context = 'fond') then concat($archivname,' - ', $wcharters:metadata-charter-context-entry//ead:unittitle/text())
+      else if ($wcharter:context = 'collection') then $wcharters:metadata-charter-context-entry//cei:provenance/text()
+      else($wcharters:metadata-charter-context-entry//cei:titleStmt/cei:title/text())
+      </xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharters:charter-context-short-name</xrx:name>
       <xrx:expression>($wcharters:metadata-charter-context-entry//cei:provenance/@abbr/string(),$wcharters:charter-context-name)[1]</xrx:expression>
+    </xrx:variable>
+    <xrx:variable><xrx:name>$shortname-fond</xrx:name>
+    <xrx:expression>if($wcharter:context = 'fond') then $xrx:tokenized-uri[2] else()</xrx:expression>
     </xrx:variable>
     <!-- linked archival fonds -->
     <xrx:variable>
       <xrx:name>$wcharters:linked-fond-charter-base-collection</xrx:name>
       <xrx:expression>mycollection:linked-fond-charter-base-collection($wcharters:metadata-charter-context-collection)</xrx:expression>
     </xrx:variable>
-    <!-- charter base collection $charter:rcollectionid $wcharters:linked-fond-charter-base-collection -->
+    <!-- charter base collection -->
     <xrx:variable>
       <xrx:name>$wcharters:metadata-charter-collection</xrx:name>
       <xrx:expression>(metadata:base-collection('charter', $charter:rcollectionid, 'public'))</xrx:expression>
@@ -67,7 +93,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:variable>
       <xrx:name>$wcharters:preface-exists</xrx:name>
       <xrx:expression>true()</xrx:expression>
-    </xrx:variable>
+      </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharters:block</xrx:name>
       <xrx:expression>xs:integer(if(request:get-parameter('block', '') != '') then request:get-parameter('block', '-1') else '1')</xrx:expression>
@@ -97,10 +123,11 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:name>$wcollection:atomid</xrx:name>
       <xrx:expression>$wcharters:metadata-charter-context-collection//atom:id/text()</xrx:expression> 
     </xrx:variable>
-    <xrx:variable>
+   <xrx:variable>
       <xrx:name>$wcollection:type</xrx:name>
-      <xrx:expression>metadata:object-type($wcollection:atomid)</xrx:expression>
+      <xrx:expression>$wcharter:context</xrx:expression>
     </xrx:variable>
+
   </xrx:variables>
     <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
   <xrx:init>
@@ -118,12 +145,14 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     width:10%;
     float:left;
     }}
+    
     #dcharter-preview-main {{
     position:relative;
     float:left;
-    width:90% !important;
+    width:85% !important;
     font-size:0.8em;
     margin-top:3em;
+    margin-left:2em;
     }}  
     
     .datum {{
@@ -163,6 +192,27 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     .xrx-subwidget {{
     clear:both;
     }}
+    
+    div.my-functions {{
+    margin-right:10px;
+    margin-bottom:0;
+    }}
+    
+    #charters {{
+    position:relative;
+    float:left;
+    }}
+    
+    #block-navi {{
+    margin-top: 2em !important;
+    text-align: center;    
+    }}
+    
+    .block {{
+    width:120px;
+    }}
+    
+   
     </style>
     </xrx:csss>
   <xrx:divs>
@@ -175,6 +225,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
           $(document).ready(function (){{
           console.log("einfügen von clear in collection widget.xml");
           $("div#heading").insertAfter("div#breadcrumb");
+          $("div.my-functions").insertBefore("div#charters");
           $('<div class="clear"></div>').insertAfter("div.my-functions");
          $('<div class="clear"></div>').insertBefore("div.my-functions");
           $('<div class="clear"></div>').insertBefore("div#year-navi");
@@ -183,12 +234,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
           </script>
           <span>
             <xrx:i18n>
-              <xrx:key>collection</xrx:key>
+              <xrx:key>{$wcharter:context}</xrx:key>
               <xrx:default>Collection</xrx:default>
             </xrx:i18n>
           </span>
-          <span>: </span>
-          <span>{ $wcharters:charter-context-name }</span>          
+          <span>: </span>
+          <span>{ $wcharters:charter-context-name }</span>                
         </div>
       </xrx:view>
     </xrx:div>
@@ -215,7 +266,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                 if($wcollection:type = 'collection' or $wcollection:type = 'linked-fond') then
                 <div class="function-link" data-demoid="1b61b99f-4cf6-496a-b872-3b5f44296200">
                   <a href="edit-collection-info">
-                    <span>‣ </span>
+                    <span>‣ </span>
                     <xrx:i18n>
                       <xrx:key>edit-collection-info</xrx:key>
                       <xrx:default>Edit Collection Information</xrx:default>
@@ -223,13 +274,13 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                   </a>
                 </div>
                 else
-                <div class="function-link" data-demoid="d4f55ef2-7215-481b-b6ff-49c0827079fd"> </div>
+                <div class="function-link" data-demoid="d4f55ef2-7215-481b-b6ff-49c0827079fd"> </div>
                 }
                 {
                 if($wcollection:type = 'collection') then
                   <div class="function-link" data-demoid="81e21b49-2873-4d2d-aa62-3504bef3b545">
                   <a href="{ conf:param('request-root') }{ $charter:rcollectionid }/remove-collection">
-                    <span>‣ </span>
+                    <span>‣ </span>
                     <xrx:i18n>
                       <xrx:key>remove-collection</xrx:key>
                       <xrx:default>Remove collection</xrx:default>
@@ -242,12 +293,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                 if($wcollection:type = 'collection') then
                 <div class="function-link" data-demoid="bfd723c2-6b9c-46ed-81e1-9c2de4486947">
                   <a href="{ conf:param('request-root') }{ $charter:rcollectionid }/import-charters">
-                    <span>‣ </span>
+                    <span>‣ </span>
                     <xrx:i18n>
                       <xrx:key>import-charters</xrx:key>
                       <xrx:default>Import Charters</xrx:default>
                     </xrx:i18n>
-                    <span> </span>
+                    <span> </span>
                     <span>(Excel, CEI, EAD, XML, OAI, SQL)</span>
                   </a>
                 </div>
@@ -275,14 +326,34 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:key>breadcrumb-div</xrx:key>
       <xrx:view>
         <div data-demoid="55a90db0-7890-416c-958f-ae0e9b367304" id="breadcrumb">
-          <a href="{ conf:param('request-root') }collections">
+        {if ($wcharter:context = 'fond') then
+          <div>
+          <a href="{ conf:param('request-root') }fonds">
+            <xrx:i18n>
+              <xrx:key>fonds</xrx:key>
+              <xrx:default>Fonds</xrx:default>
+            </xrx:i18n>
+          </a>
+          <span> &gt; </span>
+          <a href="archive">{ $wcharters:charter-context-short-name }</a>
+          <span> &gt;</span>
+          <a href="fonds">{ $shortname-fond }</a>        
+          </div>
+        else(
+        <div>
+           <a href="{ conf:param('request-root') }collections">
             <xrx:i18n>
               <xrx:key>collections</xrx:key>
               <xrx:default>Collections</xrx:default>
             </xrx:i18n>
           </a>
-          <span> &gt; </span>
+           <span> &gt; </span>
           <a href="collection">{ $wcharters:charter-context-short-name }</a>
+          </div>       
+        )        
+        }
+         
+        
         {
           let $fond-atomids := $wcharters:metadata-charter-context-collection//cei:text[@type='fond']/@id/string()
           return
@@ -306,7 +377,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               }
             </ul>  <!--  <li>
                 <a href="{ archive:permalink($archive-entry) }">{ $archive-name }</a>
-                <span> &gt; </span>
+                <span> &gt; </span>
                 <a href="{ fond:permalink($fond-entry) }">{ $fond-name }</a>
               </li> -->
           </div>
@@ -349,8 +420,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
           {
           let $all-user-xmls := $user:db-base-collection/xrx:user
           for $year at $num in $wcharter:date-elements[ position() = $charters:start to $charters:stop ]
-          return                
-          <xrx:subwidget>
+          return                         
+            <xrx:subwidget>
               <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/charter-preview-collection</xrx:atomid>
               <xrx:pass>
                 <xrx:parameter>
@@ -370,8 +441,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                   <xrx:expression>'yes'</xrx:expression>
                 </xrx:parameter>
               </xrx:pass>
-            </xrx:subwidget> 
-         
+            </xrx:subwidget>
+                  
           }
           <div data-demoid="344c0cdd-f72f-4f4c-81e8-53dcd1dbf43d" style="clear:both;">{ $block-navi-div }</div>
         </div>

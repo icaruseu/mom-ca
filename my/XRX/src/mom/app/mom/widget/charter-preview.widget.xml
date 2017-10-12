@@ -93,11 +93,13 @@ it leaves the active development stage.
     <xrx:variable>
     <xrx:name>$wcharter:image-urls</xrx:name>
     <xrx:expression>$constructor:charter//cei:graphic</xrx:expression>
-    </xrx:variable>
+    </xrx:variable>    
     <xrx:variable>
       <xrx:name>$wcharter-preview:charter-url</xrx:name>
       <xrx:expression>concat(conf:param('request-root'), $charter:rarchiveid, '/', $charter:rfondid, '/', xmldb:encode(charter:charterid(root($constructor:charter)//atom:id/text())) , '/charter')</xrx:expression>
-    </xrx:variable>
+    </xrx:variable><!-- $wcharter-preview:charter-url is overwritten by value in charter-preview-collection -->
+
+    
   <!-- status of the charter -->
     <xrx:variable>
       <xrx:name>$wcharter-preview:is-bookmarked</xrx:name>
@@ -581,38 +583,34 @@ div.bookmark-icon{{
             <xrx:div>my-archive-functions-div</xrx:div>
           </div>         
         </div> 
-      </div>
+      </div>    
     </div>
     
-    else(
-    if(starts-with(data($constructor:charter//cei:graphic/@url), 'http://images.monasterium.net/illum/IllUrk'))
-    then
+    else(     
     let $abs := $constructor:charter//cei:abstract//text()
     let $short := concat(substring(concat($abs[1],$abs[2]), 0, 100), '...')
-    let $charter := $wcharter-preview:charter-url    
+    (: $charter is the link to the single charters, distinguishes between collection and fond:)
+    let $charter := if($constructor:charter-context='fond') then concat(conf:param('request-root'), $charter:rarchiveid, '/', $charter:rfondid, '/', xmldb:encode(charter:charterid(root($constructor:charter)//atom:id/text())) , '/charter') else($wcharter-preview:charter-url)
     return
-          <div class="bilder">
-           <!-- This condition is provided to give an thumbnail overview of the collection, it is until now just available for the IlluminierteUrkunden collection.
-    will be continued soon substring-after(data($i/@url), 'http://images.monasterium.net/illum/IllUrk')-->
-           <span class="datum"><a href="{$charter}">{ $wcharter-preview:date }<span>{$short}</span></a></span>                     
+          <div class="bilder">             
+           <span class="datum">
+           <a href="{$charter}">{ $wcharter-preview:date }<span>{$short}</span></a></span>                     
            <span class= "images">
           {
-           for $i in $constructor:charter//cei:graphic
+          let $bilder := img:suchebilder($constructor:charter)
+          for $i in $bilder          
+          let $bildurl := img:get-url($i, $wcharter-preview:atom-id, $constructor:charter-context)
           return
-          if(starts-with(data($i/@url), 'http://images.monasterium.net/illum/IllUrk')) then
-          let $crop := string-length(data($i/@url))          
-          let $cropstart := string-length('http://images.monasterium.net/illum/IllUrk')+1
-          let $cropend :=  if (ends-with(data($i/@url), 'jpeg')) then $crop - $cropstart -4 else($crop - $cropstart -3)
-          let $filename := substring(data($i/@url), $cropstart, $cropend)
-          let $url := if(ends-with(data($i/@url), 'JPG')) then concat('http://images.monasterium.net/illum/IllUrk/thumbnails', $filename,'.JPG')
-          else(concat('http://images.monasterium.net/illum/IllUrk/thumbnails', $filename,'.jpg'))
-          return
-          <span title="{$filename}" class="bild"><img src="{$url}" alt="{data($i/@url)}" width="150"/></span>
-          else()
+          if ($bildurl = 'no') then <span class="bild">
+          <xrx:resource alt="no thumb available" width="120" type="image/png" title="no_thumb">tag:www.monasterium.net,2011:/mom/resource/image/no_thumb</xrx:resource>
+          </span>
+          else(       
+          <span title="{$bildurl}" class="bild"><img src="{$bildurl}" alt="{$bildurl}" />                  
+          </span>)     
           }
           </span>
           </div>
-      else()
+ 
           )
           }     
   </xrx:view>
