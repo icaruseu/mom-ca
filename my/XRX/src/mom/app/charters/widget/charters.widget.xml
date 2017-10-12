@@ -81,7 +81,6 @@ text-decoration:none;
 
 #block-navi{{
 padding:10px;
-margin-left: 3em;
 float:left;
 }}
 
