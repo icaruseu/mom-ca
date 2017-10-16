@@ -75,10 +75,9 @@ declare function collections:list($label as xs:string, $collections) as element(
         let $collection-atomid := $collection//atom:id/text()
         let $collection-id := (tokenize($collection-atomid, '/'))[3]
  
-        return
-        if($collection-id != '')then
+        return      
         <li><a href="{ conf:param('request-root') }{ $collection-id }/collection">{ $collection-name }</a></li>
-        else()
+   
         }
       </ul>
     </div>    

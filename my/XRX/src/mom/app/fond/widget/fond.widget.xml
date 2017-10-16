@@ -257,22 +257,7 @@ it leaves the active development stage.
 					</xrx:false>
 				</xrx:auth>      
       </xrx:view>
-    </xrx:div>
-     <xrx:div>
-      <xrx:key>image-preview-div</xrx:key>
-      <xrx:view>
-        <div id="image-preview">    
-           <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ xmldb:decode($charter:rfondid) }/images?block=1">
-             <button class="image-overview" title="go to image preview">
-           <xrx:i18n>
-              <xrx:key>image_preview</xrx:key>
-              <xrx:default>Image preview</xrx:default>
-            </xrx:i18n>
-            </button>
-          </a>      
-        </div>
-        </xrx:view>
-        </xrx:div>   
+    </xrx:div>  
     <xrx:div>
       <xrx:key>breadcrumb-div</xrx:key>
       <xrx:view>

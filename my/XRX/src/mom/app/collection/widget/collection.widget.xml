@@ -132,10 +132,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
           <script type="text/javascript">
           $(document).ready(function (){{
           console.log("einfügen von clear in collection widget.xml");
-          $("div#heading").insertAfter("div#breadcrumb");
+             $("div.my-functions").insertAfter("div#container");
           $('<div class="clear"></div>').insertAfter("div.my-functions");
-         $('<div class="clear"></div>').insertBefore("div.my-functions");
-          $('<div class="clear"></div>').insertBefore("div#year-navi");
+         // $("div#heading").insertAfter("div#breadcrumb");
+        //  $('<div class="clear"></div>').insertAfter("div.my-functions");
+        // $('<div class="clear"></div>').insertBefore("div.my-functions");
+        //  $('<div class="clear"></div>').insertBefore("div#year-navi");
           
           }});
           </script>
@@ -220,19 +222,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
         </xrx:auth>
       </xrx:view>
     </xrx:div>
-    <xrx:div>
-      <xrx:key>preface-link-div</xrx:key>
-      <xrx:view>
-        <div class="year-list" data-demoid="3eca9a34-7bc2-498b-ab12-a8154b3885ce" style="font-weight:{ if($wcharters:block = -1) then 'bold' else 'normal' }">
-          <a href="collection">
-            <xrx:i18n>
-              <xrx:key>preface</xrx:key>
-              <xrx:default>Preface</xrx:default>
-            </xrx:i18n>
-          </a>
-        </div>
-      </xrx:view>
-    </xrx:div>
+   
     <xrx:div>
       <xrx:key>breadcrumb-div</xrx:key>
       <xrx:view>
@@ -328,7 +318,20 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
           </a>
         </div>
       </xrx:view>
-    </xrx:div>         
+    </xrx:div> 
+     <xrx:div>
+      <xrx:key>preface-link-div</xrx:key>
+      <xrx:view>
+        <div class="year-list" data-demoid="3eca9a34-7bc2-498b-ab12-a8154b3885ce" style="font-weight:{ if($wcharters:block = -1) then 'bold' else 'normal' }">
+          <a href="collection">
+            <xrx:i18n>
+              <xrx:key>preface</xrx:key>
+              <xrx:default>Preface</xrx:default>
+            </xrx:i18n>
+          </a>
+        </div>
+      </xrx:view>
+    </xrx:div>        
     <xrx:div>
       <xrx:key>preface-div</xrx:key>
       <xrx:view>
