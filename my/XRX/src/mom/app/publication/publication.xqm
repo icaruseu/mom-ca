@@ -48,9 +48,9 @@ declare function publication:build-url($atomid as xs:string) as xs:string? {
     let $fondid := $sub[2]
     let $collectionid := $sub[1]
     let $url := if($context = "collection") then concat($collectionid, "/", $objectid, "/edit?mode=", $mode) else concat($archiveid, "/", $fondid, "/", $objectid, "/edit?mode=", $mode)
-    
-    
-    
+
+
+
     return
           $url
 };
@@ -67,21 +67,21 @@ declare function publication:saved-by-user($user-xml as element(xrx:user)*, $ato
 declare function publication:model($request-root as xs:string) as element() {
 
     <xf:model id="msaved">
-    
+
         <xf:instance>
             <data xmlns="">
                 <atomid/>
                 <mode/>
             </data>
         </xf:instance>
-        
+
         <xf:instance id="itest">
             <data xmlns=""/>
         </xf:instance>
-        
-        <xf:submission id="ssave-charter" 
-            action="{ $request-root }service/save-charter" 
-            method="post" 
+
+        <xf:submission id="ssave-charter"
+            action="{ $request-root }service/save-charter"
+            method="post"
             replace="none">
             <xf:action ev:event="xforms-submit-error"><xf:message level="ephemeral">ERROR</xf:message></xf:action>
             <xf:header>
@@ -89,20 +89,10 @@ declare function publication:model($request-root as xs:string) as element() {
               <xf:value>{ xmldb:get-current-user() }</xf:value>
             </xf:header>
         </xf:submission>
-        
-        <xf:submission id="srelease-charter" 
-            action="{ $request-root }service/release-charter" 
-            method="post" 
-            replace="none">
-            <xf:header>
-              <xf:name>userid</xf:name>
-              <xf:value>{ xmldb:get-current-user() }</xf:value>
-            </xf:header>
-        </xf:submission>
-        
-        <xf:submission id="sremove-charter" 
-            action="{ $request-root }service/remove-charter" 
-            method="post" 
+
+        <xf:submission id="srelease-charter"
+            action="{ $request-root }service/release-charter"
+            method="post"
             replace="none">
             <xf:header>
               <xf:name>userid</xf:name>
@@ -110,9 +100,19 @@ declare function publication:model($request-root as xs:string) as element() {
             </xf:header>
         </xf:submission>
 
-        <xf:submission id="spublish-charter" 
-            action="{ $request-root }service/publish-charter" 
-            method="post" 
+        <xf:submission id="sremove-charter"
+            action="{ $request-root }service/remove-charter"
+            method="post"
+            replace="none">
+            <xf:header>
+              <xf:name>userid</xf:name>
+              <xf:value>{ xmldb:get-current-user() }</xf:value>
+            </xf:header>
+        </xf:submission>
+
+        <xf:submission id="spublish-charter"
+            action="{ $request-root }service/publish-charter"
+            method="post"
             replace="instance"
             instance="itest">
             <!--xf:action ev:event="xforms-submit-error">
@@ -126,7 +126,7 @@ declare function publication:model($request-root as xs:string) as element() {
               <xf:value>{ xmldb:get-current-user() }</xf:value>
             </xf:header>
         </xf:submission>
-                           
+
     </xf:model>
 
 };
@@ -149,7 +149,7 @@ declare function publication:momathon-trigger(
                 <xf:recalculate/>
                 <xf:send submission="ssave-charter"/>
                 <xf:load show="new" resource ="{ $request-root }/{publication:build-url($atomid)}"/>
-              
+
             </xf:action>
         </xf:trigger>
     </div>
@@ -208,14 +208,14 @@ declare function publication:edit-trigger(
             <xf:label>{ $edit-charter-message }</xf:label>
             <xf:action ev:event="DOMActivate">
             {
-              if ($edit-mode = "editmom3" or $widget-key="mom-ca") then
+              (: if ($edit-mode = "editmom3" or $widget-key="mom-ca") then :)
                   <xf:load show="new">
-                    <xf:resource value="'{ $request-root }/{publication:build-url($atomid)}'"/> 
+                    <xf:resource value="'{ $request-root }/{publication:build-url($atomid)}'"/>
                   </xf:load>
-              else
+              (: else
                   <xf:load show="replace">
                       <xf:resource value="'{ $request-root }edit-charter?id={ $atomid }'"/>
-                  </xf:load>
+                  </xf:load> :)
               }
             </xf:action>
         </xf:trigger>
@@ -318,14 +318,14 @@ declare function publication:release-trigger(
     <div/>
 };
 
-declare function publication:remove-trigger(    
+declare function publication:remove-trigger(
     $atomid as xs:string,
     $num as xs:integer,
     $request-root as xs:string,
     $widget-key as xs:string,
     $remove-charter-message as element(xhtml:span)) {
 
-    if($widget-key = 'saved-charters' or $widget-key = 'charters-to-publish') then    
+    if($widget-key = 'saved-charters' or $widget-key = 'charters-to-publish') then
     <div>
         <img src="{ $request-root }resource/?atomid=tag:www.monasterium.net,2011:/mom/resource/image/remove"/>
         <xf:trigger appearance="minimal">
@@ -424,57 +424,57 @@ declare function publication:moderator-actions(
             </bfc:dialog>
         </div>
     </xf:case>
-    
+
     return
-    
+
     <xf:group model="msaved">
         <xf:switch>{ $case-publish-charter }</xf:switch>
-    </xf:group>    
+    </xf:group>
 
 };
 
 declare function publication:user-actions(
-    $saved-by-current-user as xs:boolean, 
-    $saved-by-any-user as xs:boolean, 
-    $atomid as xs:string, 
-    $num as xs:integer, 
+    $saved-by-current-user as xs:boolean,
+    $saved-by-any-user as xs:boolean,
+    $atomid as xs:string,
+    $num as xs:integer,
     $request-root as xs:string,
     $is-moderator as xs:boolean,
     $widget-key as xs:string,
-    $save-charter-message as element(xhtml:span), 
-    $edit-charter-message as element(xhtml:span), 
-    $charter-in-use-message as element(xhtml:span), 
+    $save-charter-message as element(xhtml:span),
+    $edit-charter-message as element(xhtml:span),
+    $charter-in-use-message as element(xhtml:span),
     $release-charter-message as element(xhtml:span),
     $remove-charter-message as element(xhtml:span),
     $publish-charter-message as element(xhtml:span)) as element() {
 
-    let $editmom3msg :=           <span>Edit with EditMOM 3 beta</span>
-    
+    let $editmom3msg :=           <span>Edit</span>
+
     (: MOMathon-Trigger :)
     let $case-momathon-charter :=
     <xf:case id="cmom-charter-{ $num }">
         { publication:momathon-trigger($atomid,$num,$request-root,$widget-key,publication:change-element-ns($editmom3msg, "http://www.w3.org/1999/xhtml", "xhtml")) }
     </xf:case>
-    
+
     (: charter is saved by current user :)
     let $case-save-charter :=
     <xf:case id="csave-charter-{ $num }">
         { publication:save-trigger($atomid,$num,$request-root,$widget-key,$save-charter-message) }
     </xf:case>
-    
+
     (: charter is free to edit :)
     let $case-edit-charter :=
     <xf:case id="cedit-charter-{ $num }">
-        { publication:edit-trigger($atomid,$num,$request-root,$is-moderator,$widget-key,$edit-charter-message, "") }
-        { if($widget-key = "saved-charters") then publication:edit-trigger($atomid,$num,$request-root,$is-moderator,$widget-key,publication:change-element-ns($editmom3msg, "http://www.w3.org/1999/xhtml", "xhtml"), "editmom3") else ""}
+      <!--   { publication:edit-trigger($atomid,$num,$request-root,$is-moderator,$widget-key,$edit-charter-message, "") } -->
+        { publication:edit-trigger($atomid,$num,$request-root,$is-moderator,$widget-key,publication:change-element-ns($editmom3msg, "http://www.w3.org/1999/xhtml", "xhtml"), "editmom3")}
         {
-        if($is-moderator) then 
+        if($is-moderator) then
             publication:publish-trigger($atomid,$num,$request-root,$widget-key,$publish-charter-message)
         else
             publication:release-trigger($atomid,$num,$request-root,$widget-key,$release-charter-message)
         }
-        { publication:remove-trigger($atomid,$num,$request-root,$widget-key,$remove-charter-message) }
-    </xf:case>    
+        { publication:remove-trigger($atomid,$num,$request-root,$widget-key,$remove-charter-message) }r
+    </xf:case>
 
     (: charter is in use by another user :)
     let $case-charter-in-use :=
@@ -482,11 +482,11 @@ declare function publication:user-actions(
         {
         if(matches($widget-key, '^(fond|collection|search|charter)$')) then
         <div>{ $charter-in-use-message }</div>
-        else 
+        else
         <div/>
         }
     </xf:case>
-    
+
     return
 
     <xf:group model="msaved">
@@ -495,7 +495,7 @@ declare function publication:user-actions(
             if($widget-key = 'charters-to-publish') then ($case-edit-charter)
             else if($saved-by-current-user) then ($case-edit-charter, $case-save-charter)
             else if($saved-by-any-user) then $case-charter-in-use
-            else if($widget-key = "mom-ca") then ($case-momathon-charter) 
+            else if($widget-key = "mom-ca") then ($case-momathon-charter)
             else ($case-save-charter, $case-edit-charter)
             }
         </xf:switch>
