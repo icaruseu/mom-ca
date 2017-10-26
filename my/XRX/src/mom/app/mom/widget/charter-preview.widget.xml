@@ -508,7 +508,7 @@ div.bookmark-icon{{
     </xrx:div>
   </xrx:divs>
   <xrx:view>
-  { if($illurkimages = '') then
+  { if(string-length($illurkimages) = 0) then
     <div class="charter" data-demoid="de2d1a7c-69f1-4f01-a2d2-4591bc56c20d">
       <div class="charter-preview" data-demoid="7c4f5f0e-a642-47e2-87e9-22f8e0418492">
         <div class="inner-charter-preview" data-demoid="e02073e0-abe8-4052-bc14-6939eec495fb">
