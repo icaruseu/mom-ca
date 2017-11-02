@@ -78,24 +78,38 @@ define([
     			  var xsdlocElement = '<xsdloc>' + this.annotationControl.xsdloc + '</xsdloc>';
     			  var selectionElement = '<selection>' + selection.getInnerXML() + '</selection>';
     			  var dataElement = '<data>'+ pathElement + contentElement + xsdlocElement + selectionElement + '</data>';
+            var xhr = new XMLHttpRequest();
+            var url = this.annotationControl.services + "?service=get-menu";
+            xhr.open("POST",url);
 
-            $.ajax({
-                url : this.annotationControl.services + "?service=get-menu",
-                headers: { "Content-Type": "application/xml; charset=utf-8", "Accept": "text/html,application/xhtml+xml,application/xml", "X-Requested-With":null },
-                type: "POST",
-                data : dataElement,
-                success: function(data, textStatus, jqXHR)
-                {
-      			    	  domConstruct.empty(menuBar.domNode);
-                    parseXML = header.loadXMLString(data);
-                    //console.log(parseXML);
-      			    	  header.createMenu(parseXML.documentElement);
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
+            xhr.setRequestHeader("Content-Type", "text/xml");
 
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    var data = xhr.responseText;
+                    header.createMenu(data);
                 }
-            });
+              }
+            };
+            xhr.send();
+            //$.ajax({
+                //url : this.annotationControl.services + "?service=get-menu",
+                //headers: { "Content-Type": "application/xml; charset=utf-8", "Accept": "text/html,application/xhtml+xml,application/xml", "X-Requested-With":null },
+                //type: "POST",
+                //data : dataElement,
+                //success: function(data, textStatus, jqXHR)
+                //{
+      			    //	  domConstruct.empty(menuBar.domNode);
+                //    parseXML = header.loadXMLString(data);
+                    //console.log(parseXML);
+      			    //	  header.createMenu(parseXML.documentElement);
+                //},
+                //error: function (jqXHR, textStatus, errorThrown)
+                //{
+
+            //    }
+            //});
 
     			}
     	  },

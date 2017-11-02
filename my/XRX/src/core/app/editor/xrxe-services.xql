@@ -16,6 +16,7 @@ let $service-name := request:get-parameter("service", "")
 let $data := root(request:get-data())/element()
 let $xsdloc := xs:string($data/xsdloc[1]/text())
 
+let $annofile := doc("/db/mom-data/metadata.annotation/annotations.xml")
 
 let $service :=
 if($service-name!='') then
@@ -36,7 +37,15 @@ if($service-name='get-menu') then
 let $content := $data/content[1]
 let $selection := $data/selection[1]
 
-let $menue := qxrxa:get-menu($path, $content, $selection, $xsdloc)
+let $log := util:log("INFO", $content)
+let $log := util:log("INFO", $selection)
+let $log := util:log("INFO", $path)
+let $Log := util:log("INFO", $xsdloc)
+
+let $menue := if(exists($annofile) and exists($annofile//value[@key = $path]) ) then
+                $annofile//value[@key = $path]/menu
+            else
+                qxrxa:get-menu($path, $content, $selection, $xsdloc)
 
 return
 $menue
