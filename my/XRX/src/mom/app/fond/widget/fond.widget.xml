@@ -158,7 +158,7 @@ it leaves the active development stage.
 					   <script type="text/javascript">
           $(document).ready(function (){{
           console.log("fond.widget.xml");
-          $("div.my-functions").insertAfter("div#container");
+         // $("div.my-functions").insertAfter("div#container");
           $('<div class="clear"></div>').insertAfter("div.my-functions");                    
             var lookforfunction = $("div.function-link").children("a");
           if(lookforfunction == 0){{
@@ -312,23 +312,20 @@ it leaves the active development stage.
     <xrx:div>
       <xrx:key>goto-search-div</xrx:key>
       <xrx:view>
-				<div data-demoid="76786e2f-c292-4a0f-8b55-f37f6babaa7b" id="goto-search">
-		 		<div>				   
-         <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ xmldb:decode($charter:rfondid) }/images?block=1">
-            <xrx:i18n>
-              <xrx:key>image_preview</xrx:key>
-              <xrx:default>Image preview</xrx:default>
-            </xrx:i18n><span> &gt;&gt;</span> 
-        </a>      
-      </div>
-					<a href="{ conf:param('request-root') }search?q=&amp;img=false&amp;sort=date&amp;arch={ $charter:rarchiveid }&amp;col={ $charter:rfondid }&amp;p=search">
-						<xrx:i18n>
-							<xrx:key>search-in</xrx:key>
-							<xrx:default>Search in</xrx:default>
-						</xrx:i18n>
-						<span> { conf:param('request-root') }{ $charter:rarchiveid }/{ xmldb:decode($charter:rfondid) } &gt;&gt;</span>
-					</a> 
-				</div>
+      <xrx:subwidget>
+              <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/goto-search</xrx:atomid>
+        <xrx:pass>
+              <xrx:parameter>
+              <xrx:name>$context</xrx:name>
+              <xrx:expression>'fond'</xrx:expression>
+              </xrx:parameter>
+                <xrx:parameter>
+              <xrx:name>$id</xrx:name>
+              <xrx:expression>$charter:rarchiveid</xrx:expression>
+              </xrx:parameter>
+              
+      </xrx:pass>    
+    </xrx:subwidget>		
       </xrx:view>
     </xrx:div>
         

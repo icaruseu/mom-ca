@@ -1,9 +1,11 @@
 
-// $(document).ready(function(){
-//	 $('#graphics').has('.no-graphic').css( 'display', 'none');
-//	 $('#tenor').has('#bibltenor').css( 'display', 'block');
-// });
-
+ $(document).ready(function(){
+	 //informs user if the IIF-Server ist not available	
+    var nographic = "Sorry, service temporarily unavailable";   
+    $("img.thumbs").error(function(){    	  
+    		$(this).parents(".images").text(nographic);    
+    });  
+});
 
 function changeImage(url, num){
 	var alleBilder = document.getElementsByClassName('imageLink');

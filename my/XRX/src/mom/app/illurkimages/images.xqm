@@ -71,7 +71,7 @@ declare function img:get-url($url as xs:string, $atomid  as xs:string?, $context
               let $filename := replace(replace(replace($folder, '%', '%25'), '&amp;', '%27'), '/', '%2F')
               let $iiifurl :=  concat($img:bildserver, $filename, $img:thumbnail)
               return $iiifurl
-        else('no')
+        else()
       else if($context = 'fond' and not(starts-with($url, 'http')))then
       let $archive := tokenize($atomid, '/')[3]
       let $fond := tokenize($atomid, '/')[4]
@@ -84,10 +84,10 @@ declare function img:get-url($url as xs:string, $atomid  as xs:string?, $context
       let $filename := concat(replace(replace(replace($archivbilder, '%', '%25'), '&amp;', '%27'), '/', '%2F'),'%2F', $url)
       let $iiifurl := concat($img:bildserver, $filename, $img:thumbnail)
       return $iiifurl
-      else('no')
+      else()
       
       
-        else('no')
+        else()
 };
 
 declare function img:checkifmycollection ($urltoken){
@@ -103,8 +103,20 @@ if ($charter//atom:content/@src) then
 let $src := data($charter//atom:content/@src)
 let $charters := collection("/db/mom-data/metadata.charter.public")//atom:entry[atom:id = $src]
 let $bilder := data($charters//cei:graphic/@url)
-return $bilder
-else(let $bilder := data($charter//cei:graphic/@url)
-            return $bilder
+return if($charters//cei:graphic/@n = 'thumbnail') (: there are archives which provide own thumbnails e.g.: HU-MNL-DLBIRL :)
+            then let $thumbs := for $bild in $bilder
+                                let $thumbnail := concat($bild, 'isthumb')
+                                return $thumbnail
+            return $thumbs
+            else($bilder)
+else(
+let $bilder := data($charter//cei:graphic/@url)
+            return 
+            if($charter//cei:graphic/@n = 'thumbnail') (: there are archives which provide own thumbnails e.g.: HU-MNL-DLBIRL :)
+            then let $thumbs := for $bild in $bilder
+                                let $thumbnail := concat($bild, 'isthumb')
+                                return $thumbnail
+            return $thumbs
+            else($bilder)
     )
 };

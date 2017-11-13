@@ -132,12 +132,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
           <script type="text/javascript">
           $(document).ready(function (){{
           console.log("einfügen von clear in collection widget.xml");
-             $("div.my-functions").insertAfter("div#container");
+          $("div#heading").insertAfter("div#breadcrumb");
           $('<div class="clear"></div>').insertAfter("div.my-functions");
-         // $("div#heading").insertAfter("div#breadcrumb");
-        //  $('<div class="clear"></div>').insertAfter("div.my-functions");
-        // $('<div class="clear"></div>').insertBefore("div.my-functions");
-        //  $('<div class="clear"></div>').insertBefore("div#year-navi");
+         $('<div class="clear"></div>').insertBefore("div.my-functions");
+          $('<div class="clear"></div>').insertBefore("div#year-navi");
           
           }});
           </script>
@@ -147,8 +145,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               <xrx:default>Collection</xrx:default>
             </xrx:i18n>
           </span>
-          <span>: </span>
-          <span>{ $wcharters:charter-context-name }</span>       
+          <span>: </span>
+          <span>{ $wcharters:charter-context-name }</span>
         </div>
       </xrx:view>
     </xrx:div>
@@ -175,7 +173,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                 if($wcollection:type = 'collection' or $wcollection:type = 'linked-fond') then
                 <div class="function-link" data-demoid="1b61b99f-4cf6-496a-b872-3b5f44296200">
                   <a href="edit-collection-info">
-                    <span>‣ </span>
+                    <span>‣ </span>
                     <xrx:i18n>
                       <xrx:key>edit-collection-info</xrx:key>
                       <xrx:default>Edit Collection Information</xrx:default>
@@ -183,13 +181,13 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                   </a>
                 </div>
                 else
-                <div class="function-link" data-demoid="d4f55ef2-7215-481b-b6ff-49c0827079fd"> </div>
+                <div class="function-link" data-demoid="d4f55ef2-7215-481b-b6ff-49c0827079fd"> </div>
                 }
                 {
                 if($wcollection:type = 'collection') then
                   <div class="function-link" data-demoid="81e21b49-2873-4d2d-aa62-3504bef3b545">
                   <a href="{ conf:param('request-root') }{ $charter:rcollectionid }/remove-collection">
-                    <span>‣ </span>
+                    <span>‣ </span>
                     <xrx:i18n>
                       <xrx:key>remove-collection</xrx:key>
                       <xrx:default>Remove collection</xrx:default>
@@ -202,12 +200,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                 if($wcollection:type = 'collection') then
                 <div class="function-link" data-demoid="bfd723c2-6b9c-46ed-81e1-9c2de4486947">
                   <a href="{ conf:param('request-root') }{ $charter:rcollectionid }/import-charters">
-                    <span>‣ </span>
+                    <span>‣ </span>
                     <xrx:i18n>
                       <xrx:key>import-charters</xrx:key>
                       <xrx:default>Import Charters</xrx:default>
                     </xrx:i18n>
-                    <span> </span>
+                    <span> </span>
                     <span>(Excel, CEI, EAD, XML, OAI, SQL)</span>
                   </a>
                 </div>
@@ -222,7 +220,19 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
         </xrx:auth>
       </xrx:view>
     </xrx:div>
-   
+    <xrx:div>
+      <xrx:key>preface-link-div</xrx:key>
+      <xrx:view>
+        <div class="year-list" data-demoid="3eca9a34-7bc2-498b-ab12-a8154b3885ce" style="font-weight:{ if($wcharters:block = -1) then 'bold' else 'normal' }">
+          <a href="collection">
+            <xrx:i18n>
+              <xrx:key>preface</xrx:key>
+              <xrx:default>Preface</xrx:default>
+            </xrx:i18n>
+          </a>
+        </div>
+      </xrx:view>
+    </xrx:div>
     <xrx:div>
       <xrx:key>breadcrumb-div</xrx:key>
       <xrx:view>
@@ -233,7 +243,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               <xrx:default>Collections</xrx:default>
             </xrx:i18n>
           </a>
-          <span> &gt; </span>
+          <span> &gt; </span>
           <a href="collection">{ $wcharters:charter-context-short-name }</a>
           {
           let $fond-atomids := $wcharters:metadata-charter-context-collection//cei:text[@type='fond']/@id/string()
@@ -255,7 +265,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               return 
               <li>
                 <a href="{ archive:permalink($archive-entry) }">{ $archive-name }</a>
-                <span> &gt; </span>
+                <span> &gt; </span>
                 <a href="{ fond:permalink($fond-entry) }">{ $fond-name }</a>
               </li>
               }
@@ -280,7 +290,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                       <xrx:key>view-publish-imported-charters</xrx:key>
                       <xrx:default>View/publish imported charters</xrx:default>
                     </xrx:i18n>
-                    <span> &gt;&gt;</span>
+                    <span> &gt;&gt;</span>
                   </a>
                 </div>
               </xrx:true>
@@ -297,46 +307,26 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <xrx:div>
       <xrx:key>goto-search-div</xrx:key>
       <xrx:view>
-      
-        <div data-demoid="e423483e-df37-4787-87ab-4ce3a8947d56" id="goto-search"/>
-        <div data-demoid="548bbfaa-a9ba-4ad8-aea2-cac5c7f5a76b" id="goto-anno-overview">
-         <div id="image-preview">    
-           <a href="{ conf:param('request-root') }{ $charter:rcollectionid }/images?block=1">     
-           <xrx:i18n>
-              <xrx:key>image_preview</xrx:key>
-              <xrx:default>Image preview</xrx:default>
-            </xrx:i18n>
-            <span>  &gt;&gt;</span>
-          </a>      
-        </div>
-          <a href="{ conf:param('request-root') }{ $charter:rcollectionid }/annotation-overview">
-            <xrx:i18n>
-              <xrx:key>annotation-overview</xrx:key>
-              <xrx:default>Annotation overview</xrx:default>
-            </xrx:i18n>
-            <span>  &gt;&gt;</span>
-          </a>
-        </div>
+      <xrx:subwidget>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/goto-search</xrx:atomid>
+     <xrx:pass>
+              <xrx:parameter>
+              <xrx:name>$context</xrx:name>
+              <xrx:expression>'collection'</xrx:expression>
+              </xrx:parameter>
+                <xrx:parameter>
+              <xrx:name>$id</xrx:name>
+              <xrx:expression>$charter:rcollectionid</xrx:expression>
+              </xrx:parameter>              
+      </xrx:pass>
+      </xrx:subwidget>
+       
       </xrx:view>
-    </xrx:div> 
-     <xrx:div>
-      <xrx:key>preface-link-div</xrx:key>
-      <xrx:view>
-        <div class="year-list" data-demoid="3eca9a34-7bc2-498b-ab12-a8154b3885ce" style="font-weight:{ if($wcharters:block = -1) then 'bold' else 'normal' }">
-          <a href="collection">
-            <xrx:i18n>
-              <xrx:key>preface</xrx:key>
-              <xrx:default>Preface</xrx:default>
-            </xrx:i18n>
-          </a>
-        </div>
-      </xrx:view>
-    </xrx:div>        
+    </xrx:div>
     <xrx:div>
       <xrx:key>preface-div</xrx:key>
       <xrx:view>
         <div data-demoid="4e1c4d3a-5351-4edf-b9aa-4c6796674243" id="preface">
-       
           {
           if(not($wcharter:date-elements)) then
           <div data-demoid="06898244-3483-4615-a3f1-f1cfcba655bf">
@@ -357,7 +347,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     </xrx:div>
     <xrx:div>
       <xrx:key>charter-preview-div</xrx:key>
-      <xrx:view>    
+      <xrx:view>
         <div data-demoid="4fdf46b9-0bab-45fa-b210-de3ced2594c4" id="dcharter-preview-main">
           <div data-demoid="7ba7d430-65c8-4192-b850-f6a6179dd425">
           {
@@ -371,12 +361,11 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             else()
           }
           </div>
-         
           {
           let $all-user-xmls := $user:db-base-collection/xrx:user
           for $year at $num in $wcharter:date-elements[ position() = $charters:start to $charters:stop ]
           return
-          <div data-demoid="53d4004e-0082-4a14-97ee-4bb9fa1f77d8">        
+          <div data-demoid="53d4004e-0082-4a14-97ee-4bb9fa1f77d8">
             <xrx:subwidget>
               <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/charter-preview-collection</xrx:atomid>
               <xrx:pass>
