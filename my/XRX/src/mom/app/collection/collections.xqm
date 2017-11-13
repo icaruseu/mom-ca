@@ -6,10 +6,14 @@ declare namespace xrx="http://www.monasterium.net/NS/xrx";
 declare namespace cei="http://www.monasterium.net/NS/cei";
 declare namespace atom="http://www.w3.org/2005/Atom";
 
+import module namespace i18n= "http://www.monasterium.net/NS/i18n"
+    at "../i18n/i18n.xqm";
 import module namespace conf="http://www.monasterium.net/NS/conf"
     at "../xrx/conf.xqm";
 import module namespace user="http://www.monasterium.net/NS/user"
     at "../user/user.xqm";
+
+
 
 declare function collections:by-country($db-base-collections) {
 
@@ -70,8 +74,10 @@ declare function collections:list($label as xs:string, $collections) as element(
         let $collection-name := normalize-space(($collection//cei:titleStmt/cei:title/text(), $collection//cei:provenance/text())[1])
         let $collection-atomid := $collection//atom:id/text()
         let $collection-id := (tokenize($collection-atomid, '/'))[3]
-        return
+ 
+        return      
         <li><a href="{ conf:param('request-root') }{ $collection-id }/collection">{ $collection-name }</a></li>
+   
         }
       </ul>
     </div>    

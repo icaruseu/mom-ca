@@ -93,11 +93,13 @@ it leaves the active development stage.
     <xrx:variable>
     <xrx:name>$wcharter:image-urls</xrx:name>
     <xrx:expression>$constructor:charter//cei:graphic</xrx:expression>
-    </xrx:variable>
+    </xrx:variable>    
     <xrx:variable>
       <xrx:name>$wcharter-preview:charter-url</xrx:name>
       <xrx:expression>concat(conf:param('request-root'), $charter:rarchiveid, '/', $charter:rfondid, '/', xmldb:encode(charter:charterid(root($constructor:charter)//atom:id/text())) , '/charter')</xrx:expression>
-    </xrx:variable>
+    </xrx:variable><!-- $wcharter-preview:charter-url is overwritten by value in charter-preview-collection -->
+
+    
   <!-- status of the charter -->
     <xrx:variable>
       <xrx:name>$wcharter-preview:is-bookmarked</xrx:name>
@@ -142,85 +144,85 @@ it leaves the active development stage.
     <style type="text/css">
     
 #dcharter-preview-main{{
-	float:left;
-	width:800px;	
+  float:left;
+  width:800px;  
 }}
 
 #dcharter-preview-main .charter *{{
-	line-height:1.6em;
+  line-height:1.6em;
 }}
 
 #dcharter-preview-main .charter{{
-	position:relative;
-	width:100%;
-	float:left;
-	background:rgb(245,245,245);
+  position:relative;
+  width:100%;
+  float:left;
+  background:rgb(245,245,245);
 }}
 
 #dcharter-preview-main .charter-preview{{
-	position:relative;
-	float:left;
-	width:100%;
-	background:rgb(245,245,245);
-	border-bottom:solid white 5px;
+  position:relative;
+  float:left;
+  width:100%;
+  background:rgb(245,245,245);
+  border-bottom:solid white 5px;
 }}
 
 #dcharter-preview-main .inner-charter-preview{{
-	position:relative;
-	float:left;
-	width:100%;
-	margin:15px;
+  position:relative;
+  float:left;
+  width:100%;
+  margin:15px;
 }}
 
 #dcharter-preview-main .charter-info-and-actions{{
-	display:inline;
-	position:relative;
-	float:left;
-	/*width:25%;*/
-	border-left:solid white 3px;
-	padding-left:10px;
+  display:inline;
+  position:relative;
+  float:left;
+  width:25%;
+  border-left:solid white 3px;
+  padding-left:10px;
 }}
 
 #dcharter-preview-main .container{{
-	float:left;
-	width:65%;
-	padding-right:10px;
+  float:left;
+  width:65%;
+  padding-right:10px;
 }}
 
 #dcharter-preview-main .charter-info-and-actions *{{
-	font-size:13px;
+  font-size:13px;
 }}
 
 #dcharter-preview-main .fieldset{{
-	border:solid #C8C8C8 1px;
-	margin-top:10px;
+  border:solid #C8C8C8 1px;
+  margin-top:10px;
 }}
 
 #dcharter-preview-main .inner-fieldset{{
-	margin:5px;
+  margin:5px;
 }}
 
 div.bookmark-icon{{
-	position:absolute;
-	right:220px;
+  position:absolute;
+  right:220px;
 }}
 
 .note-field{{
-	position:relative;
-	border:solid #C8C8C8 1px;
+  position:relative;
+  border:solid #C8C8C8 1px;
   padding:3px;
 }}
 
 .noteBobble {{
-	display:none;
-	position:fixed;
-	left:400px;
-	bottom:35%;
-	z-index:20;
-	width: 400px;
-	height: 160px;
-	background-color: #F6F6F6;
-	padding:20px;
+  display:none;
+  position:fixed;
+  left:400px;
+  bottom:35%;
+  z-index:20;
+  width: 400px;
+  height: 160px;
+  background-color: #F6F6F6;
+  padding:20px;
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
   -khtml-border-radius:3px;
@@ -231,28 +233,40 @@ div.bookmark-icon{{
 }}
 
 .noteBobble .xfLabel{{ 
-	color:rgb(142,163,132);
-	font-weight:bold;
+  color:rgb(142,163,132);
+  font-weight:bold;
 }}
  
 .noteBobble .xfValue{{ 
-	top: 5px !important;
+  top: 5px !important;
   position:relative;
   width:400px !important;
   max-height: 100px !important;
 }}
 
 .noteBobble .xfTrigger{{
-	width:30px !important;
+  width:30px !important;
 }}
 
 .edit-box{{
   padding:3px;
 }}
+
+span.block {{
+    display:block;
+    width:100%;
+
+}}
 	  </style>
   </xrx:csss>
+        <xrx:jss>     
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/charter</xrx:resource>
+      
+  </xrx:jss>
   <xrx:divs>
-    <xrx:div>
+     <xrx:div>
       <xrx:key>charter-link-div</xrx:key>
       <xrx:view>
         <div data-demoid="66150114-f346-4965-8f35-bafb07a21026">
@@ -261,7 +275,7 @@ div.bookmark-icon{{
               <xrx:key>charter</xrx:key>
               <xrx:default>Charter</xrx:default>
             </xrx:i18n>
-            <span>: </span>
+            <span>: </span>
           </b>
           <span>
             <a href="{ $wcharter-preview:charter-url }">
@@ -271,7 +285,8 @@ div.bookmark-icon{{
         </div>
       </xrx:view>
     </xrx:div>
-    <xrx:div>
+ 
+  <xrx:div>
       <xrx:key>view-charter-link-div</xrx:key>
       <xrx:view>
         <div data-demoid="c9bc82c4-f614-4962-a0cf-1a79dd076876">
@@ -515,16 +530,8 @@ div.bookmark-icon{{
           <div class="container" data-demoid="8664d24b-5f75-4afc-8e54-7a2ff0e8f78e">
             <div data-demoid="056c8482-16f7-4367-a477-a4168a56a4ce" id="ch{ $num }"/>
             <xrx:div>charter-link-div</xrx:div>
-            <div data-demoid="d1d8cf39-ddcf-4fac-a6c9-a39875b2e24d">
-              <b>
-                <xrx:i18n>
-                  <xrx:key>date</xrx:key>
-                  <xrx:default>Date</xrx:default>
-                </xrx:i18n>
-                <span>: </span>
-              </b>
-              <span>{ $wcharter-preview:date }</span>
-            </div>
+            <xrx:div>charter-date-div</xrx:div>
+        
             <div data-demoid="f3a7d08c-8a7d-4d85-a8a3-ff80338cc28d">
               <b>
                 <xrx:i18n>
@@ -581,39 +588,73 @@ div.bookmark-icon{{
             <xrx:div>my-archive-functions-div</xrx:div>
           </div>         
         </div> 
-      </div>
+      </div>    
     </div>
     
-    else(
-    if(starts-with(data($constructor:charter//cei:graphic/@url), 'http://images.monasterium.net/illum/IllUrk'))
-    then
+    else(     
     let $abs := $constructor:charter//cei:abstract//text()
     let $short := concat(substring(concat($abs[1],$abs[2]), 0, 100), '...')
-    let $charter := $wcharter-preview:charter-url    
+    (: $charter is the link to the single charters, distinguishes between collection and fond:)
+    let $charter := if($constructor:charter-context='fond') then concat(conf:param('request-root'), $charter:rarchiveid, '/', $charter:rfondid, '/', xmldb:encode(charter:charterid(root($constructor:charter)//atom:id/text())) , '/charter') else($wcharter-preview:charter-url)
     return
           <div class="bilder">
-           <!-- This condition is provided to give an thumbnail overview of the collection, it is until now just available for the IlluminierteUrkunden collection.
-    will be continued soon substring-after(data($i/@url), 'http://images.monasterium.net/illum/IllUrk')-->
-           <span class="datum"><a href="{$charter}">{ $wcharter-preview:date }<span>{$short}</span></a></span>                     
+  
+         
+          <span class="datum">
+            <xrx:div>charter-link-div</xrx:div>
+            <xrx:div>charter-date-div</xrx:div>      
+           <span>
+            <b>
+                <xrx:i18n>
+                  <xrx:key>abstract</xrx:key>
+                  <xrx:default>Abstract</xrx:default>
+                </xrx:i18n>
+                <span>: </span>
+              </b><span>{$short}</span>
+          </span>
+          <xrx:div>view-charter-link-div</xrx:div>
+          </span>                   
            <span class= "images">
           {
-           for $i in $constructor:charter//cei:graphic
-          return
-          if(starts-with(data($i/@url), 'http://images.monasterium.net/illum/IllUrk')) then
-          let $crop := string-length(data($i/@url))          
-          let $cropstart := string-length('http://images.monasterium.net/illum/IllUrk')+1
-          let $cropend :=  if (ends-with(data($i/@url), 'jpeg')) then $crop - $cropstart -4 else($crop - $cropstart -3)
-          let $filename := substring(data($i/@url), $cropstart, $cropend)
-          let $url := if(ends-with(data($i/@url), 'JPG')) then concat('http://images.monasterium.net/illum/IllUrk/thumbnails', $filename,'.JPG')
-          else(concat('http://images.monasterium.net/illum/IllUrk/thumbnails', $filename,'.jpg'))
-          return
-          <span title="{$filename}" class="bild"><img src="{$url}" alt="{data($i/@url)}" width="150"/></span>
-          else()
+          let $bilder := img:suchebilder($constructor:charter)          
+          let $ausgabe := for $bild in $bilder
+                          return
+                          if (ends-with($bild, 'isthumb') ) then 
+                          let $bildurl := substring-before($bild, 'isthumb' )
+                          return $bildurl
+                          else(       
+                          let $bildurl := img:get-url($bild, $wcharter-preview:atom-id, $constructor:charter-context)
+                          return $bildurl)
+          return if(exists($ausgabe) = false()) then 
+           <div data-demoid="11f09d60-b012-4f82-889a-a653c1ecc2b5">
+              <span class="block">
+                <xrx:i18n>
+                  <xrx:key>images</xrx:key>
+                  <xrx:default>Images</xrx:default>
+                </xrx:i18n>
+                <span>: </span>
+                 <span>{ $wcharter-preview:num-images }</span>
+              </span>             
+            <span class="block">
+            <xrx:i18n>
+            <xrx:key>no_image_preview</xrx:key>
+            <xrx:default>No image preview available</xrx:default>
+            </xrx:i18n>           
+            </span>
+            </div>          
+          
+          else(       
+          <span title="{$ausgabe[1]}" class="bild"><img class="thumbs" src="{$ausgabe[1]}" alt="{$ausgabe[1]}" height="120" />              
+          </span>, <span title="{$ausgabe[2]}" class="bild"><img src="{$ausgabe[2]}" alt="{$ausgabe[2]}" height="120" />
+                   
+          </span>
+          )          
           }
           </span>
           </div>
-      else()
+ 
           )
-          }     
+          }      
+   
   </xrx:view>
 </xrx:widget>

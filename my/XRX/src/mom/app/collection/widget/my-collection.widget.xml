@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
   <xrx:id>tag:www.monasterium.net,2011:/mom/widget/my-collection</xrx:id>
-  <xrx:inherits>tag:www.monasterium.net,2011:/mom/widget/charters</xrx:inherits>
+ <xrx:inherits>tag:www.monasterium.net,2011:/mom/widget/charters</xrx:inherits>
   <xrx:title>
     <xrx:i18n>
       <xrx:key>my-collection</xrx:key>
@@ -332,9 +332,30 @@ float:left;
 					  </xrx:subwidget>
 					</div>
 					}
-					<div data-demoid="90e16725-b615-48c8-ac58-97093e9161f8">{ $block-navi-div }</div>
+					
+				<!-- 	<div data-demoid="90e16725-b615-48c8-ac58-97093e9161f8">{ $block-navi-div }</div> -->
 				</div>
 			</xrx:view>
     </xrx:div>
+    <xrx:div>
+    <xrx:key>year-navi-div</xrx:key>
+    <xrx:view>
+    <div class="whatever">
+    <span>1982-1984</span>
+    </div>
+    </xrx:view>
+    </xrx:div>
   </xrx:divs>
+    <xrx:view>
+    <xrx:div>heading-div</xrx:div>
+    <xrx:div>my-functions-div</xrx:div>
+    <xrx:div>breadcrumb-div</xrx:div>    
+   <xrx:div>goto-search-div</xrx:div>
+    <xrx:div>year-navi-div</xrx:div>
+   <xrx:div>preface-link-div</xrx:div>
+   <xrx:div>preface-div</xrx:div>
+   <xrx:div>block-navi-div</xrx:div>
+  
+   <xrx:div>charter-preview-div</xrx:div>
+  </xrx:view>
 </xrx:widget>
