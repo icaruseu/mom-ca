@@ -352,11 +352,6 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:uripattern>/goto-search</xrx:uripattern>
       <xrx:mode>mainwidget</xrx:mode>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/goto-search</xrx:atomid>
-    </xrx:map>
-       <xrx:map>
-      <xrx:uripattern>/my-functions</xrx:uripattern>
-      <xrx:mode>mainwidget</xrx:mode>
-      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/my-functions</xrx:atomid>
-    </xrx:map>
+    </xrx:map>   
   </xrx:resolver>
 </xrx:app>
