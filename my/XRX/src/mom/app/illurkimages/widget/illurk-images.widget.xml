@@ -126,6 +126,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     width:10%;
     float:left;
     }}
+    #year-navi div.block {{
+    padding: 0.5em;
+    }}
     
     #dcharter-preview-main {{
     position:relative;
@@ -136,7 +139,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     margin-left:2em;
     }}  
     
-    .datum {{
+    .meta {{
     position:relative;
     float:left;
     width:40%;

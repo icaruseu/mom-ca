@@ -43,10 +43,14 @@ declare variable $img:mycollection :=  collection(concat(conf:param("data-db-bas
 
 (: function does same as charters:years in the year-navi but has condition to get charters with graphics only :)
 declare function img:years($charter-base-coll) {
-
-    for $year in $charter-base-coll//cei:text[descendant::cei:graphic/@url !='']//cei:issued/(cei:date/@value|cei:dateRange/@from)
+    for $entry in $charter-base-coll//atom:entry
+    let $year := if($entry/atom:content/@src) then 
+                 let $src := data($entry/atom:content/@src)
+                 let $charters := collection("/db/mom-data/metadata.charter.public")//atom:entry[atom:id = $src]
+                 return $charters//cei:text[descendant::cei:graphic/@url !='']//cei:issued/(cei:date/@value|cei:dateRange/@from)
+                 else($entry//cei:text[descendant::cei:graphic/@url !='']//cei:issued/(cei:date/@value|cei:dateRange/@from))
     order by xs:integer($year)
-    return
+    return   
     $year    
 };
 

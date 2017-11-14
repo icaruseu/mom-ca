@@ -59,6 +59,7 @@ it leaves the active development stage.
   let $fondid := $xrx:tokenized-uri[2]
   
   return
+  if(xrx:tokenized-uri[last()]='fond') then
  <div data-demoid="e423483e-df37-4787-87ab-4ce3a8947d56" id="goto-search" class="goto">
   <div> <a href="{ conf:param('request-root') }{ $id }/{ xmldb:decode($fondid)}/images?block=1">
             <xrx:i18n>
@@ -75,8 +76,27 @@ it leaves the active development stage.
               <span> { conf:param('request-root') } { $archive-short-name } &gt;&gt;</span>
             </a>
           </div>
+     else(
+      <div data-demoid="548bbfaa-a9ba-4ad8-aea2-cac5c7f5a76b" id="goto-anno-overview" class="goto">
+   <div> <a href="{ conf:param('request-root') }{$id}/{ xmldb:decode($xrx:tokenized-uri[2])}/fond?block=1">
+            <xrx:i18n>
+              <xrx:key>fond_preview</xrx:key>
+              <xrx:default>Fond preview</xrx:default>
+            </xrx:i18n><span> &gt;&gt;</span>
+        </a>
+        <span>{$context}</span>      
+      </div>
+           <a href="{ conf:param('request-root') }search?q=&amp;img=false&amp;sort=date&amp;arch={ $id }&amp;p=search">
+              <xrx:i18n>
+                <xrx:key>search-in</xrx:key>
+                <xrx:default>Search in</xrx:default>
+              </xrx:i18n>            
+              <span> { conf:param('request-root') } { $archive-short-name } &gt;&gt;</span>
+            </a>
+        </div>    
+     )
        
-  else if($xrx:tokenized-uri[last()] = 'images') then
+  else if($context='collection' and $xrx:tokenized-uri[last()] = 'images') then
       <div data-demoid="548bbfaa-a9ba-4ad8-aea2-cac5c7f5a76b" id="goto-anno-overview" class="goto">
         <div> <a href="{ conf:param('request-root') }{$id}/collection">
             <xrx:i18n>
@@ -92,17 +112,17 @@ it leaves the active development stage.
             </xrx:i18n>
             <span>  &gt;&gt;</span>
           </a>
-     </div>    
-  
-  
-  else(<div data-demoid="548bbfaa-a9ba-4ad8-aea2-cac5c7f5a76b" id="goto-anno-overview" class="goto">
-   <div> <a href="{ conf:param('request-root') }{$id}/images?block=1">
+     </div> 
+    
+    else(
+    <div data-demoid="e423483e-df37-4787-87ab-4ce3a8947d56" id="goto-search" class="goto">
+      <div> <a href="{ conf:param('request-root') }{ $id }/images?block=1">
             <xrx:i18n>
               <xrx:key>image_preview</xrx:key>
               <xrx:default>Image preview</xrx:default>
             </xrx:i18n><span> &gt;&gt;</span>
         </a>      
-      </div>
+    </div>
           <a href="{ conf:param('request-root') }{ $id }/annotation-overview">
             <xrx:i18n>
               <xrx:key>annotation-overview</xrx:key>
@@ -110,7 +130,7 @@ it leaves the active development stage.
             </xrx:i18n>
             <span>  &gt;&gt;</span>
           </a>
-        </div>      
+      </div>
     )     
      
      }

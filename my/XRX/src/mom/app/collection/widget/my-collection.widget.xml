@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
   <xrx:id>tag:www.monasterium.net,2011:/mom/widget/my-collection</xrx:id>
- <xrx:inherits>tag:www.monasterium.net,2011:/mom/widget/charters</xrx:inherits>
+  <xrx:inherits>tag:www.monasterium.net,2011:/mom/widget/charters</xrx:inherits>
   <xrx:title>
     <xrx:i18n>
       <xrx:key>my-collection</xrx:key>
@@ -34,7 +34,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   </xrx:licence>
   <xrx:variables>
     <!-- 
-    	variables for inherited widget
+      variables for inherited widget
      -->
     <!-- charter context information -->
     <xrx:variable>
@@ -65,7 +65,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:expression>if($wmy-collection:atomid) then metadata:objectid($wmy-collection:atomid) else''</xrx:expression>
     </xrx:variable>
     <!-- 
-    	for inherited widget
+      for inherited widget
      -->
     <xrx:variable>
       <xrx:name>$wcharters:charter-context-short-name</xrx:name>
@@ -129,14 +129,18 @@ line-height:2em;
 color:black;
 text-decoration:none;
 }}
-/*
+
 #block-navi{{
 padding-bottom:30px;
 float:left;
 left:20px;
 }}
 
-#preface{{
+#block-navi b a, #block-navi b span{{
+padding:5px;
+}}
+
+/*#preface{{
 position:relative;
 width:800px;
 float:left;
@@ -166,16 +170,16 @@ float:left;
     <xrx:div>        
       <xrx:key>heading-div</xrx:key>
       <xrx:view>
-				<div class="h2" data-demoid="ddb0a0e1-18be-46ff-9076-f78bb0b54cd8">
-					<span>
-						<xrx:i18n>
-							<xrx:key>my-collection-preview</xrx:key>
-							<xrx:default>My Collection (Preview)</xrx:default>
-						</xrx:i18n>
-					</span>
-					<span>: </span>
-					<span>{ $wcharters:charter-context-name }</span>
-				</div>      
+        <div class="h2" data-demoid="ddb0a0e1-18be-46ff-9076-f78bb0b54cd8">
+          <span>
+            <xrx:i18n>
+              <xrx:key>my-collection-preview</xrx:key>
+              <xrx:default>My Collection (Preview)</xrx:default>
+            </xrx:i18n>
+          </span>
+          <span>: </span>
+          <span>{ $wcharters:charter-context-name }</span>
+        </div>      
       </xrx:view>
     </xrx:div>
     <xrx:div>
@@ -206,7 +210,7 @@ float:left;
               <div class="function-links" data-demoid="0c6b0f4d-fc95-4a6a-be31-92363183bb69">
                 <div class="function-link" data-demoid="48bdde04-b19f-4c84-9517-6a1973b0e589">
                   <a href="edit-my-collection-info">
-                    <span>‣ </span>
+                    <span>‣ </span>
                     <xrx:i18n>
                       <xrx:key>edit-preface</xrx:key>
                       <xrx:default>Edit Preface</xrx:default>
@@ -215,7 +219,7 @@ float:left;
                 </div>
                 <div class="function-link" data-demoid="14e8babb-98cd-43b6-b0f7-858ee15ae3c5">
                   <a href="{ conf:param('request-root') }{ $xrx:tokenized-uri[1] }/my-collection-remove">
-                    <span>‣ </span>
+                    <span>‣ </span>
                     <xrx:i18n>
                       <xrx:key>remove-collections</xrx:key>
                       <xrx:default>Remove Collection</xrx:default>
@@ -224,7 +228,7 @@ float:left;
                 </div>
                 <div class="function-link" data-demoid="48bdde04-b19f-4c84-9517-6a1973b0e590">
                   <a href="{ conf:param('request-root') }service/my-collection-cei?mycollection={ $xrx:tokenized-uri[1] }" target="_blank">
-                    <span>‣ </span>
+                    <span>‣ </span>
                     <xrx:i18n>
                       <xrx:key>show-collection-cei-xml</xrx:key>
                       <xrx:default>Download collection as XML/CEI</xrx:default>
@@ -233,7 +237,7 @@ float:left;
                 </div>
                 <div class="function-link" data-demoid="63533b84-a9f9-4882-9d73-e45ae52952c7">
                   <a href="{ conf:param('request-root') }my-collections-edit">
-                    <span>‣ </span>
+                    <span>‣ </span>
                     <xrx:i18n>
                       <xrx:key>edit-my-collections</xrx:key>
                       <xrx:default>Edit my Collections</xrx:default>
@@ -260,102 +264,81 @@ float:left;
             </xrx:rule>
           </xrx:rules>
           <xrx:true>
-		        <div class="year-list" data-demoid="5607337c-9310-4bd5-802f-6b97ad9bda5e" style="font-weight:{ if($wcharters:block = -1) then 'bold' else 'normal' }">
-		          <a href="my-collection">
-		            <xrx:i18n>
-		              <xrx:key>preface</xrx:key>
-		              <xrx:default>Preface</xrx:default>
-		            </xrx:i18n>
-		          </a>
-		        </div>
-		      </xrx:true>
-		      <xrx:false>
-		        <span/>
-		      </xrx:false>
-		    </xrx:auth>
+            <div class="year-list" data-demoid="5607337c-9310-4bd5-802f-6b97ad9bda5e" style="font-weight:{ if($wcharters:block = -1) then 'bold' else 'normal' }">
+              <a href="my-collection">
+                <xrx:i18n>
+                  <xrx:key>preface</xrx:key>
+                  <xrx:default>Preface</xrx:default>
+                </xrx:i18n>
+              </a>
+            </div>
+          </xrx:true>
+          <xrx:false>
+            <span/>
+          </xrx:false>
+        </xrx:auth>
       </xrx:view>
     </xrx:div>
     <xrx:div>
       <xrx:key>breadcrumb-div</xrx:key>
       <xrx:view>
-				<div data-demoid="00f8d410-3a0f-462a-af94-7d7c6795e351" id="breadcrumb">
-					<a href="{ conf:param('request-root') }collections">
-						<xrx:i18n>
-							<xrx:key>collections</xrx:key>
-							<xrx:default>Collections</xrx:default>
-						</xrx:i18n>
-					</a>
-					<span> &gt; </span>
-					<a href="{ conf:param('request-root') }my-collections">
-						<xrx:i18n>
-							<xrx:key>my-collections</xrx:key>
-							<xrx:default>MyCollections</xrx:default>
-						</xrx:i18n>
-					</a>
-					<span> &gt; </span>
-					<a href="{ conf:param('request-root') }{ $charter:rcollectionid }/my-collection">{ $wcharters:charter-context-name } </a>
-				</div>      
+        <div data-demoid="00f8d410-3a0f-462a-af94-7d7c6795e351" id="breadcrumb">
+          <a href="{ conf:param('request-root') }collections">
+            <xrx:i18n>
+              <xrx:key>collections</xrx:key>
+              <xrx:default>Collections</xrx:default>
+            </xrx:i18n>
+          </a>
+          <span> &gt; </span>
+          <a href="{ conf:param('request-root') }my-collections">
+            <xrx:i18n>
+              <xrx:key>my-collections</xrx:key>
+              <xrx:default>MyCollections</xrx:default>
+            </xrx:i18n>
+          </a>
+          <span> &gt; </span>
+          <a href="{ conf:param('request-root') }{ $charter:rcollectionid }/my-collection">{ $wcharters:charter-context-name } </a>
+        </div>      
       </xrx:view>
     </xrx:div>
     <xrx:div>
       <xrx:key>goto-search-div</xrx:key>
       <xrx:view>
-				<div data-demoid="71ed814d-aab7-4c96-97ab-6bfbe5f0bf0e" id="goto-search">
-				  <a href=""> </a>
-				</div>
-		  </xrx:view>
+        <div data-demoid="71ed814d-aab7-4c96-97ab-6bfbe5f0bf0e" id="goto-search">
+          <a href=""> </a>
+        </div>
+      </xrx:view>
     </xrx:div>
     <xrx:div>
       <xrx:key>preface-div</xrx:key>
       <xrx:view>
-				<div data-demoid="dfcecb85-9c5d-4dac-89c4-a34ffe4e6f23" id="preface">
-					<div data-demoid="c3fa3fce-2ed9-477d-a98c-dd85d67bd606">{ util:parse-html(string-join($wcharters:metadata-charter-context-collection//cei:cei//cei:div[@type='preface']/text(),'')) }</div>
-				</div>      
+        <div data-demoid="dfcecb85-9c5d-4dac-89c4-a34ffe4e6f23" id="preface">
+          <div data-demoid="c3fa3fce-2ed9-477d-a98c-dd85d67bd606">{ util:parse-html(string-join($wcharters:metadata-charter-context-collection//cei:cei//cei:div[@type='preface']/text(),'')) }</div>
+        </div>      
       </xrx:view>
     </xrx:div>
     <xrx:div>
       <xrx:key>charter-preview-div</xrx:key>
       <xrx:view>
-				<div data-demoid="81f23266-35a9-4cda-bb4b-8b0cc3fc8755" id="dcharter-preview-main">
-					{
-					for $entry at $num in $wcharters:entries[ position() = $charters:start to $charters:stop ]
-					return
-					<div data-demoid="d1d9c05e-ebec-4a54-9490-15416a96293e">
-					  <xrx:subwidget>
-					    <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/charter-preview-my-collection</xrx:atomid>
-					    <xrx:pass>
-					      <xrx:parameter>
-					        <xrx:name>$constructor:charter</xrx:name>
-					        <xrx:expression>$entry</xrx:expression>
-					      </xrx:parameter>
-					    </xrx:pass>
-					  </xrx:subwidget>
-					</div>
-					}
-					
-				<!-- 	<div data-demoid="90e16725-b615-48c8-ac58-97093e9161f8">{ $block-navi-div }</div> -->
-				</div>
-			</xrx:view>
-    </xrx:div>
-    <xrx:div>
-    <xrx:key>year-navi-div</xrx:key>
-    <xrx:view>
-    <div class="whatever">
-    <span>1982-1984</span>
-    </div>
-    </xrx:view>
+        <div data-demoid="81f23266-35a9-4cda-bb4b-8b0cc3fc8755" id="dcharter-preview-main">
+          {
+          for $entry at $num in $wcharters:entries[ position() = $charters:start to $charters:stop ]
+          return
+          <div data-demoid="d1d9c05e-ebec-4a54-9490-15416a96293e">
+            <xrx:subwidget>
+              <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/charter-preview-my-collection</xrx:atomid>
+              <xrx:pass>
+                <xrx:parameter>
+                  <xrx:name>$constructor:charter</xrx:name>
+                  <xrx:expression>$entry</xrx:expression>
+                </xrx:parameter>
+              </xrx:pass>
+            </xrx:subwidget>
+          </div>
+          }
+          <div data-demoid="90e16725-b615-48c8-ac58-97093e9161f8">{ $block-navi-div }</div>
+        </div>
+      </xrx:view>
     </xrx:div>
   </xrx:divs>
-    <xrx:view>
-    <xrx:div>heading-div</xrx:div>
-    <xrx:div>my-functions-div</xrx:div>
-    <xrx:div>breadcrumb-div</xrx:div>    
-   <xrx:div>goto-search-div</xrx:div>
-    <xrx:div>year-navi-div</xrx:div>
-   <xrx:div>preface-link-div</xrx:div>
-   <xrx:div>preface-div</xrx:div>
-   <xrx:div>block-navi-div</xrx:div>
-  
-   <xrx:div>charter-preview-div</xrx:div>
-  </xrx:view>
 </xrx:widget>
