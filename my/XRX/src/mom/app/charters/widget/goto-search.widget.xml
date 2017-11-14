@@ -52,7 +52,7 @@ it leaves the active development stage.
   <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
  <xrx:view>
  {
- if($context='fond') then 
+ if($context='fond' and $xrx:tokenized-uri[last()] = 'fond') then 
  let $metadata-archive-collection := metadata:base-collection('archive', $id, 'public')
   let $eag := $metadata-archive-collection//eag:eag 
   let $archive-short-name := $eag//eag:repositorid/text()
@@ -96,7 +96,9 @@ it leaves the active development stage.
         </div>    
      )
        
-  else if($context='collection' and $xrx:tokenized-uri[last()] = 'images') then
+
+  else if($xrx:tokenized-uri[last()] = 'images' and $context='collection') then
+
       <div data-demoid="548bbfaa-a9ba-4ad8-aea2-cac5c7f5a76b" id="goto-anno-overview" class="goto">
         <div> <a href="{ conf:param('request-root') }{$id}/collection">
             <xrx:i18n>
@@ -112,16 +114,17 @@ it leaves the active development stage.
             </xrx:i18n>
             <span>  &gt;&gt;</span>
           </a>
+
      </div> 
     
     else(
     <div data-demoid="e423483e-df37-4787-87ab-4ce3a8947d56" id="goto-search" class="goto">
       <div> <a href="{ conf:param('request-root') }{ $id }/images?block=1">
-            <xrx:i18n>
+             <xrx:i18n>
               <xrx:key>image_preview</xrx:key>
               <xrx:default>Image preview</xrx:default>
             </xrx:i18n><span> &gt;&gt;</span>
-        </a>      
+        </a>     
     </div>
           <a href="{ conf:param('request-root') }{ $id }/annotation-overview">
             <xrx:i18n>
