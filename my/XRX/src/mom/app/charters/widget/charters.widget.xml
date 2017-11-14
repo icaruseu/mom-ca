@@ -80,10 +80,16 @@ text-decoration:none;
 }}
 
 #block-navi{{
-padding-bottom:30px;
+padding-bottom:20px;
 float:left;
 left:20px;
 }}
+
+#block-navi b a, #block-navi b span{{
+padding:5px;
+}}
+
+
 
 #goto-search{{
 margin-top:-3em;

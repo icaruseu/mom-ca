@@ -67,7 +67,7 @@ it leaves the active development stage.
       <xrx:expression>count($block-strings)</xrx:expression>
     </xrx:variable> 
   </xrx:variables> 
-  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal> 
  <xrx:view>
  <div data-demoid="e2a0a8ee-feb0-4385-aed2-2d69f63ad69e" id="block-navi">
         <b>
@@ -83,6 +83,7 @@ it leaves the active development stage.
             <xrx:key>charters</xrx:key>
             <xrx:default>Charters</xrx:default>
           </xrx:i18n>
+          <span>   </span>
           <span>   { $block-strings[$rblock] } </span>
           <span>   </span>
           {
