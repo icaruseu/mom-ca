@@ -530,7 +530,16 @@ span.block {{
           <div class="container" data-demoid="8664d24b-5f75-4afc-8e54-7a2ff0e8f78e">
             <div data-demoid="056c8482-16f7-4367-a477-a4168a56a4ce" id="ch{ $num }"/>
             <xrx:div>charter-link-div</xrx:div>
-            <xrx:div>charter-date-div</xrx:div>
+           <div data-demoid="d1d8cf39-ddcf-4fac-a6c9-a39875b2e24d">
+              <b>
+                <xrx:i18n>
+                  <xrx:key>date</xrx:key>
+                  <xrx:default>Date</xrx:default>
+                </xrx:i18n>
+                <span>: </span>
+              </b>
+              <span>{ $wcharter-preview:date }</span>
+            </div>
         
             <div data-demoid="f3a7d08c-8a7d-4d85-a8a3-ff80338cc28d">
               <b>
@@ -597,12 +606,9 @@ span.block {{
     (: $charter is the link to the single charters, distinguishes between collection and fond:)
     let $charter := if($constructor:charter-context='fond') then concat(conf:param('request-root'), $charter:rarchiveid, '/', $charter:rfondid, '/', xmldb:encode(charter:charterid(root($constructor:charter)//atom:id/text())) , '/charter') else($wcharter-preview:charter-url)
     return
-          <div class="bilder">
-  
-         
+          <div class="bilder">         
           <span class="meta ">
-          <div>
-                
+          <div>                
           <b>
             <xrx:i18n>
               <xrx:key>charter</xrx:key>
@@ -616,7 +622,16 @@ span.block {{
             </a>
           </span>
           </div>           
-            <xrx:div>charter-date-div</xrx:div>      
+            <div>
+              <b>
+                <xrx:i18n>
+                  <xrx:key>date</xrx:key>
+                  <xrx:default>Date</xrx:default>
+                </xrx:i18n>
+                <span>: </span>
+              </b>
+              <span>{ $wcharter-preview:date }</span>
+            </div>      
            <span>
             <b>
                 <xrx:i18n>
