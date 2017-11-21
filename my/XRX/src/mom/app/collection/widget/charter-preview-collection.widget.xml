@@ -103,8 +103,9 @@ it leaves the active development stage.
     <xrx:variable>
       <xrx:name>$wcharter-preview:charter-url</xrx:name>
       <xrx:expression>
-        if(not($wcharter-preview:islinked)) then 
-          concat(conf:param('request-root'), $charter:rcollectionid, '/', $wcharter-preview:id, '/charter') 
+        if(not($wcharter-preview:islinked) and $constructor:charter-context = 'collection') then 
+          concat(conf:param('request-root'), $charter:rcollectionid, '/', $wcharter-preview:id, '/charter')
+        else if($constructor:charter-context = 'fond') then concat(conf:param('request-root'), $charter:rarchiveid, '/', $charter:rfondid, '/', xmldb:encode(charter:charterid(root($constructor:charter)//atom:id/text())) , '/charter') 
         else
           concat(conf:param('request-root'), $charter:rcollectionid, '/charter?atomid=', $wcharter-preview:atom-id)
       </xrx:expression>
