@@ -1,10 +1,16 @@
 
  $(document).ready(function(){
 	 //informs user if the IIF-Server ist not available	
-    var nographic = "Sorry, service temporarily unavailable";   
-    $("img.thumbs").error(function(){    	  
-    		$(this).parents(".images").text(nographic);    
-    });  
+    var nographic = "Sorry, service temporarily unavailable";    
+    $("img.thumbs").error(function(){    
+    	$(this).parents("#imagebox").hide();
+    
+        var ausgabe = $(this).parents(".images");        	
+        	$(ausgabe).append('<span>' + nographic + '</span>');        
+   
+    }); 
+    
+    
 });
 
 function changeImage(url, num){

@@ -672,11 +672,20 @@ span.block {{
             </span>
             </div>          
           
-          else(       
+          else( 
+           <span class="block">
+                <xrx:i18n>
+                  <xrx:key>images</xrx:key>
+                  <xrx:default>Images</xrx:default>
+                </xrx:i18n>
+                <span>: </span>
+                 <span>{ $wcharter-preview:num-images }</span>
+          </span>, 
+               <span id="imagebox">
           <span title="{$ausgabe[1]}" class="bild"><img class="thumbs" src="{$ausgabe[1]}" alt="{$ausgabe[1]}" height="120" />              
-          </span>, <span title="{$ausgabe[2]}" class="bild"><img src="{$ausgabe[2]}" alt="{$ausgabe[2]}" height="120" />
-                   
-          </span>
+          </span> 
+          <span title="{$ausgabe[2]}" class="bild"><img src="{$ausgabe[2]}" alt="{$ausgabe[2]}" height="120" /></span>
+          </span>     
           )          
           }
           </span>

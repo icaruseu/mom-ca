@@ -8,7 +8,7 @@
     </xrx:i18n>
   </xrx:title>
   <xrx:subtitle/>
-  <xrx:description/>
+  <xrx:description>This widget is used as subwidget only. It is a block navigation through search results.</xrx:description>
   <xrx:author>maburg</xrx:author>
   <xrx:licence>
 This is a component file of the VdU Software for a Virtual Research
@@ -41,37 +41,37 @@ it leaves the active development stage.
   </xrx:licence>
   <xrx:constructor>
   <xrx:parameter>
-  <xrx:name>$rblock</xrx:name>
+  <xrx:name>$wblock-navi:block</xrx:name>
   <xrx:default>''</xrx:default>
   </xrx:parameter>  
   <xrx:parameter>
-    <xrx:name>$date-elements</xrx:name>
+    <xrx:name>$wblock-navi:date-elements</xrx:name>
     <xrx:default>''</xrx:default>  
   </xrx:parameter> 
   <xrx:parameter>
-  <xrx:name>$block-strings</xrx:name>
+  <xrx:name>$wblock-navi:block-strings</xrx:name>
   <xrx:default>''</xrx:default>
   </xrx:parameter> 
   </xrx:constructor>
   <xrx:variables>
      <xrx:variable>    
-      <xrx:name>$previous-block-pos</xrx:name>
-      <xrx:expression>if($rblock = 1) then 1 else $rblock - 1</xrx:expression>
+      <xrx:name>$wblock-navi:previous-block-pos</xrx:name>
+      <xrx:expression>if($wblock-navi:block = 1) then 1 else $wblock-navi:block - 1</xrx:expression>
     </xrx:variable>
    <xrx:variable>
-      <xrx:name>$next-block-pos</xrx:name>
-      <xrx:expression>if($rblock = count($date-elements) div 30) then 1 else $rblock + 1</xrx:expression>
+      <xrx:name>$wblock-navi:next-block-pos</xrx:name>
+      <xrx:expression>if($wblock-navi:block = count($wblock-navi:date-elements) div 30) then 1 else $wblock-navi:block + 1</xrx:expression>
     </xrx:variable> 
     <xrx:variable>
-      <xrx:name>$blocks-count</xrx:name>
-      <xrx:expression>count($block-strings)</xrx:expression>
+      <xrx:name>$wblock-navi:blocks-count</xrx:name>
+      <xrx:expression>count($wblock-navi:block-strings)</xrx:expression>
     </xrx:variable> 
   </xrx:variables> 
   <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal> 
  <xrx:view>
  <div data-demoid="e2a0a8ee-feb0-4385-aed2-2d69f63ad69e" id="block-navi">
         <b>
-          <a href="?block={ $previous-block-pos }">
+          <a href="?block={ $wblock-navi:previous-block-pos }">
             <span>&lt; </span>
             <xrx:i18n>
               <xrx:key>previous</xrx:key>
@@ -84,11 +84,11 @@ it leaves the active development stage.
             <xrx:default>Charters</xrx:default>
           </xrx:i18n>
           <span>   </span>
-          <span>   { $block-strings[$rblock] } </span>
+          <span>   { $wblock-navi:block-strings[$wblock-navi:block] } </span>
           <span>   </span>
           {
-          if($rblock lt $blocks-count) then
-          <a href="?block={ $next-block-pos}">
+          if($wblock-navi:block lt $wblock-navi:blocks-count) then
+          <a href="?block={ $wblock-navi:next-block-pos}">
             <xrx:i18n>
               <xrx:key>next</xrx:key>
               <xrx:default>next</xrx:default>
