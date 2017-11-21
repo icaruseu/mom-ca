@@ -228,7 +228,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	       </xrx:parameter>
 	        <xrx:parameter>
           <xrx:name>$wbreadcrumb:charter-context-short-name</xrx:name>
-            <xrx:expression>if($wcollection:type='fond') then $charter:rarchiveid else($wcharters:charter-context-short-name)</xrx:expression>  
+            <xrx:expression>if($wcollection:type='fond') then $charter:rarchiveid else($wcharters:charter-context-short-name)</xrx:expression> 
            </xrx:parameter>
 	        </xrx:pass>        
         </xrx:subwidget>   
