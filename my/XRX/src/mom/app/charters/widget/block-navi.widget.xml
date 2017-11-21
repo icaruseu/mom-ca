@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/block-navi</xrx:id>   
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description>This widget is used as subwidget only. It is a block navigation through search results.</xrx:description>
+  <xrx:author>maburg</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more
+lenient towards the inclusion of components into other systems, once
+it leaves the active development stage.
+  </xrx:licence>
+  <xrx:constructor>
+  <xrx:parameter>
+  <xrx:name>$wblock-navi:block</xrx:name>
+  <xrx:default>''</xrx:default>
+  </xrx:parameter>  
+  <xrx:parameter>
+    <xrx:name>$wblock-navi:date-elements</xrx:name>
+    <xrx:default>''</xrx:default>  
+  </xrx:parameter> 
+  <xrx:parameter>
+  <xrx:name>$wblock-navi:block-strings</xrx:name>
+  <xrx:default>''</xrx:default>
+  </xrx:parameter> 
+  </xrx:constructor>
+  <xrx:variables>
+     <xrx:variable>    
+      <xrx:name>$wblock-navi:previous-block-pos</xrx:name>
+      <xrx:expression>if($wblock-navi:block = 1) then 1 else $wblock-navi:block - 1</xrx:expression>
+    </xrx:variable>
+   <xrx:variable>
+      <xrx:name>$wblock-navi:next-block-pos</xrx:name>
+      <xrx:expression>if($wblock-navi:block = count($wblock-navi:date-elements) div 30) then 1 else $wblock-navi:block + 1</xrx:expression>
+    </xrx:variable> 
+    <xrx:variable>
+      <xrx:name>$wblock-navi:blocks-count</xrx:name>
+      <xrx:expression>count($wblock-navi:block-strings)</xrx:expression>
+    </xrx:variable> 
+  </xrx:variables> 
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal> 
+ <xrx:view>
+ <div data-demoid="e2a0a8ee-feb0-4385-aed2-2d69f63ad69e" id="block-navi">
+        <b>
+          <a href="?block={ $wblock-navi:previous-block-pos }">
+            <span>&lt; </span>
+            <xrx:i18n>
+              <xrx:key>previous</xrx:key>
+              <xrx:default>previous</xrx:default>
+            </xrx:i18n>
+          </a>
+          <span>   </span>
+          <xrx:i18n>
+            <xrx:key>charters</xrx:key>
+            <xrx:default>Charters</xrx:default>
+          </xrx:i18n>
+          <span>   </span>
+          <span>   { $wblock-navi:block-strings[$wblock-navi:block] } </span>
+          <span>   </span>
+          {
+          if($wblock-navi:block lt $wblock-navi:blocks-count) then
+          <a href="?block={ $wblock-navi:next-block-pos}">
+            <xrx:i18n>
+              <xrx:key>next</xrx:key>
+              <xrx:default>next</xrx:default>
+            </xrx:i18n>
+            <span> &gt;</span>
+          </a>
+          else()
+          }
+        </b>
+      </div>
+  </xrx:view>
+</xrx:widget>

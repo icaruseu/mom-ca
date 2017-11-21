@@ -80,10 +80,16 @@ text-decoration:none;
 }}
 
 #block-navi{{
-padding-bottom:30px;
+padding-bottom:20px;
 float:left;
 left:20px;
 }}
+
+#block-navi b a, #block-navi b span{{
+padding:5px;
+}}
+
+
 
 #goto-search{{
 margin-top:-3em;
@@ -128,19 +134,19 @@ div.clear {{
       <div data-demoid="e2a0a8ee-feb0-4385-aed2-2d69f63ad69e" id="block-navi">
         <b>
           <a href="?block={ $wcharters:previous-block-pos }">
-            <span>&lt; </span>
+            <span>&lt; </span>
             <xrx:i18n>
               <xrx:key>previous</xrx:key>
               <xrx:default>previous</xrx:default>
             </xrx:i18n>
           </a>
-          <span>   </span>
+          <span>   </span>
           <xrx:i18n>
             <xrx:key>charters</xrx:key>
             <xrx:default>Charters</xrx:default>
           </xrx:i18n>
-          <span>   { $wcharters:block-strings[$charters:rblock] } </span>
-          <span>   </span>
+          <span>   { $wcharters:block-strings[$charters:rblock] } </span>
+          <span>   </span>
           {
           if($charters:rblock lt $wcharters:blocks-count) then
           <a href="?block={ $wcharters:next-block-pos }">
@@ -148,7 +154,7 @@ div.clear {{
               <xrx:key>next</xrx:key>
               <xrx:default>next</xrx:default>
             </xrx:i18n>
-            <span> &gt;</span>
+            <span> &gt;</span>
           </a>
           else()
           }
@@ -188,7 +194,7 @@ div.clear {{
           </div>
         </div>
         {
-        if(request:get-parameter('block', '') = '' and $wcharters:preface-exists ) then
+        if(request:get-parameter('block', '') = '' and $wcharters:preface-exists) then
         <xrx:div>preface-div</xrx:div>
         else
         <xrx:div>charter-preview-div</xrx:div>
