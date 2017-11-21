@@ -76,14 +76,14 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:name>$wcharters:charter-context-short-name</xrx:name>
       <xrx:expression>($wcharters:metadata-charter-context-entry//cei:provenance/@abbr/string(),$wcharters:charter-context-name)[1]</xrx:expression>
     </xrx:variable>
-    <xrx:variable><xrx:name>$shortname-fond</xrx:name>
-    <xrx:expression>if($wcharter:context = 'fond') then $xrx:tokenized-uri[2] else()</xrx:expression>
+    <xrx:variable><xrx:name>$shortname-archive</xrx:name>
+    <xrx:expression>if($wcharter:context = 'fond') then $charter:rarchiveid else()</xrx:expression>
     </xrx:variable>
 
     <!-- charter base collection -->
     <xrx:variable>
       <xrx:name>$wcharters:metadata-charter-collection</xrx:name>
-      <xrx:expression>(metadata:base-collection('charter', $charter:rcollectionid, 'public'))</xrx:expression>
+      <xrx:expression>if ($wcharter:context = 'fond') then metadata:base-collection('charter', ($charter:rarchiveid, $charter:rfondid), 'public') else(metadata:base-collection('charter', $charter:rcollectionid, 'public'))</xrx:expression>
     </xrx:variable>
     <!-- block-wise navigation -->  
     <xrx:variable> 
@@ -216,20 +216,24 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
         </div>
       </xrx:view>
     </xrx:div>
-    <xrx:div>
+ <xrx:div>
       <xrx:key>breadcrumb-div</xrx:key>
       <xrx:view>       
      <xrx:subwidget>
         <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/breadcrumb</xrx:atomid>
         <xrx:pass>
          <xrx:parameter>
-        <xrx:name>$context</xrx:name>
+        <xrx:name>$wbreadcrumb:context</xrx:name>
           <xrx:expression>$wcollection:type</xrx:expression>
 	       </xrx:parameter>
+	        <xrx:parameter>
+          <xrx:name>$wbreadcrumb:charter-context-short-name</xrx:name>
+            <xrx:expression>if($wcollection:type='fond') then $charter:rarchiveid else($wcharters:charter-context-short-name)</xrx:expression>  
+           </xrx:parameter>
 	        </xrx:pass>        
         </xrx:subwidget>   
       </xrx:view>
-    </xrx:div>   
+    </xrx:div>
     <xrx:div>
       <xrx:key>charter-preview-div</xrx:key>
       <xrx:view>
@@ -267,22 +271,22 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
         </div>
       </xrx:view>
     </xrx:div>
-     <xrx:div>
+    <xrx:div>
   <xrx:key>block-navi-div</xrx:key>
   <xrx:view>
   <xrx:subwidget>
   <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/block-navi</xrx:atomid>
   <xrx:pass>
    <xrx:parameter>
-              <xrx:name>$rblock</xrx:name>
+              <xrx:name>$wblock-navi:block</xrx:name>
               <xrx:expression>$charters:rblock</xrx:expression>
  </xrx:parameter>
    <xrx:parameter>
-    <xrx:name>$date-elements</xrx:name>
+    <xrx:name>$wblock-navi:date-elements</xrx:name>
     <xrx:expression>img:years($wcharters:metadata-charter-collection)</xrx:expression>    
   </xrx:parameter>
       <xrx:parameter>
-      <xrx:name>$block-strings</xrx:name>
+      <xrx:name>$wblock-navi:block-strings</xrx:name>
       <xrx:expression>$wcharters:block-strings</xrx:expression>
     </xrx:parameter>
   </xrx:pass>
@@ -296,11 +300,11 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/year-navi</xrx:atomid>
               <xrx:pass>
               <xrx:parameter>
-              <xrx:name>$rblock</xrx:name>
+              <xrx:name>$wyear-navi:block</xrx:name>
               <xrx:expression>$charters:rblock</xrx:expression>
               </xrx:parameter>
                    <xrx:parameter>
-      <xrx:name>$block-strings</xrx:name>
+      <xrx:name>$wyear-navi:block-strings</xrx:name>
       <xrx:expression>$wcharters:block-strings</xrx:expression>
     </xrx:parameter>
               </xrx:pass>       
@@ -314,11 +318,11 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/goto-search</xrx:atomid>
         <xrx:pass>
               <xrx:parameter>
-              <xrx:name>$context</xrx:name>
+              <xrx:name>$wgoto-search:context</xrx:name>
               <xrx:expression>$wcollection:type</xrx:expression>
               </xrx:parameter>
                 <xrx:parameter>
-              <xrx:name>$id</xrx:name>
+              <xrx:name>$wgoto-search:id</xrx:name>
               <xrx:expression>if($wcollection:type = 'fond') then $charter:rarchiveid else($charter:rcollectionid)</xrx:expression>
               </xrx:parameter>
               

@@ -316,11 +316,11 @@ it leaves the active development stage.
               <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/goto-search</xrx:atomid>
         <xrx:pass>
               <xrx:parameter>
-              <xrx:name>$context</xrx:name>
+              <xrx:name>$wgoto-search:context</xrx:name>
               <xrx:expression>'fond'</xrx:expression>
               </xrx:parameter>
                 <xrx:parameter>
-              <xrx:name>$id</xrx:name>
+              <xrx:name>$wgoto-search:id</xrx:name>
               <xrx:expression>$charter:rarchiveid</xrx:expression>
               </xrx:parameter>
               

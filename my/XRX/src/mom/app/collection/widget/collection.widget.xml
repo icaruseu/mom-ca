@@ -311,11 +311,11 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/goto-search</xrx:atomid>
      <xrx:pass>
               <xrx:parameter>
-              <xrx:name>$context</xrx:name>
+              <xrx:name>$wgoto-search:context</xrx:name>
               <xrx:expression>'collection'</xrx:expression>
               </xrx:parameter>
                 <xrx:parameter>
-              <xrx:name>$id</xrx:name>
+              <xrx:name>$wgoto-search:id</xrx:name>
               <xrx:expression>$charter:rcollectionid</xrx:expression>
               </xrx:parameter>              
       </xrx:pass>

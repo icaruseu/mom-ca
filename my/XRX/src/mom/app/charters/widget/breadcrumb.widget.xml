@@ -8,7 +8,7 @@
     </xrx:i18n>
   </xrx:title>
   <xrx:subtitle/>
-  <xrx:description/>
+  <xrx:description>This widget is used as subwidget only. It is a breadcrumb navigation</xrx:description>
   <xrx:author>maburg</xrx:author>
   <xrx:licence>
 This is a component file of the VdU Software for a Virtual Research
@@ -41,23 +41,23 @@ it leaves the active development stage.
   </xrx:licence>
   <xrx:constructor>
   <xrx:parameter>
-  <xrx:name>$context</xrx:name>
+  <xrx:name>$wbreadcrumb:context</xrx:name>
   <xrx:default>''</xrx:default>
   </xrx:parameter>  
-   <xrx:parameter>
-    <xrx:name>$context-shortname</xrx:name>
+  <xrx:parameter>
+    <xrx:name>$wbreadcrumb:charter-context-short-name</xrx:name>
     <xrx:default>''</xrx:default>  
-  </xrx:parameter> 
+  </xrx:parameter>
   </xrx:constructor>
     <xrx:variables>
-    <xrx:variable><xrx:name>$shortname-fond</xrx:name>
-    <xrx:expression>if($context = 'fond') then $xrx:tokenized-uri[2] else()</xrx:expression>
+    <xrx:variable><xrx:name>$wbreadcrumb:shortname-fond</xrx:name>
+    <xrx:expression>if($wbreadcrumb:context = 'fond') then $charter:rfondid else()</xrx:expression>
     </xrx:variable>
   </xrx:variables> 
   <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
    <xrx:view>
 <div data-demoid="55a90db0-7890-416c-958f-ae0e9b367304" id="breadcrumb">
-        {if ($wcharter:context = 'fond') then
+        {if ($wbreadcrumb:context = 'fond') then
           <div>
           <a href="{ conf:param('request-root') }fonds">
             <xrx:i18n>
@@ -66,9 +66,9 @@ it leaves the active development stage.
             </xrx:i18n>
           </a>
           <span> &gt; </span>
-          <a href="archive">{ $wcharters:charter-context-short-name }</a>
+          <a href="archive">{ $wbreadcrumb:charter-context-short-name }</a>
           <span> &gt;</span>
-          <a href="fonds">{ $shortname-fond }</a>        
+          <a href="fonds">{ $wbreadcrumb:shortname-fond }</a>        
           </div>
         else(
         <div>
@@ -79,7 +79,7 @@ it leaves the active development stage.
             </xrx:i18n>
           </a>
            <span> &gt; </span>
-          <a href="collection">{ $wcharters:charter-context-short-name }</a>
+          <a href="collection">{ $wbreadcrumb:charter-context-short-name }</a>
           </div>       
         )        
         }
@@ -87,8 +87,9 @@ it leaves the active development stage.
         
         {
           let $fond-atomids := $wcharters:metadata-charter-context-collection//cei:text[@type='fond']/@id/string()
+          let $block := request:get-parameter('block', '')
           return
-          if(count($fond-atomids) gt 0 and ($wcharters:block = -1 or ($wcharters:block = 1))) then
+          if(count($fond-atomids) gt 0 and ($block = -1 or ($block = 1))) then
           <div data-demoid="fee1f30f-ebdd-4135-975c-458112e6c88e" id="dlinked-archives" style="float:none;margin-top:15px">
             <xrx:i18n>
               <xrx:key>collection-contains-charters-of-archival-fonds</xrx:key>
