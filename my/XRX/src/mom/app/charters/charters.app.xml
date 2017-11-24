@@ -338,5 +338,20 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:mode>mainwidget</xrx:mode>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/oai-import</xrx:atomid>
     </xrx:map>
+      <xrx:map>
+      <xrx:uripattern>/year-navi</xrx:uripattern>
+      <xrx:mode>mainwidget</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/year-navi</xrx:atomid>
+    </xrx:map>
+       <xrx:map>
+      <xrx:uripattern>/block-navi</xrx:uripattern>
+      <xrx:mode>mainwidget</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/block-navi</xrx:atomid>
+    </xrx:map>
+         <xrx:map>
+      <xrx:uripattern>/goto-search</xrx:uripattern>
+      <xrx:mode>mainwidget</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/goto-search</xrx:atomid>
+    </xrx:map>   
   </xrx:resolver>
 </xrx:app>
