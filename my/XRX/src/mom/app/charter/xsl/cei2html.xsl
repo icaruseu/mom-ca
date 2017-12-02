@@ -197,7 +197,7 @@
             <xsl:when test="$cei//cei:witnessOrig/cei:physicalDesc/cei:decoDesc/cei:p != ''">
                 <div id="witList" style="display:none"/>
             </xsl:when>
-            <xsl:when test="$ordered-witListPar/cei:witness/* != ''">
+            <xsl:when test="$ordered-witListPar/cei:witness//text() != ''">
                 <div id="witList">
                     <xsl:for-each select="$ordered-witListPar/cei:witness">
                         <!-- <xsl:value-of select="position()"/> -->
