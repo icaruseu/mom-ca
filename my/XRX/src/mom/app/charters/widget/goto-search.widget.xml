@@ -92,18 +92,19 @@ it leaves the active development stage.
 
       <div data-demoid="548bbfaa-a9ba-4ad8-aea2-cac5c7f5a76b" id="goto-anno-overview" class="goto">
         <div>
-         { if($xrx:tokenized-uri[last()]='images') then
-        <a href="{ conf:param('request-root') }{$wgoto-search:id}/collection">
-            <xrx:i18n>
-              <xrx:key>collection_preview</xrx:key>
-              <xrx:default>Collection preview</xrx:default>
-            </xrx:i18n><span> &gt;&gt;</span>
-        </a> 
-        else(
-        <a href="{ conf:param('request-root') }{ $wgoto-search:id }/images?block=1">
+         { if($xrx:tokenized-uri[last()]='collection') then
+         <a href="{ conf:param('request-root') }{ $wgoto-search:id }/images?block=1">
              <xrx:i18n>
               <xrx:key>image_preview</xrx:key>
               <xrx:default>Image preview</xrx:default>
+            </xrx:i18n><span> &gt;&gt;</span>
+        </a>
+       
+        else(
+       <a href="{ conf:param('request-root') }{$wgoto-search:id}/collection">
+            <xrx:i18n>
+              <xrx:key>collection_preview</xrx:key>
+              <xrx:default>Collection preview</xrx:default>
             </xrx:i18n><span> &gt;&gt;</span>
         </a> 
         )  }   
@@ -118,10 +119,10 @@ it leaves the active development stage.
      </div>    
     else( <div data-demoid="548bbfaa-a9ba-4ad8-aea2-cac5c7f5a76b" id="goto-anno-overview" class="goto">
         <div>        
-        <a href="{ conf:param('request-root') }{ $wgoto-search:id }/images?block=1">
-             <xrx:i18n>
-              <xrx:key>image_preview</xrx:key>
-              <xrx:default>Image preview</xrx:default>
+        <a href="{ conf:param('request-root') }{$wgoto-search:id}/collection">
+            <xrx:i18n>
+              <xrx:key>collection_preview</xrx:key>
+              <xrx:default>Collection preview</xrx:default>
             </xrx:i18n><span> &gt;&gt;</span>
         </a>         
       </div>

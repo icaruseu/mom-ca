@@ -60,6 +60,7 @@ margin:0px;
 margin-bottom:20px;
 }}
 
+
 #year-navi{{
 position:relative;
 float:left;
@@ -68,6 +69,7 @@ margin:0px;
 margin-top:0px;
 padding-right:37px;
 }}
+
 
 .year-list{{
 margin:10px;

@@ -121,11 +121,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <style type="text/css">
  
 
-    #year-navi {{
+   #year-navi {{
     position:relative;
     width:10%;
-    float:left;
+    float:left;   
     }}
+    
     #year-navi div.block {{
     padding: 0.5em;
     }}
@@ -137,8 +138,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     font-size:0.8em;
     margin-top:3em;
     margin-left:2em;
-    }}  
-    
+    }} 
+ 
     .meta {{
     position:relative;
     float:left;
@@ -338,6 +339,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
    <xrx:div>block-navi-div</xrx:div>
    <xrx:div>year-navi-div</xrx:div>
    <xrx:div>charter-preview-div</xrx:div>
+   <xrx:div>block-navi-div</xrx:div>
   </xrx:view>
 </xrx:widget>
 

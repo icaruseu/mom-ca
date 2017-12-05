@@ -105,7 +105,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:expression>count($wcharters:block-strings)</xrx:expression>
     </xrx:variable>
   </xrx:variables>
-  <xrx:csss>
+<!--   <xrx:csss>
    <style type="text/css">
 div.clear {{
   clear:both;
@@ -113,10 +113,10 @@ div.clear {{
 
 #year-navi{{
 position:relative;
-float:left;
+/*float:left;*/
 width:120px;
 margin:0px;
-margin-top:100px;
+/*margin-top:100px;*/
 margin-right:20px;
 }}
 
@@ -132,8 +132,8 @@ text-decoration:none;
 
 #block-navi{{
 padding-bottom:30px;
-float:left;
-left:20px;
+/*float:left;
+left:20px;*/
 }}
 
 #block-navi b a, #block-navi b span{{
@@ -147,7 +147,7 @@ float:left;
 }}*/
 
 </style>
-  </xrx:csss>   
+  </xrx:csss>  -->  
      <xrx:jss>   
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
@@ -167,10 +167,21 @@ float:left;
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrx</xrx:resource>
   </xrx:jss>
   <xrx:divs>
-    <xrx:div>        
+    <xrx:div>
       <xrx:key>heading-div</xrx:key>
       <xrx:view>
-        <div class="h2" data-demoid="ddb0a0e1-18be-46ff-9076-f78bb0b54cd8">
+        <div class="h2" data-demoid="f108b227-0e76-478a-9703-f60701ec03ca">
+          <script type="text/javascript">
+          $(document).ready(function (){{
+          console.log("einfügen von clear in collection widget.xml");
+          $("div#heading").insertAfter("div#breadcrumb");
+          $('<div class="clear"></div>').insertAfter("div.my-functions");
+         $('<div class="clear"></div>').insertBefore("div.my-functions");
+          $('<div class="clear"></div>').insertBefore("div#year-navi");
+          
+          }});
+          </script>    
+       
           <span>
             <xrx:i18n>
               <xrx:key>my-collection-preview</xrx:key>
@@ -193,14 +204,7 @@ float:left;
             </xrx:rule>
           </xrx:rules>
           <xrx:true>
-            <div class="my-functions" data-demoid="bc3be704-de79-4c0c-9495-6671b758a988">
-             <script type="text/javascript">
-          $(document).ready(function (){{         
-          $('<div class="clear"></div>').insertAfter("div.my-functions");
-          $("div#year-navi").insertAfter("div#heading");
-                            
-          }});
-          </script>
+            <div class="my-functions" data-demoid="bc3be704-de79-4c0c-9495-6671b758a988">          
               <h3>
                 <xrx:i18n>
                   <xrx:key>my-functions</xrx:key>
