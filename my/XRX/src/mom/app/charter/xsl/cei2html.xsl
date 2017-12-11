@@ -1450,9 +1450,9 @@
         </div>
     </xsl:template>
     <!-- handling notes (they are assumed to be notes by the editor -->
-    <xsl:template match="cei:note[not(parent::cei:divNotes)]">
+    <xsl:template match="cei:note[not(ancestor::cei:back)]">
         <!-- inline-note: display the reference to a note  -->
-        <a id="backlink_{generate-id()}" class="fn-link" href="#{generate-id()}"><xsl:value-of select="count(preceding::cei:note[not(parent::cei:divNotes)])+1"/></a>
+        <a id="backlink_{generate-id()}" class="fn-link" href="#{generate-id()}"><xsl:value-of select="count(preceding::cei:note[not(ancestor::cei:back)])+1"/></a>
     </xsl:template>
     <xsl:template match="cei:note" priority="-1" mode="content">
         <!-- display the text of an inline-note -->
@@ -1460,7 +1460,7 @@
             <xsl:attribute name="id">
                 <xsl:value-of select="generate-id()"/>
             </xsl:attribute>
-            <a class="fn-link" href="#backlink_{generate-id()}"><xsl:value-of select="count(preceding::cei:note[not(parent::cei:divNotes)])+1"/></a><xsl:text> </xsl:text>
+            <a class="fn-link" href="#backlink_{generate-id()}"><xsl:value-of select="count(preceding::cei:note[not(ancestor::cei:back)])+1"/></a><xsl:text> </xsl:text>
             <xsl:apply-templates/>
         </div>
     </xsl:template>
