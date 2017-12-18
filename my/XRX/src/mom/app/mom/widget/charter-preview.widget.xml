@@ -641,8 +641,22 @@ span.block {{
                 <span>: </span>
               </b><span>{$short}</span>
           </span>
-          <xrx:div>view-charter-link-div</xrx:div>
-          </span>                   
+         <div> <!-- view-charter-link-div removed because of inherited values -->
+          <a href="{ $charter }">
+            <xrx:i18n>
+              <xrx:key>view-charter</xrx:key>
+              <xrx:default>View Charter</xrx:default>
+            </xrx:i18n>
+          </a>
+          <br/>
+          <a href="{ conf:param('request-root')}service/pdf-export?id={ xmldb:encode($wcharter-preview:atom-id) }&amp;lang={ $xrx:lang }" target="blank">
+            <xrx:i18n>
+              <xrx:key>pdf-export</xrx:key>
+              <xrx:default>PDF- Export</xrx:default>
+            </xrx:i18n>
+          </a>          
+          </div>
+           </span>                  
            <span class= "images">
           {
           let $bilder := img:suchebilder($constructor:charter)          
