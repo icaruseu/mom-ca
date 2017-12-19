@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/error</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>error</xrx:key>
+      <xrx:default>Error</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>JBigalke@smail.uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more
+lenient towards the inclusion of components into other systems, once
+it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>
+    <xrx:variable>
+        <xrx:name>$uri</xrx:name>
+        <xrx:expression>request:get-uri()</xrx:expression>
+    </xrx:variable> 
+    <xrx:variable>
+        <xrx:name>$tokenized-uri</xrx:name>
+        <xrx:expression>tokenize($uri, "/")</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+        <xrx:name>$content-type</xrx:name>
+        <xrx:expression>error:content-type($uri)</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+  <xrx:init>
+      <xrx:processor>
+      <xrx:xformsflag>true</xrx:xformsflag>
+      <xrx:jqueryflag>true</xrx:jqueryflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:view>
+   <div id="headline">
+   <h1>Error</h1>
+   </div>
+  <div id="error-content">
+   {
+   if($content-type="collection") then <div>Collection not found</div>
+   else if($content-type="charter") then <div>Charter not found {
+		if(count($tokenized-uri)=6) then <a href="/mom/{concat($tokenized-uri[3],'/',$tokenized-uri[4],'/fond')}">go back to fond</a>
+		else(<a href="/mom/{concat($tokenized-uri[3],'/collection')}">go back to collection</a>)}</div>
+   else if($content-type="fond") then <div>Fond not found <a href="/mom/{concat($tokenized-uri[3],'/archive')}">go back to archive</a></div>
+   else if($content-type="archive") then <div>Archive not found</div>
+   else(<div>Content not found</div>
+    )
+    }
+    </div>
+   </xrx:view>
+</xrx:widget>
