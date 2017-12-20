@@ -65,13 +65,61 @@ it leaves the active development stage.
    </div>
   <div id="error-content">
    {
-   if($content-type="collection") then <div>Collection not found</div>
-   else if($content-type="charter") then <div>Charter not found {
-		if(count($tokenized-uri)=6) then <a href="/mom/{concat($tokenized-uri[3],'/',$tokenized-uri[4],'/fond')}">go back to fond</a>
-		else(<a href="/mom/{concat($tokenized-uri[3],'/collection')}">go back to collection</a>)}</div>
-   else if($content-type="fond") then <div>Fond not found <a href="/mom/{concat($tokenized-uri[3],'/archive')}">go back to archive</a></div>
-   else if($content-type="archive") then <div>Archive not found</div>
-   else(<div>Content not found</div>
+   if($content-type="collection") then <div>
+   										<xrx:i18n>
+   										 <xrx:key>collection_not_found</xrx:key>
+   									     <xrx:default>Collection not found</xrx:default>
+   									    </xrx:i18n>
+   									    <span>.</span>
+   									   </div>
+   else if($content-type="charter") then 
+   									<div>
+   										<xrx:i18n>
+   										 <xrx:key>charter_not_found</xrx:key>
+   									     <xrx:default>Charter not found</xrx:default>
+   									    </xrx:i18n>
+   									    <span>: </span>
+   									     {
+		if(count($tokenized-uri)=6) then <a href="/mom/{concat($tokenized-uri[3],'/',$tokenized-uri[4],'/fond')}">
+											<xrx:i18n>
+											  <xrx:key>go_back_to_fond</xrx:key>
+											  <xrx:default>Go back to fond</xrx:default>
+											</xrx:i18n>
+									     </a>
+									else(<a href="/mom/{concat($tokenized-uri[3],'/collection')}">
+											<xrx:i18n>
+												<xrx:key>go_back_to_collection</xrx:key>
+												<xrx:default>Go back to fond</xrx:default>
+											</xrx:i18n>
+										</a>
+									)}</div>
+   else if($content-type="fond") then <div>
+   										<xrx:i18n>
+   										 <xrx:key>fond_not_found</xrx:key>
+   									     <xrx:default>Fond not found</xrx:default>
+   									    </xrx:i18n>
+   									    <span>: </span>
+   									    <a href="/mom/{concat($tokenized-uri[3],'/archive')}">
+   									    	<xrx:i18n>
+   										 	 <xrx:key>go_back_to_archive</xrx:key>
+   									    	 <xrx:default>Go back to archive</xrx:default>
+   									    	</xrx:i18n>
+   									    </a>
+   									   </div>
+   else if($content-type="archive") then <div>   									    	
+   									        <xrx:i18n>
+   										 	 <xrx:key>archive_not_found</xrx:key>
+   									    	 <xrx:default>Archive not found</xrx:default>
+   									    	</xrx:i18n>
+   									    	<span>.</span>
+   									    </div>
+   else(<div>   									        
+   		 <xrx:i18n>
+   		  <xrx:key>content_not_found</xrx:key>
+   		  <xrx:default>Content not found</xrx:default>
+   		 </xrx:i18n>
+   		 <span>.</span>
+   		</div>
     )
     }
     </div>
