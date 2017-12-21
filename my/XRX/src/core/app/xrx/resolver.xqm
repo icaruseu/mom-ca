@@ -81,7 +81,6 @@ declare function resolver:check-charter($tokenized-uri){
 declare function resolver:check-archive($tokenized-uri){
     let $archive-atomid := concat("tag:www.monasterium.net,2011:/archive/",$tokenized-uri[last()-1])
     let $archive := collection("/db/mom-data/metadata.archive.public")//atom:id[.=$archive-atomid]
-    let $debug := util:log("ERROR", $archive)
     return 
         if(empty($archive)) then (let $found-archive := "false" return $found-archive)
         else (let $found-archive := "true" return $found-archive)
