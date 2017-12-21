@@ -76,8 +76,17 @@ declare function charters:ruri-tokens() as xs:string* {
   charter view
 :)
 declare function charters:years($charter-base-collection) {
-
-    for $year in $charter-base-collection//cei:text//cei:issued/(cei:date/@value|cei:dateRange/@from)
+ 
+    for $year in $charter-base-collection//cei:text//cei:issued/(
+      cei:date/@value[
+        not(../../cei:dateRange) 
+        or . lt ../../cei:dateRange/@from
+        or . = ../../cei:dateRange/@from]
+      |
+      cei:dateRange/@from[
+        not(../../cei:date) 
+        or . lt ../../cei:date/@value]
+    )
     order by xs:integer($year)
     return
     $year    
