@@ -73,7 +73,7 @@ declare function resolver:is-resource-existing() as xs:boolean {
 };
 
 (: Tests whether or not a mycollection as indicated by a request is existing :)
-declare function resolver:is-mycollection-existing($uri-tokens as xs:string*) as xs:string {
+declare function resolver:is-mycollection-existing($uri-tokens as xs:string*) as xs:boolean {
     let $mycollection-atomid-string := "tag:www.monasterium.net,2011:/mycollection/" || $uri-tokens[last()-1]
     let $mycollection-atomid := collection("/db/mom-data/xrx.user")//atom:id[. = $mycollection-atomid-string]
     return
