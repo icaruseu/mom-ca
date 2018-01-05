@@ -70,8 +70,12 @@ return $result
 
 
 declare function resolver:check-charter($tokenized-uri){
-    let $charter-atomid := concat("tag:www.monasterium.net,2011:/charter/",$tokenized-uri[last()-2],"/", $tokenized-uri[last()-1])
+    let $charter-atomid := 
+        if(count($tokenized-uri)=6) then (concat("tag:www.monasterium.net,2011:/charter/",$tokenized-uri[last()-3],"/",$tokenized-uri[last()-2],"/", $tokenized-uri[last()-1]))   
+        else(concat("tag:www.monasterium.net,2011:/charter/",$tokenized-uri[last()-2],"/", $tokenized-uri[last()-1]))
     let $charter := collection("/db/mom-data/metadata.charter.public")//atom:id[.=$charter-atomid]
+    let $debug2 := util:log("ERROR", count($tokenized-uri))
+    let $debug := util:log("ERROR", $charter)
     return
         if (empty($charter)) then (let $found-charter := "false" return $found-charter)
     else (let $found-charter := "true" return $found-charter)
