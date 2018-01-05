@@ -1,4 +1,5 @@
 xquery version "3.0";
+
 (:~
 This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
 
@@ -25,9 +26,11 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 
 module namespace resolver="http://www.monasterium.net/NS/resolver";
 
+declare namespace request="http://exist-db.org/xquery/request";
 declare namespace xrx="http://www.monasterium.net/NS/xrx";
-declare namespace atom="http://www.w3.org/2005/Atom";
 
+(: Resolves to the requested resource or an error page if the current request is requesting a non-existing mom-ca
+ : resource like a invalid charter url :)
 declare function resolver:resolve($live-project-db-base-collection) as element()* {
     let $first-match :=
         (
@@ -39,80 +42,48 @@ declare function resolver:resolve($live-project-db-base-collection) as element()
                 $uri-pattern/parent::xrx:map
             else()
         )[1]
-        
-        let $test := resolver:start-check()        
-        let $result := 
-        if ($test = "false") then <xrx:map><xrx:uripattern>/error$</xrx:uripattern><xrx:mode>mainwidget</xrx:mode><xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/error</xrx:atomid></xrx:map> 
-        else $first-match
-        
-        return
-    $result
-};
-
-
-
-declare function resolver:start-check(){
-    let $uri := request:get-uri()
-    let $sub-uri := substring-after($uri, "mom/")
-    let $tokenized-uri := tokenize($uri, "/")
-    let $uripattern := $tokenized-uri[last()]
-
-    let $result :=
-    switch($uripattern)
-    case "charter" return resolver:check-charter($tokenized-uri)
-    case "collection" return resolver:check-collection($tokenized-uri)
-    case "fond" return resolver:check-fond($tokenized-uri)
-    case "archive" return resolver:check-archive($tokenized-uri)
-    default return "true"
-    return $result
-};
-
-
-declare function resolver:check-charter($tokenized-uri){
-    let $charter-atomid :=
-        if(count($tokenized-uri)=6) then
-            concat("tag:www.monasterium.net,2011:/charter/", $tokenized-uri[last()-3], "/", $tokenized-uri[last()-2], "/",  $tokenized-uri[last()-1])
-        else
-            concat("tag:www.monasterium.net,2011:/charter/", $tokenized-uri[last()-2], "/", $tokenized-uri[last()-1])
-    let $charter := collection("/db/mom-data/metadata.charter.public")//atom:id[. = $charter-atomid]
     return
-        if (empty($charter)) then
-            "false"
+        if (resolver:is-resource-existing()) then
+            $first-match
         else
-            "true"
+            <xrx:map>
+                <xrx:uripattern>/error$</xrx:uripattern>
+                <xrx:mode>mainwidget</xrx:mode>
+                <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/error</xrx:atomid>
+            </xrx:map>
 };
 
-declare function resolver:check-archive($tokenized-uri){
-    let $archive-atomid := concat("tag:www.monasterium.net,2011:/archive/",$tokenized-uri[last()-1])
-    let $archive := collection("/db/mom-data/metadata.archive.public")//atom:id[.=$archive-atomid]
-    return 
-        if(empty($archive)) then (let $found-archive := "false" return $found-archive)
-        else (let $found-archive := "true" return $found-archive)
+(:  Returns true if the currently requested resource is either any non-mom-ca resource like a stylesheet or
+ :  an existing mom-ca resource. Returns false for non-existing mom-ca resources :)
+declare function resolver:is-resource-existing() as xs:boolean {
+    let $resource-db-path := resolver:create-resource-db-path()
+    return
+        if(not(exists($resource-db-path))) then
+            true()
+        else
+            exists(doc($resource-db-path))
 };
 
-declare function resolver:check-fond($tokenized-uri){
-    let $fond-atomid := concat("tag:www.monasterium.net,2011:/fond/",$tokenized-uri[last()-2],"/",$tokenized-uri[last()-1])
-    let $fond := collection("/db/mom-data/metadata.fond.public")//atom:id[.=$fond-atomid]
-    return if(empty($fond)) then (let $found-fond := "false" return $found-fond)
-    else (let $found-fond := "true" return $found-fond)
-};
-
-
-declare function resolver:check-collection($tokenized-uri){
-    let $collection-atomid := concat("tag:www.monasterium.net,2011:/collection/",$tokenized-uri[last()-1])
-    let $collection := collection("/db/mom-data/metadata.collection.public")//atom:id[.=$collection-atomid]
-    let $result :=
-    if(empty($collection)) then (
-        let $mycollection-atomid := concat("tag:www.monasterium.net,2011:/mycollection/", $tokenized-uri[last()-1])
-        let $mycollection := collection("/db/mom-data/metadata.mycollection.public")//atom:id[.=$mycollection-atomid]
-        let $res :=
-            if(empty($mycollection)) then (let $found-mycollection := "false" return $found-mycollection)
-            else (let $found-mycollection := "true" return $found-mycollection)
-            return $res
-            )
-    else (  let $found-collection := "true"
-            return $found-collection
-         )
-
-    return $result
+(: Creates mom-ca resource paths from the current request. Returns the database path to the resource or () if the current
+ : request is for a non-resource like a stylesheet or the home page. :)
+declare function resolver:create-resource-db-path() as xs:string? {
+    let $uri-tokens := tokenize(request:get-uri(), "/")
+    let $resource-type := $uri-tokens[last()]
+    return
+        switch($resource-type)
+            case "charter" return
+                if(count($uri-tokens) = 6) then
+                    (: fond charter :)
+                    "/db/mom-data/metadata.charter.public/" || $uri-tokens[last()-3] || "/" ||  $uri-tokens[last()-2] || "/" || $uri-tokens[last()-1] || ".cei.xml"
+                else
+                    (: collection charter :)
+                    "/db/mom-data/metadata.charter.public/" || $uri-tokens[last()-2] || "/" || $uri-tokens[last()-1] || ".cei.xml"
+            case "collection" return
+                "/db/mom-data/metadata.collection.public/" || $uri-tokens[last()-1] || "/" || $uri-tokens[last()-1] || ".cei.xml"
+            case "fond" return
+                "/db/mom-data/metadata.fond.public/" || $uri-tokens[last()-2] || "/" || $uri-tokens[last()-1] || "/" || $uri-tokens[last()-1] || ".ead.xml"
+            case "archive" return
+                "/db/mom-data/metadata.archive.public/" || $uri-tokens[last()-1] || "/" || $uri-tokens[last()-1] || ".eag.xml"
+            default return
+                ()
 };
