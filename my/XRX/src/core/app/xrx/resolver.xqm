@@ -27,8 +27,8 @@ module namespace resolver="http://www.monasterium.net/NS/resolver";
 
 declare namespace xrx="http://www.monasterium.net/NS/xrx";
 declare namespace atom="http://www.w3.org/2005/Atom";
-declare function resolver:resolve($live-project-db-base-collection) as element()* {
 
+declare function resolver:resolve($live-project-db-base-collection) as element()* {
     let $first-match :=
         (
             for $uri-pattern in $live-project-db-base-collection//xrx:resolver/xrx:map/xrx:uripattern
@@ -52,34 +52,34 @@ declare function resolver:resolve($live-project-db-base-collection) as element()
 
 
 declare function resolver:start-check(){
-let $uri := request:get-uri()
-let $sub-uri := substring-after($uri, "mom/")
-let $tokenized-uri := tokenize($uri, "/")
-let $uripattern := $tokenized-uri[last()]
+    let $uri := request:get-uri()
+    let $sub-uri := substring-after($uri, "mom/")
+    let $tokenized-uri := tokenize($uri, "/")
+    let $uripattern := $tokenized-uri[last()]
 
-let $result := 
-switch($uripattern)
-case "charter" return resolver:check-charter($tokenized-uri)
-case "collection" return resolver:check-collection($tokenized-uri)
-case "fond" return resolver:check-fond($tokenized-uri) 
-case "archive" return resolver:check-archive($tokenized-uri)
-default return "true"
-
-return $result 
+    let $result :=
+    switch($uripattern)
+    case "charter" return resolver:check-charter($tokenized-uri)
+    case "collection" return resolver:check-collection($tokenized-uri)
+    case "fond" return resolver:check-fond($tokenized-uri)
+    case "archive" return resolver:check-archive($tokenized-uri)
+    default return "true"
+    return $result
 };
 
 
 declare function resolver:check-charter($tokenized-uri){
-    let $charter-atomid := 
-        if(count($tokenized-uri)=6) then (concat("tag:www.monasterium.net,2011:/charter/",$tokenized-uri[last()-3],"/",$tokenized-uri[last()-2],"/", $tokenized-uri[last()-1]))   
-        else(concat("tag:www.monasterium.net,2011:/charter/",$tokenized-uri[last()-2],"/", $tokenized-uri[last()-1]))
-    let $charter := collection("/db/mom-data/metadata.charter.public")//atom:id[.=$charter-atomid]
-    let $debug2 := util:log("ERROR", count($tokenized-uri))
-    let $debug := util:log("ERROR", $charter)
+    let $charter-atomid :=
+        if(count($tokenized-uri)=6) then
+            concat("tag:www.monasterium.net,2011:/charter/", $tokenized-uri[last()-3], "/", $tokenized-uri[last()-2], "/",  $tokenized-uri[last()-1])
+        else
+            concat("tag:www.monasterium.net,2011:/charter/", $tokenized-uri[last()-2], "/", $tokenized-uri[last()-1])
+    let $charter := collection("/db/mom-data/metadata.charter.public")//atom:id[. = $charter-atomid]
     return
-        if (empty($charter)) then (let $found-charter := "false" return $found-charter)
-    else (let $found-charter := "true" return $found-charter)
-    
+        if (empty($charter)) then
+            "false"
+        else
+            "true"
 };
 
 declare function resolver:check-archive($tokenized-uri){
@@ -88,7 +88,6 @@ declare function resolver:check-archive($tokenized-uri){
     return 
         if(empty($archive)) then (let $found-archive := "false" return $found-archive)
         else (let $found-archive := "true" return $found-archive)
-
 };
 
 declare function resolver:check-fond($tokenized-uri){
@@ -100,13 +99,12 @@ declare function resolver:check-fond($tokenized-uri){
 
 
 declare function resolver:check-collection($tokenized-uri){
- let $collection-atomid := concat("tag:www.monasterium.net,2011:/collection/",$tokenized-uri[last()-1])
- let $collection := collection("/db/mom-data/metadata.collection.public")//atom:id[.=$collection-atomid]
- 
- let $result := 
+    let $collection-atomid := concat("tag:www.monasterium.net,2011:/collection/",$tokenized-uri[last()-1])
+    let $collection := collection("/db/mom-data/metadata.collection.public")//atom:id[.=$collection-atomid]
+    let $result :=
     if(empty($collection)) then (
         let $mycollection-atomid := concat("tag:www.monasterium.net,2011:/mycollection/", $tokenized-uri[last()-1])
-        let $mycollection := collection("/db/mom-data/metadata.mycollection.public")//atom:id[.=$mycollection-atomid]    
+        let $mycollection := collection("/db/mom-data/metadata.mycollection.public")//atom:id[.=$mycollection-atomid]
         let $res :=
             if(empty($mycollection)) then (let $found-mycollection := "false" return $found-mycollection)
             else (let $found-mycollection := "true" return $found-mycollection)
@@ -115,7 +113,6 @@ declare function resolver:check-collection($tokenized-uri){
     else (  let $found-collection := "true"
             return $found-collection
          )
-         
-   return $result
 
+    return $result
 };

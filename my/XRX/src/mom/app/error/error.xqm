@@ -24,14 +24,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 
 module namespace error="http://www.monasterium.net/NS/error";
 
-import module namespace xrx="http://www.monasterium.net/NS/xrx"
-    at "../xrx/xrx.xqm";
+import module namespace xrx="http://www.monasterium.net/NS/xrx" at "../xrx/xrx.xqm";
 
 declare function error:content-type($uri){
-let $tokenized-uri := tokenize($uri, "/")
-let $mode := $tokenized-uri[last()]
-let $debug1 := util:log("ERROR", "mode: ")
-let $debug := util:log("ERROR", $mode)
-return $mode
-
+    let $tokenized-uri := tokenize($uri, "/")
+    let $mode := $tokenized-uri[last()]
+    return $mode
 };
