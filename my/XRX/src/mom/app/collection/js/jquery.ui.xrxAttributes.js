@@ -363,28 +363,41 @@
                             dataType: "json", 
                             data: {indexname: indexnamewert, lemma: lemmawert, sprache: sprachwert},
                             success: function(data, textStatus, jqXHR)
-                            {                     
-                     var auswahl = {};
+                            {
+                            	console.log("ja ist erfrolreich");
+                            	console.log(data);
+                   var auswahl = {};
                                                                                                  
                      var siehe = look(data);
                      
                function look(daten){
-            	   for (key in daten){              	 
-            	   if($.type(daten[key]) === "string"){            	
-   	   				var liste = $('<option>' + daten[key] + '</option>')
-   	   				.addClass(uiSuggestedValueDivsClass).attr("title", daten[key]).attr("value", key).attr("name", name);
+            	   for (key in daten){
+            	
+            		var liste;
+            		if($.type(daten[key]) === "string"){
+            		if (key === "label"){
+            			var liste = $('<option>' + daten[key] + '</option>').addClass("group").addClass(uiSuggestedValueDivsClass).attr("title", daten[key]).attr("value", key).attr("name", name);
+            			
+            		}
+            		else {
+            			var liste = $('<option>' + daten[key] + '</option>')
+       	   				.addClass(uiSuggestedValueDivsClass).attr("title", daten[key]).attr("value", key).attr("name", name);
+            			
+            		}            	   	   				
    	   			
    	   				if(key == value.replace('#', '')){   	   				
    	   				liste.attr("selected", "selected");
-   	   				}   	   				
+   	   				}
+   	   				
    	   				menuliste.append(liste);
+   	   				
             	   	}
             	   else {
             		   var obj = (daten[key]);            		   
             		   var siehe =  look(obj);            		   
             	   }            	
             	   }            	   
-               	};            
+               	};          
                   return true;
                                     },     
                             error: function(){
