@@ -1,0 +1,65 @@
+.shadow{overflow:hidden}.cpMainContainer{background-color:#2f2f2f;height:100%;width:100%;padding:0;position:absolute}.blocker{position:fixed;left:0;top:0;display:none}#slide_transition_canvas{display:none;left:0;top:0;position:absolute;width:100%;height:100%}.loadingBackground{background-color:#777;opacity:.5}.loadingString{color:#fff;font-family:"Lucida Sans Unicode","Lucida Grande",sans-serif;font-size:12px}.cp-movie{display:none;overflow:hidden;position:absolute}.cp-rewrap{display:block;position:absolute;-webkit-transform:translate3d(0px,0px,0px)}.cp-frameset{display:none;overflow:visible;position:absolute;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;-webkit-transform:translate3d(0px,0px,0px)}.cp-input{display:block;position:absolute;left:0;top:0;width:0;height:0}.cp-audio{display:none;position:fixed;left:0;top:0;width:0;height:0}.cp-video,.cp-shape,.cp-mc,.cp-gf{display:block;position:absolute;left:0;top:0;width:0;height:0}body{background-color:#fff}.autoPlayButton,.autoPlayButton:hover{background:url('../htmlimages/Play_icon.png') no-repeat;width:96px;height:96px;float:left;position:absolute;left:50px}.cp-vtxt{display:block;position:absolute}.cp-actualText::first-line{line-height:100%}.gestureIcon{top:10px;right:0;width:32px;height:32px;position:absolute;display:block;background:url('../htmlimages/gesturemobileicon.png') no-repeat}.gestureHintDiv{left:0;top:0;right:0;bottom:0;margin:auto;width:100%;height:100%;z-index:10;display:none;position:fixed;background-color:rgba(0,0,0,0.5)}@media all and (max-width:335px){.gesturesHint{left:0;top:0;right:0;bottom:0;margin:auto;width:186px;height:469px;display:block;position:fixed;background:url('../htmlimages/gesturemobileimage2.png') no-repeat}}@media all and (max-width:531px) and (min-width:335px){.gesturesHint{left:0;top:0;right:0;bottom:0;margin:auto;width:335px;height:281px;display:block;position:fixed;background:url('../htmlimages/gesturemobilelandscape.png') no-repeat}}@media all and (min-width:531px){.gesturesHint{left:0;top:0;right:0;bottom:0;margin:auto;width:531px;height:277px;display:block;position:fixed;background:url('../htmlimages/gesturetabletimage.png') no-repeat}}.gestureAnimation{left:0;top:0;right:0;bottom:0;margin:auto;display:block;position:absolute}.playAnimation{width:104px;height:104px;background:url('../htmlimages/Play2x.gif') no-repeat}.pauseAnimation{width:104px;height:104px;background:url('../htmlimages/Pause2x.gif') no-repeat}.cp-liFirstLine{display:table-cell;padding-left:.5em}ul{list-style:none;margin:0;padding-left:0}li>ul,li>ol{list-style:none;padding-left:1em}ol{list-style:none;margin:0;padding-left:0}.cp-reviewUL{list-style:initial;margin:1em;text-indent:0}.cp-reviewULIE{list-style:circle;margin:1em;text-indent:0}.cp-numbering{display:table-cell;text-decoration:none;width:1em;text-align:right}.cp-accessibility{opacity:0;width:0;height:0;left:-1999px;position:fixed}.main_content{width:100%;height:80%;display:block;position:absolute;left:0%;top:0%;overflow:auto}.debugWinHolder{width:100%;height:30%;display:block;position:absolute;background-color:#e6e1e1;left:0%;bottom:0%}.reportWinHolder{width:0%;height:0%;display:block;position:absolute;right:0%;bottom:0%}.debugWin,.reportWin{width:100%;height:100%}.curtain{display:none;position:absolute;left:0;top:0;width:100%;height:100%;background-color:gray;z-index:100000;text-align:center}.curtainMsg{display:table-cell;vertical-align:middle}@-webkit-keyframes fadeinfadeout{0%{opacity:0}50%{opacity:1}to{opacity:0}}#cpFakeGeo{position:fixed;top:30px;left:20px;background-color:gray}#cpFakeGeoTitle{background-color:black;color:white;padding:10px;margin:5px}#cpFakeGeoList{width:95%;padding:2px;margin:4px}input[type=checkbox]:checked,input[type=checkbox]:disabled,input[type=checkbox],input[type=checkbox]:disabled:checked,input[type=radio]:checked,input[type=radio],input[type=radio]:disabled,input[type=radio]:disabled:checked{background:none;-webkit-appearance:none;border:none;-webkit-background-size:22px 22px}.spanRadioInput,.spanCheckBoxInput{position:fixed;display:block;width:22px;height:22px}.spanComboBox{background-color:#edeeef;border:1px;border-radius:5px;position:absolute;display:block}.spanArrow{background:url(../htmlimages/dd_arrow.png) no-repeat 0 0;float:right;display:inline-block;width:12px;height:12px;cursor:pointer}.dropIndicator{background:url(../htmlimages/arrow_right.gif) no-repeat 0 0;width:16px;height:16px;display:block;position:fixed}.sequenceReviewImage{background:url(../htmlimages/sequenceReview.png) no-repeat 0 0;width:17px;height:13px;display:block;position:fixed;cursor:pointer;border:0}.sequenceReviewArea{background-color:#fff098;display:block;position:fixed;border:solid 2px;font-size:10px;border-radius:5px;border-color:black}select option{background:#fff}select{border:1px;border-radius:5px;background:url(../htmlimages/dd_arrow.png) no-repeat 100% 4px #edeeef;outline:none;display:inline-block;-webkit-appearance:none;-moz-appearance:none;cursor:pointer}.playButton
+{
+	background:url('../Playbar_icons/Play_icon.png') no-repeat;
+	width:58px;
+	height:59px;
+	float:left;
+	position:absolute;
+	left:50px;
+}
+.playButton:hover
+{
+	background:url('../Playbar_icons/Play_icon.png') no-repeat;
+	width:58px;
+	height:59px;
+	float:left;
+	position:absolute;
+	left:50px;
+}
+.playbarBackGround
+{
+	-webkit-box-shadow: 5px 5px 5px #aaa; 
+	-moz-box-shadow: 5px 5px 5px #aaa; 
+	box-shadow: 5px 5px 5px #aaa; 
+	height:45px;
+}
+.playbarSmallButton
+{
+	width:51px;
+	height:36px;
+	float:left;
+	display:inline;
+	-moz-user-select: none; 
+    -khtml-user-select: none; 
+    -webkit-user-select: none; 
+    -o-user-select: none; 
+}
+.playbarSmallButton:hover {cursor:pointer;} 
+.playbarBigButton
+{
+	width:80px;
+	height:36px;
+	float:left;
+	display:inline;
+	-moz-user-select: none; 
+    -khtml-user-select: none; 
+    -webkit-user-select: none; 
+    -o-user-select: none; 
+}
+.playbarBigButton:hover {cursor:pointer;} 
+.playbarSlider
+{
+	width:60px;
+	float:left;
+	display:inline;
+	-moz-user-select: none; 
+    -khtml-user-select: none; 
+    -webkit-user-select: none; 
+    -o-user-select: none; 
+}
+.playbarSliderThumb
+{
+	position : absolute;
+	top : 9px;
+}
+.playbarSliderThumb:hover {cursor:pointer;}

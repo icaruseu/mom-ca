@@ -41,12 +41,22 @@ declare variable $img:collection :=  collection(concat(conf:param("data-db-base-
 declare variable $img:mycollection :=  collection(concat(conf:param("data-db-base-uri"), "/metadata.mycollection.public"));
 
 
-(: function does same as charters:years in the year-navi but has condition to get charters with graphics only :)
+(: function does same as charters:years in the year-navi but has condition to get charters with graphics only   
+:)
 declare function img:years($charter-base-coll) {
-
-    for $year in $charter-base-coll//cei:text[descendant::cei:graphic/@url !='']//cei:issued/(cei:date/@value|cei:dateRange/@from)
+    for $entry in $charter-base-coll//atom:entry
+    let $year := if($entry/atom:content/@src) then 
+                 let $src := data($entry/atom:content/@src)
+                 let $linkedcharters := collection("/db/mom-data/metadata.charter.public")//atom:entry[atom:id = $src]
+                 return if($linkedcharters//cei:text[descendant::cei:graphic/@url !='']//cei:issued/cei:date/@value) then
+                 $linkedcharters//cei:text[descendant::cei:graphic/@url !='']//cei:issued/cei:date/@value 
+                 else($linkedcharters//cei:text[descendant::cei:graphic/@url !='']//cei:issued/cei:dateRange/@from)  
+                 else(
+                 if($entry//cei:text[descendant::cei:graphic/@url !='']//cei:issued/cei:date/@value) then
+                 $entry//cei:text[descendant::cei:graphic/@url !='']//cei:issued/cei:date/@value 
+                 else($entry//cei:text[descendant::cei:graphic/@url !='']//cei:issued/cei:dateRange/@from))  
     order by xs:integer($year)
-    return
+    return   
     $year    
 };
 
@@ -57,21 +67,18 @@ http://images.monasterium.net/pics/AES<
 declare function img:get-url($url as xs:string, $atomid  as xs:string?, $context as xs:string){     
       if(starts-with($url, 'http://images.monasterium.net')) then
           let $cropend := string-length($url)          
-          let $cropstart := string-length('http://images.monasterium.net/')+1          
-          let $filename := replace(replace(replace(substring($url, $cropstart, $cropend), '%', '%25'), '/', '%2F'), '&amp;', '%27')          
-          let $iiifurl :=  concat($img:bildserver, $filename, $img:thumbnail)
-          return $iiifurl
+          let $cropstart := string-length('http://images.monasterium.net/')+1
+          let $imageurl := substring($url, $cropstart, $cropend)      
+          return img:iiif($imageurl)
      else if($context = 'collection' and not(starts-with($url, 'http')))then
        let $collectionname := tokenize($atomid, '/')[3]
        let $address := $img:collection//atom:entry[ends-with(atom:id, $collectionname)]
        let $serveraddress := $address//cei:image_server_address/text()
        return
        if (contains($serveraddress, 'images.monasterium.net') ) then
-              let $folder := concat($address//cei:image_server_folder/text(), '%2F', $url) 
-              let $filename := replace(replace(replace($folder, '%', '%25'), '&amp;', '%27'), '/', '%2F')
-              let $iiifurl :=  concat($img:bildserver, $filename, $img:thumbnail)
-              return $iiifurl
-        else('no')
+              let $imageurl := concat($address//cei:image_server_folder/text(), '%2F', $url)         
+              return img:iiif($imageurl)
+        else()
       else if($context = 'fond' and not(starts-with($url, 'http')))then
       let $archive := tokenize($atomid, '/')[3]
       let $fond := tokenize($atomid, '/')[4]
@@ -81,14 +88,21 @@ declare function img:get-url($url as xs:string, $atomid  as xs:string?, $context
       return     
       if (contains($archiv-image-server, 'monasterium.net')) then
       let $archivbilder := substring-after($archiv-image-server,'.net/')
-      let $filename := concat(replace(replace(replace($archivbilder, '%', '%25'), '&amp;', '%27'), '/', '%2F'),'%2F', $url)
-      let $iiifurl := concat($img:bildserver, $filename, $img:thumbnail)
-      return $iiifurl
-      else('no')
+      let $imageurl := concat($archivbilder, '/', $url)     
+      return img:iiif($imageurl)
+      else()
       
       
-        else('no')
+        else()
 };
+
+declare function img:iiif ($imageurl as xs:string){
+let $filename := replace(replace(replace($imageurl, '%', '%25'), '&amp;', '%27'), '/', '%2F')
+let $iiifurl := concat($img:bildserver, $filename, $img:thumbnail)
+return $iiifurl
+};
+
+
 
 declare function img:checkifmycollection ($urltoken){
 let $atomabgleich := $img:mycollection//ends-with(atom:id/text(), $urltoken)
@@ -103,8 +117,20 @@ if ($charter//atom:content/@src) then
 let $src := data($charter//atom:content/@src)
 let $charters := collection("/db/mom-data/metadata.charter.public")//atom:entry[atom:id = $src]
 let $bilder := data($charters//cei:graphic/@url)
-return $bilder
-else(let $bilder := data($charter//cei:graphic/@url)
-            return $bilder
+return if($charters//cei:graphic/@n = 'thumbnail') (: there are archives which provide own thumbnails e.g.: HU-MNL-DLBIRL :)
+            then let $thumbs := for $bild in $bilder
+                                let $thumbnail := concat($bild, 'isthumb')
+                                return $thumbnail
+            return $thumbs
+            else($bilder)
+else(
+let $bilder := data($charter//cei:graphic/@url)
+            return 
+            if($charter//cei:graphic/@n = 'thumbnail') (: there are archives which provide own thumbnails e.g.: HU-MNL-DLBIRL :)
+            then let $thumbs := for $bild in $bilder
+                                let $thumbnail := concat($bild, 'isthumb')
+                                return $thumbnail
+            return $thumbs
+            else($bilder)
     )
 };

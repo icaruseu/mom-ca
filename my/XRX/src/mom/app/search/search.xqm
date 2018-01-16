@@ -470,7 +470,6 @@ declare function search:eval2($query-string) {
 
         let $map := search:compile-categories-map($result)
 
-let $Log := util:log("ERROR", "categries")
         let $do := search:set-categories($map)
 
         let $do := search:set-categories-filtered($map, 

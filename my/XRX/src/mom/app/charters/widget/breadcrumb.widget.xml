@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/breadcrumb</xrx:id>   
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description>This widget is used as subwidget only. It is a breadcrumb navigation</xrx:description>
+  <xrx:author>maburg</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more
+lenient towards the inclusion of components into other systems, once
+it leaves the active development stage.
+  </xrx:licence>
+  <xrx:constructor>
+  <xrx:parameter>
+  <xrx:name>$wbreadcrumb:context</xrx:name>
+  <xrx:default>''</xrx:default>
+  </xrx:parameter>  
+  <xrx:parameter>
+    <xrx:name>$wbreadcrumb:charter-context-short-name</xrx:name>
+    <xrx:default>''</xrx:default>  
+  </xrx:parameter>
+  </xrx:constructor>
+    <xrx:variables>
+    <xrx:variable><xrx:name>$wbreadcrumb:shortname-fond</xrx:name>
+    <xrx:expression>if($wbreadcrumb:context = 'fond') then $charter:rfondid else()</xrx:expression>
+    </xrx:variable>
+  </xrx:variables> 
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+   <xrx:view>
+<div data-demoid="55a90db0-7890-416c-958f-ae0e9b367304" id="breadcrumb">
+        {if ($wbreadcrumb:context = 'fond') then
+          <div>
+          <a href="{ conf:param('request-root') }fonds">
+            <xrx:i18n>
+              <xrx:key>fonds</xrx:key>
+              <xrx:default>Fonds</xrx:default>
+            </xrx:i18n>
+          </a>
+          <span> &gt; </span>
+          <a href="archive">{ $wbreadcrumb:charter-context-short-name }</a>
+          <span> &gt;</span>
+          <a href="fonds">{ $wbreadcrumb:shortname-fond }</a>        
+          </div>
+        else(
+        <div>
+           <a href="{ conf:param('request-root') }collections">
+            <xrx:i18n>
+              <xrx:key>collections</xrx:key>
+              <xrx:default>Collections</xrx:default>
+            </xrx:i18n>
+          </a>
+           <span> &gt; </span>
+          <a href="collection">{ $wbreadcrumb:charter-context-short-name }</a>
+          </div>       
+        )        
+        }
+         
+        
+        {
+          let $fond-atomids := $wcharters:metadata-charter-context-collection//cei:text[@type='fond']/@id/string()
+          let $block := request:get-parameter('block', '')
+          return
+          if(count($fond-atomids) gt 0 and ($block = -1 or ($block = 1))) then
+          <div data-demoid="fee1f30f-ebdd-4135-975c-458112e6c88e" id="dlinked-archives" style="float:none;margin-top:15px">
+            <xrx:i18n>
+              <xrx:key>collection-contains-charters-of-archival-fonds</xrx:key>
+              <xrx:default>This collection contains charters of the following archival fonds:</xrx:default>
+            </xrx:i18n>
+            <ul class="nostyle">
+              {
+              for $fond-atomid in $fond-atomids
+              let $fond-entry := metadata:base-collection('fond', 'public')//atom:id[.=$fond-atomid]/parent::atom:entry[.//ead:ead]
+              let $fond-name := $fond-entry//ead:unittitle/text()
+              let $archive-entry := fond:archive-base-collection($fond-entry)/atom:entry
+              let $archive-name := $archive-entry//eag:autform/text()
+              order by $archive-name, $fond-name
+              return
+              <li>leer</li> 
+           
+              }
+            </ul>  
+          </div>
+          else()
+          } 
+          
+        </div>
+  </xrx:view>
+</xrx:widget>

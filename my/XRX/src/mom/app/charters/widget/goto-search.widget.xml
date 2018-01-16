@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/goto-search</xrx:id>   
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description>This widget is used as subwidget only. It sets links to other apps: fond/collection/image preview and
+   or annotation overview or search within the fond.
+   It takes 2 parameters: context of the object(fond, collection) and name of the object</xrx:description>
+  <xrx:author>maburg</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more
+lenient towards the inclusion of components into other systems, once
+it leaves the active development stage.
+  </xrx:licence>
+  <xrx:constructor>
+  <xrx:parameter>
+  <xrx:name>$wgoto-search:context</xrx:name>
+  <xrx:default>''</xrx:default>
+  </xrx:parameter>
+    <xrx:parameter>
+  <xrx:name>$wgoto-search:id</xrx:name>
+  <xrx:default>''</xrx:default>
+  </xrx:parameter>
+</xrx:constructor>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+ <xrx:view>
+ {
+ if($wgoto-search:context='fond') then 
+ let $metadata-archive-collection := metadata:base-collection('archive', $wgoto-search:id, 'public')
+  let $eag := $metadata-archive-collection//eag:eag 
+  let $archive-short-name := $eag//eag:repositorid/text()
+  let $fondid := $xrx:tokenized-uri[2]
+  
+  return
+   <div data-demoid="e423483e-df37-4787-87ab-4ce3a8947d56" id="goto-search" class="goto">
+  <div>
+   {
+  if($xrx:tokenized-uri[last()] ='fond') then  
+        <a href="{ conf:param('request-root') }{ $wgoto-search:id }/{ xmldb:decode($fondid)}/images?block=1">
+            <xrx:i18n>
+              <xrx:key>image_preview</xrx:key>
+              <xrx:default>Image preview</xrx:default>
+            </xrx:i18n><span> &gt;&gt;</span>
+        </a>
+    else(<a href="{ conf:param('request-root') }{$wgoto-search:id}/{ xmldb:decode($xrx:tokenized-uri[2])}/fond?block=1">
+            <xrx:i18n>
+              <xrx:key>fond_preview</xrx:key>
+              <xrx:default>Fond preview</xrx:default>
+            </xrx:i18n><span> &gt;&gt;</span>
+        </a> )
+    }      
+      </div>
+             <a href="{ conf:param('request-root') }search?q=&amp;img=false&amp;sort=date&amp;arch={ $wgoto-search:id }&amp;p=search">
+              <xrx:i18n>
+                <xrx:key>search-in</xrx:key>
+                <xrx:default>Search in</xrx:default>
+              </xrx:i18n>            
+              <span> { conf:param('request-root') } { $archive-short-name } &gt;&gt;</span>
+            </a>
+      </div>       
+
+  else if($wgoto-search:context='collection') then
+
+      <div data-demoid="548bbfaa-a9ba-4ad8-aea2-cac5c7f5a76b" id="goto-anno-overview" class="goto">
+        <div>
+         { if($xrx:tokenized-uri[last()]='collection') then
+         <a href="{ conf:param('request-root') }{ $wgoto-search:id }/images?block=1">
+             <xrx:i18n>
+              <xrx:key>image_preview</xrx:key>
+              <xrx:default>Image preview</xrx:default>
+            </xrx:i18n><span> &gt;&gt;</span>
+        </a>
+       
+        else(
+       <a href="{ conf:param('request-root') }{$wgoto-search:id}/collection">
+            <xrx:i18n>
+              <xrx:key>collection_preview</xrx:key>
+              <xrx:default>Collection preview</xrx:default>
+            </xrx:i18n><span> &gt;&gt;</span>
+        </a> 
+        )  }   
+      </div>
+          <a href="{ conf:param('request-root') }{ $wgoto-search:id }/annotation-overview">
+            <xrx:i18n>
+              <xrx:key>annotation-overview</xrx:key>
+              <xrx:default>Annotation overview</xrx:default>
+            </xrx:i18n>
+            <span>  &gt;&gt;</span>
+          </a>
+     </div>    
+    else( <div data-demoid="548bbfaa-a9ba-4ad8-aea2-cac5c7f5a76b" id="goto-anno-overview" class="goto">
+        <div>        
+        <a href="{ conf:param('request-root') }{$wgoto-search:id}/collection">
+            <xrx:i18n>
+              <xrx:key>collection_preview</xrx:key>
+              <xrx:default>Collection preview</xrx:default>
+            </xrx:i18n><span> &gt;&gt;</span>
+        </a>         
+      </div>
+          <a href="{ conf:param('request-root') }{ $wgoto-search:id }/annotation-overview">
+            <xrx:i18n>
+              <xrx:key>annotation-overview</xrx:key>
+              <xrx:default>Annotation overview</xrx:default>
+            </xrx:i18n>
+            <span>  &gt;&gt;</span>
+          </a>
+     </div>  )     
+     
+     }
+  </xrx:view>
+</xrx:widget>

@@ -197,7 +197,9 @@
             <xsl:when test="$cei//cei:witnessOrig/cei:physicalDesc/cei:decoDesc/cei:p != ''">
                 <div id="witList" style="display:none"/>
             </xsl:when>
-            <xsl:when test="$ordered-witListPar/cei:witness/* != ''">
+        </xsl:choose>
+        <xsl:choose>
+            <xsl:when test="$ordered-witListPar/cei:witness//text() != ''">
                 <div id="witList">
                     <xsl:for-each select="$ordered-witListPar/cei:witness">
                         <!-- <xsl:value-of select="position()"/> -->
@@ -272,7 +274,7 @@
     </xsl:template>
     <xsl:template match="xhtml:insert-diplomaticAnalysis">
         <xsl:choose>
-            <xsl:when test="count($cei//cei:chDesc/cei:diplomaticAnalysis//text()) > 0 or $cei//cei:lang_MOM or $cei//cei:divNotes/cei:note">
+            <xsl:when test="count($cei//cei:chDesc/cei:diplomaticAnalysis//text()) > 0 or $cei//cei:lang_MOM or $cei//cei:note">
                 <div data-demoid="24296c88-84bc-45f1-a8c5-2703a58dfe95" id="diplomaticAnalysis">
                     <xsl:call-template name="diplomaticAnalysis"/>
                 </div>
@@ -1435,7 +1437,7 @@
                 <xsl:text>:&#160;</xsl:text>
                 <xsl:apply-templates select="$cei//cei:lang_MOM"/>
             </xsl:if>
-            <xsl:if test="$cei//cei:divNotes/cei:note/node()">
+            <xsl:if test="$cei//cei:note/node()">
                 <br/>
                 <br/>
                 <b>
@@ -1445,11 +1447,26 @@
                     </xrx:i18n>
                 </b>
                 <xsl:text>:&#160;</xsl:text>
-                <xsl:apply-templates select="$cei//cei:divNotes/cei:note"/>
+                <xsl:apply-templates select="$cei//cei:note" mode="content"/>
             </xsl:if>
         </div>
     </xsl:template>
-    <xsl:template match="cei:divNotes/cei:note">
+    <!-- handling notes (they are assumed to be notes by the editor -->
+    <xsl:template match="cei:note[not(ancestor::cei:back)]">
+        <!-- inline-note: display the reference to a note  -->
+        <a id="backlink_{generate-id()}" class="fn-link" href="#{generate-id()}"><xsl:value-of select="count(preceding::cei:note[not(ancestor::cei:back)])+1"/></a>
+    </xsl:template>
+    <xsl:template match="cei:note" priority="-1" mode="content">
+        <!-- display the text of an inline-note -->
+        <div class="note">
+            <xsl:attribute name="id">
+                <xsl:value-of select="generate-id()"/>
+            </xsl:attribute>
+            <a class="fn-link" href="#backlink_{generate-id()}"><xsl:value-of select="count(preceding::cei:note[not(ancestor::cei:back)])+1"/></a><xsl:text> </xsl:text>
+            <xsl:apply-templates/>
+        </div>
+    </xsl:template>
+    <xsl:template match="cei:divNotes/cei:note" mode="content">
         <div class="note">
             <xsl:if test="@id">
                 <xsl:attribute name="id">
@@ -1459,6 +1476,7 @@
             <xsl:apply-templates/>
         </div>
     </xsl:template>
+    <!-- bibliographic lists -->
     <xsl:template match="cei:listBiblEdition" mode="diplA">
         <div>
             <xsl:if test="./cei:bibl/node()">

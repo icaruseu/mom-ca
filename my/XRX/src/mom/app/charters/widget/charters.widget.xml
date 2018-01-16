@@ -60,6 +60,7 @@ margin:0px;
 margin-bottom:20px;
 }}
 
+
 #year-navi{{
 position:relative;
 float:left;
@@ -68,6 +69,7 @@ margin:0px;
 margin-top:0px;
 padding-right:37px;
 }}
+
 
 .year-list{{
 margin:10px;
@@ -80,10 +82,16 @@ text-decoration:none;
 }}
 
 #block-navi{{
-padding-bottom:30px;
+padding-bottom:20px;
 float:left;
 left:20px;
 }}
+
+#block-navi b a, #block-navi b span{{
+padding:5px;
+}}
+
+
 
 #goto-search{{
 margin-top:-3em;
@@ -108,14 +116,6 @@ float:left;
 div.clear {{
   clear:both;
 }}
-
-button.image-overview {{
-      margin-top:1em;     
-      padding:0 1em;
-      font-size:10px !important;
-      width:7em;
-}}
-
   </style>
   </xrx:csss>
       <xrx:jss>     
@@ -136,19 +136,19 @@ button.image-overview {{
       <div data-demoid="e2a0a8ee-feb0-4385-aed2-2d69f63ad69e" id="block-navi">
         <b>
           <a href="?block={ $wcharters:previous-block-pos }">
-            <span>&lt; </span>
+            <span>&lt; </span>
             <xrx:i18n>
               <xrx:key>previous</xrx:key>
               <xrx:default>previous</xrx:default>
             </xrx:i18n>
           </a>
-          <span>   </span>
+          <span>   </span>
           <xrx:i18n>
             <xrx:key>charters</xrx:key>
             <xrx:default>Charters</xrx:default>
           </xrx:i18n>
-          <span>   { $wcharters:block-strings[$charters:rblock] } </span>
-          <span>   </span>
+          <span>   { $wcharters:block-strings[$charters:rblock] } </span>
+          <span>   </span>
           {
           if($charters:rblock lt $wcharters:blocks-count) then
           <a href="?block={ $wcharters:next-block-pos }">
@@ -156,7 +156,7 @@ button.image-overview {{
               <xrx:key>next</xrx:key>
               <xrx:default>next</xrx:default>
             </xrx:i18n>
-            <span> &gt;</span>
+            <span> &gt;</span>
           </a>
           else()
           }
@@ -189,14 +189,14 @@ button.image-overview {{
             }
           </div>
         </div>
-        <div data-demoid="9a55835c-8d6e-446d-823f-17e8373c7db5" id="heading"/>
-          <div data-demoid="1fc95caa-c729-478f-b083-f443b43e2814" id="container">           
-          <xrx:div>goto-search-div</xrx:div>       
-           { $block-navi-div }
+        <div data-demoid="9a55835c-8d6e-446d-823f-17e8373c7db5" id="heading">
+          <div data-demoid="1fc95caa-c729-478f-b083-f443b43e2814" id="container">
+            { $block-navi-div }
+          <xrx:div>goto-search-div</xrx:div>
           </div>
-       
+        </div>
         {
-        if(request:get-parameter('block', '') = '' and $wcharters:preface-exists ) then
+        if(request:get-parameter('block', '') = '' and $wcharters:preface-exists) then
         <xrx:div>preface-div</xrx:div>
         else
         <xrx:div>charter-preview-div</xrx:div>
