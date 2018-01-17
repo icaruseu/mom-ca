@@ -1,9 +1,17 @@
 
-// $(document).ready(function(){
-//	 $('#graphics').has('.no-graphic').css( 'display', 'none');
-//	 $('#tenor').has('#bibltenor').css( 'display', 'block');
-// });
-
+ $(document).ready(function(){
+	 //informs user if the IIF-Server ist not available	
+    var nographic = "Sorry, service temporarily unavailable";    
+    $("img.thumbs").error(function(){    
+    	$(this).parents("#imagebox").hide();
+    
+        var ausgabe = $(this).parents(".images");        	
+        	$(ausgabe).append('<span>' + nographic + '</span>');        
+   
+    }); 
+    
+    
+});
 
 function changeImage(url, num){
 	var alleBilder = document.getElementsByClassName('imageLink');

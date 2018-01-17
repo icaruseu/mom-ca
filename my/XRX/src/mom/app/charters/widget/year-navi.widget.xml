@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/year-navi</xrx:id>   
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description>This widget is used as subwidget only. It is a navigation per blocks of years </xrx:description>
+  <xrx:author>maburg</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more
+lenient towards the inclusion of components into other systems, once
+it leaves the active development stage.
+  </xrx:licence>
+  <xrx:constructor>
+  <xrx:parameter>
+  <xrx:name>$wyear-navi:block</xrx:name>
+  <xrx:default>''</xrx:default>
+  </xrx:parameter>
+   <xrx:parameter>
+      <xrx:name>$wyear-navi:block-strings</xrx:name>
+      <xrx:default>''</xrx:default>
+    </xrx:parameter>
+  </xrx:constructor>
+  <xrx:variables>
+    <xrx:variable>
+      <xrx:name>$wyear-navi:block</xrx:name>
+      <xrx:expression>xs:integer(if(request:get-parameter('block', '') != '') then request:get-parameter('block', '-1') else '1')</xrx:expression>
+    </xrx:variable>     
+  
+  </xrx:variables>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal> 
+
+ <xrx:view>
+    <div data-demoid="2982b258-e242-4d62-be6c-a4ee500222e6" id="year-navi">                 
+                    <div class="year-list" data-demoid="0f94dc5e-799a-4ec3-9ae7-71972cdaa805">
+                     <p class="navi-heading">
+                          <xrx:i18n>
+                              <xrx:key>Years</xrx:key>
+                              <xrx:default>Years</xrx:default>
+                          </xrx:i18n>
+                      </p>
+                        {
+                        for $blocks-string at $pos in $wyear-navi:block-strings
+                        let $url := concat("?block=", $pos)
+                        return
+                        <div class="block" data-demoid="bc65615b-2241-428e-a9eb-9927607799b1" style="font-weight:{ if($pos = $wyear-navi:block) then 'bold' else 'normal' }">
+                            <a href=" { $url }">
+                                <span>{ $blocks-string }</span>
+                            </a>
+                        </div>
+                        }
+                    </div>
+                </div>
+  </xrx:view>
+</xrx:widget>

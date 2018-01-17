@@ -284,7 +284,8 @@ div#archive div#container {{
 					<a href="{ concat(conf:param('request-root'), $archive-id, '/archive') }">{ $archive-id }</a>
 				</div>
 				<div data-demoid="ca52ba2c-9366-4679-ba18-6323cdfbd919" id="container">
-					<div data-demoid="119aa847-ef57-4fbc-83ac-4cab9684ced7" id="goto-search">
+					<div data-demoid="119aa847-ef57-4fbc-83ac-4cab9684ced7" id="goto-search">		
+
 						<a href="{ conf:param('request-root') }search?q=&amp;img=false&amp;sort=date&amp;arch={ $archive-id }&amp;p=search">
 							<xrx:i18n>
 								<xrx:key>search-in</xrx:key>

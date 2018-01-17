@@ -124,6 +124,13 @@ div.clear {{
 #collections .nobr{{
   white-space:nowrap;
 }}
+
+button.image-overview {{
+      margin-left:1em;
+      padding:0;
+      font-size:7px !important;
+      width:5em;
+}}
     </style>
   </xrx:csss>
      <xrx:jss>   
@@ -401,9 +408,14 @@ div.clear {{
       else if($xrx:tokenized-uri[last()] = 'recently-added') then
       <div data-demoid="73302fdf-ff6c-4bff-8566-dc0c152ecca2">{ collections:recently-added(($wcollections:metadata-collection-collection, $wcollections:metadata-mycollection-collection)) }</div>
       else 
-      <div data-demoid="773f1ab3-03ae-4376-a7d0-74099bd29c66">{ collections:list(' ', $wcollections:sort-by-name) }</div>
+      <div data-demoid="773f1ab3-03ae-4376-a7d0-74099bd29c66">
+      
+      { collections:list(' ', $wcollections:sort-by-name) }</div>
       }
     </div>
   }
+   <script type="text/javascript"> jQuery(document).ready(function(){{
+   //$(".image-overview").button();
+   }});</script>
   </xrx:view>
 </xrx:widget>
