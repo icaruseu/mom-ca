@@ -63,6 +63,14 @@ it leaves the active development stage.
       <xrx:expression>root($constructor:charter)//atom:id/text()</xrx:expression>
     </xrx:variable>
     <xrx:variable>
+    	<xrx:name>$tokenized-url</xrx:name>
+    	<xrx:expression>tokenize(request:get-url(),"/") </xrx:expression>
+    </xrx:variable>
+        <xrx:variable>
+    	<xrx:name>$wcharter-preview:owner</xrx:name>
+    	<xrx:expression> doc(concat(metadata:base-collection-path('archive', $tokenized-url[last()-2], 'public'),$tokenized-url[last()-2], ".eag.xml"))//eag:identity/eag:autform/text()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
       <xrx:name>$wcharter-preview:idno-element</xrx:name>
       <xrx:expression>$constructor:charter//cei:body/cei:idno</xrx:expression>
     </xrx:variable>
@@ -140,7 +148,7 @@ it leaves the active development stage.
       <xrx:xformsflag>true</xrx:xformsflag>
     </xrx:processor>
   </xrx:init>
-  <xrx:csss>
+  <xrx:csss>  
     <style type="text/css">
     
 #dcharter-preview-main{{
@@ -263,7 +271,17 @@ span.block {{
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/charter</xrx:resource>
-      
+   <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/imageTool</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/slider</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/dialog</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/droppable</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/position</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/resizable</xrx:resource>
+     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/dialogCopyToCollection</xrx:resource>  
   </xrx:jss>
   <xrx:divs>
      <xrx:div>
@@ -303,6 +321,7 @@ span.block {{
               <xrx:default>PDF- Export</xrx:default>
             </xrx:i18n>
           </a>
+
           { 
           if($wcharter-preview:is-moderator = true() ) then
           
@@ -321,6 +340,7 @@ span.block {{
           
         </div>
       </xrx:view>
+   
     </xrx:div>
     <xrx:div>
       <xrx:key>my-archive-functions-div</xrx:key>
@@ -340,7 +360,16 @@ span.block {{
                     <xrx:key>my-archive</xrx:key>
                     <xrx:default>MyArchive</xrx:default>
                   </xrx:i18n>
-                </span>
+                </span><br/>
+              
+                  <a id="{concat('copy',$wcharter-preview:id)}">
+                    <xrx:i18n>
+                      <xrx:key>copy-to-collection</xrx:key>
+                      <xrx:default>Copy to Collection</xrx:default>
+                    </xrx:i18n>
+                  </a><br/>
+                  <script type="text/javascript">$(document).ready(function(){{$("#copy{$wcharter-preview:id}").click(function(){{createLegalDialog("{conf:param('request-root')}", "{$wcharter-preview:atom-id}","{$wcharter-preview:owner}");}});}});</script>
+             		
 								{
 								bookmark:trigger(
 								$wcharter-preview:is-bookmarked,
@@ -360,7 +389,7 @@ span.block {{
                     <xrx:default>Remove bookmark</xrx:default>
                   </xrx:i18n>
                 </span>
-								)
+				)  
 								}
 								
               	<div class="note-field" data-demoid="830bb4b6-e556-4f18-954a-c0bd1f69cab5" id="note-field-{$num}" style="display:{if($wcharter-preview:is-bookmarked)then 'block' else 'none'};">
@@ -689,10 +718,11 @@ span.block {{
           )          
           }
           </span>
+          
           </div>
  
           )
           }      
-   
+
   </xrx:view>
 </xrx:widget>
