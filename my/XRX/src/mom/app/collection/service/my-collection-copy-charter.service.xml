@@ -42,6 +42,10 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   		<xrx:name>$charterContext</xrx:name>
   		<xrx:expression>request:get-parameter('context','')</xrx:expression>
   	</xrx:variable>
+  	  	<xrx:variable>
+  		<xrx:name>$OriginalOwner</xrx:name>
+  		<xrx:expression>request:get-parameter('owner','')</xrx:expression>
+  	</xrx:variable>
   	<xrx:variable>
   		<xrx:name>$tokenizedId</xrx:name>
   		<xrx:expression>tokenize($charterId, '/')</xrx:expression>
@@ -89,8 +93,8 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     	let $replaceAtomIdNode := update replace $newCharter//atom:id with $newAtomIdNode
     	let $newAtomLinkNode := <atom:link type="interpretationOf" href="{$charterId}"/>
     	let $insertnewAtomLink :=  update insert $newAtomLinkNode preceding $newCharter//atom:content
-    	let $insertAttributeAsPublishedIn-inCeiDesc := update insert attribute as_published_in {$tokenizedId[last()-1]} into $newCharter//cei:sourceDesc
-    	let $insertAttributeBy-inCeiDesc := update insert attribute by {$tokenizedId[last()-2]} into $newCharter//cei:sourceDesc
+    	let $newSourceDescVolltext := <cei:sourceDescVolltext><cei:bibl>As published in {$tokenizedId[last()-1]} by {$OriginalOwner}</cei:bibl></cei:sourceDescVolltext>
+    	let $insertnewNodeSourceDescVolltext := update insert $newSourceDescVolltext into $newCharter//cei:sourceDesc
     	return $newCharter
     }
   </xrx:body>
