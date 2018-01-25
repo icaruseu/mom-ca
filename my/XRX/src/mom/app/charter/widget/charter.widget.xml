@@ -405,6 +405,11 @@ let $vocabular := replace(data($i/@rdf:about), '#', '')
       <xrx:name>$image-tools-url</xrx:name>
       <xrx:expression>concat($image-tools-base-url, $charter:rcharterid, '/image-tools')</xrx:expression>
     </xrx:variable>
+    <xrx:variable>
+    	<xrx:name>$wcharter:owner</xrx:name>
+    	<xrx:expression>if($wcharter:context = "fond") then doc(concat(metadata:base-collection-path('archive', $charter:rarchiveid, 'public'),$charter:rarchiveid, ".eag.xml"))//eag:identity/eag:autform/text()
+    	else (root($wcharter:charter)//atom:email/text())</xrx:expression>
+    </xrx:variable>
   </xrx:variables>
   <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/charter</xrx:portal>
   <xrx:init>
@@ -1202,7 +1207,7 @@ p#first {{
                       <xrx:default>Copy to Collection</xrx:default>
                     </xrx:i18n>
                   </a><br/>
-                  <script type="text/javascript">$(document).ready(function(){{$("#copycollection").click(function(){{createLegalDialog("{conf:param('request-root')}", "{$xrx:user-id}", "{$wcharter:atom-id}");}});}});</script>
+                  <script type="text/javascript">$(document).ready(function(){{$("#copycollection").click(function(){{createLegalDialog("{conf:param('request-root')}", "{$wcharter:atom-id}", "{$wcharter:owner}");}});}});</script>
                 </div>
               </div>              
             </xrx:true>
@@ -1522,16 +1527,20 @@ p#first {{
       </div>
       else()
       } 
+
       <div id="copy-legal-popUp" style="display:none">
       	<div id="dialogcontent">
-      	<span><xrx:i18n><xrx:key>you-are-copying-a-text-from</xrx:key><xrx:default>You are copying a text from</xrx:default></xrx:i18n></span><span>{if($wcharter:context = "fond") then $charter:rarchiveid else root($wcharter:charter)//atom:email}</span> <span><xrx:i18n><xrx:key>end-legal-text</xrx:key><xrx:default>into your own collection. Please be aware that reusing it might infringe intellectural property rights, so please check individual licences and cite the source of your information when you publish your data</xrx:default></xrx:i18n></span>
+      	<span><xrx:i18n><xrx:key>you-are-copying-a-text-from</xrx:key><xrx:default>You are copying a text from</xrx:default></xrx:i18n></span>
+      	<span id="insertOwner"></span>
+      	  <span><xrx:i18n><xrx:key>end-legal-text</xrx:key><xrx:default>into your own collection. Please be aware that reusing it might infringe intellectural property rights, so please check individual licences and cite the source of your information when you publish your data</xrx:default></xrx:i18n></span>
+         </div>
         </div>
-      </div> 
-            <div id="select-collection-popUp" style="display:none">
+       <div id="select-collection-popUp" style="display:none">
       	<div id="dialogcontent">
-      	<select id="collectionSelect"></select>
+      		<select id="collectionSelect"></select>
         </div>
-      </div> 
+       </div>
+       
       </div>     
   </xrx:view>  
 </xrx:widget>
