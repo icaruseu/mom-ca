@@ -7,12 +7,12 @@
   doctype-system="http://jetty.mortbay.org/configure_1_2.dtd"/>
 
 
-  <xsl:param name="jetty-port"/>
+  <xsl:param name="jetty-port-ssl"/>
 
 
 <xsl:template match="//SystemProperty[@name='jetty.ssl.port']/@default">
     <xsl:attribute name="default">
-      <xsl:value-of select="$jetty-port"/>
+      <xsl:value-of select="$jetty-port-ssl"/>
     </xsl:attribute>
   </xsl:template> 
 
