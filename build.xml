@@ -59,6 +59,7 @@
     <!-- betterFORM -->
     <property name="betterform-home" value="betterFORM"/>
     <property name="my-betterform-src" value="my/betterFORM"/>
+    <property name="betterform-debug-allowed" value="false"/>
 
     <!-- CodeMirror -->
     <property name="codemirror-home" value="CodeMirror"/>
@@ -280,6 +281,7 @@
         <antcall target="deploy-tools"/>
         <antcall target="compile-xrx-project"/>
         <antcall target="stop"/>
+        <antcall target="disable-betterform-debug"/>
         <antcall target="clean-up"/>
         <antcall target="start"/>
         <antcall target="sleep-until-started"/>
@@ -729,6 +731,17 @@
         <exist-store uri="${xmldb-xrx-src-uri}/core/app/xrx/">
             <fileset file="build/compiler.xql"/>
         </exist-store>
+    </target>
+
+    <target name="disable-betterform-debug"
+            description="Use parameter -Dbetterform-debug-allowed to set the value to change don't use the default value">
+        <log message="Disabling the BetterForm debug tools"/>
+        <copy file="${webinf-home}/betterform-config.xml" tofile="${webinf-home}/betterform-config.xml.original"/>
+        <xslt in="${webinf-home}/betterform-config.xml.original"
+              style="${build-scripts-home}/betterform-config.xsl"
+              out="${webinf-home}/betterform-config.xml">
+            <param name="betterform-debug-allowed" expression="${betterform-debug-allowed}"/>
+        </xslt>
     </target>
 
     <target name="clean-up">
