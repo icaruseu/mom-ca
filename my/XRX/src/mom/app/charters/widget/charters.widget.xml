@@ -60,13 +60,16 @@ margin:0px;
 margin-bottom:20px;
 }}
 
+
 #year-navi{{
 position:relative;
 float:left;
 width:120px;
 margin:0px;
-margin-top:100px;
+margin-top:0px;
+padding-right:37px;
 }}
+
 
 .year-list{{
 margin:10px;
@@ -79,16 +82,24 @@ text-decoration:none;
 }}
 
 #block-navi{{
-padding-bottom:30px;
+padding-bottom:20px;
 float:left;
 left:20px;
 }}
 
+#block-navi b a, #block-navi b span{{
+padding:5px;
+}}
+
+
+
 #goto-search{{
+margin-top:-3em;
 float:right;
 }}
 
 #goto-anno-overview{{
+margin-top:-3em;
 float:right;
 }}
 
@@ -101,8 +112,18 @@ position:relative;
 width:800px;
 float:left;
 }}
+
+div.clear {{
+  clear:both;
+}}
   </style>
   </xrx:csss>
+      <xrx:jss>     
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
+  </xrx:jss>
   <xrx:model>
     { bookmark:model(conf:param('request-root')) }
     { publication:model(conf:param('request-root')) }
@@ -115,19 +136,19 @@ float:left;
       <div data-demoid="e2a0a8ee-feb0-4385-aed2-2d69f63ad69e" id="block-navi">
         <b>
           <a href="?block={ $wcharters:previous-block-pos }">
-            <span>&lt; </span>
+            <span>&lt; </span>
             <xrx:i18n>
               <xrx:key>previous</xrx:key>
               <xrx:default>previous</xrx:default>
             </xrx:i18n>
           </a>
-          <span>   </span>
+          <span>   </span>
           <xrx:i18n>
             <xrx:key>charters</xrx:key>
             <xrx:default>Charters</xrx:default>
           </xrx:i18n>
-          <span>   { $wcharters:block-strings[$charters:rblock] } </span>
-          <span>   </span>
+          <span>   { $wcharters:block-strings[$charters:rblock] } </span>
+          <span>   </span>
           {
           if($charters:rblock lt $wcharters:blocks-count) then
           <a href="?block={ $wcharters:next-block-pos }">
@@ -135,7 +156,7 @@ float:left;
               <xrx:key>next</xrx:key>
               <xrx:default>next</xrx:default>
             </xrx:i18n>
-            <span> &gt;</span>
+            <span> &gt;</span>
           </a>
           else()
           }
@@ -144,13 +165,19 @@ float:left;
       else()
 
       return
-      <div data-demoid="45fcb1f6-9bb0-4063-bd32-43776e219922">
+      <div data-demoid="45fcb1f6-9bb0-4063-bd32-43776e219922">    
         <xrx:div>heading-div</xrx:div>
         <xrx:div>breadcrumb-div</xrx:div>
         <xrx:div>my-functions-div</xrx:div>
         <div data-demoid="2982b258-e242-4d62-be6c-a4ee500222e6" id="year-navi">
           <xrx:div>preface-link-div</xrx:div>
           <div class="year-list" data-demoid="0f94dc5e-799a-4ec3-9ae7-71972cdaa805">
+            <p class="navi-heading">
+              <xrx:i18n>
+                <xrx:key>Years</xrx:key>
+                <xrx:default>Years</xrx:default>
+              </xrx:i18n>
+            </p>
             {
             for $blocks-string at $pos in $wcharters:block-strings
             return
@@ -176,6 +203,6 @@ float:left;
         }
       </div>
       }
-    </div>
+    </div>   
   </xrx:view>
 </xrx:widget>

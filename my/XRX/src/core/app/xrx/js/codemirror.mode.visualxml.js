@@ -943,9 +943,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	/*
 	 * Public Interface
 	 */
-	// when focus is given we keep the actual editor content to handle 
+	// when focus is given we keep the current editor content to handle 
 	// insertions and deletions into the mixed content control
-	// TODO: only keep the actual, the previous and the following line (for larger instances)
+	// TODO: only keep the current, the previous and the following line (for larger instances)
 	CodeMirror.defineExtension("keepValue", function() {
 		previousValue = this.getValue();
 		//console.log(previousValue);

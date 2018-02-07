@@ -158,13 +158,13 @@ declare function role:exists($userid as xs:string, $roleid as xs:string) as xs:b
     exists(user:home-collection($userid)//xrx:role[.=$roleid])
 };
 (:
-    overload a list of userids which shall 
-    represent the actual user list whith 
+    hand over a list of userids which shall 
+    represent the current user list whith 
     role permissions, which means
-    a comlete refresh
+    a complete refresh
     (a)     remove all existing <xrx:role>ID</xrx:role>
             elements
-    (b)     insert the overloaded ones
+    (b)     insert the new ones handed over
 :)
 declare function role:refresh($userids as xs:string*, $roleid as xs:string) {
 

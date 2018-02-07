@@ -106,7 +106,7 @@ it leaves the active development stage.
     <!-- does this charter link a version of a archival charter? -->
     <xrx:variable>
       <xrx:name>$wcharter:linked-charter-atomid</xrx:name>
-      <xrx:expression>$wcharter:private-charter/ancestor::atom:entry/atom:link[@rel='versionOf']/@ref/string()</xrx:expression>
+      <xrx:expression>$wcharter:private-charter/ancestor::atom:entry/atom:link[@rel='versionOf'][1]/@ref/string()</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter:metadata-linked-charter-fond-collection</xrx:name>
@@ -208,6 +208,23 @@ it leaves the active development stage.
       XSLT transformation
      -->
     <xrx:variable>
+        <xrx:name>$wcharter:controlledvocabularies</xrx:name>
+    <xrx:expression>       
+ for $i in collection("/db/mom-data/metadata.controlledVocabulary.public")//atom:entry//skos:ConceptScheme
+let $vocabular := replace(data($i/@rdf:about), '#', '')
+        return $vocabular         
+     </xrx:expression>
+    </xrx:variable>
+   <xrx:variable>
+    <xrx:name>$wcharter:page</xrx:name>
+    <xrx:expression>
+       <page>      
+         { template:get('tag:www.monasterium.net,2011:/mom/template/charter-view', false()) }
+          { util:expand($wcharter:charter) }
+        </page>
+    </xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
       <xrx:name>$wcharter:xsl</xrx:name>
       <xrx:expression>$xrx:db-base-collection/xsl:stylesheet[@id='cei2html']</xrx:expression>
     </xrx:variable>
@@ -216,6 +233,14 @@ it leaves the active development stage.
       <xrx:expression>
         <parameters xmlns="">
           <param name="image-base-uri" value="{ $wcharter:image-base-uri }"/>
+          <param name="sprache" value="{$xrx:lang}"/>
+          <param name="controlledvocabularies" value="{$wcharter:controlledvocabularies}"/>
+          {
+            let $keys := root($wcharter:xsl)//*[local-name(.) = "stylesheet"]/node()
+            let $i18n := $keys//xrx:i18n
+            for $key in $i18n
+            return <param name="{$key/xrx:key}" value="{i18n:translate($key)}"/>           
+          }
         </parameters>
       </xrx:expression>
     </xrx:variable>
@@ -231,8 +256,12 @@ it leaves the active development stage.
       <xrx:expression>xmldb:encode-uri(concat($wcharter:charter-context-url, charter:charterid($wcharter:next-and-previous[1]/root()//atom:id/text()), '/my-charter'))</xrx:expression>
     </xrx:variable>
     <xrx:variable>
+      <xrx:name>$wcharter:next-char</xrx:name>
+      <xrx:expression>if(exists($wcharter:next-and-previous[2]))then $wcharter:next-and-previous[2] else $wcharter:next-and-previous[1]</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
       <xrx:name>$wcharter:next</xrx:name>
-      <xrx:expression>xmldb:encode-uri(concat($wcharter:charter-context-url, charter:charterid($wcharter:next-and-previous[2]/root()//atom:id/text()), '/my-charter'))</xrx:expression>
+      <xrx:expression>xmldb:encode-uri(concat($wcharter:charter-context-url, charter:charterid($wcharter:next-char/root()//atom:id/text()), '/my-charter'))</xrx:expression>
     </xrx:variable>
     <!-- 
         image tools
@@ -256,17 +285,44 @@ it leaves the active development stage.
       <xrx:jqueryflag>true</xrx:jqueryflag>
     </xrx:processor>
   </xrx:init>
+    <xrx:jss>
+   
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/droppable</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/position</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/resizable</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/dialog</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/effect</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/effect-pulsate</xrx:resource>
+   
+    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrxI18n</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxMessage</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrx</xrx:resource>
+    
+   
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/dialogEditor</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/charter</xrx:resource>
+  </xrx:jss>
+
   <xrx:divs>
     <xrx:div>
       <xrx:key>heading-div</xrx:key>
       <xrx:view>
-        <div class="heading-center h2" data-demoid="e3a4e30c-5fa1-47fd-b97c-8c958829e1a7">
+      <!-- heading-center raus-->
+        <div class="h2" data-demoid="e3a4e30c-5fa1-47fd-b97c-8c958829e1a7">
           <xrx:i18n>
             <xrx:key>my-charter-preview</xrx:key>
-            <xrx:default>My Charter (Preview)</xrx:default>
+            <xrx:default>Charter Preview</xrx:default>
           </xrx:i18n>
+          <span>: { $wcharter:idno }</span>
         </div>
       </xrx:view>
+             
     </xrx:div>
     <xrx:div>
       <xrx:key>breadcrumb</xrx:key>
@@ -287,9 +343,11 @@ it leaves the active development stage.
           </a>
           <span> &gt; </span>
           <a href="{ concat(conf:param('request-root'), $charter:rcollectionid, '/my-collection?block=', $wcharter:block, '#ch', $wcharter:anchor) }">{ $wcharter:fond }</a>
-          <span> &gt; </span>
+          <span> &gt; </span>         
           <a href="{ request:get-url() }?{ request:get-query-string() }">{ $wcharter:idno }</a>
-        </div>
+       <!-- <p id="preferenz">{$wcharter:preferences}</p>
+        <p id="image-base-uri">{$wcharter:image-base-uri}</p>-->
+                </div>     
       </xrx:view>
     </xrx:div>
     <xrx:div>
@@ -345,13 +403,64 @@ it leaves the active development stage.
             <span>: { $wcharter:idno }</span>  
           </div>
           }
-          <span><a href="/mom/{ $charter:rcollectionid }/{ $charter:rcharterid }/edit" target="_blank">
+<!-- the editor choice can also be realized via a dialog window, but for now it is not necessary. 
+   <button id="new-button">
+                  <xrx:i18n>
+                    <xrx:key>edit</xrx:key>
+                    <xrx:default>Edit Charter</xrx:default>
+                  </xrx:i18n>
+         </button>
+     <script>
+jQuery(document).ready(function() {{
+   var dia = $("#new-button").dialogEditor(({{ baseurl: "{ $wcharter:charter-context-url }", charterid: "{  $charter:rcharterid }" }})).data("ui-dialogEditor");
+}});
+</script>
+<div id="dialog-confirm" title="Empty the recycle bin?">
+ </div> -->
             <xrx:i18n>
-              <xrx:key>edit-charter</xrx:key>
-              <xrx:default>Edit charter</xrx:default>
-            </xrx:i18n>
-          </a></span>
-        </div>
+                <xrx:key>edit</xrx:key>
+                 <xrx:default>Edit Charter</xrx:default>
+           </xrx:i18n>
+            <span>:&#160;</span>
+ <form>     
+    <div id="radio">
+      <a href="{ $wcharter:charter-context-url }{ $charter:rcharterid }/edit" target="_blank">
+      <span>EditMOM</span> 
+      </a>       
+    </div>
+</form> 
+<!-- javascript:transport();
+ javascript:proof(); javascript:addInfo();-->
+ <script type="text/javascript">
+$( "#radio" ).buttonset();
+  
+  $('document').ready(function() {{
+    
+$(".open-viewer-link").hide();
+$("#zoomsliderlabel").hide();
+ javascript:rapper();
+ javascript:proof();   
+
+ console.log('my-charter.widget');
+
+    var verlinkt = $("div#graphics").find("a#img-link");
+    var missinglink = $("div#graphics").find("div.no-graphic");    
+    console.log(verlinkt);
+    console.log(missinglink);
+    if(verlinkt.length != 0){{
+           console.log("es gibt imgs im viewer");          
+          var x = $("#graphics").css("display", "block");
+                    
+          }}
+          else {{
+          console.log("no-graphic in image-viewer");
+          var x = $("#graphics").css("display", "none");
+          }}      
+ }});
+  
+
+</script>
+ </div>       
       </xrx:view>
     </xrx:div>
     <xrx:div>
@@ -391,19 +500,19 @@ it leaves the active development stage.
           </div>
         </div>
       </xrx:view>
-    </xrx:div>
+    </xrx:div> 
     <xrx:div>
       <xrx:key>how-to-cite</xrx:key>
       <xrx:view>
-        <div class="inlinehead">
-          <a href="javascript:showHideDiv('howToCite', '')">
+        <div class="inlinehead cat">
+          <a href="javascript:showHideDiv_neu('howToCite', '')">
             <xrx:i18n>
               <xrx:key>how-to-cite</xrx:key>
               <xrx:default>How to cite</xrx:default>
             </xrx:i18n>
           </a>
         </div>
-        <div id="howToCite" style="display: none">
+        <div id="howToCite" style="display:none">
           <div class="p">
             <p>
               <span>{ for $archive in $wcharter:archive return concat($archive, '&#160;') }{ $wcharter:fond }&#160;{ $wcharter:idno }, in: monasterium.net, URL &lt;{ $wcharter:default-url }/charter&gt;, accessed at { current-date() }</span>

@@ -80,7 +80,7 @@ declare variable $htdoc:default-lang-db-base-collection :=
     );
 (: 
     DB base collection for htdocs of 
-    the actually selected language 
+    the currently selected language 
 :)
 declare variable $htdoc:actual-lang-db-base-collection := 
     collection(
@@ -102,7 +102,7 @@ declare variable $htdoc:actual-lang-db-base-collection :=
     returns a element of type atom:entry since
     all htdocs are treated as Atom entries.
     returns a empty sequence if no entry with the
-    overloaded Atom ID was found
+    given Atom ID was found
 :)       
 declare function htdoc:get($atom-id as xs:string) as element()* {
 
@@ -114,8 +114,8 @@ declare function htdoc:get($atom-id as xs:string) as element()* {
 
 (:
     same as htdoc:get($atom-id as xs:string) but
-    the language can be overloaded so that one
-    can control the existence of a specific htdoc
+    the language can be handed over to check 
+    the existence of a specific htdoc
     entry
 :)
 declare function htdoc:get($atom-id as xs:string, $lang as xs:string) as element()* {
@@ -130,7 +130,7 @@ declare function htdoc:get($atom-id as xs:string, $lang as xs:string) as element
 
 (: 
     returns a element of type xhtml:div by 
-    overloading a Atom entry
+    handing over a Atom entry
 :)
 declare function htdoc:process($htdoc-entry as element(atom:entry)*) as element()* {
 
@@ -183,7 +183,7 @@ declare function htdoc:title($htdoc-entry as element(atom:entry)*) as element()*
 (:
     returns the name of the author in 
     a readable form (firstname name)
-    by overloading a atom:entry element
+    by handing over a atom:entry element
 :)
 declare function htdoc:author($htdoc-entry as element(atom:entry)) as xs:string* {
     

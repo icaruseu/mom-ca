@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/illurk-images</xrx:id>
+ <xrx:inherits>tag:www.monasterium.net,2011:/mom/widget/charters</xrx:inherits>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key />
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>maburg</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>
+ 
+    <!-- charter context: collection or fond?
+      tokenized-uri[1] = Sammlungsname oder Archivname
+      tokenized-uri[2] = Fondname oder 'images'
+     -->
+    <xrx:variable>
+      <xrx:name>$wcharter:context</xrx:name>
+      <xrx:expression>if(count($xrx:tokenized-uri) = 2) then img:checkifmycollection($xrx:tokenized-uri[1]) else if(count($xrx:tokenized-uri) = 3) then 'fond' else() </xrx:expression>
+    </xrx:variable>
+   <xrx:variable>
+    <xrx:name>$wcharters:metadata-charter-context-collection</xrx:name>
+    <xrx:expression>
+    if($wcharter:context = 'fond')then metadata:base-collection('fond', ($charter:rarchiveid, $charter:rfondid), 'public')
+        else if ($wcharter:context = 'collection') then(metadata:base-collection('collection', ($charter:rcollectionid), 'public') )
+        else(metadata:base-collection('mycollection', ($charter:rcollectionid), 'public'))       
+    </xrx:expression>
+</xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:metadata-charter-context-entry</xrx:name>
+      <xrx:expression>$wcharters:metadata-charter-context-collection//ancestor::atom:entry</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+    <xrx:name>$archivname</xrx:name>
+    <xrx:expression>if($wcharter:context = 'fond') then
+    let $archivcoll := metadata:base-collection('archive', $charter:rarchiveid, 'public')
+    let $eag := $archivcoll//atom:entry[ends-with(atom:id/text(), $xrx:tokenized-uri[1])]//eag:autform/text()
+    return $eag
+    else()
+    </xrx:expression>
+    </xrx:variable>
+    
+   <xrx:variable>
+      <xrx:name>$wcharters:charter-context-name</xrx:name>
+      <xrx:expression>
+      if ($wcharter:context = 'fond') then concat($archivname,' - ', $wcharters:metadata-charter-context-entry//ead:unittitle/text())
+      else if ($wcharter:context = 'collection') then $wcharters:metadata-charter-context-entry//cei:provenance/text()
+      else($wcharters:metadata-charter-context-entry//cei:titleStmt/cei:title/text())
+      </xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharters:charter-context-short-name</xrx:name>
+      <xrx:expression>($wcharters:metadata-charter-context-entry//cei:provenance/@abbr/string(),$wcharters:charter-context-name)[1]</xrx:expression>
+    </xrx:variable>
+    <xrx:variable><xrx:name>$shortname-archive</xrx:name>
+    <xrx:expression>if($wcharter:context = 'fond') then $charter:rarchiveid else()</xrx:expression>
+    </xrx:variable>
+
+    <!-- charter base collection -->
+    <xrx:variable>
+      <xrx:name>$wcharters:metadata-charter-collection</xrx:name>
+      <xrx:expression>if ($wcharter:context = 'fond') then metadata:base-collection('charter', ($charter:rarchiveid, $charter:rfondid), 'public') else(metadata:base-collection('charter', $charter:rcollectionid, 'public'))</xrx:expression>
+    </xrx:variable>
+    <!-- block-wise navigation -->  
+    <xrx:variable> 
+      <xrx:name>$wcharters:block</xrx:name>
+      <xrx:expression>xs:integer(if(request:get-parameter('block', '') != '') then request:get-parameter('block', '-1') else '1')</xrx:expression>
+    </xrx:variable>     
+    <xrx:variable>
+      <xrx:name>$wcharter:date-elements</xrx:name>
+      <xrx:expression>img:years($wcharters:metadata-charter-collection)</xrx:expression>
+    </xrx:variable>
+       <xrx:variable>
+      <xrx:name>$wcharters:block-strings</xrx:name>
+      <xrx:expression>charters:block-strings($wcharter:date-elements)</xrx:expression>
+    </xrx:variable>      
+   
+    <!-- widget specific variables -->
+    <xrx:variable>
+      <xrx:name>$wcollection:atomid</xrx:name>
+      <xrx:expression>$wcharters:metadata-charter-context-collection//atom:id/text()</xrx:expression> 
+    </xrx:variable>
+   <xrx:variable>
+      <xrx:name>$wcollection:type</xrx:name>
+      <xrx:expression>$wcharter:context</xrx:expression>
+    </xrx:variable>
+
+  </xrx:variables>
+    <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+  <xrx:init>
+    <xrx:processor>
+      <xrx:xformsflag>true</xrx:xformsflag>
+      <xrx:jqueryflag>true</xrx:jqueryflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:csss>
+    <style type="text/css">
+ 
+
+   #year-navi {{
+    position:relative;
+    width:10%;
+    float:left;   
+    }}
+    
+    #year-navi div.block {{
+    padding: 0.5em;
+    }}
+    
+    #dcharter-preview-main {{
+    position:relative;
+    float:left;
+    width:85% !important;
+    font-size:0.8em;
+    margin-top:3em;
+    margin-left:2em;
+    }} 
+ 
+    .meta {{
+    position:relative;
+    float:left;
+    width:40%;
+    padding-left: 5px;
+    padding-top: 5px;
+    /*min-height:100px;*/
+    }}
+    
+    
+      
+    .images {{
+      position:relative;
+      float:left;
+      width:400px;
+    }}
+    
+    .bilder {{
+    position:relative;
+    float:left;    
+    background-color:#f5f5f5;
+    margin-top: 1em;
+    margin-left: 1em; 
+    padding:10px;
+    width:90%;
+    }}
+    
+    .bilder img {{
+      margin:5px;
+    }}
+    
+    .xrx-subwidget {{
+    clear:both;
+    }}
+    
+    div.my-functions {{
+    margin-right:10px;
+    margin-bottom:0;
+    }}
+    
+    #charters {{
+    position:relative;
+    float:left;
+    }}
+    
+    #block-navi {{
+    margin-top: 2em !important;
+    text-align: center;    
+    }}
+    
+    .block {{
+    width:120px;
+    }}
+    
+    .goto {{
+    float:right;
+    }}
+   
+    </style>
+    </xrx:csss>
+  <xrx:divs>
+   
+    <xrx:div>
+      <xrx:key>heading-div</xrx:key>
+      <xrx:view>
+        <div class="h2" data-demoid="f108b227-0e76-478a-9703-f60701ec03ca">      
+          <span>
+            <xrx:i18n>
+              <xrx:key>{$wcharter:context}</xrx:key>
+              <xrx:default>Collection</xrx:default>
+            </xrx:i18n>
+          </span>
+          <span>: </span>
+          <span>{ $wcharters:charter-context-name }</span>                
+        </div>
+      </xrx:view>
+    </xrx:div>
+ <xrx:div>
+      <xrx:key>breadcrumb-div</xrx:key>
+      <xrx:view>       
+     <xrx:subwidget>
+        <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/breadcrumb</xrx:atomid>
+        <xrx:pass>
+         <xrx:parameter>
+        <xrx:name>$wbreadcrumb:context</xrx:name>
+          <xrx:expression>$wcollection:type</xrx:expression>
+	       </xrx:parameter>
+	        <xrx:parameter>
+          <xrx:name>$wbreadcrumb:charter-context-short-name</xrx:name>
+            <xrx:expression>if($wcollection:type='fond') then $charter:rarchiveid else($wcharters:charter-context-short-name)</xrx:expression> 
+           </xrx:parameter>
+	        </xrx:pass>        
+        </xrx:subwidget>   
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>charter-preview-div</xrx:key>
+      <xrx:view>
+        <div data-demoid="4fdf46b9-0bab-45fa-b210-de3ced2594c4" id="dcharter-preview-main">
+          <div data-demoid="7ba7d430-65c8-4192-b850-f6a6179dd425">
+         
+          </div>
+          {
+          let $all-user-xmls := $user:db-base-collection/xrx:user
+          for $year at $num in $wcharter:date-elements[ position() = $charters:start to $charters:stop ]
+          return                         
+            <xrx:subwidget>
+              <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/charter-preview-collection</xrx:atomid>
+              <xrx:pass>
+                <xrx:parameter>
+                  <xrx:name>$constructor:charter</xrx:name>
+                  <xrx:expression>$year/ancestor::cei:text</xrx:expression>
+                </xrx:parameter>
+                <xrx:parameter>
+                  <xrx:name>$constructor:all-user-xmls</xrx:name>
+                  <xrx:expression>$all-user-xmls</xrx:expression>
+                </xrx:parameter>
+                <xrx:parameter>
+                  <xrx:name>$constructor:charter-context</xrx:name>
+                  <xrx:expression>$wcollection:type</xrx:expression>
+                </xrx:parameter>
+                   <xrx:parameter>
+                  <xrx:name>$illurkimages</xrx:name>
+                  <xrx:expression>'yes'</xrx:expression>
+                </xrx:parameter>
+              </xrx:pass>
+            </xrx:subwidget>
+                  
+          }  
+        </div>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+  <xrx:key>block-navi-div</xrx:key>
+  <xrx:view>
+  <xrx:subwidget>
+  <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/block-navi</xrx:atomid>
+  <xrx:pass>
+   <xrx:parameter>
+              <xrx:name>$wblock-navi:block</xrx:name>
+              <xrx:expression>$charters:rblock</xrx:expression>
+ </xrx:parameter>
+   <xrx:parameter>
+    <xrx:name>$wblock-navi:date-elements</xrx:name>
+    <xrx:expression>img:years($wcharters:metadata-charter-collection)</xrx:expression>    
+  </xrx:parameter>
+      <xrx:parameter>
+      <xrx:name>$wblock-navi:block-strings</xrx:name>
+      <xrx:expression>$wcharters:block-strings</xrx:expression>
+    </xrx:parameter>
+  </xrx:pass>
+  </xrx:subwidget> 
+  </xrx:view>
+  </xrx:div>
+    <xrx:div>
+    <xrx:key>year-navi-div</xrx:key>
+    <xrx:view>
+      <xrx:subwidget>
+              <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/year-navi</xrx:atomid>
+              <xrx:pass>
+              <xrx:parameter>
+              <xrx:name>$wyear-navi:block</xrx:name>
+              <xrx:expression>$charters:rblock</xrx:expression>
+              </xrx:parameter>
+                   <xrx:parameter>
+      <xrx:name>$wyear-navi:block-strings</xrx:name>
+      <xrx:expression>$wcharters:block-strings</xrx:expression>
+    </xrx:parameter>
+              </xrx:pass>       
+    </xrx:subwidget>
+    </xrx:view>   
+    </xrx:div>
+        <xrx:div>
+    <xrx:key>goto-search-div</xrx:key>
+    <xrx:view>
+      <xrx:subwidget>
+              <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/goto-search</xrx:atomid>
+        <xrx:pass>
+              <xrx:parameter>
+              <xrx:name>$wgoto-search:context</xrx:name>
+              <xrx:expression>$wcollection:type</xrx:expression>
+              </xrx:parameter>
+                <xrx:parameter>
+              <xrx:name>$wgoto-search:id</xrx:name>
+              <xrx:expression>if($wcollection:type = 'fond') then $charter:rarchiveid else($charter:rcollectionid)</xrx:expression>
+              </xrx:parameter>
+              
+      </xrx:pass>    
+    </xrx:subwidget>
+    </xrx:view>   
+    </xrx:div>
+  </xrx:divs> 
+  <xrx:view>
+   <xrx:div>heading-div</xrx:div>
+    <xrx:div>breadcrumb-div</xrx:div>
+   <xrx:div>goto-search-div</xrx:div>
+   <xrx:div>block-navi-div</xrx:div>
+   <xrx:div>year-navi-div</xrx:div>
+   <xrx:div>charter-preview-div</xrx:div>
+   <xrx:div>block-navi-div</xrx:div>
+  </xrx:view>
+</xrx:widget>
+

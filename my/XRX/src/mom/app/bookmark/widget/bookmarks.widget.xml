@@ -51,6 +51,10 @@
 			<xrx:name>$wbookmarks:navigation</xrx:name>
 			<xrx:expression>pagination:navi($wbookmarks:numentries)</xrx:expression>
 		</xrx:variable>
+		  <xrx:variable>
+      <xrx:name>$illurkimages</xrx:name>
+      <xrx:expression>''</xrx:expression>
+    </xrx:variable>
 	</xrx:variables>
 	<xrx:portal>tag:www.monasterium.net,2011:/mom/portal/desktop</xrx:portal>
 	<xrx:init>
@@ -66,6 +70,9 @@
   position:relative;
   float:left;
   width:800px;
+}}
+.my-functions {{
+  margin-top:-3em;
 }}
 
 .note-field{{
@@ -128,20 +135,22 @@
 					let $all-user-xmls := $user:db-base-collection/xrx:user
 					for $bookmarked-charter at $num in $wbookmarks:bookmarked-charters[position() = $wbookmarks:startstop]
 					return
+					
 					(: get charter context: collection or fond? :)
 					let $tokens := tokenize(substring-after($bookmarked-charter, conf:param('atom-tag-name')), '/')
-					
 					let $charter-context := 
-					let $probably-collection-id := $tokens[3]
-					let $probably-collection-atom-id := metadata:atomid('collection', $probably-collection-id)
-					return
-					if(exists(metadata:base-collection('collection', 'public')//atom:id[.=$probably-collection-atom-id])) then 'collection' else 'fond'
+					let $probably-collection-id := $tokens[3]			
+					let $collection-id-tokens-count := count(tokenize($probably-collection-id, '-'))
+					let $collection-context := 				  
+					    if($collection-id-tokens-count=5) then 'mycollection' else 'collection'
+					let $probably-collection-atom-id := metadata:atomid($collection-context, $probably-collection-id)
+					return				 
+					 if(exists(metadata:base-collection($collection-context, 'public')//atom:id[.=$probably-collection-atom-id])) then 'collection' else 'fond'
 					
 					let $charter-id := $tokens[last()]
 					let $fond-id := if($charter-context = 'fond') then $tokens[last() - 1] else 'null'
 					let $archive-id := if($charter-context = 'fond') then $tokens[last() - 2] else 'null'
 					let $collection-id := if($charter-context = 'collection') then $tokens[last() - 1] else 'null'
-					
 					(: init metadata database collection :)        
 					let $metadata-charter-collection := 
 					if($charter-context = 'fond') then
@@ -149,7 +158,7 @@
 					else
 					metadata:base-collection('charter', $collection-id, 'public')
 					
-					(: get charter :)
+					(: get charter :)					
 					let $charter := root($metadata-charter-collection//atom:id[.=$bookmarked-charter])//cei:text
 					return
 					<div data-demoid="b5f5092c-ccb0-4b73-93af-f70df8d6040b" id="ch{ $num }">
@@ -180,6 +189,10 @@
 									<xrx:name>$constructor:collection-id</xrx:name>
 									<xrx:expression>$collection-id</xrx:expression>
 								</xrx:parameter>
+								  <xrx:parameter>
+                  <xrx:name>$illurkimages</xrx:name>
+                  <xrx:expression>''</xrx:expression>
+                </xrx:parameter>
 							</xrx:pass>
 						</xrx:subwidget>
 					</div>

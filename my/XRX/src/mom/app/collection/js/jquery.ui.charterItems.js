@@ -111,13 +111,12 @@ $.widget( "ui.charterItems", {
     // insert all into items DIV
     itemsDiv.append(toolbarDiv)
         //.append(itemDivPreface)
-        .append(table);
-    
-    // compose DIVs for charters
+        .append(table);   
+    // compose DIVs for charters   
     $.ajax({
-      url: self._serviceUrl(serviceMyCollectionItems),
+      url: self._serviceUrl(serviceMyCollectionItems),      
       dataType: 'json',
-      data: { mycollection: atomid },
+      data: { mycollection : atomid },
       success: function(data, textStatus, jqXHR) { 
         var length = 0;
         $.each(data, function(key, value) { 
@@ -151,7 +150,7 @@ $.widget( "ui.charterItems", {
             itemLinkDate = $('<div></div>')
               .addClass("forms-table-cell")
               .append($('<span/>')
-                .text(date)
+                .css("margin", "10px").text(date)
               ),
             itemLinkCharter = $('<div></div>')
              .addClass("forms-table-cell")
@@ -165,14 +164,11 @@ $.widget( "ui.charterItems", {
                 .attr("href", requestRoot + url + "/edit")
 	            .attr("target", "_blank")
 	            .append($('<button></button>')
-	            .text("Default Editor") )
+	            .text("Editor") )
                 
-              ).append(
-                  $('<a></a>').attr("href", requestRoot + "charter/" + key + "/illurk").attr("target", "_blank").append(
-                      $('<button></button>').text("Illurk Editor")
-                      )
               );
-          
+          console.log('Das ist ein ajax test');
+          console.log(self._serviceUrl(serviceMyCollectionItems));
           var itemLinkDisplay = $('<div></div>')
               .addClass("forms-table-cell");
           if (versionOfTitle !== '') {
@@ -242,7 +238,7 @@ $.widget( "ui.charterItems", {
     // replace the initial DIV
     myCollectionItemsDiv.replaceWith(itemsDiv);  
   }
-
 });
+
   
 })( jQuery );

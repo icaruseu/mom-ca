@@ -1,0 +1,78 @@
+<xrx:service xmlns:eag="http://www.archivgut-online.de/eag" xmlns:xrx="http://www.monasterium.net/NS/xrx">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/my-collection-cei</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key></xrx:key>
+      <xrx:default></xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:variables>
+    <xrx:variable>
+      <xrx:name>$mycollection-objectid</xrx:name>
+      <xrx:expression>metadata:objectid(request:get-parameter('mycollection', ''))</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$base-collection</xrx:name>
+      <xrx:expression>metadata:base-collection('charter', $mycollection-objectid, 'private')</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$entries</xrx:name>
+      <xrx:expression>$base-collection/atom:entry</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:translateflag>false</xrx:translateflag>
+     <xrx:serializeas>method=xml media-type=text/xml</xrx:serializeas>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:body>
+    <cei:cei xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.monasterium.net/NS/cei https://raw.githubusercontent.com/icaruseu/mom-ca/master/my/XRX/src/mom/app/cei/xsd/cei.xsd"
+      xmlns:cei="http://www.monasterium.net/NS/cei">
+      <cei:teiHeader>
+        <cei:fileDesc>
+          <cei:titleStmt><cei:title>Export of {$mycollection-objectid} </cei:title></cei:titleStmt>
+          <cei:publicationStmt>
+            <cei:p>For private use only.</cei:p>
+          </cei:publicationStmt>
+          <cei:sourceDesc>
+            <cei:p>Extracted private data from http://www.monasterium.net</cei:p>
+          </cei:sourceDesc>
+        </cei:fileDesc>
+      </cei:teiHeader>
+      <cei:text>
+        <cei:group>{
+          for $content in $entries//atom:content
+	  let $u := $content/cei:text
+          return
+          $u
+          }
+        </cei:group>
+      </cei:text>
+    </cei:cei>
+  </xrx:body>
+</xrx:service>

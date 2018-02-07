@@ -51,7 +51,7 @@ $.widget("ui.search", {
           $( this ).data( "ui-autocomplete" ).menu.active ) {
         event.preventDefault();
       }
-    })
+    }) /**
     .autocomplete({
       source: function( request, response ) {
         $.getJSON("/terms.xql", {
@@ -79,7 +79,7 @@ $.widget("ui.search", {
         this.value = terms.join( " " );
         return false;
       }
-    });
+    }) */;
   },
 
 

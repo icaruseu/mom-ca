@@ -79,6 +79,10 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:expression>upd:replace-element-content($charter-to-release, text { 'yes' })</xrx:expression>
     </xrx:variable>
     <xrx:variable>
+        <xrx:name>$updated-released</xrx:name>
+        <xrx:expression>upd:insert-after($updated//xrx:saved[xrx:id=$atomid]/xrx:freigabe, <xrx:released>{current-dateTime()}</xrx:released>)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
       <xrx:name>$user-xml</xrx:name>
       <xrx:expression>$user:db-base-collection/xrx:user[.//xrx:saved/xrx:id=$atomid]</xrx:expression>
     </xrx:variable>
@@ -122,7 +126,7 @@ MOM-CA with the following role: moderator
   <xrx:body>
 		{
 		let $store := 
-		 if($charter-to-release) then atom:PUT(conf:param('xrx-user-atom-base-uri'), concat(xmldb:encode($xrx:user-id), '.xml'), $updated)
+		 if($charter-to-release) then atom:PUT(conf:param('xrx-user-atom-base-uri'), concat(xmldb:encode($xrx:user-id), '.xml'), $updated-released)
 		 else()
     let $sendmail :=
     <xrx:sendmail>

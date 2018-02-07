@@ -43,8 +43,16 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:expression>tokenize($tokens[last()-1], '-')</xrx:expression>
     </xrx:variable>
     <xrx:variable>
+      <xrx:name>$regex</xrx:name>
+      <xrx:expression>"[A-Za-z0-9]{8}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{12}"</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$isGUID</xrx:name>
+      <xrx:expression>matches($tokens[last()-1], $regex)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
       <xrx:name>$base-collection</xrx:name>
-      <xrx:expression>if( count( $collection )  = 5 ) then $user:db-base-collection else metadata:base-collection('charter', 'saved')</xrx:expression>
+      <xrx:expression>if( $isGUID ) then $user:db-base-collection else metadata:base-collection('charter', 'saved')</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$entry</xrx:name>

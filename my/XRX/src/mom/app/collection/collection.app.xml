@@ -102,16 +102,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:relativepath>js/</xrx:relativepath>
       <xrx:name>jquery.ui.myCollectionsEdit.js</xrx:name>
     </xrx:resource> 
-<!--   <xrx:resource>
+  <xrx:resource>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xrxAttributes</xrx:atomid>
       <xrx:relativepath>js/</xrx:relativepath>
       <xrx:name>jquery.ui.xrxAttributes.js</xrx:name>
-    </xrx:resource> -->
-    <xrx:resource>
-      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xrxSelect</xrx:atomid>
-      <xrx:relativepath>js/</xrx:relativepath>
-      <xrx:name>jquery.ui.xrxSelect.js</xrx:name>
- </xrx:resource>
+    </xrx:resource> 
  <!--  JavaScript -->
     <xrx:resource>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/progressbarRemove</xrx:atomid>
@@ -172,6 +167,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/my-collection-items</xrx:atomid>
     </xrx:map>
     <xrx:map>
+      <xrx:uripattern>/service/my-collection-cei$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/my-collection-cei</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
       <xrx:uripattern>/service/my-collection-items-shared$</xrx:uripattern>
       <xrx:mode>service</xrx:mode>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/my-collection-items-shared</xrx:atomid>
@@ -210,6 +210,21 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:uripattern>/service/my-collection-charter-toggle-just-link$</xrx:uripattern>
       <xrx:mode>service</xrx:mode>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/my-collection-charter-toggle-just-link</xrx:atomid>
+    </xrx:map>
+        <xrx:map>
+      <xrx:uripattern>/service/editMomgetControlledVoc$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/editMomgetControlledVoc</xrx:atomid>
+    </xrx:map>
+       <xrx:map>
+      <xrx:uripattern>/service/datalist$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/datalist</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/service/CheckSessionStatus$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/CheckSessionStatus</xrx:atomid>
     </xrx:map>
     <!-- main widgets -->
     <xrx:map>
@@ -276,11 +291,6 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:uripattern>/edit$</xrx:uripattern>
       <xrx:mode>mainwidget</xrx:mode>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/my-collection-charter-edit</xrx:atomid>
-    </xrx:map>
-    <xrx:map>
-      <xrx:uripattern>/charter/(.*)/illurk$</xrx:uripattern>
-      <xrx:mode>mainwidget</xrx:mode>
-      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/my-collection-charter-illurk</xrx:atomid>
     </xrx:map>
     <xrx:map>
       <xrx:uripattern>/charter/(.*)/contribute$</xrx:uripattern>

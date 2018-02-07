@@ -37,6 +37,13 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       display:none;
       }}
       
+      #header-options-div{{
+            position:absolute;
+      right:20px;
+      top:25px;
+      margin-right: 2px;
+      }}
+      
       #image-tool-widget-button-bar{{
       position:relative;
       font-size:10px !important;
@@ -72,11 +79,6 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       cursor:default;
       }}
 
-      #image-tool-div{{
-      position:absolute;
-      right:20px;
-      top:25px;
-      }}  
 
       #image-tool-widget {{
       display: none;
@@ -103,6 +105,32 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       right:3px;
       top:4px;
       width:10px;
+      }}
+      
+      #mode-select-div{{
+      display: inline;
+      margin-right: 10px;
+      
+      }}
+      
+           #image-tool-div{{
+     	display: inline;
+      }}  
+      
+
+      
+      #mode-select{{
+      position:relative;
+      float:left;
+      z-index:1;
+      margin:0;
+      border:solid grey 1px;
+      cursor:default;
+      height: 33px;
+      width: 125px;
+      font-size: 14px;
+      font-family: Courier,monospace;
+      border-radius: 4px;
       }}
 
       #no-annos, #broken-anno{{

@@ -89,7 +89,7 @@ declare function i18n:value($key as xs:string, $lang as xs:string, $default as x
     if($value != '') then $value else $default
 };
 
-(: returns a element of type xrx:i18n by overloading a key and a language :)
+(: returns a element of type xrx:i18n by handing over a key and a language :)
 declare function i18n:message($key as xs:string, $lang as xs:string) as element()* {
     
     collection(
@@ -97,7 +97,7 @@ declare function i18n:message($key as xs:string, $lang as xs:string) as element(
     )//xrx:i18n[xrx:key = xs:string($key)]
 };
 
-(: returns the default value of a i18n message by overloading a key :)
+(: returns the default value of a i18n message by handing over a key :)
 declare function i18n:default-value($key as xs:string) {
     
     ($i18n:db-base-collection//xrx:i18n[xrx:key = xs:string($key)]/xrx:default/text())[1]

@@ -11,6 +11,7 @@
 var serviceMyCollectionSave             =        "service/my-collection-save";
 var serviceValidateInstance             =        "service/my-collection-charter-validate";
 
+
 $.widget( "ui.xmleditor", {
 
 	options: {
@@ -28,12 +29,19 @@ $.widget( "ui.xmleditor", {
 	},
 	/* ajax-request of my-collection-save.service.xml */
 	save: function() {
-		var self = this;		
+		var self = this;
+		/* proof the variable data: 
+		 * if there are ampersands, 
+		 * they are escaped 
+		 * part of issue #427
+		 * */
+		var data = $(".xrx-instance").text().replace(/&/g,'&amp;').replace(/&amp;amp;/g, '&amp;');
+		
 		$.ajax({
 			url: self.options.requestRoot + serviceMyCollectionSave,
 			type: "POST",
 			contentType: "application/xml",
-			data: $(".xrx-instance").text(),
+			data: data, 
 			dataType: "xml",
 			  /* 
 			   * success function
@@ -41,25 +49,77 @@ $.widget( "ui.xmleditor", {
 			   * if result = true the save-function is completed and the save function was a success
 			   * if result = false the save-function is completed but the save function was not a success
 			   */	
-			success: function(response){
+			success: function(response){				
+				
 				if($(response).find('result').text() == "true"){
 					$("#autoSaveStatus").text("All changes saved.");
+				
 					return true;
 				}
 				else {
+					
 					$("#autoSaveStatus").text("Failed to save changes.");
+					
 					return false;
 				}			
 			},
-			error: function(){
+			error: function(){				
 			 $("#autoSaveStatus").text("Error: Failed to load save-script.");
-			 
+			
 			 return false;
 			}			
 		});
 
 	}
-	
 });
 	
 })( jQuery );
+
+
+
+function PermisDialog(){
+	$("#permission_dialog").dialog({
+		position: {my: "center", at: "center", of: "center"},
+		width: 525,
+		modal: true,
+		buttons: {
+			"back": function(){
+				window.location="/mom/home";
+			}
+		}
+	});
+
+	$("div#permission_dialog").on('dialogclose', function(event){
+		window.location="/mom/home";
+		
+	});
+	
+	
+};
+
+
+function CheckSessionStatus(){
+
+	
+	$.ajax({
+		url: "service/CheckSessionStatus",
+		type: "POST",
+		contentType: "application/xml",
+		data: "",
+		dataType: "xml",
+		success: function(response){				
+			if($(response).find("result").text()=='true'){}
+			else {
+				location.reload();
+				$('#dinner-textann').append("<div>you are logged-out. Please Relog");
+			}
+			},
+	
+		error: function(){				
+	
+			return false;
+		}			
+	});
+}
+
+

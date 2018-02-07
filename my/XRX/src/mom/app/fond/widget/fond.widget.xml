@@ -139,6 +139,7 @@ it leaves the active development stage.
 					</span>
 					<span>: </span>
 					<span>{ $wcharters:charter-context-name }</span>
+				
 				</div>      
       </xrx:view>
     </xrx:div>
@@ -154,6 +155,19 @@ it leaves the active development stage.
 					</xrx:rules>
 					<xrx:true>
 						<div class="my-functions" data-demoid="b66d7ec4-40ef-4e6e-8d98-98024b70d3b7">
+					   <script type="text/javascript">
+          $(document).ready(function (){{
+          console.log("fond.widget.xml");
+         // $("div.my-functions").insertAfter("div#container");
+          $('<div class="clear"></div>').insertAfter("div.my-functions");                    
+            var lookforfunction = $("div.function-link").children("a");
+          if(lookforfunction == 0){{
+          var einf= $("div.function-link").children();
+          einf.css("color", "#EF6A2F").text("not available");
+          }}
+                
+          }});
+          </script>
 							<h3>
 								<xrx:i18n>
 									<xrx:key>my-functions</xrx:key>
@@ -243,20 +257,7 @@ it leaves the active development stage.
 					</xrx:false>
 				</xrx:auth>      
       </xrx:view>
-    </xrx:div>
-    <xrx:div>
-      <xrx:key>preface-link-div</xrx:key>
-      <xrx:view>
-				<div class="year-list" data-demoid="dc2c7dbe-e33b-460a-9796-fe00c9bd249c" style="font-weight:{ if($wcharters:block = -1) then 'bold' else 'normal' }">
-					<a href="fond">
-						<xrx:i18n>
-							<xrx:key>preface</xrx:key>
-							<xrx:default>Preface</xrx:default>
-						</xrx:i18n>
-					</a>
-				</div>      
-      </xrx:view>
-    </xrx:div>
+    </xrx:div>  
     <xrx:div>
       <xrx:key>breadcrumb-div</xrx:key>
       <xrx:view>
@@ -311,17 +312,38 @@ it leaves the active development stage.
     <xrx:div>
       <xrx:key>goto-search-div</xrx:key>
       <xrx:view>
-				<div data-demoid="76786e2f-c292-4a0f-8b55-f37f6babaa7b" id="goto-search">
-					<a href="{ conf:param('request-root') }search?q=&amp;img=false&amp;sort=date&amp;arch={ $charter:rarchiveid }&amp;col={ $charter:rfondid }&amp;p=search">
-						<xrx:i18n>
-							<xrx:key>search-in</xrx:key>
-							<xrx:default>Search in</xrx:default>
-						</xrx:i18n>
-						<span> { conf:param('request-root') }{ $charter:rarchiveid }/{ xmldb:decode($charter:rfondid) } &gt;&gt;</span>
-					</a> 
-				</div>
+      <xrx:subwidget>
+              <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/goto-search</xrx:atomid>
+        <xrx:pass>
+              <xrx:parameter>
+              <xrx:name>$wgoto-search:context</xrx:name>
+              <xrx:expression>'fond'</xrx:expression>
+              </xrx:parameter>
+                <xrx:parameter>
+              <xrx:name>$wgoto-search:id</xrx:name>
+              <xrx:expression>$charter:rarchiveid</xrx:expression>
+              </xrx:parameter>
+              
+      </xrx:pass>    
+    </xrx:subwidget>		
       </xrx:view>
     </xrx:div>
+        
+        
+         <xrx:div>
+      <xrx:key>preface-link-div</xrx:key>
+      <xrx:view>
+        <div class="year-list" data-demoid="dc2c7dbe-e33b-460a-9796-fe00c9bd249c" style="font-weight:{ if($wcharters:block = -1) then 'bold' else 'normal' }">
+          <a href="fond">
+            <xrx:i18n>
+              <xrx:key>preface</xrx:key>
+              <xrx:default>Preface</xrx:default>
+            </xrx:i18n>
+          </a>
+        </div>      
+      </xrx:view>
+    </xrx:div>        
+            
     <xrx:div>
       <xrx:key>preface-div</xrx:key>
       <xrx:view>
@@ -335,8 +357,8 @@ it leaves the active development stage.
 								<xrx:default>The charters of this fond will be available soon.</xrx:default>
 							</xrx:i18n>
 						</span>
-						<br/>
-						<br/>
+					<!-- 	 <br/>
+						<br/>  -->
 					</div>
 					else()
 					}
@@ -361,9 +383,9 @@ it leaves the active development stage.
 							</xrx:rules>
 							<xrx:true>
 								<div data-demoid="c58cab92-b660-4532-b881-427c66c17909">
+									<!-- <br/>
 									<br/>
-									<br/>
-									<br/>
+									<br/> -->
 									<div data-demoid="f91c7b9a-7a3f-4342-954e-0376369c4b05">
 										<h2>Old preface (visible for Metadata manager)</h2>
 									</div>

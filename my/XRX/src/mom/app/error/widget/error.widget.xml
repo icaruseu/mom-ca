@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/error</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key>error</xrx:key>
+      <xrx:default>Error</xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>JBigalke@smail.uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more
+lenient towards the inclusion of components into other systems, once
+it leaves the active development stage.
+  </xrx:licence>
+  <xrx:variables>
+    <xrx:variable>
+        <xrx:name>$uri</xrx:name>
+        <xrx:expression>request:get-uri()</xrx:expression>
+    </xrx:variable> 
+    <xrx:variable>
+        <xrx:name>$tokenized-uri</xrx:name>
+        <xrx:expression>tokenize($uri, "/")</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+        <xrx:name>$content-type</xrx:name>
+        <xrx:expression>error:content-type($uri)</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+  <xrx:init>
+      <xrx:processor>
+      <xrx:xformsflag>true</xrx:xformsflag>
+      <xrx:jqueryflag>true</xrx:jqueryflag>
+    </xrx:processor>
+  </xrx:init>
+  <xrx:view>
+   <div id="headline">
+   <h1>Error</h1>
+   </div>
+  <div id="error-content">
+   {
+   if($content-type="collection") then <div>
+   										<xrx:i18n>
+   										 <xrx:key>collection_not_found</xrx:key>
+   									     <xrx:default>Collection not found</xrx:default>
+   									    </xrx:i18n>
+   									    <span>.</span>
+   									   </div>
+   else if($content-type="charter") then 
+   									<div>
+   										<xrx:i18n>
+   										 <xrx:key>charter_not_found</xrx:key>
+   									     <xrx:default>Charter not found</xrx:default>
+   									    </xrx:i18n>
+   									    <span>: </span>
+   									     {
+		if(count($tokenized-uri)=6) then <a href="/mom/{concat($tokenized-uri[3],'/',$tokenized-uri[4],'/fond')}">
+											<xrx:i18n>
+											  <xrx:key>go_back_to_fond</xrx:key>
+											  <xrx:default>Go back to fond</xrx:default>
+											</xrx:i18n>
+									     </a>
+									else(<a href="/mom/{concat($tokenized-uri[3],'/collection')}">
+											<xrx:i18n>
+												<xrx:key>go_back_to_collection</xrx:key>
+												<xrx:default>Go back to fond</xrx:default>
+											</xrx:i18n>
+										</a>
+									)}</div>
+   else if($content-type="fond") then <div>
+   										<xrx:i18n>
+   										 <xrx:key>fond_not_found</xrx:key>
+   									     <xrx:default>Fond not found</xrx:default>
+   									    </xrx:i18n>
+   									    <span>: </span>
+   									    <a href="/mom/{concat($tokenized-uri[3],'/archive')}">
+   									    	<xrx:i18n>
+   										 	 <xrx:key>go_back_to_archive</xrx:key>
+   									    	 <xrx:default>Go back to archive</xrx:default>
+   									    	</xrx:i18n>
+   									    </a>
+   									   </div>
+   else if($content-type="archive") then <div>   									    	
+   									        <xrx:i18n>
+   										 	 <xrx:key>archive_not_found</xrx:key>
+   									    	 <xrx:default>Archive not found</xrx:default>
+   									    	</xrx:i18n>
+   									    	<span>.</span>
+   									    </div>
+   else(<div>   									        
+   		 <xrx:i18n>
+   		  <xrx:key>content_not_found</xrx:key>
+   		  <xrx:default>Content not found</xrx:default>
+   		 </xrx:i18n>
+   		 <span>.</span>
+   		</div>
+    )
+    }
+    </div>
+   </xrx:view>
+</xrx:widget>

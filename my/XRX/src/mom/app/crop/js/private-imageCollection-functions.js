@@ -3175,7 +3175,7 @@ function sendImage(id, user, lang){
 
 
 // *!* ################ functions of the image editor ################ *!*
-// save actual step on image to undo it later
+// save current step on image to undo it later
 function saveImage(){
   if(!undo)
     {
@@ -3207,7 +3207,7 @@ function saveImage(){
     undoPoint++;
 }
 
-// undo actual work step and load old image to editor viewport
+// undo current work step and load old image to editor viewport
 function undoStep(lang){
   // get old img
   if(undoPoint==1)
@@ -3233,7 +3233,7 @@ function undoStep(lang){
           newimg.setAttribute('CLASS', "editorimg");
     var wmargin = $('#'+id).css('left');
     var hmargin = $('#'+id).css('top');
-    // delete actual img and load old img
+    // delete current img and load old img
     old = document.getElementById(id);
     old.parentNode.removeChild(old); 
     document.getElementById('editorviewport').appendChild(newimg);

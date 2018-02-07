@@ -57,6 +57,7 @@
           <group>transcription</group>
           <group>google</group>
           <group>date</group>
+          <group>max</group>
         </groups>
       </editor_field>
       <editor_field>
@@ -71,6 +72,8 @@
           <group>full</group>
           <group>abstractEditor</group>
           <group>google</group>
+          <group>illurk</group>
+          <group>max</group>
         </groups>
       </editor_field>
       <editor_field>
@@ -85,6 +88,8 @@
           <group>full</group>
           <group>date</group>
           <group>google</group>
+          <group>illurk</group>
+          <group>max</group> 
         </groups>
       </editor_field>
       <editor_field>
@@ -99,6 +104,8 @@
           <group>full</group>
           <group>date</group>
           <group>google</group>
+          <group>illurk</group>
+		  <group>max</group>         
         </groups>
       </editor_field>
       <editor_field>
@@ -113,6 +120,7 @@
           <group>full</group>
           <group>google</group>
           <group>date</group>
+          <group>max</group>
         </groups>
       </editor_field>
       <!-- Tab-Page 2 Fields -->
@@ -128,6 +136,7 @@
           <group>full</group>
           <group>transcription</group>
           <group>google</group>
+          <group>max</group>
         </groups>
       </editor_field>
       <!-- Tab-Page 3 Fields -->
@@ -143,6 +152,7 @@
           <group>full</group>
           <group>frontEditor</group>
           <group>google</group>
+          <group>max</group>
         </groups>
       </editor_field>
       <editor_field>
@@ -157,8 +167,11 @@
           <group>full</group>
           <group>frontEditor</group>
           <group>google</group>
+          <group>illurk</group>
+          <group>max</group>
         </groups>
       </editor_field>
+
       <!-- Tab-Page 4 Fields -->
       <editor_field>
         <id>cei:traditioForm</id>
@@ -171,6 +184,8 @@
         <groups>
           <group>full</group>
           <group>frontEditor</group>
+          <group>illurk</group>
+          <group>max</group>
         </groups>
       </editor_field> 
       <editor_field>
@@ -184,6 +199,8 @@
         <groups>
           <group>full</group>
           <group>witnessEditor</group>
+          <group>illurk</group>
+          <group>max</group>
         </groups>
       </editor_field>
       <editor_field>
@@ -197,6 +214,8 @@
         <groups>
           <group>full</group>
           <group>witnessEditor</group>
+          <group>illurk</group>
+          <group>max</group>
         </groups>
       </editor_field>
       <editor_field> 
@@ -210,6 +229,8 @@
         <groups>
           <group>full</group>
           <group>witnessEditor</group>
+          <group>illurk</group>
+          <group>max</group>
         </groups>
       </editor_field>
       
@@ -224,6 +245,8 @@
         <groups>
           <group>full</group>
           <group>witnessEditor</group>
+          <group>illurk</group>
+          <group>max</group>
         </groups>
       </editor_field> 
  
@@ -238,6 +261,8 @@
         <groups>
           <group>full</group>
           <group>witnessEditor</group>
+          <group>illurk</group>
+          <group>max</group>
         </groups>
       </editor_field>
       
@@ -252,6 +277,8 @@
         <groups>
           <group>full</group>
           <group>witnessEditor</group>
+          <group>illurk</group>
+          <group>max</group>
         </groups>
       </editor_field> 
       <editor_field>
@@ -265,8 +292,25 @@
         <groups>
           <group>full</group>
           <group>witnessEditor</group>
+          <group>illurk</group>
+          <group>max</group>
         </groups>
       </editor_field> 
+      <editor_field>
+        <id>cei:rubrum</id>
+        <parent>cei:witnessOrig</parent>
+        <mult_occurence>true</mult_occurence>
+        <target_field></target_field>
+        <tab_page>4</tab_page>
+        <active>true</active>
+        <message>self</message>
+        <groups>
+          <group>full</group>
+          <group>witnessEditor</group>
+          <group>illurk</group>
+          <group>max</group>
+        </groups>
+      </editor_field>
       <editor_field>
         <id>cei:witnessOrig</id>
         <parent>cei:chDesc</parent>cei:
@@ -278,9 +322,26 @@
         <groups>
           <group>full</group>
           <group>witnessEditor</group>
+          <group>illurk</group>
+          <group>max</group>
         </groups>
       </editor_field> 
-
+      <!-- Tab-Page DecoDescription -->
+      <editor_field>
+        <id>cei:decoDesc</id>
+        <parent>cei:witnessOrig</parent>
+        <mult_occurence>true</mult_occurence>
+        <target_field>cei:p</target_field>
+        <!-- <target_field>cei:decoNote</target_field> -->
+        <tab_page>8</tab_page>
+        <active>true</active>
+        <message>self</message>
+        <groups>          
+          <group>illurk</group>
+          <group>max</group>
+        </groups>
+      </editor_field>
+      
       <!-- Tab-Page 5 Fields -->
       <!-- 
       <editor_field>
@@ -415,6 +476,7 @@
         <groups>
           <group>full</group>
           <group>witnessEditor</group>
+          <group>max</group>
         </groups>
       </editor_field> 
       <!-- Tab-Page 6 Fields -->
@@ -429,6 +491,8 @@
         <groups>
           <group>full</group>
           <group>witnessEditor</group>
+          <group>illurk</group>
+          <group>max</group>
         </groups>
       </editor_field>   
       <editor_field>
@@ -442,6 +506,8 @@
         <groups>
           <group>full</group>
           <group>witnessEditor</group>
+          <group>illurk</group>
+          <group>max</group>
         </groups>
       </editor_field> 
       <editor_field>
@@ -455,6 +521,8 @@
         <groups>
           <group>full</group>
           <group>witnessEditor</group>
+          <group>illurk</group>
+          <group>max</group>
         </groups>
       </editor_field> 
       <editor_field>
@@ -464,10 +532,12 @@
         <target_field>cei:bibl</target_field>
         <tab_page>6</tab_page>
         <active>true</active>
-        <message>parent</message>
+        <message>self</message>
         <groups>
           <group>full</group>
           <group>witnessEditor</group>
+          <group>illurk</group>
+          <group>max</group>
         </groups>
       </editor_field> 
       <editor_field>
@@ -481,6 +551,8 @@
         <groups>
           <group>full</group>
           <group>witnessEditor</group>
+          <group>illurk</group>
+          <group>max</group>
         </groups>
       </editor_field> 
       <editor_field>
@@ -494,6 +566,8 @@
         <groups>
           <group>full</group>
           <group>witnessEditor</group>
+          <group>illurk</group>
+          <group>max</group>
         </groups>
       </editor_field> 
       <editor_field>
@@ -507,6 +581,8 @@
         <groups>
           <group>full</group>
           <group>diplomaticEditor</group>
+          <group>illurk</group>
+          <group>max</group>
         </groups>
       </editor_field> 
       <editor_field>
@@ -520,6 +596,7 @@
         <groups>
           <group>full</group>
           <group>diplomaticEditor</group>
+          <group>max</group>
         </groups>
       </editor_field>
       <editor_field>
@@ -533,6 +610,8 @@
         <groups>
           <group>full</group>
           <group>witnessEditor</group>
+          <group>illurk</group>
+          <group>max</group>
         </groups>
       </editor_field>
       <editor_field>
@@ -546,6 +625,8 @@
         <groups>
           <group>full</group>
           <group>diplomaticEditor</group>
+          <group>illurk</group>
+          <group>max</group>
         </groups>
       </editor_field> 
       <!-- Tab-Page 7 Fields -->
@@ -560,6 +641,8 @@
         <groups>
           <group>full</group>
           <group>personEditor</group>
+          <group>illurk</group>
+          <group>max</group>
         </groups>
       </editor_field>
       <editor_field>
@@ -573,6 +656,8 @@
         <groups>
           <group>full</group>
           <group>placeEditor</group>
+          <group>illurk</group>
+          <group>max</group>
         </groups>
       </editor_field> 
       <editor_field>
@@ -586,8 +671,24 @@
         <groups>
           <group>full</group>
           <group>indexEditor</group>
+          <group>illurk</group>
+          <group>max</group>
         </groups>
-      </editor_field> 
+      </editor_field>
+      <editor_field>
+        <id>cei:class</id>
+        <parent>cei:back</parent>
+        <mult_occurence>true</mult_occurence>
+        <target_field></target_field>
+        <tab_page>7</tab_page>
+        <active>true</active>
+        <message>self</message>
+        <groups>
+          <group>full</group>
+          <group>illurk</group>
+          <group>max</group>
+        </groups>
+      </editor_field>
     </editor_fields>
   </xrx:xml>
 </xrx:template>

@@ -36,7 +36,7 @@ import module namespace xrx="http://www.monasterium.net/NS/xrx"
 
 (:
     returns a document of type xrx:portal
-    by overloading a main widget of 
+    by handing over a main widget of 
     type xrx:widget
 :)
 declare function portal:get($main-widget as element(xrx:widget)) as element() {

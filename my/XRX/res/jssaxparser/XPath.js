@@ -745,7 +745,14 @@
 					} else if(XML.isSelfLevel(first.contextId, levelId) && first.nodeType == NODE_TEXT && first.numText == numText && !onlyText) {
 		    			
 						result += first.string.slice(0).substr(0, first.offset) + xml;
-						copyFlag = false;
+						
+						// For textchanges
+                            if(first.numText = last.numText) {
+                              result += last.string.slice(0).substr(last.offset, last.string.length - last.offset +1);
+                              copyFlag = true;
+                            } else {copyFlag = false;}
+                        //
+						
 						
 		    		} else if(XML.isSelfLevel(last.contextId, levelId) && last.nodeType == NODE_TEXT && last.numText == numText && !onlyText) {
 

@@ -44,6 +44,16 @@
   </xrx:modules>
   <xrx:resources>
     <!-- images -->
+      <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/momlogo</xrx:atomid>
+      <xrx:relativepath>image/</xrx:relativepath>
+      <xrx:name>momlogo.png</xrx:name>
+    </xrx:resource>
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/mom-logo-header</xrx:atomid>
+      <xrx:relativepath>image/</xrx:relativepath>
+      <xrx:name>mom-logo-header.jpg</xrx:name>
+    </xrx:resource> 
     <xrx:resource>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/google</xrx:atomid>
       <xrx:relativepath>image/</xrx:relativepath>
@@ -164,7 +174,8 @@
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/js/oai-functions</xrx:atomid>
       <xrx:relativepath>js/</xrx:relativepath>
       <xrx:name>oai-functions.js</xrx:name>
-    </xrx:resource>
+    </xrx:resource> 
+  
     <!-- XSL -->
     <xrx:resource>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/xsl/cei2ese</xrx:atomid>

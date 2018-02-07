@@ -31,6 +31,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   <xrx:init>
    <xrx:processor>
      <xrx:xformsflag>false</xrx:xformsflag>
+     <xrx:jqueryflag>true</xrx:jqueryflag>
    </xrx:processor>
   </xrx:init>
   <xrx:csss>
@@ -57,6 +58,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 
     </style>
   </xrx:csss>
+  <xrx:jss>
+  <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+</xrx:jss>
   <xrx:view>
     {
     let $htdoc-entry := htdoc:get($xrx:resolver/xrx:atomid/text())

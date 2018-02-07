@@ -35,8 +35,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   <xrx:init>
    <xrx:processor>
      <xrx:xformsflag>false</xrx:xformsflag>
+     <xrx:jqueryflag>true</xrx:jqueryflag>
    </xrx:processor>
   </xrx:init>
+  <xrx:jss>
+  <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+</xrx:jss>
 	<xrx:view>
 		<div data-demoid="87530fb7-f44d-458b-8e80-3223fb0aedd2" id="my-archive">
 			<xrx:auth>
