@@ -40,8 +40,8 @@ lenient towards the inclusion of components into other systems, once
 it leaves the active development stage.
   </xrx:licence>
   <xrx:variables>
-    <!-- 
-      widget specific variables 
+    <!--
+      widget specific variables
     -->
     <xrx:variable>
       <xrx:name>$wfond:archive-atomid</xrx:name>
@@ -55,7 +55,7 @@ it leaves the active development stage.
       <xrx:name>$wfond:imported-fond-exists</xrx:name>
       <xrx:expression>exists($wfond:metadata-charter-import-collection/xrx:import)</xrx:expression>
     </xrx:variable>
-    <!-- 
+    <!--
     	variables for inherited widget
      -->
     <!-- charter context information -->
@@ -79,7 +79,7 @@ it leaves the active development stage.
       <xrx:name>$wcharters:metadata-charter-collection</xrx:name>
       <xrx:expression>metadata:base-collection('charter', ($charter:rarchiveid, $charter:rfondid), 'public')</xrx:expression>
     </xrx:variable>
-    
+
     <!-- block-wise navigation -->
     <xrx:variable>
       <xrx:name>$wcharters:preface-exists</xrx:name>
@@ -89,7 +89,7 @@ it leaves the active development stage.
       <xrx:name>$wcharters:block</xrx:name>
       <xrx:expression>xs:integer(if($wcharters:preface-exists or request:get-parameter('block', '') != '') then request:get-parameter('block', '-1') else '1') </xrx:expression>
     </xrx:variable>
-    
+
     <!-- overwrite -->
 		<xrx:variable>
 		  <xrx:name>$charters:start</xrx:name>
@@ -103,7 +103,7 @@ it leaves the active development stage.
 		  <xrx:name>$charters:previous-block</xrx:name>
 		  <xrx:expression>if($wcharters:block = 1) then 1 else $wcharters:block - 1</xrx:expression>
 		</xrx:variable>
-		
+
     <!-- overwrite -->
     <xrx:variable>
       <xrx:name>$wcharter:date-elements</xrx:name>
@@ -139,8 +139,8 @@ it leaves the active development stage.
 					</span>
 					<span>: </span>
 					<span>{ $wcharters:charter-context-name }</span>
-				
-				</div>      
+
+				</div>
       </xrx:view>
     </xrx:div>
     <xrx:div>
@@ -159,13 +159,13 @@ it leaves the active development stage.
           $(document).ready(function (){{
           console.log("fond.widget.xml");
          // $("div.my-functions").insertAfter("div#container");
-          $('<div class="clear"></div>').insertAfter("div.my-functions");                    
+          $('<div class="clear"></div>').insertAfter("div.my-functions");
             var lookforfunction = $("div.function-link").children("a");
           if(lookforfunction == 0){{
           var einf= $("div.function-link").children();
           einf.css("color", "#EF6A2F").text("not available");
           }}
-                
+
           }});
           </script>
 							<h3>
@@ -190,15 +190,16 @@ it leaves the active development stage.
 									</xrx:rules>
 									<xrx:true>
 										<div data-demoid="c726bf4c-fc0c-4ee6-992d-c72403558352">
-											<div class="function-link" data-demoid="eb791871-4472-4ee3-9bb8-7fba703a0005">
-												<a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ $charter:rfondid }/edit-fond">
-													<span>‣ </span>
-													<xrx:i18n>
-														<xrx:key>edit-fond-info</xrx:key>
-														<xrx:default>Edit Fond Information</xrx:default>
-													</xrx:i18n>
-												</a>
-											</div>
+                                            <!--<div class="function-link"-->
+                                                 <!--data-demoid="eb791871-4472-4ee3-9bb8-7fba703a0005">-->
+                                                <!--<a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ $charter:rfondid }/edit-fond">-->
+                                                    <!--<span>‣ </span>-->
+                                                    <!--<xrx:i18n>-->
+                                                        <!--<xrx:key>edit-fond-info</xrx:key>-->
+                                                        <!--<xrx:default>Edit Fond Information</xrx:default>-->
+                                                    <!--</xrx:i18n>-->
+                                                <!--</a>-->
+                                            <!--</div>-->
                       <div class="function-link" data-demoid="6d45a47e-60c1-4965-85c8-54cb1a916e23">
                         <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/{ $charter:rfondid }/remove-fond">
                           <span>‣ </span>
@@ -240,7 +241,7 @@ it leaves the active development stage.
 														<xrx:default>Preferences</xrx:default>
 													</xrx:i18n>
 												</a>
-											</div> 
+											</div>
 										</div>
 									</xrx:true>
 									<xrx:false>
@@ -255,9 +256,9 @@ it leaves the active development stage.
 					<xrx:false>
 						<span/>
 					</xrx:false>
-				</xrx:auth>      
+				</xrx:auth>
       </xrx:view>
-    </xrx:div>  
+    </xrx:div>
     <xrx:div>
       <xrx:key>breadcrumb-div</xrx:key>
       <xrx:view>
@@ -323,13 +324,13 @@ it leaves the active development stage.
               <xrx:name>$wgoto-search:id</xrx:name>
               <xrx:expression>$charter:rarchiveid</xrx:expression>
               </xrx:parameter>
-              
-      </xrx:pass>    
-    </xrx:subwidget>		
+
+      </xrx:pass>
+    </xrx:subwidget>
       </xrx:view>
     </xrx:div>
-        
-        
+
+
          <xrx:div>
       <xrx:key>preface-link-div</xrx:key>
       <xrx:view>
@@ -340,10 +341,10 @@ it leaves the active development stage.
               <xrx:default>Preface</xrx:default>
             </xrx:i18n>
           </a>
-        </div>      
+        </div>
       </xrx:view>
-    </xrx:div>        
-            
+    </xrx:div>
+
     <xrx:div>
       <xrx:key>preface-div</xrx:key>
       <xrx:view>
@@ -399,16 +400,16 @@ it leaves the active development stage.
 					</div>
 					)
 					}
-				</div>      
+				</div>
       </xrx:view>
     </xrx:div>
     <xrx:div>
       <xrx:key>charter-preview-div</xrx:key>
       <xrx:view>
-				<div data-demoid="ecc258ea-76e8-4287-a53b-dd60969c17fc" id="dcharter-preview-main">					
+				<div data-demoid="ecc258ea-76e8-4287-a53b-dd60969c17fc" id="dcharter-preview-main">
 					<div data-demoid="e7bb0a0a-c8b2-425b-849c-285a84ca3c5c">
 					{
-						if(not($wcharters:preface-exists) and request:get-parameter('block', '') = '') then 
+						if(not($wcharters:preface-exists) and request:get-parameter('block', '') = '') then
 						<span>
 							<xrx:i18n>
 							  <xrx:key>a-preface-will-be-available-soon</xrx:key>
