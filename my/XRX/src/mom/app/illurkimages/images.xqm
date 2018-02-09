@@ -104,12 +104,10 @@ return $iiifurl
 
 
 
-declare function img:checkifmycollection ($urltoken){
-let $atomabgleich := $img:mycollection//ends-with(atom:id/text(), $urltoken)
-let $entscheidung := if ($atomabgleich) then 'mycollection' else('collection')
-
-return $entscheidung
-    
+declare function img:checkifmycollection ($urltoken as xs:string) as xs:string {
+    let $matching-atomids := $img:mycollection//atom:id[ends-with(./text(), $urltoken)]
+    return
+        if (exists($matching-atomids)) then 'mycollection' else 'collection'
 };
 
 declare function img:suchebilder($charter){
