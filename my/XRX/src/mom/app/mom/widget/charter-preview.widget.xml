@@ -270,18 +270,7 @@ span.block {{
         <xrx:jss>     
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/charter</xrx:resource>
-   <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/imageTool</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/slider</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/dialog</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/droppable</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/position</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/resizable</xrx:resource>
-     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/dialogCopyToCollection</xrx:resource>  
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/charter</xrx:resource> 
   </xrx:jss>
   <xrx:divs>
      <xrx:div>
@@ -361,16 +350,7 @@ span.block {{
                     <xrx:default>MyArchive</xrx:default>
                   </xrx:i18n>
                 </span><br/>
-              
-                  <a id="{concat('copy',$wcharter-preview:id)}">
-                    <xrx:i18n>
-                      <xrx:key>copy-to-collection</xrx:key>
-                      <xrx:default>Copy to Collection</xrx:default>
-                    </xrx:i18n>
-                  </a><br/>
-                  <script type="text/javascript">$(document).ready(function(){{$("#copy{$wcharter-preview:id}").click(function(){{createLegalDialog("{conf:param('request-root')}", "{$wcharter-preview:atom-id}","{$wcharter-preview:owner}");}});}});</script>
-             		
-								{
+              				{
 								bookmark:trigger(
 								$wcharter-preview:is-bookmarked,
 								$wcharter-preview:atom-id,
