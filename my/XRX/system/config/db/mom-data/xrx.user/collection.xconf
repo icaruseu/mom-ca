@@ -1,7 +1,9 @@
 <collection xmlns="http://exist-db.org/collection-config/1.0">
-  <index xmlns:xrx="http://www.monasterium.net/NS/xrx">
-    <fulltext default="none" attributes="no"/>
-    <create qname="xrx:email" type="xs:string"/>
-    <create qname="xrx:id" type="xs:string"/>
+    <index xmlns:xrx="http://www.monasterium.net/NS/xrx">
+        <fulltext default="none" attributes="no"/>
+        <range>
+            <create qname="xrx:email" type="xs:string"/>
+            <create qname="xrx:id" type="xs:string"/>
+        </range>
   </index>
 </collection>
