@@ -3,7 +3,10 @@
   <xrx:title>
     <xrx:i18n>
       <xrx:key></xrx:key>
-      <xrx:default></xrx:default>
+      <xrx:default>
+       Service to copy a charter into a Collection. URL: mom/service/my-collection-copy-charter
+       awaits a the id of the collection to which the charter will be copied, needs the Id of the charter to copy, the name of the original owner of the charter and the 
+      </xrx:default>
     </xrx:i18n>
   </xrx:title>
   <xrx:subtitle></xrx:subtitle>
@@ -39,10 +42,6 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   		<xrx:expression>request:get-parameter('charterid','')</xrx:expression>
   	</xrx:variable>
   	<xrx:variable>
-  		<xrx:name>$charterContext</xrx:name>
-  		<xrx:expression>request:get-parameter('context','')</xrx:expression>
-  	</xrx:variable>
-  	  	<xrx:variable>
   		<xrx:name>$OriginalOwner</xrx:name>
   		<xrx:expression>request:get-parameter('owner','')</xrx:expression>
   	</xrx:variable>
@@ -91,10 +90,21 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     	
     	let $newAtomIdNode := <atom:id>{$atomid}</atom:id>
     	let $replaceAtomIdNode := update replace $newCharter//atom:id with $newAtomIdNode
-    	let $newAtomLinkNode := <atom:link type="interpretationOf" href="{$charterId}"/>
+    	let $newAtomLinkNode := <atom:link type="versionOf" href="{$charterId}"/>
     	let $insertnewAtomLink :=  update insert $newAtomLinkNode preceding $newCharter//atom:content
-    	let $newSourceDescVolltext := <cei:sourceDescVolltext><cei:bibl>As published in {$tokenizedId[last()-1]} by {$OriginalOwner}</cei:bibl></cei:sourceDescVolltext>
-    	let $insertnewNodeSourceDescVolltext := update insert $newSourceDescVolltext into $newCharter//cei:sourceDesc
+    	let $sourceDescRegestNodes := $newCharter//cei:sourceDesc/cei:sourceDescRegest
+    	let $replaceNode := for $SourceDescRegest in $sourceDescRegestNodes 
+    		let $bibl := $SourceDescRegest/cei:bibl/text()
+    		let $NewNode := <cei:sourcDescRegest><cei:bibl>{$bibl}</cei:bibl>As published in {$tokenizedId[last()-1]} by {$OriginalOwner}</cei:sourcDescRegest>
+    		let $replaceOldSourceDescRegest := update replace $SourceDescRegest with $NewNode
+    		return $NewNode
+
+    	let $sourceDescVolltextNodes := $newCharter//cei:sourceDesc/cei:sourceDescVolltext
+    	let $replaceNode :=	for $SourceDescVolltext in $sourceDescVolltextNodes
+    		let $bibl := $SourceDescVolltext/cei:bibl/text()
+    		let $NewNode := <cei:sourcDescVolltext><cei:bibl>{$bibl}</cei:bibl>As published in {$tokenizedId[last()-1]} by {$OriginalOwner}</cei:sourcDescVolltext>
+    		let $replaceOldSourceDescVolltext := update replace $SourceDescVolltext with $NewNode
+			return $NewNode
     	return $newCharter
     }
   </xrx:body>
