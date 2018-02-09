@@ -1537,7 +1537,8 @@ p#first {{
         </div>
        <div id="select-collection-popUp" style="display:none">
       	<div id="dialogcontent">
-      		<select id="collectionSelect"></select>
+      		<select id="collectionSelect">
+      		</select>
         </div>
        </div>
        
