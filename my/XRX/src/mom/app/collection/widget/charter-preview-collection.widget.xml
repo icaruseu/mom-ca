@@ -144,6 +144,15 @@ it leaves the active development stage.
         ) else false()
       </xrx:expression>
     </xrx:variable>
+      <xrx:variable>
+    	<xrx:name>$tokenized-url</xrx:name>
+    	<xrx:expression>tokenize(request:get-url(),"/") </xrx:expression>
+    </xrx:variable>
+        <xrx:variable>
+    	<xrx:name>$wcharter-preview:owner</xrx:name>
+    	<xrx:expression>if(contains($tokenized-url[last()],"fond")) then doc(concat(metadata:base-collection-path('archive', $tokenized-url[last()-2], 'public'),$tokenized-url[last()-2], ".eag.xml"))//eag:identity/eag:autform/text() 
+                  	else(root($constructor:charter)//atom:author/atom:email/text())</xrx:expression>
+    </xrx:variable>
   </xrx:variables>
   <xrx:divs>
     <xrx:div>
@@ -236,7 +245,10 @@ it leaves the active development stage.
                     <xrx:key>my-archive</xrx:key>
                     <xrx:default>MyArchive</xrx:default>
                   </xrx:i18n>
-                </span>
+                </span><br/>
+
+                  <script type="text/javascript">$(document).ready(function(){{$("#copy{$wcharter-preview:id}").click(function(){{createLegalDialog("{conf:param('request-root')}", "{$wcharter-preview:atom-id}","{$wcharter-preview:owner}");}});}});</script>
+   
                 <!-- ### Bookmark trigger ### -->
                 {
                 if($constructor:charter-context != 'linked-fond') then
