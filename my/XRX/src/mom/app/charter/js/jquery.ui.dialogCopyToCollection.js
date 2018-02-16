@@ -1,19 +1,20 @@
 
-function createLegalDialog(requestRoot, charterid, owner){
+function createLegalDialog(requestRoot, charterid, owner, context){
 		$("#insertOwner").append(owner);
 	    $("#copy-legal-popUp").dialog({
 			      				width: 500,
 			      				buttons:{
 									Cancel: function(){$(this).dialog("close");},
 									"Accept": function(){
-										callserviceMyCollectionsTree(requestRoot, charterid, owner);
+										callserviceMyCollectionsTree(requestRoot, charterid, owner, context);
 										$(this).dialog("close");
 									}
 			      				}
 	    	});
+	    $(".ui-dialog-titlebar").hide();
 };
 
-function callserviceMyCollectionsTree(requestRoot, charterid, owner){	
+function callserviceMyCollectionsTree(requestRoot, charterid, owner, context){	
 	var MyCollectionsTree = "my-collections-tree";
 	$.ajax({
 		url: createServiceUrl(requestRoot, MyCollectionsTree),
@@ -30,28 +31,39 @@ function callserviceMyCollectionsTree(requestRoot, charterid, owner){
 	        		callserviceMyCollectionCheckCharterExists(requestRoot, charterid)
 	        	})
 	        });
-			createSelectDialog(requestRoot, charterid, owner);
+			createSelectDialog(requestRoot, charterid, owner, context);
 		}
 	});
 };
 
 
 function callserviceMyCollectionCheckCharterExists(requestRoot, charterid){
+	
 	var MyCollectionCheckCharterExists = "my-collection-check-charter-exists";
 	var selected_collection = $("#collectionSelect").val();
+	if(selected_collection == ''){
+		$("#Copy-Charter-Button").button('disable');
+		$("#charterexistmessage").hide();
+		}
+	else{
 	$.ajax({
 		url: createServiceUrl(requestRoot, MyCollectionCheckCharterExists),
 		type: "POST",
 		data: {collection: selected_collection, charterid: charterid},
-		dataType: "text",
+		dataType: "xml",
 		success: function(data, textStatus, jqXHR){
-			if(data == "true"){$("#Copy-Charter-Button").button('disable');}
-			else if(data == "false"){$("#Copy-Charter-Button").button('enable');}
-		}
+			if($(data).find("result").text() == "true"){
+				$("#charterexistmessage").show();
+				$("#Copy-Charter-Button").button('disable');}
+			else if($(data).find("result").text() == "false"){
+				$("#charterexistmessage").hide();
+				$("#Copy-Charter-Button").button('enable');}
+		},
 	});
+	}
 }
 
-function createSelectDialog(requestRoot, charterid, owner) {
+function createSelectDialog(requestRoot, charterid, owner, context) {
 	$('#select-collection-popUp').dialog({
 	      width: 500,
 			buttons:{
@@ -63,27 +75,35 @@ function createSelectDialog(requestRoot, charterid, owner) {
 					text: "Copy Charter",
 					id: "Copy-Charter-Button",
 					click: function(){
-				    $(this).dialog("close");
-					callserviceMyCollectionCopyCharter(requestRoot, charterid, owner);
+					 var self = $(this);
+					callserviceMyCollectionCopyCharter(requestRoot, charterid, owner, context, self);
 				}
 			  }
 			}
 	});
+    $(".ui-dialog-titlebar").hide();
+
 	$("#Copy-Charter-Button").button('disable');
 };
 
 function createServiceUrl(requestRoot, service, charterid){ return requestRoot +"service/" +service};
 
-function callserviceMyCollectionCopyCharter(requestRoot, charterid, owner){
+function callserviceMyCollectionCopyCharter(requestRoot, charterid, owner, context, self){
+	$("#copyinProgress").show();
+	$("#Copy-Charter-Button").button('disable');
+	$("#Cancel-Button").button('disable');
 	var MyCollectionCopyCharter = "my-collection-copy-charter";
 	var selected_collection = $("#collectionSelect").val();
 	$.ajax({
 		url: createServiceUrl(requestRoot, MyCollectionCopyCharter),
 		type: "POST",
-		data: {collection: selected_collection, charterid: charterid, owner: owner},
-		dataType: "text",
+		data: {collection: selected_collection, charterid: charterid, owner: owner, context: context},
+		dataType: "xml",
 		success: function(data, textStatus, jqXHR){
-			console.log(data);
+			$("#copyinProgress").hide();
+		    self.dialog("close");
+			$("#Cancel-Button").button('enable');
+
 		}
 	});
 };
