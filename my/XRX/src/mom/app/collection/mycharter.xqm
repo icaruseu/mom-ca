@@ -125,3 +125,63 @@ declare function mycharter:get-charter-list($metadata-charter-collection) {
     return
     $entry   
 };
+
+
+declare function mycharter:transformCharter($charter, $params){
+
+let $xslt :=        
+    <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+        xmlns:ead="urn:isbn:1-931666-22-9"
+        xmlns:atom="http://www.w3.org/2005/Atom"
+        xmlns:cei="http://www.monasterium.net/NS/cei"
+        version="2.0">
+        <xsl:param name="atom_link_url"/>
+        <xsl:param name="bibl_string"/>
+        <xsl:param name="new_atom_id"/>
+        <xsl:param name="new_url_string"/>
+        <xsl:template match="@* | node()">
+            <xsl:copy>
+                <xsl:apply-templates select="@*|node()"/>
+            </xsl:copy>
+        </xsl:template>
+        <xsl:template match="@|node()" mode="copy">
+            <xsl:copy>
+                <xsl:apply-templates select="@|node()" mode="copy"/>
+            </xsl:copy>
+        </xsl:template>
+        <xsl:template match="atom:id/text()">
+            <xsl:value-of select="$new_atom_id"/>       
+        </xsl:template>
+        <xsl:template match="atom:content">
+            <atom:link rel="versionOf">
+                <xsl:attribute name="ref"><xsl:value-of select="$atom_link_url"/></xsl:attribute>
+            </atom:link>
+            <atom:content type="application/xml">
+                <xsl:apply-templates/>
+            </atom:content>
+        </xsl:template>
+        <xsl:template match="cei:sourceDescRegest/cei:bibl">
+            <cei:bibl>
+                <xsl:value-of select="concat(. ,' ', $bibl_string)"/>
+            </cei:bibl>
+        </xsl:template>
+        <xsl:template match="cei:sourceDescVolltext/cei:bibl">
+            <cei:bibl>
+                <xsl:value-of select="concat(. ,' ', $bibl_string)"/>
+            </cei:bibl>
+        </xsl:template>
+        <xsl:template match="@url[parent::cei:graphic]">
+        <xsl:if test="not(contains(., '/'))">
+            <xsl:attribute name="url">
+                <xsl:value-of select="concat($new_url_string, '/' ,. )"/>
+            </xsl:attribute>
+            </xsl:if>
+       </xsl:template>
+    </xsl:stylesheet>
+
+let $newXml := transform:transform($charter, $xslt, $params)
+
+let $debug := util:log("ERROR", $newXml)
+
+return $newXml
+};
