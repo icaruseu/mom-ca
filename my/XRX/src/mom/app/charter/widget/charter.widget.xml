@@ -1207,7 +1207,7 @@ p#first {{
                       <xrx:default>Copy to Collection</xrx:default>
                     </xrx:i18n>
                   </a><br/>
-                  <script type="text/javascript">$(document).ready(function(){{$("#copycollection").click(function(){{createLegalDialog("{conf:param('request-root')}", "{$wcharter:atom-id}", "{$wcharter:owner}");}});}});</script>
+                  <script type="text/javascript">$(document).ready(function(){{$("#copycollection").click(function(){{createLegalDialog("{conf:param('request-root')}", "{$wcharter:atom-id}", "{$wcharter:owner}", "{$wcharter:context}");}});}});</script>
                 </div>
               </div>              
             </xrx:true>
@@ -1539,9 +1539,10 @@ p#first {{
       	<div id="dialogcontent">
       		<select id="collectionSelect">
       		</select>
+      		<p id="charterexistmessage" style="display:none">The Charter already exists in the choosen Collection</p>
+      		<p id="copyinProgress" style="display:none">Please wait copying Charter, dialog will close at success</p>
         </div>
        </div>
-       
       </div>     
   </xrx:view>  
 </xrx:widget>
