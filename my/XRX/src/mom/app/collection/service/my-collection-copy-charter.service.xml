@@ -38,6 +38,10 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   		<xrx:expression>request:get-parameter('collection', '')</xrx:expression>
   	</xrx:variable>
   	<xrx:variable>
+  		<xrx:name>$context</xrx:name>
+  		<xrx:expression>request:get-parameter('context','')</xrx:expression>
+  	</xrx:variable>
+  	<xrx:variable>
   		<xrx:name>$charterId</xrx:name>
   		<xrx:expression>request:get-parameter('charterid','')</xrx:expression>
   	</xrx:variable>
@@ -71,11 +75,19 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$atomid</xrx:name>
-      <xrx:expression>metadata:atomid('charter', ($collection, $tokenizedId[last()]))</xrx:expression>
+      <xrx:expression>
+      	if($context="fond")then(metadata:atomid('charter', ($collection, concat($tokenizedId[last()-2],"_",$tokenizedId[last()-1],"_",$tokenizedId[last()]))))
+    	else if($context="collection") then(metadata:atomid('charter', ($collection, concat($tokenizedId[last()-1],"_",$tokenizedId[last()]))))
+    	else(metadata:atomid('charter', ($collection, $tokenizedId[last()])))
+      </xrx:expression>
     </xrx:variable>
   	    <xrx:variable>
       <xrx:name>$new-entry-name</xrx:name>
-      <xrx:expression>metadata:entryname('charter', $tokenizedId[last()])</xrx:expression>
+      <xrx:expression>	
+      	if($context="fond")then(metadata:entryname('cei', concat($tokenizedId[last()-2],"_",$tokenizedId[last()-1],"_",$tokenizedId[last()])))
+    	else if($context="collection") then(metadata:entryname('cei', concat($tokenizedId[last()-1],"_",$tokenizedId[last()])))
+    	else(metadata:entryname('cei', $tokenizedId[last()]))
+     </xrx:expression>
     </xrx:variable>
   </xrx:variables>
   <xrx:init>
@@ -85,27 +97,24 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   </xrx:init>
   <xrx:body>
     {
-    	let $put := atom:POST($feed, $new-entry-name, $charter)
-    	let $newCharter := doc(concat($myCollectionPrivatePath, '/', $new-entry-name))
-    	
-    	let $newAtomIdNode := <atom:id>{$atomid}</atom:id>
-    	let $replaceAtomIdNode := update replace $newCharter//atom:id with $newAtomIdNode
-    	let $newAtomLinkNode := <atom:link type="versionOf" href="{$charterId}"/>
-    	let $insertnewAtomLink :=  update insert $newAtomLinkNode preceding $newCharter//atom:content
-    	let $sourceDescRegestNodes := $newCharter//cei:sourceDesc/cei:sourceDescRegest
-    	let $replaceNode := for $SourceDescRegest in $sourceDescRegestNodes 
-    		let $bibl := $SourceDescRegest/cei:bibl/text()
-    		let $NewNode := <cei:sourcDescRegest><cei:bibl>{$bibl}</cei:bibl>As published in {$tokenizedId[last()-1]} by {$OriginalOwner}</cei:sourcDescRegest>
-    		let $replaceOldSourceDescRegest := update replace $SourceDescRegest with $NewNode
-    		return $NewNode
+    
+    let $FondImageUrl := 
+    	if($context = "fond") then(doc(concat(metadata:base-collection-path('fond','public'),$tokenizedId[last()-2],'/',$tokenizedId[last()-1],'/',$tokenizedId[last()-1],'.preferences.xml'))//xrx:param[@name="image-server-base-url"])
+        else()
+        
+let $params := <parameters>
+                   <param name="new_atom_id" value="{$atomid}"/>
+                   <param name="atom_link_url" value="{$charterId}"/>
+                   <param name="bibl_string" value="As published in {$tokenizedId[last()-1]} by {$OriginalOwner}"/>
+                   <param name="new_url_string" value="{$FondImageUrl}"/>
+			 </parameters>
+    
 
-    	let $sourceDescVolltextNodes := $newCharter//cei:sourceDesc/cei:sourceDescVolltext
-    	let $replaceNode :=	for $SourceDescVolltext in $sourceDescVolltextNodes
-    		let $bibl := $SourceDescVolltext/cei:bibl/text()
-    		let $NewNode := <cei:sourcDescVolltext><cei:bibl>{$bibl}</cei:bibl>As published in {$tokenizedId[last()-1]} by {$OriginalOwner}</cei:sourcDescVolltext>
-    		let $replaceOldSourceDescVolltext := update replace $SourceDescVolltext with $NewNode
-			return $NewNode
-    	return $newCharter
+        
+       let $newXML := mycharter:transformCharter($charter, $params)
+       let $put := atom:POST($feed, $new-entry-name, $newXML)
+       
+       return $newXML
     }
   </xrx:body>
 </xrx:service>
