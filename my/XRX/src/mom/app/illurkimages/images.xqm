@@ -47,9 +47,14 @@ declare function img:years($charter-base-coll) {
     for $entry in $charter-base-coll//atom:entry
     let $year := if($entry/atom:content/@src) then 
                  let $src := data($entry/atom:content/@src)
-                 let $charters := collection("/db/mom-data/metadata.charter.public")//atom:entry[atom:id = $src]
-                 return $charters//cei:text[descendant::cei:graphic/@url !='']//cei:issued/(cei:date/@value|cei:dateRange/@from)
-                 else($entry//cei:text[descendant::cei:graphic/@url !='']//cei:issued/(cei:date/@value|cei:dateRange/@from))
+                 let $linkedcharters := collection("/db/mom-data/metadata.charter.public")//atom:entry[atom:id = $src]
+                 return if($linkedcharters//cei:text[descendant::cei:graphic/@url !='']//cei:issued/cei:date/@value) then
+                 $linkedcharters//cei:text[descendant::cei:graphic/@url !='']//cei:issued/cei:date/@value 
+                 else($linkedcharters//cei:text[descendant::cei:graphic/@url !='']//cei:issued/cei:dateRange/@from)  
+                 else(
+                 if($entry//cei:text[descendant::cei:graphic/@url !='']//cei:issued/cei:date/@value) then
+                 $entry//cei:text[descendant::cei:graphic/@url !='']//cei:issued/cei:date/@value 
+                 else($entry//cei:text[descendant::cei:graphic/@url !='']//cei:issued/cei:dateRange/@from))  
     order by xs:integer($year)
     return   
     $year    
