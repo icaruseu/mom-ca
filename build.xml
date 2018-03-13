@@ -175,18 +175,17 @@
   #
    -->
   
-  <target name="download-jquery">
+  <target name="copy-jquery">
     
     <echo message="-------------------------" />
-    <echo message="Download jQuery (https://github.com/jquery/jquery-ui.git)" />
+    <echo message="Copy jQuery (https://github.com/jquery/jquery-ui.git)" />
     <echo message="-------------------------" />
     <delete dir="jQuery" failonerror="false"/>
-    <get dest="tmp/jQuery.zip" src="https://github.com/jquery/jquery-ui/archive/1-9-stable.zip"/>
-    <unzip src="tmp/jQuery.zip" dest="."/>
+    <unzip src="vendor/jquery-ui-1.9.0.zip" dest="."/>
     <move todir="jQuery">
-      <fileset dir="jquery-ui-1-9-stable"/>
+      <fileset dir="jquery-ui-1.9.0"/>
     </move>
-    <delete dir="jquery-ui-1-9-stable"/>
+    <delete dir="jquery-ui-1.9.0"/>
     
   </target>
   
@@ -238,14 +237,13 @@
   #
    -->
 
-  <target name="download-codemirror">
+  <target name="copy-codemirror">
 
     <echo message="-------------------------" />
-    <echo message="Download CodeMirror2 (http://marijnhaverbeke.nl/git/codemirror2)" />
+    <echo message="Copy CodeMirror2 (http://marijnhaverbeke.nl/git/codemirror2)" />
     <echo message="-------------------------" />
     <delete dir="CodeMirror" failonerror="false"/>
-    <get dest="tmp/CodeMirror.zip" src="https://github.com/marijnh/CodeMirror/archive/v2.zip"/>
-    <unzip src="tmp/CodeMirror.zip" dest="."/>
+    <unzip src="vendor/CodeMirror-2.zip" dest="."/>
     <move todir="CodeMirror">
       <fileset dir="CodeMirror-2"/>
     </move>
@@ -432,8 +430,8 @@
     
     <!-- download external projects -->
     <antcall target="download-jssaxparser"/>
-    <antcall target="download-jquery"/>
-    <antcall target="download-codemirror"/>
+    <antcall target="copy-jquery"/>
+    <antcall target="copy-codemirror"/>
     
     <!-- compile and deploy -->
     <antcall target="compile-exist" />
