@@ -127,7 +127,7 @@ it leaves the active development stage.
         <!-- decision if collection or mycollection -->                      
         <xrx:variable>
             <xrx:name>$wcharter-preview:metadata-collection-collection</xrx:name>    
-            <xrx:expression>metadata:base-collection(img:checkifmycollection($wcharter-preview:atom-id),$constructor:collection-id, 'public' )</xrx:expression>
+            <xrx:expression>metadata:base-collection(mycollection:checkifmycollection($wcharter-preview:atom-id),$constructor:collection-id, 'public' )</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$wcharter-preview:eaddid</xrx:name>

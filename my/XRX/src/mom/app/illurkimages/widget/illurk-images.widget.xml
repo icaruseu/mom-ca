@@ -40,7 +40,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
      -->
     <xrx:variable>
       <xrx:name>$wcharter:context</xrx:name>
-      <xrx:expression>if(count($xrx:tokenized-uri) = 2) then img:checkifmycollection($xrx:tokenized-uri[1]) else if(count($xrx:tokenized-uri) = 3) then 'fond' else() </xrx:expression>
+      <xrx:expression>if(count($xrx:tokenized-uri) = 2) then mycollection:checkifmycollection($xrx:tokenized-uri[1]) else if(count($xrx:tokenized-uri) = 3) then 'fond' else() </xrx:expression>
     </xrx:variable>
    <xrx:variable>
     <xrx:name>$wcharters:metadata-charter-context-collection</xrx:name>
