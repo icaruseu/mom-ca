@@ -243,6 +243,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     </style>
   </xrx:csss>
   <xrx:jss>
+  
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
@@ -664,6 +665,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	  </div>
     <script type="text/javascript">
       jQuery(document).ready(function() {{ 
+      console.log("jquery vorhanden");
+      //console.log("#dsearch");
         jQuery("#dsearch").search({{
           requestRoot: "{ conf:param('request-root') }"
         }}); 
