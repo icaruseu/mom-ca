@@ -180,8 +180,5 @@ let $xslt :=
     </xsl:stylesheet>
 
 let $newXml := transform:transform($charter, $xslt, $params)
-
-let $debug := util:log("ERROR", $newXml)
-
 return $newXml
 };
