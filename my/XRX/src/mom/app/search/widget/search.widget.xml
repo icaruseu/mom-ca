@@ -99,18 +99,18 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   width:200px;
 }}
 #dcharter-preview-main{{
-	position:relative;
-	float:left;
-	width:800px;
+  position:relative;
+  float:left;
+  width:800px;
 }}
 #dcharter-preview-main .charter *{{
-	line-height:1.6em;
+  line-height:1.6em;
 }}
 #dcharter-preview-main .charter{{
-	position:relative;
-	width:100%;
-	float:left;
-	background:rgb(245,245,245);
+  position:relative;
+  width:100%;
+  float:left;
+  background:rgb(245,245,245);
 }}
 #dcharter-preview-main .charter-preview{{
 position:relative;
@@ -196,6 +196,7 @@ right:220px;
   </xrx:csss>
   <xrx:jss>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+  
   </xrx:jss>
   <xrx:model>
     { bookmark:model(conf:param('request-root')) }
@@ -203,34 +204,34 @@ right:220px;
   </xrx:model>
   <xrx:view>
     <div data-demoid="693bd17a-ced3-4321-b9b9-12da215ed64b" id="search">
-		{
-		let $is-loggedin := xmldb:get-current-user() != 'guest'
-		(: compose the query string to be evaluated :)
-		let $metadata-charter-db-base-collection-path := 
-		  concat(conf:param('atom-db-base-uri'), metadata:feed('charter', 'public'))
-		let $query-string := search:query-string($metadata-charter-db-base-collection-path)
-		
-		
-		(: query charters :)
-		let $charters := search:eval($query-string)
-		
-		(: how many hits? :)
-		let $count := count($charters)
-		
-		let $block := xs:integer(request:get-parameter('block', '1'))
-		let $charters-per-block := 30
-		let $start := $block*$charters-per-block - $charters-per-block + 1
-		let $stop := 
-		 if(($start + $charters-per-block - 1) lt $count) then $start + $charters-per-block - 1
-		 else $count
-		let $blocks-count := xs:integer(ceiling($count div $charters-per-block))
-		
-		
-		let $search-options-div :=
-	  <div data-demoid="9cf326d6-e5e2-4651-8010-88d851458c78" id="search-options">
+    {
+    let $is-loggedin := xmldb:get-current-user() != 'guest'
+    (: compose the query string to be evaluated :)
+    let $metadata-charter-db-base-collection-path := 
+      concat(conf:param('atom-db-base-uri'), metadata:feed('charter', 'public'))
+    let $query-string := search:query-string($metadata-charter-db-base-collection-path)
+    
+    
+    (: query charters :)
+    let $charters := search:eval($query-string)
+    
+    (: how many hits? :)
+    let $count := count($charters)
+    
+    let $block := xs:integer(request:get-parameter('block', '1'))
+    let $charters-per-block := 30
+    let $start := $block*$charters-per-block - $charters-per-block + 1
+    let $stop := 
+     if(($start + $charters-per-block - 1) lt $count) then $start + $charters-per-block - 1
+     else $count
+    let $blocks-count := xs:integer(ceiling($count div $charters-per-block))
+    
+    
+    let $search-options-div :=
+    <div data-demoid="9cf326d6-e5e2-4651-8010-88d851458c78" id="search-options">
         <input name="img" type="checkbox" value="true">
-	         { if(request:get-parameter('img', '') = 'true') then attribute checked { 'checked' } else () }
-	       </input>
+           { if(request:get-parameter('img', '') = 'true') then attribute checked { 'checked' } else () }
+         </input>
         <span> </span>
         <xrx:i18n>
           <xrx:key>only-hits-with-images</xrx:key>
@@ -243,8 +244,8 @@ right:220px;
         </xrx:i18n>
         <span> </span>
         <input name="sort" type="radio" value="date">
-	         { if(request:get-parameter('sort', '') = 'date' or request:get-parameter('sort', '') = '') then attribute checked { 'checked' } else () }
-	       </input>
+           { if(request:get-parameter('sort', '') = 'date' or request:get-parameter('sort', '') = '') then attribute checked { 'checked' } else () }
+         </input>
         <span> </span>
         <xrx:i18n>
           <xrx:key>by-date</xrx:key>
@@ -252,8 +253,8 @@ right:220px;
         </xrx:i18n>
         <span> </span>
         <input name="sort" type="radio" value="ranking">
-	         { if(request:get-parameter('sort', '') = 'ranking') then attribute checked { 'checked' } else () }
-	       </input>
+           { if(request:get-parameter('sort', '') = 'ranking') then attribute checked { 'checked' } else () }
+         </input>
         <span> </span>
         <xrx:i18n>
           <xrx:key>relevance-ranking</xrx:key>
@@ -275,16 +276,16 @@ right:220px;
       </div>
     let $select-block-div :=
     <div class="select-block" data-demoid="3a999132-b9d1-4b8c-9165-e5dfc1c3ec05">
-	    {
-	    let $block-link := 
-	    string-join(
-	    for $param in request:get-parameter-names()
-	    return
-	    if(not(matches($param, '(block|content|betterform-flag|null)'))) then
-	      concat('&amp;', $param, '=', request:get-parameter($param, ''))
-	    else ''
-	    , ''
-	    )
+      {
+      let $block-link := 
+      string-join(
+      for $param in request:get-parameter-names()
+      return
+      if(not(matches($param, '(block|content|betterform-flag|null)'))) then
+        concat('&amp;', $param, '=', request:get-parameter($param, ''))
+      else ''
+      , ''
+      )
       for $block-pos in (1 to $blocks-count)
       return
       <div class="block-navi-link" data-demoid="5a6260f7-d147-4b0f-a33d-e99ef6317fee">
@@ -296,7 +297,7 @@ right:220px;
       }
     </div>
     let $select-archive-div := 
-	  <select id="arch-select" name="arch" onchange="javascript:document.search-form.submit();">
+    <select id="arch-select" name="arch" onchange="javascript:document.search-form.submit();">
         <option value="">
           <xrx:i18n>
             <xrx:key>all-archives</xrx:key>
@@ -311,27 +312,27 @@ right:220px;
       return
       <option value="{ $repositorid }">{ if(request:get-parameter('arch', '') = $repositorid) then attribute selected { 'selected' } else () }{ $autform }</option>
       }
-	  </select>
-	  let $select-col-div :=
-	  <select id="col-select" name="col" onchange="javascript:document.search-form.submit();">
+    </select>
+    let $select-col-div :=
+    <select id="col-select" name="col" onchange="javascript:document.search-form.submit();">
         <option value="">
           <xrx:i18n>
             <xrx:key>all-fonds</xrx:key>
             <xrx:default>All fonds</xrx:default>
           </xrx:i18n>
         </option>
-	  {
-	  if($search:arch-id != '') then
-	  let $metadata-fond-collection := metadata:base-collection('fond', $search:arch-id, 'public')
-	  for $fond in $metadata-fond-collection//ead:c[@level='fonds']/ead:did/ead:unittitle
-	  let $fond-name := normalize-space($fond/child::text())
-	  let $search:fond-id := $fond/parent::ead:did/ead:unitid/@identifier/string()
-	  order by $fond-name collation "?lang=de-DE"
-	  return
-	  <option value="{ $search:fond-id }">{ if(request:get-parameter('col', '') = $search:fond-id) then attribute selected { 'selected' } else () }{ $fond-name }</option>
-	  else ()
-	  }
-	  </select>
+    {
+    if($search:arch-id != '') then
+    let $metadata-fond-collection := metadata:base-collection('fond', $search:arch-id, 'public')
+    for $fond in $metadata-fond-collection//ead:c[@level='fonds']/ead:did/ead:unittitle
+    let $fond-name := normalize-space($fond/child::text())
+    let $search:fond-id := $fond/parent::ead:did/ead:unitid/@identifier/string()
+    order by $fond-name collation "?lang=de-DE"
+    return
+    <option value="{ $search:fond-id }">{ if(request:get-parameter('col', '') = $search:fond-id) then attribute selected { 'selected' } else () }{ $fond-name }</option>
+    else ()
+    }
+    </select>
     let $config := <config xmlns="" width="100"/>
       
     return
@@ -360,11 +361,11 @@ right:220px;
               </xrx:i18n>)
         </sup>
           </div>
-	    {
-	    let $no-result := request:get-parameter('noresult', 'true')
-	    return
-	    if( $search:q != '' and $no-result = 'true') then
-	    <div data-demoid="dafd4383-94fa-4639-ba1b-00550091706f">
+      {
+      let $no-result := request:get-parameter('noresult', 'true')
+      return
+      if( $search:q != '' and $no-result = 'true') then
+      <div data-demoid="dafd4383-94fa-4639-ba1b-00550091706f">
             <span>
               <xrx:i18n>
                 <xrx:key>no-results-message</xrx:key>
@@ -372,11 +373,11 @@ right:220px;
               </xrx:i18n>
             </span>
           </div>
-	    else()
-	    }
-	    { $search-trigger-div }
-	  </div>
-	  { $search-options-div }
+      else()
+      }
+      { $search-trigger-div }
+    </div>
+    { $search-options-div }
   <span>   </span>
         <br/>
         <br/>
@@ -453,11 +454,11 @@ right:220px;
             </xrx:i18n>
           </a>
           <sup style="color:red">
-	          (<xrx:i18n>
+            (<xrx:i18n>
               <xrx:key>beta</xrx:key>
               <xrx:default>beta</xrx:default>
             </xrx:i18n>)
-	        </sup>
+          </sup>
         </div>
         <div data-demoid="8a71862e-f853-4553-a978-7886e57287fe">
           <xrx:i18n>
@@ -475,6 +476,14 @@ right:220px;
             <xrx:default>of</xrx:default>
           </xrx:i18n>
           <b> { $count }</b>
+          <p>hier kommt der query string: {
+            let $metadata-charter-db-base-collection-path := 
+      concat(conf:param('atom-db-base-uri'), metadata:feed('charter', 'public'))
+    let $query-string := search:query-string($metadata-charter-db-base-collection-path)
+    return $query-string
+          }</p>
+          <p>Teilpfad: {metadata:feed('charter', 'public')}</p>
+          <p>die Session var querystring: {session:get-attribute('querystring')}</p>
         </div>
         { $select-block-div }
         <div data-demoid="2deeac44-fe13-4dda-9c29-1544cc430bde" id="dcharter-preview-main">

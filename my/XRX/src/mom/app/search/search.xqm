@@ -152,7 +152,8 @@ declare function search:context() {
 };
 
 
-
+(: ****hier wird der Suchstring für suche1 zusammengesetzt ***
+:)
 declare function search:scope-query-string($metadata-charter-db-base-collection-path) as xs:string {
 
     (: do we search inside a fond? :)
@@ -169,7 +170,7 @@ declare function search:scope-query-string($metadata-charter-db-base-collection-
     
 };
 
-
+(: hypothese:  wird nur in suche 2 benutzt. :)
 
 declare function search:query-string-scope($metadata-charter-db-base-collection-path) as xs:string {
     
@@ -225,12 +226,13 @@ declare function search:sort-query-string() {
 
 
 
-(: compose the query string to be evaluated :)
+(: compose the query string to be evaluated :)(: *** das trifft auf suche1 zu ***:)
 declare function search:query-string($metadata-charter-db-base-collection-path) as xs:string {
 
     concat(
         if($xrx:tokenized-uri[last()] = 'search') then
             search:scope-query-string($metadata-charter-db-base-collection-path)
+            
         else
             search:query-string-scope($metadata-charter-db-base-collection-path),
         'for $charter in ',
@@ -461,11 +463,12 @@ declare function search:filter-result($result, $map) {
 
 
 declare function search:eval2($query-string) {
-
-    if(search:is-browse-action($query-string)) then ()
+   
+    if(search:is-browse-action($query-string)) then (
+    util:log("INFO", "ich werrde aufgerufen"))
         
     else if(search:is-first-action()) then 
-
+        let $log := util:log("INFO", "ich werrde aufgerufen")
         let $result := util:eval($query-string)
 
         let $map := search:compile-categories-map($result)
@@ -491,6 +494,7 @@ declare function search:eval2($query-string) {
         return ()
 
     else if(search:is-filter-action()) then
+    let $log := util:log("INFO", "ich werrde aufgerufen")
 
         let $result := util:eval($query-string)
         
@@ -518,7 +522,8 @@ declare function search:eval2($query-string) {
 
 
 declare function search:eval($query-string) {
-
+    let $log := util:log("INFO", "search:eval1")
+    let $log := util:log("INFO", $query-string)
     let $session-query-string := xs:string(session:get-attribute('querystring'))
     let $session-result := session:get-attribute('result')
     let $query-exists := 
