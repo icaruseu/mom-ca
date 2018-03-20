@@ -9,3 +9,9 @@
 function invert_all_checkboxes(checkbox_class) {
   jQuery("input." + checkbox_class).click();
 }
+
+
+jQuery(document).ready(function() { 
+    console.log($("#dsearch"));
+      $("#dsearch").xrxAlibaba();
+      });
