@@ -11,13 +11,12 @@
 console.log("in ui.search");
 var selCheckbox_ = "input[type=checkbox]";
 
-$.widget("ui.xrxAlibaba", {
+$.widget("ui.search", {
 
   
 
-//  options: {
-//    requestRoot: ""
- // },
+  options: {    requestRoot: ""
+  },
 
 
   

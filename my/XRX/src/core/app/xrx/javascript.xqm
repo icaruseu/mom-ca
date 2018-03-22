@@ -31,7 +31,8 @@ declare function javascript:compile($widget as element(xrx:widget), $jss as elem
 
     let $widgetid := $widget/xrx:id/text()
     let $jss-strings :=
-        for $js in $jss//xrx:resource
+        for $js at $count in $jss/xrx:resource
+        order by $js/position()
         return
         typeswitch($js)
         case(element(xrx:resource)) return
@@ -41,7 +42,7 @@ declare function javascript:compile($widget as element(xrx:widget), $jss as elem
             let $relative-path := $resource/xrx:relativepath/text()
             let $name := $resource/xrx:name/text()
             let $uri := concat($collection-name, '/', $relative-path, $name)
-            let $document := if(util:binary-doc-available($uri)) then minify:js(util:binary-to-string(util:binary-doc($uri))) else()
+            let $document := if(util:binary-doc-available($uri)) then util:binary-to-string(util:binary-doc($uri)) else()
             return
             $document
         default return ''

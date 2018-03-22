@@ -244,13 +244,18 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   </xrx:csss>
   <xrx:jss>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+   
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/position</xrx:resource>
+     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/widget</xrx:resource>
+    <!--  <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/position</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/menu</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/autocomplete</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/search</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/toggle_checkbox</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/autocomplete</xrx:resource>-->
+    
+     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrx</xrx:resource>
+    
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/search</xrx:resource>    
+   <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/toggle_checkbox</xrx:resource>
+   
   </xrx:jss>
   <xrx:model>
   { bookmark:model(conf:param('request-root')) }
@@ -662,5 +667,17 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       else()
       }
     </div>
+   <!--  <script type="text/javascript">
+      $(window).on('load', function() {{ 
+     window.setTimeout(function(){{
+      console.log("im widget alles kjlar");
+      console.log($.widget);
+     }}, 500);
+    
+      
+      
+           }}); 
+    </script>-->
+    
   </xrx:view>
 </xrx:widget>
