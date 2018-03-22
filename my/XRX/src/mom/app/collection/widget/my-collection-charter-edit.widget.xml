@@ -324,7 +324,9 @@
             position: absolute;
             top: 430px;
             left: 670px;}}
-
+select .group {{
+font-weight: bold !important;
+}}
 
  </style>
     </xrx:csss>
