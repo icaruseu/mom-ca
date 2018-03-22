@@ -60,17 +60,33 @@ declare function resolver:is-resource-existing() as xs:boolean {
     let $uri-tokens := tokenize(request:get-uri(), "/")
     let $resource-type := $uri-tokens[last()]
     let $resource-db-path := resolver:create-resource-db-path($uri-tokens, $resource-type)
+
+
+
     return
-        if(not(exists($resource-db-path))) then
-            true()
+    (: Test if there are special-characters the to
+     : If true test if ressource exists over Atom:id
+     : If false try to find ressource file in database
+    :)
+        if(matches(xmldb:decode(request:get-uri()),'[|<>()\]\[]')) then
+           let $is-existing := resolver:check-existing-over-id($uri-tokens, $resource-type)
+           return
+            if(not($is-existing) and $resource-type = "collection") then
+                resolver:is-mycollection-existing($uri-tokens)
+            else 
+             $is-existing 
+        
         else
-            let $is-existing := exists(doc($resource-db-path))
-            return
-                if(not($is-existing) and $resource-type = "collection") then
-                    resolver:is-mycollection-existing($uri-tokens)
-                else
-                    $is-existing
-};
+            if(not(exists($resource-db-path))) then
+                true()
+            else
+                let $is-existing := exists(doc($resource-db-path))
+                return
+                    if(not($is-existing) and $resource-type = "collection") then
+                        resolver:is-mycollection-existing($uri-tokens)
+                    else
+                        $is-existing
+    };
 
 (: Tests whether or not a mycollection as indicated by a request is existing :)
 declare function resolver:is-mycollection-existing($uri-tokens as xs:string*) as xs:boolean {
@@ -78,6 +94,7 @@ declare function resolver:is-mycollection-existing($uri-tokens as xs:string*) as
     let $mycollection-atomid := collection("/db/mom-data/xrx.user")//atom:id[. = $mycollection-atomid-string]
     return
         exists($mycollection-atomid)
+        
 };
 
 (: Creates mom-ca resource paths from the current request. Returns the database path to the resource or () if the current
@@ -99,4 +116,19 @@ declare function resolver:create-resource-db-path($uri-tokens as xs:string*, $re
             "/db/mom-data/metadata.archive.public/" || $uri-tokens[last()-1] || "/" || $uri-tokens[last()-1] || ".eag.xml"
         default return
             ()
+};
+
+(: Tries to find a document over the atom:id element returns true when it exists :)
+declare function resolver:check-existing-over-id($uri-tokens as xs:string*, $resource-type as xs:string) as xs:boolean? {
+    switch($resource-type)
+        case "charter" return 
+            if(count($uri-tokens)=6) then
+              exists(collection("/db/mom-data/metadata.charter.public/" || $uri-tokens[last()-3] || "/" ||  $uri-tokens[last()-2])//atom:id[text()="tag:www.monasterium.net,2011:/charter/" || $uri-tokens[last()-3] || "/" ||$uri-tokens[last()-2] || "/" || $uri-tokens[last()-1]])
+             else 
+              exists(collection("/db/mom-data/metadata.charter.public/" || $uri-tokens[last()-2])//atom:id[text()="tag:www.monasterium.net,2011:/charter/" ||$uri-tokens[last()-2] || "/" || $uri-tokens[last()-1]])
+        case "fond" return
+              exists(collection("/db/mom-data/metadata.fond.public/" || $uri-tokens[last()-2] || "/" || $uri-tokens[last()-1])//atom:id[text()="tag:www.monasterium.net,2011:/fond/" || $uri-tokens[last()-2] || "/" || $uri-tokens[last()-1]])
+        case "archive" return
+              exists(collection("/db/mom-data/metadata.archive.public/" || $uri-tokens[last()-1] || "/")//atom:id[text()="tag:www.monasterium.net,2011:/archive/" || "/" || $uri-tokens[last()-1]])
+       default return()
 };
