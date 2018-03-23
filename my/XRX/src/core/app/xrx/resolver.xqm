@@ -33,18 +33,19 @@ declare namespace xrx="http://www.monasterium.net/NS/xrx";
 (: Resolves to the requested resource or an error page if the current request is requesting a non-existing mom-ca
  : resource like a invalid charter url :)
 declare function resolver:resolve($live-project-db-base-collection) as element()* {
+    let $uri := resolver:get-clean-request-uri()
     let $first-match := (
-            for $uri-pattern in $live-project-db-base-collection//xrx:resolver/xrx:map/xrx:uripattern
-                let $priority := ($uri-pattern/parent::xrx:map/@priority/string(), '999')[1]
-                order by $priority ascending
-                return
-                    if(matches(request:get-uri(), $uri-pattern/text())) then
-                        $uri-pattern/parent::xrx:map
-                    else
-                        ()
-        )[1]
+        for $uri-pattern in $live-project-db-base-collection//xrx:resolver/xrx:map/xrx:uripattern
+        let $priority := ($uri-pattern/parent::xrx:map/@priority/string(), '999')[1]
+        order by $priority ascending
+        return
+            if(matches($uri, $uri-pattern)) then
+                $uri-pattern/parent::xrx:map
+            else
+                ()
+    )[1]
     return
-        if (resolver:is-resource-existing()) then
+        if (resolver:is-resource-existing($uri)) then
             $first-match
         else
             <xrx:map>
@@ -54,81 +55,69 @@ declare function resolver:resolve($live-project-db-base-collection) as element()
             </xrx:map>
 };
 
-(:  Returns true if the currently requested resource is either any non-mom-ca resource like a stylesheet or
- :  an existing mom-ca resource. Returns false for non-existing mom-ca resources :)
-declare function resolver:is-resource-existing() as xs:boolean {
-    let $uri-tokens := tokenize(request:get-uri(), "/")
-    let $resource-type := $uri-tokens[last()]
-    let $resource-db-path := resolver:create-resource-db-path($uri-tokens, $resource-type)
-
-
-
+(: Gets the decoded URI of the current request without leading slash "/" :)
+declare function resolver:get-clean-request-uri() as xs:string {
+    let $encoded-uri := request:get-uri()
+    let $decoded-uri := xmldb:decode($encoded-uri)
     return
-    (: Test if there are special-characters the to
-     : If true test if ressource exists over Atom:id
-     : If false try to find ressource file in database
-    :)
-        if(matches(xmldb:decode(request:get-uri()),'[|<>()\]\[]')) then
-           let $is-existing := resolver:check-existing-over-id($uri-tokens, $resource-type)
-           return
-            if(not($is-existing) and $resource-type = "collection") then
-                resolver:is-mycollection-existing($uri-tokens)
-            else 
-             $is-existing 
-        
+        if(starts-with($decoded-uri, "/")) then
+            substring-after($decoded-uri, "/")
         else
-            if(not(exists($resource-db-path))) then
-                true()
-            else
-                let $is-existing := exists(doc($resource-db-path))
-                return
-                    if(not($is-existing) and $resource-type = "collection") then
-                        resolver:is-mycollection-existing($uri-tokens)
-                    else
-                        $is-existing
-    };
+            $decoded-uri
+};
 
-(: Tests whether or not a mycollection as indicated by a request is existing :)
+(:  Returns true if the provided uri represents either any non-metadata resource like a stylesheet or
+ :  an existing metadata resource. Returns false for non-existing mom-ca resources :)
+declare function resolver:is-resource-existing($uri as xs:string) as xs:boolean {
+    let $uri-tokens := tokenize($uri, "/")
+    let $resource-type := $uri-tokens[last()]
+    return
+        if($resource-type = ("archive", "charter", "collection", "fond")) then
+            resolver:is-metadata-resource-existing($uri-tokens, $resource-type)
+        else
+            true()
+};
+
+(: Returns true if the provided URI tokens and resource type stand for an existing metadata resource, e.g. an existing
+ : charter or archive. Returns false if the resource doesn't exist. :)
+declare function resolver:is-metadata-resource-existing($uri-tokens as xs:string*, $resource-type as xs:string) as xs:boolean {
+    let $resource-db-path := resolver:create-resource-db-path($uri-tokens, $resource-type)
+    let $is-resource-existing := exists(doc($resource-db-path))
+    return
+        if($is-resource-existing = false() and $resource-type = "collection") then
+            resolver:is-mycollection-existing($uri-tokens)
+        else
+            $is-resource-existing
+};
+
+(: Tests whether or not a mycollection as indicated by the provided URI tokens is existing :)
 declare function resolver:is-mycollection-existing($uri-tokens as xs:string*) as xs:boolean {
     let $mycollection-atomid-string := "tag:www.monasterium.net,2011:/mycollection/" || $uri-tokens[last()-1]
     let $mycollection-atomid := collection("/db/mom-data/xrx.user")//atom:id[. = $mycollection-atomid-string]
     return
         exists($mycollection-atomid)
-        
 };
 
-(: Creates mom-ca resource paths from the current request. Returns the database path to the resource or () if the current
- : request is for a non-resource like a stylesheet or the home page. :)
+(: Creates mom-ca database resource paths from the provided URI tokens and resource type. Returns the database path to
+ : the resource or () if the current request is for a non-resource like a stylesheet or the home page. :)
 declare function resolver:create-resource-db-path($uri-tokens as xs:string*, $resource-type as xs:string) as xs:string? {
-    switch($resource-type)
-        case "charter" return
-            if(count($uri-tokens) = 6) then
+    let $path :=
+        switch($resource-type)
+            case "charter" return
+                if(count($uri-tokens) = 5) then
                 (: fond charter :)
-                "/db/mom-data/metadata.charter.public/" || $uri-tokens[last()-3] || "/" ||  $uri-tokens[last()-2] || "/" || $uri-tokens[last()-1] || ".cei.xml"
-            else
+                    "/db/mom-data/metadata.charter.public/" || $uri-tokens[last()-3] || "/" ||  $uri-tokens[last()-2] || "/" || $uri-tokens[last()-1] || ".cei.xml"
+                else
                 (: collection charter :)
-                "/db/mom-data/metadata.charter.public/" || $uri-tokens[last()-2] || "/" || $uri-tokens[last()-1] || ".cei.xml"
-        case "collection" return
-            "/db/mom-data/metadata.collection.public/" || $uri-tokens[last()-1] || "/" || $uri-tokens[last()-1] || ".cei.xml"
-        case "fond" return
-            "/db/mom-data/metadata.fond.public/" || $uri-tokens[last()-2] || "/" || $uri-tokens[last()-1] || "/" || $uri-tokens[last()-1] || ".ead.xml"
-        case "archive" return
-            "/db/mom-data/metadata.archive.public/" || $uri-tokens[last()-1] || "/" || $uri-tokens[last()-1] || ".eag.xml"
-        default return
-            ()
-};
-
-(: Tries to find a document over the atom:id element returns true when it exists :)
-declare function resolver:check-existing-over-id($uri-tokens as xs:string*, $resource-type as xs:string) as xs:boolean? {
-    switch($resource-type)
-        case "charter" return 
-            if(count($uri-tokens)=6) then
-              exists(collection("/db/mom-data/metadata.charter.public/" || $uri-tokens[last()-3] || "/" ||  $uri-tokens[last()-2])//atom:id[text()="tag:www.monasterium.net,2011:/charter/" || $uri-tokens[last()-3] || "/" ||$uri-tokens[last()-2] || "/" || $uri-tokens[last()-1]])
-             else 
-              exists(collection("/db/mom-data/metadata.charter.public/" || $uri-tokens[last()-2])//atom:id[text()="tag:www.monasterium.net,2011:/charter/" ||$uri-tokens[last()-2] || "/" || $uri-tokens[last()-1]])
-        case "fond" return
-              exists(collection("/db/mom-data/metadata.fond.public/" || $uri-tokens[last()-2] || "/" || $uri-tokens[last()-1])//atom:id[text()="tag:www.monasterium.net,2011:/fond/" || $uri-tokens[last()-2] || "/" || $uri-tokens[last()-1]])
-        case "archive" return
-              exists(collection("/db/mom-data/metadata.archive.public/" || $uri-tokens[last()-1] || "/")//atom:id[text()="tag:www.monasterium.net,2011:/archive/" || "/" || $uri-tokens[last()-1]])
-       default return()
+                    "/db/mom-data/metadata.charter.public/" || $uri-tokens[last()-2] || "/" || $uri-tokens[last()-1] || ".cei.xml"
+            case "collection" return
+                "/db/mom-data/metadata.collection.public/" || $uri-tokens[last()-1] || "/" || $uri-tokens[last()-1] || ".cei.xml"
+            case "fond" return
+                "/db/mom-data/metadata.fond.public/" || $uri-tokens[last()-2] || "/" || $uri-tokens[last()-1] || "/" || $uri-tokens[last()-1] || ".ead.xml"
+            case "archive" return
+                "/db/mom-data/metadata.archive.public/" || $uri-tokens[last()-1] || "/" || $uri-tokens[last()-1] || ".eag.xml"
+            default return
+                ()
+    return
+        xmldb:encode($path)
 };
