@@ -143,7 +143,6 @@ declare function resolver:create-possible-resource-db-paths($uri-tokens as xs:st
                 ()
     return
         for $path in $paths
-        let $log := util:log("ERROR", xmldb:encode($path))
         return
             xmldb:encode($path)
 };
