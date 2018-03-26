@@ -42,10 +42,13 @@ it leaves the active development stage.
   <xrx:init>
     <xrx:processor>
       <xrx:xformsflag>true</xrx:xformsflag>
+      <xrx:jqueryflag>true</xrx:jqueryflag>
     </xrx:processor>
   </xrx:init>
   <xrx:csss>
-    <xrx:css>tag:www.monasterium.net,2011:/mom/css/charter-preview</xrx:css>
+    <xrx:css>tag:www.monasterium.net,2011:/mom/css/charter-preview</xrx:css>    
+    <link href="{ conf:param('request-root') }jquery/themes/base/jquery.ui.all.css" rel="stylesheet"/>
+    
     <style type="text/css">
         
 #charters{{
@@ -204,5 +207,20 @@ div.clear {{
       </div>
       }
     </div>   
+            <div id="copy-legal-popUp" style="display:none">
+      	<div id="dialogcontent">
+      	<span><xrx:i18n><xrx:key>you-are-copying-a-text-from</xrx:key><xrx:default>You are copying a text from</xrx:default></xrx:i18n></span>
+      	<span id="insertOwner"></span>
+      	<span><xrx:i18n>
+      		<xrx:key>end-legal-text</xrx:key>
+      		<xrx:default>into your own collection. Please be aware that reusing it might infringe intellectual property rights, so please check individual licences and cite the source of your information when you publish your data</xrx:default>
+       </xrx:i18n></span>
+        </div>
+      </div> 
+            <div id="select-collection-popUp" style="display:none">
+      	<div id="dialogcontent">
+      	<select id="collectionSelect"></select>
+        </div>
+      </div>
   </xrx:view>
 </xrx:widget>

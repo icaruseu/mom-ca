@@ -405,17 +405,23 @@ let $vocabular := replace(data($i/@rdf:about), '#', '')
       <xrx:name>$image-tools-url</xrx:name>
       <xrx:expression>concat($image-tools-base-url, $charter:rcharterid, '/image-tools')</xrx:expression>
     </xrx:variable>
+    <xrx:variable>
+    	<xrx:name>$wcharter:owner</xrx:name>
+    	<xrx:expression>if($wcharter:context = "fond") then doc(concat(metadata:base-collection-path('archive', $charter:rarchiveid, 'public'),$charter:rarchiveid, ".eag.xml"))//eag:identity/eag:autform/text()
+    	else (root($wcharter:charter)//atom:email/text())</xrx:expression>
+    </xrx:variable>
   </xrx:variables>
   <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/charter</xrx:portal>
   <xrx:init>
     <xrx:processor>
       <xrx:xformsflag>true</xrx:xformsflag>
-      <xrx:jqueryflag>false</xrx:jqueryflag>
+      <xrx:jqueryflag>true</xrx:jqueryflag>
     </xrx:processor>
   </xrx:init>
   <xrx:csss>
     <link href="{ conf:param('request-root') }jquery/themes/base/jquery.ui.all.css" rel="stylesheet"/>
-    <style type="text/css">
+   
+   <style type="text/css">
     
 div {{
       cursor:default;
@@ -795,12 +801,29 @@ p#first {{
   letter-spacing: 2px;
 }}
 
+#copy-charter-popUp{{
+ }}
+
 
       </style>
   </xrx:csss>
-  <xrx:jss>
+  <xrx:jss> 
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/imageTool</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/slider</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/dialog</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/droppable</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/position</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/resizable</xrx:resource>
+    
+    
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/dialogCopyToCollection</xrx:resource>  
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/charter</xrx:resource>
-   
   </xrx:jss>
   <xrx:model>
     { bookmark:model(conf:param('request-root')) }
@@ -810,7 +833,7 @@ p#first {{
      <xrx:div>
       <xrx:key>heading-div</xrx:key>
       <xrx:view>
-        <div class="h2" data-demoid="85afc7b7-b449-4686-b01e-b2596a5a8c88">
+              <div class="h2" data-demoid="85afc7b7-b449-4686-b01e-b2596a5a8c88">
           <xrx:i18n>
             <xrx:key>charter</xrx:key>
             <xrx:default>Charter</xrx:default>
@@ -1039,6 +1062,7 @@ p#first {{
                       <xrx:default>MyArchive</xrx:default>
                     </xrx:i18n>
                   </span> -->
+
                   { 
                   if($wcharter:context != 'linked-fond') then
                   bookmark:trigger( 
@@ -1177,8 +1201,15 @@ p#first {{
                   )
                   else()
                   }
+                  <a id="copycollection">
+                    <xrx:i18n>
+                      <xrx:key>copy-to-collection</xrx:key>
+                      <xrx:default>Copy to Collection</xrx:default>
+                    </xrx:i18n>
+                  </a><br/>
+                  <script type="text/javascript">$(document).ready(function(){{$("#copycollection").click(function(){{createLegalDialog("{conf:param('request-root')}", "{$wcharter:atom-id}", "{$wcharter:owner}", "{$wcharter:context}");}});}});</script>
                 </div>
-              </div>
+              </div>              
             </xrx:true>
             <xrx:false>
               <div data-demoid="4973eda1-fc0a-4d91-be79-15fe3e92f2e5">
@@ -1367,7 +1398,7 @@ p#first {{
         <div data-demoid="92fc737f-0034-4bbc-8d4c-42038dfded81" id="image-tool-widget">
           <script type="text/javascript">
 				    $(document).ready(function(){{
-				        rapper();				        
+				    	rapper();
 				        proof();
 	            jQuery(document).imageTool({{
 	              requestRoot: "{ conf:param('request-root') }",
@@ -1496,6 +1527,22 @@ p#first {{
       </div>
       else()
       } 
-      </div>
-  </xrx:view>
+
+      <div id="copy-legal-popUp" style="display:none">
+      	<div id="dialogcontent">
+      	<span><xrx:i18n><xrx:key>you-are-copying-a-text-from</xrx:key><xrx:default>You are copying a text from</xrx:default></xrx:i18n></span>
+      	<span id="insertOwner"></span>
+      	  <span><xrx:i18n><xrx:key>end-legal-text</xrx:key><xrx:default>into your own collection. Please be aware that reusing it might infringe intellectural property rights, so please check individual licences and cite the source of your information when you publish your data</xrx:default></xrx:i18n></span>
+         </div>
+        </div>
+       <div id="select-collection-popUp" style="display:none">
+      	<div id="dialogcontent">
+      		<select id="collectionSelect">
+      		</select>
+      		<p id="charterexistmessage" style="display:none">The Charter already exists in the choosen Collection</p>
+      		<p id="copyinProgress" style="display:none">Please wait copying Charter, dialog will close at success</p>
+        </div>
+       </div>
+      </div>     
+  </xrx:view>  
 </xrx:widget>

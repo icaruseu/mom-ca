@@ -29,7 +29,7 @@
   <!-- 
     jssaxparser
    -->
-  <property name="jssaxparser-home" value="jssaxparser/jsXmlSaxParser-master/jssaxparser/"/>
+  <property name="jssaxparser-home" value="jssaxparser/"/>
   <property name="my-jssaxparser-src" value="my/XRX/res/jssaxparser"/>
 
   <!-- 
@@ -126,10 +126,10 @@
     <echo message="-------------------------" />
     <echo message="Copy jssaxparser (http://jssaxparser.googlecode.com/svn/trunk/)" />
     <echo message="-------------------------" />
-    <delete dir="jssaxparser" failonerror="false"/>
+    <delete dir="${jssaxparser-home}" failonerror="false"/>
     <unzip src="vendor/jsXmlSaxParser-master.zip" dest="."/>
-    <move todir="jssaxparser">
-      <fileset dir="jsXmlSaxParser-master"/>
+    <move todir="${jssaxparser-home}">
+      <fileset dir="jsXmlSaxParser-master/jssaxparser"/>
     </move>
     <delete dir="jsXmlSaxParser-master"/>
 
@@ -184,11 +184,11 @@
     <echo message="Copy jQuery (https://github.com/jquery/jquery-ui.git)" />
     <echo message="-------------------------" />
     <delete dir="jQuery" failonerror="false"/>
-    <unzip src="vendor/jquery-ui-1.9.0.zip" dest="."/>
+    <unzip src="vendor/jquery-ui-1.9.2.zip" dest="."/>
     <move todir="jQuery">
-      <fileset dir="jquery-ui-1.9.0"/>
+      <fileset dir="jquery-ui-1.9.2"/>
     </move>
-    <delete dir="jquery-ui-1.9.0"/>
+    <delete dir="jquery-ui-1.9.2"/>
     
   </target>
   
