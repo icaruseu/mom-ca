@@ -240,7 +240,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   <xrx:jss>
     <xrx:resource n="1">tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>   
     <xrx:resource n="2">tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
-    <xrx:resource n="3">tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>    
+    <xrx:resource n="3">tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
     <xrx:resource n="4">tag:www.monasterium.net,2011:/core/resource/jquery/xrx</xrx:resource>    
     <xrx:resource n="5">tag:www.monasterium.net,2011:/mom/resource/jquery/ui/search</xrx:resource>    
    <xrx:resource n="6">tag:www.monasterium.net,2011:/mom/resource/js/toggle_checkbox</xrx:resource>  
