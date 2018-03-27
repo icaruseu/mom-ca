@@ -808,22 +808,22 @@ p#first {{
       </style>
   </xrx:csss>
   <xrx:jss> 
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/imageTool</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/slider</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/dialog</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/droppable</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/position</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/resizable</xrx:resource>
+   <xrx:resource n="1">tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+    <xrx:resource n="2">tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+    <xrx:resource n="3">tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+    <xrx:resource n="4">tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>   
     
-    
-    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/dialogCopyToCollection</xrx:resource>  
-    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/charter</xrx:resource>
+    <xrx:resource n="5">tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/slider</xrx:resource>
+    <xrx:resource n="6">tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
+    <xrx:resource n="7">tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/dialog</xrx:resource>
+    <xrx:resource n="8">tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
+    <xrx:resource n="9">tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/droppable</xrx:resource>
+    <xrx:resource n="10">tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/position</xrx:resource>
+    <xrx:resource n="11">tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/resizable</xrx:resource>
+    <xrx:resource n="12">tag:www.monasterium.net,2011:/mom/resource/jquery/ui/dialogCopyToCollection</xrx:resource>
+    <xrx:resource n="13">tag:www.monasterium.net,2011:/mom/resource/jquery/imageTool</xrx:resource>
+    <xrx:resource n="14">tag:www.monasterium.net,2011:/mom/resource/jquery/i18nText</xrx:resource>   
+    <xrx:resource n="15">tag:www.monasterium.net,2011:/mom/resource/js/charter</xrx:resource>
   </xrx:jss>
   <xrx:model>
     { bookmark:model(conf:param('request-root')) }
@@ -1399,7 +1399,7 @@ p#first {{
           <script type="text/javascript">
 				    $(document).ready(function(){{
 				    	rapper();
-				        proof();
+				      proof();
 	            jQuery(document).imageTool({{
 	              requestRoot: "{ conf:param('request-root') }",
 	              charter: "{ $charter:rcharterid }",

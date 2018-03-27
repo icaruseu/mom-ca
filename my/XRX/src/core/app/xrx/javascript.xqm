@@ -30,9 +30,9 @@ declare namespace xrx="http://www.monasterium.net/NS/xrx";
 declare function javascript:compile($widget as element(xrx:widget), $jss as element(xrx:jss)*, $xrx-live-project-db-base-collection, $xrx-resources-base-collection as node()*, $project-name as xs:string) {
 
     let $widgetid := $widget/xrx:id/text()
-    let $jss-strings :=
-        for $js at $count in $jss/xrx:resource
-        order by $js/position()
+    let $jss-strings :=        
+        for $js in ($jss/xrx:resource)
+        order by number($js/@n)      
         return
         typeswitch($js)
         case(element(xrx:resource)) return
@@ -42,10 +42,11 @@ declare function javascript:compile($widget as element(xrx:widget), $jss as elem
             let $relative-path := $resource/xrx:relativepath/text()
             let $name := $resource/xrx:name/text()
             let $uri := concat($collection-name, '/', $relative-path, $name)
-            let $document := if(util:binary-doc-available($uri)) then util:binary-to-string(util:binary-doc($uri)) else()
+            let $document := if(util:binary-doc-available($uri)) then util:binary-to-string(util:binary-doc($uri)) else("console.log('kein binary')")
             return
             $document
-        default return ''
+        default return ''   
     return
     <xhtml:script id="{ $widgetid }">{ $jss-strings }</xhtml:script>
+   
 };
