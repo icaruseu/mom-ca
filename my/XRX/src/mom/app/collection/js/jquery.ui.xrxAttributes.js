@@ -363,99 +363,42 @@
                             dataType: "json", 
                             data: {indexname: indexnamewert, lemma: lemmawert, sprache: sprachwert},
                             success: function(data, textStatus, jqXHR)
-                            {                     
-                     var auswahl = {};
-                 
-                     if (indexnamewert == 'IllUrkGlossar'){
-                    
-                    	   for (var i in data){                            		
-                       		var valeur = data[i];                            		
-                       		var newli = $('<option>' + valeur + '</option>')
-                   			.addClass(uiSuggestedValueDivsClass).attr("title", valeur).attr("value", i).attr("name", name);
-                       		
-                       		if (i == value.replace('#', '')){                            		
-                      			 newli.attr("selected", "selected");
-                      		}
-                       		
-                       		menuliste.append(newli);
-                       } 
-                     }
-                     else {
-                
-                     var data2 = data[Object.keys(data)];                                                             
-                                  
-                     for (var n in data2){                    	 
-                    	 var values2 = data2[n];//sind array-keys
-                    	 var named = data2[n][0];//das bleibt immer gleich, weil zuerst die Superkonzepte mit Array                       
-                    	 console.log ("der name:" + named + "und key" + n);
-                    	 //das Objekt wird mit Superkonzepten gefÃ¼llt
-
-                    	 auswahl[n] = named;
-                     var data3 = data2[n][1];
-                     if (data3 == undefined){
-                    	 
-                     }
-                     else{                  
-                     for (var m in data3){
-                    	 var key = m;
-                    	 var values = data3[key];                    
-                    	 if (typeof data3[m] == 'string'){
-                    		 var sortedID = n.concat("+", key);                    	 
-                        	 auswahl[sortedID] = values;
-                        	  
-                    	 }
-                    	 else                     	 
-                    	{
-                    		 var data4 = data3[m];                     		 
-                    		 for (var o in data4){
-                    			 if (typeof data4[o] != 'string'){                    			
-                    				 var data5 = data4[o];
-                    				 for (p in data5){
-                    					 var key = p;
-                    					 var values = data5[p];
-                    					 var sortedID = n.concat("+", key);
-                    				 }
-                    					 
-                    			 }
-                    			 else{
-                    		
-                    			 var key = o;
-                    			 var values = data4[o];
-                    			 var sortedID = n.concat("+", key);
-                    			 auswahl[sortedID] = values;}
-                    		 }
-                    		
-                    	 }
-                    	 
-                    	 
-                     }
-                     }
-                     }   
-                                    	
-                                           
-                         for (var z in auswahl){                       		  
-
-                       	  if (z.includes('+')){
-                       		var norm = z.substring(z.indexOf('+')+1, z.length);
-                       	  }
-                       	  else {
-                       		  var norm = z;
-                       	  }
-                       	  		
-                           		var valeur = auswahl[z];                            		
-                           		var newli = $('<option>' + valeur + '</option>')
-                       			.addClass(uiSuggestedValueDivsClass).attr("title", valeur).attr("value", norm).attr("name", name);
-                           	
-                           	if (z.substring(z.indexOf('+')+1, z.length) == value){
-                           		
-                           		console.log(z + "ist gleich" + value);
-                           		newli.attr("selected", "selected");
-                           	}
-                         
-                           		
-                           		menuliste.append(newli);
-                       	  }}
-                                      return true;
+                            {
+                            	console.log("ja ist erfrolreich");
+                            	console.log(data);
+                   var auswahl = {};
+                                                                                                 
+                     var siehe = look(data);
+                     
+               function look(daten){
+            	   for (key in daten){
+            	
+            		var liste;
+            		if($.type(daten[key]) === "string"){
+            		if (key === "label"){
+            			var liste = $('<option>' + daten[key] + '</option>').addClass("group").addClass(uiSuggestedValueDivsClass).attr("title", daten[key]).attr("value", key).attr("name", name);
+            			
+            		}
+            		else {
+            			var liste = $('<option>' + daten[key] + '</option>')
+       	   				.addClass(uiSuggestedValueDivsClass).attr("title", daten[key]).attr("value", key).attr("name", name);
+            			
+            		}            	   	   				
+   	   			
+   	   				if(key == value.replace('#', '')){   	   				
+   	   				liste.attr("selected", "selected");
+   	   				}
+   	   				
+   	   				menuliste.append(liste);
+   	   				
+            	   	}
+            	   else {
+            		   var obj = (daten[key]);            		   
+            		   var siehe =  look(obj);            		   
+            	   }            	
+            	   }            	   
+               	};          
+                  return true;
                                     },     
                             error: function(){
                             	console.log('Error: Failed to load script.');                           

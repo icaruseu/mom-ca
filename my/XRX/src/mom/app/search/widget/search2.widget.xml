@@ -588,7 +588,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             <div>           
            <div data-demoid="bcd19b3b-f882-48d0-bf62-23496f435e75">
             { if(string(data($fond/preceding-sibling::*:fond[1]/@key)) != string($archive-key)) then
-              <div class="archive-label" data-demoid="7c9bdd06-8335-477c-8f94-07b426a9bc28"><span title="{ $archive-name }">{ $archive-key }</span></div>
+              <div class="archive-label" data-demoid="7c9bdd06-8335-477c-8f94-07b426a9bc28"><span title="{ $archive-key }">{ $archive-name }</span></div>
               else ''}
               <input name="{ $key }" type="checkbox" class="fond_checkbox">
                 {

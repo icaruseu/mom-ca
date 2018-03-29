@@ -149,13 +149,13 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     (: i18n support :)
     let $cei-i18n-messages := collection(concat($i18n:db-base-collection-path, $xrx:lang))//xrx:i18n[starts-with(./xrx:key,'cei_')]
     let $i18n-messages-as-json :=
-      xmleditor:json-object(
+      jsonx:object(
           for $message in $cei-i18n-messages
           let $i18n-key := $message/xrx:key/text()
           return
-          xmleditor:json-pair(
-              xmleditor:json-string($i18n-key),
-              xmleditor:json-string(i18n:translate($message))
+          jsonx:pair(
+              jsonx:string($i18n-key),
+              jsonx:string(i18n:translate($message))
           ) 
       )
         
