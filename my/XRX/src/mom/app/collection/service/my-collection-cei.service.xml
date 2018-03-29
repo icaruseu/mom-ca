@@ -7,8 +7,8 @@
     </xrx:i18n>
   </xrx:title>
   <xrx:subtitle></xrx:subtitle>
-  <xrx:description></xrx:description>
-  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:description>Exports all charter CEI of a private collection in one XML/CEI file.</xrx:description>
+  <xrx:author>jan.bigalke@smail.uni-koeln.de</xrx:author>
   <xrx:licence>
 This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
 
@@ -46,7 +46,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   <xrx:init>
    <xrx:processor>
      <xrx:translateflag>false</xrx:translateflag>
-     <xrx:serializeas>method=xml media-type=text/xml</xrx:serializeas>
+     <xrx:serializeas>media-type=text/xml omit-xml-declaration=no indent=no</xrx:serializeas>
    </xrx:processor>
   </xrx:init>
   <xrx:body>

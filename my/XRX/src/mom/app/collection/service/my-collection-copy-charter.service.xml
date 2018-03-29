@@ -1,0 +1,120 @@
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:cei="http://www.monasterium.net/NS/cei">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/my-collection-copy-charter</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key></xrx:key>
+      <xrx:default>
+       Service to copy a charter into a Collection. URL: mom/service/my-collection-copy-charter
+       awaits a the id of the collection to which the charter will be copied, needs the Id of the charter to copy, the name of the original owner of the charter and the 
+      </xrx:default>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>jbigalke</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:variables>
+  	<xrx:variable>
+  		<xrx:name>$collection</xrx:name>
+  		<xrx:expression>request:get-parameter('collection', '')</xrx:expression>
+  	</xrx:variable>
+  	<xrx:variable>
+  		<xrx:name>$context</xrx:name>
+  		<xrx:expression>request:get-parameter('context','')</xrx:expression>
+  	</xrx:variable>
+  	<xrx:variable>
+  		<xrx:name>$charterId</xrx:name>
+  		<xrx:expression>request:get-parameter('charterid','')</xrx:expression>
+  	</xrx:variable>
+  	<xrx:variable>
+  		<xrx:name>$OriginalOwner</xrx:name>
+  		<xrx:expression>request:get-parameter('owner','')</xrx:expression>
+  	</xrx:variable>
+  	<xrx:variable>
+  		<xrx:name>$tokenizedId</xrx:name>
+  		<xrx:expression>tokenize($charterId, '/')</xrx:expression>
+  	</xrx:variable>
+  	<xrx:variable>
+  		<xrx:name>$base-collection-path</xrx:name>
+  		<xrx:expression>metadata:base-collection-path('charter','public')</xrx:expression>
+  	</xrx:variable>
+  	<xrx:variable>
+  		<xrx:name>$charter</xrx:name>
+  		<xrx:expression>metadata:entry($base-collection-path, $charterId)</xrx:expression>
+  	</xrx:variable>
+    <xrx:variable>
+      <xrx:name>$myCollectionPrivatePath</xrx:name>
+      <xrx:expression>concat(metadata:base-collection-path('charter','private'),$collection)</xrx:expression>
+    </xrx:variable> 
+  	<xrx:variable>
+  		<xrx:name>$feed</xrx:name>
+  		<xrx:expression>metadata:feed('charter', $collection, 'private')</xrx:expression>
+  	</xrx:variable>
+  	    <xrx:variable>
+      <xrx:name>$uuid</xrx:name>
+      <xrx:expression>mycollection:uuid($user:db-base-collection)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$atomid</xrx:name>
+      <xrx:expression>
+      	if($context="fond")then(metadata:atomid('charter', ($collection, concat($tokenizedId[last()-2],"_",$tokenizedId[last()-1],"_",$tokenizedId[last()]))))
+    	else if($context="collection") then(metadata:atomid('charter', ($collection, concat($tokenizedId[last()-1],"_",$tokenizedId[last()]))))
+    	else(metadata:atomid('charter', ($collection, $tokenizedId[last()])))
+      </xrx:expression>
+    </xrx:variable>
+  	    <xrx:variable>
+      <xrx:name>$new-entry-name</xrx:name>
+      <xrx:expression>	
+      	if($context="fond")then(metadata:entryname('cei', concat($tokenizedId[last()-2],"_",$tokenizedId[last()-1],"_",$tokenizedId[last()])))
+    	else if($context="collection") then(metadata:entryname('cei', concat($tokenizedId[last()-1],"_",$tokenizedId[last()])))
+    	else(metadata:entryname('cei', $tokenizedId[last()]))
+     </xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:translateflag>false</xrx:translateflag>
+   </xrx:processor>
+  </xrx:init>
+  <xrx:body>
+    {
+    
+    let $FondImageUrl := 
+    	if($context = "fond") then(doc(concat(metadata:base-collection-path('fond','public'),$tokenizedId[last()-2],'/',$tokenizedId[last()-1],'/',$tokenizedId[last()-1],'.preferences.xml'))//xrx:param[@name="image-server-base-url"])
+        else()
+        
+let $params := <parameters>
+                   <param name="new_atom_id" value="{$atomid}"/>
+                   <param name="atom_link_url" value="{$charterId}"/>
+                   <param name="bibl_string" value="As published in {$tokenizedId[last()-1]} by {$OriginalOwner}"/>
+                   <param name="new_url_string" value="{$FondImageUrl}"/>
+			 </parameters>
+    
+
+        
+       let $newXML := mycharter:transformCharter($charter, $params)
+       let $put := atom:POST($feed, $new-entry-name, $newXML)
+       
+       return $newXML
+    }
+  </xrx:body>
+</xrx:service>
