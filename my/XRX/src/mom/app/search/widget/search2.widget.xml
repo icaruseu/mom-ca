@@ -563,41 +563,46 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	          <div>
               <input id="invert_fonds_checkboxes" type="button" value="{ $wsearch:invert-selection }" onclick="invert_all_checkboxes('fond_checkbox')"/>
             </div>
-	          {
-	          let $fonds := $wsearch:context//*:fond
-	          for $fond at $pos in $fonds
-	          let $key := $fond/@key/string()
-	          
-	          (: fond info :)
-	          let $fond-atomid := metadata:atomid('fond', tokenize($key, ';'))
-	          let $fond-entry := metadata:base-collection('fond', 'public')//atom:id[.=$fond-atomid]/parent::atom:entry
-	          let $fond-key := substring-after($fond/@name/string(), ';')
-	          let $fond-name := $fond-entry//ead:c[@level='fonds']//ead:unittitle/text()
-	          
-	          (: archive info :)
+	            {
+            let $fonds := $wsearch:context//*:fond
+            for $fond at $pos in $fonds
+            let $key := $fond/@name/string()
+            
+            (: fond info :)
+            let $fond-atomid := metadata:atomid('fond', tokenize($key, ';'))
+            let $fond-entry := metadata:base-collection('fond', 'public')//atom:id[.=$fond-atomid]/parent::atom:entry
+            let $fond-key := substring-after($fond/@name/string(), ';')
+            let $fond-name := $fond-entry//ead:c[@level='fonds']//ead:unittitle/text()
+            
+            (: archive info :)
             let $archive-key := substring-before($fond/@name/string(), ';')
-	          let $archive-atomid := metadata:atomid('archive', $archive-key)
-	          let $archive-entry := metadata:base-collection('archive', 'public')//atom:id[.=$archive-atomid]/parent::atom:entry
-	          let $archive-name := $archive-entry//eag:autform/text()
-	          
-	          let $count := $fond/@count/string()
-	          let $filtered := $wsearch:context-filtered//*:fond[@key=$key]
-	          let $count-filtered := if($filtered/@count) then $filtered/@count/string() else '0'
-	          order by xs:integer($count-filtered) descending, xs:integer($count) descending
-	          return
-	          <div data-demoid="bcd19b3b-f882-48d0-bf62-23496f435e75">
-              { if(substring-before(concat($fonds[($pos - 1)]/@name/string(), ''), ';') != $archive-key) then <div class="archive-label" data-demoid="7c9bdd06-8335-477c-8f94-07b426a9bc28"><span title="{ $archive-name }">{ $archive-name }</span></div> else '' }
-	            <input name="{ $key }" type="checkbox" class="fond_checkbox">
-	              {
-	              if($key = search:context() or empty(search:context())) then
-	                attribute checked { 'checked' }
-	              else ()
-	              }
-	            </input>
-              <span title="{ $fond-name }">{ if($count-filtered = '0') then attribute class { 'light-grey' } else() }{ $fond-key } ({ $count-filtered })</span>
-              <span class="light-grey"> ({ $count })</span>
-	          </div>
-	          }
+            let $archive-atomid := metadata:atomid('archive', $archive-key)
+            let $archive-entry := metadata:base-collection('archive', 'public')//atom:id[.=$archive-atomid]/parent::atom:entry
+            let $archive-name := $archive-entry//eag:autform/text()
+            
+            let $count := $fond/@count/string()
+            let $filtered := $wsearch:context-filtered//*:fond[@key=$key]
+            let $count-filtered := if($filtered/@count) then $filtered/@count/string() else '0'
+           
+            return
+            <div>           
+           <div data-demoid="bcd19b3b-f882-48d0-bf62-23496f435e75">
+            { if(string(data($fond/preceding-sibling::*:fond[1]/@key)) != string($archive-key)) then
+              <div class="archive-label" data-demoid="7c9bdd06-8335-477c-8f94-07b426a9bc28"><span title="{ $archive-key }">{ $archive-name }</span></div>
+              else ''}
+              <input name="{ $key }" type="checkbox" class="fond_checkbox">
+                {
+                if($key = search:context() or empty(search:context())) then
+                  attribute checked { 'checked' }
+                else ()
+                }
+              </input>
+              <span title="{ $fond-name }" class="{data($fond/@name)}">{ $fond-key } </span>
+             <!--  { if($count-filtered = '0') then attribute class { 'light-grey' } else() }{ $fond-key } ({ $count-filtered }) -->
+              <span class="light-grey"> ({ $count })</span>         
+            </div>
+            </div>
+            }
             <div class="confine-trigger-div" data-demoid="d34b830b-d2f7-458a-b26f-435394d85772">
               <input class="confine-trigger" type="submit" value="→"/>
             </div>
