@@ -1125,7 +1125,7 @@ declare function mycollection:dynamic-path
   (: xrx:tokenize[3] = fond 
                  [2] = collection or mycollection
   :)
-declare function mycollection:checkifmycollection ($urltoken) as string {
+declare function mycollection:checkifmycollection ($urltoken) as xs:string {
 let $atomabgleich := $mycollection:mycollection//ends-with(atom:id/text(), $urltoken)
 let $entscheidung := if ($atomabgleich) then 'mycollection' else('collection')
 

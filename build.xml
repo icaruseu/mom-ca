@@ -29,7 +29,7 @@
   <!-- 
     jssaxparser
    -->
-  <property name="jssaxparser-home" value="jssaxparser/jsXmlSaxParser-master/jssaxparser/"/>
+  <property name="jssaxparser-home" value="jssaxparser/"/>
   <property name="my-jssaxparser-src" value="my/XRX/res/jssaxparser"/>
 
   <!-- 
@@ -121,15 +121,18 @@
   # jssaxparser
   #
    -->
-  <target name="download-jssaxparser">
+  <target name="copy-jssaxparser">
 
     <echo message="-------------------------" />
-    <echo message="Download jssaxparser (http://jssaxparser.googlecode.com/svn/trunk/)" />
+    <echo message="Copy jssaxparser (http://jssaxparser.googlecode.com/svn/trunk/)" />
     <echo message="-------------------------" />
-    <delete dir="jssaxparser" failonerror="false"/>
-    <get dest="tmp/jssaxparser.zip" src="https://codeload.github.com/ndebeiss/jsXmlSaxParser/zip/master"/>
-    <unzip src="tmp/jssaxparser.zip" dest="jssaxparser"/>
-    
+    <delete dir="${jssaxparser-home}" failonerror="false"/>
+    <unzip src="vendor/jsXmlSaxParser-master.zip" dest="."/>
+    <move todir="${jssaxparser-home}">
+      <fileset dir="jsXmlSaxParser-master/jssaxparser"/>
+    </move>
+    <delete dir="jsXmlSaxParser-master"/>
+
   </target>
 
   <target name="patch-jssaxparser">
@@ -175,18 +178,17 @@
   #
    -->
   
-  <target name="download-jquery">
+  <target name="copy-jquery">
     
     <echo message="-------------------------" />
-    <echo message="Download jQuery (https://github.com/jquery/jquery-ui.git)" />
+    <echo message="Copy jQuery (https://github.com/jquery/jquery-ui.git)" />
     <echo message="-------------------------" />
     <delete dir="jQuery" failonerror="false"/>
-    <get dest="tmp/jQuery.zip" src="https://github.com/jquery/jquery-ui/archive/1-9-stable.zip"/>
-    <unzip src="tmp/jQuery.zip" dest="."/>
+    <unzip src="vendor/jquery-ui-1.9.2.zip" dest="."/>
     <move todir="jQuery">
-      <fileset dir="jquery-ui-1-9-stable"/>
+      <fileset dir="jquery-ui-1.9.2"/>
     </move>
-    <delete dir="jquery-ui-1-9-stable"/>
+    <delete dir="jquery-ui-1.9.2"/>
     
   </target>
   
@@ -238,14 +240,13 @@
   #
    -->
 
-  <target name="download-codemirror">
+  <target name="copy-codemirror">
 
     <echo message="-------------------------" />
-    <echo message="Download CodeMirror2 (http://marijnhaverbeke.nl/git/codemirror2)" />
+    <echo message="Copy CodeMirror2 (http://marijnhaverbeke.nl/git/codemirror2)" />
     <echo message="-------------------------" />
     <delete dir="CodeMirror" failonerror="false"/>
-    <get dest="tmp/CodeMirror.zip" src="https://github.com/marijnh/CodeMirror/archive/v2.zip"/>
-    <unzip src="tmp/CodeMirror.zip" dest="."/>
+    <unzip src="vendor/CodeMirror-2.zip" dest="."/>
     <move todir="CodeMirror">
       <fileset dir="CodeMirror-2"/>
     </move>
@@ -312,7 +313,7 @@
     <delete failonerror="false">
       <fileset dir="${betterform-home}" />
     </delete>
-    <antcall target="download-betterform" />
+    <antcall target="copy-betterform" />
     <antcall target="configure-betterform" />
     <echo message="-------------------------" />
     <echo message="Patch betterFORM code project, compile it and deploy it to the localhost" />
@@ -323,18 +324,23 @@
 
   </target>
   
-  <target name="download-betterform">
+  <target name="copy-betterform">
   
     <echo message="-------------------------" />
-    <echo message="Download betterFORM (https://github.com/betterFORM/betterFORM.git)" />
+    <echo message="Copy betterFORM (https://github.com/betterFORM/betterFORM.git)" />
     <echo message="-------------------------" />
-    <exec executable="git">
-      <arg line=" clone https://github.com/betterFORM/betterFORM.git betterFORM"/>
-    </exec>  
-    <exec executable="git" dir="./betterFORM">
-      <arg line="checkout 2ad34d165ffb19232ff6489abe5a313412f35eeb"/>
-    </exec>
-    
+    <delete dir="betterform" failonerror="false"/>
+    <concat destfile="tmp/betterFORM-betterFORM5.zip" binary="true">
+      <fileset dir="vendor/betterform">
+        <include name="betterFORM-betterFORM5.zip.*"/>
+      </fileset>
+    </concat>
+    <unzip src="tmp/betterFORM-betterFORM5.zip" dest="."/>
+    <move todir="betterform">
+      <fileset dir="betterFORM-betterFORM5"/>
+    </move>
+    <delete dir="betterFORM-betterFORM5"/>
+
   </target>
   
   <target name="configure-betterform">
@@ -416,14 +422,13 @@
     <delete dir="${exist-home}" failonerror="false"/>
     <mkdir dir="tmp"/>
     
-    <!-- download and unzip eXist -->
-    <get src="https://codeload.github.com/eXist-db/exist/zip/eXist-2.0.x" dest="tmp/eXist.zip"/>
-    <exec executable="unzip">
-      <arg line="tmp/eXist.zip -d ."/>
-    </exec>
-    <move todir="localhost">
+    <!-- copy and unzip eXist -->
+    <unzip src="vendor/exist-eXist-2.0.x.zip" dest="."/>
+    <move todir="${exist-home}">
       <fileset dir="exist-eXist-2.0.x"/>
     </move>
+    <delete dir="exist-eXist-2.0.x"/>
+    <chmod file="${exist-home}/build.sh" perm="+x"/>
     
     <!-- bugfix for eXist-2.0 -->
     <mkdir dir="${exist-home}/extensions/modules/lib"/>
@@ -431,9 +436,9 @@
     <!-- bugfix for eXist-2.0 -->
     
     <!-- download external projects -->
-    <antcall target="download-jssaxparser"/>
-    <antcall target="download-jquery"/>
-    <antcall target="download-codemirror"/>
+    <antcall target="copy-jssaxparser"/>
+    <antcall target="copy-jquery"/>
+    <antcall target="copy-codemirror"/>
     
     <!-- compile and deploy -->
     <antcall target="compile-exist" />
