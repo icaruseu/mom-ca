@@ -48,6 +48,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:relativepath>js/</xrx:relativepath>
       <xrx:name>jquery.ui.dialogEditor.js</xrx:name>
     </xrx:resource>
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/dialogCopyToCollection</xrx:atomid>
+      <xrx:relativepath>js/</xrx:relativepath>
+      <xrx:name>jquery.ui.dialogCopyToCollection.js</xrx:name>
+    </xrx:resource>
     <!-- XSL -->
     <xrx:resource>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/xsl/cei2html</xrx:atomid>
