@@ -4,6 +4,10 @@ module namespace xmleditor="http://www.monasterium.net/NS/xmleditor";
 
 declare namespace xs="http://www.w3.org/2001/XMLSchema";
 declare namespace catalog="urn:oasis:names:tc:entity:xmlns:xml:catalog";
+declare namespace atom="http://www.w3.org/2005/Atom";
+declare namespace skos="http://www.w3.org/2004/02/skos/core#";
+declare namespace rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+declare namespace tei="http://www.tei-c.org/ns/1.0/";
 
 import module namespace conf="http://www.monasterium.net/NS/conf"
     at "../xrx/conf.xqm";
@@ -15,31 +19,12 @@ import module namespace xsd="http://www.monasterium.net/NS/xsd"
     at "../xrx/xsd.xqm";
 import module namespace data="http://www.monasterium.net/NS/data"
     at "../data/data.xqm";
-
+    
+import module namespace jsonx="http://www.monasterium.net/NS/jsonx"
+    at "../xrx/jsonx.xqm";
 
 declare variable $xmleditor:catalog := $xrx:live-project-db-base-collection/catalog:catalog;
 declare variable $xmleditor:catalog-url := xs:anyURI(concat(util:collection-name($xmleditor:catalog), '/', util:document-name($xmleditor:catalog)));
-
-    
-declare function xmleditor:json-object($pairs as xs:string+) as xs:string {
-    
-    concat('{', string-join($pairs, ',') ,'}')
-};
-
-declare function xmleditor:json-array($sequence as xs:string*) as xs:string {
-
-    concat('[', string-join($sequence, ','), ']')
-}; 
-
-declare function xmleditor:json-string($string as xs:string) as xs:string {
-    
-    concat('"', replace(replace($string, "'", "`"), '"', "`"), '"')
-};
-
-declare function xmleditor:json-pair($key as xs:string, $value as xs:string) as xs:string {
-
-    concat($key, ":", $value)
-};
 
 declare function xmleditor:json-element-suggestions($xsd as element(xs:schema)) {
 
@@ -47,18 +32,18 @@ declare function xmleditor:json-element-suggestions($xsd as element(xs:schema)) 
     let $namespace-prefix := tokenize($namespace, '/')[last()]
     let $element-names := distinct-values($xsd//xs:element/@name/string())
     return
-    xmleditor:json-object(
+    jsonx:object(
         for $element-name in $element-names
         let $namespace-element-name := concat($namespace-prefix, ":", $element-name)
         let $child-element-names := xsd:child-element-names($element-name, $element-name, $xsd)
         return
-        xmleditor:json-pair(
-            xmleditor:json-string($namespace-element-name),
-            xmleditor:json-array(
+        jsonx:pair(
+            jsonx:string($namespace-element-name),
+            jsonx:array(
                 for $child-element-name in $child-element-names
                 let $namespace-child-element-name := concat($namespace-prefix, ":", $child-element-name)
                 return
-                xmleditor:json-string($namespace-child-element-name)
+                jsonx:string($namespace-child-element-name)
             )
         )
     )
@@ -69,7 +54,7 @@ declare function xmleditor:json-attribute-suggestions($xsd as element(xs:schema)
     let $namespace := $xsd/@targetNamespace/string()
     let $namespace-prefix := tokenize($namespace, '/')[last()]
     return
-    xmleditor:json-object(
+    jsonx:object(
         for $element in $xsd//xs:element[@name]
         
         let $qname := concat($namespace-prefix, ':', $element/@name/string())
@@ -85,14 +70,14 @@ declare function xmleditor:json-attribute-suggestions($xsd as element(xs:schema)
         order by $element/@name
         
         return
-        xmleditor:json-pair(
-            xmleditor:json-string($qname),
-                xmleditor:json-array(
+        jsonx:pair(
+            jsonx:string($qname),
+                jsonx:array(
                     distinct-values(
                         for $attribute in $attribute-elements
                         order by $attribute/(@name|@ref)
                         return
-                        xmleditor:json-string($attribute/(@name|@ref)/string())
+                        jsonx:string($attribute/(@name|@ref)/string())
                     )
                 )
             )
@@ -116,35 +101,19 @@ declare function xmleditor:attribute-elements-of-group($attribute-group, $found,
 
 declare function xmleditor:json-element-topics($xrx-schema as element(xrx:xsd)) {
 
-    xmleditor:json-object(
+    jsonx:object(
         for $element in $xrx-schema/xrx:elements/xrx:element
         let $element-name := $element/@name/string()
         let $topic := if($element/xrx:topic/text()) then $element/xrx:topic/text() else '#'
         return
-        xmleditor:json-pair(
-            xmleditor:json-string($element-name),
-            xmleditor:json-string($topic)
+        jsonx:pair(
+            jsonx:string($element-name),
+            jsonx:string($topic)
         )
     )
     
 };
 
-(: neue Funktion für attr Values 
-declare function xmleditor:json-attr-values($xrx-schemaV as element(xrx:xsd)) {   
-    xmleditor:json-object(
-    let $cl := "cei:class"
-    return
-    xmleditor:json-pair(  
-    xmleditor:json-string("type"), 
-    xmleditor:json-array( 
-    return   
-    xmleditor:json-string("papsturkunde"),
-    xmleditor:json-string("königsurkunde"),
-    xmleditor:json-string("sammelindulgenz")
-    )
-    )
-    )
-};:)
 
 declare function xmleditor:validation-report-message($message as xs:string) as xs:string* {
 
@@ -155,34 +124,34 @@ declare function xmleditor:validation-report($instance as element()) {
 
     let $report := validation:xrx-instance($instance, false(), $xmleditor:catalog-url)
     return
-    xmleditor:json-object((
-        xmleditor:json-pair(
-            xmleditor:json-string("status"),
-            xmleditor:json-string(xs:string($report/status/text()))
+    jsonx:object((
+        jsonx:pair(
+            jsonx:string("status"),
+            jsonx:string(xs:string($report/status/text()))
         ),
-        xmleditor:json-pair(
-            xmleditor:json-string("duration"),
-            xmleditor:json-string(concat($report/duration/text(), $report/duration/@unit/string()))
+        jsonx:pair(
+            jsonx:string("duration"),
+            jsonx:string(concat($report/duration/text(), $report/duration/@unit/string()))
         ),
-        xmleditor:json-pair(
-            xmleditor:json-string("length"),
-            xmleditor:json-string(xs:string(count($report/message)))
+        jsonx:pair(
+            jsonx:string("length"),
+            jsonx:string(xs:string(count($report/message)))
         ),
         if(exists($report/message)) then
-            xmleditor:json-pair(
-                xmleditor:json-string("messages"),
-                xmleditor:json-object(
+            jsonx:pair(
+                jsonx:string("messages"),
+                jsonx:object(
                     for $message in $report/message
                     let $nodeId := $message/@nodeId/string()
                     let $text := xmleditor:validation-report-message(xs:string($message/text()))
                     return
-                    xmleditor:json-pair(
-                        xmleditor:json-string($nodeId),
-                        xmleditor:json-array(
+                    jsonx:pair(
+                        jsonx:string($nodeId),
+                        jsonx:array(
                                 for $entry in $text
                                     let $returner := $entry
                                     return
-                                    xmleditor:json-string($returner)
+                                    jsonx:string($returner)
                                 
                         )
                     )
@@ -193,3 +162,34 @@ declare function xmleditor:validation-report($instance as element()) {
         else()
     ))
 };
+
+declare function xmleditor:vocabularasjson($rdf as xs:string, $vocabular){   
+    jsonx:object(
+            let $getlang := substring($xrx:lang, 0,3)
+            let $label := jsonx:string( if($vocabular//skos:Concept[@rdf:about=$rdf]/skos:prefLabel/@xml:lang= $getlang)
+                                        then (
+                                        normalize-space($vocabular//skos:Concept[@rdf:about=$rdf]/skos:prefLabel[@xml:lang= $getlang]/text()))
+                                        else(normalize-space($vocabular//skos:Concept[@rdf:about=$rdf]/skos:prefLabel[1]/text()))
+                                        )
+            let $labelling := jsonx:pair(jsonx:string("label"), $label)
+            let $objectcontent := for $g in $vocabular//skos:Concept[skos:broader/@rdf:resource = $rdf][child::skos:prefLabel]
+                            let $newrdf := data($g/@rdf:about)
+                            let $key := jsonx:string(substring-after(normalize-space($newrdf), '#'))
+                            let $value := if($g/skos:prefLabel/@xml:lang= $getlang) then normalize-space($g/skos:prefLabel[@xml:lang= $getlang]/text()) else(normalize-space($g/skos:prefLabel[1]/text()))
+                            order by $g/@rdf:about
+                            return 
+                            if($g/skos:narrower | $vocabular//skos:broader[@rdf:resource = $newrdf]) then 
+                            let $iterate := xmleditor:vocabularasjson($newrdf, $vocabular)
+                            return jsonx:pair($key, $iterate)
+                            else( 
+                            let $pairs := jsonx:pair($key, jsonx:string($value))
+                            return 
+                             $pairs
+                            )                         
+            return if(empty($objectcontent)) then $labelling
+            else( concat($labelling, ',', string-join($objectcontent, ',')))
+                         
+                         )
+            
+          
+ };

@@ -226,6 +226,18 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:mode>service</xrx:mode>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/CheckSessionStatus</xrx:atomid>
     </xrx:map>
+    <!-- Kopiert eine Charter in eine Collection -->
+    <xrx:map>
+    	<xrx:uripattern>/service/my-collection-copy-charter</xrx:uripattern>
+    	<xrx:mode>service</xrx:mode>
+   		<xrx:atomid>tag:www.monasterium.net,2011:/mom/service/my-collection-copy-charter</xrx:atomid>
+    </xrx:map>
+    <!-- Überprüft ob eine bestimmte Charter in eine Collection vorkommt. Wird benötigt um mit der Copy-charter funktion keine Dubletten anzulegen in eine Collection anzulegen. -->
+    <xrx:map>
+    	<xrx:uripattern>/service/my-collection-check-charter-exists</xrx:uripattern>
+    	<xrx:mode>service</xrx:mode>
+    	<xrx:atomid>tag:www.monasterium.net,2011:/mom/service/my-collection-check-charter-exists</xrx:atomid>
+    </xrx:map>
     <!-- main widgets -->
     <xrx:map>
       <xrx:uripattern>/new-collection</xrx:uripattern>
