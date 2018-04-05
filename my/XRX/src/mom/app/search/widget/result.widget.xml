@@ -499,7 +499,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               </b>
               <span>{ $wcharter-preview:date }</span>
             </div>
-           {
+       <!--     {
            
            let $suchbegriff := string($terminus)
            let $vorderteil := substring-before($exzerpt, $suchbegriff)
@@ -513,7 +513,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
            return
            if ($terminus)then                               
              <div>
-              <b><!-- brauche bedingung: wenn das prae nicht leer und string-length kleiner 300 ACHTUNG Denkfehler bei minvorderteil zürückzählen-->
+              <b>brauche bedingung: wenn das prae nicht leer und string-length kleiner 300 ACHTUNG Denkfehler bei minvorderteil zürückzählen
                 <xrx:i18n>
                   <xrx:key>abstract</xrx:key>
                   <xrx:default>abstract</xrx:default>
@@ -528,10 +528,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               <span>{ $wcharter-preview:abstract }</span>
             </div>)
                       
-            }
-            <!-- <div data-demoid="b6903f38-a42f-4214-a41c-bb68f608161d">
+            } -->
+            <div data-demoid="b6903f38-a42f-4214-a41c-bb68f608161d">
               <span>{ $wcharter-preview:abstract }</span>
-            </div> -->
+            </div>
             <br/>          
           
           <!--   <xrx:div>original-context-div</xrx:div> -->

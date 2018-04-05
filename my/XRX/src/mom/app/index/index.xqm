@@ -44,22 +44,33 @@ declare variable $index:personcollection := collection(concat(conf:param("data-d
 declare variable $index:vocabularycollection := collection(concat(conf:param("data-db-base-uri"), "/metadata.controlledVocabulary.public"));
 
 (: function searches hits of a lemma in @ of published charters. It returns the ids of the hits
-and saves the hits in a session variable in order to be able to browse through the hits :)
+and saves the hits in a session variable in order to be able to browse through the hits 
+
+
+declare function search:term-query-string() as xs:string {
+
+    concat("$context//cei:text[ft:query(.,'", $search:q, "',$search:options)]")
+};
+
+:)
 declare function index:index-abfrage($term){
       if (starts-with($term, 'P_')) then
-      let $resultat := session:set-attribute('result', $index:chartercollection//cei:text[.//@key= $term])
-      let $treffergesamt := $index:chartercollection//cei:text[.//@key = $term]
+      
+      let $treffergesamt := $index:chartercollection//cei:text[ft:query(.//@key, $term)]
+      let $resultat := session:set-attribute('result',$treffergesamt)
       for $treffer in $treffergesamt
       order by $treffer//cei:issued/(cei:dateRange/@from | cei:date/@value) ascending
-      return  $treffer/ancestor::atom:entry/atom:id   
+      return  $treffer/ancestor::atom:entry   
       
       
-      else(
-      let $resultat := session:set-attribute('result', $index:chartercollection//cei:text[.//@lemma = substring-after($term, '#')])
-      let $treffergesamt := $index:chartercollection//cei:text[.//@lemma = substring-after($term, '#')]
+      else(   
+      let $mehr := for $jeweils in index:narrower($term) return $index:chartercollection//cei:text[ft:query(.//@lemma, $jeweils)]      
+      let $treffer := $index:chartercollection//cei:text[ft:query(.//@lemma, substring-after($term, '#'))]
+      let $treffergesamt := ($treffer, $mehr)
+      let $resultat := session:set-attribute('result', $treffergesamt)
       for $treffer in $treffergesamt
       order by $treffer//cei:issued/(cei:dateRange/@from | cei:date/@value) ascending
-      return   $treffer/ancestor::atom:entry/atom:id  
+      return   $treffer/ancestor::atom:entry  
        )                
 };
 
@@ -86,6 +97,13 @@ declare function index:replace-multi
           $changeTo[position() > 1])
    else $arg
  } ;
+ 
+ declare function index:narrower($term as xs:string) {
+           let $suchterm := if(starts-with($term, '#')) then  $term else (concat('#', $term))
+           let $voc := $index:vocabularycollection//skos:Concept[@rdf:about= $suchterm]
+           let $look := for $n in $voc/skos:narrower return substring-after(data($n/@rdf:resource), '#')
+           return $look
+ }; (: $look ist eine Sequenz an Strings, die auch gesucht werden sollen :)
   
  (: function that reads terms from RDF :)
  declare function index:read-hierarchie($glossarlabel,$rdf, $label, $voc, $sprache){       

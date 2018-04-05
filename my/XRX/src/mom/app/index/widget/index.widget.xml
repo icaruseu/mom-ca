@@ -61,8 +61,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
      <xrx:variable>
       <xrx:name>$indexterm</xrx:name>
       <xrx:expression>if(starts-with($xrx:tokenized-uri[3], 'P_')) then $xrx:tokenized-uri[3] else(concat('#', $xrx:tokenized-uri[3]))</xrx:expression>
-    </xrx:variable>
-    
+    </xrx:variable>        
     <xrx:variable>    
       <xrx:name>$windex:index</xrx:name>
       <xrx:expression>if($xrx:tokenized-uri[3]!= '#') then index:index-abfrage($indexterm) else()</xrx:expression>
@@ -73,16 +72,16 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     </xrx:variable>    
    <xrx:variable>
     <xrx:name>$blocks</xrx:name>
-    <xrx:expression>floor(number($windex:hits) div 7) +1 </xrx:expression>
+    <xrx:expression>floor(number($windex:hits) div 30) +1 </xrx:expression>
     </xrx:variable>
     <!-- overwrite -->
     <xrx:variable>
       <xrx:name>$charters:start</xrx:name>
-      <xrx:expression>$windex:block * 7 - 6</xrx:expression>
+      <xrx:expression>$windex:block * 30 - 29</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$charters:stop</xrx:name>
-      <xrx:expression>if($windex:hits lt 7) then $windex:hits else($windex:block * 7)</xrx:expression>
+      <xrx:expression>if($windex:hits lt 30) then $windex:hits else($windex:block * 30)</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$charters:previous-block</xrx:name>
@@ -94,7 +93,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharters:next-block-pos</xrx:name>
-      <xrx:expression>if($windex:block = $windex:hits div 7) then 1 else $windex:block + 1</xrx:expression>
+      <xrx:expression>if($windex:block = $windex:hits div 30) then 1 else $windex:block + 1</xrx:expression>
     </xrx:variable>
  
     <!-- Session Variablen -->
@@ -227,7 +226,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       float:left;     
       width: 30%;      
       left:5px;
-      margin-right:3em;
+      /*margin-right:3em;*/
 }}
 
 #rightframe{{
@@ -300,9 +299,8 @@ span.breadcrumb {{
 .glossary-entry {{    
          
     background:rgb(245, 245, 245);    
-    border-bottom: 3px solid #9e9e9e; /*#8EA384;*/    
-    max-height: 200px;    
-    overflow-y:auto;
+    border-bottom: 3px solid #9e9e9e; /*#8EA384;*/         
+    //overflow-y:auto;
     width:101%;
     
 }}
@@ -372,7 +370,9 @@ ul.menu span.ui-button-text {{
   padding:5px;
 }}
 
-
+.entry p {{
+  font-size:1em !important;  
+}}
 
  .glossary-open div ul li,
  .glossary-entry div ul li
@@ -854,7 +854,7 @@ div.narrower {{
             </div>
            
     else(
-    <div id="rightframe">
+    <div id="rightframe">   
       <div id="breadcrumb"><h2><xrx:i18n>
               <xrx:key>search-in</xrx:key>
               <xrx:default>Search the Index</xrx:default>
@@ -867,16 +867,16 @@ div.narrower {{
       let $term := concat('#', $xrx:tokenized-uri[3])
       let $beschreibung:= $vocabulary//skos:Concept[@rdf:about = $term]/skos:definition/node()
       let $anzahlknoten := count($beschreibung)
-      let $glossar := <div>{$beschreibung}</div>
+      let $glossar := <div class="entry">{$beschreibung}</div>
        (: wenn die Beschreibung länger ist, soll ein Pfeil gesetzt werden, der anzeigt, dass noch mehr Info da ist :)
       let $glossartitel := <h2>
         { if ($beschreibung and ($anzahlknoten gt 2))then  
         <span>
           
-      <span class="moreless">     
+      <span class="moreless" style="display:none">     
          <xrx:resource alt="einklappen" id="ein" height="20" type="image/png" title="show more" class="ic">tag:www.monasterium.net,2011:/mom/resource/image/path_down</xrx:resource>
       </span>      
-      <span class="moreless" style="display:none">
+      <span class="moreless">
          <xrx:resource alt="ausklappen" id="aus" height="20" type="image/png" title="show less" class="ic">tag:www.monasterium.net,2011:/mom/resource/image/path_up</xrx:resource>
       </span>
       </span> 
@@ -1070,3 +1070,4 @@ div.narrower {{
    </div>
       </xrx:view>
       </xrx:widget>
+
