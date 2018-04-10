@@ -54,11 +54,8 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       let $json := 
         if(count($entries) gt 0) then
           jsonx:object(
-            for $entry at $num in $entries
-            let $entrydebug := util:log("ERROR", $entry)
-           
+            for $entry at $num in $entries       
             let $objectid := metadata:objectid($entry//atom:id/text())
-            
             (: These is part of the function publication:build-url
             ~ function is not callable from service :)
             let $token := tokenize($entry/atom:id/text(), "/")
