@@ -8,21 +8,20 @@
  */
 
 ;(function( $, undefined ) {
-
+console.log("in ui.search");
 var selCheckbox_ = "input[type=checkbox]";
 
 $.widget("ui.search", {
 
+  
 
-
-  options: {
-    requestRoot: ""
+  options: {    requestRoot: ""
   },
 
 
   
   _create: function() {
-
+	console.log("kein CREATE");
     this._initSearchField();
     this._initOptions();
     this._initSort();
