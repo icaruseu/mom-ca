@@ -6,6 +6,20 @@
  * @param {String} input_element_id: The id attribute of the input element that triggers the call. (the "clicked" button)
  * @param {String} checkbox_class: The <input> elements (checkboxes) with this class attribute are targeted.
  */
+
+console.log("toggle checkbox.js werde geladen");
+
 function invert_all_checkboxes(checkbox_class) {
+
   jQuery("input." + checkbox_class).click();
 }
+
+$(window).on('load', function() {{ 
+    window.setTimeout(function(){{
+     console.log("im widget alles kjlar");
+     console.log($.widget);
+    }}, 500);
+   
+     
+     
+          }}); 
