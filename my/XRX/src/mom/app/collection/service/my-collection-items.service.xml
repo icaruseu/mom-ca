@@ -54,12 +54,8 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       let $json := 
         if(count($entries) gt 0) then
           jsonx:object(
-            for $entry at $num in $entries
-            
-           
+            for $entry at $num in $entries       
             let $objectid := metadata:objectid($entry//atom:id/text())
-            let $debug1 := util:log("ERROR", $objectid)
-            
             (: These is part of the function publication:build-url
             ~ function is not callable from service :)
             let $token := tokenize($entry/atom:id/text(), "/")
@@ -70,8 +66,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
             let $collectionid := $sub[1]
             let $url := if($context = "collection") then concat($collectionid, "/", $objectid) else concat($archiveid, "/", $fondid, "/", $objectid)
               
-            let $date := if(exists($entry//cei:dateRange/@from/string())) then $entry//cei:dateRange/@from/string() else $entry//cei:date/@value/string()
-            let $debug2 := util:log("ERROR", $date)
+            let $date := if(exists($entry//cei:date/@value/string())) then $entry//cei:date/@value/string() else $entry//cei:dateRange/@from/string()
             
             let $idno := $entry//cei:body/cei:idno/text()
             let $title := 
