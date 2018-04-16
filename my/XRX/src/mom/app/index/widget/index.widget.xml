@@ -673,7 +673,7 @@ div.narrower {{
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>       
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/resizable</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/selectable</xrx:resource>

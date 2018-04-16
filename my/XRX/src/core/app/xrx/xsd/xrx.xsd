@@ -294,15 +294,7 @@
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element name="js" type="xs:string"/>
-        <xs:element name="resource">
-        <xs:complexType>
-        <xs:simpleContent>
-          <xs:extension base="xs:string">
-               <xs:attribute name="n" type="xs:integer"/>
-           </xs:extension>
-        </xs:simpleContent>    
-        </xs:complexType>
-        </xs:element>        
+        <xs:element name="resource" />      
         <xs:element ref="xhtml:link"/>
         <xs:element ref="xhtml:script"/>        
       </xs:choice>
