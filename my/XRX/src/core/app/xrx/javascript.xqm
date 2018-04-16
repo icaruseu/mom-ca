@@ -32,7 +32,7 @@ declare function javascript:compile($widget as element(xrx:widget), $jss as elem
     let $widgetid := $widget/xrx:id/text()
     let $resources := for $i in distinct-values($jss/xrx:resource/text()) return <xrx:resource>{$i}</xrx:resource>  
     let $jss-strings :=        
-        for $js in $resources           
+        for $js in $resources
         return
         typeswitch($js)
         case(element(xrx:resource)) return
