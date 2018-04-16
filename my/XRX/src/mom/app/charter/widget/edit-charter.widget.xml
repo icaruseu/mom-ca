@@ -146,13 +146,13 @@
 			</style>
     </xrx:csss>
     <xrx:jss>
-	    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
-	    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
-	    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
-	    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
-	    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
-	    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/slider</xrx:resource>
-	    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/charter</xrx:resource>
+	    <xrx:resource n="1">tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+	    <xrx:resource n="2">tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
+	    <xrx:resource n="3">tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+	    <xrx:resource n="4">tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+	    <xrx:resource n="5">tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
+	    <xrx:resource n="6">tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/slider</xrx:resource>
+	    <xrx:resource n="7">tag:www.monasterium.net,2011:/mom/resource/js/charter</xrx:resource>
     </xrx:jss>
     <xrx:view>
         <div data-demoid="07ed1069-ea47-42b3-ac3c-d717877363b8" id="edit-charter">
@@ -504,7 +504,7 @@
                     </div>
                 </xrx:false>
             </xrx:auth>
- <script type="text/javascript">
+<!--  <script type="text/javascript">
         $(document).ready(function() {{
           $( "#zoomslider" ).slider({{ 
             value:100, 
@@ -516,7 +516,7 @@
             }} 
           }}); 
         }})
-        </script>
+        </script> -->
         </div>
     </xrx:view>
 </xrx:widget>
