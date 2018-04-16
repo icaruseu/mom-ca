@@ -30,9 +30,13 @@ declare namespace xrx="http://www.monasterium.net/NS/xrx";
 declare function javascript:compile($widget as element(xrx:widget), $jss as element(xrx:jss)*, $xrx-live-project-db-base-collection, $xrx-resources-base-collection as node()*, $project-name as xs:string) {
 
     let $widgetid := $widget/xrx:id/text()
+    let $res := for $i in distinct-values($jss/xrx:resource/text()) return <xrx:resource>{$i}</xrx:resource>
+    let $log := util:log("INFO", "+++++++")
+    let $l := util:log("INFO", $widgetid)
+    let $ll := util:log("INFO", $res)
+    let $s := util:log("INFO", "---------")
     let $jss-strings :=        
-        for $js in ($jss/xrx:resource)
-        order by number($js/@n)      
+        for $js in $res           
         return
         typeswitch($js)
         case(element(xrx:resource)) return
