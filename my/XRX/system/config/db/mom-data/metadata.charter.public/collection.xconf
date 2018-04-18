@@ -100,11 +100,4 @@
             <create qname="@value" type="xs:integer"/>
         </range>
     </index>
-    <triggers>
-        <trigger class="org.exist.extensions.exquery.restxq.impl.RestXqTrigger"/>
-	<trigger event="create,delete,update"
-            class="org.exist.versioning.VersioningTrigger">
-            <parameter name="overwrite" value="yes"/>
-        </trigger>
-    </triggers>
 </collection>
