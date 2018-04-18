@@ -106,6 +106,18 @@
         </sequential>
     </macrodef>
 
+    <macrodef name="download">
+        <attribute name="src"/>
+        <attribute name="destdir"/>
+        <attribute name="destname"/>
+        <sequential>
+            <mkdir dir="@{destdir}"/>
+            <exec executable="wget">
+                <arg line="-O @{destdir}/@{destname} @{src}"/>
+            </exec>
+        </sequential>
+    </macrodef>
+
     <macrodef name="exist-remove">
         <attribute name="uri"/>
         <attribute name="collection"/>
@@ -306,7 +318,7 @@
     <target name="download-exist">
         <log message="Downloading eXist"/>
         <delete dir="${exist-home}" failonerror="false"/>
-        <get src="${download-url-exist}" dest="${tmp-home}/exist.zip"/>
+        <download src="${download-url-exist}" destdir="${tmp-home}" destname="exist.zip"/>
         <unzip src="${tmp-home}/exist.zip" dest="${exist-home}">
             <patternset>
                 <include name="**/*/**"/>
@@ -323,7 +335,7 @@
     <target name="download-jsxmlsaxparser">
         <log message="Downloading jsXmlSaxParser"/>
         <delete dir="jssaxparser" failonerror="false"/>
-        <get dest="${tmp-home}/jssaxparser.zip" src="${download-url-jssaxparser}"/>
+        <download src="${download-url-jssaxparser}" destdir="${tmp-home}" destname="jssaxparser.zip"/>
         <unzip src="${tmp-home}/jssaxparser.zip" dest="${jssaxparser-home}">
             <patternset>
                 <include name="**/jssaxparser/**"/>
@@ -335,7 +347,7 @@
     <target name="download-jquery">
         <log message="Downloading jQuery"/>
         <delete dir="${jquery-home}" failonerror="false"/>
-        <get dest="${tmp-home}/jQuery.zip" src="${download-url-jquery}"/>
+        <download src="${download-url-jquery}" destdir="${tmp-home}" destname="jQuery.zip"/>
         <unzip src="${tmp-home}/jQuery.zip" dest="${jquery-home}">
             <patternset>
                 <include name="**/jquery-ui*/**"/>
@@ -347,7 +359,7 @@
     <target name="download-codemirror">
         <log message="Downloading CodeMirror"/>
         <delete dir="${codemirror-home}" failonerror="false"/>
-        <get dest="${tmp-home}/CodeMirror.zip" src="${download-url-codemirror}"/>
+        <download src="${download-url-codemirror}" destdir="${tmp-home}" destname="CodeMirror.zip"/>
         <unzip src="${tmp-home}/CodeMirror.zip" dest="${codemirror-home}">
             <patternset>
                 <include name="**/CodeMirror-2/**"/>
