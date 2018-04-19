@@ -859,7 +859,7 @@ div.narrower {{
               <xrx:key>search-in</xrx:key>
               <xrx:default>Search the Index</xrx:default>
             </xrx:i18n>: <span class="breadcrumb">{$breadcrumb1} &gt; {$breadcrumb2}</span></h2></div> 
-       <!-- special solution for glossary-entries in order to be able to present more or less text -->
+       <!-- special solution for glossary-entries in order to be able to present more or less text -->    
       <div class="glossary-entry">
       {  
       

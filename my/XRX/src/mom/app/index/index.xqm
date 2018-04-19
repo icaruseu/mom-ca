@@ -64,11 +64,14 @@ declare function index:index-abfrage($term){
       
       
       else(   
-      let $mehr := for $jeweils in index:narrower($term) return $index:chartercollection//cei:text[ft:query(.//@lemma, $jeweils)]      
-      let $treffer := $index:chartercollection//cei:text[ft:query(.//@lemma, substring-after($term, '#'))]
-      let $treffergesamt := ($treffer, $mehr)
+      let $mehr :=  for $jeweils in index:narrower($term)
+                let $st := if(starts-with($jeweils, '#') ) then substring-after($jeweils, '#') else($jeweils)
+                return $index:chartercollection//cei:text[.//@lemma = $st]   
+      let $treffer := $index:chartercollection//cei:text[.//@lemma = substring-after($term, '#')]
+      let $treffergesamt := $treffer union $mehr      
       let $resultat := session:set-attribute('result', $treffergesamt)
       for $treffer in $treffergesamt
+      let $einzeln := $treffer//atom:id/text()
       order by $treffer//cei:issued/(cei:dateRange/@from | cei:date/@value) ascending
       return   $treffer/ancestor::atom:entry  
        )                
@@ -100,9 +103,10 @@ declare function index:replace-multi
  
  declare function index:narrower($term as xs:string) {
            let $suchterm := if(starts-with($term, '#')) then  $term else (concat('#', $term))
-           let $voc := $index:vocabularycollection//skos:Concept[@rdf:about= $suchterm]
-           let $look := for $n in $voc/skos:narrower return substring-after(data($n/@rdf:resource), '#')
-           return $look
+           let $voc := if( $index:vocabularycollection//skos:Concept[@rdf:about= $suchterm]/skos:narrower) then $index:vocabularycollection//skos:Concept[@rdf:about= $suchterm]/skos:narrower else ()
+           let $narrow := data($voc/@rdf:resource)
+           (:let $look := if($voc/skos:narrower) then substring-after(data($voc/skos:narrower/@rdf:resource), '#') else 'nix':)
+           return $narrow
  }; (: $look ist eine Sequenz an Strings, die auch gesucht werden sollen :)
   
  (: function that reads terms from RDF :)
