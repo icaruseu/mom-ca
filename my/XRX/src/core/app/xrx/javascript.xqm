@@ -30,8 +30,9 @@ declare namespace xrx="http://www.monasterium.net/NS/xrx";
 declare function javascript:compile($widget as element(xrx:widget), $jss as element(xrx:jss)*, $xrx-live-project-db-base-collection, $xrx-resources-base-collection as node()*, $project-name as xs:string) {
 
     let $widgetid := $widget/xrx:id/text()
-    let $jss-strings :=
-        for $js in $jss//xrx:resource
+    let $resources := for $i in distinct-values($jss/xrx:resource/text()) return <xrx:resource>{$i}</xrx:resource>  
+    let $jss-strings :=        
+        for $js in $resources
         return
         typeswitch($js)
         case(element(xrx:resource)) return
@@ -44,7 +45,8 @@ declare function javascript:compile($widget as element(xrx:widget), $jss as elem
             let $document := if(util:binary-doc-available($uri)) then minify:js(util:binary-to-string(util:binary-doc($uri))) else()
             return
             $document
-        default return ''
+        default return ''   
     return
     <xhtml:script id="{ $widgetid }">{ $jss-strings }</xhtml:script>
+   
 };

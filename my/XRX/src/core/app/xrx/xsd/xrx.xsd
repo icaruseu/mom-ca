@@ -15,7 +15,7 @@
       <xs:sequence>
         <xs:group ref="group-xrx-object"/>
         <xs:element ref="modules" minOccurs="0" maxOccurs="1"/>
-        <xs:element ref="resources" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="resources" minOccurs="0" maxOccurs="1"/>      
         <xs:element ref="resolver" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="conf" minOccurs="0" maxOccurs="1"/>
       </xs:sequence>
@@ -211,7 +211,7 @@
         <xs:element name="css" type="xs:string"/>
         <xs:element ref="xhtml:style"/>
         <xs:element ref="xhtml:link"/>
-        <xs:element name="resource" type="xs:string"/>
+        <xs:element name="resource" type="xs:string"/>       
       </xs:choice>
     </xs:complexType>
   </xs:element>
@@ -294,13 +294,14 @@
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element name="js" type="xs:string"/>
-        <xs:element name="resource" type="xs:string"/>
+        <xs:element name="resource" />      
         <xs:element ref="xhtml:link"/>
-        <xs:element ref="xhtml:script"/>
+        <xs:element ref="xhtml:script"/>        
       </xs:choice>
       <xs:attribute name="debug" type="xs:boolean"/>
     </xs:complexType>
-  </xs:element>
+  </xs:element> 
+
   <xs:element name="layout">
     <xs:complexType>
       <xs:sequence>
@@ -320,7 +321,7 @@
         <xs:element name="module" minOccurs="1" maxOccurs="unbounded">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="resource" minOccurs="1" maxOccurs="1" type="xs:string"/>
+              <xs:element name="resource" minOccurs="1" maxOccurs="1"/>           
               <xs:element name="prefix" minOccurs="1" maxOccurs="1" type="xs:string"/>
               <xs:element name="uri" minOccurs="1" maxOccurs="1" type="xs:string"/>
             </xs:sequence>
@@ -388,14 +389,14 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element name="resource" minOccurs="1" maxOccurs="unbounded">
-          <xs:complexType>
+         <xs:complexType>    
             <xs:sequence>
               <xs:element name="atomid" minOccurs="1" maxOccurs="1" type="xs:string"/>
               <xs:element name="relativepath" minOccurs="1" maxOccurs="1" type="xs:string"/>
               <xs:element name="name" minOccurs="1" maxOccurs="1" type="xs:string"/>
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
+            </xs:sequence>         
+           </xs:complexType>
+         </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
