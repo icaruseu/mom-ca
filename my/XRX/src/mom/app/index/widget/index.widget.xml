@@ -716,7 +716,7 @@ div.narrower {{
           <h2><xrx:i18n>
               <xrx:key>choose-a-lemma</xrx:key>
               <xrx:default>Choose a lemma</xrx:default>
-            </xrx:i18n>:</h2>
+            </xrx:i18n>:</h2>         
            {                   
          if ($vocabulary//skos:hasTopConcept) then                
                  for $top in $vocabulary//skos:hasTopConcept
