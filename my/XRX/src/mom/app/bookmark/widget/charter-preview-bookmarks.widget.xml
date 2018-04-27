@@ -38,7 +38,7 @@ along with VdU/VRET. If not, see http://www.gnu.org/licenses.
 We expect VdU/VRET to be distributed in the future with a license more
 lenient towards the inclusion of components into other systems, once
 it leaves the active development stage.
-	</xrx:licence>
+  </xrx:licence>
     <xrx:constructor>
         <xrx:parameter>
             <xrx:name>$constructor:charter</xrx:name>
@@ -95,14 +95,14 @@ it leaves the active development stage.
             <xrx:name>$wcharter-preview:num-images</xrx:name>
             <xrx:expression>count($constructor:charter//cei:graphic/@url)</xrx:expression>
         </xrx:variable>
-  	<!-- charter context info -->
+    <!-- charter context info -->
         <xrx:variable>
             <xrx:name>$wcharter-preview:charter-url</xrx:name>
             <xrx:expression>if($constructor:charter-context = 'fond') then 
-  											concat(conf:param('request-root'), $constructor:archive-id, '/', $constructor:fond-id, '/', $wcharter-preview:id, '/charter')
-  										else
-  											concat(conf:param('request-root'), $constructor:collection-id, '/', $wcharter-preview:id, '/charter')
-  		</xrx:expression>
+                        concat(conf:param('request-root'), $constructor:archive-id, '/', $constructor:fond-id, '/', $wcharter-preview:id, '/charter')
+                      else
+                        concat(conf:param('request-root'), $constructor:collection-id, '/', $wcharter-preview:id, '/charter')
+      </xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$wcharter-preview:archive-url</xrx:name>
@@ -124,9 +124,10 @@ it leaves the active development stage.
             <xrx:name>$wcharter-preview:metadata-archive-collection</xrx:name>
             <xrx:expression>metadata:base-collection('archive', $constructor:archive-id, 'public')</xrx:expression>
         </xrx:variable>
+        <!-- decision if collection or mycollection -->                      
         <xrx:variable>
-            <xrx:name>$wcharter-preview:metadata-collection-collection</xrx:name>
-            <xrx:expression>metadata:base-collection('collection', $constructor:collection-id, 'public')</xrx:expression>
+            <xrx:name>$wcharter-preview:metadata-collection-collection</xrx:name>    
+            <xrx:expression>metadata:base-collection(mycollection:checkifmycollection($wcharter-preview:atom-id),$constructor:collection-id, 'public' )</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$wcharter-preview:eaddid</xrx:name>
@@ -173,25 +174,25 @@ it leaves the active development stage.
         <xrx:variable>
             <xrx:name>$wcharter-preview:is-moderator</xrx:name>
             <xrx:expression>
-	      if($user:is-loggedin = true()) then auth:matches(
-				<xrx:rule>
+        if($user:is-loggedin = true()) then auth:matches(
+        <xrx:rule>
                     <xrx:user/>
                     <xrx:role>moderator</xrx:role>
                 </xrx:rule>
-				) else false()
-			</xrx:expression>
+        ) else false()
+      </xrx:expression>
         </xrx:variable>
     </xrx:variables>
     <xrx:divs>
         <xrx:div>
             <xrx:key>charter-link-div</xrx:key>
             <xrx:view>
-      	{
-      	if($constructor:charter-context = 'fond') then
-      	<div data-demoid="c4c8985a-6109-40cc-b6de-234376c3a287">
+        {
+        if($constructor:charter-context = 'fond') then
+        <div data-demoid="c4c8985a-6109-40cc-b6de-234376c3a287">
                     <a href="{ $wcharter-preview:archive-url }">{ $wcharter-preview:arch-name }</a>
                     <span> - </span>
-                    <a href="{ $wcharter-preview:fond-url }">{ 	$wcharter-preview:fond-name }</a>
+                    <a href="{ $wcharter-preview:fond-url }">{  $wcharter-preview:fond-name }</a>
                     <span class="light-grey">
                         <span> (<xrx:i18n>
                                 <xrx:key>fond</xrx:key>
@@ -199,8 +200,8 @@ it leaves the active development stage.
                             </xrx:i18n>)</span>
                     </span>
                 </div>
-      	else
-      	<div data-demoid="70a5f949-adc9-49be-b866-d7ca3064df27">
+        else
+        <div data-demoid="70a5f949-adc9-49be-b866-d7ca3064df27">
                     <a href="{ $wcharter-preview:collection-url }">{ $wcharter-preview:collection-name }</a>
                     <span class="light-grey">
                         <span> (<xrx:i18n>
@@ -209,7 +210,7 @@ it leaves the active development stage.
                             </xrx:i18n>)</span>
                     </span>
                 </div>
-      	}
+        }
         <div data-demoid="3e8a5021-8aa3-469d-a20b-83b2129c6678">
                     <b>
                         <xrx:i18n>
@@ -279,74 +280,74 @@ it leaves the active development stage.
                                             </xf:trigger>
                                         </div>
                                     </xf:group>
-    							{
-    							publication:user-actions(
-    							$wcharter-preview:saved-by-current-user,
-    							$wcharter-preview:saved-by-any-user,
-    							$wcharter-preview:atom-id,
-    							$num,
-    							conf:param('request-root'),
-    							$wcharter-preview:is-moderator,
-    							$xrx:tokenized-uri[last()],
-    							<span>
+                  {
+                  publication:user-actions(
+                  $wcharter-preview:saved-by-current-user,
+                  $wcharter-preview:saved-by-any-user,
+                  $wcharter-preview:atom-id,
+                  $num,
+                  conf:param('request-root'),
+                  $wcharter-preview:is-moderator,
+                  $xrx:tokenized-uri[last()],
+                  <span>
                                         <xrx:i18n>
                                             <xrx:key>save-and-edit-charter</xrx:key>
                                             <xrx:default>Save and edit charter</xrx:default>
                                         </xrx:i18n>
                                     </span>
-    							,
-    							<span>
+                  ,
+                  <span>
                                         <xrx:i18n>
                                             <xrx:key>edit-charter</xrx:key>
                                             <xrx:default>Edit charter</xrx:default>
                                         </xrx:i18n>
                                     </span>
-    							,
-    							<span>
+                  ,
+                  <span>
                                         <xrx:i18n>
                                             <xrx:key>charter-in-use-by</xrx:key>
                                             <xrx:default>Charter in use by</xrx:default>
                                         </xrx:i18n>
                                         <i> { $wcharter-preview:saved-by-user-label }</i>
                                     </span>
-    							,
-    							<span>
+                  ,
+                  <span>
                                         <xrx:i18n>
                                             <xrx:key>release-charter</xrx:key>
                                             <xrx:default>Release Charter</xrx:default>
                                         </xrx:i18n>
                                     </span>
-    							,
-    							<span>
+                  ,
+                  <span>
                                         <xrx:i18n>
                                             <xrx:key>remove-charter</xrx:key>
                                             <xrx:default>Remove Charter</xrx:default>
                                         </xrx:i18n>
                                     </span>
-    							,
-    							<span>
+                  ,
+                  <span>
                                         <xrx:i18n>
                                             <xrx:key>publish-charter</xrx:key>
                                             <xrx:default>Publish Charter</xrx:default>
                                         </xrx:i18n>
                                     </span>
-    							)
-    							}
-    						</div>
+                  )
+                  }
+                </div>
                                 <div class="note-field" data-demoid="49deb78e-312c-4e9f-9852-73afa761cf05">
-    							{
-    							let $encoded-id := xmldb:encode($wcharter-preview:id)
-    							let $note := 
-	    							if($constructor:charter-context = 'fond')then 
-	    								doc(concat(conf:param('xrx-user-db-base-uri'), xmldb:encode($xrx:user-id), '/metadata.bookmark-notes/', xmldb:decode($constructor:archive-id), '/', xmldb:decode($constructor:fond-id), '/', xmldb:decode($encoded-id), '.xml'))//xrx:bookmark_note
-	    							else
-	    								doc(concat(conf:param('xrx-user-db-base-uri'), xmldb:encode($xrx:user-id), '/metadata.bookmark-notes/', xmldb:decode($constructor:collection-id), '/', xmldb:decode($encoded-id), '.xml'))//xrx:bookmark_note
-	    						let $note-text := 
-	    						if($note//xrx:bookmark/text() = xmldb:encode($wcharter-preview:atom-id))then
-    									$note//xrx:note/text()
-    								else()
-    							return
-    							<div data-demoid="387d99a5-e4c6-4d7f-a95b-ab46aa0f73d9">
+                  {
+                  let $encoded-id := xmldb:encode($wcharter-preview:id)
+                  let $note := 
+                    if($constructor:charter-context = 'fond')then 
+                      doc(concat(conf:param('xrx-user-db-base-uri'), xmldb:encode($xrx:user-id), '/metadata.bookmark-notes/', xmldb:decode($constructor:archive-id), '/', xmldb:decode($constructor:fond-id), '/', xmldb:decode($encoded-id), '.xml'))//xrx:bookmark_note
+                    else
+                      doc(concat(conf:param('xrx-user-db-base-uri'), xmldb:encode($xrx:user-id), '/metadata.bookmark-notes/', xmldb:decode($constructor:collection-id), '/', xmldb:decode($encoded-id), '.xml'))//xrx:bookmark_note
+                  let $note-text := 
+                  if($note//xrx:bookmark/text() = xmldb:encode($wcharter-preview:atom-id))then
+                      $note//xrx:note/text()
+                    else()
+                  return
+                  <div data-demoid="387d99a5-e4c6-4d7f-a95b-ab46aa0f73d9">
                                         <b>
                                             <xrx:i18n>
                                                 <xrx:key>bookmark-note</xrx:key>
@@ -359,23 +360,23 @@ it leaves the active development stage.
                                         <div class="edit-box" data-demoid="3c43c279-19a8-42de-a8ea-bce0909db9dd">
                                             <xf:trigger appearance="minimal" id="note-edit-{$num}">
                                                 <xf:label>
-    											{
-    											if(string-length($note-text) gt 0)then
-    											<span>
+                          {
+                          if(string-length($note-text) gt 0)then
+                          <span>
                                                         <xrx:i18n>
                                                             <xrx:key>edit-note</xrx:key>
                                                             <xrx:default>Edit note</xrx:default>
                                                         </xrx:i18n>
                                                     </span>
-    											else
-    											<span>
+                          else
+                          <span>
                                                         <xrx:i18n>
                                                             <xrx:key>create-note</xrx:key>
                                                             <xrx:default>Create note</xrx:default>
                                                         </xrx:i18n>
                                                     </span>
-    											}
-    										</xf:label>
+                          }
+                        </xf:label>
                                                 <xf:action ev:event="DOMActivate">
                                                     <xf:setvalue ref="//xrx:bookmark" value="'{ $wcharter-preview:atom-id }'"/>
                                                     <script type="text/javascript">document.getElementById('noteBobble-{$num}').style.display = 'block';document.getElementById('note-textarea-{$num}-value').value = document.getElementById('note-output-{$num}').innerHTML;document.getElementById('note-edit-{$num}-value').innerHTML = 'Edit note';</script>
@@ -383,8 +384,8 @@ it leaves the active development stage.
                                             </xf:trigger>
                                         </div>
                                     </div>
-    							}
-    						</div>
+                  }
+                </div>
                             </div>
                             <div class="noteBobble" data-demoid="c61b4acc-2b6a-43d4-910a-46ed92326dbe" id="noteBobble-{$num}">
                                 <xrx:resource onClick="document.getElementById('noteBobble-{$num}').style.display = 'none';" style="position:absolute;left:417px;top:8px;width:14px;" title="Close note input" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/button_close</xrx:resource>
@@ -396,7 +397,7 @@ it leaves the active development stage.
                                                     <xrx:key>bookmark-note</xrx:key>
                                                     <xrx:default>Bookmark note</xrx:default>
                                                 </xrx:i18n>:
-    									</xf:label>
+                      </xf:label>
                                         </xf:textarea>
                                         <div class="note-save-trigger" data-demoid="a7b44129-92ba-4916-8944-74fd6afc6cfd">
                                             <xf:trigger>
