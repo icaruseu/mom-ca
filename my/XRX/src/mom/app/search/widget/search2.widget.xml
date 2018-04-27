@@ -501,7 +501,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	                attribute checked { 'checked' }
 	              else ()
 	              }
-	            </input>
+	            </input>concat($fonds[($pos - 1)]
 	            <span>{ if($count-filtered = '0') then attribute class { 'light-grey' } else() }{ $category/@name/string() } ({ $count-filtered })</span>
 	            <span class="light-grey"> ({ $count })</span>
 	          </div>
@@ -586,7 +586,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	          order by xs:integer($count-filtered) descending, xs:integer($count) descending
 	          return
 	          <div data-demoid="bcd19b3b-f882-48d0-bf62-23496f435e75">
-              { if(substring-before(concat($fonds[($pos - 1)]/@name/string(), ''), ';') != $archive-key) then <div class="archive-label" data-demoid="7c9bdd06-8335-477c-8f94-07b426a9bc28"><span title="{ $archive-name }">{ $archive-name }</span></div> else '' }
+              { if(exists($fonds[($pos - 1)]) and substring-before(concat($fonds[($pos - 1)]/@name/string(), ''), ';') != $archive-key) then <div class="archive-label" data-demoid="7c9bdd06-8335-477c-8f94-07b426a9bc28"><span title="{ $archive-name }">{ $archive-name }</span></div> else '' }
 	            <input name="{ $key }" type="checkbox" class="fond_checkbox">
 	              {
 	              if($key = search:context() or empty(search:context())) then
