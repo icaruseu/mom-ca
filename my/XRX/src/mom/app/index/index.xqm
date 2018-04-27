@@ -26,6 +26,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 
 module namespace index="http://www.monasterium.net/NS/index";
 
+import module namespace search="http://www.monasterium.net/NS/search"
+      at "../search/search.xqm";
+ 
 import module namespace kwic="http://exist-db.org/xquery/kwic";
 
 import module namespace conf="http://www.monasterium.net/NS/conf" 
@@ -47,21 +50,34 @@ declare variable $index:vocabularycollection := collection(concat(conf:param("da
 and saves the hits in a session variable in order to be able to browse through the hits :)
 declare function index:index-abfrage($term){
       if (starts-with($term, 'P_')) then
-      let $resultat := session:set-attribute('result', $index:chartercollection//cei:text[.//@key= $term])
+      (:let $resultat := session:set-attribute('result', $index:chartercollection//cei:text[.//@key= $term]):)
       let $treffergesamt := $index:chartercollection//cei:text[.//@key = $term]
-      for $treffer in $treffergesamt
-      order by $treffer//cei:issued/(cei:dateRange/@from | cei:date/@value) ascending
-      return  $treffer/ancestor::atom:entry/atom:id   
-      
+      let $results := for $treffer in $treffergesamt      
+                      order by $treffer//cei:issued/(cei:dateRange/@from | cei:date/@value) ascending
+                      return $treffer
+      let $set := session:set-attribute($search:RESULT, $results)
+       return
+       index:index-abfrage-ids($results)
       
       else(
-      let $resultat := session:set-attribute('result', $index:chartercollection//cei:text[.//@lemma = substring-after($term, '#')])
+      (: let $resultat := session:set-attribute('result', $index:chartercollection//cei:text[.//@lemma = substring-after($term, '#')]) :)
       let $treffergesamt := $index:chartercollection//cei:text[.//@lemma = substring-after($term, '#')]
-      for $treffer in $treffergesamt
-      order by $treffer//cei:issued/(cei:dateRange/@from | cei:date/@value) ascending
-      return   $treffer/ancestor::atom:entry/atom:id  
+      let $results := for $treffer in $treffergesamt      
+                      order by $treffer//cei:issued/(cei:dateRange/@from | cei:date/@value) ascending
+                      return $treffer
+      let $set := session:set-attribute($search:RESULT, $results)     
+       return
+       index:index-abfrage-ids($results)   
        )                
 };
+(:
+  $results sind die nach Datum geordneten Resultate, die in session var gespeichert und dann für 'browse im context' benötigt werden.
+:)
+declare function index:index-abfrage-ids($results){
+         for $result in $results         
+         return $result/ancestor::atom:entry/atom:id
+};
+
 
 (: the following two functions are needed to cut TEI data in order to get a userfriendly representation of the text in the UI :)
 declare function index:if-absent
