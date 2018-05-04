@@ -140,9 +140,9 @@
 					let $tokens := tokenize(substring-after($bookmarked-charter, conf:param('atom-tag-name')), '/')
 					let $charter-context := 
 					let $probably-collection-id := $tokens[3]			
-					let $collection-id-tokens-count := count(tokenize($probably-collection-id, '-'))
-					let $collection-context := 				  
-					    if($collection-id-tokens-count=5) then 'mycollection' else 'collection'
+          (: decision if bookmark is set in a 'mycollection' or 'collection' :)
+					let $collection-context := mycollection:checkifmycollection($probably-collection-id)
+					
 					let $probably-collection-atom-id := metadata:atomid($collection-context, $probably-collection-id)
 					return				 
 					 if(exists(metadata:base-collection($collection-context, 'public')//atom:id[.=$probably-collection-atom-id])) then 'collection' else 'fond'
