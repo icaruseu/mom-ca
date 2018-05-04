@@ -245,17 +245,18 @@ img#aus {{
     </style>
   </xrx:csss>
   <xrx:jss>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/slider</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
+    <xrx:resource n="1">tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+    <xrx:resource n="2">tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
+    <xrx:resource n="3">tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+    <xrx:resource n="4">tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+    <xrx:resource n="5">tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
+    <xrx:resource n="6">tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/slider</xrx:resource>
+    <xrx:resource n="7">tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
     <!-- annotation resources -->
-    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/i18nText</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/imageTool</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/imageToolWidget</xrx:resource>
+    <xrx:resource n="8">tag:www.monasterium.net,2011:/mom/resource/jquery/i18nText</xrx:resource>
+    <xrx:resource n="9">tag:www.monasterium.net,2011:/mom/resource/jquery/imageTool</xrx:resource>
+    <xrx:resource n="10">tag:www.monasterium.net,2011:/mom/resource/js/charter</xrx:resource>
+    <xrx:resource n="11">tag:www.monasterium.net,2011:/mom/resource/jquery/imageToolWidget</xrx:resource>
   </xrx:jss>
   <xrx:divs>
     <xrx:div>
@@ -428,7 +429,7 @@ img#aus {{
         <xrx:div>augiasviewer-link</xrx:div>
         <xrx:div>image-tools-link</xrx:div>
       </div>
-  <script type="text/javascript">
+<!--   <script type="text/javascript">
 				$(document).ready(function() {{
 					$( "#zoomslider" ).slider({{ 
 						value:100, 
@@ -441,7 +442,7 @@ img#aus {{
 						}} 
 					}});				
 				}});
-			</script>
+			</script> -->
 
     </div>
   </xrx:view>

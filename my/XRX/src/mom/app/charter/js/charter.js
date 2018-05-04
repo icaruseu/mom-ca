@@ -9,6 +9,16 @@
         	$(ausgabe).append('<span>' + nographic + '</span>');        
    
     }); 
+    //extracted from edit-charter.widget in order to be loaded at the right time
+    $( "#zoomslider" ).slider({ 
+        value:100, 
+        min: 100, 
+        max: 500, 
+        step: 10, 
+        slide: function( event, ui ) { 
+          $( "#img" ).css( "width", ui.value + "%" ); 
+        } 
+      }); 
     
     
 });
