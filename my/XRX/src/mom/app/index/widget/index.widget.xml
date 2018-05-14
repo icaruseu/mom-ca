@@ -673,7 +673,7 @@ div.narrower {{
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>       
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/resizable</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/selectable</xrx:resource>
@@ -716,7 +716,7 @@ div.narrower {{
           <h2><xrx:i18n>
               <xrx:key>choose-a-lemma</xrx:key>
               <xrx:default>Choose a lemma</xrx:default>
-            </xrx:i18n>:</h2>
+            </xrx:i18n>:</h2>         
            {                   
          if ($vocabulary//skos:hasTopConcept) then                
                  for $top in $vocabulary//skos:hasTopConcept

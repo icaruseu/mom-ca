@@ -36,13 +36,13 @@ import module namespace charters="http://www.monasterium.net/NS/charters"
   charter view
 :)
 declare function mycharters:entries($charter-base-collection) {
-
     for $entry in $charter-base-collection/atom:entry
     let $just-linked-atomid := $entry/atom:content/@src/string()
     let $cei-text := 
         if($just-linked-atomid != '') then charter:public-entry($just-linked-atomid)
         else $entry
-    let $date := $cei-text//cei:issued/(cei:date/@value|cei:dateRange/@from)
+    let $date := if(exists($cei-text//cei:issued/cei:date/@value)) then $cei-text//cei:issued/cei:date/@value
+    else $cei-text//cei:issued/cei:dateRange/@from
     order by xs:integer($date)
     return
     $entry
