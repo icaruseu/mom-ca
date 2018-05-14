@@ -327,7 +327,9 @@
                         var newOption = $('<option>' + values.sort() + '</option>')
                             .addClass(uiSuggestedValueDivsClass).attr("title", values).attr("value", Object.keys(currentVocabulary)).attr("name", name);
                         if (Object.keys(controlledVocabularies[i]) == value) {
+
                             newOption.attr("selected", "selected");                          
+
                             indexnamewert = value;
                         }
             		
@@ -434,7 +436,7 @@
                 var findselected = $(".xrx-attributes").find("option[name =" + name + "]");
                 findselected.removeAttr("selected", "selected");
                 var setselected = $("option[value =" + attrvalue + "]");
-              
+
                 setselected.attr('selected', 'selected');            
               
                 function findEditedAttributes(edAttr){                	
