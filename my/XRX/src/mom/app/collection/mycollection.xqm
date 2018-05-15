@@ -39,6 +39,11 @@ import module namespace template="http://www.monasterium.net/NS/template"
 import module namespace metadata="http://www.monasterium.net/NS/metadata"
     at "../metadata/metadata.xqm";
     
+ (: this var leads to mycollection collection in the db, needed for decision wheter collection/mycollection
+    see mycollection:checkifmycollection
+  :)
+declare variable $mycollection:mycollection :=  collection(concat(conf:param("data-db-base-uri"), "/metadata.mycollection.public"));
+
 declare variable $mycollection:template := template:get("tag:www.monasterium.net,2011:/mom/template/mycollection-charter");
 
 declare variable $mycollection:editor-controls := template:get("tag:www.monasterium.net,2011:/mom/template/mycollection-charter-editor");
@@ -46,6 +51,7 @@ declare variable $mycollection:editor-controls := template:get("tag:www.monaster
 declare variable $mycollection:editor-fieldsets := template:get("tag:www.monasterium.net,2011:/mom/template/mycollection-charter-editor-fieldset");
 
 declare variable $mycollection:editormodus := request:get-parameter('mode', 'full');
+
 
 declare function mycollection:linked-fond-charter-base-collection($collection-base-collection) {
 
@@ -1115,4 +1121,15 @@ declare function mycollection:dynamic-path
          then mycollection:dynamic-path($child, $restOfSteps)
          else $child
  } ;
+ 
+  (: xrx:tokenize[3] = fond 
+                 [2] = collection or mycollection
+  :)
+declare function mycollection:checkifmycollection ($urltoken) as xs:string {
+let $atomabgleich := $mycollection:mycollection//ends-with(atom:id/text(), $urltoken)
+let $entscheidung := if ($atomabgleich) then 'mycollection' else('collection')
+
+return $entscheidung
+    
+};
  

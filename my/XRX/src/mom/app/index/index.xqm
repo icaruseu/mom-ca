@@ -26,6 +26,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 
 module namespace index="http://www.monasterium.net/NS/index";
 
+import module namespace search="http://www.monasterium.net/NS/search"
+      at "../search/search.xqm";
+ 
 import module namespace kwic="http://exist-db.org/xquery/kwic";
 
 import module namespace conf="http://www.monasterium.net/NS/conf" 
@@ -61,8 +64,7 @@ declare function index:index-abfrage($term){
       for $treffer in $treffergesamt
       order by $treffer//cei:issued/(cei:dateRange/@from | cei:date/@value) ascending
       return  $treffer/ancestor::atom:entry   
-      
-      
+            
       else(   
       let $mehr :=  for $jeweils in index:narrower($term)
                 let $st := if(starts-with($jeweils, '#') ) then substring-after($jeweils, '#') else($jeweils)
@@ -73,9 +75,17 @@ declare function index:index-abfrage($term){
       for $treffer in $treffergesamt
       let $einzeln := $treffer//atom:id/text()
       order by $treffer//cei:issued/(cei:dateRange/@from | cei:date/@value) ascending
-      return   $treffer/ancestor::atom:entry  
+      return   $treffer/ancestor::atom:entry
        )                
 };
+(:
+  $results sind die nach Datum geordneten Resultate, die in session var gespeichert und dann für 'browse im context' benötigt werden.
+:)
+declare function index:index-abfrage-ids($results){
+         for $result in $results         
+         return $result/ancestor::atom:entry/atom:id
+};
+
 
 (: the following two functions are needed to cut TEI data in order to get a userfriendly representation of the text in the UI :)
 declare function index:if-absent
