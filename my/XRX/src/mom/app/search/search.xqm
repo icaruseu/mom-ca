@@ -305,7 +305,7 @@ declare function search:compile-context($result) {
             order by $key
             return
             if($ctx = 'fond') then 
-                <fond key="{ $key }" name="{ $key }" count="{ count($charters) }"/>
+                <fond key="{ $archid }" name="{ $key }" count="{ count($charters) }"/>
             else
                 <collection key="{ $key }" name="{ $key }" count="{ count($charters) }"/>
             }

@@ -38,7 +38,7 @@ import module namespace xrx="http://www.monasterium.net/NS/xrx"
 declare variable $img:bildserver := 'http://images.icar-us.eu/iiif/2/';
 declare variable $img:thumbnail := '/full/120,/0/default.jpg';
 declare variable $img:collection :=  collection(concat(conf:param("data-db-base-uri"), "/metadata.collection.public"));
-declare variable $img:mycollection :=  collection(concat(conf:param("data-db-base-uri"), "/metadata.mycollection.public"));
+(: declare variable $img:mycollection :=  collection(concat(conf:param("data-db-base-uri"), "/metadata.mycollection.public"));:)
 
 
 (: function does same as charters:years in the year-navi but has condition to get charters with graphics only   
@@ -104,13 +104,13 @@ return $iiifurl
 
 
 
-declare function img:checkifmycollection ($urltoken){
+(:declare function img:checkifmycollection ($urltoken){
 let $atomabgleich := $img:mycollection//ends-with(atom:id/text(), $urltoken)
 let $entscheidung := if ($atomabgleich) then 'mycollection' else('collection')
 
 return $entscheidung
     
-};
+};:)
 
 declare function img:suchebilder($charter){
 if ($charter//atom:content/@src) then 

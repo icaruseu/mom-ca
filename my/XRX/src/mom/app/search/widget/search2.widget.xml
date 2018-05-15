@@ -69,11 +69,6 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:expression>xs:integer(session:get-attribute($search:HITS_FILTERED)//*:count/text())</xrx:expression>
     </xrx:variable>
     <xrx:variable>
-    <xrx:name>$wsearch:whereami</xrx:name><!-- alle anderen sessionvars werden in xqm gesetzt, todo. -->
-    
-    <xrx:expression>session:set-attribute('whereami', 'search2')</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
       <xrx:name>$wsearch:block</xrx:name>
       <xrx:expression>xs:integer(request:get-parameter('block', '1'))</xrx:expression>
     </xrx:variable>
@@ -242,17 +237,17 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 
     </style>
   </xrx:csss>
-  <xrx:jss>
-  <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/search</xrx:resource>
-  
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/position</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/menu</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/autocomplete</xrx:resource>
-   <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/search</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/toggle_checkbox</xrx:resource> 
+  <xrx:jss> 
+       <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/slider</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrx</xrx:resource>    
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/search</xrx:resource>    
+   <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/toggle_checkbox</xrx:resource> 
+
   </xrx:jss>
   <xrx:model>
   { bookmark:model(conf:param('request-root')) }
@@ -269,8 +264,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               <xrx:key>conjunction</xrx:key>
               <xrx:default>conjunction</xrx:default>
             </xrx:i18n>
-          </span>           
-        
+          </span>
           <input name="option" type="radio" value="or"/>
           <span>
             <xrx:i18n>
@@ -281,20 +275,22 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
           <input name="option" type="radio" value="phrase"/>
           <span>
             <xrx:i18n>
-              <xrx:key>phrase</xrx:key>              
+              <xrx:key>phrase</xrx:key>
               <xrx:default>phrase</xrx:default>
             </xrx:i18n>
           </span>
           <div data-demoid="27ae8693-da56-4e32-8665-f30827136a5f" style="display: none">
-            <!-- <input id="search-only-image" name="img" type="hidden" value=""/>{ $search:img } -->
-            <!--  der name des input-feldes wird an die http URL als Parameter übergeben -->
-            <input id="search-only-annotations" name="an" type="hidden" value=""/><!-- { $search:annotations } -->
+
+            <input id="search-only-image" name="img" type="hidden" value="{ $search:img }"/>
+            <input id="search-only-annotations" name="annotations" type="hidden" value="{ $search:annotations }"/>
+
             <input id="search-sort-date" name="sort" type="radio" value="date">
                { if(request:get-parameter('sort', 'date') = 'date') then attribute checked { 'checked' } else () }
             </input>
             <input id="search-sort-ranking" name="sort" type="radio" value="ranking">
               { if(request:get-parameter('sort', '') = 'ranking') then attribute checked { 'checked' } else () }
             </input>
+
     
           </div>         
     
@@ -351,7 +347,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       }
     </select>(: { if(request:get-parameter('arch', '') = $repositorid) then attribute selected { 'selected' } else () } :)
     
-        </div>
+
+          </div>
       </xrx:view>
     </xrx:div>
     
@@ -370,7 +367,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
           <input id="search-field" name="q" type="text" value="{ request:get-parameter('q', '') }"/>
           <input id="search-trigger" type="submit" value="{ i18n:value('search', $xrx:lang, 'Search') }"/>
           <xrx:div>search-options-div</xrx:div>
-        <!--   <xrx:div>search2-description</xrx:div> -->          
+
+        <!--   <xrx:div>search2-description</xrx:div> --> 
+
         </div>
       </xrx:view>
     </xrx:div>
@@ -410,7 +409,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             <a href="?null={ $block-link }&amp;block={$block-pos}">
               { if($block-pos != $wsearch:block) then xs:string($block-pos) else <b style="background:rgb(114,133,108);color:white">{ xs:string($block-pos) }</b>}
             </a>
+
             <span> </span>
+
+
           </div>
           }
         </div>
@@ -450,7 +452,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
           }
           <xrx:div>search-trigger-div</xrx:div>
         </div>
-        <span>   </span>
+
+        <span>   </span>
+
         <br/>
         <br/>
         <input id="categories-search" name="categories" type="hidden" value=""/>
@@ -461,7 +465,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <div data-demoid="46eda2fa-8442-4a23-a974-4fa3ab442f24" id="result">
         <div data-demoid="addea255-e7ff-43c6-be01-2357edd28ad2" id="back">
           <a href="search2">
-            <span>&lt;&lt; </span>
+
+            <span>&lt;&lt; </span>
+
             <xrx:i18n>
               <xrx:key>back</xrx:key>
               <xrx:default>back</xrx:default>
@@ -473,12 +479,16 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             <xrx:key>results</xrx:key>
             <xrx:default>Results</xrx:default>
           </xrx:i18n>
-          <span>, </span>
+
+          <span>, </span>
+
           <xrx:i18n>
             <xrx:key>page</xrx:key>
             <xrx:default>Page</xrx:default>
           </xrx:i18n>
-          <span> { $wsearch:block }</span>
+
+          <span> { $wsearch:block }</span>
+
           <sup style="color:red">
             (<xrx:i18n>
               <xrx:key>beta</xrx:key>
@@ -491,18 +501,18 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             <xrx:key>hits</xrx:key>
             <xrx:default>Hits</xrx:default>
           </xrx:i18n>
-          <b> { $wsearch:start } </b>
+          <b> { $wsearch:start } </b>
           <xrx:i18n>
             <xrx:key>to</xrx:key>
             <xrx:default>to</xrx:default>
           </xrx:i18n>
-          <b> { $wsearch:stop } </b>
+          <b> { $wsearch:stop } </b>
           <xrx:i18n>
             <xrx:key>of</xrx:key>
             <xrx:default>of</xrx:default>
           </xrx:i18n>
-          <b> { $wsearch:count-filtered }</b>
-          <b class="light-grey"> ({ $wsearch:count })</b>
+          <b> { $wsearch:count-filtered }</b>
+          <b class="light-grey"> ({ $wsearch:count })</b>
         </div>
         <div>hier der querystring vor eval: {$wsearch:query-string}</div>
         <div>nach eval: {$wsearch:eval}</div>
@@ -517,10 +527,14 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               <xrx:key>sort</xrx:key>
               <xrx:default>sort</xrx:default>
             </xrx:i18n>
-          </b>       
+          </b>
           <div data-demoid="661f6e11-775f-4957-b9db-36b7e7b886d1">
             <input id="result-sort-date" name="sort" type="radio" value="date">
+
              <!--   { if(request:get-parameter('sort', 'date') = 'date') then attribute checked { 'checked' } else () } -->
+
+     
+
             </input>
             <xrx:i18n>
               <xrx:key>by-date</xrx:key>
@@ -566,7 +580,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                 }
               </input>
               <span>{ if($count-filtered = '0') then attribute class { 'light-grey' } else() }{ $category/@name/string() } ({ $count-filtered })</span>
-              <span class="light-grey"> ({ $count })</span>
+
+              <span class="light-grey"> ({ $count })</span>
+
             </div>
             }
             <div class="confine-trigger-div" data-demoid="ed710f17-d5e1-4ee3-bd8d-fe4b36d94e12">
@@ -595,7 +611,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             </div>
             <input name="to" value="" placeholder="{ i18n:value('eg', $xrx:lang, 'e.g.') } 03-04-1254"/-->
             <div data-demoid="d136e8ec-bb5e-48a8-b17e-16d08ef8b611">
-             <input id="result-only-image" name="bli" type="checkbox" value="">
+
+              <input id="result-only-image" name="img" type="checkbox" value="">
+
                  { if(request:get-parameter('img', '') = 'true') then attribute checked { 'checked' } else () }
               </input>
               <xrx:i18n>
@@ -604,8 +622,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               </xrx:i18n>
             </div>
             <div data-demoid="91886b73-db22-4cbd-90bc-c9a4da3b6bfd">
-              <input id="result-only-annotations" name="an" type="checkbox" value="">
-               <!--   { if(request:get-parameter('annotations', '') = 'true') then attribute checked { 'checked' } else () }-->
+
+              <input id="result-only-annotations" name="annotations" type="checkbox" value="">
+                { if(request:get-parameter('annotations', '') = 'true') then attribute checked { 'checked' } else () }
+
               </input>
               <xrx:i18n>
                 <xrx:key>only-hits-with-annotations</xrx:key>
@@ -626,10 +646,13 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             <div>
               <input id="invert_fonds_checkboxes" type="button" value="{ $wsearch:invert-selection }" onclick="invert_all_checkboxes('fond_checkbox')"/>
             </div>
+
             {
             let $fonds := $wsearch:context//*:fond
             for $fond at $pos in $fonds
             let $key := $fond/@key/string()
+
+
             
             (: fond info :)
             let $fond-atomid := metadata:atomid('fond', tokenize($key, ';'))
@@ -646,10 +669,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             let $count := $fond/@count/string()
             let $filtered := $wsearch:context-filtered//*:fond[@key=$key]
             let $count-filtered := if($filtered/@count) then $filtered/@count/string() else '0'
+
             order by xs:integer($count-filtered) descending, xs:integer($count) descending
             return
             <div data-demoid="bcd19b3b-f882-48d0-bf62-23496f435e75">
               { if(substring-before(concat($fonds[($pos - 1)]/@name/string(), ''), ';') != $archive-key) then <div class="archive-label" data-demoid="7c9bdd06-8335-477c-8f94-07b426a9bc28"><span title="{ $archive-name }">{ $archive-name }</span></div> else '' }
+
               <input name="{ $key }" type="checkbox" class="fond_checkbox">
                 {
                 if($key = search:context() or empty(search:context())) then
@@ -657,8 +682,11 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                 else ()
                 }
               </input>
+
               <span title="{ $fond-name }">{ if($count-filtered = '0') then attribute class { 'light-grey' } else() }{ $fond-key } ({ $count-filtered })</span>
-              <span class="light-grey"> ({ $count })</span>
+              <span class="light-grey"> ({ $count })</span>            
+             <!--  { if($count-filtered = '0') then attribute class { 'light-grey' } else() }{ $fond-key } ({ $count-filtered }) -->
+  
             </div>
             }
             <div class="confine-trigger-div" data-demoid="d34b830b-d2f7-458a-b26f-435394d85772">
@@ -693,7 +721,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                 }
               </input>
               <span title="{ $name }">{ if($count-filtered = '0') then attribute class { 'light-grey' } else() }{ $collection/@name/string() } ({ $count-filtered })</span>
-              <span class="light-grey"> ({ $count })</span>
+              <span class="light-grey"> ({ $count })</span>
             </div>
             }
             <div class="confine-trigger-div" data-demoid="75603079-1b52-4ecd-91e5-1c4cd7221c7e">
@@ -725,6 +753,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       else()
       }
     </div>
- 
+    <script type="text/javascript">
+      jQuery(document).ready(function() {{ 
+        jQuery("#dsearch").search({{
+          requestRoot: "{ conf:param('request-root') }"
+        }}); 
+      }});
+    </script>
   </xrx:view>
 </xrx:widget>

@@ -41,8 +41,8 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/search</xrx:atomid>
       <xrx:relativepath>js/</xrx:relativepath>
       <xrx:name>jquery.ui.search.js</xrx:name>
-    </xrx:resource>
-    <xrx:resource>
+    </xrx:resource> 
+  <xrx:resource>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/js/toggle_checkbox</xrx:atomid>
       <xrx:relativepath>js/</xrx:relativepath>
       <xrx:name>toggle_checkbox.js</xrx:name>
