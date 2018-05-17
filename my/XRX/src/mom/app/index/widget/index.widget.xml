@@ -536,7 +536,7 @@ a.filter {{
 }}
 
 #result-options * {{
-  font-size: .95em;
+  font-size: .97em;
 }}
 
 .light-grey {{
