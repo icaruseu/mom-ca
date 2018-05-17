@@ -65,8 +65,8 @@ declare function index:index-abfrage($term){
       let $date := data($treffer//cei:issued/(cei:dateRange/@from | cei:date/@value))
       order by number($date) ascending
       return 
-      $treffer/ancestor::atom:entry        
-                            
+      $treffer/ancestor::atom:entry 
+
 };
 
 
