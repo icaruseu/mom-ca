@@ -94,9 +94,16 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <xrx:variable>
       <xrx:name>$wcharters:next-block-pos</xrx:name>
       <xrx:expression>if($windex:block = $windex:hits div 30) then 1 else $windex:block + 1</xrx:expression>
-    </xrx:variable>
- 
+    </xrx:variable> 
     <!-- Session Variablen -->
+    <!-- var $setresults speichert die suchergebnisse (ganze atom:entrys),
+    Sortierung der Suchergebnisse passiert in index.xqm,
+     dann kann in der korrekten Reihefolge geblättert werden (browse search results)-->
+    <xrx:variable>
+    <xrx:name>$setresults</xrx:name>
+    <xrx:expression>session:set-attribute($search:RESULT, $windex:index)</xrx:expression>
+    </xrx:variable>
+    
     <xrx:variable>
       <xrx:name>$getattnames</xrx:name>
       <xrx:expression>session:get-attribute-names()</xrx:expression>
@@ -703,7 +710,8 @@ div.narrower {{
             <li><a href="{concat(conf:param('request-root'),'index')}"><xrx:i18n>
               <xrx:key>back-to-index-overview</xrx:key>
               <xrx:default>Back to index overview</xrx:default>
-            </xrx:i18n></a></li>  
+            </xrx:i18n></a></li>
+       <!--   <li>{session:get-attribute($search:RESULT)}</li> -->        
        </ul>  
        </div> 
         <div id="result-options" class="this-widget">           
@@ -974,8 +982,8 @@ div.narrower {{
           for $charter at $num in $windex:index[ position() = $charters:start to $charters:stop ]
                    
           return    
-       <div id="dcharter-preview-main">                
-            <xrx:subwidget>
+       <div id="dcharter-preview-main">                          
+          <xrx:subwidget>
               <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/result</xrx:atomid>
               <xrx:pass>
                 <xrx:parameter>
@@ -995,7 +1003,7 @@ div.narrower {{
                 <xrx:expression>$xrx:tokenized-uri[2]</xrx:expression>
                 </xrx:parameter>             
               </xrx:pass>              
-            </xrx:subwidget>
+            </xrx:subwidget> 
           </div>
           }
        <div>{

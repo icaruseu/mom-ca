@@ -21,7 +21,7 @@
    var spanless = $('<p></p>').addClass("moreless zusatz").append(pfeil);
   
    
-   if($("div.entry")[0].textContent !=''){
+  if(($("div.entry").length) && ($("div.entry")[0].textContent !='')){
 	   
 	   var letztesp = $(".glossary-entry").append(spanless);
 	   
