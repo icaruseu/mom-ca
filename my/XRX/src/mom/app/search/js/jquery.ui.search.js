@@ -7,23 +7,20 @@
  *   jquery.ui.autocomplete.js
  */
 
-(function( $, undefined ) {
-
-
+;(function( $, undefined ) {
 var selCheckbox_ = "input[type=checkbox]";
 
-$.widget("ui.xrxAlibaba", {
+$.widget("ui.search", {
 
   
-
 
   options: {    requestRoot: ""
   },
 
+
   
   _create: function() {
-
-
+	
     this._initSearchField();
     this._initOptions();
     this._initSort();
@@ -164,7 +161,6 @@ $.widget("ui.xrxAlibaba", {
       }
     });    
   },
-
 
 
   _initContext: function() {
