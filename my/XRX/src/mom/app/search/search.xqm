@@ -493,25 +493,26 @@ declare function search:eval2($query-string) {
         return ()
 
     else if(search:is-filter-action()) then   
-        let $result := util:eval($query-string)
-        
+        let $result := util:eval($query-string)        
+             
         let $map := search:compile-categories-map($result)
-        
+       (: if an entire search string is entered - it will be compared with the prior query string, 
+       which is still in the session var; if there was no prior search it equally updates the session vars :)
         let $get := session:get-attribute($search:CATEGORIES)
-        let $do := if(empty($get)) then search:set-categories($map) else()
-        
+        let $do := if(empty($get) or $query-string != session:get-attribute($search:QUERY)) then search:set-categories($map) else()        
         
         let $result := search:filter-result($result, $map)
         
         let $get := session:get-attribute($search:CONTEXT)
-        let $do := if(empty($get)) then search:set-context($result) else()
+        
+        let $do := if(empty($get) or $query-string != session:get-attribute($search:QUERY)) then search:set-context($result) else()
         
         let $map := search:set-categories-filtered($map, ())
         
         let $do := search:set-context-filtered($result, ())
         
         let $do := search:set-query($query-string)
-        
+                
         let $get := session:get-attribute($search:HITS)
         
         let $count := if(empty($get)) then search:set-hits($result) else()
