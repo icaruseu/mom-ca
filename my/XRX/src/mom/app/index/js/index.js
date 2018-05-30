@@ -15,36 +15,40 @@
      }    
    }); 
     
-   $( ".radio" ).buttonset();
+   $( ".radio" ).buttonset();   
+   
+   var pfeil = $("#aus").clone();
+   var spanless = $('<p></p>').addClass("moreless zusatz").append(pfeil);
+  
+   
+  if(($("div.entry").length) && ($("div.entry")[0].textContent !='')){
+	   
+	   var letztesp = $(".glossary-entry").append(spanless);
+	   
+	   spanless.click( function() {
+		   	$("div.entry").toggle();
+		    $("span.moreless").toggle(); 
+		    $(spanless).toggle();
+		     window.scrollTo(0,0);
+		    })
+   } ;
+   
+  
    
     var parameter = window.location.href;
     if(parameter.includes('?pm=charter')){
-    $("span.moreless").toggle();    
-    showglossar();
+    $("span.moreless").toggle();
+    $("div.entry").toggle();
+    $(spanless).toggle();
+   
  
     }    
     $("span.moreless").click(function(){
     $("span.moreless").toggle();
-    showglossar();   
-   })
+    $("div.entry").toggle();
+    $(spanless).toggle();
+
+   })   
    
-   function showglossar() {
-    	  if($("div.glossary-open").length == 0) {
-    		    $("div.glossary-entry").addClass("glossary-open").removeClass("glossary-entry");    
-    		    var pfeil = $("#aus").clone();
-    		    var spanless = $('<p></p>').addClass("moreless zusatz").append(pfeil);    
-    		    var letztesp = $(".glossary-open").append(spanless);
-    		    spanless.click( function() {
-    		    $("div.glossary-open").addClass("glossary-entry").removeClass("glossary-open");
-    		    $("span.moreless").toggle(); 
-    		    $(".zusatz").remove();
-    		     window.scrollTo(0,0);
-    		    })
-    		    }
-    		    else {    
-    		    $("div.glossary-open").addClass("glossary-entry").removeClass("glossary-open"); 
-    		    $(".zusatz").remove(); 
-    		    }   
-    }
 
   } );
