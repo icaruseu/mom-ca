@@ -13,3 +13,4 @@ function invert_all_checkboxes(checkbox_class) {
 
   jQuery("input." + checkbox_class).click();
 }
+

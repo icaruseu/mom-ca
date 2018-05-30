@@ -162,8 +162,16 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   margin-right: 10px;
 }}
 
+.hits b {{
+  padding:0.2em;
+}}
+
+
 #result .block-navi-link {{
   float:left;
+}}
+.block-navi-link a {{
+  padding:0.1em;
 }}
 
 #archives-search, #col-select {{
@@ -388,9 +396,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
         <br/>
         <input id="categories-search" name="categories" type="hidden" value=""/>
         <input id="context-search" name="context" type="hidden" value=""/>
-      </form>
+      </form> 
       { 
-      if($wsearch:count != 0) then
+      if($wsearch:count != 0) then 
       <div data-demoid="46eda2fa-8442-4a23-a974-4fa3ab442f24" id="result">
         <div data-demoid="addea255-e7ff-43c6-be01-2357edd28ad2" id="back">
           <a href="search2">
@@ -399,7 +407,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               <xrx:key>back</xrx:key>
               <xrx:default>back</xrx:default>
             </xrx:i18n>
-          </a>
+          </a>       
         </div>
         <div class="h2" data-demoid="f6f15efc-0c96-4ee1-9a22-52e60bdc3a31">
           <xrx:i18n>
@@ -437,9 +445,24 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
           <b> { $wsearch:count-filtered }</b>
           <b class="light-grey"> ({ $wsearch:count })</b>
         </div>
-        <br/>
+        <br/>     
         <xrx:div>select-block-div</xrx:div>
-        <div data-demoid="a078f212-5a9e-4d16-8de6-17a8e5b2507e">&lt;{ normalize-space($search:q) }&gt;</div>
+        <div data-demoid="a078f212-5a9e-4d16-8de6-17a8e5b2507e">&lt;{ normalize-space($search:q) }&gt;
+       <!-- maybe improvement of search usability: tbc <p>
+          {
+        let $contexte := request:get-parameter('context', '')        
+        return if($contexte) then 
+        <span class="light-grey"><xrx:i18n><xrx:key>search_context</xrx:key><xrx:default>My Search contexts</xrx:default></xrx:i18n><span>: </span>{$contexte}</span>
+        else()
+        }<br/>
+         {
+        let $categories := request:get-parameter('categories', '')
+        return if($categories) then
+        <span class="light-grey"><xrx:i18n><xrx:key>my_search_categories</xrx:key><xrx:default>My Search categories</xrx:default></xrx:i18n><span>: </span>{$categories}</span>
+        else()
+       
+        }</p>  -->
+        </div>        
         <br/><br/>
         <div data-demoid="3d0a1ccd-8fb3-467c-8546-de74d8b22841" id="result-options">
           <b>
@@ -557,7 +580,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               <input id="invert_fonds_checkboxes" type="button" value="{ $wsearch:invert-selection }" onclick="invert_all_checkboxes('fond_checkbox')"/>
             </div>
 
-	            {
+              {
             let $fonds := $wsearch:context//*:fond
             for $fond at $pos in $fonds
             let $key := $fond/@name/string()
@@ -597,7 +620,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 
               <span title="{ $fond-name }" class="{data($fond/@name)}">{ $fond-key } </span>
              <!--  { if($count-filtered = '0') then attribute class { 'light-grey' } else() }{ $fond-key } ({ $count-filtered }) -->
-              <span class="light-grey"> ({ $count })</span>         
+              <span class="light-grey"> ({ $count })</span>         
             </div>
             </div>
             }
@@ -662,7 +685,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
         </div>
         <xrx:div>select-block-div</xrx:div>
       </div>
-      else()
+     else() 
       }
     </div>
     <script type="text/javascript">

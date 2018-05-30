@@ -163,7 +163,6 @@ $.widget("ui.search", {
   },
 
 
-
   _initContext: function() {
     var str = [];
     $(selCheckbox_, "#context-result").each(function() {
