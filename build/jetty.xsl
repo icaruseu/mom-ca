@@ -6,23 +6,13 @@
   doctype-public="-//Mort Bay Consulting//DTD Configure 1.2//EN" 
   doctype-system="http://jetty.mortbay.org/configure_1_2.dtd"/>
 
-  <xsl:param name="jetty-port"/>
-
-
-  <xsl:template match="//New[@class='org.eclipse.jetty.server.ServerConnector']/Set[@name='port']/Property[@name='jetty.http.port']//SystemProperty[@name='jetty.port']/@default">
-    <xsl:attribute name="default">
-      <xsl:value-of select="$jetty-port"/>
-    </xsl:attribute>
-  </xsl:template> 
-
-  <xsl:template match="//Set[@name='requestHeaderSize']">
-    <xsl:text>32768</xsl:text>
-  </xsl:template>
-
-  <xsl:template match="@*|*|comment()" priority="-2">
+  <xsl:template match="//New[@class='org.eclipse.jetty.server.ssl.SslSelectChannelConnector']">
     <xsl:copy>
-      <xsl:apply-templates select="@*|node()"/>
+      <xsl:apply-templates select="@* | * | text()"/>
+      <xsl:element name="Set">
+        <xsl:attribute name="name">forwarded</xsl:attribute>
+      </xsl:element>
     </xsl:copy>
-  </xsl:template>  
+  </xsl:template> 
 
 </xsl:stylesheet>
