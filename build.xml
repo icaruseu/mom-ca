@@ -121,7 +121,8 @@
         <attribute name="user" default="${admin-name}"/>
         <attribute name="password" default="${admin-password}"/>
         <sequential>
-            <xdb:remove xmlns:xdb="http://exist-db.org/ant" uri="@{uri}" collection="@{collection}" user="@{user}" password="@{password}"/>
+            <xdb:remove xmlns:xdb="http://exist-db.org/ant" uri="@{uri}" collection="@{collection}" user="@{user}"
+                        password="@{password}"/>
         </sequential>
     </macrodef>
 
@@ -134,7 +135,9 @@
         <attribute name="createsubcollections" default="true"/>
         <element name="content" implicit="yes"/>
         <sequential>
-            <xdb:store xmlns:xdb="http://exist-db.org/ant" uri="@{uri}" createcollection="@{createcollection}" createsubcollections="@{createsubcollections}" user="@{user}" password="@{password}" permissions="@{permissions}">
+            <xdb:store xmlns:xdb="http://exist-db.org/ant" uri="@{uri}" createcollection="@{createcollection}"
+                       createsubcollections="@{createsubcollections}" user="@{user}" password="@{password}"
+                       permissions="@{permissions}">
                 <content/>
             </xdb:store>
         </sequential>
@@ -148,7 +151,8 @@
         <element name="params" optional="true"/>
         <text name="query"/>
         <sequential>
-            <xdb:xquery xmlns:xdb="http://exist-db.org/ant" uri="${xmldb-root-uri}" user="@{user}" password="@{password}" failonerror="${failonerror}" outputproperty="@{outputproperty}">
+            <xdb:xquery xmlns:xdb="http://exist-db.org/ant" uri="${xmldb-root-uri}" user="@{user}"
+                        password="@{password}" failonerror="${failonerror}" outputproperty="@{outputproperty}">
                 <params/>
                 @{query}
             </xdb:xquery>
@@ -161,21 +165,24 @@
         <attribute name="user" default="${admin-name}"/>
         <attribute name="password" default="${admin-password}"/>
         <sequential>
-            <xdb:create xmlns:xdb="http://exist-db.org/ant" uri="@{uri}" collection="@{collection}" user="@{user}" password="@{password}"/>
+            <xdb:create xmlns:xdb="http://exist-db.org/ant" uri="@{uri}" collection="@{collection}" user="@{user}"
+                        password="@{password}"/>
         </sequential>
     </macrodef>
 
     <macrodef name="exist-addgroup">
         <attribute name="name"/>
         <sequential>
-            <xdb:addgroup xmlns:xdb="http://exist-db.org/ant" uri="${xmldb-root-uri}" user="${admin-name}" password="${admin-password}" name="@{name}"/>
+            <xdb:addgroup xmlns:xdb="http://exist-db.org/ant" uri="${xmldb-root-uri}" user="${admin-name}"
+                          password="${admin-password}" name="@{name}"/>
         </sequential>
     </macrodef>
 
     <macrodef name="exist-restore">
         <attribute name="backup"/>
         <sequential>
-            <xdb:restore xmlns:xdb="http://exist-db.org/ant" uri="${xmlrpc-uri}" file="@{backup}" user="${admin-name}" password="${admin-password}"/>
+            <xdb:restore xmlns:xdb="http://exist-db.org/ant" uri="${xmlrpc-uri}" file="@{backup}" user="${admin-name}"
+                         password="${admin-password}"/>
         </sequential>
     </macrodef>
 
@@ -379,11 +386,14 @@
     <target name="patch-betterform">
         <log message="Patching betterFORM"/>
         <copy file="${betterform-home}/build.properties.xml" tofile="${betterform-home}/build.properties.xml.original"/>
-        <xslt in="${betterform-home}/build.properties.xml.original" style="${build-scripts-home}/build.properties.xsl" out="${betterform-home}/build.properties.xml">
+        <xslt in="${betterform-home}/build.properties.xml.original" style="${build-scripts-home}/build.properties.xsl"
+              out="${betterform-home}/build.properties.xml">
             <param name="exist-absolute-path" expression="${basedir}/${exist-home}"/>
         </xslt>
         <replace file="${betterform-home}/XRX/build-XRX.xml">
-            <replacefilter token='file="${betterFORM.extension}/main/lib/betterform.jar" todir="${betterFORM.extension}/backup-libs"' value='file="${betterFORM.extension}/main/lib/betterform-exist-5.1-SNAPSHOT-20160615.jar" todir="${betterFORM.extension}/backup-libs"'/>
+            <replacefilter
+                    token='file="${betterFORM.extension}/main/lib/betterform.jar" todir="${betterFORM.extension}/backup-libs"'
+                    value='file="${betterFORM.extension}/main/lib/betterform-exist-5.1-SNAPSHOT-20160615.jar" todir="${betterFORM.extension}/backup-libs"'/>
         </replace>
         <copy todir="${betterform-home}" overwrite="true">
             <fileset dir="${my-betterform-src}">
@@ -391,7 +401,9 @@
             </fileset>
         </copy>
         <replace file="${betterform-home}/XRX/build-XRX.xml">
-            <replacefilter token='file="${betterFORM.extension}/backup-libs/betterform.jar" tofile="${betterFORM.extension}/main/lib/betterform.jar"' value='file="${betterFORM.extension}/backup-libs/betterform-exist-5.1-SNAPSHOT-20160615.jar" tofile="${betterFORM.extension}/main/lib/betterform.jar"'/>
+            <replacefilter
+                    token='file="${betterFORM.extension}/backup-libs/betterform.jar" tofile="${betterFORM.extension}/main/lib/betterform.jar"'
+                    value='file="${betterFORM.extension}/backup-libs/betterform-exist-5.1-SNAPSHOT-20160615.jar" tofile="${betterFORM.extension}/main/lib/betterform.jar"'/>
         </replace>
     </target>
 
@@ -412,12 +424,16 @@
             <fileset dir="${my-exist-lib}"/>
         </copy>
         <echo message="# extensions/build.properties"/>
-        <copy file="${exist-home}/extensions/build.properties" tofile="${exist-home}/extensions/build.properties.original"/>
+        <copy file="${exist-home}/extensions/build.properties"
+              tofile="${exist-home}/extensions/build.properties.original"/>
         <replace file="${exist-home}/extensions/build.properties">
             <replacefilter token="include.module.xslfo = false" value="include.module.xslfo = true"/>
-            <replacefilter token="include.module.xslfo.url = http://apache.cs.uu.nl/dist/xmlgraphics/fop/binaries/fop-1.1-bin.zip" value="include.module.xslfo.url = https://archive.apache.org/dist/xmlgraphics/fop/binaries/fop-2.1-bin.zip"/>
+            <replacefilter
+                    token="include.module.xslfo.url = http://apache.cs.uu.nl/dist/xmlgraphics/fop/binaries/fop-1.1-bin.zip"
+                    value="include.module.xslfo.url = https://archive.apache.org/dist/xmlgraphics/fop/binaries/fop-2.1-bin.zip"/>
             <replacefilter token="include.module.cache = false" value="include.module.cache = true"/>
-            <replacefilter token="http://apache.cs.uu.nl/dist/xmlgraphics/fop/binaries/fop-1.1-bin.zip" value="http://apache.cs.uu.nl/xmlgraphics/fop/binaries/fop-2.1-bin.zip"/>
+            <replacefilter token="http://apache.cs.uu.nl/dist/xmlgraphics/fop/binaries/fop-1.1-bin.zip"
+                           value="http://apache.cs.uu.nl/xmlgraphics/fop/binaries/fop-2.1-bin.zip"/>
         </replace>
         <copy todir="${jetty-home}/tmp" overwrite="true">
             <fileset dir="${my-exist-jetty}/tmp">
@@ -429,7 +445,8 @@
             <format property="time" pattern="yyyy-MM-dd-hh-mm-ss"/>
         </tstamp>
         <delete file="localhost/extensions/betterform/main/lib/betterform.jar"/>
-        <copy tofile="localhost/extensions/betterform/main/lib/betterform${time}.jar" file="my/eXist/extensions/betterform/main/lib/betterform.jar" overwrite="true"/>
+        <copy tofile="localhost/extensions/betterform/main/lib/betterform${time}.jar"
+              file="my/eXist/extensions/betterform/main/lib/betterform.jar" overwrite="true"/>
     </target>
 
     <target name="build-tools">
@@ -480,18 +497,23 @@
     <target name="configure-jetty">
         <log message="Configuring Jetty"/>
         <copy file="${jetty-home}/etc/jetty.xml" tofile="${jetty-home}/etc/jetty.xml.original"/>
-        <xslt in="${jetty-home}/etc/jetty.xml.original" style="${build-scripts-home}/jetty.xsl" out="${jetty-home}/etc/jetty.xml">
+        <xslt in="${jetty-home}/etc/jetty.xml.original" style="${build-scripts-home}/jetty.xsl"
+              out="${jetty-home}/etc/jetty.xml">
         </xslt>
         <copy file="${jetty-home}/etc/jetty-http.xml" tofile="${jetty-home}/etc/jetty-http.xml.original"/>
-        <xslt in="${jetty-home}/etc/jetty-http.xml.original" style="${build-scripts-home}/jetty-http.xsl" out="${jetty-home}/etc/jetty-http.xml">
+        <xslt in="${jetty-home}/etc/jetty-http.xml.original" style="${build-scripts-home}/jetty-http.xsl"
+              out="${jetty-home}/etc/jetty-http.xml">
             <param name="jetty-port" expression="${jetty-port}"/>
         </xslt>
         <copy file="${jetty-home}/etc/jetty-ssl.xml" tofile="${jetty-home}/etc/jetty-ssl.xml.original"/>
-        <xslt in="${jetty-home}/etc/jetty-ssl.xml.original" style="${build-scripts-home}/jetty-ssl.xsl" out="${jetty-home}/etc/jetty-ssl.xml">
+        <xslt in="${jetty-home}/etc/jetty-ssl.xml.original" style="${build-scripts-home}/jetty-ssl.xsl"
+              out="${jetty-home}/etc/jetty-ssl.xml">
             <param name="jetty-port-ssl" expression="${jetty-port-ssl}"/>
         </xslt>
-        <copy file="${jetty-home}/webapps/exist-webapp-context.xml" tofile="${jetty-home}/webapps/exist-webapp-context.xml.original"/>
-        <xslt in="${jetty-home}/webapps/exist-webapp-context.xml.original" style="${build-scripts-home}/jetty-context.xsl" out="${jetty-home}/webapps/exist-webapp-context.xml">
+        <copy file="${jetty-home}/webapps/exist-webapp-context.xml"
+              tofile="${jetty-home}/webapps/exist-webapp-context.xml.original"/>
+        <xslt in="${jetty-home}/webapps/exist-webapp-context.xml.original"
+              style="${build-scripts-home}/jetty-context.xsl" out="${jetty-home}/webapps/exist-webapp-context.xml">
         </xslt>
         <delete dir="${jetty-home}/webapps/portal"/>
     </target>
@@ -507,7 +529,8 @@
             <param name="backup-cron-trigger" expression="${exist-backup-cron-trigger}"/>
         </xslt>
         <copy file="${webinf-home}/controller-config.xml" tofile="${webinf-home}/controller-config.xml.original"/>
-        <xslt in="${webinf-home}/controller-config.xml.original" style="${build-scripts-home}/controller-config.xsl" out="${webinf-home}/controller-config.xml">
+        <xslt in="${webinf-home}/controller-config.xml.original" style="${build-scripts-home}/controller-config.xsl"
+              out="${webinf-home}/controller-config.xml">
             <param name="project-name" expression="${project-name}"/>
             <param name="xrx-live-db-base-collection-path" expression="${xrx-live-db-base-collection-path}"/>
         </xslt>
@@ -543,7 +566,8 @@
             <replacefilter token="wrapper.java.maxmemory=512" value="wrapper.java.maxmemory=${java-memory-max}"/>
             <replacefilter token="wrapper.ping.timeout=120" value="wrapper.ping.timeout=600"/>
         </replace>
-        <echo file="${wrapper-home}/conf/wrapper.conf" append="true"> wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
+        <echo file="${wrapper-home}/conf/wrapper.conf" append="true">
+            wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
         </echo>
     </target>
 
@@ -559,233 +583,236 @@
 
     <target name="set-admin-password" depends="exist-classpath">
         <log message="Setting the admin password if it's not already set to the configured value"/>
-<exist-query user="guest" password="guest" failonerror="false">
+        <exist-query user="guest" password="guest" failonerror="false">
             system:as-user('${admin-name}', '', xmldb:change-user('${admin-name}', '${admin-password}', 'dba', '/db'))
         </exist-query>
-</target>
+    </target>
 
-<target name="clean-xrx" depends="exist-classpath" description="Removes all XRX projects from database">
-            <log message="Cleaning all XRX Projects"/>
-            <exist-remove uri="${xmldb-root-uri}" collection="${xrx-live-collection-name}"/>
-            <sleep seconds="2"/>
-            <exist-remove uri="${xmldb-root-uri}" collection="${xrx-src-collection-name}"/>
-            <sleep seconds="2"/>
-        </target>
+    <target name="clean-xrx" depends="exist-classpath" description="Removes all XRX projects from database">
+        <log message="Cleaning all XRX Projects"/>
+        <exist-remove uri="${xmldb-root-uri}" collection="${xrx-live-collection-name}"/>
+        <sleep seconds="2"/>
+        <exist-remove uri="${xmldb-root-uri}" collection="${xrx-src-collection-name}"/>
+        <sleep seconds="2"/>
+    </target>
 
-        <target name="deploy-tools">
-            <log message="Deploying the tools"/>
-            <antcall target="prepare-xrx-res-collection"/>
-            <antcall target="deploy-jssaxparser"/>
-            <antcall target="deploy-jquery"/>
-            <antcall target="deploy-codemirror"/>
-        </target>
+    <target name="deploy-tools">
+        <log message="Deploying the tools"/>
+        <antcall target="prepare-xrx-res-collection"/>
+        <antcall target="deploy-jssaxparser"/>
+        <antcall target="deploy-jquery"/>
+        <antcall target="deploy-codemirror"/>
+    </target>
 
-        <target name="prepare-xrx-res-collection" depends="exist-classpath">
-            <log message="Preparing the XRX resource collection in the database"/>
-            <exist-create uri="${xmldb-root-uri}" collection="${xrx-res-collection-name}"/>
-        </target>
+    <target name="prepare-xrx-res-collection" depends="exist-classpath">
+        <log message="Preparing the XRX resource collection in the database"/>
+        <exist-create uri="${xmldb-root-uri}" collection="${xrx-res-collection-name}"/>
+    </target>
 
-        <target name="deploy-jssaxparser" depends="exist-classpath">
-            <log message="Deploying jsXmlSaxParser"/>
-            <exist-remove uri="${xmldb-xrx-res-uri}" collection="jssaxparser"/>
-            <sleep seconds="2"/>
-            <exist-store uri="${xmldb-xrx-res-uri}/jssaxparser">
-                <fileset dir="${jssaxparser-home}"/>
-            </exist-store>
-        </target>
+    <target name="deploy-jssaxparser" depends="exist-classpath">
+        <log message="Deploying jsXmlSaxParser"/>
+        <exist-remove uri="${xmldb-xrx-res-uri}" collection="jssaxparser"/>
+        <sleep seconds="2"/>
+        <exist-store uri="${xmldb-xrx-res-uri}/jssaxparser">
+            <fileset dir="${jssaxparser-home}"/>
+        </exist-store>
+    </target>
 
-        <target name="deploy-jquery" depends="exist-classpath">
-            <log message="Deploying jQuery"/>
-            <exist-remove uri="${xmldb-xrx-res-uri}" collection="jquery"/>
-            <sleep seconds="2"/>
-            <exist-store uri="${xmldb-xrx-res-uri}/jquery">
-                <fileset dir="${jquery-home}">
-                    <include name="*.*"/>
-                    <include name="ui/**"/>
-                    <include name="themes/**"/>
-                    <include name="external/**"/>
-                </fileset>
-            </exist-store>
-        </target>
+    <target name="deploy-jquery" depends="exist-classpath">
+        <log message="Deploying jQuery"/>
+        <exist-remove uri="${xmldb-xrx-res-uri}" collection="jquery"/>
+        <sleep seconds="2"/>
+        <exist-store uri="${xmldb-xrx-res-uri}/jquery">
+            <fileset dir="${jquery-home}">
+                <include name="*.*"/>
+                <include name="ui/**"/>
+                <include name="themes/**"/>
+                <include name="external/**"/>
+            </fileset>
+        </exist-store>
+    </target>
 
-        <target name="deploy-codemirror" depends="exist-classpath">
-            <log message="Deploying CodeMirror"/>
-            <exist-remove uri="${xmldb-xrx-res-uri}" collection="codemirror"/>
-            <sleep seconds="2"/>
-            <exist-store uri="${xmldb-xrx-res-uri}/codemirror">
-                <fileset dir="${codemirror-home}">
-                    <include name="lib/**"/>
-                    <include name="mode/**"/>
-                    <include name="keymap/**"/>
-                    <include name="theme/**"/>
-                    <include name="*.xml"/>
-                    <not>
-                        <filename name="**/*.html"/>
-                    </not>
-                </fileset>
-            </exist-store>
-        </target>
+    <target name="deploy-codemirror" depends="exist-classpath">
+        <log message="Deploying CodeMirror"/>
+        <exist-remove uri="${xmldb-xrx-res-uri}" collection="codemirror"/>
+        <sleep seconds="2"/>
+        <exist-store uri="${xmldb-xrx-res-uri}/codemirror">
+            <fileset dir="${codemirror-home}">
+                <include name="lib/**"/>
+                <include name="mode/**"/>
+                <include name="keymap/**"/>
+                <include name="theme/**"/>
+                <include name="*.xml"/>
+                <not>
+                    <filename name="**/*.html"/>
+                </not>
+            </fileset>
+        </exist-store>
+    </target>
 
-        <target name="compile-xrx-project" depends="exist-classpath" description="Compiles your XRX project">
-            <log message="Compiling the XRX Project"/>
-            <antcall target="deploy-my-modified-xrx"/>
-            <antcall target="compile-xrx">
-                <param name="TARGET" value="compile-xrx-project"/>
-                <param name="PROJECT_NAME" value="${project-name}"/>
-                <param name="APP_NAME" value=""/>
-            </antcall>
-        </target>
+    <target name="compile-xrx-project" depends="exist-classpath" description="Compiles your XRX project">
+        <log message="Compiling the XRX Project"/>
+        <antcall target="deploy-my-modified-xrx"/>
+        <antcall target="compile-xrx">
+            <param name="TARGET" value="compile-xrx-project"/>
+            <param name="PROJECT_NAME" value="${project-name}"/>
+            <param name="APP_NAME" value=""/>
+        </antcall>
+    </target>
 
-        <target name="compile-xrx-app" description="Compiles your XRX project. Usage: ant compile-xrx-app -Dapp={$app}">
-            <log message="Compiling the XRX App"/>
-            <antcall target="deploy-my-modified-xrx"/>
-            <antcall target="compile-xrx">
-                <param name="TARGET" value="compile-xrx-app"/>
-                <param name="PROJECT_NAME" value="${project-name}"/>
-                <param name="APP_NAME" value="${app}"/>
-            </antcall>
-        </target>
+    <target name="compile-xrx-app" description="Compiles your XRX project. Usage: ant compile-xrx-app -Dapp={$app}">
+        <log message="Compiling the XRX App"/>
+        <antcall target="deploy-my-modified-xrx"/>
+        <antcall target="compile-xrx">
+            <param name="TARGET" value="compile-xrx-app"/>
+            <param name="PROJECT_NAME" value="${project-name}"/>
+            <param name="APP_NAME" value="${app}"/>
+        </antcall>
+    </target>
 
-        <target name="deploy-my-modified-xrx" depends="exist-classpath">
-            <log message="Deploying modified XRX source files"/>
-            <available property="xrx-compiler-tmp-file-exists" file="${xrx-compiler-tmp-file}"/>
-            <echo file="${xrx-compiler-tmp-file}">01/01/1990 00:00:00 AM</echo>
-            <loadfile property="last-modified" srcFile="${xrx-compiler-tmp-file}"/>
-            <echo>Last modified: ${last-modified}</echo>
-            <tstamp>
-                <format property="current-time" pattern="MM/dd/yyyy hh:mm:ss aa" unit="hour"/>
-            </tstamp>
-            <echo file="${xrx-compiler-tmp-file}">${current-time}</echo>
-            <exist-store uri="${xmldb-xrx-src-uri}">
-                <fileset dir="${my-xrx-src}" includes="${deploy-src}">
-                    <date datetime="${last-modified}" when="after" checkdirs="true" pattern="MM/dd/yyyy hh:mm:ss aa"/>
-                </fileset>
-            </exist-store>
-        </target>
+    <target name="deploy-my-modified-xrx" depends="exist-classpath">
+        <log message="Deploying modified XRX source files"/>
+        <available property="xrx-compiler-tmp-file-exists" file="${xrx-compiler-tmp-file}"/>
+        <echo file="${xrx-compiler-tmp-file}">01/01/1990 00:00:00 AM</echo>
+        <loadfile property="last-modified" srcFile="${xrx-compiler-tmp-file}"/>
+        <echo>Last modified: ${last-modified}</echo>
+        <tstamp>
+            <format property="current-time" pattern="MM/dd/yyyy hh:mm:ss aa" unit="hour"/>
+        </tstamp>
+        <echo file="${xrx-compiler-tmp-file}">${current-time}</echo>
+        <exist-store uri="${xmldb-xrx-src-uri}">
+            <fileset dir="${my-xrx-src}" includes="${deploy-src}">
+                <date datetime="${last-modified}" when="after" checkdirs="true" pattern="MM/dd/yyyy hh:mm:ss aa"/>
+            </fileset>
+        </exist-store>
+    </target>
 
-        <target name="compile-xrx" depends="exist-classpath">
-            <log message="Compiling the XRX in the database"/>
-            <antcall target="prepare-xrx-compiler"/>
-            <exist-query outputproperty="compiler">
-                <params>
-                    <variable name="TARGET" value="${TARGET}"/>
-                    <variable name="PROJECT_NAME" value="${project-name}"/>
-                    <variable name="APP_NAME" value="${APP_NAME}"/>
-                </params>
+    <target name="compile-xrx" depends="exist-classpath">
+        <log message="Compiling the XRX in the database"/>
+        <antcall target="prepare-xrx-compiler"/>
+        <exist-query outputproperty="compiler">
+            <params>
+                <variable name="TARGET" value="${TARGET}"/>
+                <variable name="PROJECT_NAME" value="${project-name}"/>
+                <variable name="APP_NAME" value="${APP_NAME}"/>
+            </params>
             system:as-user('${admin-name}', '${admin-password}',
             util:eval(xs:anyURI('/db/XRX.src/core/app/xrx/compiler.xql')))
-        
-            
-            </exist-query>
-            <exist-store uri="${xmldb-xrx-live-uri}/${project-name}/app/xrx">
-                <fileset file="xrx.conf.xml"/>
-            </exist-store>
-            <echo>${compiler}</echo>
-        </target>
 
-        <target name="prepare-xrx-compiler" depends="exist-classpath">
-            <log message="Preparing the XRX compiler"/>
-            <xslt in="build.properties.xml" style="${build-scripts-home}/xrx-project.xsl" out="xrx.conf.xml">
-                <param name="project-name" expression="${project-name}"/>
-                <param name="xrx-live-collection-name" expression="${xrx-live-collection-name}"/>
-            </xslt>
-            <exist-store uri="${xmldb-xrx-src-uri}/core/app/xrx">
-                <fileset file="xrx.conf.xml"/>
-            </exist-store>
-            <exist-store uri="${xmldb-xrx-src-uri}/core/app/xrx/">
-                <fileset file="build/compiler.xql"/>
-            </exist-store>
-        </target>
 
-        <target name="disable-betterform-debug" description="Use parameter -Dbetterform-debug-allowed to set the value to change don't use the default value">
-<log message="Disabling the BetterForm debug tools"/>
-<copy file="${webinf-home}/betterform-config.xml" tofile="${webinf-home}/betterform-config.xml.original"/>
-<xslt in="${webinf-home}/betterform-config.xml.original" style="${build-scripts-home}/betterform-config.xsl" out="${webinf-home}/betterform-config.xml">
-<param name="betterform-debug-allowed" expression="${betterform-debug-allowed}"/>
-</xslt>
-</target>
+        </exist-query>
+        <exist-store uri="${xmldb-xrx-live-uri}/${project-name}/app/xrx">
+            <fileset file="xrx.conf.xml"/>
+        </exist-store>
+        <echo>${compiler}</echo>
+    </target>
 
-<target name="clean-up">
-<log message="Removing all temporary directories"/>
-<delete dir="${tmp-home}"/>
-<delete dir="${codemirror-home}"/>
-<delete dir="${jquery-home}"/>
-<delete dir="${jssaxparser-home}"/>
-<delete dir="${betterform-home}"/>
-<delete dir="${exist-build-workaround-webapp}"/>
-</target>
+    <target name="prepare-xrx-compiler" depends="exist-classpath">
+        <log message="Preparing the XRX compiler"/>
+        <xslt in="build.properties.xml" style="${build-scripts-home}/xrx-project.xsl" out="xrx.conf.xml">
+            <param name="project-name" expression="${project-name}"/>
+            <param name="xrx-live-collection-name" expression="${xrx-live-collection-name}"/>
+        </xslt>
+        <exist-store uri="${xmldb-xrx-src-uri}/core/app/xrx">
+            <fileset file="xrx.conf.xml"/>
+        </exist-store>
+        <exist-store uri="${xmldb-xrx-src-uri}/core/app/xrx/">
+            <fileset file="build/compiler.xql"/>
+        </exist-store>
+    </target>
 
-<target name="initialize-new-database">
-<log message="initializing new database"/>
-<antcall target="store-project-data"/>
-<antcall target="add-group">
-<param name="GROUP-NAME" value="atom"/>
-</antcall>
-<antcall target="add-group-member">
-<param name="GROUP-NAME" value="atom"/>
-<param name="USERNAME" value="${admin-name}"/>
-</antcall>
-<antcall target="initialize-index-configuration"/>
-</target>
+    <target name="disable-betterform-debug"
+            description="Use parameter -Dbetterform-debug-allowed to set the value to change don't use the default value">
+        <log message="Disabling the BetterForm debug tools"/>
+        <copy file="${webinf-home}/betterform-config.xml" tofile="${webinf-home}/betterform-config.xml.original"/>
+        <xslt in="${webinf-home}/betterform-config.xml.original" style="${build-scripts-home}/betterform-config.xsl"
+              out="${webinf-home}/betterform-config.xml">
+            <param name="betterform-debug-allowed" expression="${betterform-debug-allowed}"/>
+        </xslt>
+    </target>
 
-<target name="store-project-data" depends="exist-classpath">
-<log message="Storing ${project-name}-data in the database"/>
-<exist-store uri="${xmldb-root-uri}/${project-name}-data" permissions="rwxrwxrwx">
-<fileset dir="${project-name}-data"/>
-</exist-store>
-</target>
+    <target name="clean-up">
+        <log message="Removing all temporary directories"/>
+        <delete dir="${tmp-home}"/>
+        <delete dir="${codemirror-home}"/>
+        <delete dir="${jquery-home}"/>
+        <delete dir="${jssaxparser-home}"/>
+        <delete dir="${betterform-home}"/>
+        <delete dir="${exist-build-workaround-webapp}"/>
+    </target>
 
-<target name="add-group" depends="exist-classpath">
-<log message="Adding group ${GROUP-NAME}"/>
-<exist-addgroup name="${GROUP-NAME}"/>
-</target>
+    <target name="initialize-new-database">
+        <log message="initializing new database"/>
+        <antcall target="store-project-data"/>
+        <antcall target="add-group">
+            <param name="GROUP-NAME" value="atom"/>
+        </antcall>
+        <antcall target="add-group-member">
+            <param name="GROUP-NAME" value="atom"/>
+            <param name="USERNAME" value="${admin-name}"/>
+        </antcall>
+        <antcall target="initialize-index-configuration"/>
+    </target>
 
-<target name="add-group-member" depends="exist-classpath">
-<log message="Adding user ${USERNAME} to group ${GROUP-NAME}"/>
-<exist-query>
+    <target name="store-project-data" depends="exist-classpath">
+        <log message="Storing ${project-name}-data in the database"/>
+        <exist-store uri="${xmldb-root-uri}/${project-name}-data" permissions="rwxrwxrwx">
+            <fileset dir="${project-name}-data"/>
+        </exist-store>
+    </target>
+
+    <target name="add-group" depends="exist-classpath">
+        <log message="Adding group ${GROUP-NAME}"/>
+        <exist-addgroup name="${GROUP-NAME}"/>
+    </target>
+
+    <target name="add-group-member" depends="exist-classpath">
+        <log message="Adding user ${USERNAME} to group ${GROUP-NAME}"/>
+        <exist-query>
             system:as-user('${admin-name}', '${admin-password}', sm:add-group-member('${GROUP-NAME}', '${USERNAME}'))
         </exist-query>
-</target>
+    </target>
 
-<target name="initialize-index-configuration" depends="exist-classpath">
-<log message="Deploying collection.xconf files"/>
-<exist-store uri="${xmldb-xrx-system-uri}/config" permissions="rwxrwx---">
-<fileset dir="${my-xrx-system}/config"/>
-</exist-store>
-<log message="Reindexing database"/>
-<exist-query>
+    <target name="initialize-index-configuration" depends="exist-classpath">
+        <log message="Deploying collection.xconf files"/>
+        <exist-store uri="${xmldb-xrx-system-uri}/config" permissions="rwxrwx---">
+            <fileset dir="${my-xrx-system}/config"/>
+        </exist-store>
+        <log message="Reindexing database"/>
+        <exist-query>
             xmldb:reindex('/db')
         </exist-query>
-</target>
+    </target>
 
-<target name="restore-backup" depends="exist-classpath" description='Restores a backup. Path either with a parameter or as a commandline argument -Dbackup=path_to_backup'>
-<log message="Restoring backup ${backup}"/>
-<exec executable="/bin/bash">
-<arg line="${exist-home}/bin/backup.sh -u &quot;${admin-name}&quot; -p &quot;${admin-password}&quot; -r &quot;${backup}&quot; -ouri=${xmldb-xmlrpc-uri}"/>
-</exec>
-<antcall target="initialize-index-configuration"/>
-</target>
+    <target name="restore-backup" depends="exist-classpath"
+            description='Restores a backup. Path either with a parameter or as a commandline argument -Dbackup=path_to_backup'>
+        <log message="Restoring backup ${backup}"/>
+        <exec executable="/bin/bash">
+            <arg line="${exist-home}/bin/backup.sh -u &quot;${admin-name}&quot; -p &quot;${admin-password}&quot; -r &quot;${backup}&quot; -ouri=${xmldb-xmlrpc-uri}"/>
+        </exec>
+        <antcall target="initialize-index-configuration"/>
+    </target>
 
-<target name="restore-last-backup" depends="exist-classpath">
-<log message="Restoring the last backup"/>
-<antcall target="restart"/>
-<!-- get latest backup -->
-<last id="last.file">
-<sort>
-<date xmlns="antlib:org.apache.tools.ant.types.resources.comparators"/>
-<resources>
-<fileset dir="${data-home}/export">
-<include name="**/*"/>
-</fileset>
-</resources>
-</sort>
-</last>
-<ant target="sleep-until-started"/>
-<log message="Restoring latest backup ${latest.modified}"/>
-<antcall target="restore-backup">
-<param name="backup" value="${ant.refid:last.file}"/>
-</antcall>
-<log message="Finished restoring latest backup"/>
-</target>
+    <target name="restore-last-backup" depends="exist-classpath">
+        <log message="Restoring the last backup"/>
+        <antcall target="restart"/>
+        <!-- get latest backup -->
+        <last id="last.file">
+            <sort>
+                <date xmlns="antlib:org.apache.tools.ant.types.resources.comparators"/>
+                <resources>
+                    <fileset dir="${data-home}/export">
+                        <include name="**/*"/>
+                    </fileset>
+                </resources>
+            </sort>
+        </last>
+        <ant target="sleep-until-started"/>
+        <log message="Restoring latest backup ${latest.modified}"/>
+        <antcall target="restore-backup">
+            <param name="backup" value="${ant.refid:last.file}"/>
+        </antcall>
+        <log message="Finished restoring latest backup"/>
+    </target>
 
 </project>
