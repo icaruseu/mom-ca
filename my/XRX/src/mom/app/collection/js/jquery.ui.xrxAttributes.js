@@ -327,7 +327,9 @@
                         var newOption = $('<option>' + values.sort() + '</option>')
                             .addClass(uiSuggestedValueDivsClass).attr("title", values).attr("value", Object.keys(currentVocabulary)).attr("name", name);
                         if (Object.keys(controlledVocabularies[i]) == value) {
-                            newOption.attr("selected", "selected");
+
+                            newOption.attr("selected", "selected");                          
+
                             indexnamewert = value;
                         }
             		
@@ -363,40 +365,42 @@
                             dataType: "json", 
                             data: {indexname: indexnamewert, lemma: lemmawert, sprache: sprachwert},
                             success: function(data, textStatus, jqXHR)
-                            {
-                            	console.log("ja ist erfrolreich");
-                            	console.log(data);
-                   var auswahl = {};
+                            {                      
+                     var auswahl = {};
                                                                                                  
                      var siehe = look(data);
                      
-               function look(daten){
+               function look(daten, label){            	
             	   for (key in daten){
             	
             		var liste;
-            		if($.type(daten[key]) === "string"){
+            		if($.type(daten[key]) === "string"){            	
             		if (key === "label"){
-            			var liste = $('<option>' + daten[key] + '</option>').addClass("group").addClass(uiSuggestedValueDivsClass).attr("title", daten[key]).attr("value", key).attr("name", name);
+            			var liste = $('<option>' + daten[key] +'</option>').addClass("group").addClass(uiSuggestedValueDivsClass).attr("title", daten[key]).attr("value", label).attr("name", name);
             			
             		}
             		else {
             			var liste = $('<option>' + daten[key] + '</option>')
        	   				.addClass(uiSuggestedValueDivsClass).attr("title", daten[key]).attr("value", key).attr("name", name);
             			
-            		}            	   	   				
-   	   			
-   	   				if(key == value.replace('#', '')){   	   				
-   	   				liste.attr("selected", "selected");
-   	   				}
+            		}             			
+            		
    	   				
    	   				menuliste.append(liste);
-   	   				
+   	   				var setselected = $("option[value =" + value + "]");
+   	   				setselected.attr("selected", "selected");
             	   	}
             	   else {
-            		   var obj = (daten[key]);            		   
-            		   var siehe =  look(obj);            		   
-            	   }            	
-            	   }            	   
+            		   var obj = (daten[key]);
+            		   
+            		   var label = key.replace('#', '');            	
+            		   var siehe =  look(obj, label);
+            		   
+            	   } 
+            	
+            		
+            	   }  
+            	  
                	};          
                   return true;
                                     },     
@@ -418,7 +422,7 @@
              * I store the self variable in the ev.data (var kapsel)in order to be able to call further methods
              * on the self-object of */
             menuliste.change( {mfg: self}, function (ev) {            	              
-            	console.log( ev.data.mfg);
+            	//console.log( ev.data.mfg);
             	var kapsel = ev.data.mfg;
             	var self = this;           
                 var attrvalue = this.value;                
@@ -432,6 +436,7 @@
                 var findselected = $(".xrx-attributes").find("option[name =" + name + "]");
                 findselected.removeAttr("selected", "selected");
                 var setselected = $("option[value =" + attrvalue + "]");
+
                 setselected.attr('selected', 'selected');            
               
                 function findEditedAttributes(edAttr){                	

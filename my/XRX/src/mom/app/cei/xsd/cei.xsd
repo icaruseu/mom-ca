@@ -4328,11 +4328,11 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
         <xs:sequence>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element ref="persName"/>
+                <xs:element ref="rolename"/>
                 <xs:element ref="orgName"/>
                 <xs:choice>
                     <xs:annotation>
-                        <xs:documentation xml:lang="deu">Geographische Angaben
-            </xs:documentation>
+                        <xs:documentation xml:lang="deu">Geographische Angaben</xs:documentation>
                     </xs:annotation>
                     <xs:element ref="placeName"/>
                     <xs:element ref="geogName"/>

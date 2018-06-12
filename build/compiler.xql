@@ -293,8 +293,10 @@ declare function compiler:compile-mainwidgets($appkey as xs:string) {
                 let $compiled-css := css:compile($widget, $csss, $xrx-live-project-db-base-collection, $xrx-resources-base-collection)
                 let $css-resource-name := concat($widget-key, '.', $mode, '.css.xml')
                 let $store-css := compiler:store($base-collection, $css-resource-name, $compiled-css)
-                (: compile and store Javascript :)
-                let $jss := $widgetlist//xrx:jss
+                (: compile and store Javascript 
+                sämtliche xrx:jss auch aus subwidgets in eines zusammengefasst, 
+                damit sie in javascript compile funktion leichter zu ordnen sind :)
+                let $jss := <xrx:jss>{$widgetlist//xrx:jss/xrx:resource}</xrx:jss>              
                 let $compiled-javascript := javascript:compile($widget, $jss, $xrx-live-project-db-base-collection, $xrx-resources-base-collection, $PROJECT_NAME)
                 let $javascript-resource-name := concat($widget-key, '.', $mode, '.javascript.xml')
                 let $store-javascript := if($compiled-javascript != '') then compiler:store($base-collection, $javascript-resource-name, $compiled-javascript) else()

@@ -478,8 +478,7 @@ declare function charter:insert-unique-idno($charter as element(cei:text), $uniq
 declare function charter:summarize($charter) {
 
   try {
-
-    let $summarized := kwic:summarize($charter, <config xmlns="" width="100"/>)
+    let $summarized := kwic:summarize($charter, <config xmlns="" width="100"/>)    
     let $attribute-matches := charter:attributes-matching-search-regEx($charter) (: kwic did not look inside attributes. :)
     return
       if( not(empty($summarized)) and empty($attribute-matches) ) then
@@ -489,10 +488,10 @@ declare function charter:summarize($charter) {
       else
         ($summarized, $attribute-matches)
 
-  } catch * {
-    $charter//text()
+  } catch * {   
+    concat(substring($charter//cei:abstract, 1, 200), '...')
   }
-};
+}; (: catch tritt bei indexsuche ein, verzicht auf highlighting weil Suche in @ :)
 
 declare function charter:attributes-matching-search-regEx($charter){
 

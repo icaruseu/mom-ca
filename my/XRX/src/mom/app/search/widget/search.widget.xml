@@ -99,18 +99,18 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   width:200px;
 }}
 #dcharter-preview-main{{
-	position:relative;
-	float:left;
-	width:800px;
+  position:relative;
+  float:left;
+  width:800px;
 }}
 #dcharter-preview-main .charter *{{
-	line-height:1.6em;
+  line-height:1.6em;
 }}
 #dcharter-preview-main .charter{{
-	position:relative;
-	width:100%;
-	float:left;
-	background:rgb(245,245,245);
+  position:relative;
+  width:100%;
+  float:left;
+  background:rgb(245,245,245);
 }}
 #dcharter-preview-main .charter-preview{{
 position:relative;
@@ -203,63 +203,63 @@ right:220px;
   </xrx:model>
   <xrx:view>
     <div data-demoid="693bd17a-ced3-4321-b9b9-12da215ed64b" id="search">
-		{
-		let $is-loggedin := xmldb:get-current-user() != 'guest'
-		(: compose the query string to be evaluated :)
-		let $metadata-charter-db-base-collection-path := 
-		  concat(conf:param('atom-db-base-uri'), metadata:feed('charter', 'public'))
-		let $query-string := search:query-string($metadata-charter-db-base-collection-path)
-		
-		
-		(: query charters :)
-		let $charters := search:eval($query-string)
-		
-		(: how many hits? :)
-		let $count := count($charters)
-		
-		let $block := xs:integer(request:get-parameter('block', '1'))
-		let $charters-per-block := 30
-		let $start := $block*$charters-per-block - $charters-per-block + 1
-		let $stop := 
-		 if(($start + $charters-per-block - 1) lt $count) then $start + $charters-per-block - 1
-		 else $count
-		let $blocks-count := xs:integer(ceiling($count div $charters-per-block))
-		
-		
-		let $search-options-div :=
-	  <div data-demoid="9cf326d6-e5e2-4651-8010-88d851458c78" id="search-options">
+    {
+    let $is-loggedin := xmldb:get-current-user() != 'guest'
+    (: compose the query string to be evaluated :)
+    let $metadata-charter-db-base-collection-path := 
+      concat(conf:param('atom-db-base-uri'), metadata:feed('charter', 'public'))
+    let $query-string := search:query-string($metadata-charter-db-base-collection-path)
+    
+    
+    (: query charters :)
+    let $charters := search:eval($query-string)
+    
+    (: how many hits? :)
+    let $count := count($charters)
+    
+    let $block := xs:integer(request:get-parameter('block', '1'))
+    let $charters-per-block := 30
+    let $start := $block*$charters-per-block - $charters-per-block + 1
+    let $stop := 
+     if(($start + $charters-per-block - 1) lt $count) then $start + $charters-per-block - 1
+     else $count
+    let $blocks-count := xs:integer(ceiling($count div $charters-per-block))
+    
+    
+    let $search-options-div :=
+    <div data-demoid="9cf326d6-e5e2-4651-8010-88d851458c78" id="search-options">
         <input name="img" type="checkbox" value="true">
-	         { if(request:get-parameter('img', '') = 'true') then attribute checked { 'checked' } else () }
-	       </input>
-        <span> </span>
+           { if(request:get-parameter('img', '') = 'true') then attribute checked { 'checked' } else () }
+         </input>
+        <span> </span>
         <xrx:i18n>
           <xrx:key>only-hits-with-images</xrx:key>
           <xrx:default>Only hits with images</xrx:default>
         </xrx:i18n>
-        <span>    </span>
+        <span>    </span>
         <xrx:i18n>
           <xrx:key>sort</xrx:key>
           <xrx:default>Sort</xrx:default>
         </xrx:i18n>
-        <span> </span>
+        <span> </span>
         <input name="sort" type="radio" value="date">
-	         { if(request:get-parameter('sort', '') = 'date' or request:get-parameter('sort', '') = '') then attribute checked { 'checked' } else () }
-	       </input>
-        <span> </span>
+           { if(request:get-parameter('sort', '') = 'date' or request:get-parameter('sort', '') = '') then attribute checked { 'checked' } else () }
+         </input>
+        <span> </span>
         <xrx:i18n>
           <xrx:key>by-date</xrx:key>
           <xrx:default>by date</xrx:default>
         </xrx:i18n>
-        <span> </span>
+        <span> </span>
         <input name="sort" type="radio" value="ranking">
-	         { if(request:get-parameter('sort', '') = 'ranking') then attribute checked { 'checked' } else () }
-	       </input>
-        <span> </span>
+           { if(request:get-parameter('sort', '') = 'ranking') then attribute checked { 'checked' } else () }
+         </input>
+        <span> </span>
         <xrx:i18n>
           <xrx:key>relevance-ranking</xrx:key>
           <xrx:default>relevance ranking</xrx:default>
         </xrx:i18n>
-        <span>     </span>
+        <span>     </span>
       </div>
     let $label := i18n:value('search', $xrx:lang, 'Search')
     let $search-trigger-div :=
@@ -275,28 +275,28 @@ right:220px;
       </div>
     let $select-block-div :=
     <div class="select-block" data-demoid="3a999132-b9d1-4b8c-9165-e5dfc1c3ec05">
-	    {
-	    let $block-link := 
-	    string-join(
-	    for $param in request:get-parameter-names()
-	    return
-	    if(not(matches($param, '(block|content|betterform-flag|null)'))) then
-	      concat('&amp;', $param, '=', request:get-parameter($param, ''))
-	    else ''
-	    , ''
-	    )
+      {
+      let $block-link := 
+      string-join(
+      for $param in request:get-parameter-names()
+      return
+      if(not(matches($param, '(block|content|betterform-flag|null)'))) then
+        concat('&amp;', $param, '=', request:get-parameter($param, ''))
+      else ''
+      , ''
+      )
       for $block-pos in (1 to $blocks-count)
       return
       <div class="block-navi-link" data-demoid="5a6260f7-d147-4b0f-a33d-e99ef6317fee">
           <a href="?null={ $block-link }&amp;block={$block-pos}">
           { if($block-pos != $block) then xs:string($block-pos) else <b style="background:rgb(114,133,108);color:white">{ xs:string($block-pos) }</b>}
         </a>
-          <span> </span>
+          <span> </span>
         </div>
       }
     </div>
     let $select-archive-div := 
-	  <select id="arch-select" name="arch" onchange="javascript:document.search-form.submit();">
+    <select id="arch-select" name="arch" onchange="javascript:document.search-form.submit();">
         <option value="">
           <xrx:i18n>
             <xrx:key>all-archives</xrx:key>
@@ -311,27 +311,27 @@ right:220px;
       return
       <option value="{ $repositorid }">{ if(request:get-parameter('arch', '') = $repositorid) then attribute selected { 'selected' } else () }{ $autform }</option>
       }
-	  </select>
-	  let $select-col-div :=
-	  <select id="col-select" name="col" onchange="javascript:document.search-form.submit();">
+    </select>
+    let $select-col-div :=
+    <select id="col-select" name="col" onchange="javascript:document.search-form.submit();">
         <option value="">
           <xrx:i18n>
             <xrx:key>all-fonds</xrx:key>
             <xrx:default>All fonds</xrx:default>
           </xrx:i18n>
         </option>
-	  {
-	  if($search:arch-id != '') then
-	  let $metadata-fond-collection := metadata:base-collection('fond', $search:arch-id, 'public')
-	  for $fond in $metadata-fond-collection//ead:c[@level='fonds']/ead:did/ead:unittitle
-	  let $fond-name := normalize-space($fond/child::text())
-	  let $search:fond-id := $fond/parent::ead:did/ead:unitid/@identifier/string()
-	  order by $fond-name collation "?lang=de-DE"
-	  return
-	  <option value="{ $search:fond-id }">{ if(request:get-parameter('col', '') = $search:fond-id) then attribute selected { 'selected' } else () }{ $fond-name }</option>
-	  else ()
-	  }
-	  </select>
+    {
+    if($search:arch-id != '') then
+    let $metadata-fond-collection := metadata:base-collection('fond', $search:arch-id, 'public')
+    for $fond in $metadata-fond-collection//ead:c[@level='fonds']/ead:did/ead:unittitle
+    let $fond-name := normalize-space($fond/child::text())
+    let $search:fond-id := $fond/parent::ead:did/ead:unitid/@identifier/string()
+    order by $fond-name collation "?lang=de-DE"
+    return
+    <option value="{ $search:fond-id }">{ if(request:get-parameter('col', '') = $search:fond-id) then attribute selected { 'selected' } else () }{ $fond-name }</option>
+    else ()
+    }
+    </select>
     let $config := <config xmlns="" width="100"/>
       
     return
@@ -360,11 +360,11 @@ right:220px;
               </xrx:i18n>)
         </sup>
           </div>
-	    {
-	    let $no-result := request:get-parameter('noresult', 'true')
-	    return
-	    if( $search:q != '' and $no-result = 'true') then
-	    <div data-demoid="dafd4383-94fa-4639-ba1b-00550091706f">
+      {
+      let $no-result := request:get-parameter('noresult', 'true')
+      return
+      if( $search:q != '' and $no-result = 'true') then
+      <div data-demoid="dafd4383-94fa-4639-ba1b-00550091706f">
             <span>
               <xrx:i18n>
                 <xrx:key>no-results-message</xrx:key>
@@ -372,12 +372,12 @@ right:220px;
               </xrx:i18n>
             </span>
           </div>
-	    else()
-	    }
-	    { $search-trigger-div }
-	  </div>
-	  { $search-options-div }
-  <span>   </span>
+      else()
+      }
+      { $search-trigger-div }
+    </div>
+    { $search-options-div }
+  <span>   </span>
         <br/>
         <br/>
         <div data-demoid="11541057-2e82-4230-a416-2f446d078930" id="confine">
@@ -393,7 +393,7 @@ right:220px;
               <xrx:key>select-archive</xrx:key>
               <xrx:default>Select Archive</xrx:default>
             </xrx:i18n>
-            <span>: </span>
+            <span>: </span>
           </div>
       { $select-archive-div }
       {
@@ -404,7 +404,7 @@ right:220px;
                 <xrx:key>select-fond</xrx:key>
                 <xrx:default>Select Fond</xrx:default>
               </xrx:i18n>
-              <span>: </span>
+              <span>: </span>
             </div>
         { $select-col-div }
         </div>
@@ -426,7 +426,7 @@ right:220px;
       <div data-demoid="c806958d-d4c6-447c-bbf1-5872dc2d2d98" id="result">
         <div data-demoid="581f9372-0de2-4fe7-8d3a-0b8cc4184b58" id="back">
           <a href="{ xrx:request-query-string('p', 'search') }&amp;noresult=false">
-            <span>&lt;&lt; </span>
+            <span>&lt;&lt; </span>
             <xrx:i18n>
               <xrx:key>back</xrx:key>
               <xrx:default>back</xrx:default>
@@ -438,12 +438,12 @@ right:220px;
             <xrx:key>results</xrx:key>
             <xrx:default>Results</xrx:default>
           </xrx:i18n>
-          <span>, </span>
+          <span>, </span>
           <xrx:i18n>
             <xrx:key>page</xrx:key>
             <xrx:default>Page</xrx:default>
           </xrx:i18n>
-          <span> { $block }</span>
+          <span> { $block }</span>
         </div>
         <div data-demoid="baab3af2-3638-43a3-8117-c23c51d6e7cf" style="position:absolute;right:0px;">
           <a href="search2">
@@ -453,28 +453,28 @@ right:220px;
             </xrx:i18n>
           </a>
           <sup style="color:red">
-	          (<xrx:i18n>
+            (<xrx:i18n>
               <xrx:key>beta</xrx:key>
               <xrx:default>beta</xrx:default>
             </xrx:i18n>)
-	        </sup>
+          </sup>
         </div>
         <div data-demoid="8a71862e-f853-4553-a978-7886e57287fe">
           <xrx:i18n>
             <xrx:key>hits</xrx:key>
             <xrx:default>Hits</xrx:default>
           </xrx:i18n>
-          <b> { $start } </b>
+          <b> { $start } </b>
           <xrx:i18n>
             <xrx:key>to</xrx:key>
             <xrx:default>to</xrx:default>
           </xrx:i18n>
-          <b> { $stop } </b>
+          <b> { $stop } </b>
           <xrx:i18n>
             <xrx:key>of</xrx:key>
             <xrx:default>of</xrx:default>
           </xrx:i18n>
-          <b> { $count }</b>
+          <b> { $count }</b>
         </div>
         { $select-block-div }
         <div data-demoid="2deeac44-fe13-4dda-9c29-1544cc430bde" id="dcharter-preview-main">
@@ -563,7 +563,7 @@ right:220px;
                     <span> - </span>
                     <a href="{ conf:param('request-root') }{ $archive-id }/{ $fond-id }/fond">{ $fond-name }</a>
                     <span class="light-grey">
-                      <span> (<xrx:i18n>
+                      <span> (<xrx:i18n>
                           <xrx:key>fond</xrx:key>
                           <xrx:default>Fond</xrx:default>
                         </xrx:i18n>)</span>
@@ -573,7 +573,7 @@ right:220px;
               <div data-demoid="b8201270-00c7-4e2d-9350-67572ec1d5c0">
                     <a href="{ conf:param('request-root') }{ $collection-id }/collection">{ $collection-name }</a>
                     <span class="light-grey">
-                      <span> (<xrx:i18n>
+                      <span> (<xrx:i18n>
                           <xrx:key>collection</xrx:key>
                           <xrx:default>Collection</xrx:default>
                         </xrx:i18n>)</span>
@@ -586,7 +586,7 @@ right:220px;
                         <xrx:key>signature</xrx:key>
                         <xrx:default>Signature</xrx:default>
                       </xrx:i18n>
-                      <span>: </span>
+                      <span>: </span>
                     </b>
                     <span>
                       <a href="{ $url }">{ $idno }</a>
@@ -599,7 +599,7 @@ right:220px;
                         <xrx:key>date</xrx:key>
                         <xrx:default>Date</xrx:default>
                       </xrx:i18n>
-                      <span>: </span>
+                      <span>: </span>
                     </b>
                     <span>{ $date }</span>
                   </div>
@@ -611,7 +611,7 @@ right:220px;
                       <xrx:key>images</xrx:key>
                       <xrx:default>Images</xrx:default>
                     </xrx:i18n>
-                    <span>: </span>
+                    <span>: </span>
                     <span>{ count($charter//cei:graphic/@url) }</span>
                   </div>
                   <div data-demoid="4fccfcf6-5a25-4fb9-a450-41d6611b1982">
@@ -629,13 +629,13 @@ right:220px;
                         <xrx:default>no</xrx:default>
                       </xrx:i18n>
                     </div>
-                    <span>: </span>
+                    <span>: </span>
                 {
                 if($charter//cei:tenor/text()) then i18n:value('yes', $xrx:lang, 'yes')
                 else i18n:value('no', $xrx:lang, 'no')
                 }
               </div>
-                  <div data-demoid="8aeaf564-df3d-449b-a6c8-19488e3cb26a"> </div>
+                  <div data-demoid="8aeaf564-df3d-449b-a6c8-19488e3cb26a"> </div>
                   <div data-demoid="54d21225-2a67-443c-a456-187a460acd84">
                     <a href="{ $url }">
                       <xrx:i18n>
@@ -704,7 +704,7 @@ right:220px;
                                   <xrx:key>bookmark-note</xrx:key>
                                   <xrx:default>Bookmark note</xrx:default>
                                 </xrx:i18n>
-                                <span>: </span>
+                                <span>: </span>
                               </b>
                               <br/>
                               <span id="note-output-{$num}">{ $note-text } </span>
@@ -794,7 +794,7 @@ right:220px;
                               <xrx:key>charter-in-use-by</xrx:key>
                               <xrx:default>Charter in use by</xrx:default>
                             </xrx:i18n>
-                            <i> { $saved-by-user }</i>
+                            <i> { $saved-by-user }</i>
                           </span>,
             <span>
                             <xrx:i18n>

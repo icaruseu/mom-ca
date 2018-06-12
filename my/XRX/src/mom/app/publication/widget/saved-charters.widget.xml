@@ -137,6 +137,9 @@ right:220px;
 
     </style>
     </xrx:csss>
+    <xrx:jss>
+         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+   </xrx:jss>
     <xrx:model>
     { bookmark:model(conf:param('request-root')) }
     { publication:model(conf:param('request-root')) }

@@ -8,21 +8,19 @@
  */
 
 ;(function( $, undefined ) {
-
 var selCheckbox_ = "input[type=checkbox]";
 
 $.widget("ui.search", {
 
+  
 
-
-  options: {
-    requestRoot: ""
+  options: {    requestRoot: ""
   },
 
 
   
   _create: function() {
-
+	
     this._initSearchField();
     this._initOptions();
     this._initSort();
@@ -163,7 +161,6 @@ $.widget("ui.search", {
       }
     });    
   },
-
 
 
   _initContext: function() {

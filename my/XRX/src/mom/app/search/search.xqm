@@ -90,9 +90,8 @@ declare function search:categories() {
 (:~
   All possible categories configured in the database index.
 :)
-declare function search:all-categories() {
-
-    ('cei:abstract', 'cei:altIdentifier', 'cei:apprecatio', 'cei:arch', 'cei:archFond', 'cei:archIdentifier',
+declare function search:all-categories() { 
+   ('cei:abstract', 'cei:altIdentifier', 'cei:apprecatio', 'cei:arch', 'cei:archFond', 'cei:archIdentifier',
     'cei:arenga', 'cei:auth', 'cei:class', 'cei:condition', 'cei:corroboratio', 'cei:country', 'cei:datatio',
     'cei:date', 'cei:dateRange', 'cei:dimensions', 'cei:dispositio', 'cei:divNotes', 'cei:figDesc', 'cei:geogName',
     'cei:idno', 'cei:index', 'cei:inscriptio', 'cei:intitulatio', 'cei:invocatio', 'cei:issuer', 'cei:lang_MOM',
@@ -104,7 +103,7 @@ declare function search:all-categories() {
     'cei:settlement', 'cei:sigillant', 'cei:sourceDescRegest', 'cei:sourceDescVolltext', 'cei:subscriptio',
     'cei:tenor', 'cei:testis', 'cei:traditioForm', 'cei:witListPar', 'cei:witnessOrig',
     '@abbr', '@class', '@corr', '@expan', '@from', '@function', '@hand', '@key', '@lemma', '@reason',
-    '@reg', '@sublemma', '@sic', '@to', '@value', 'tei:span')
+    '@reg', '@sublemma', '@sic', '@to', '@value', 'tei:span') 
 };
 
 
@@ -137,7 +136,7 @@ declare function search:categories-excluded() {
 :)
 declare function search:context() {
 
-    let $tok := tokenize(xmldb:decode($search:context), ',')
+    let $tok := tokenize(xmldb:decode($search:context), ',') 
     return
     if($search:context = '') then
         ()
@@ -145,14 +144,15 @@ declare function search:context() {
         xmldb:encode($search:context)
     else 
         for $t in $tok
-        let $arch := contains($t, ';')
+        let $arch := contains($t, ';')       
         return
         if($arch) then replace(xmldb:encode(replace($t, ';', '____')), '____', ';')
         else xmldb:encode($t) 
 };
 
 
-
+(: ****hier wird der Suchstring für suche1 zusammengesetzt ***
+:)
 declare function search:scope-query-string($metadata-charter-db-base-collection-path) as xs:string {
 
     (: do we search inside a fond? :)
@@ -168,7 +168,6 @@ declare function search:scope-query-string($metadata-charter-db-base-collection-
     concat('let $context := collection("', $metadata-charter-db-base-collection-path, '") ')
     
 };
-
 
 
 declare function search:query-string-scope($metadata-charter-db-base-collection-path) as xs:string {
@@ -225,12 +224,13 @@ declare function search:sort-query-string() {
 
 
 
-(: compose the query string to be evaluated :)
+(: compose the query string to be evaluated :)(: *** das trifft auf suche1 zu ***:)
 declare function search:query-string($metadata-charter-db-base-collection-path) as xs:string {
 
     concat(
         if($xrx:tokenized-uri[last()] = 'search') then
             search:scope-query-string($metadata-charter-db-base-collection-path)
+            
         else
             search:query-string-scope($metadata-charter-db-base-collection-path),
         'for $charter in ',
@@ -303,7 +303,7 @@ declare function search:compile-context($result) {
             order by $key
             return
             if($ctx = 'fond') then 
-                <fond key="{ $key }" name="{ $key }" count="{ count($charters) }"/>
+                <fond key="{ $archid }" name="{ $key }" count="{ count($charters) }"/>
             else
                 <collection key="{ $key }" name="{ $key }" count="{ count($charters) }"/>
             }
@@ -367,9 +367,9 @@ declare function search:set-categories-filtered($map, $categories) {
 
 
 declare function search:set-context($result) {
-
     let $context := search:compile-context($result)
     let $remove := session:remove-attribute($search:CONTEXT)
+    
     let $set := session:set-attribute($search:CONTEXT, $context)
     return $context
 };
@@ -384,7 +384,9 @@ declare function search:set-context-filtered($result, $context) {
         else
             $context
     let $remove := session:remove-attribute($search:CONTEXT_FILTERED)
+   
     let $set := session:set-attribute($search:CONTEXT_FILTERED, $ctx)
+   
     return ()
 };
 
@@ -461,20 +463,20 @@ declare function search:filter-result($result, $map) {
 
 
 declare function search:eval2($query-string) {
-
-    if(search:is-browse-action($query-string)) then ()
+   
+    if(search:is-browse-action($query-string)) then ()    
         
-    else if(search:is-first-action()) then 
-
+    else if(search:is-first-action()) then     
+        
         let $result := util:eval($query-string)
 
-        let $map := search:compile-categories-map($result)
-
+        let $map := search:compile-categories-map($result)        
+        
         let $do := search:set-categories($map)
 
         let $do := search:set-categories-filtered($map, 
-                session:get-attribute($search:CATEGORIES))
-        
+                  session:get-attribute($search:CATEGORIES))                
+      
         let $do := search:set-context($result)
         
         let $do := search:set-context-filtered($result, 
@@ -487,26 +489,37 @@ declare function search:eval2($query-string) {
         let $count := search:set-hits($result)
         
         let $do := search:set-hits-filtered($result, $count)
-
+           
         return ()
 
-    else if(search:is-filter-action()) then
-
-        let $result := util:eval($query-string)
-        
+    else if(search:is-filter-action()) then   
+        let $result := util:eval($query-string)        
+             
         let $map := search:compile-categories-map($result)
+       (: if an entire search string is entered - it will be compared with the prior query string, 
+       which is still in the session var; if there was no prior search it equally updates the session vars :)
+        let $get := session:get-attribute($search:CATEGORIES)
+        let $do := if(empty($get) or $query-string != session:get-attribute($search:QUERY)) then search:set-categories($map) else()        
         
         let $result := search:filter-result($result, $map)
-
+        
+        let $get := session:get-attribute($search:CONTEXT)
+        
+        let $do := if(empty($get) or $query-string != session:get-attribute($search:QUERY)) then search:set-context($result) else()
+        
         let $map := search:set-categories-filtered($map, ())
         
         let $do := search:set-context-filtered($result, ())
         
         let $do := search:set-query($query-string)
-
+                
+        let $get := session:get-attribute($search:HITS)
+        
+        let $count := if(empty($get)) then search:set-hits($result) else()
+        
         let $do := search:set-result($result)
         
-        let $do := search:set-hits-filtered($result, ())
+        let $do := search:set-hits-filtered($result, ())      
         
         return ()
         
@@ -517,8 +530,7 @@ declare function search:eval2($query-string) {
 
 
 
-declare function search:eval($query-string) {
-
+declare function search:eval($query-string) {    
     let $session-query-string := xs:string(session:get-attribute('querystring'))
     let $session-result := session:get-attribute('result')
     let $query-exists := 

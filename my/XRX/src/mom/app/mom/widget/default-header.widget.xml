@@ -171,7 +171,7 @@ form span.lang {{
    }}
       </style>
     </xrx:csss>
-  <!-- <xrx:jss>
+   <xrx:jss>
          <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
@@ -184,8 +184,9 @@ form span.lang {{
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/droppable</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/menu</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/accordion</xrx:resource> 
-    </xrx:jss>-->
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/accordion</xrx:resource>   
+      <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/header</xrx:resource>
+    </xrx:jss>
     <xrx:model>
      {
       if($xrx:xformsflag) then
@@ -440,21 +441,5 @@ form span.lang {{
             </div>
         </div>
   }
-                    
-  <script type="text/javascript">
- $( document ).ready(function() {{
-    console.log( "ready!" );    
- 
-    $("#navigation").mouseenter(function(){{      
-        $("li.facet").show();        
-    }});
-    
-    $("#navigation").mouseleave(function(){{
-        $("li.facet").hide();       
-    }});
- 
- 
-}});
-</script>
   </xrx:view>
 </xrx:widget>

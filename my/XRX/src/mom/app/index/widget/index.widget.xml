@@ -60,9 +60,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
      <!-- suchergebnisse -->
      <xrx:variable>
       <xrx:name>$indexterm</xrx:name>
-      <xrx:expression>if(count($xrx:tokenized-uri) lt 3) then '' else if(starts-with($xrx:tokenized-uri[3], 'P_')) then $xrx:tokenized-uri[3] else(concat('#', $xrx:tokenized-uri[3]))</xrx:expression>
-    </xrx:variable>
-    
+      <xrx:expression>if(starts-with($xrx:tokenized-uri[3], 'P_')) then $xrx:tokenized-uri[3] else(concat('#', $xrx:tokenized-uri[3]))</xrx:expression>
+    </xrx:variable>        
     <xrx:variable>    
       <xrx:name>$windex:index</xrx:name>
       <xrx:expression>if($xrx:tokenized-uri[3]!= '#') then index:index-abfrage($indexterm) else()</xrx:expression>
@@ -73,16 +72,16 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     </xrx:variable>    
    <xrx:variable>
     <xrx:name>$blocks</xrx:name>
-    <xrx:expression>floor(number($windex:hits) div 7) +1 </xrx:expression>
+    <xrx:expression>floor(number($windex:hits) div 30) +1 </xrx:expression>
     </xrx:variable>
     <!-- overwrite -->
     <xrx:variable>
       <xrx:name>$charters:start</xrx:name>
-      <xrx:expression>$windex:block * 7 - 6</xrx:expression>
+      <xrx:expression>$windex:block * 30 - 29</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$charters:stop</xrx:name>
-      <xrx:expression>if($windex:hits lt 7) then $windex:hits else($windex:block * 7)</xrx:expression>
+      <xrx:expression>if($windex:hits lt 30) then $windex:hits else($windex:block * 30)</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$charters:previous-block</xrx:name>
@@ -94,10 +93,17 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharters:next-block-pos</xrx:name>
-      <xrx:expression>if($windex:block = $windex:hits div 7) then 1 else $windex:block + 1</xrx:expression>
-    </xrx:variable>
- 
+      <xrx:expression>if($windex:block = $windex:hits div 30) then 1 else $windex:block + 1</xrx:expression>
+    </xrx:variable> 
     <!-- Session Variablen -->
+    <!-- var $setresults speichert die suchergebnisse (ganze atom:entrys),
+    Sortierung der Suchergebnisse passiert in index.xqm,
+     dann kann in der korrekten Reihefolge geblättert werden (browse search results)-->
+    <xrx:variable>
+    <xrx:name>$setresults</xrx:name>
+    <xrx:expression>session:set-attribute($search:RESULT, $windex:index)</xrx:expression>
+    </xrx:variable>
+    
     <xrx:variable>
       <xrx:name>$getattnames</xrx:name>
       <xrx:expression>session:get-attribute-names()</xrx:expression>
@@ -227,7 +233,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       float:left;     
       width: 30%;      
       left:5px;
-      margin-right:3em;
+      /*margin-right:3em;*/
 }}
 
 #rightframe{{
@@ -300,9 +306,8 @@ span.breadcrumb {{
 .glossary-entry {{    
          
     background:rgb(245, 245, 245);    
-    border-bottom: 3px solid #9e9e9e; /*#8EA384;*/    
-    max-height: 200px;    
-    overflow-y:auto;
+    border-bottom: 3px solid #9e9e9e; /*#8EA384;*/         
+    //overflow-y:auto;
     width:101%;
     
 }}
@@ -372,7 +377,9 @@ ul.menu span.ui-button-text {{
   padding:5px;
 }}
 
-
+.entry p {{
+  font-size:1em !important;  
+}}
 
  .glossary-open div ul li,
  .glossary-entry div ul li
@@ -529,7 +536,7 @@ a.filter {{
 }}
 
 #result-options * {{
-  font-size: .95em;
+  font-size: .97em;
 }}
 
 .light-grey {{
@@ -673,7 +680,7 @@ div.narrower {{
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>       
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/draggable</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/resizable</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/selectable</xrx:resource>
@@ -703,7 +710,8 @@ div.narrower {{
             <li><a href="{concat(conf:param('request-root'),'index')}"><xrx:i18n>
               <xrx:key>back-to-index-overview</xrx:key>
               <xrx:default>Back to index overview</xrx:default>
-            </xrx:i18n></a></li>  
+            </xrx:i18n></a></li>
+       <!--   <li>{session:get-attribute($search:RESULT)}</li> -->        
        </ul>  
        </div> 
         <div id="result-options" class="this-widget">           
@@ -854,12 +862,12 @@ div.narrower {{
             </div>
            
     else(
-    <div id="rightframe">
+    <div id="rightframe">   
       <div id="breadcrumb"><h2><xrx:i18n>
               <xrx:key>search-in</xrx:key>
               <xrx:default>Search the Index</xrx:default>
             </xrx:i18n>: <span class="breadcrumb">{$breadcrumb1} &gt; {$breadcrumb2}</span></h2></div> 
-       <!-- special solution for glossary-entries in order to be able to present more or less text -->
+       <!-- special solution for glossary-entries in order to be able to present more or less text -->    
       <div class="glossary-entry">
       {  
       
@@ -867,16 +875,16 @@ div.narrower {{
       let $term := concat('#', $xrx:tokenized-uri[3])
       let $beschreibung:= $vocabulary//skos:Concept[@rdf:about = $term]/skos:definition/node()
       let $anzahlknoten := count($beschreibung)
-      let $glossar := <div>{$beschreibung}</div>
+      let $glossar := <div class="entry">{$beschreibung}</div>
        (: wenn die Beschreibung länger ist, soll ein Pfeil gesetzt werden, der anzeigt, dass noch mehr Info da ist :)
       let $glossartitel := <h2>
         { if ($beschreibung and ($anzahlknoten gt 2))then  
         <span>
           
-      <span class="moreless">     
+      <span class="moreless" style="display:none">     
          <xrx:resource alt="einklappen" id="ein" height="20" type="image/png" title="show more" class="ic">tag:www.monasterium.net,2011:/mom/resource/image/path_down</xrx:resource>
       </span>      
-      <span class="moreless" style="display:none">
+      <span class="moreless">
          <xrx:resource alt="ausklappen" id="aus" height="20" type="image/png" title="show less" class="ic">tag:www.monasterium.net,2011:/mom/resource/image/path_up</xrx:resource>
       </span>
       </span> 
@@ -974,8 +982,8 @@ div.narrower {{
           for $charter at $num in $windex:index[ position() = $charters:start to $charters:stop ]
                    
           return    
-       <div id="dcharter-preview-main">                
-            <xrx:subwidget>
+       <div id="dcharter-preview-main">                          
+          <xrx:subwidget>
               <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/result</xrx:atomid>
               <xrx:pass>
                 <xrx:parameter>
@@ -995,7 +1003,7 @@ div.narrower {{
                 <xrx:expression>$xrx:tokenized-uri[2]</xrx:expression>
                 </xrx:parameter>             
               </xrx:pass>              
-            </xrx:subwidget>
+            </xrx:subwidget> 
           </div>
           }
        <div>{
@@ -1070,3 +1078,4 @@ div.narrower {{
    </div>
       </xrx:view>
       </xrx:widget>
+

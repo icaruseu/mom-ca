@@ -504,7 +504,7 @@
                     </div>
                 </xrx:false>
             </xrx:auth>
- <script type="text/javascript">
+<!--  <script type="text/javascript">
         $(document).ready(function() {{
           $( "#zoomslider" ).slider({{ 
             value:100, 
@@ -516,7 +516,7 @@
             }} 
           }}); 
         }})
-        </script>
+        </script> -->
         </div>
     </xrx:view>
 </xrx:widget>

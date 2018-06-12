@@ -4144,6 +4144,8 @@
         <xs:sequence>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element ref="persName"/>
+                <xs:element ref="rolename"/>
+                <xs:element ref="orgName"/>
                 <xs:choice>
                     <xs:annotation>
                         <xs:documentation xml:lang="deu">Geographische Angaben </xs:documentation>
@@ -4151,7 +4153,6 @@
                     <xs:element ref="placeName"/>
                     <xs:element ref="geogName"/>
                 </xs:choice>
-                <xs:element ref="orgName"/>
                 <xs:element ref="index"/>
                 <xs:element ref="testis"/>
                 <xs:choice>

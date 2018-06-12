@@ -255,6 +255,7 @@ img#aus {{
     <!-- annotation resources -->
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/i18nText</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/imageTool</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/charter</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/imageToolWidget</xrx:resource>
   </xrx:jss>
   <xrx:divs>
@@ -428,7 +429,7 @@ img#aus {{
         <xrx:div>augiasviewer-link</xrx:div>
         <xrx:div>image-tools-link</xrx:div>
       </div>
-  <script type="text/javascript">
+<!--   <script type="text/javascript">
 				$(document).ready(function() {{
 					$( "#zoomslider" ).slider({{ 
 						value:100, 
@@ -441,7 +442,7 @@ img#aus {{
 						}} 
 					}});				
 				}});
-			</script>
+			</script> -->
 
     </div>
   </xrx:view>
