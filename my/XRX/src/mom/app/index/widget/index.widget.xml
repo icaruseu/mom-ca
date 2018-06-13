@@ -807,13 +807,7 @@ div.narrower {{
     {
      if($teile = 1)then (
     <div id ="centre">{$index-use-text} 
-      <div class="radio" id="zentral">         
-        <div> dkdkdkdkd {
-        let $kkk := collection('/db/mom-data/metadata.person.public')
-        for $k in $kkk
-        return <p>{util:document-name($k)}</p>
-      
-        }</div>
+      <div class="radio" id="zentral">     
          <ul class="choose-menu">
             {           
          for $i in $index:vocabularycollection
