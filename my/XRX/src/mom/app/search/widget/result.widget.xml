@@ -155,8 +155,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <!-- needed for the index app, show hits in xml-code -->
       <xrx:variable>
       <xrx:name>$exzerpt</xrx:name>
-      <xrx:expression>if(exists($terminus) and starts-with($terminus, 'P_'))then serialize($constructor:charter//cei:abstract/node())
-      else if($vocabular = 'illurk-vocabulary')then serialize($constructor:charter//cei:text/cei:back/node()) else(serialize($constructor:charter//cei:decoDesc//cei:p/node()))</xrx:expression>
+      <xrx:expression>if(exists($terminus) and starts-with($terminus, 'P_')) then serialize($constructor:charter//cei:abstract/node())
+      else if($vocabular = 'illurk-vocabulary') then serialize($constructor:charter//cei:text/cei:back/node()) else(serialize($constructor:charter//cei:decoDesc//cei:p/node()))</xrx:expression>
     </xrx:variable>
     <!-- -->
     <xrx:variable>
