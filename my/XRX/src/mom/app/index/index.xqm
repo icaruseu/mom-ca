@@ -54,12 +54,12 @@ in other index a specific value in the @lemma is searched in the public collecti
 :)
 
  declare function index:index-check($voc){
-    for $file in $index:personcollection
-    let $file-name := substring-before(util:document-name($file), '.')    
+    for $file in $index:personcollection   
+    let $file-lastname := tokenize($file//atom:id, '/')[last()]      
     return
-     if ($file-name = $voc)
+     if ($file-lastname = $voc)
      then true()
-     else()  
+     else()    
 };
 
 
