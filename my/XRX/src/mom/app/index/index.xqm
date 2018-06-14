@@ -52,6 +52,17 @@ It returns the entries (atom:entry):
 In the person index a specific value in the @key is searched
 in other index a specific value in the @lemma is searched in the public collection
 :)
+
+ declare function index:index-check($voc){
+    for $file in $index:personcollection   
+    let $file-lastname := tokenize($file//atom:id, '/')[last()]      
+    return
+     if ($file-lastname = $voc)
+     then true()
+     else()    
+};
+
+
 declare function index:index-abfrage($term){
       let $treffergesamt := 
           if (starts-with($term, 'P_')) then $index:chartercollection//cei:text[.//@key = $term] 
