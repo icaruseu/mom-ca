@@ -181,8 +181,6 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/css/layout</xrx:resource>
 
     <style type="text/css">
-
-     
      
  /* **************************
     Seite einrichten
@@ -668,7 +666,11 @@ div.filterbox {{
 }}
 
 div.narrower {{        
+<<<<<<< HEAD
         padding-left: .2em;
+=======
+        padding-left: 1em;
+>>>>>>> d5dc953c2879812a19246651931ba28da0851c8f
 }}
 
 
@@ -765,11 +767,17 @@ div.narrower {{
               let $parameter:= if (request:get-parameter("pm", "")) then request:get-parameter("pm", "")
               else (substring($xrx:tokenized-uri[3],3,1)) 
               return
+<<<<<<< HEAD
               if ($parameter != '') then
               let $personenliste := $index:personcollection/atom:entry[contains(atom:id, $voc)]//tei:text
               let $eintrag := if($parameter != '' and $parameter != 'A-Z') then $personenliste//tei:person[starts-with(substring-after(@xml:id, 'P_'), $parameter)] 
                               else if($parameter = 'A-Z') then $personenliste//tei:person
                               else()
+=======
+           
+              let $personenliste := $index:personcollection/atom:entry[contains(atom:id, $voc)]//tei:text
+              let $eintrag := if($parameter != '') then $personenliste//tei:person[starts-with(substring-after(@xml:id, 'P_'), $parameter)] else($personenliste//tei:person)
+>>>>>>> d5dc953c2879812a19246651931ba28da0851c8f
               let $zahlen := count($eintrag)              
               return   
                if($zahlen = 0) then <li class="no-result"><xrx:i18n><xrx:key>no-results-message</xrx:key><xrx:default>No results were found for your search.</xrx:default></xrx:i18n></li>
@@ -791,7 +799,10 @@ div.narrower {{
                 <a href="{concat(conf:param('request-root'),'index/', $voc, '/', $personid)}">{$inhalt}</a>
                 </li>   
                 )              
+<<<<<<< HEAD
                else()
+=======
+>>>>>>> d5dc953c2879812a19246651931ba28da0851c8f
                }
                </ul>
             )
@@ -855,7 +866,11 @@ div.narrower {{
     else($vocabulary//skos:ConceptScheme/skos:note[1]/text())
     )
     return
+<<<<<<< HEAD
     <div id ="rightframe"><h2><span class="breadcrumb">{$breadcrumb1}</span></h2>
+=======
+    <div id ="rightframe"><h2><span class="breadcrumb">{$vocTitel}</span></h2>
+>>>>>>> d5dc953c2879812a19246651931ba28da0851c8f
              <div>
             {$note}
             </div>   
