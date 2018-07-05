@@ -127,19 +127,19 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
      <xrx:variable>
       <xrx:name>$bread2</xrx:name>
       <xrx:expression>if($xrx:tokenized-uri[3]) then string($xrx:tokenized-uri[3]) else('')</xrx:expression>
-
-    </xrx:variable> 
+     </xrx:variable>
      <xrx:variable>
       <xrx:name>$breadcrumb2</xrx:name>
       <xrx:expression>if($bread2) then session:get-attribute($bread2) else ()</xrx:expression>      
-    </xrx:variable>
+    </xrx:variable> 
+
    <xrx:variable>
    <xrx:name>$sprache</xrx:name>
    <xrx:expression>substring($xrx:lang, 0,3)</xrx:expression>   
    </xrx:variable>   
    <xrx:variable>
    <xrx:name>$alphabet</xrx:name>
-   <xrx:expression>('A', 'B','C','D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y','Z')</xrx:expression>
+   <xrx:expression>('A', 'B','C','D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y','Z', 'A-Z')</xrx:expression>
    </xrx:variable>
    <xrx:variable>
    <xrx:name>$voc</xrx:name>
@@ -165,9 +165,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <xrx:variable>
    <xrx:name>$teile</xrx:name>
    <xrx:expression>count($xrx:tokenized-uri)</xrx:expression>
-   </xrx:variable>
-
-       
+   </xrx:variable>   
    </xrx:variables>
    
   <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
@@ -248,7 +246,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 #rightframe p {{
       margin-top:0;
       font-size:0.8em;
-      padding:1em;      
+      padding:0 1em;      
 }}
 
 .hits {{
@@ -399,6 +397,7 @@ div.accordion div {{
 }}
 a.filter {{
       font-size:1.1em !important;
+     
 }}
 
 
@@ -669,7 +668,7 @@ div.filterbox {{
 }}
 
 div.narrower {{        
-        padding-left:0.5em;
+        padding-left: .2em;
 }}
 
 
@@ -711,9 +710,7 @@ div.narrower {{
             <li><a href="{concat(conf:param('request-root'),'index')}"><xrx:i18n>
               <xrx:key>back-to-index-overview</xrx:key>
               <xrx:default>Back to index overview</xrx:default>
-            </xrx:i18n></a></li>
-            
-       <!--   <li>{session:get-attribute($search:RESULT)}</li> -->        
+            </xrx:i18n></a></li>       
        </ul>  
        </div>        
         <div id="result-options" class="this-widget">           
@@ -768,9 +765,11 @@ div.narrower {{
               let $parameter:= if (request:get-parameter("pm", "")) then request:get-parameter("pm", "")
               else (substring($xrx:tokenized-uri[3],3,1)) 
               return
-              if($parameter != '')then
+              if ($parameter != '') then
               let $personenliste := $index:personcollection/atom:entry[contains(atom:id, $voc)]//tei:text
-              let $eintrag := $personenliste//tei:person[starts-with(substring-after(@xml:id, 'P_'), $parameter)]
+              let $eintrag := if($parameter != '' and $parameter != 'A-Z') then $personenliste//tei:person[starts-with(substring-after(@xml:id, 'P_'), $parameter)] 
+                              else if($parameter = 'A-Z') then $personenliste//tei:person
+                              else()
               let $zahlen := count($eintrag)              
               return   
                if($zahlen = 0) then <li class="no-result"><xrx:i18n><xrx:key>no-results-message</xrx:key><xrx:default>No results were found for your search.</xrx:default></xrx:i18n></li>
@@ -780,7 +779,7 @@ div.narrower {{
                 order by $person/tei:persName
                 return
                 let $personid := data($person/@xml:id)
-                let $name := $person/tei:persName[starts-with(., $parameter)]
+                let $name := $person/tei:persName (: [starts-with(., $parameter)] :)
                 let $place := if ($name/following-sibling::tei:occupation/tei:placeName[1]/text()) then $name/following-sibling::tei:occupation/tei:placeName[1]/text() 
                 else()
                 let $aufbereitung := if($place) then substring-before(serialize($place), ' ') else(concat(' (', substring-after($personid, 'P_'), ')'))
@@ -791,8 +790,8 @@ div.narrower {{
                 <li class="list">                
                 <a href="{concat(conf:param('request-root'),'index/', $voc, '/', $personid)}">{$inhalt}</a>
                 </li>   
-                )
-              else()
+                )              
+               else()
                }
                </ul>
             )
@@ -856,10 +855,7 @@ div.narrower {{
     else($vocabulary//skos:ConceptScheme/skos:note[1]/text())
     )
     return
-    <div id ="rightframe"><h2><xrx:i18n>
-              <xrx:key>search-in</xrx:key>
-              <xrx:default>Search the Index</xrx:default>
-            </xrx:i18n>: <span class="breadcrumb">{$breadcrumb1}</span></h2>
+    <div id ="rightframe"><h2><span class="breadcrumb">{$breadcrumb1}</span></h2>
              <div>
             {$note}
             </div>   
@@ -867,10 +863,8 @@ div.narrower {{
            
     else(
     <div id="rightframe">   
-      <div id="breadcrumb"><h2><xrx:i18n>
-              <xrx:key>search-in</xrx:key>
-              <xrx:default>Search the Index</xrx:default>
-            </xrx:i18n>: <span class="breadcrumb">{$breadcrumb1} &gt; {$breadcrumb2}</span></h2></div> 
+      <div id="breadcrumb"><h2>            
+           <span class="breadcrumb">{$breadcrumb1} &gt; {$breadcrumb2}</span></h2></div> 
        <!-- special solution for glossary-entries in order to be able to present more or less text -->    
       <div class="glossary-entry">
       {  
@@ -982,7 +976,7 @@ div.narrower {{
              
            {
           let $uri := request:get-uri()
-          let $whereami := session:set-attribute('whereami', $uri) (: $windex:index-abfrage :)
+          let $whereami := session:set-attribute('whereami', $uri) 
           for $charter at $num in $windex:index[ position() = $charters:start to $charters:stop ]
                    
           return    
