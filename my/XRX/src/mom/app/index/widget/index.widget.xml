@@ -788,8 +788,8 @@ div.narrower {{
                 return                                      
                 <li class="list">                
                 <a href="{concat(conf:param('request-root'),'index/', $voc, '/', $personid)}">{$inhalt}</a>
-                </li>   
-                )    
+                </li>   )
+
                else()
 
                }
@@ -855,6 +855,7 @@ div.narrower {{
     else($vocabulary//skos:ConceptScheme/skos:note[1]/text())
     )
     return
+
     <div id ="rightframe"><h2><span class="breadcrumb">{$breadcrumb1}</span></h2>
 
              <div>
