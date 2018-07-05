@@ -181,12 +181,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/css/layout</xrx:resource>
 
     <style type="text/css">
-
-     
      
  /* **************************
     Seite einrichten
-   ************************ 
+   ************************ */
 
 
   
@@ -667,8 +665,8 @@ div.filterbox {{
         width:auto;
 }}
 
-div.narrower {{        
-        padding-left: .2em;
+div.narrower {{ 
+        padding-left: 1em;
 }}
 
 
@@ -770,6 +768,7 @@ div.narrower {{
               let $eintrag := if($parameter != '' and $parameter != 'A-Z') then $personenliste//tei:person[starts-with(substring-after(@xml:id, 'P_'), $parameter)] 
                               else if($parameter = 'A-Z') then $personenliste//tei:person
                               else()
+
               let $zahlen := count($eintrag)              
               return   
                if($zahlen = 0) then <li class="no-result"><xrx:i18n><xrx:key>no-results-message</xrx:key><xrx:default>No results were found for your search.</xrx:default></xrx:i18n></li>
@@ -790,8 +789,9 @@ div.narrower {{
                 <li class="list">                
                 <a href="{concat(conf:param('request-root'),'index/', $voc, '/', $personid)}">{$inhalt}</a>
                 </li>   
-                )              
+                )    
                else()
+
                }
                </ul>
             )
@@ -856,6 +856,7 @@ div.narrower {{
     )
     return
     <div id ="rightframe"><h2><span class="breadcrumb">{$breadcrumb1}</span></h2>
+
              <div>
             {$note}
             </div>   
