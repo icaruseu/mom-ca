@@ -33,19 +33,19 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     <!-- charter context info -->
     <xrx:variable>
       <xrx:name>$context</xrx:name>
-      <xrx:expression>$data//*:context/text()</xrx:expression>
+      <xrx:expression>if($data//*:context) then $data//*:context/text() else request:get-parameter("context", "")</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$archid</xrx:name>
-      <xrx:expression>$data//*:archid/text()</xrx:expression>
+      <xrx:expression>if($data//*:archid) then $data//*:archid/text() else request:get-parameter("archid", "")</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$fondid</xrx:name>
-      <xrx:expression>$data//*:fondid/text()</xrx:expression>
+      <xrx:expression>if($data//*:fondid) then $data//*:fondid/text() else request:get-parameter("fondid", "")</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$collectionid</xrx:name>
-      <xrx:expression>$data//*:collectionid/text()</xrx:expression>
+      <xrx:expression>if($data//*:collectionid) then $data//*:collectionid/text() else request:get-parameter("collectionid", "")</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$uri-tokens</xrx:name>
@@ -54,7 +54,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     <!-- file info -->
     <xrx:variable>
       <xrx:name>$fileuri</xrx:name>
-      <xrx:expression>xmldb:decode($data//*:fileuri/text())</xrx:expression>
+      <xrx:expression>if($data//*:fileuri) then xmldb:decode($data//*:fileuri/text()) else xmldb:decode(request:get-parameter("fileuri", ""))</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$filename</xrx:name>
@@ -66,7 +66,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$uploadtype</xrx:name>
-      <xrx:expression>$data//*:uploadtype/text()</xrx:expression>
+      <xrx:expression>if ($data//*:uploadtype) then $data//*:uploadtype/text() else request:get-parameter("uploadtype", "")</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$url</xrx:name>
