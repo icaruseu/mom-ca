@@ -24,9 +24,9 @@
     <property name="project-name" value="${XRX.project-name}"/>
 
     <!-- Tool urls -->
-    <property name="download-url-betterform" value="https://github.com/betterFORM/betterFORM.git"/>
+    <property name="download-url-betterform" value="https://github.com/StephanMa/betterFORM.git"/>
     <property name="download-url-codemirror" value="https://github.com/codemirror/CodeMirror/archive/v2.zip"/>
-    <property name="download-url-exist" value="https://github.com/eXist-db/exist/archive/eXist-4.0.0.zip"/>
+    <property name="download-url-exist" value="https://github.com/eXist-db/exist/archive/873a493e1c60364e419c008a2ebabfa4776746b2.zip"/>
     <property name="download-url-jquery" value="https://github.com/jquery/jquery-ui/archive/1-9-stable.zip"/>
     <property name="download-url-jssaxparser" value="https://codeload.github.com/ndebeiss/jsXmlSaxParser/zip/master"/>
 
@@ -285,7 +285,7 @@
 
     <target name="download-tools">
         <log message="Downloading the tools"/>
-        <antcall target="download-exist"/>
+        <antcall target="download-exist"/> 
         <antcall target="download-jsxmlsaxparser"/>
         <antcall target="download-jquery"/>
         <antcall target="download-codemirror"/>
@@ -300,8 +300,14 @@
             <patternset>
                 <include name="**/*/**"/>
             </patternset>
-            <regexpmapper from="^exist-eXist-[A-Za-z0-9\-\_\.]*/(.*)$" to="\1"/>
-        </unzip>
+          <regexpmapper from="^exist-[A-Za-z0-9\-\_\.]*/(.*)$" to="\1"/>
+        </unzip> <!--
+	<exec executable="git">
+		<arg line=" clone http://github.com/eXist-db/exist/ -b develop -single-branch localhost "/>
+	</exec>
+	<exec executable="git" dir="./localhost">
+		<arg line=" checkout bf5fc14719a7c"/>
+	</exec> -->
         <chmod perm="+x">
             <fileset dir="${exist-home}">
                 <include name="**/*.sh"/>
@@ -413,6 +419,7 @@
              according to the eXist team the eXist build process is not designed to be included as part of
              another build like ours: https://sourceforge.net/p/exist/mailman/message/36189586 -->
         <mkdir dir="${exist-build-workaround-webapp}"/>
+	<mkdir dir="${exist-build-workaround-webapp}/WEB-INF/classes"/>
         <touch file="${exist-build-workaround-webapp}/logo.jpg"/>
         <copy todir="${exist-home}/extensions/modules/src" overwrite="true">
             <fileset dir="${my-exist-extensions-src}"/>
