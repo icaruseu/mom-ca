@@ -162,6 +162,9 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     </xrx:progress>
     let $cache := cache:put($cacheid, $processid, $progress1)
     let $wait := util:wait(2000)
+
+    (: Clear all locks on the collection :)
+    let $remove-locks := charters:remove-locks($destination-db-base-collection-path)
     let $remove-charters :=
       if(xmldb:collection-available($destination-db-base-collection-path) and $action = 'replace') then
       	xmldb:remove($destination-db-base-collection-path)

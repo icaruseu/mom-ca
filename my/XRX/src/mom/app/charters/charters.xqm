@@ -243,3 +243,13 @@ let $hits :=
 return
     $hits
 };
+
+(: remove locks from collection during import process :)
+declare function charters:remove-locks($uri) {
+for $resource in xmldb:get-child-resources($uri)
+    return
+         xmldb:clear-lock($uri, $resource),
+    for $child in xmldb:get-child-collections($uri)
+    return
+        charters:remove-locks(concat($uri, "/", $child))
+};
