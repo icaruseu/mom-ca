@@ -569,8 +569,8 @@
         <log message="Configuring the service wrapper"/>
         <copy file="${wrapper-home}/conf/wrapper.conf" tofile="${wrapper-home}/conf/wrapper.conf.original"/>
         <replace file="${wrapper-home}/conf/wrapper.conf">
-            <replacefilter token="wrapper.java.initmemory=256" value="wrapper.java.initmemory=${java-memory-init}"/>
-            <replacefilter token="wrapper.java.maxmemory=512" value="wrapper.java.maxmemory=${java-memory-max}"/>
+            <replacefilter token="wrapper.java.initmemory=512" value="wrapper.java.initmemory=${java-memory-init}"/>
+            <replacefilter token="wrapper.java.maxmemory=2048" value="wrapper.java.maxmemory=${java-memory-max}"/>
             <replacefilter token="wrapper.ping.timeout=120" value="wrapper.ping.timeout=600"/>
         </replace>
         <echo file="${wrapper-home}/conf/wrapper.conf" append="true">
