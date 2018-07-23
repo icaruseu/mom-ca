@@ -163,10 +163,10 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     </xrx:progress>
     let $cache := cache:put($cacheid, $processid, $progress2)
     let $wait := util:wait(2000)   
-    let $lock := charters:remove-locks($destination-db-base-collection-path) 
+ 
     let $remove-charters := 
       if(xmldb:collection-available($destination-db-base-collection-path)) then
-        xmldb:remove($destination-db-base-collection-path)
+        system:as-user("admin", conf:param("dba-password"), xmldb:remove($destination-db-base-collection-path))
       else ()
 
     (: import charters :)

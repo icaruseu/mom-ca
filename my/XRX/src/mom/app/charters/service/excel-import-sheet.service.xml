@@ -164,12 +164,23 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     let $wait := util:wait(2000)
 
     (: Clear all locks on the collection :)
-    let $remove-locks := charters:remove-locks($destination-db-base-collection-path)
-    let $remove-charters :=
-      if(xmldb:collection-available($destination-db-base-collection-path) and $action = 'replace') then
-      	xmldb:remove($destination-db-base-collection-path)
-      else ()
-    
+    let $remove-charters := try{
+      if($action = 'replace') then
+      	system:as-user("admin", conf:param("dba-password"), xmldb:remove($destination-db-base-collection-path))
+      else () } catch * {
+	let $progress-error := 
+		<xrx:progress>
+			<xrx:cacheid>{$cacheid}</xrx:cacheid>
+			<xrx:processid>{$processid}</xrx:processid>
+			<xrx:actual>0</xrx:actual>
+			<xrx:total>0</xrx:total>
+			<xrx:message>Error during remove collection</xrx:message>
+		</xrx:progress>
+	let $cache := cache:put($cacheid, $processid, $progress-error)
+	return ()
+	}
+    let $logs := util:log("ERROR", "locks removed")
+
     (: prepare idnos :)
     let $progress2 := 
     <xrx:progress>
