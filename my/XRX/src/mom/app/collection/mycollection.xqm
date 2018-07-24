@@ -1127,7 +1127,7 @@ declare function mycollection:dynamic-path
   :)
 declare function mycollection:checkifmycollection ($urltoken) as xs:string {
 let $atomabgleich := $mycollection:mycollection//ends-with(atom:id/text(), $urltoken)
-let $entscheidung := if ($atomabgleich) then 'mycollection' else('collection')
+let $entscheidung := if (exists($atomabgleich)) then 'mycollection' else('collection')
 
 return $entscheidung
     

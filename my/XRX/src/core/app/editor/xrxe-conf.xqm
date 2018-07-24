@@ -4,17 +4,17 @@ module namespace xrxe-conf='http://www.monasterium.net/NS/xrxe-conf';
 
 (:configured modules used in functions of this xrxe-conf module:)
 import module namespace i18n="http://www.monasterium.net/NS/i18n" at "../i18n/i18n.xqm";
-import module namespace upd="http://www.monasterium.net/NS/upd"  at "../xrx/upd.xqm"; 
+import module namespace upd="http://www.monasterium.net/NS/upd"  at "../xrx/upd.xqm";
 
 (:get files that are used in this module:)
-declare variable $xrxe-conf:text := doc('/db/XRX.src/core/app/editor/xrxe-ui-texts.xml')/node()[1];
+declare variable $xrxe-conf:text := doc('/db/XRX.src/core/app/editor/xrxe-ui-texts.xml')[1];
 
 
 (:### can be overwritten in xrxe:set-conf ###:)
 
 (:Ajust this URL when not having installed eXist or XRXEditor with standard configuration:)
-declare variable $xrxe-conf:default-services := "http://localhost:8080/exist/rest/db/apps/xrxeditor/xrxe-services.xql";
-
+(:declare variable $xrxe-conf:default-services := concat('http://localhost:',conf:param('jetty-port'), "/rest/db/apps/xrxeditor/xrxe-services.xql");:)
+declare variable $xrxe-conf:default-services := concat('http://localhost:8181/rest/db/apps/xrxeditor/xrxe-services.xql');
 (:Send the save-submission with the 'post'- or the 'put'- method:)
 declare variable $xrxe-conf:default-save-method := 'post';
 
@@ -44,10 +44,10 @@ declare variable $xrxe-conf:default-content-control := 'input';
 
 declare variable $xrxe-conf:default-rows := 1;
 
-declare variable $xrxe-conf:default-menu-item :=                    
+declare variable $xrxe-conf:default-menu-item :=
     <menu-item>
-        {$xrxe-conf:text/text[@name="select-annotation"]/node()[1]}
-    </menu-item>; 
+        {$xrxe-conf:text//text[@id="select-annotation"][1]}
+    </menu-item>;
 
 
 (:### Only change this when betterFORM-Bugs are solved ###:)
@@ -93,31 +93,31 @@ declare variable $xrxe-conf:default-search-id-in := '/db';
 
 
 
- 
 
-declare variable $xrxe-conf:insert-trigger-label := $xrxe-conf:text/text[@name="insert-trigger-label"]/node()[1];
-declare variable $xrxe-conf:delete-trigger-label := $xrxe-conf:text/text[@name="delete-trigger-label"]/node()[1];
-declare variable $xrxe-conf:insert-after-trigger-label := $xrxe-conf:text/text[@name="insert-after-trigger-label"]/node()[1];
-declare variable $xrxe-conf:insert-before-trigger-label := $xrxe-conf:text/text[@name="insert-before-trigger-label"]/node()[1];
-declare variable $xrxe-conf:insert-copy-trigger-label := $xrxe-conf:text/text[@name="insert-copy-trigger-label"]/node()[1];
-declare variable $xrxe-conf:move-first-trigger-label := $xrxe-conf:text/text[@name="move-first-trigger-label"]/node()[1];
-declare variable $xrxe-conf:move-up-trigger-label := $xrxe-conf:text/text[@name="move-up-trigger-label"]/node()[1];
-declare variable $xrxe-conf:move-down-trigger-label := $xrxe-conf:text/text[@name=":move-down-trigger-label"]/node()[1];
-declare variable $xrxe-conf:move-last-trigger-label := $xrxe-conf:text/text[@name="move-last-trigger-label"]/node()[1];
-declare variable $xrxe-conf:attribute-trigger-label := $xrxe-conf:text/text[@name="attribute-trigger-label"]/node()[1];
-declare variable $xrxe-conf:doublecheck-delete := $xrxe-conf:text/text[@name="doublecheck-delete"]/node()[1];
-declare variable $xrxe-conf:cancal := $xrxe-conf:text/text[@name="cancal"]/node()[1];
-declare variable $xrxe-conf:ok := $xrxe-conf:text/text[@name="ok"]/node()[1];
-declare variable $xrxe-conf:delete := $xrxe-conf:text/text[@name="delete"]/node()[1];
-declare variable $xrxe-conf:attributes := $xrxe-conf:text/text[@name="attributes"]/node()[1];
-declare variable $xrxe-conf:save := $xrxe-conf:text/text[@name="save"]/node()[1];
-declare variable $xrxe-conf:save-and-close := $xrxe-conf:text/text[@name="save-and-close"]/node()[1];
-declare variable $xrxe-conf:document-saved := $xrxe-conf:text/text[@name="document-saved"]/node()[1];
-declare variable $xrxe-conf:save-error:= $xrxe-conf:text/text[@name="save-error"]/node()[1];                  
-declare variable $xrxe-conf:loading :=  $xrxe-conf:text/text[@name="loading"]/node()[1];
-declare variable $xrxe-conf:unescape-submit-error := $xrxe-conf:text/text[@name="unescape-submit-error"]/node()[1];
-declare variable $xrxe-conf:post-error := $xrxe-conf:text/text[@name="post-error"]/node()[1];
-declare variable $xrxe-conf:not-valid := $xrxe-conf:text/text[@name="not-valid"]/node()[1];
+
+declare variable $xrxe-conf:insert-trigger-label := $xrxe-conf:text//text[@name="insert-trigger-label"][1];
+declare variable $xrxe-conf:delete-trigger-label := $xrxe-conf:text//text[@name="delete-trigger-label"][1];
+declare variable $xrxe-conf:insert-after-trigger-label := $xrxe-conf:text//text[@name="insert-after-trigger-label"][1];
+declare variable $xrxe-conf:insert-before-trigger-label := $xrxe-conf:text//text[@name="insert-before-trigger-label"][1];
+declare variable $xrxe-conf:insert-copy-trigger-label := $xrxe-conf:text//text[@name="insert-copy-trigger-label"][1];
+declare variable $xrxe-conf:move-first-trigger-label := $xrxe-conf:text//text[@name="move-first-trigger-label"][1];
+declare variable $xrxe-conf:move-up-trigger-label := $xrxe-conf:text/text[@name="move-up-trigger-label"][1];
+declare variable $xrxe-conf:move-down-trigger-label := $xrxe-conf:text//text[@name=":move-down-trigger-label"][1];
+declare variable $xrxe-conf:move-last-trigger-label := $xrxe-conf:text/text[@name="move-last-trigger-label"][1];
+declare variable $xrxe-conf:attribute-trigger-label := $xrxe-conf:text//text[@name="attribute-trigger-label"][1];
+declare variable $xrxe-conf:doublecheck-delete := $xrxe-conf:text//text[@name="doublecheck-delete"][1];
+declare variable $xrxe-conf:cancal := $xrxe-conf:text//text[@name="cancal"][1];
+declare variable $xrxe-conf:ok := $xrxe-conf:text//text[@name="ok"][1];
+declare variable $xrxe-conf:delete := $xrxe-conf:text//text[@name="delete"][1];
+declare variable $xrxe-conf:attributes := $xrxe-conf:text//text[@name="attributes"][1];
+declare variable $xrxe-conf:save := $xrxe-conf:text//text[@name="save"][1];
+declare variable $xrxe-conf:save-and-close := $xrxe-conf:text//text[@name="save-and-close"][1];
+declare variable $xrxe-conf:document-saved := $xrxe-conf:text//text[@name="document-saved"][1];
+declare variable $xrxe-conf:save-error:= $xrxe-conf:text//text[@name="save-error"][1];
+declare variable $xrxe-conf:loading :=  $xrxe-conf:text//text[@name="loading"][1];
+declare variable $xrxe-conf:unescape-submit-error := $xrxe-conf:text//text[@name="unescape-submit-error"][1];
+declare variable $xrxe-conf:post-error := $xrxe-conf:text//text[@name="post-error"][1];
+declare variable $xrxe-conf:not-valid := $xrxe-conf:text//text[@name="not-valid"][1];
 declare variable $xrxe-conf:xsd-not-found := 'XSD not found';
 
 (:xforms id strings:)
@@ -148,7 +148,7 @@ declare variable $xrxe-conf:post-string-child-elements := '-child-elements';
 
 declare function  xrxe-conf:translate($node){
     if($node instance of node()) then
-        i18n:translate-xml($node) 
+        i18n:translate-xml($node)
     else
         $node
 };
@@ -164,9 +164,3 @@ declare function xrxe-conf:insert-attributes($node-info, $attributes){
 declare function xrxe-conf:insert-into-as-last($node-info, $type){
     upd:insert-into-as-last($node-info, $type)
 };
-
-
-
-
-
-

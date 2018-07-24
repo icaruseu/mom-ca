@@ -153,7 +153,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:expression>count($constructor:charter//cei:graphic/@url)</xrx:expression>
     </xrx:variable>
     <!-- needed for the index app, show hits in xml-code -->
-  
+      <xrx:variable>
+      <xrx:name>$exzerpt</xrx:name>
+      <xrx:expression>if(exists($terminus) and starts-with($terminus, 'P_')) then serialize($constructor:charter//cei:abstract/node())
+      else if($vocabular = 'illurk-vocabulary') then serialize($constructor:charter//cei:text/cei:back/node()) else(serialize($constructor:charter//cei:decoDesc//cei:p/node()))</xrx:expression>
+    </xrx:variable>
+    <!-- -->
     <xrx:variable>
       <xrx:name>$wcharter-preview:date</xrx:name>
       <xrx:expression>($constructor:charter//cei:date/text(), $constructor:charter//cei:dateRange/text(), data($constructor:charter//cei:date/@value), data($constructor:charter//cei:dateRange/@from))[1]</xrx:expression>

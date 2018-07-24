@@ -691,7 +691,7 @@ function addCrop(id, url, user, name, type, lang){
                 {
                  if (xmlhttp.status==200)
                      { 
-                        var xmlDoc = xmlhttp.responseXML;
+                        var xmlDoc = jQuery.parseXML(xmlhttp.response);
                         var addID = type+name+id;
                         
                         // define ID because of existing elements
