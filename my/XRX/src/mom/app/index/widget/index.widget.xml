@@ -145,9 +145,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
    <xrx:name>$voc</xrx:name>
    <xrx:expression>$xrx:tokenized-uri[2]</xrx:expression>
    </xrx:variable>
+   
       <xrx:variable>
    <xrx:name>$coll</xrx:name>
-   <xrx:expression>if($voc='BischoefeAblaesse')then ('person') else('controlledVocabulary')</xrx:expression>
+   <xrx:expression>if(index:index-check($voc))then ('person') else('controlledVocabulary')</xrx:expression>
    </xrx:variable>
       <xrx:variable>
    <xrx:name>$atomid</xrx:name>
@@ -711,9 +712,10 @@ div.narrower {{
               <xrx:key>back-to-index-overview</xrx:key>
               <xrx:default>Back to index overview</xrx:default>
             </xrx:i18n></a></li>
+            
        <!--   <li>{session:get-attribute($search:RESULT)}</li> -->        
        </ul>  
-       </div> 
+       </div>        
         <div id="result-options" class="this-widget">           
           <div class="filterbox">
           <!-- the index app provides prosopografic data and other vocs
@@ -756,9 +758,9 @@ div.narrower {{
           </ul>
             
         else(
-              <div class="buchstaben">              
+              <div class="buchstaben">             
               {for $a in $alphabet           
-              let $href :=  concat(conf:param('request-root'),'index/BischoefeAblaesse?pm=', $a )
+              let $href :=  concat(conf:param('request-root'),'index/', $voc,'?pm=', $a )
             
               return
               <span><a class="ui-button ui-widget ui-corner-all" href="{$href}">{$a}</a></span> }</div>,
@@ -767,7 +769,7 @@ div.narrower {{
               else (substring($xrx:tokenized-uri[3],3,1)) 
               return
               if($parameter != '')then
-              let $personenliste := $index:personcollection//tei:text
+              let $personenliste := $index:personcollection/atom:entry[contains(atom:id, $voc)]//tei:text
               let $eintrag := $personenliste//tei:person[starts-with(substring-after(@xml:id, 'P_'), $parameter)]
               let $zahlen := count($eintrag)              
               return   
@@ -779,13 +781,15 @@ div.narrower {{
                 return
                 let $personid := data($person/@xml:id)
                 let $name := $person/tei:persName[starts-with(., $parameter)]
-                let $place := $name/following-sibling::tei:occupation/tei:placeName[1]/text()
-                let $ser := serialize($place)
-                let $inhalt := concat($name/text(), ' ',substring-before($ser, ' '))
+                let $place := if ($name/following-sibling::tei:occupation/tei:placeName[1]/text()) then $name/following-sibling::tei:occupation/tei:placeName[1]/text() 
+                else()
+                let $aufbereitung := if($place) then substring-before(serialize($place), ' ') else(concat(' (', substring-after($personid, 'P_'), ')'))
+                let $inhalt := concat($name/text(), ' ',$aufbereitung)
                 let $memo := session:set-attribute($personid, $inhalt)             
                 for $n in  $name                
                 return                                      
-                <li class="list"><a href="{concat(conf:param('request-root'),'index/', $voc, '/', $personid)}">{$inhalt}</a>
+                <li class="list">                
+                <a href="{concat(conf:param('request-root'),'index/', $voc, '/', $personid)}">{$inhalt}</a>
                 </li>   
                 )
               else()
@@ -805,7 +809,7 @@ div.narrower {{
     {
      if($teile = 1)then (
     <div id ="centre">{$index-use-text} 
-      <div class="radio" id="zentral">         
+      <div class="radio" id="zentral">
         
          <ul class="choose-menu">
             {           
@@ -826,7 +830,7 @@ div.narrower {{
          {
         
          for $p in $index:personcollection
-         let $files := util:document-name($index:personcollection)         
+         let $files := util:document-name($p)         
          let $text := if($p//atom:content//tei:title[@xml:lang=$sprache]/text() !='')
           then $p//atom:content//tei:title[@xml:lang=$sprache]/text()
          else($p//atom:content//tei:title[1]/text())

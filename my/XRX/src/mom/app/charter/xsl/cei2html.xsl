@@ -1061,9 +1061,9 @@
                                 </xrx:i18n>
                                 <span>:&#160;</span>
                             </b>
-                            <xsl:for-each select="./cei:nota">
-                                <xsl:apply-templates/>
-                            </xsl:for-each>
+                            <ul>
+                                <xsl:apply-templates select="./cei:nota"/>
+                            </ul>
                         </li>
                     </xsl:if>
                     <xsl:if test="./cei:rubrum/text() != ''">
@@ -1075,9 +1075,9 @@
                                 </xrx:i18n>
                                 <span>:&#160;</span>
                             </b>
-                            <xsl:for-each select="./cei:rubrum">
-                                <xsl:apply-templates/>
-                            </xsl:for-each>
+                            <ul>
+                                <xsl:apply-templates select="./cei:rubrum"/>
+                            </ul>
                         </li>
                     </xsl:if>
                 </ul>
@@ -1126,7 +1126,10 @@
             </xsl:choose>
         </xsl:element>
     </xsl:template>
-
+    
+    <xsl:template match="cei:rubrum|cei:nota">
+        <li><xsl:apply-templates/></li>
+    </xsl:template>
     <xsl:template match="cei:archIdentifier">
         <xsl:choose>
             <xsl:when test="text()[normalize-space() != '']">
