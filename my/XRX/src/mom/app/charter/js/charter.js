@@ -223,9 +223,11 @@ else 	{
 function addInfo(){		
 		
 		var findlang = $("select[name='_lang']").children("option[selected='selected']");
+
 		/* lang in voc has 2 chars not 3*/	
 		console.log($(findlang));
 		var lang = $(findlang)[0].value.substring(0,2) || 'eng';	
+
 		
 		/* normally all li where value = true (which means that there is more information provided to this index)
 		 * has an eception which is the vis, because until now there is no additional info.
