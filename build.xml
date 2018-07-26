@@ -24,7 +24,7 @@
     <property name="project-name" value="${XRX.project-name}"/>
 
     <!-- Tool urls -->
-    <property name="download-url-betterform" value="https://github.com/StephanMa/betterFORM.git"/>
+    <property name="download-url-betterform" value="https://github.com/icaruseu/betterFORM.git"/>
     <property name="download-url-codemirror" value="https://github.com/codemirror/CodeMirror/archive/v2.zip"/>
     <property name="download-url-exist" value="https://github.com/eXist-db/exist/archive/873a493e1c60364e419c008a2ebabfa4776746b2.zip"/>
     <property name="download-url-jquery" value="https://github.com/jquery/jquery-ui/archive/1-9-stable.zip"/>
@@ -121,8 +121,7 @@
         <attribute name="user" default="${admin-name}"/>
         <attribute name="password" default="${admin-password}"/>
         <sequential>
-            <xdb:remove xmlns:xdb="http://exist-db.org/ant" uri="@{uri}" collection="@{collection}" user="@{user}"
-                        password="@{password}"/>
+            <xdb:remove xmlns:xdb="http://exist-db.org/ant" uri="@{uri}" collection="@{collection}" user="@{user}" password="@{password}"/>
         </sequential>
     </macrodef>
 
@@ -135,9 +134,7 @@
         <attribute name="createsubcollections" default="true"/>
         <element name="content" implicit="yes"/>
         <sequential>
-            <xdb:store xmlns:xdb="http://exist-db.org/ant" uri="@{uri}" createcollection="@{createcollection}"
-                       createsubcollections="@{createsubcollections}" user="@{user}" password="@{password}"
-                       permissions="@{permissions}">
+            <xdb:store xmlns:xdb="http://exist-db.org/ant" uri="@{uri}" createcollection="@{createcollection}" createsubcollections="@{createsubcollections}" user="@{user}" password="@{password}" permissions="@{permissions}">
                 <content/>
             </xdb:store>
         </sequential>
@@ -151,8 +148,7 @@
         <element name="params" optional="true"/>
         <text name="query"/>
         <sequential>
-            <xdb:xquery xmlns:xdb="http://exist-db.org/ant" uri="${xmldb-root-uri}" user="@{user}"
-                        password="@{password}" failonerror="${failonerror}" outputproperty="@{outputproperty}">
+            <xdb:xquery xmlns:xdb="http://exist-db.org/ant" uri="${xmldb-root-uri}" user="@{user}" password="@{password}" failonerror="${failonerror}" outputproperty="@{outputproperty}">
                 <params/>
                 @{query}
             </xdb:xquery>
@@ -165,24 +161,21 @@
         <attribute name="user" default="${admin-name}"/>
         <attribute name="password" default="${admin-password}"/>
         <sequential>
-            <xdb:create xmlns:xdb="http://exist-db.org/ant" uri="@{uri}" collection="@{collection}" user="@{user}"
-                        password="@{password}"/>
+            <xdb:create xmlns:xdb="http://exist-db.org/ant" uri="@{uri}" collection="@{collection}" user="@{user}" password="@{password}"/>
         </sequential>
     </macrodef>
 
     <macrodef name="exist-addgroup">
         <attribute name="name"/>
         <sequential>
-            <xdb:addgroup xmlns:xdb="http://exist-db.org/ant" uri="${xmldb-root-uri}" user="${admin-name}"
-                          password="${admin-password}" name="@{name}"/>
+            <xdb:addgroup xmlns:xdb="http://exist-db.org/ant" uri="${xmldb-root-uri}" user="${admin-name}" password="${admin-password}" name="@{name}"/>
         </sequential>
     </macrodef>
 
     <macrodef name="exist-restore">
         <attribute name="backup"/>
         <sequential>
-            <xdb:restore xmlns:xdb="http://exist-db.org/ant" uri="${xmlrpc-uri}" file="@{backup}" user="${admin-name}"
-                         password="${admin-password}"/>
+            <xdb:restore xmlns:xdb="http://exist-db.org/ant" uri="${xmlrpc-uri}" file="@{backup}" user="${admin-name}" password="${admin-password}"/>
         </sequential>
     </macrodef>
 
@@ -285,7 +278,7 @@
 
     <target name="download-tools">
         <log message="Downloading the tools"/>
-        <antcall target="download-exist"/> 
+        <antcall target="download-exist"/>
         <antcall target="download-jsxmlsaxparser"/>
         <antcall target="download-jquery"/>
         <antcall target="download-codemirror"/>
@@ -300,8 +293,8 @@
             <patternset>
                 <include name="**/*/**"/>
             </patternset>
-          <regexpmapper from="^exist-[A-Za-z0-9\-\_\.]*/(.*)$" to="\1"/>
-        </unzip> <!--
+            <regexpmapper from="^exist-[A-Za-z0-9\-\_\.]*/(.*)$" to="\1"/>
+        </unzip>        <!--
 	<exec executable="git">
 		<arg line=" clone http://github.com/eXist-db/exist/ -b develop -single-branch localhost "/>
 	</exec>
@@ -392,14 +385,11 @@
     <target name="patch-betterform">
         <log message="Patching betterFORM"/>
         <copy file="${betterform-home}/build.properties.xml" tofile="${betterform-home}/build.properties.xml.original"/>
-        <xslt in="${betterform-home}/build.properties.xml.original" style="${build-scripts-home}/build.properties.xsl"
-              out="${betterform-home}/build.properties.xml">
+        <xslt in="${betterform-home}/build.properties.xml.original" style="${build-scripts-home}/build.properties.xsl" out="${betterform-home}/build.properties.xml">
             <param name="exist-absolute-path" expression="${basedir}/${exist-home}"/>
         </xslt>
         <replace file="${betterform-home}/XRX/build-XRX.xml">
-            <replacefilter
-                    token='file="${betterFORM.extension}/main/lib/betterform.jar" todir="${betterFORM.extension}/backup-libs"'
-                    value='file="${betterFORM.extension}/main/lib/betterform-exist-5.1-SNAPSHOT-20160615.jar" todir="${betterFORM.extension}/backup-libs"'/>
+            <replacefilter token='file="${betterFORM.extension}/main/lib/betterform.jar" todir="${betterFORM.extension}/backup-libs"' value='file="${betterFORM.extension}/main/lib/betterform-exist-5.1-SNAPSHOT-20160615.jar" todir="${betterFORM.extension}/backup-libs"'/>
         </replace>
         <copy todir="${betterform-home}" overwrite="true">
             <fileset dir="${my-betterform-src}">
@@ -407,9 +397,7 @@
             </fileset>
         </copy>
         <replace file="${betterform-home}/XRX/build-XRX.xml">
-            <replacefilter
-                    token='file="${betterFORM.extension}/backup-libs/betterform.jar" tofile="${betterFORM.extension}/main/lib/betterform.jar"'
-                    value='file="${betterFORM.extension}/backup-libs/betterform-exist-5.1-SNAPSHOT-20160615.jar" tofile="${betterFORM.extension}/main/lib/betterform.jar"'/>
+            <replacefilter token='file="${betterFORM.extension}/backup-libs/betterform.jar" tofile="${betterFORM.extension}/main/lib/betterform.jar"' value='file="${betterFORM.extension}/backup-libs/betterform-exist-5.1-SNAPSHOT-20160615.jar" tofile="${betterFORM.extension}/main/lib/betterform.jar"'/>
         </replace>
     </target>
 
@@ -419,7 +407,7 @@
              according to the eXist team the eXist build process is not designed to be included as part of
              another build like ours: https://sourceforge.net/p/exist/mailman/message/36189586 -->
         <mkdir dir="${exist-build-workaround-webapp}"/>
-	<mkdir dir="${exist-build-workaround-webapp}/WEB-INF/classes"/>
+        <mkdir dir="${exist-build-workaround-webapp}/WEB-INF/classes"/>
         <touch file="${exist-build-workaround-webapp}/logo.jpg"/>
         <copy todir="${exist-home}/extensions/modules/src" overwrite="true">
             <fileset dir="${my-exist-extensions-src}"/>
@@ -431,16 +419,12 @@
             <fileset dir="${my-exist-lib}"/>
         </copy>
         <echo message="# extensions/build.properties"/>
-        <copy file="${exist-home}/extensions/build.properties"
-              tofile="${exist-home}/extensions/build.properties.original"/>
+        <copy file="${exist-home}/extensions/build.properties" tofile="${exist-home}/extensions/build.properties.original"/>
         <replace file="${exist-home}/extensions/build.properties">
             <replacefilter token="include.module.xslfo = false" value="include.module.xslfo = true"/>
-            <replacefilter
-                    token="include.module.xslfo.url = http://apache.cs.uu.nl/dist/xmlgraphics/fop/binaries/fop-1.1-bin.zip"
-                    value="include.module.xslfo.url = https://archive.apache.org/dist/xmlgraphics/fop/binaries/fop-2.1-bin.zip"/>
+            <replacefilter token="include.module.xslfo.url = http://apache.cs.uu.nl/dist/xmlgraphics/fop/binaries/fop-1.1-bin.zip" value="include.module.xslfo.url = https://archive.apache.org/dist/xmlgraphics/fop/binaries/fop-2.1-bin.zip"/>
             <replacefilter token="include.module.cache = false" value="include.module.cache = true"/>
-            <replacefilter token="http://apache.cs.uu.nl/dist/xmlgraphics/fop/binaries/fop-1.1-bin.zip"
-                           value="http://apache.cs.uu.nl/xmlgraphics/fop/binaries/fop-2.1-bin.zip"/>
+            <replacefilter token="http://apache.cs.uu.nl/dist/xmlgraphics/fop/binaries/fop-1.1-bin.zip" value="http://apache.cs.uu.nl/xmlgraphics/fop/binaries/fop-2.1-bin.zip"/>
         </replace>
         <copy todir="${jetty-home}/tmp" overwrite="true">
             <fileset dir="${my-exist-jetty}/tmp">
@@ -452,8 +436,7 @@
             <format property="time" pattern="yyyy-MM-dd-hh-mm-ss"/>
         </tstamp>
         <delete file="localhost/extensions/betterform/main/lib/betterform.jar"/>
-        <copy tofile="localhost/extensions/betterform/main/lib/betterform${time}.jar"
-              file="my/eXist/extensions/betterform/main/lib/betterform.jar" overwrite="true"/>
+        <copy tofile="localhost/extensions/betterform/main/lib/betterform${time}.jar" file="my/eXist/extensions/betterform/main/lib/betterform.jar" overwrite="true"/>
     </target>
 
     <target name="build-tools">
@@ -504,23 +487,18 @@
     <target name="configure-jetty">
         <log message="Configuring Jetty"/>
         <copy file="${jetty-home}/etc/jetty.xml" tofile="${jetty-home}/etc/jetty.xml.original"/>
-        <xslt in="${jetty-home}/etc/jetty.xml.original" style="${build-scripts-home}/jetty.xsl"
-              out="${jetty-home}/etc/jetty.xml">
+        <xslt in="${jetty-home}/etc/jetty.xml.original" style="${build-scripts-home}/jetty.xsl" out="${jetty-home}/etc/jetty.xml">
         </xslt>
         <copy file="${jetty-home}/etc/jetty-http.xml" tofile="${jetty-home}/etc/jetty-http.xml.original"/>
-        <xslt in="${jetty-home}/etc/jetty-http.xml.original" style="${build-scripts-home}/jetty-http.xsl"
-              out="${jetty-home}/etc/jetty-http.xml">
+        <xslt in="${jetty-home}/etc/jetty-http.xml.original" style="${build-scripts-home}/jetty-http.xsl" out="${jetty-home}/etc/jetty-http.xml">
             <param name="jetty-port" expression="${jetty-port}"/>
         </xslt>
         <copy file="${jetty-home}/etc/jetty-ssl.xml" tofile="${jetty-home}/etc/jetty-ssl.xml.original"/>
-        <xslt in="${jetty-home}/etc/jetty-ssl.xml.original" style="${build-scripts-home}/jetty-ssl.xsl"
-              out="${jetty-home}/etc/jetty-ssl.xml">
+        <xslt in="${jetty-home}/etc/jetty-ssl.xml.original" style="${build-scripts-home}/jetty-ssl.xsl" out="${jetty-home}/etc/jetty-ssl.xml">
             <param name="jetty-port-ssl" expression="${jetty-port-ssl}"/>
         </xslt>
-        <copy file="${jetty-home}/webapps/exist-webapp-context.xml"
-              tofile="${jetty-home}/webapps/exist-webapp-context.xml.original"/>
-        <xslt in="${jetty-home}/webapps/exist-webapp-context.xml.original"
-              style="${build-scripts-home}/jetty-context.xsl" out="${jetty-home}/webapps/exist-webapp-context.xml">
+        <copy file="${jetty-home}/webapps/exist-webapp-context.xml" tofile="${jetty-home}/webapps/exist-webapp-context.xml.original"/>
+        <xslt in="${jetty-home}/webapps/exist-webapp-context.xml.original" style="${build-scripts-home}/jetty-context.xsl" out="${jetty-home}/webapps/exist-webapp-context.xml">
         </xslt>
         <delete dir="${jetty-home}/webapps/portal"/>
     </target>
@@ -536,8 +514,7 @@
             <param name="backup-cron-trigger" expression="${exist-backup-cron-trigger}"/>
         </xslt>
         <copy file="${webinf-home}/controller-config.xml" tofile="${webinf-home}/controller-config.xml.original"/>
-        <xslt in="${webinf-home}/controller-config.xml.original" style="${build-scripts-home}/controller-config.xsl"
-              out="${webinf-home}/controller-config.xml">
+        <xslt in="${webinf-home}/controller-config.xml.original" style="${build-scripts-home}/controller-config.xsl" out="${webinf-home}/controller-config.xml">
             <param name="project-name" expression="${project-name}"/>
             <param name="xrx-live-db-base-collection-path" expression="${xrx-live-db-base-collection-path}"/>
         </xslt>
@@ -573,8 +550,7 @@
             <replacefilter token="wrapper.java.maxmemory=2048" value="wrapper.java.maxmemory=${java-memory-max}"/>
             <replacefilter token="wrapper.ping.timeout=120" value="wrapper.ping.timeout=600"/>
         </replace>
-        <echo file="${wrapper-home}/conf/wrapper.conf" append="true">
-            wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
+        <echo file="${wrapper-home}/conf/wrapper.conf" append="true"> wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
         </echo>
     </target>
 
@@ -728,12 +704,10 @@
         </exist-store>
     </target>
 
-    <target name="disable-betterform-debug"
-            description="Use parameter -Dbetterform-debug-allowed to set the value to change don't use the default value">
+    <target name="disable-betterform-debug" description="Use parameter -Dbetterform-debug-allowed to set the value to change don't use the default value">
         <log message="Disabling the BetterForm debug tools"/>
         <copy file="${webinf-home}/betterform-config.xml" tofile="${webinf-home}/betterform-config.xml.original"/>
-        <xslt in="${webinf-home}/betterform-config.xml.original" style="${build-scripts-home}/betterform-config.xsl"
-              out="${webinf-home}/betterform-config.xml">
+        <xslt in="${webinf-home}/betterform-config.xml.original" style="${build-scripts-home}/betterform-config.xsl" out="${webinf-home}/betterform-config.xml">
             <param name="betterform-debug-allowed" expression="${betterform-debug-allowed}"/>
         </xslt>
     </target>
@@ -791,8 +765,7 @@
         </exist-query>
     </target>
 
-    <target name="restore-backup" depends="exist-classpath"
-            description='Restores a backup. Path either with a parameter or as a commandline argument -Dbackup=path_to_backup'>
+    <target name="restore-backup" depends="exist-classpath" description='Restores a backup. Path either with a parameter or as a commandline argument -Dbackup=path_to_backup'>
         <log message="Restoring backup ${backup}"/>
         <exec executable="/bin/bash">
             <arg line="${exist-home}/bin/backup.sh -u &quot;${admin-name}&quot; -p &quot;${admin-password}&quot; -r &quot;${backup}&quot; -ouri=${xmldb-xmlrpc-uri}"/>
