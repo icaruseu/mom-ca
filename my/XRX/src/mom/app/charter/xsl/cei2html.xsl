@@ -18,7 +18,8 @@
     <xsl:param name="sprache"/>
 
     <xsl:param name="image-base-uri"/>
-    <xsl:param name="controlledvocabularies"/>   
+    <xsl:param name="controlledvocabularies"/>
+    <xsl:param name="personfilelist"/>
     
    <!-- 
    ***********************************************************
@@ -1723,28 +1724,70 @@
   </xsl:template>-->
 
     <!-- index persName -->
-    <xsl:template name="persName">
-	<xsl:variable name="persons" select="document('/db/mom-data/metadata.person.public/Bischofsliste_Ablaesse.tei.xml')"/>
-        <xsl:for-each select="$cei//cei:persName">
-            <xsl:sort select="."/>
-            <xsl:if test="./node()">
+    <xsl:template name="persName"><!-- Bischofsliste_Ablaesse -->
+ <xsl:variable name="len" select="count(tokenize($personfilelist, ' '))"/>
+<xsl:choose>
+<xsl:when test="$len &gt; 1">
+ <xsl:for-each select="$cei//cei:persName">
+  <xsl:sort select="."/>
+  <xsl:if test="./node()">
+            
               <li id="{./@key}">
-                <!-- compare with TEI of bishops --> 
-        	    <xsl:if test="$persons//tei:person/@xml:id = ./@key">
-                  <xsl:attribute name="value">true</xsl:attribute>
-        		  <xsl:attribute name="class">bishop</xsl:attribute>
-        		</xsl:if>
-                <xsl:apply-templates/>
-		      </li>
-	          <ul class="inline">
-	            <xsl:call-template name="language"/>
-	            <xsl:call-template name="reg"/>
-	            <xsl:call-template name="existent"/>
-	            <xsl:call-template name="type"/>
-	          </ul>
+              <xsl:choose>                            
+              <xsl:when test="@key">
+              <xsl:call-template name="sucheperson">
+                  <xsl:with-param name="len" select="$len" />
+                  <xsl:with-param name="key" select="@key"/>
+              </xsl:call-template>         
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:apply-templates/>
+            </xsl:otherwise>
+             </xsl:choose>   
+          </li>
+            <ul class="inline">
+              <xsl:call-template name="language"/>
+              <xsl:call-template name="reg"/>
+              <xsl:call-template name="existent"/>
+              <xsl:call-template name="type"/>
+            </ul>
             </xsl:if>
-        </xsl:for-each>
+ </xsl:for-each>
+</xsl:when>
+</xsl:choose>
     </xsl:template>
+    <xsl:template name="sucheperson">
+<xsl:param name="len"/>
+<xsl:param name="key"/>
+<xsl:if test="$len &gt; 0">
+<xsl:variable name="filename" select="tokenize($personfilelist, ' ')[$len]"/>
+<xsl:variable name="url" select="concat('/db/mom-data/metadata.person.public/', $filename)"/>
+<xsl:variable name="fileatomid" select="substring-after(document($url)/atom:entry/atom:id, '/person/')"/>
+<xsl:choose>
+<xsl:when test="document($url)/atom:entry[//tei:person/@xml:id = $key]/atom:id = 'tag:www.monasterium.net,2011:/person/BischoefeAblaesse'">
+  <xsl:attribute name="value">true</xsl:attribute>
+   <xsl:attribute name="class"><xsl:value-of select="$fileatomid"/></xsl:attribute>
+   <xsl:apply-templates/>
+</xsl:when>
+<xsl:otherwise>
+  <xsl:choose>
+  <xsl:when test="document($url)/atom:entry//tei:person/@xml:id = $key">
+   <xsl:attribute name="value">true</xsl:attribute>
+   <xsl:attribute name="class"><xsl:value-of select="$fileatomid"/></xsl:attribute>
+    <xsl:value-of select="document($url)//atom:entry//tei:person[@xml:id = $key]/tei:persName"/>          
+  </xsl:when>
+  <xsl:otherwise></xsl:otherwise>
+</xsl:choose> 
+
+<xsl:variable name="newlen" select="$len - 1"/>
+<xsl:call-template name="sucheperson"><xsl:with-param name="len" select="$newlen"/>
+<xsl:with-param name="key" select="$key"/>
+</xsl:call-template>
+</xsl:otherwise>
+</xsl:choose>
+ </xsl:if>
+</xsl:template>
+
     <xsl:template name="language">
         <xsl:choose>
             <xsl:when test="./@lang">

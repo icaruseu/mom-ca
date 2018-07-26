@@ -294,11 +294,11 @@ it leaves the active development stage.
     <xrx:variable>
       <xrx:name>$wcharter:image-base-uri</xrx:name>
       <xrx:expression>
-		if($wcharter:context = 'fond' or $wcharter:context = 'linked-fond') then
-			concat($wcharter:preferences/xrx:param[@name='image-server-base-url']/text(), '/') 
-	  else
-			concat('http://', $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(), '/')
-				</xrx:expression>
+    if($wcharter:context = 'fond' or $wcharter:context = 'linked-fond') then
+      concat($wcharter:preferences/xrx:param[@name='image-server-base-url']/text(), '/') 
+    else
+      concat('http://', $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(), '/')
+        </xrx:expression>
     </xrx:variable>
     <!-- archive information -->
     <xrx:variable>
@@ -308,10 +308,18 @@ it leaves the active development stage.
      <xrx:variable>
         <xrx:name>$wcharter:controlledvocabularies</xrx:name>
     <xrx:expression>       
- for $i in collection("/db/mom-data/metadata.controlledVocabulary.public")//atom:entry//skos:ConceptScheme
+ for $i in collection(concat(conf:param("data-db-base-uri"), "/metadata.controlledVocabulary.public"))//atom:entry//skos:ConceptScheme
 let $vocabular := replace(data($i/@rdf:about), '#', '')
         return $vocabular         
      </xrx:expression>
+    </xrx:variable>
+    <!-- vorhandene Personenlisten auslesen
+         und infolge an XSL übergeben -->
+    <xrx:variable>
+    <xrx:name>$wcharter:personlist</xrx:name>
+    <xrx:expression>for $i in collection(concat(conf:param("data-db-base-uri"), "/metadata.person.public"))//atom:entry/atom:id
+        let $filename := util:document-name($i)
+        return $filename</xrx:expression>
     </xrx:variable>
     <!--  Sprache für Vokabulare ändern? -->    
       <xrx:variable>
@@ -324,7 +332,8 @@ let $vocabular := replace(data($i/@rdf:about), '#', '')
       <xrx:name>$wcharter:xsl</xrx:name>
       <xrx:expression>$xrx:db-base-collection/xsl:stylesheet[@id='cei2html']</xrx:expression>
     </xrx:variable>
-
+<!-- <atom:id>tag:www.monasterium.net,2011:/person/Notarii</atom:id> 
+    <atom:id>tag:www.monasterium.net,2011:/person/CDC-AbatiSanMassimo</atom:id>-->
        <xrx:variable>
       <xrx:name>$wcharter:params</xrx:name>
       <xrx:expression>
@@ -334,6 +343,9 @@ let $vocabular := replace(data($i/@rdf:about), '#', '')
           <param name="sprache" value="{$wcharter:sprache}"/>
 
           <param name="controlledvocabularies" value="{$wcharter:controlledvocabularies}"/>
+          <param name="personfilelist" value="{$wcharter:personlist}">
+            
+          </param>
             {
             let $keys := root($wcharter:xsl)//*[local-name(.) = "stylesheet"]/node()
             let $i18n := $keys//xrx:i18n
@@ -406,9 +418,9 @@ let $vocabular := replace(data($i/@rdf:about), '#', '')
       <xrx:expression>concat($image-tools-base-url, $charter:rcharterid, '/image-tools')</xrx:expression>
     </xrx:variable>
     <xrx:variable>
-    	<xrx:name>$wcharter:owner</xrx:name>
-    	<xrx:expression>if($wcharter:context = "fond") then doc(concat(metadata:base-collection-path('archive', $charter:rarchiveid, 'public'),$charter:rarchiveid, ".eag.xml"))//eag:identity/eag:autform/text()
-    	else (root($wcharter:charter)//atom:email/text())</xrx:expression>
+      <xrx:name>$wcharter:owner</xrx:name>
+      <xrx:expression>if($wcharter:context = "fond") then doc(concat(metadata:base-collection-path('archive', $charter:rarchiveid, 'public'),$charter:rarchiveid, ".eag.xml"))//eag:identity/eag:autform/text()
+      else (root($wcharter:charter)//atom:email/text())</xrx:expression>
     </xrx:variable>
   </xrx:variables>
   <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/charter</xrx:portal>
@@ -1318,22 +1330,22 @@ p#first {{
       {
       if($wcharter:metadata-collection-collection//cei:sourceDesc/cei:p/text() = 'Export aus Google Daten') then
       <div data-demoid="f7495edb-98da-49a6-a16c-ee41e59606d8">
-	      <br/>
-	      <div class="p ocr-hint" data-demoid="38e8611c-6bba-47e9-99c5-61658c9d3d0d">
-	        <div class="ocr-hint-inner" data-demoid="415a1215-9351-451b-90f8-7642bc2d7f95">
-	          <span>
-	            <xrx:i18n>
-	              <xrx:key>ocr-scanned-message</xrx:key>
-	              <xrx:default>The transcription and metadata of this charter are scanned by a OCR tool and thus may have low quality.</xrx:default>
-	            </xrx:i18n>
-	          </span>
-	        </div>
-	      </div>
-	      <br/>
-	    </div>
-		  else()
-		  }
-		  <xrx:div>download-xml-link</xrx:div>
+        <br/>
+        <div class="p ocr-hint" data-demoid="38e8611c-6bba-47e9-99c5-61658c9d3d0d">
+          <div class="ocr-hint-inner" data-demoid="415a1215-9351-451b-90f8-7642bc2d7f95">
+            <span>
+              <xrx:i18n>
+                <xrx:key>ocr-scanned-message</xrx:key>
+                <xrx:default>The transcription and metadata of this charter are scanned by a OCR tool and thus may have low quality.</xrx:default>
+              </xrx:i18n>
+            </span>
+          </div>
+        </div>
+        <br/>
+      </div>
+      else()
+      }
+      <xrx:div>download-xml-link</xrx:div>
       <xrx:subwidget>
         <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/charter-image-viewer</xrx:atomid>
         <xrx:pass>
@@ -1397,33 +1409,27 @@ p#first {{
       <div data-demoid="1c49211c-4c33-4899-ae42-afc2d1735340">
         <div data-demoid="92fc737f-0034-4bbc-8d4c-42038dfded81" id="image-tool-widget">
           <script type="text/javascript">
-				    $(document).ready(function(){{
-				    	rapper();
-				      proof();
-	            jQuery(document).imageTool({{
-	              requestRoot: "{ conf:param('request-root') }",
-	              charter: "{ $charter:rcharterid }",
-	              collection: "{ if($wcharter:context = 'collection') then $charter:rcollectionid else() }",
-	              scope: "public", 
+            $(document).ready(function(){{
+              addInfo();
+              proof();
+              jQuery(document).imageTool({{
+                requestRoot: "{ conf:param('request-root') }",
+                charter: "{ $charter:rcharterid }",
+                collection: "{ if($wcharter:context = 'collection') then $charter:rcollectionid else() }",
+                scope: "public", 
                 servicePrefix: ""
-	            }});
-	            jQuery(document).i18nText({{
-	              lang: "{ $xrx:lang }",
-	     	        requestRoot: "{ conf:param('request-root') }"
-	     	      }});
-
-	     	   console.log(" aus charter.widget");
-	   var verlinkt = $("div#graphics").find("a#img-link");
-    var missinglink = $("div#graphics").find("div.no-graphic");    
-    console.log(verlinkt);
-    console.log(missinglink);
-	     	  if(verlinkt.length != 0){{
-           console.log("es gibt imgs im viewer");          
-          var x = $("#graphics").css("display", "block");
-          console.log(verlinkt);          
+              }});
+              jQuery(document).i18nText({{
+                lang: "{ $xrx:lang }",
+                requestRoot: "{ conf:param('request-root') }"
+              }});           
+     var verlinkt = $("div#graphics").find("a#img-link");
+    var missinglink = $("div#graphics").find("div.no-graphic");   
+  
+          if(verlinkt.length != 0){{                   
+          var x = $("#graphics").css("display", "block");                
           }}
-          else {{
-          console.log("no-graphic in image-viewer");
+          else {{         
           var x = $("#graphics").css("display", "none");
           }}
            $("div.actions").insertAfter("div#downloads");
@@ -1433,8 +1439,8 @@ p#first {{
           
           }}
 
-				    }});     
-  		    </script>
+            }});     
+          </script>
           <xrx:resource id="image-tool-widget-close-button" title="Close Image Tool" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/button_close</xrx:resource>
           <div data-demoid="5c794018-378e-4fc8-bbe1-814cd17977c0" id="image-tool-widget-button-bar">
             {
@@ -1529,18 +1535,18 @@ p#first {{
       } 
 
       <div id="copy-legal-popUp" style="display:none">
-      	<div id="dialogcontent">
-      	<span><xrx:i18n><xrx:key>you-are-copying-a-text-from</xrx:key><xrx:default>You are copying a text from</xrx:default></xrx:i18n></span>
-      	<span id="insertOwner"></span>
-      	  <span><xrx:i18n><xrx:key>end-legal-text</xrx:key><xrx:default>into your own collection. Please be aware that reusing it might infringe intellectural property rights, so please check individual licences and cite the source of your information when you publish your data</xrx:default></xrx:i18n></span>
+        <div id="dialogcontent">
+        <span><xrx:i18n><xrx:key>you-are-copying-a-text-from</xrx:key><xrx:default>You are copying a text from</xrx:default></xrx:i18n></span>
+        <span id="insertOwner"></span>
+          <span><xrx:i18n><xrx:key>end-legal-text</xrx:key><xrx:default>into your own collection. Please be aware that reusing it might infringe intellectural property rights, so please check individual licences and cite the source of your information when you publish your data</xrx:default></xrx:i18n></span>
          </div>
         </div>
        <div id="select-collection-popUp" style="display:none">
-      	<div id="dialogcontent">
-      		<select id="collectionSelect">
-      		</select>
-      		<p id="charterexistmessage" style="display:none">The Charter already exists in the choosen Collection</p>
-      		<p id="copyinProgress" style="display:none">Please wait copying Charter, dialog will close at success</p>
+        <div id="dialogcontent">
+          <select id="collectionSelect">
+          </select>
+          <p id="charterexistmessage" style="display:none">The Charter already exists in the choosen Collection</p>
+          <p id="copyinProgress" style="display:none">Please wait copying Charter, dialog will close at success</p>
         </div>
        </div>
       </div>     

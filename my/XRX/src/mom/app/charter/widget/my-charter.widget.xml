@@ -41,7 +41,7 @@ it leaves the active development stage.
   </xrx:licence>
   <xrx:variables>
     <!-- 
-    	charter context: collection or fond? 
+      charter context: collection or fond? 
     -->
     <xrx:variable>
       <xrx:name>$wcharter:context</xrx:name>
@@ -62,7 +62,7 @@ it leaves the active development stage.
       </xrx:expression>
     </xrx:variable>
     <!-- 
-    	init metadata database collections 
+      init metadata database collections 
     -->
     <xrx:variable>
       <xrx:name>$wcharter:tokens</xrx:name>
@@ -160,8 +160,8 @@ it leaves the active development stage.
       <xrx:expression>charter:position($wcharter:charters, $wcharter:private-charter, $xrx:user-xml, $wcharter:atom-id, $xrx:tokenized-uri[last()])</xrx:expression>
     </xrx:variable>
     <!-- 
-		  back link to fond or collection 
-		-->
+      back link to fond or collection 
+    -->
     <xrx:variable>
       <xrx:name>$wcharter:block</xrx:name>
       <xrx:expression>charter:block(xs:integer($wcharter:pos))</xrx:expression>
@@ -171,8 +171,8 @@ it leaves the active development stage.
       <xrx:expression>charter:anchor(xs:integer($wcharter:pos))</xrx:expression>
     </xrx:variable>
     <!-- 
-		  status of the charter 
-		-->
+      status of the charter 
+    -->
     <xrx:variable>
       <xrx:name>$wcharter:is-bookmarked</xrx:name>
       <xrx:expression>false()</xrx:expression>
@@ -204,25 +204,21 @@ it leaves the active development stage.
       <xrx:name>$wcharter:archive</xrx:name>
       <xrx:expression>$wcharter:metadata-archive-collection//eag:autform/text()</xrx:expression>
     </xrx:variable>
-    <!-- 
-      XSLT transformation
-     -->
-    <xrx:variable>
+     <xrx:variable>
         <xrx:name>$wcharter:controlledvocabularies</xrx:name>
     <xrx:expression>       
- for $i in collection("/db/mom-data/metadata.controlledVocabulary.public")//atom:entry//skos:ConceptScheme
+ for $i in collection(concat(conf:param("data-db-base-uri"), "/metadata.controlledVocabulary.public"))//atom:entry//skos:ConceptScheme
 let $vocabular := replace(data($i/@rdf:about), '#', '')
         return $vocabular         
      </xrx:expression>
     </xrx:variable>
-   <xrx:variable>
-    <xrx:name>$wcharter:page</xrx:name>
-    <xrx:expression>
-       <page>      
-         { template:get('tag:www.monasterium.net,2011:/mom/template/charter-view', false()) }
-          { util:expand($wcharter:charter) }
-        </page>
-    </xrx:expression>
+    <!-- vorhandene Personenlisten auslesen
+         und infolge an XSL übergeben -->
+    <xrx:variable>
+    <xrx:name>$wcharter:personlist</xrx:name>
+    <xrx:expression>for $i in collection(concat(conf:param("data-db-base-uri"), "/metadata.person.public"))//atom:entry/atom:id
+        let $filename := util:document-name($i)
+        return $filename</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter:xsl</xrx:name>
@@ -235,6 +231,7 @@ let $vocabular := replace(data($i/@rdf:about), '#', '')
           <param name="image-base-uri" value="{ $wcharter:image-base-uri }"/>
           <param name="sprache" value="{$xrx:lang}"/>
           <param name="controlledvocabularies" value="{$wcharter:controlledvocabularies}"/>
+          <param name="personfilelist" value="{$wcharter:personlist}"/>
           {
             let $keys := root($wcharter:xsl)//*[local-name(.) = "stylesheet"]/node()
             let $i18n := $keys//xrx:i18n
@@ -429,8 +426,6 @@ jQuery(document).ready(function() {{
       </a>       
     </div>
 </form> 
-<!-- javascript:transport();
- javascript:proof(); javascript:addInfo();-->
  <script type="text/javascript">
 $( "#radio" ).buttonset();
   
@@ -438,22 +433,18 @@ $( "#radio" ).buttonset();
     
 $(".open-viewer-link").hide();
 $("#zoomsliderlabel").hide();
- javascript:rapper();
+ javascript:addInfo();
  javascript:proof();   
 
- console.log('my-charter.widget');
 
     var verlinkt = $("div#graphics").find("a#img-link");
-    var missinglink = $("div#graphics").find("div.no-graphic");    
-    console.log(verlinkt);
-    console.log(missinglink);
+    var missinglink = $("div#graphics").find("div.no-graphic");  
     if(verlinkt.length != 0){{
-           console.log("es gibt imgs im viewer");          
+             
           var x = $("#graphics").css("display", "block");
                     
           }}
-          else {{
-          console.log("no-graphic in image-viewer");
+          else {{     
           var x = $("#graphics").css("display", "none");
           }}      
  }});
