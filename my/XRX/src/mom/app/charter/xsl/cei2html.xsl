@@ -1067,7 +1067,7 @@
                             </ul>
                         </li>
                     </xsl:if>
-                    <xsl:if test="./cei:rubrum/text() != ''">
+                    <xsl:if test="./cei:rubrum//normalize-space(text()) != ''">
                         <li>
                             <b>
                                 <xrx:i18n>
