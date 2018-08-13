@@ -1053,7 +1053,7 @@
                 </xsl:choose>
                 <xsl:apply-templates select="./cei:physicalDesc"/>
                 <ul>
-                    <xsl:if test="./cei:nota/text() != ''">
+                    <xsl:if test="./cei:nota//normalize-space(text()) != ''">
                         <li>
                             <b>
                                 <xrx:i18n>
