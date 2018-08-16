@@ -1,0 +1,68 @@
+<xrx:css xmlns:xrx="http://www.monasterium.net/NS/xrx" 
+  xmlns="http://www.w3.org/1999/xhtml">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/css/geoMarkerCluster</xrx:id>
+  <xrx:author>JBigalke@smail.uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+  <xrx:style>
+.marker-cluster-small {{
+	background-color: rgba(181, 226, 140, 0.6);
+	}}
+.marker-cluster-small div {{
+	background-color: rgba(110, 204, 57, 0.6);
+	}}
+
+.marker-cluster-medium {{
+	background-color: rgba(241, 211, 87, 0.6);
+	}}
+.marker-cluster-medium div {{
+	background-color: rgba(240, 194, 12, 0.6);
+	}}
+
+.marker-cluster-large {{
+	background-color: rgba(253, 156, 115, 0.6);
+	}}
+.marker-cluster-large div {{
+	background-color: rgba(241, 128, 23, 0.6);
+	}}
+
+.marker-cluster {{
+	background-clip: padding-box;
+	border-radius: 20px;
+	}}
+.marker-cluster div {{
+	width: 30px;
+	height: 30px;
+	margin-left: 5px;
+	margin-top: 5px;
+
+	text-align: center;
+	border-radius: 15px;
+	font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+	}}
+.marker-cluster span {{
+	line-height: 30px;
+	}}
+    
+  </xrx:style>
+</xrx:css>

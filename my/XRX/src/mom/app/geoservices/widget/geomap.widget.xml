@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/geomap</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+  <xrx:description/>
+  <xrx:author>JBigalke@smail.uni-koeln.de</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
+  </xrx:licence>
+    <xrx:constructor>
+	    <xrx:parameter>
+	    	<xrx:name>$serviceName</xrx:name>
+	    	<xrx:default>()</xrx:default>
+	    </xrx:parameter>
+	    <xrx:parameter>
+	    	<xrx:name>$imagelink</xrx:name>   
+	    	<xrx:default>()</xrx:default>
+	    </xrx:parameter>
+    </xrx:constructor>
+
+    <xrx:csss>
+     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/css/leaflet</xrx:resource> 
+     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/css/leaflet-marker-cluster</xrx:resource>
+  	<xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/css/leaflet-marker-cluster-default</xrx:resource>
+
+  	<xrx:css>tag:www.monasterium.net,2011:/mom/css/geoMarkerCluster</xrx:css>
+  	<style>
+
+  	 #map{{
+		width: 800px;
+		height: 500px;
+	}}
+  	</style>
+  </xrx:csss>
+    <xrx:jss>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource> 
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/leaflet</xrx:resource> 
+  	<xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/leaflet-marker-cluster</xrx:resource>     
+  	 <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/GeoTool</xrx:resource>
+  </xrx:jss>
+      <xrx:view>
+   		<div id="map"></div>
+		<script type="text/javascript">$(document).ready(function(){{$("#map").GeoTool({{serviceLink: "{conf:param('request-root')}service/{$serviceName}", imageLink: "{$imagelink}"}});}});</script>
+  </xrx:view>
+</xrx:widget>
