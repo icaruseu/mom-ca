@@ -38,6 +38,18 @@
   <property name="jquery-home" value="jQuery"/>
   <property name="my-jquery-src" value="my/XRX/res/jquery"/>
 
+  <!--
+    leaflet
+   -->
+   <property name="leaflet-home" value="leaflet"/>
+   <property name="my-leaflet-src" value="my/XRX/res/leaflet"/>
+
+  <!-- 
+    images
+   -->
+   <property name="images-home" value="images"/>
+   <property name="my-images-src" value="my/XRX/images"/>
+
   <!-- 
     eXist 
   -->
@@ -232,6 +244,99 @@
       </fileset>
     </xdb:store>
     
+ </target>
+
+
+	<!--
+	#
+	# leaflet
+	#
+	 -->
+   <target name="copy-leaflet">
+     <echo message="-------------------------" />
+     <echo message="Copy leaflet (https://leafletjs.com/2018/01/18/leaflet-1.3.1.html)" />
+     <echo message="-------------------------" />
+     <delete dir="leaflet" failonerror="false"/>
+     <unzip src="vendor/leaflet.zip" dest="./leaflet"/>
+
+   </target>
+
+   <target name="patch-leaflet">
+    <echo message="-------------------------" />
+    <echo message="Patch leaflet" />
+    <echo message="-------------------------" />
+    <copy todir="${leaflet-home}" overwrite="true">
+      <fileset dir="${my-leaflet-src}"/>
+    </copy>
+   </target>
+
+ <target name="deploy-leaflet" depends="exist-classpath, patch-leaflet">
+
+    <echo message="-------------------------" />
+    <echo message="Deploy leaflet" />
+    <echo message="-------------------------" />
+    
+    <xdb:remove xmlns:xdb="http://exist-db.org/ant"
+      uri="${xrx-res-xmldb-uri}" 
+      collection="leaflet"
+      user="admin"
+      password="${XRX.password}"/>
+    <sleep seconds="2"/>
+    
+    <xdb:store xmlns:xdb="http://exist-db.org/ant"
+      uri="${xrx-res-xmldb-uri}/leaflet"
+      createsubcollections="true" 
+      createcollection="true" 
+      user="admin"
+      password="${XRX.password}"
+      permissions="rwxr-xr-x">
+      <fileset dir="${leaflet-home}">
+        <include name="*.xml"/> 
+        <include name="*.js"/>
+        <include name="*.css"/>
+	<include name="dist/**"/>
+      </fileset>
+    </xdb:store>
+  </target>
+
+
+
+
+   <target name="patch-images">
+    <echo message="-------------------------" />
+    <echo message="Patch images" />
+    <echo message="-------------------------" />
+    <copy todir="${images-home}" overwrite="true">
+      <fileset dir="${my-images-src}"/>
+    </copy>
+   </target>
+
+ <target name="deploy-images" depends="exist-classpath, patch-images">
+
+    <echo message="-------------------------" />
+    <echo message="Deploy images" />
+    <echo message="-------------------------" />
+    
+    <xdb:remove xmlns:xdb="http://exist-db.org/ant"
+      uri="${xrx-res-xmldb-uri}" 
+      collection="images"
+      user="admin"
+      password="${XRX.password}"/>
+    <sleep seconds="2"/>
+    
+    <xdb:store xmlns:xdb="http://exist-db.org/ant"
+      uri="${xrx-res-xmldb-uri}/images"
+      createsubcollections="true" 
+      createcollection="true" 
+      user="admin"
+      password="${XRX.password}"
+      permissions="rwxr-xr-x">
+      <fileset dir="${images-home}">
+        <include name="*.xml"/>
+	<include name="*.png"/>
+		
+      </fileset>
+    </xdb:store>
   </target>
 
   <!-- 
@@ -439,6 +544,7 @@
     <antcall target="copy-jssaxparser"/>
     <antcall target="copy-jquery"/>
     <antcall target="copy-codemirror"/>
+    <antcall target="copy-leaflet"/>
     
     <!-- compile and deploy -->
     <antcall target="compile-exist" />
@@ -450,7 +556,7 @@
     <delete dir="CodeMirror"/>
     <delete dir="jQuery"/>
     <delete dir="jssaxparser"/>
-
+    <delete dir="leaflet"/>	
   </target>
 
   <target name="deploy-my-exist-webapp">
@@ -697,7 +803,8 @@ wrapper.java.additional.6=-Djava.io.tmpdir=../../../tools/jetty/tmp
     <antcall target="deploy-jssaxparser"/>
     <antcall target="deploy-jquery"/>
     <antcall target="deploy-codemirror"/>
-    
+    <antcall target="deploy-leaflet"/>
+
     <antcall target="compile-xrx-project"/>
     
     <antcall target="stop"/>
