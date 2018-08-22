@@ -398,6 +398,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
         <span>   </span>
         <br/>
         <br/>
+        <!-- the value or these inputs is defined in jquery.ui.search.js -->
         <input id="categories-search" name="categories" type="hidden" value=""/>
         <input id="context-search" name="context" type="hidden" value=""/>
       </form>     
@@ -481,7 +482,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
           </div>
           <div class="confine-trigger-div" data-demoid="c3e90bbd-6e74-45e4-a6e3-7d6e76dce2b4">
             <input class="confine-trigger" type="submit" value="→"/>
-          </div>
+          </div>          
           <div data-demoid="68ed9142-41df-4c6a-bb13-c667650e0c03" id="categories-result">
             <b>
               <xrx:i18n>
@@ -618,8 +619,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               { if($count-filtered = '0') then attribute class { 'light-grey' } else() }  { $fond-key } ({ $count-filtered })           
              </span>             
               <span class="light-grey"> ({ $count })</span>         
-            </div>          
             </div>
+            </div>         
             }
             <div class="confine-trigger-div" data-demoid="d34b830b-d2f7-458a-b26f-435394d85772">
               <input class="confine-trigger" type="submit" value="→"/>
@@ -637,14 +638,13 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             for $collection in $wsearch:context//*:collection
             let $key := $collection/@key/string()
             let $atomid := metadata:atomid('collection', $key)
-            let $entry := metadata:base-collection('collection', 'public')//atom:id[.=$atomid]/parent::atom:entry
-            let $name := ''
+            let $entry := metadata:base-collection('collection', 'public')//atom:id[.=$atomid]/parent::atom:entry            
             let $count := $collection/@count/string()
             let $filtered := $wsearch:context-filtered//*:collection[@key=$key]
             let $count-filtered := if($filtered/@count) then $filtered/@count/string() else '0'
             order by xs:integer($count-filtered) descending, xs:integer($count) descending
             return
-            <div data-demoid="eb4623d9-ed36-42be-9c0d-8e26df033a59">            
+            <div data-demoid="eb4623d9-ed36-42be-9c0d-8e26df033a59">                       
               <input name="{ $key }" type="checkbox" class="collection_checkbox">
                {
                 if ($search:context) then
@@ -655,14 +655,14 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                                                        
                 }</input>              
              
-              <span title="{ $name }">{ if($count-filtered = '0') then attribute class { 'light-grey' } else() }{ $collection/@name/string() } ({ $count-filtered })</span>
-              <span class="light-grey"> ({ $count })</span>
+              <span title="{ $collection/@name/string() }">{ if($count-filtered = '0') then attribute class { 'light-grey' } else() }{ $collection/@name/string() } ({ $count-filtered })</span>
+              <span class="light-grey"> ({ $count })</span>            
             </div>
             }
             <div class="confine-trigger-div" data-demoid="75603079-1b52-4ecd-91e5-1c4cd7221c7e">
               <input class="confine-trigger" type="submit" value="→"/>
             </div>
-             
+            
           </div>
         </div>
         <div data-demoid="bceb746e-7a77-4337-8e07-4f8b49e7388f" id="dcharter-preview-main">         

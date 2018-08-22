@@ -165,6 +165,12 @@ $.widget("ui.search", {
 
   _initContext: function() {	
     var str = []; 
+    /* when link from colltection/archive page to search2
+     *  then get-parameter 'q' is empty but 'arch' has a value
+     *  the value of arch is taken and pushed in the 'str' array
+     *  the array is then handed over to the input value
+     *   of the context-search
+     *  */
      var suchstring = window.location.search;
       var sauber = suchstring.replace(/\+/g, ' ');
       var uridec = decodeURIComponent(sauber); 

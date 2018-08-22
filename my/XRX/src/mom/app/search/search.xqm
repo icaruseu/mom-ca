@@ -460,7 +460,11 @@ declare function search:filter-result($result, $map) {
     $charter
 };
 
-
+(: search:eval2 is called in the widget, the query-string is a full text search in metadata.charter.public in general or 
+   filtered collections or archives. 
+   access to search results: search: is first-action() is the case when the users uses the input form
+                             search:is-filter-action() is the case when filters are active
+  :)
 
 declare function search:eval2($query-string) {
    
@@ -468,22 +472,26 @@ declare function search:eval2($query-string) {
         
     else if(search:is-first-action()) then     
         let $set := session:set-attribute($search:Q, $search:q)
+        (: $search:Q is used to remember if the users called the search:is-first-action() :)
         let $result := util:eval($query-string)
-
-        let $map := search:compile-categories-map($result)        
         
+        let $map := search:compile-categories-map($result)        
+        (: the map lists the results and counts the hits :)
         let $do := search:set-categories($map)
-
+        (: the map is compiled in xml and saved in a session var $search:CATEGORIES :)
         let $do := search:set-categories-filtered($map, 
                   session:get-attribute($search:CATEGORIES))                
-      
+      (: the filtered hits are also set, but are equal to $search:CATEGORIES, 
+      because search:is-first-action() :)
         let $do := search:set-context($result)
-        
+        (:session vars are set: $search:CONTEXT, which is an xml and lists the right collections and fonds  :)
         let $do := search:set-context-filtered($result, 
                 session:get-attribute($search:CONTEXT))
-        
+        (:as with the categories also the filtered contexts are set equal to $search:CONTEXT,
+        because search:is-first-action() :)
+        (: in the follwing further session vars are set to remember the results:)
         let $do := search:set-query($query-string)
-
+        
         let $do := search:set-result($result)
         
         let $count := search:set-hits($result)
@@ -494,29 +502,32 @@ declare function search:eval2($query-string) {
 
     else if(search:is-filter-action()) then
         let $result := util:eval($query-string)      
-                  
+                
         let $map := search:compile-categories-map($result)
-        
+        (: $do does the following: if the user did search:is-first-action() before, then $searchQ (the searchterm in a session var)
+         is supposed to be equal to the get-parameter 'q' and the filtered categories are set again,
+         if the user copies a query URL or is linked from the archive or collection widget
+          then the categories are set for the first time, the user has no search history          
+         it is the same with the contexts  :)
        let $do := if(session:get-attribute($search:Q) = $search:q) then search:set-categories-filtered($map, ())
        else(let $do := search:set-categories($map)
              let $do := search:set-categories-filtered($map, 
                   session:get-attribute($search:CATEGORIES))
-              return ())         
-                  
-       (: if an entire search string is entered - it will be compared with the prior query string, 
-       which is still in the session var; if there was no prior search it equally updates the session vars :)
+              return ())
                      
         let $result := search:filter-result($result, $map)     
-
-        let $do := if(session:get-attribute($search:Q) = $search:q) then search:set-context-filtered($result, ()) else(search:set-context($result))
+        
+        let $do := if(session:get-attribute($search:Q) = $search:q) then search:set-context-filtered($result, ()) 
+        else(let $do := search:set-context($result)
+             let $do := search:set-context-filtered($result, 
+                session:get-attribute($search:CONTEXT))
+                return ())
                
         let $do := search:set-query($query-string)
                 
         let $get := session:get-attribute($search:HITS)
 
         let $count := if(empty($get)) then search:set-hits($result) else()
-       
-       (: let $count := search:set-hits($result):)
  
         let $do := search:set-result($result)
         
