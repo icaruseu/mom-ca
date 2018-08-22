@@ -311,78 +311,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             <xrx:default>Search</xrx:default>
           </xrx:i18n>
           </div>
-          <input id="search-field" name="q" type="text" value=""/>
-          <input id="search-trigger" type="submit" value=""/>
+       <input id="search-field" name="q" type="text" value="{request:get-parameter('q', '')}"/>         
+          <input id="search-trigger" type="submit" value="{i18n:value('search', $xrx:lang, 'Search')}"/>
           <xrx:div>search-options-div</xrx:div>
-          <xrx:div>search2-description</xrx:div>
-                  <div data-demoid="11541057-2e82-4230-a416-2f446d078930" id="confine">
-          <b>
-            <xrx:i18n>
-              <xrx:key>confine-search-scope</xrx:key>
-              <xrx:default>Confine Search Scope</xrx:default>
-            </xrx:i18n>
-            <span>:</span>
-          </b>
-          <div class="confine-label" data-demoid="c99f1a1c-ee40-4969-822b-ac1ddf0fea1c">
-            <xrx:i18n>
-              <xrx:key>select-archive</xrx:key>
-              <xrx:default>Select Archive</xrx:default>
-            </xrx:i18n>
-            <span>: </span>
-          </div>
-    <!--   {     let $select-archive-div := 
-    <select id="arch-select" onchange="location = this.value;">
-        <option value="" selected="selected">
-          <xrx:i18n>
-            <xrx:key>all-archives</xrx:key>
-            <xrx:default>All archives</xrx:default>
-          </xrx:i18n>
-        </option>
-      {
-      for $archive in metadata:base-collection('archive', 'public')//eag:eag
-      let $autform := $archive//eag:autform/text() 
-      let $repositorid := $archive//eag:repositorid/text()
-      order by $autform collation "?lang=de-DE"
-      return
-      <option value="?arch={ $repositorid }">{$autform }</option>
-      }
-    </select>
-    return $select-archive-div } -->
-   <!--    {
-      if(request:get-parameter('arch', '') != '') then
-      <div data-demoid="e43712c2-af56-4a43-9fb3-f83d09bd55ff">
-            <div class="confine-label" data-demoid="d8709d92-a01b-4e8e-b6c6-7d571f88f5b8">
-              <xrx:i18n>
-                <xrx:key>select-fond</xrx:key>
-                <xrx:default>Select Fond</xrx:default>
-              </xrx:i18n>
-              <span>: </span>
-            </div>
-   {   let $select-col-div :=
-    <select id="col-select" name="col" >
-        <option value="">
-          <xrx:i18n>
-            <xrx:key>all-fonds</xrx:key>
-            <xrx:default>All fonds</xrx:default>
-          </xrx:i18n>
-        </option>
-    {
-    if($search:arch-id != '') then
-    let $metadata-fond-collection := metadata:base-collection('fond', $search:arch-id, 'public')
-    for $fond in $metadata-fond-collection//ead:c[@level='fonds']/ead:did/ead:unittitle
-    let $fond-name := normalize-space($fond/child::text())
-    let $search:fond-id := $fond/parent::ead:did/ead:unitid/@identifier/string()
-    order by $fond-name collation "?lang=de-DE"
-    return
-    <option value="{ $search:fond-id }">{ $fond-name }</option>
-    else ()
-    }
-    </select>
-   return $select-col-div }
-        </div>
-      else()
-      }  -->
-    </div>
+          <xrx:div>search2-description</xrx:div>          
         </div>
       </xrx:view>
     </xrx:div>
@@ -457,7 +389,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               <xrx:key>no-results-message</xrx:key>
               <xrx:default>No results were found for your search.</xrx:default>
             </xrx:i18n>
-          </span>
+          </span>         
           </div>
           else()
           }
@@ -468,9 +400,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
         <br/>
         <input id="categories-search" name="categories" type="hidden" value=""/>
         <input id="context-search" name="context" type="hidden" value=""/>
-      </form>
-       
-      <diV>DIE HITS: {$wsearch:count}</diV>
+      </form>     
       {       
       if($wsearch:count != 0) then 
       <div data-demoid="46eda2fa-8442-4a23-a974-4fa3ab442f24" id="result">
@@ -521,21 +451,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
         </div>
         <br/>     
          <xrx:div>select-block-div</xrx:div> 
-        <div data-demoid="a078f212-5a9e-4d16-8de6-17a8e5b2507e">&lt;{ normalize-space($search:q) }&gt;
-       <!-- maybe improvement of search usability: tbc <p>
-          {
-        let $contexte := request:get-parameter('context', '')        
-        return if($contexte) then 
-        <span class="light-grey"><xrx:i18n><xrx:key>search_context</xrx:key><xrx:default>My Search contexts</xrx:default></xrx:i18n><span>: </span>{$contexte}</span>
-        else()
-        }<br/>
-         {
-        let $categories := request:get-parameter('categories', '')
-        return if($categories) then
-        <span class="light-grey"><xrx:i18n><xrx:key>my_search_categories</xrx:key><xrx:default>My Search categories</xrx:default></xrx:i18n><span>: </span>{$categories}</span>
-        else()
-       
-        }</p>  -->
+        <div data-demoid="a078f212-5a9e-4d16-8de6-17a8e5b2507e">&lt;{ normalize-space($search:q) }&gt; 
         </div>        
         <br/><br/>
         <div data-demoid="3d0a1ccd-8fb3-467c-8546-de74d8b22841" id="result-options">
@@ -594,12 +510,6 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                 else()
                                                        
                 }         
-             <!--   {
-                if($key = search:categories()) then
-                  attribute checked { 'checked' }
-                else ()
-                } --> 
-        
               </input>
               <span>{ if($count-filtered = '0') then attribute class { 'light-grey' } else() }{ $category/@name/string() } ({ $count-filtered })</span>
               <span class="light-grey"> ({ $count })</span>
@@ -734,8 +644,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             let $count-filtered := if($filtered/@count) then $filtered/@count/string() else '0'
             order by xs:integer($count-filtered) descending, xs:integer($count) descending
             return
-            <div data-demoid="eb4623d9-ed36-42be-9c0d-8e26df033a59">
-            <div>Filter: {data($filtered/@key)}</div>
+            <div data-demoid="eb4623d9-ed36-42be-9c0d-8e26df033a59">            
               <input name="{ $key }" type="checkbox" class="collection_checkbox">
                {
                 if ($search:context) then
@@ -744,9 +653,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                 else if (not(deep-equal($wsearch:context, $wsearch:context-filtered)) and $filtered) then attribute checked {'checked'}
                 else()
                                                        
-                }</input>                
-     
-              
+                }</input>              
              
               <span title="{ $name }">{ if($count-filtered = '0') then attribute class { 'light-grey' } else() }{ $collection/@name/string() } ({ $count-filtered })</span>
               <span class="light-grey"> ({ $count })</span>
@@ -758,8 +665,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
              
           </div>
         </div>
-        <div data-demoid="bceb746e-7a77-4337-8e07-4f8b49e7388f" id="dcharter-preview-main">
-        <div>der Suchstring: {$wsearch:query-string}</div>     
+        <div data-demoid="bceb746e-7a77-4337-8e07-4f8b49e7388f" id="dcharter-preview-main">         
           {      
           for $charter at $num in session:get-attribute($search:RESULT)[ position() = $wsearch:start to $wsearch:stop ]
           return

@@ -80,12 +80,8 @@ declare variable $search:ATTRIBUTES := ($search:RESULT, $search:CATEGORIES,
 
 declare function search:categories() {
 
-    if($search:categories = '') then
-        let $log := util:log("INFO", "get ist leer!")
-        return search:all-categories()
-    else
-        let $log := util:log("INFO", "get ist nicht leer!")
-        return search:categories-included()
+    if($search:categories = '') then search:all-categories()
+    else search:categories-included()
 };
 
 
@@ -117,7 +113,8 @@ declare function search:all-categories() {
 declare function search:categories-included() {
     if ($search:categories !='') then
     tokenize(xmldb:decode($search:categories), ',')
-    else(for $cat in session:get-attribute($search:CATEGORIES)//@key/string() return $cat)
+    else (for $cat in session:get-attribute($search:CATEGORIES)//@key/string()
+     return $cat)
 };
 
 
@@ -268,7 +265,7 @@ declare function search:compile-categories-map($result) {
         let $query-string := concat("$result/root()//", $category, "[ft:query(., '", $search:q, "', $search:options)]", 
                               if($search:annotations = 'true') then "[@facs or ./descendant::node()/@facs]" else())
         let $r := util:eval($query-string)
-        let $count := count($r)
+        let $count := count($r)       
         return
         if($count gt 0) then map:entry($category, $r) else ()
     )    
@@ -329,7 +326,7 @@ declare function search:clear-session() {
 
 
 declare function search:is-first-action() {
-    $search:categories = '' and $search:context = '' 
+    $search:categories = '' and $search:context = ''
         and $search:img = '' and $search:q != ''
         and $search:annotations = ''
 };
@@ -362,7 +359,7 @@ declare function search:set-categories($map) {
 declare function search:set-categories-filtered($map, $categories) {
 
     let $cat := 
-        if(empty($categories)) then 
+        if(empty($categories//*:category)) then 
             search:compile-categories-xml($map)
         else
             $categories
@@ -446,8 +443,7 @@ declare function search:set-hits-filtered($result-unique, $count) {
 
 
 
-declare function search:filter-result($result, $map) {
-
+declare function search:filter-result($result, $map) {   
     for $charter in ($result except 
         (for $ex in search:categories-excluded()
         return 
@@ -497,35 +493,31 @@ declare function search:eval2($query-string) {
         return ()
 
     else if(search:is-filter-action()) then
-        let $log := util:log("INFO", "Querystring")
-        let $log := util:log("INFO", $query-string)
-        
-        let $result := util:eval($query-string)        
-             
+        let $result := util:eval($query-string)      
+                  
         let $map := search:compile-categories-map($result)
+        
+       let $do := if(session:get-attribute($search:Q) = $search:q) then search:set-categories-filtered($map, ())
+       else(let $do := search:set-categories($map)
+             let $do := search:set-categories-filtered($map, 
+                  session:get-attribute($search:CATEGORIES))
+              return ())         
+                  
        (: if an entire search string is entered - it will be compared with the prior query string, 
        which is still in the session var; if there was no prior search it equally updates the session vars :)
-        let $get := session:get-attribute($search:CATEGORIES)      
-      
-        
-        let $result := search:filter-result($result, $map)
-        
-        let $get := session:get-attribute($search:CONTEXT)      
-        
-        let $map := if(session:get-attribute($search:Q) = $search:q) then search:set-categories-filtered($map, ()) else()
-        
-        (:let $map := search:set-categories-filtered($map, ()):)   
-        
-        let $do := if(session:get-attribute($search:Q) = $search:q) then search:set-context-filtered($result, ()) else()
-        (:let $do := search:set-context-filtered($result, ()):)       
-        
+                     
+        let $result := search:filter-result($result, $map)     
+
+        let $do := if(session:get-attribute($search:Q) = $search:q) then search:set-context-filtered($result, ()) else(search:set-context($result))
+               
         let $do := search:set-query($query-string)
                 
         let $get := session:get-attribute($search:HITS)
-        
+
         let $count := if(empty($get)) then search:set-hits($result) else()
-        (:let $count := search:set-hits($result):)
-        
+       
+       (: let $count := search:set-hits($result):)
+ 
         let $do := search:set-result($result)
         
         let $do := search:set-hits-filtered($result, ())      

@@ -164,36 +164,34 @@ $.widget("ui.search", {
 
 
   _initContext: function() {	
-    var str = [];
-    console.log("init context arch select");
-    //console.log($("#arch-select"));
-    console.log(window.location.search); //?arch=
-   /* $("#arch-select").menu();
-    $("#arch-select").change(function() {
-    console.log("Wert in select");
-   	var name = this.value;    	 
-    $(this).children().removeAttr("selected", "selected");
-  	$("option[value =" + name + "]").attr("selected", "selected");  
-   })*/
-    //<select id="arch-select" name="context">
-    /*$("#arch-select").change(function() {
-        var str = [];
-        $(selCheckbox_, "#context-result").each(function() {
-          if (this.checked) str.push($(this).attr('name'));
-        });*/
-    
+    var str = []; 
+     var suchstring = window.location.search;
+      var sauber = suchstring.replace(/\+/g, ' ');
+      var uridec = decodeURIComponent(sauber); 
+      var params = uridec.split("?")[1];
+      
+      if (params != null ){
+    	  if (params.includes("arch="))
+    	     {
+    	    	  var wert = params.substring(params.indexOf("arch="), params.length).split("arch=")[1];    	    	 
+    	    	  str.push(wert);
+    	    	  $("#context-search").val(str.join(","));
+    	      }
+      }
+
     $(selCheckbox_, "#context-result").each(function() {
       if (this.checked) str.push($(this).attr('name'));
     });
 
     $("#context-search").val(str.join(","));
+    
     // select and deselect archives / collections
     $(selCheckbox_, "#context-result").change(function() {
       var str = [];
       $(selCheckbox_, "#context-result").each(function() {
         if (this.checked) str.push($(this).attr('name'));
       });
-    
+   
       $("#context-search").val(str.join(",")); 
     });
   },

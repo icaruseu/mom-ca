@@ -79,7 +79,7 @@ it leaves the active development stage.
         </a> )
     }      
       </div>
-             <a href="{ conf:param('request-root') }search?q=&amp;img=false&amp;sort=date&amp;arch={ $wgoto-search:id }&amp;p=search">
+             <a href="{ conf:param('request-root') }search2?q=&amp;arch={ $wgoto-search:id }">
               <xrx:i18n>
                 <xrx:key>search-in</xrx:key>
                 <xrx:default>Search in</xrx:default>
@@ -109,6 +109,7 @@ it leaves the active development stage.
         </a> 
         )  }   
       </div>
+      <div>
           <a href="{ conf:param('request-root') }{ $wgoto-search:id }/annotation-overview">
             <xrx:i18n>
               <xrx:key>annotation-overview</xrx:key>
@@ -116,6 +117,16 @@ it leaves the active development stage.
             </xrx:i18n>
             <span>  &gt;&gt;</span>
           </a>
+          </div>
+          <div>
+           <a href="{ conf:param('request-root') }search2?q=&amp;arch={ $wgoto-search:id }">
+              <xrx:i18n>
+                <xrx:key>search-in-collection</xrx:key>
+                <xrx:default>Search in this collection</xrx:default>
+              </xrx:i18n>            
+              <span>&gt;&gt;</span>
+          </a>
+          </div>
      </div>    
     else( <div data-demoid="548bbfaa-a9ba-4ad8-aea2-cac5c7f5a76b" id="goto-anno-overview" class="goto">
         <div>        
