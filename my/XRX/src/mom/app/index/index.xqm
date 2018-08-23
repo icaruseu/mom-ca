@@ -34,7 +34,7 @@ import module namespace kwic="http://exist-db.org/xquery/kwic";
 import module namespace conf="http://www.monasterium.net/NS/conf" 
       at "../xrx/conf.xqm";
 
-import module namespace charters="http://www.monasterium.net/NS/charters";
+import module namespace charters="http://www.monasterium.net/NS/charters"
       at "../charters/charters.xqm";
 
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
@@ -79,11 +79,11 @@ declare function index:index-abfrage($term){
                 return $treffer union $mehr
                 )            
       for $treffer in $treffergesamt
-      let $date := charters:date-selector($treffer//cei:issued, 'from')
-      return 
-      $treffer/ancestor::atom:entry 
-
+        let $date := charters:date-selector($treffer//cei:issued, 'from')
+        return 
+        $treffer/ancestor::atom:entry 
 };
+
  
  declare function index:narrower($term as xs:string) {
            let $suchterm := if(starts-with($term, '#')) then  $term else (concat('#', $term))
