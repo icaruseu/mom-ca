@@ -34,6 +34,9 @@ import module namespace kwic="http://exist-db.org/xquery/kwic";
 import module namespace conf="http://www.monasterium.net/NS/conf" 
       at "../xrx/conf.xqm";
 
+import module namespace charters="http://www.monasterium.net/NS/charters";
+      at "../charters/charters.xqm";
+
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare namespace xrx="http://www.monasterium.net/NS/xrx";
 declare namespace cei="http://www.monasterium.net/NS/cei";
@@ -76,8 +79,7 @@ declare function index:index-abfrage($term){
                 return $treffer union $mehr
                 )            
       for $treffer in $treffergesamt
-      let $date := data($treffer//cei:issued/(cei:dateRange/@from | cei:date/@value))
-      order by number($date) ascending
+      let $date := charters:date-selector($treffer//cei:issued, 'from')
       return 
       $treffer/ancestor::atom:entry 
 
