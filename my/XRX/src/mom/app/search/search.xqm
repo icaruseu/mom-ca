@@ -71,10 +71,10 @@ declare variable $search:CONTEXT_FILTERED := 'archives-filtered';
 declare variable $search:HITS := 'hits';
 declare variable $search:HITS_FILTERED := 'hits-filtered';
 declare variable $search:QUERY := 'query';
-declare variable $search:Q := 'searchterm';
+declare variable $search:QUERY_TERM := 'searchterm';
 declare variable $search:ATTRIBUTES := ($search:RESULT, $search:CATEGORIES,
     $search:CATEGORIES_FILTERED, $search:CONTEXT, $search:CONTEXT_FILTERED,
-    $search:HITS, $search:HITS_FILTERED, $search:QUERY, $search:Q);
+    $search:HITS, $search:HITS_FILTERED, $search:QUERY, $search:QUERY_TERM);
 
 
 
@@ -471,8 +471,8 @@ declare function search:eval2($query-string) {
     if(search:is-browse-action($query-string)) then ()    
         
     else if(search:is-first-action()) then     
-        let $set := session:set-attribute($search:Q, $search:q)
-        (: $search:Q is used to remember if the users called the search:is-first-action() :)
+        let $set := session:set-attribute($search:QUERY_TERM, $search:q)
+        (: $search:QUERY_TERM is used to remember if the users called the search:is-first-action() :)
         let $result := util:eval($query-string)
         
         let $map := search:compile-categories-map($result)        
@@ -509,7 +509,7 @@ declare function search:eval2($query-string) {
          if the user copies a query URL or is linked from the archive or collection widget
           then the categories are set for the first time, the user has no search history          
          it is the same with the contexts  :)
-       let $do := if(session:get-attribute($search:Q) = $search:q) then search:set-categories-filtered($map, ())
+       let $do := if(session:get-attribute($search:QUERY_TERM) = $search:q) then search:set-categories-filtered($map, ())
        else(let $do := search:set-categories($map)
              let $do := search:set-categories-filtered($map, 
                   session:get-attribute($search:CATEGORIES))
@@ -517,7 +517,7 @@ declare function search:eval2($query-string) {
                      
         let $result := search:filter-result($result, $map)     
         
-        let $do := if(session:get-attribute($search:Q) = $search:q) then search:set-context-filtered($result, ()) 
+        let $do := if(session:get-attribute($search:QUERY_TERM) = $search:q) then search:set-context-filtered($result, ()) 
         else(let $do := search:set-context($result)
              let $do := search:set-context-filtered($result, 
                 session:get-attribute($search:CONTEXT))
