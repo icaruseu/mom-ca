@@ -80,8 +80,9 @@ declare function index:index-abfrage($term){
                 )            
       for $treffer in $treffergesamt
         let $date := charters:date-selector($treffer//cei:issued, 'from')
+        order by number($date) ascending
         return 
-        $treffer/ancestor::atom:entry 
+          $treffer/ancestor::atom:entry 
 };
 
  
