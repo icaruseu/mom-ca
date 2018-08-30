@@ -42,7 +42,7 @@ $.widget("ui.GeoTool",{
 		});
 		
 		this.map = L.map('map')
-		.setView([ 47.66, 11.21 ], 5)
+		.setView([ 51.50, 20.21 ], 4)
 		.addLayer(self.mainMapLayer);
 		
 		this.markers = new L.MarkerClusterGroup();
