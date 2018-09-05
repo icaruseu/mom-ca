@@ -315,15 +315,14 @@ it leaves the active development stage.
       <xrx:subwidget>
               <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/goto-search</xrx:atomid>
         <xrx:pass>
-              <xrx:parameter>
+          <xrx:parameter>
               <xrx:name>$wgoto-search:context</xrx:name>
               <xrx:expression>'fond'</xrx:expression>
-              </xrx:parameter>
-                <xrx:parameter>
+          </xrx:parameter>
+          <xrx:parameter>
               <xrx:name>$wgoto-search:id</xrx:name>
-              <xrx:expression>$charter:rarchiveid</xrx:expression>
-              </xrx:parameter>
-              
+              <xrx:expression>concat($charter:rarchiveid, ';', $charter:rfondid)</xrx:expression>
+          </xrx:parameter>
       </xrx:pass>    
     </xrx:subwidget>		
       </xrx:view>
