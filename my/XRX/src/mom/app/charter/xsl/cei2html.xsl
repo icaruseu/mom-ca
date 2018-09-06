@@ -1725,37 +1725,47 @@
 
     <!-- index persName -->
     <xsl:template name="persName"><!-- Bischofsliste_Ablaesse -->
- <xsl:variable name="len" select="count(tokenize($personfilelist, ' '))"/>
-<xsl:choose>
-<xsl:when test="$len &gt; 1">
- <xsl:for-each select="$cei//cei:persName">
-  <xsl:sort select="."/>
-  <xsl:if test="./node()">
-            
-              <li id="{./@key}">
-              <xsl:choose>                            
+     <xsl:variable name="len" select="count(tokenize($personfilelist, ' '))"/>
+     <xsl:choose>
+			 <xsl:when test="$len &gt; 1">
+		   <xsl:for-each select="$cei//cei:persName">
+    		 <xsl:sort select="."/>
+		     <xsl:if test="./node()">
+	         <li id="{./@key}">
+           	<xsl:choose>                            
               <xsl:when test="@key">
-              <xsl:call-template name="sucheperson">
+              	<xsl:call-template name="sucheperson">
                   <xsl:with-param name="len" select="$len" />
                   <xsl:with-param name="key" select="@key"/>
-              </xsl:call-template>         
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:apply-templates/>
-            </xsl:otherwise>
-             </xsl:choose>   
-          </li>
-            <ul class="inline">
-              <xsl:call-template name="language"/>
+              	</xsl:call-template>         
+            	</xsl:when>
+            	<xsl:otherwise>
+              	<xsl:apply-templates/>
+            	</xsl:otherwise>
+            </xsl:choose>   
+         	</li>
+         	<ul class="inline">
+         		<xsl:call-template name="language"/>
               <xsl:call-template name="reg"/>
               <xsl:call-template name="existent"/>
               <xsl:call-template name="type"/>
-            </ul>
-            </xsl:if>
- </xsl:for-each>
-</xsl:when>
-</xsl:choose>
-    </xsl:template>
+          </ul>
+        </xsl:if>
+			 </xsl:for-each>
+		 </xsl:when>
+		<xsl:otherwise>
+  		<xsl:for-each select="$cei//cei:persName">
+      	<li><xsl:apply-templates/></li>
+      	<ul class="inline">
+        	<xsl:call-template name="language"/>
+	        <xsl:call-template name="reg"/>
+  	      <xsl:call-template name="existent"/>
+  	      <xsl:call-template name="type"/>
+  	    </ul>
+  	 	 </xsl:for-each>
+			</xsl:otherwise>
+		</xsl:choose>
+  </xsl:template>
     <xsl:template name="sucheperson">
 <xsl:param name="len"/>
 <xsl:param name="key"/>
