@@ -147,13 +147,13 @@ div.clear {{
 	<xrx:view>
 	
 		   <div class="inlinehead cat abs" data-demoid="b4e90807-c5fe-45a1-a974-b80c3a605587" onclick="showHideDiv('fonds-map',this)">
-	    <xrx:resource alt="ausklappen" class="headlineIcon" id="open" type="image/png" >tag:www.monasterium.net,2011:/mom/resource/image/path_up</xrx:resource>
+	    <xrx:resource alt="ausklappen" class="headlineIcon" id="closed" type="image/png" >tag:www.monasterium.net,2011:/mom/resource/image/path_up</xrx:resource>
 	      <xrx:i18n>
 	       <xrx:key>geomap</xrx:key>
 	       <xrx:default>Map</xrx:default>
 	      </xrx:i18n>
 	    </div>
-	    <div id="fonds-map" >                          
+	    <div id="fonds-map">                          
           <xrx:subwidget>
               <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/geomap</xrx:atomid>
               <xrx:pass>
@@ -167,6 +167,8 @@ div.clear {{
                 </xrx:parameter>           
               </xrx:pass>              
             </xrx:subwidget> 
+            <script type="text/javascript">$(document).ready(function(){{$('#fonds-map').hide();
+            }})</script>
         </div>
 	{
 	  let $metadata-charter-import-base-collection :=
