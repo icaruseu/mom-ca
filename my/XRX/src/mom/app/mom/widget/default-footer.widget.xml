@@ -125,7 +125,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 							<xrx:default>Terms of use</xrx:default>
 						</xrx:i18n>
 					</a>
-					<span></span>
+					<br/>
 					<a href="{ conf:param('request-root') }contact">
 						<xrx:i18n>
 							<xrx:key>contact</xrx:key>
