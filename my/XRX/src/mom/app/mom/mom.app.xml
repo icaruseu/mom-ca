@@ -145,6 +145,11 @@
       <xrx:name>icarus-logo.png</xrx:name>
     </xrx:resource>
     <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/creative-europe-logo</xrx:atomid>
+      <xrx:relativepath>image/</xrx:relativepath>
+      <xrx:name>creative-europe-logo.png</xrx:name>
+    </xrx:resource>
+    <xrx:resource>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/logo-kultur-niederoesterreich</xrx:atomid>
       <xrx:relativepath>image/</xrx:relativepath>
       <xrx:name>logo-kultur-niederoesterreich.png</xrx:name>
