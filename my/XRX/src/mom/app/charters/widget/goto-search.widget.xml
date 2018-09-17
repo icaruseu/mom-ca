@@ -58,7 +58,7 @@
         let $metadata-archive-collection := metadata:base-collection('archive', $wgoto-search:id, 'public')
         let $eag := $metadata-archive-collection//eag:eag 
         let $archive-short-name := $eag//eag:repositorid/text()
-        let $fondid := $xrx:tokenized-uri[2]        
+        let $fondid := $xrx:tokenized-uri[2]
         return
         <div data-demoid="e423483e-df37-4787-87ab-4ce3a8947d56" id="goto-search" class="goto">
             <div>
@@ -68,7 +68,7 @@
                     <xrx:i18n>
                         <xrx:key>image_preview</xrx:key>
                         <xrx:default>Image preview</xrx:default>
-                    </xrx:i18n><span> &gt;&gt;</span>                 
+                    </xrx:i18n><span> &gt;&gt;</span>
                 </a>
                 else(<a href="{ conf:param('request-root') }{$wgoto-search:id}/{ xmldb:decode($xrx:tokenized-uri[2])}/fond?block=1">
                     <xrx:i18n>
@@ -81,8 +81,8 @@
             <xrx:i18n>
                 <xrx:key>search-in</xrx:key>
                 <xrx:default>Search in</xrx:default>
-            </xrx:i18n>                       
-            <span> { conf:param('request-root') } { $archive-short-name } {$fondid} &gt;&gt;</span>
+            </xrx:i18n>
+            <span>{ $xrx:tokenized-uri[1] } &gt; {$fondid} &gt;&gt;</span>
             
              <form style="padding:0;" action="{conf:param('request-root') }search2?">        
                 <input id="search-field" name="q" type="text" value="{request:get-parameter('q', '')}"/>
@@ -121,7 +121,7 @@
                     <span>  &gt;&gt;</span>
                 </a>
             </div>
-            <div>                    
+            <div>
                 <xrx:i18n>
                     <xrx:key>search-in-collection</xrx:key>
                     <xrx:default>Search in this collection</xrx:default>
