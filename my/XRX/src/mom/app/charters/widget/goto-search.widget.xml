@@ -82,8 +82,7 @@
                 <xrx:key>search-in</xrx:key>
                 <xrx:default>Search in</xrx:default>
             </xrx:i18n>
-            <span>{ $xrx:tokenized-uri[1] } &gt; {$fondid} &gt;&gt;</span>
-            
+            <span>{ $xrx:tokenized-uri[1] } &gt; {$fondid} &gt;&gt;</span>            
              <form style="padding:0;" action="{conf:param('request-root') }search2?">        
                 <input id="search-field" name="q" type="text" value="{request:get-parameter('q', '')}"/>
                 <input type="hidden" name="context" value="{$wgoto-search:id}"/>
