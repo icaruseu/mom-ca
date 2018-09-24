@@ -28,6 +28,7 @@ $.widget("ui.search", {
     this._initFilter();
     this._initContext();
     this._initTrigger();
+  
   },
 
 
@@ -129,9 +130,8 @@ $.widget("ui.search", {
     $(selCheckbox_, "#categories-result").each(function() {
       if (this.checked) str.push($(this).attr('name'));
     });
+    $("#categories-search").val(str.join(","));
 
-    $("#categories-search").val(str.join(","));    
-    
     // select and deselect search categories
     $(selCheckbox_, "#categories-result").change(function() {
       var str = [];
@@ -163,13 +163,33 @@ $.widget("ui.search", {
   },
 
 
-  _initContext: function() {
-    var str = [];
+  _initContext: function() {	
+    var str = []; 
+    /* when link from colltection/archive page to search2
+     *  then get-parameter 'q' is empty but 'arch' has a value
+     *  the value of arch is taken and pushed in the 'str' array
+     *  the array is then handed over to the input value
+     *   of the context-search
+     *  */
+     var suchstring = window.location.search;
+      var sauber = suchstring.replace(/\+/g, ' ');
+      var uridec = decodeURIComponent(sauber); 
+      var params = uridec.split("?")[1];
+      
+      if (params != null ){
+    	  if (params.includes("arch="))
+    	     {
+    	    	  var wert = params.substring(params.indexOf("arch="), params.length).split("arch=")[1];    	    	 
+    	    	  str.push(wert);
+    	    	  $("#context-search").val(str.join(","));
+    	      }
+      }
+
     $(selCheckbox_, "#context-result").each(function() {
       if (this.checked) str.push($(this).attr('name'));
     });
 
-    $("#context-search").val(str.join(","));    
+    $("#context-search").val(str.join(","));
     
     // select and deselect archives / collections
     $(selCheckbox_, "#context-result").change(function() {
@@ -177,8 +197,8 @@ $.widget("ui.search", {
       $(selCheckbox_, "#context-result").each(function() {
         if (this.checked) str.push($(this).attr('name'));
       });
-
-      $("#context-search").val(str.join(","));
+   
+      $("#context-search").val(str.join(",")); 
     });
   },
 

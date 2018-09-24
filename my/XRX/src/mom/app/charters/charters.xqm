@@ -72,6 +72,31 @@ declare function charters:ruri-tokens() as xs:string* {
     if(charters:rcontext() = 'fond') then (charters:rarchiveid(), charters:rfondid()) else charters:rcollectionid()
 };
 
+declare function charters:date-selector($cei_issued, $range_limit as xs:string?) as xs:int {
+ (: 
+The function decides which dating element is the most expressive in a cei:issued structure:
+$cei_issued is the cei:issued element which contains either cei:date/@value or cei:dateRange/(@from|@to) or both. 
+$range_limit indicates if the function should return the lower or the upper value of cei:dateRange
+Strategy is: 
+1. the lower value is preferred (to get the dates below the generic "unknown" value '99999999')
+2. if that does not help cei:date is preferred against cei:dateRange
+:)
+    let $rl := if(count($range_limit) = 0) then ('from') else ($range_limit)
+    let $date := $cei_issued/(
+      cei:date[
+        not(../cei:dateRange) 
+        or xs:integer(@value) lt xs:integer(../cei:dateRange/@*[name()=$range_limit])
+        or xs:integer(@value) = xs:integer(../cei:dateRange/@*[name()=$range_limit])
+        ]/@value
+      |
+      cei:dateRange[
+        not(../cei:date) 
+        or xs:integer(@*[name()=$range_limit]) lt xs:integer(../cei:date/@*[name()=$range_limit])
+        ]/@*[name()=$range_limit]
+    )
+    return xs:int($date[1]/string())
+};
+
 (:~
   charter view
 :)

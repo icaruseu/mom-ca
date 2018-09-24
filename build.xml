@@ -28,6 +28,8 @@
     <property name="download-url-codemirror" value="https://github.com/codemirror/CodeMirror/archive/v2.zip"/>
     <property name="download-url-exist" value="https://github.com/eXist-db/exist/archive/873a493e1c60364e419c008a2ebabfa4776746b2.zip"/>
     <property name="download-url-jquery" value="https://github.com/jquery/jquery-ui/archive/1-9-stable.zip"/>
+    <property name="download-url-leaflet" value="https://github.com/Leaflet/Leaflet/archive/v1.3.4.zip"/>
+    <property name="download-url-leaflet-markercluster" value="https://github.com/Leaflet/Leaflet.markercluster/archive/v1.4.1.zip"/>
     <property name="download-url-jssaxparser" value="https://codeload.github.com/ndebeiss/jsXmlSaxParser/zip/master"/>
 
     <!-- System -->
@@ -69,6 +71,11 @@
     <!-- jQuery -->
     <property name="jquery-home" value="jQuery"/>
     <property name="my-jquery-src" value="${my-xrx-res}/jquery"/>
+
+    <!-- leaflet -->
+    <property name="leaflet-home" value="leaflet"/>
+    <property name="my-leaflet-src" value="${my-xrx-res}/leaflet"/>
+
 
     <!-- eXist -->
     <property name="exist-home" value="localhost"/>
@@ -281,6 +288,7 @@
         <antcall target="download-exist"/>
         <antcall target="download-jsxmlsaxparser"/>
         <antcall target="download-jquery"/>
+        <antcall target="download-leaflet"/>
         <antcall target="download-codemirror"/>
         <antcall target="download-betterform"/>
     </target>
@@ -332,6 +340,25 @@
         </unzip>
     </target>
 
+    <target name="download-leaflet">
+        <log message="Downloading Leaflet"/>
+        <delete dir="${leaflet-home}" failonerror="false"/>
+        <download src="${download-url-leaflet}" destdir="${tmp-home}" destname="Leaflet.zip"/>
+        <download src="${download-url-leaflet-markercluster}" destdir="${tmp-home}" destname="Leaflet-markercluster.zip"/>
+        <unzip src="${tmp-home}/Leaflet.zip" dest="${leaflet-home}">
+            <patternset>
+                <include name="**/Leaflet*/dist/**"/>
+            </patternset>
+            <regexpmapper from="^Leaflet[A-Za-z0-9\-\_\.]*/dist/(.*)$" to="\1"/>
+        </unzip>
+        <unzip src="${tmp-home}/Leaflet-markercluster.zip" dest="${leaflet-home}">
+            <patternset>
+                <include name="**/Leaflet*/dist/**"/>
+            </patternset>
+            <regexpmapper from="^Leaflet[A-Za-z0-9\-\_\.]*/dist/(.*)$" to="\1"/>
+        </unzip>
+    </target>
+
     <target name="download-codemirror">
         <log message="Downloading CodeMirror"/>
         <delete dir="${codemirror-home}" failonerror="false"/>
@@ -356,6 +383,7 @@
         <log message="Patching the tools"/>
         <antcall target="patch-jssaxparser"/>
         <antcall target="patch-jquery"/>
+        <antcall target="patch-leaflet"/>
         <antcall target="patch-codemirror"/>
         <antcall target="patch-betterform"/>
         <antcall target="patch-exist"/>
@@ -372,6 +400,13 @@
         <log message="Patching jQuery"/>
         <copy todir="${jquery-home}" overwrite="true">
             <fileset dir="${my-jquery-src}"/>
+        </copy>
+    </target>
+
+    <target name="patch-leaflet">
+        <log message="Patching Leaflet"/>
+        <copy todir="${leaflet-home}" overwrite="true">
+            <fileset dir="${my-leaflet-src}"/>
         </copy>
     </target>
 
@@ -530,7 +565,7 @@
 
             else
             &lt;dispatch xmlns='http://exist.sourceforge.net/NS/exist'&gt;
-            &lt;ignore&gt;
+            &lt;ignore&gt;le
             &lt;cache-control cache='no'/&gt;
             &lt;/ignore&gt;
             &lt;/dispatch&gt;
@@ -584,6 +619,7 @@
         <antcall target="prepare-xrx-res-collection"/>
         <antcall target="deploy-jssaxparser"/>
         <antcall target="deploy-jquery"/>
+        <antcall target="deploy-leaflet"/>
         <antcall target="deploy-codemirror"/>
     </target>
 
@@ -611,6 +647,19 @@
                 <include name="ui/**"/>
                 <include name="themes/**"/>
                 <include name="external/**"/>
+            </fileset>
+        </exist-store>
+    </target>
+
+    <target name="deploy-leaflet" depends="exist-classpath">
+        <log message="Deploying Leaflet"/>
+        <exist-remove uri="${xmldb-xrx-res-uri}" collection="leaflet"/>
+        <sleep seconds="2"/>
+        <exist-store uri="${xmldb-xrx-res-uri}/leaflet">
+            <fileset dir="${leaflet-home}">
+                <include name="*.xml"/>
+                <include name="*.js"/>
+                <include name="*.css"/>
             </fileset>
         </exist-store>
     </target>
@@ -717,6 +766,7 @@
         <delete dir="${tmp-home}"/>
         <delete dir="${codemirror-home}"/>
         <delete dir="${jquery-home}"/>
+        <delete dir="${leaflet-home}"/>
         <delete dir="${jssaxparser-home}"/>
         <delete dir="${betterform-home}"/>
         <delete dir="${exist-build-workaround-webapp}"/>

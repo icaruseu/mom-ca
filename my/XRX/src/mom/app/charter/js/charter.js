@@ -207,52 +207,62 @@ else 	{
 
 }
 
-/*function rapper is uses to show the clicked glossary entry in a viewport on the single charter view. */
+/* ********
+ *  * function addinfo gives additional info to index terms in the single charter view. Till now there are 2 collections, 
+ *  where controlled vocabularies can be saved and retrieved in the data base:
+ *  metadata.person.public and metadata.controlledVocabularies.public.
+ *  In metadata.controlledVocabularies.public files are in skos and in different languages.
+ *  The files in metadata.person.public are TEIs. Until now there are 2 kinds of structures: a low structured
+ *  one containing a unique key, a persName, occupation of the person and maybe a comment on the person.
+ *  The other one BischoefeAblaesse is deeper nested,that is why there is a special handling (1.if-clause) for that case.  
+ *  The additional information is retrieved from the service "getTextfromGlossar" via ajax. 
+ *  The data from the service is prepared and integrated in the single charter view.
+ *  The function is called in charter and my-charter.widget.
+ *   */
 
-function rapper(){		
-	
-		var infoeintrag = $('li[value="true"]');		
+function addInfo(){		
+		
+		var findlang = $("select[name='_lang']").children("option[selected='selected']");
+
+		/* lang in voc has 2 chars not 3*/	
+		console.log($(findlang));
+		var lang = $(findlang)[0].value.substring(0,2) || 'eng';	
+
+		
 		/* normally all li where value = true (which means that there is more information provided to this index)
-		 * has an eception which is the illurk-vocabulary and vis, because until now there is no additional info.
+		 * has an eception which is the vis, because until now there is no additional info.
 		 * 
 		 * */
-		$('li[value="true"]:not(.illurk-vocabulary):not(.vis)').each(function(){
-	
-			var glossartyp= $(this)[0].className;
+		$('li[value="true"]:not(.vis)').each(function(){
+			var self = this,
+			vocabulary = self.className,
+			term = self.attributes.lemma || self.attributes.id;
 			
-				if ($(this)[0].attributes.lemma == undefined)
-					{
-					var entry = $(this)[0].attributes.id.value;
-					}
-				else{
-					var entry = $(this)[0].attributes.lemma.value;
-				}
-				
-				var gentry = entry.charAt(0).toUpperCase() + entry.slice(1);				
+			var begriff = term.value; 
+			
+			var category = (self.attributes.lemma == undefined)? 'person': 'item';		
+							
 				var anker = $('<a><a>').addClass('eintrag');
 				$(this).append('<span class="info_i">i</span>');
 				$(this).wrapInner(anker);				
 							
-				$(this).click( function(){
-					console.log("click event on list");					
-					$("div#enhancedView").empty();
-										
-			        console.log(glossartyp);
+				$(this).click( function(){					
+					
+					$("div#enhancedView").empty();			
 			        $.ajax({     
 			        	url: "/mom/service/getTextfromGlossar",
 			        	type:"GET",      
 			        	contentType: "application/xml",     
 			        	dataType: "xml",
-			        	data: { id : gentry, typ : glossartyp},
+			        	data: { id : begriff, typ : vocabulary, cat: category},
 			        	success: function(data, textStatus, jqXHR)
 			        	{    
-			        		if (glossartyp == 'bishop' ){
+			        		
+			        		if (vocabulary == 'BischoefeAblaesse' ){
 			        			var note = $(data).find("tei\\:note");
-			        			console.log("Note NOte");
-			        			console.log(note);
-			        			console.log($(data));
+			        			
 			        			var person = $(data).text();			        			
-			        			/* Person data is retrieved as text
+			        			/* Person data of BischoefeAblaesse is retrieved as text
 			        			 * Problem of textformatting: 
 				        		 * in order to be able to insert whitespaces again
 				        		 * this is done via regex. 
@@ -270,12 +280,24 @@ function rapper(){
 			        			$("div#enhancedView").append(port);				        			
 			        	
 			        		}
-			        		else {				        		
-
-			        			var preflabel = $(data).find("skos\\:prefLabel");
+			        		else if((category == 'person') && (vocabulary != 'BischoefeAblaesse')){
+			        			/* the person data is retrieved from TEI-files in metadata.person.public.
+			        			 * These person lists are low structured: persName, occupation, maybe note. */
+			        			var name = $(data).find("tei\\:persName").text();
+			        			var h = $("<h3></h3>").append(name);			        			
+			        			//var more = $(data).children("div.port").children().not(name)
+			        			var occupation = $(data).find("tei\\:occupation").text();
+			        			var p = $("<p></p>").append(occupation);
+			        			var note = $("<p></p>").append($(data).find("tei\\:note").text());
+			        		
+			        			var port = $("<div class='port'></div>").append(h).append(p).append(note);
+			        			$("div#enhancedView").append(port);			        			
+			        		}
+			        		else {	
+			        			var preflabel = $(data).find("skos\\:prefLabel[xml\\:lang='" + lang +"']");			        			
 			        			var h = $("<h3></h3>").append(preflabel);			        			
-			        				var def = $(data).find("skos\\:definition");
-			        			var div = $("<div class='bla'></div>").append(def);
+			        			var def = $(data).find("skos\\:definition");
+			        			var div = $("<div></div>").append(def);
 			        			var port = $("<div class='port'></div>").append(h).append(div);
 			        			$("div#enhancedView").append(port);			        			
 			        		};
@@ -299,93 +321,3 @@ function rapper(){
 	
 	}
 
-
-//function addInfo(){
-//	
-//	var glossarcat = $("ul.glossary li[class]");
-//	
-//	
-//	for (var i= 0; i < glossarcat.length; i++) {
-//	
-//		var cat = $(glossarcat[i]);		
-//	
-//		var glossartyp = cat.context.className;
-//	
-//		console.log("das ist der glossartyp")
-//		console.log(glossartyp);
-//		doAnAjax(glossartyp, cat,function(wert, cat){			
-//			console.log(wert);
-//			var neuewerte = cat.attr("value", wert);			
-//			rapper();
-//		}		
-//				
-//		);
-//		
-//		
-//	}
-//	
-//}
-//
-//function doAnAjax(glossartyp,cat ,hisBack){
-//$.ajax({     
-//	url: "/mom/service/getTextfromGlossar",
-//	type:"GET",      
-//	//contentType: "application/xml",     
-//	dataType: "xml",
-//	data: { checktype : glossartyp},
-//	success: function(data, textStatus, jqXHR)
-//	{    	console.log("wann bin ich dran?");
-//	
-//		return hisBack(data.activeElement.value, cat);
-//	},     
-//	error: function(){
-//		$("#result").text("Error: Failed to load script.");
-//
-//		return false;
-//	}    
-//});
-//}
-
-//function transport(){
-//	var sprachwert = "de";
-//	var indexname = "illurk-vocabulary";
-//	console.log("wann komme ich zum Einsatz!!!!!!!!!!!!");
-//	$('li[lemma]').each( function() {
-//		//var entry = $(this)[0].attributes.sublemma.value;
-//		var self = $(this);
-//		if(self[0].attributes.lemma.value == ""){
-//			console.log("no lemma value");
-//		}
-//		else {
-//		console.log(self);
-//		var sublemmawert = self[0].attributes.lemma.value;
-//		var lemmawert = self[0].attributes.lemma.value;		
-//		$.ajax({
-//			url:"/mom/service/sublemma",
-//			type:"GET",
-//			dataType:"xml",
-//			data: {lemma : lemmawert, sprache:sprachwert, index:indexname},
-//			success: function(data, textStatus, jqXHR)			{
-//								
-//				if(data.childNodes[0].childNodes[0] == undefined){
-//					console.log("hallojjjjjjj");
-//						}
-//				else {
-//					var translation = data.childNodes[0].childNodes[0].data;					
-//					self.text(translation);
-//					console.log("was passiert da?");
-//					console.log(self.text(translation));
-//				}
-//				
-//				return true;
-//			},
-//			error: function() {
-//				console.log("Error. Failed to load script.");
-//				return false;
-//			}
-//			
-//		});
-//		}
-//	});
-//	
-//}

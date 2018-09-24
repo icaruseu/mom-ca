@@ -1,0 +1,27 @@
+<xrx:resources xmlns:xrx="http://www.monasterium.net/NS/xrx">
+	<xrx:resource>
+	  <xrx:atomid>tag:www.monasterium.net,2011:/xrx/resource/js/leaflet</xrx:atomid>
+	  <xrx:relativepath/>
+	  <xrx:name>leaflet.js</xrx:name>
+	</xrx:resource>
+	<xrx:resource>
+	  <xrx:atomid>tag:www.monasterium.net,2011:/xrx/resource/js/leaflet-marker-cluster</xrx:atomid>
+	  <xrx:relativepath>dist/</xrx:relativepath>
+	  <xrx:name>leaflet.markercluster-src.js</xrx:name>
+	</xrx:resource>
+	<xrx:resource>
+	  <xrx:atomid>tag:www.monasterium.net,2011:/xrx/resource/css/leaflet</xrx:atomid>
+	  <xrx:relativepath/>
+	  <xrx:name>leaflet.css</xrx:name>
+	</xrx:resource>
+	<xrx:resource>
+	  <xrx:atomid>tag:www.monasterium.net,2011:/xrx/resource/css/leaflet-marker-cluster</xrx:atomid>
+	  <xrx:relativepath>dist/</xrx:relativepath>
+	  <xrx:name>MarkerCluster.css</xrx:name>
+	</xrx:resource>
+	<xrx:resource>
+	  <xrx:atomid>tag:www.monasterium.net,2011:/xrx/resource/css/leaflet-marker-cluster-default</xrx:atomid>
+	  <xrx:relativepath>dist/</xrx:relativepath>
+	  <xrx:name>MarkerCluster.Defaults.css</xrx:name>
+	</xrx:resource>
+</xrx:resources>

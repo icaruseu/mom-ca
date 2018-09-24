@@ -34,6 +34,9 @@ import module namespace kwic="http://exist-db.org/xquery/kwic";
 import module namespace conf="http://www.monasterium.net/NS/conf" 
       at "../xrx/conf.xqm";
 
+import module namespace charters="http://www.monasterium.net/NS/charters"
+      at "../charters/charters.xqm";
+
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare namespace xrx="http://www.monasterium.net/NS/xrx";
 declare namespace cei="http://www.monasterium.net/NS/cei";
@@ -45,13 +48,10 @@ declare namespace atom="http://www.w3.org/2005/Atom";
 declare variable $index:chartercollection := collection(concat(conf:param("data-db-base-uri"), "/metadata.charter.public"));
 declare variable $index:personcollection := collection(concat(conf:param("data-db-base-uri"), "/metadata.person.public"));
 declare variable $index:vocabularycollection := collection(concat(conf:param("data-db-base-uri"), "/metadata.controlledVocabulary.public"));
+(: Sprachabkuerzel sind bisher in den Vokabularen nur 2stellig, deshalb $index:sprache :)
+declare variable $index:sprache := substring($xrx:lang, 0,3);
 
-(: function searches hits of a lemma in @ of published charters. 
-and searches hits from narrower terms as well.
-It returns the entries (atom:entry):
-In the person index a specific value in the @key is searched
-in other index a specific value in the @lemma is searched in the public collection
-:)
+
 
  declare function index:index-check($voc){
     for $file in $index:personcollection   
@@ -62,6 +62,12 @@ in other index a specific value in the @lemma is searched in the public collecti
      else()    
 };
 
+(: function searches hits of a lemma in @ of published charters. 
+and searches hits from narrower terms as well.
+It returns the entries (atom:entry):
+In the person index a specific value in the @key is searched
+in other index a specific value in the @lemma is searched in the public collection
+:)
 
 declare function index:index-abfrage($term){
       let $treffergesamt := 
@@ -73,13 +79,20 @@ declare function index:index-abfrage($term){
                 return $treffer union $mehr
                 )            
       for $treffer in $treffergesamt
-      let $date := data($treffer//cei:issued/(cei:dateRange/@from | cei:date/@value))
-      order by number($date) ascending
-      return 
-      $treffer/ancestor::atom:entry 
-
+        let $date := charters:date-selector($treffer//cei:issued, 'from')
+        order by number($date) ascending
+        return 
+          $treffer/ancestor::atom:entry 
 };
 
+ 
+ declare function index:narrower($term as xs:string) {
+           let $suchterm := if(starts-with($term, '#')) then  $term else (concat('#', $term))
+           let $voc := if( $index:vocabularycollection//skos:Concept[@rdf:about= $suchterm]/skos:narrower) then $index:vocabularycollection//skos:Concept[@rdf:about= $suchterm]/skos:narrower else ()
+           let $narrow := data($voc/@rdf:resource)          
+           return $narrow
+ }; (: $narrow ist eine Sequenz an Strings, die auch gesucht werden sollen :)
+ 
 
 (: the following two functions are needed to cut TEI data in order to get a userfriendly representation of the text in the UI :)
 declare function index:if-absent
@@ -104,21 +117,17 @@ declare function index:replace-multi
           $changeTo[position() > 1])
    else $arg
  } ;
- 
- declare function index:narrower($term as xs:string) {
-           let $suchterm := if(starts-with($term, '#')) then  $term else (concat('#', $term))
-           let $voc := if( $index:vocabularycollection//skos:Concept[@rdf:about= $suchterm]/skos:narrower) then $index:vocabularycollection//skos:Concept[@rdf:about= $suchterm]/skos:narrower else ()
-           let $narrow := data($voc/@rdf:resource)          
-           return $narrow
- }; (: $narrow ist eine Sequenz an Strings, die auch gesucht werden sollen :)
+
   
  (: function that reads terms from RDF :)
- declare function index:read-hierarchie($glossarlabel,$rdf, $label, $voc, $sprache){       
+ declare function index:read-hierarchie($glossarlabel,$rdf, $label, $voc){       
              for $g in $glossarlabel//skos:Concept[skos:broader/@rdf:resource = $rdf]
                   
                   let $newrdf := data($g/@rdf:about)
-                  let $newlabel := <a class="filter" href="{concat(conf:param('request-root'),'index/',$voc, '/',  replace($newrdf, '#', ''))}">{if($g/skos:prefLabel/@xml:lang= $sprache) then $g/skos:prefLabel[@xml:lang= $sprache]/text() else($g/skos:prefLabel[1]/text())}</a>
+                  let $newlabel := <a class="filter" href="{concat(conf:param('request-root'),'index/',$voc, '/',  replace($newrdf, '#', ''))}">{if($g/skos:prefLabel/@xml:lang= $index:sprache) then $g/skos:prefLabel[@xml:lang= $index:sprache]/text() else($g/skos:prefLabel[1]/text())}</a>
                
-                  let $memo:= session:set-attribute(replace($newrdf,'#', ''), $newlabel)
-            return  <div class="narrower">{$newlabel}<span>{index:read-hierarchie($glossarlabel, $newrdf, $newlabel, $voc, $sprache)}</span></div>    
+                  
+            return  <div class="narrower">{$newlabel}<span>{index:read-hierarchie($glossarlabel, $newrdf, $newlabel, $voc)}</span></div>    
             };
+            
+            

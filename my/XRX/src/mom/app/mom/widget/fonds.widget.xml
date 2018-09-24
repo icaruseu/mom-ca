@@ -101,8 +101,40 @@ div.clear {{
           float:right;
           margin-bottom:30px;
           width:32.5%;
-  
-  }}
+}}
+ 
+ div.inlinehead, div.greyinlinehead, div.light-green, div.light-green:visited{{
+  position:relative;
+  float:left;
+  font-weight:bold;
+  width:954px;
+  background-color:{ conf:param('color5') };
+  color:rgb(255,255,255);
+  /*color:rgb(142,163,132);*/  
+  margin: 0px;
+  margin-left: 2px;
+  margin-top: 5px;
+  line-height:200%;
+  margin-bottom: 1px;
+}}
+
+.headlineIcon{{
+ height: 12px;
+ margin-right: 3px;
+ margin-left: 2px;
+}}
+ 
+.headlineIcon#open{{
+	transform: rotate(180deg);
+}}
+
+.headlineIcon#closed{{
+	transform:rotate(90deg);
+}}
+
+#fonds-map{{
+	margin-left: 75px;
+}}
     </style>
   </xrx:csss>
     <xrx:jss>     
@@ -110,8 +142,34 @@ div.clear {{
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/jquery_ui_fonds</xrx:resource>
   </xrx:jss>
 	<xrx:view>
+	
+		   <div class="inlinehead cat abs" data-demoid="b4e90807-c5fe-45a1-a974-b80c3a605587" onclick="showHideDiv('fonds-map',this)">
+	    <xrx:resource alt="ausklappen" class="headlineIcon" id="closed" type="image/png" >tag:www.monasterium.net,2011:/mom/resource/image/path_up</xrx:resource>
+	      <xrx:i18n>
+	       <xrx:key>geomap</xrx:key>
+	       <xrx:default>Map</xrx:default>
+	      </xrx:i18n>
+	    </div>
+	    <div id="fonds-map">                          
+          <xrx:subwidget>
+              <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/geomap</xrx:atomid>
+              <xrx:pass>
+                 <xrx:parameter>
+                <xrx:name>$serviceName</xrx:name>
+                <xrx:expression>"geolocations-archives"</xrx:expression>
+                </xrx:parameter>  
+                <xrx:parameter>
+                <xrx:name>$imagelink</xrx:name>
+                <xrx:expression>concat(conf:param('request-root'),"resource/?atomid=tag:www.monasterium.net,2011:/xrx/resource/images/archive")</xrx:expression>
+                </xrx:parameter>           
+              </xrx:pass>              
+            </xrx:subwidget> 
+            <script type="text/javascript">$(document).ready(function(){{$('#fonds-map').hide();
+            }})</script>
+        </div>
 	{
 	  let $metadata-charter-import-base-collection :=
 	    metadata:base-collection('charter', 'import')
@@ -119,7 +177,8 @@ div.clear {{
 	  let $count-imported-fond := count($imported-fond)
 	  return
     <div data-demoid="545e83cc-a170-4e85-a127-b222a13c9aaf" id="dwidget">
-	    <div class="h2" data-demoid="b4e90807-c5fe-45a1-a974-b80c3a605587">
+	   <div class="inlinehead cat abs" data-demoid="b4e90807-c5fe-45a1-a974-b80c3a605587" onclick="showHideDiv('fonds',this)">
+	    <xrx:resource alt="ausklappen" class="headlineIcon" id="open" type="image/png" >tag:www.monasterium.net,2011:/mom/resource/image/path_up</xrx:resource>
 	      <xrx:i18n>
 	       <xrx:key>archives</xrx:key>
 	       <xrx:default>Archives</xrx:default>
