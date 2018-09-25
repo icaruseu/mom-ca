@@ -290,7 +290,7 @@ div#archive div#container {{
 								<xrx:default>Search in</xrx:default>
 							</xrx:i18n>
 							<span> { conf:param('request-root') }{ $archive-short-name } &gt;&gt;</span>					
-						<form style="padding:0;" action="{conf:param('request-root') }search2?">        
+						<form style="padding:0;" action="{conf:param('request-root') }search?">        
                 <input id="search-field" name="q" type="text" value="{request:get-parameter('q', '')}"/>
                 <input type="hidden" name="context" value="{$archive-id}"/>
                 <input id="search-trigger" type="submit" value="{i18n:value('search', $xrx:lang, 'Search')}"/> 
