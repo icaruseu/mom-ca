@@ -56,6 +56,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:uri>http://www.monasterium.net/NS/mycharters</xrx:uri>
     </xrx:module>
   </xrx:modules>
+   <!--  JavaScript -->
   <xrx:resources>
     <xrx:resource>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/charterItems</xrx:atomid>
@@ -107,11 +108,15 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:relativepath>js/</xrx:relativepath>
       <xrx:name>jquery.ui.xrxAttributes.js</xrx:name>
     </xrx:resource> 
- <!--  JavaScript -->
     <xrx:resource>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/progressbarRemove</xrx:atomid>
       <xrx:relativepath>js/</xrx:relativepath>
       <xrx:name>jquery.ui.progressbarRemove.js</xrx:name>
+    </xrx:resource>
+    <xrx:resource>
+     <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/myCollectionMockup</xrx:atomid>
+     <xrx:relativepath>js/</xrx:relativepath>
+     <xrx:name>jquery.ui.myCollectionMockup.js</xrx:name>
     </xrx:resource>
   </xrx:resources>
   <xrx:resolver>
@@ -238,6 +243,21 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     	<xrx:mode>service</xrx:mode>
     	<xrx:atomid>tag:www.monasterium.net,2011:/mom/service/my-collection-check-charter-exists</xrx:atomid>
     </xrx:map>
+    <xrx:map>
+    	<xrx:uripattern>/service/collection-content-search-key-terms</xrx:uripattern>
+    	<xrx:mode>service</xrx:mode>
+    	<xrx:atomid>tag:www.monasterium.net,2011:/mom/service/collection-content-search-key-terms</xrx:atomid>
+    </xrx:map>
+        <xrx:map>
+    	<xrx:uripattern>/service/collection-content-search-terms</xrx:uripattern>
+    	<xrx:mode>service</xrx:mode>
+    	<xrx:atomid>tag:www.monasterium.net,2011:/mom/service/collection-content-search-terms</xrx:atomid>
+    </xrx:map>
+        <xrx:map>
+    	<xrx:uripattern>/service/collection-search-charters</xrx:uripattern>
+    	<xrx:mode>service</xrx:mode>
+    	<xrx:atomid>tag:www.monasterium.net,2011:/mom/service/collection-search-charters</xrx:atomid>
+    </xrx:map>
     <!-- main widgets -->
     <xrx:map>
       <xrx:uripattern>/new-collection</xrx:uripattern>
@@ -308,6 +328,16 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:uripattern>/charter/(.*)/contribute$</xrx:uripattern>
       <xrx:mode>mainwidget</xrx:mode>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/my-collection-charter-edit</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+    	<xrx:uripattern>/collection-search$</xrx:uripattern>
+    	<xrx:mode>mainwidget</xrx:mode>
+    	<xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/collection-search</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/charters-on-map$</xrx:uripattern>
+      <xrx:mode>mainwidget</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/charters-on-map</xrx:atomid>
     </xrx:map>
   </xrx:resolver>
 </xrx:app>
