@@ -95,57 +95,30 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:name>$wcharters:next-block-pos</xrx:name>
       <xrx:expression>if($windex:block = $windex:hits div 30) then 1 else $windex:block + 1</xrx:expression>
     </xrx:variable> 
-    <!-- Session Variablen -->
+    
     <!-- var $setresults speichert die suchergebnisse (ganze atom:entrys),
     Sortierung der Suchergebnisse passiert in index.xqm,
      dann kann in der korrekten Reihefolge geblättert werden (browse search results)-->
     <xrx:variable>
     <xrx:name>$setresults</xrx:name>
     <xrx:expression>session:set-attribute($search:RESULT, $windex:index)</xrx:expression>
-    </xrx:variable>
-    
-    <xrx:variable>
-      <xrx:name>$getattnames</xrx:name>
-      <xrx:expression>session:get-attribute-names()</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$getsessionid</xrx:name>
-      <xrx:expression>session:get-id()</xrx:expression>
-    </xrx:variable>
+    </xrx:variable> 
     <xrx:variable>
       <xrx:name>$index-use-text</xrx:name>
       <xrx:expression>htdoc:process(htdoc:get('tag:www.monasterium.net,2011:/mom/htdoc/index-use'))</xrx:expression>
-    </xrx:variable>  
-      <xrx:variable>
-      <xrx:name>$bread1</xrx:name>
-      <xrx:expression>if($xrx:tokenized-uri[2]) then string($xrx:tokenized-uri[2]) else('')</xrx:expression>
     </xrx:variable>
-      <xrx:variable>
-      <xrx:name>$breadcrumb1</xrx:name>
-      <xrx:expression>if($bread1) then session:get-attribute($bread1) else()</xrx:expression>
-    </xrx:variable>
-     <xrx:variable>
-      <xrx:name>$bread2</xrx:name>
-      <xrx:expression>if($xrx:tokenized-uri[3]) then string($xrx:tokenized-uri[3]) else('')</xrx:expression>
-
-    </xrx:variable> 
-     <xrx:variable>
-      <xrx:name>$breadcrumb2</xrx:name>
-      <xrx:expression>if($bread2) then session:get-attribute($bread2) else ()</xrx:expression>      
-    </xrx:variable>
-   <xrx:variable>
+   <xrx:variable>   
    <xrx:name>$sprache</xrx:name>
-   <xrx:expression>substring($xrx:lang, 0,3)</xrx:expression>   
+   <xrx:expression>$index:sprache</xrx:expression>   
    </xrx:variable>   
    <xrx:variable>
    <xrx:name>$alphabet</xrx:name>
-   <xrx:expression>('A', 'B','C','D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y','Z')</xrx:expression>
+   <xrx:expression>('A', 'B','C','D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y','Z', 'A-Z')</xrx:expression>
    </xrx:variable>
    <xrx:variable>
    <xrx:name>$voc</xrx:name>
    <xrx:expression>$xrx:tokenized-uri[2]</xrx:expression>
-   </xrx:variable>
-   
+   </xrx:variable>   
       <xrx:variable>
    <xrx:name>$coll</xrx:name>
    <xrx:expression>if(index:index-check($voc))then ('person') else('controlledVocabulary')</xrx:expression>
@@ -162,12 +135,20 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
    <xrx:name>$vocabulary</xrx:name>
    <xrx:expression>collection($momcollpath)/atom:entry[atom:id/text()= $atomid]</xrx:expression>
    </xrx:variable>
+   <xrx:variable>
+   <xrx:name>$breadcrumb1</xrx:name>
+   <xrx:expression> if($coll = 'person') then if($vocabulary//tei:titleStmt/tei:title/@xml:lang = $sprache) 
+                                                  then $vocabulary//tei:titleStmt/tei:title[@xml:lang = $sprache]/text() 
+                                                  else($vocabulary//tei:titleStmt/tei:title[1]/text())
+                        else ( if($vocabulary//skos:ConceptScheme/skos:prefLabel/@xml:lang = $sprache)then 
+                             $vocabulary//skos:ConceptScheme/skos:prefLabel[@xml:lang= $sprache]/text()
+                            else($vocabulary//skos:ConceptScheme/skos:prefLabel[1]/text()))
+    </xrx:expression>
+   </xrx:variable>
     <xrx:variable>
    <xrx:name>$teile</xrx:name>
    <xrx:expression>count($xrx:tokenized-uri)</xrx:expression>
-   </xrx:variable>
-
-       
+   </xrx:variable>   
    </xrx:variables>
    
   <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
@@ -183,12 +164,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/css/layout</xrx:resource>
 
     <style type="text/css">
-
-     
      
  /* **************************
     Seite einrichten
-   ************************ 
+   ************************ */
 
 
   
@@ -248,7 +227,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 #rightframe p {{
       margin-top:0;
       font-size:0.8em;
-      padding:1em;      
+      padding:0 1em;      
 }}
 
 .hits {{
@@ -399,6 +378,7 @@ div.accordion div {{
 }}
 a.filter {{
       font-size:1.1em !important;
+     
 }}
 
 
@@ -553,22 +533,23 @@ a.filter {{
   text-decoration: underline;
 }}
 
-
+div.buchstaben {{
+    border:0;
+    width:100%;
+    margin-left: -7px;  
+    margin-bottom:15px;
+    padding-bottom:15px;    
+    
+}}
 
 .buchstaben span.ui-menu-item {{
     width:10%;
+    /*padding:.3em;*/
     float:left;
     
 }}
-.buchstaben {{
-    height:80px;
-    width:100%;
-    margin-left: -7px;
-    /*border: 1px solid #aaaaa;*/
-    margin-bottom:5px;
-    padding-bottom:15px;
-}}
-/*.buchstaben */
+
+
 
 .ui-menu-item a{{
           padding:0px !important;
@@ -668,10 +649,15 @@ div.filterbox {{
         width:auto;
 }}
 
-div.narrower {{        
-        padding-left:0.5em;
+div.narrower {{ 
+        padding-left: 1em;
 }}
 
+ul.namelist {{
+     position:relative;
+     float:left;
+
+}}
 
 
   </style> 
@@ -711,9 +697,7 @@ div.narrower {{
             <li><a href="{concat(conf:param('request-root'),'index')}"><xrx:i18n>
               <xrx:key>back-to-index-overview</xrx:key>
               <xrx:default>Back to index overview</xrx:default>
-            </xrx:i18n></a></li>
-            
-       <!--   <li>{session:get-attribute($search:RESULT)}</li> -->        
+            </xrx:i18n></a></li>       
        </ul>  
        </div>        
         <div id="result-options" class="this-widget">           
@@ -736,7 +720,7 @@ div.narrower {{
                  return              
                  <div class="accordion">
                  <h3>{ $vocabulary//skos:Concept[@rdf:about= data($top/@rdf:resource)]//text()}</h3>
-                 <div>{index:read-hierarchie($vocabulary, $rdfabout1, $label1, $voc, $sprache)}</div>
+                 <div>{index:read-hierarchie($vocabulary, $rdfabout1, $label1, $voc)}</div>
                  </div>              
               
                 
@@ -764,13 +748,16 @@ div.narrower {{
             
               return
               <span><a class="ui-button ui-widget ui-corner-all" href="{$href}">{$a}</a></span> }</div>,
-               <ul>{           
+               <ul class="namelist">{           
               let $parameter:= if (request:get-parameter("pm", "")) then request:get-parameter("pm", "")
               else (substring($xrx:tokenized-uri[3],3,1)) 
               return
-              if($parameter != '')then
+              if ($parameter != '') then
               let $personenliste := $index:personcollection/atom:entry[contains(atom:id, $voc)]//tei:text
-              let $eintrag := $personenliste//tei:person[starts-with(substring-after(@xml:id, 'P_'), $parameter)]
+              let $eintrag := if($parameter != '' and $parameter != 'A-Z') then $personenliste//tei:person[starts-with(substring-after(@xml:id, 'P_'), $parameter)] 
+                              else if($parameter = 'A-Z') then $personenliste//tei:person
+                              else()
+
               let $zahlen := count($eintrag)              
               return   
                if($zahlen = 0) then <li class="no-result"><xrx:i18n><xrx:key>no-results-message</xrx:key><xrx:default>No results were found for your search.</xrx:default></xrx:i18n></li>
@@ -780,7 +767,7 @@ div.narrower {{
                 order by $person/tei:persName
                 return
                 let $personid := data($person/@xml:id)
-                let $name := $person/tei:persName[starts-with(., $parameter)]
+                let $name := $person/tei:persName (: [starts-with(., $parameter)] :)
                 let $place := if ($name/following-sibling::tei:occupation/tei:placeName[1]/text()) then $name/following-sibling::tei:occupation/tei:placeName[1]/text() 
                 else()
                 let $aufbereitung := if($place) then substring-before(serialize($place), ' ') else(concat(' (', substring-after($personid, 'P_'), ')'))
@@ -790,9 +777,10 @@ div.narrower {{
                 return                                      
                 <li class="list">                
                 <a href="{concat(conf:param('request-root'),'index/', $voc, '/', $personid)}">{$inhalt}</a>
-                </li>   
-                )
-              else()
+                </li>   )
+
+               else()
+
                }
                </ul>
             )
@@ -851,35 +839,36 @@ div.narrower {{
     
     else if($teile = 2) then 
     let $note := if($coll = 'person') then $vocabulary//tei:sourceDesc/node()
-    else(if ($vocabulary//skos:ConceptScheme/skos:note[@xml:lang=$sprache]/text()) 
-    then $vocabulary//skos:ConceptScheme/skos:note[@xml:lang=$sprache]/text()
-    else($vocabulary//skos:ConceptScheme/skos:note[1]/text())
-    )
+                 else(if ($vocabulary//skos:ConceptScheme/skos:note[@xml:lang=$sprache]/node()) 
+                      then $vocabulary//skos:ConceptScheme/skos:note[@xml:lang=$sprache]/node()
+                      else($vocabulary//skos:ConceptScheme/skos:note[1]/node())   
+                      )
+
     return
-    <div id ="rightframe"><h2><xrx:i18n>
-              <xrx:key>search-in</xrx:key>
-              <xrx:default>Search the Index</xrx:default>
-            </xrx:i18n>: <span class="breadcrumb">{$breadcrumb1}</span></h2>
+
+    <div id ="rightframe"><h2><span class="breadcrumb">{$breadcrumb1}</span></h2>
+
              <div>
             {$note}
             </div>   
             </div>
            
     else(
-    <div id="rightframe">   
-      <div id="breadcrumb"><h2><xrx:i18n>
-              <xrx:key>search-in</xrx:key>
-              <xrx:default>Search the Index</xrx:default>
-            </xrx:i18n>: <span class="breadcrumb">{$breadcrumb1} &gt; {$breadcrumb2}</span></h2></div> 
-       <!-- special solution for glossary-entries in order to be able to present more or less text -->    
-      <div class="glossary-entry">
+    <div id="rightframe">
       {  
       
       if ($teile = 3 and $vocabulary//skos:Concept) then
-      let $term := concat('#', $xrx:tokenized-uri[3])
-      let $beschreibung:= $vocabulary//skos:Concept[@rdf:about = $term]/skos:definition/node()
-      let $anzahlknoten := count($beschreibung)
-      let $glossar := <div class="entry">{$beschreibung}</div>
+       (: let $breadcrumb1:= if ($vocabulary//skos:ConceptScheme/skos:prefLabel/@xml:lang = $sprache)then 
+                             $vocabulary//skos:ConceptScheme/skos:prefLabel[@xml:lang= $sprache]/text()
+                            else($vocabulary//skos:ConceptScheme/skos:prefLabel[1]/text()) 
+                            :)
+        let $term := concat('#', $xrx:tokenized-uri[3])
+        let $breadcrumb2 := if ($vocabulary//skos:Concept[@rdf:about = $term]/skos:prefLabel/@xml:lang = $sprache)then 
+                             $vocabulary//skos:Concept[@rdf:about = $term]/skos:prefLabel[@xml:lang= $sprache]/text()
+                            else($vocabulary//skos:Concept[@rdf:about = $term]/skos:prefLabel[1]/text())
+        let $beschreibung:= $vocabulary//skos:Concept[@rdf:about = $term]/skos:definition/node()
+        let $anzahlknoten := count($beschreibung)
+        let $glossar := <div class="entry">{$beschreibung}</div>
        (: wenn die Beschreibung länger ist, soll ein Pfeil gesetzt werden, der anzeigt, dass noch mehr Info da ist :)
       let $glossartitel := <h2>
         { if ($beschreibung and ($anzahlknoten gt 2))then  
@@ -894,27 +883,46 @@ div.narrower {{
       </span> 
 
           else()}
-      {if ($vocabulary//skos:Concept[@rdf:about = $term]/skos:prefLabel/@xml:lang = $sprache)then 
-      $vocabulary//skos:Concept[@rdf:about = $term]/skos:prefLabel[@xml:lang= $sprache]/text()
-      else($vocabulary//skos:Concept[@rdf:about = $term]/skos:prefLabel[1]/text()) }
+          
+      {
+      $breadcrumb2 
+      }
       
           </h2>    
-      return      
-        ($glossartitel, $glossar)     
+      return 
+      <div>
+          <div id="breadcrumb"><h2>            
+           <span class="breadcrumb">{$breadcrumb1} &gt; {$breadcrumb2}</span></h2>             
+           </div> 
+      <div class="glossary-entry">
+      {($glossartitel, $glossar)}
+      </div>     
+      </div>       
     
       
       else(
       let $term := $xrx:tokenized-uri[3]
-      let $glossar := data($vocabulary//tei:person[@xml:id = $term])
+      let $breadcrumb1 := if($vocabulary//tei:titleStmt/tei:title/@xml:lang = $sprache) then $vocabulary//tei:titleStmt/tei:title[@xml:lang = $sprache]/text() 
+                          else($vocabulary//tei:titleStmt/tei:title[1]/text())    
+      let $glossar := data($vocabulary//tei:person[@xml:id = $term]) 
+      let $persname := replace($vocabulary//tei:person[@xml:id = $term]/tei:persName/text(), ',', '')      
       let $from := ('([0-9])([A-Z])', '([a-z])([A-Z])', '([a-z])(\()', '(.)([A-Z])', '(,)([a-z][A-Z])', '(\))([0-9a-zA-Z])', '(\()(\s)' )
       let $to := ('$1 $2', '$1 $2', '$1 $2', '$1 $2', '. $2', '$1 $2', '$1')      
       let $ausgabe := <div>{index:replace-multi($glossar, $from, $to)}</div>
-      let $vorname := <h2>{if(session:get-attribute($term)= '')then $breadcrumb2 else(session:get-attribute($term))}</h2>        
-      return ($vorname,$ausgabe)
+      let $vorname := <h2>{$persname}</h2>        
+      return 
+         <div>
+          <div id="breadcrumb"><h2>            
+           <span class="breadcrumb">{$breadcrumb1} &gt; {$persname}</span></h2>             
+           </div> 
+      <div class="glossary-entry">
+      {($vorname,$ausgabe)}
+      </div>     
+      </div>       
      
       )     
       }   
-      </div>      
+         
      {
         
          if ($windex:hits = 0)then
@@ -982,7 +990,7 @@ div.narrower {{
              
            {
           let $uri := request:get-uri()
-          let $whereami := session:set-attribute('whereami', $uri) (: $windex:index-abfrage :)
+          let $whereami := session:set-attribute('whereami', $uri) 
           for $charter at $num in $windex:index[ position() = $charters:start to $charters:stop ]
                    
           return    

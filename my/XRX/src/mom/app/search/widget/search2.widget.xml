@@ -61,8 +61,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:expression>session:get-attribute($search:CONTEXT_FILTERED)</xrx:expression>
     </xrx:variable>
     <xrx:variable>
-      <xrx:name>$wsearch:count</xrx:name>
-      <xrx:expression>xs:integer(session:get-attribute($search:HITS)//*:count/text())</xrx:expression>
+      <xrx:name>$wsearch:count</xrx:name>      
+       <xrx:expression>xs:integer(session:get-attribute($search:HITS)//*:count/text())</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wsearch:count-filtered</xrx:name>
@@ -245,13 +245,15 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 
     </style>
   </xrx:csss>
-  <xrx:jss> 
+  <xrx:jss>
        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/mousewheel</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/mouse</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/slider</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/menu</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/accordion</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrx</xrx:resource>    
     <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/search</xrx:resource>    
    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/toggle_checkbox</xrx:resource>  
@@ -309,10 +311,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             <xrx:default>Search</xrx:default>
           </xrx:i18n>
           </div>
-          <input id="search-field" name="q" type="text" value="{ request:get-parameter('q', '') }"/>
-          <input id="search-trigger" type="submit" value="{ i18n:value('search', $xrx:lang, 'Search') }"/>
+       <input id="search-field" name="q" type="text" value="{request:get-parameter('q', '')}"/>         
+          <input id="search-trigger" type="submit" value="{i18n:value('search', $xrx:lang, 'Search')}"/>
           <xrx:div>search-options-div</xrx:div>
-          <xrx:div>search2-description</xrx:div>
+          <xrx:div>search2-description</xrx:div>          
         </div>
       </xrx:view>
     </xrx:div>
@@ -336,6 +338,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:view>
         <div class="select-block" data-demoid="b37e0472-9a95-404d-a464-11d416ec2a88">
           {
+         
           let $block-link := 
           string-join(
             for $param in request:get-parameter-names()
@@ -353,6 +356,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             </a>
             <span> </span>
           </div>
+          
           }
         </div>
       </xrx:view>
@@ -385,7 +389,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               <xrx:key>no-results-message</xrx:key>
               <xrx:default>No results were found for your search.</xrx:default>
             </xrx:i18n>
-          </span>
+          </span>         
           </div>
           else()
           }
@@ -394,10 +398,11 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
         <span>   </span>
         <br/>
         <br/>
+        <!-- the value or these inputs is defined in jquery.ui.search.js -->
         <input id="categories-search" name="categories" type="hidden" value=""/>
         <input id="context-search" name="context" type="hidden" value=""/>
-      </form> 
-      { 
+      </form>     
+      {       
       if($wsearch:count != 0) then 
       <div data-demoid="46eda2fa-8442-4a23-a974-4fa3ab442f24" id="result">
         <div data-demoid="addea255-e7ff-43c6-be01-2357edd28ad2" id="back">
@@ -446,22 +451,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
           <b class="light-grey"> ({ $wsearch:count })</b>
         </div>
         <br/>     
-        <xrx:div>select-block-div</xrx:div>
-        <div data-demoid="a078f212-5a9e-4d16-8de6-17a8e5b2507e">&lt;{ normalize-space($search:q) }&gt;
-       <!-- maybe improvement of search usability: tbc <p>
-          {
-        let $contexte := request:get-parameter('context', '')        
-        return if($contexte) then 
-        <span class="light-grey"><xrx:i18n><xrx:key>search_context</xrx:key><xrx:default>My Search contexts</xrx:default></xrx:i18n><span>: </span>{$contexte}</span>
-        else()
-        }<br/>
-         {
-        let $categories := request:get-parameter('categories', '')
-        return if($categories) then
-        <span class="light-grey"><xrx:i18n><xrx:key>my_search_categories</xrx:key><xrx:default>My Search categories</xrx:default></xrx:i18n><span>: </span>{$categories}</span>
-        else()
-       
-        }</p>  -->
+         <xrx:div>select-block-div</xrx:div> 
+        <div data-demoid="a078f212-5a9e-4d16-8de6-17a8e5b2507e">&lt;{ normalize-space($search:q) }&gt; 
         </div>        
         <br/><br/>
         <div data-demoid="3d0a1ccd-8fb3-467c-8546-de74d8b22841" id="result-options">
@@ -491,7 +482,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
           </div>
           <div class="confine-trigger-div" data-demoid="c3e90bbd-6e74-45e4-a6e3-7d6e76dce2b4">
             <input class="confine-trigger" type="submit" value="→"/>
-          </div>
+          </div>          
           <div data-demoid="68ed9142-41df-4c6a-bb13-c667650e0c03" id="categories-result">
             <b>
               <xrx:i18n>
@@ -511,12 +502,15 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             order by xs:integer($count-filtered) descending, xs:integer($count) descending
             return
             <div data-demoid="8d173333-510e-4311-abd4-8e190780fdc1">
-              <input name="{ $key }" type="checkbox" class="category_checkbox">
-                {
-                if($key = search:categories()) then
-                  attribute checked { 'checked' }
-                else ()
-                }
+              <input name="{ $key }" type="checkbox" class="category_checkbox"> 
+              {
+                if ($search:context) then
+                let $tok := tokenize(xmldb:decode($search:categories), ',')
+                return if($key = $tok) then attribute checked { 'checked' } else()                
+                else if (not(deep-equal($wsearch:categories, $wsearch:categories-filtered)) and $filtered) then attribute checked {'checked'}
+                else()
+                                                       
+                }         
               </input>
               <span>{ if($count-filtered = '0') then attribute class { 'light-grey' } else() }{ $category/@name/string() } ({ $count-filtered })</span>
               <span class="light-grey"> ({ $count })</span>
@@ -599,7 +593,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             let $archive-name := $archive-entry//eag:autform/text()
             
             let $count := $fond/@count/string()
-            let $filtered := $wsearch:context-filtered//*:fond[@key=$key]
+            let $filtered := $wsearch:context-filtered//*:fond[@name=$key]
             let $count-filtered := if($filtered/@count) then $filtered/@count/string() else '0'
 
            
@@ -611,18 +605,22 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               else ''}
 
               <input name="{ $key }" type="checkbox" class="fond_checkbox">
-                {
-                if($key = search:context() or empty(search:context())) then
-                  attribute checked { 'checked' }
-                else ()
-                }
+              {
+                if ($search:context) then
+                let $tok := tokenize(xmldb:decode($search:context), ',')
+                return if($key = $tok) then attribute checked { 'checked' } else()                
+                else if (not(deep-equal($wsearch:context, $wsearch:context-filtered)) and $filtered) then attribute checked {'checked'}
+                else()
+                                                       
+                }            
               </input>
 
-              <span title="{ $fond-name }" class="{data($fond/@name)}">{ $fond-key } </span>
-             <!--  { if($count-filtered = '0') then attribute class { 'light-grey' } else() }{ $fond-key } ({ $count-filtered }) -->
+              <span title="{ $fond-name }" name="{data($fond/@name)}">
+              { if($count-filtered = '0') then attribute class { 'light-grey' } else() }  { $fond-key } ({ $count-filtered })           
+             </span>             
               <span class="light-grey"> ({ $count })</span>         
             </div>
-            </div>
+            </div>         
             }
             <div class="confine-trigger-div" data-demoid="d34b830b-d2f7-458a-b26f-435394d85772">
               <input class="confine-trigger" type="submit" value="→"/>
@@ -640,32 +638,35 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             for $collection in $wsearch:context//*:collection
             let $key := $collection/@key/string()
             let $atomid := metadata:atomid('collection', $key)
-            let $entry := metadata:base-collection('collection', 'public')//atom:id[.=$atomid]/parent::atom:entry
-            let $name := ''
+            let $entry := metadata:base-collection('collection', 'public')//atom:id[.=$atomid]/parent::atom:entry            
             let $count := $collection/@count/string()
             let $filtered := $wsearch:context-filtered//*:collection[@key=$key]
             let $count-filtered := if($filtered/@count) then $filtered/@count/string() else '0'
             order by xs:integer($count-filtered) descending, xs:integer($count) descending
             return
-            <div data-demoid="eb4623d9-ed36-42be-9c0d-8e26df033a59">
+            <div data-demoid="eb4623d9-ed36-42be-9c0d-8e26df033a59">                       
               <input name="{ $key }" type="checkbox" class="collection_checkbox">
-                {
-                if($key = search:context() or empty(search:context())) then
-                  attribute checked { 'checked' }
-                else ()
-                }
-              </input>
-              <span title="{ $name }">{ if($count-filtered = '0') then attribute class { 'light-grey' } else() }{ $collection/@name/string() } ({ $count-filtered })</span>
-              <span class="light-grey"> ({ $count })</span>
+               {
+                if ($search:context) then
+                let $tok := tokenize(xmldb:decode($search:context), ',')
+                return if($key = $tok) then attribute checked { 'checked' } else()                
+                else if (not(deep-equal($wsearch:context, $wsearch:context-filtered)) and $filtered) then attribute checked {'checked'}
+                else()
+                                                       
+                }</input>              
+             
+              <span title="{ $collection/@name/string() }">{ if($count-filtered = '0') then attribute class { 'light-grey' } else() }{ $collection/@name/string() } ({ $count-filtered })</span>
+              <span class="light-grey"> ({ $count })</span>            
             </div>
             }
             <div class="confine-trigger-div" data-demoid="75603079-1b52-4ecd-91e5-1c4cd7221c7e">
               <input class="confine-trigger" type="submit" value="→"/>
             </div>
+            
           </div>
         </div>
-        <div data-demoid="bceb746e-7a77-4337-8e07-4f8b49e7388f" id="dcharter-preview-main">
-          {
+        <div data-demoid="bceb746e-7a77-4337-8e07-4f8b49e7388f" id="dcharter-preview-main">         
+          {      
           for $charter at $num in session:get-attribute($search:RESULT)[ position() = $wsearch:start to $wsearch:stop ]
           return
           <xrx:subwidget>
@@ -680,10 +681,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                 <xrx:expression>$num + $wsearch:start -1</xrx:expression>
               </xrx:parameter>
             </xrx:pass>
-          </xrx:subwidget>
-          }
+          </xrx:subwidget>         
+         }
         </div>
-        <xrx:div>select-block-div</xrx:div>
+      <xrx:div>select-block-div</xrx:div>
       </div>
      else() 
       }
@@ -697,3 +698,4 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     </script>
   </xrx:view>
 </xrx:widget>
+

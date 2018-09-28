@@ -1,7 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:i18n="http://www.monasterium.net/NS/i18n" xmlns:xf="http://www.w3.org/2002/xforms">
-  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/default-footer</xrx:id>
-  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
-  <xrx:licence>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ev="http://www.w3.org/2001/xml-events" 
+	xmlns:i18n="http://www.monasterium.net/NS/i18n" 
+	xmlns:xf="http://www.w3.org/2002/xforms">
+	<xrx:id>tag:www.monasterium.net,2011:/mom/widget/default-footer</xrx:id>
+	<xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+	<xrx:licence>
 This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
 
 As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
@@ -22,9 +27,9 @@ You should have received a copy of the GNU General Public License
 along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 
 We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
-  </xrx:licence>
-  <xrx:csss>
-    <style type="text/css">
+	</xrx:licence>
+	<xrx:csss>
+		<style type="text/css">
 
 #default-footer a{{
   color:white !important;
@@ -50,11 +55,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 }}
 #dlogos{{
   position:relative;
-  float:none;
+  float:left;
+	width: 85%;
 }}
 .dlogo{{
   position:relative;
-  float:left;
+  display: inline-block;
 }}
 .dlogo, dwhite-header{{
   margin-right:15px;
@@ -65,61 +71,76 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   margin:0px;
   padding:0px;
 }}
-      </style>
-    </xrx:csss>
-    <xrx:model/>
-    <xrx:view>
-      <div data-demoid="d6c21b6b-9860-4d0e-b7a9-f44e0bc0da9d" id="default-footer">
-        <div data-demoid="f2c37688-2191-45b1-a3a1-224d62e99abb" id="inner-default-footer">
-          <div data-demoid="7bf63b48-2ec8-4f6a-bc02-f99f9a115504" id="dlogos">
-	          <div class="dlogo" data-demoid="a0a8381a-a001-40a7-a39d-cc3185c1b361">
-	            <a href="http://icar-us.eu" target="_blank">
-	              <xrx:resource alt="ICARUS Logo" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/icarus-logo</xrx:resource>
-	            </a>
-	          </div>
-	          <div class="dlogo" data-demoid="bc977a78-3e03-49cf-97e7-91045f8353d0">
-              <a href="http://coop-project.eu/" target="_blank">
-                <xrx:resource alt="CO:OP Logo" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/coop-logo</xrx:resource>
-              </a>
-            </div>
-	          <div class="dlogo" data-demoid="2ea8bcde-5973-4fd0-8d07-a2301f533245">
-	            <a href="http://enarc.icar-us.eu/" target="_blank">
-	              <xrx:resource alt="ENARC Logo" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/enarc-logo</xrx:resource>
-	            </a>
-	          </div>
-            <div class="dlogo" data-demoid="1a949e55-8374-4c9b-a5ee-453d158d4320">
-              <a href="http://ec.europa.eu/culture/index_en.htm" target="_blank">
-	              <xrx:resource alt="EU Logo" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/eu-logo</xrx:resource>
-              </a>
-            </div>
-	          <div class="dlogo" data-demoid="333d8a5b-3038-48b8-baa4-8e14ed2d7c9b">
-	            <a href="http://exist-db.org" target="_blank">
-	              <xrx:resource alt="eXist Logo" type="image/gif">tag:www.monasterium.net,2011:/mom/resource/image/exist-logo</xrx:resource>
-	            </a>
-	          </div>
-	          <div class="dlogo" data-demoid="824cc513-ee0f-4bdf-bc00-2e7b0bd9fe08">
-	            <a href="http://betterform.de" target="_blank">
-	              <xrx:resource alt="betterFORM Logo" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/betterform-logo</xrx:resource>
-	            </a>
-	          </div>
-	        </div>
-					<div data-demoid="6306bd46-c431-43c0-b386-121a4961d39e" style="text-align:right">
-					 <a href="{ conf:param('request-root') }terms-of-use">
-					  <xrx:i18n>
-					    <xrx:key>terms-of-use</xrx:key> 
-					    <xrx:default>Terms of use</xrx:default>
-					  </xrx:i18n>
-					 </a>
-					 <span>   </span>
-					 <a href="{ conf:param('request-root') }contact">
-					     <xrx:i18n> 
-					       <xrx:key>contact</xrx:key>
-					       <xrx:default>Contact</xrx:default>
-					     </xrx:i18n>
-					 </a>
+		</style>
+	</xrx:csss>
+	<xrx:model/>
+	<xrx:view>
+		<div data-demoid="d6c21b6b-9860-4d0e-b7a9-f44e0bc0da9d" id="default-footer">
+			<div data-demoid="f2c37688-2191-45b1-a3a1-224d62e99abb" id="inner-default-footer">
+				<div data-demoid="7bf63b48-2ec8-4f6a-bc02-f99f9a115504" id="dlogos">
+					<div class="dlogo" data-demoid="a0a8381a-a001-40a7-a39d-cc3185c1b361">
+						<a href="http://icar-us.eu" target="_blank">
+							<xrx:resource alt="ICARUS Logo" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/icarus-logo</xrx:resource>
+						</a>
 					</div>
-        </div>
-        <script type="text/javascript">
+					<div class="dlogo" data-demoid="bc977a78-3e03-49cf-97e7-91045f8353d0">
+						<a href="http://coop-project.eu/" target="_blank">
+							<xrx:resource alt="CO:OP Logo" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/coop-logo</xrx:resource>
+						</a>
+					</div>
+					<div class="dlogo" data-demoid="2ea8bcde-5973-4fd0-8d07-a2301f533245">
+						<a href="http://enarc.icar-us.eu/" target="_blank">
+							<xrx:resource alt="ENARC Logo" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/enarc-logo</xrx:resource>
+						</a>
+					</div>
+					<div class="dlogo" data-demoid="1a949e55-8374-4c9b-a5ee-453d158d4320">
+						<a href="http://ec.europa.eu/culture/index_en.htm" target="_blank">
+							<xrx:resource alt="EU Logo" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/eu-logo</xrx:resource>
+						</a>
+					</div>
+					<div class="dlogo" data-demoid="333d8a5b-3038-48b8-baa4-8e14ed2d7c9b">
+						<a href="http://exist-db.org" target="_blank">
+							<xrx:resource alt="eXist Logo" type="image/gif">tag:www.monasterium.net,2011:/mom/resource/image/exist-logo</xrx:resource>
+						</a>
+					</div>
+					<div class="dlogo" data-demoid="824cc513-ee0f-4bdf-bc00-2e7b0bd9fe08">
+						<a href="http://betterform.de" target="_blank">
+							<xrx:resource alt="betterFORM Logo" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/betterform-logo</xrx:resource>
+						</a>
+					</div>
+					<div class="dlogo" data-demoid="d97ce2a1-402d-455e-bb5b-8bb637b13957">
+						<a href="https://ec.europa.eu/programmes/creative-europe/" target="_blank">
+							<xrx:resource alt="Co-funded by Creative Europe Logo" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/creative-europe-logo</xrx:resource>
+						</a>
+					</div>
+					<div class="dlogo" data-demoid="b4d7756e-cdc2-4754-858e-eed06410d00b">
+						<a href="http://www.noe.gv.at/noe/index.html" target="_blank">
+							<xrx:resource alt="Kultur Niederösterreich Logo" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/logo-kultur-niederoesterreich</xrx:resource>
+						</a>
+					</div>
+					<div class="dlogo" data-demoid="a535270e-5785-4d9b-ae9c-1fa4d77cf5f5">
+						<a href="http://www.noe.gv.at/noe/index.html" target="_blank">
+							<xrx:resource alt="Wissenschaft Forschung Niederösterreich Logo" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/logo-wissenschaft-forschung-niederoesterreich</xrx:resource>
+						</a>
+					</div>
+				</div>
+				<div data-demoid="6306bd46-c431-43c0-b386-121a4961d39e" style="text-align:right">
+					<a href="{ conf:param('request-root') }terms-of-use">
+						<xrx:i18n>
+							<xrx:key>terms-of-use</xrx:key>
+							<xrx:default>Terms of use</xrx:default>
+						</xrx:i18n>
+					</a>
+					<br/>
+					<a href="{ conf:param('request-root') }contact">
+						<xrx:i18n>
+							<xrx:key>contact</xrx:key>
+							<xrx:default>Contact</xrx:default>
+						</xrx:i18n>
+					</a>
+				</div>
+			</div>
+			<script type="text/javascript">
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-3064654-1']);
 _gaq.push(['_trackPageview']);
@@ -129,7 +150,7 @@ _gaq.push(['_trackPageview']);
   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 }})();
-				 </script>
-      </div>
-   </xrx:view>
+			</script>
+		</div>
+	</xrx:view>
 </xrx:widget>
