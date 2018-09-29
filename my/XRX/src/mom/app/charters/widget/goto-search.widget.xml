@@ -93,13 +93,25 @@ it leaves the active development stage.
       <div data-demoid="548bbfaa-a9ba-4ad8-aea2-cac5c7f5a76b" id="goto-anno-overview" class="goto">
         <div>
          { if($xrx:tokenized-uri[last()]='collection') then
-         <a href="{ conf:param('request-root') }{ $wgoto-search:id }/images?block=1">
+         <div><a href="{ conf:param('request-root') }{ $wgoto-search:id }/images?block=1">
              <xrx:i18n>
               <xrx:key>image_preview</xrx:key>
               <xrx:default>Image preview</xrx:default>
             </xrx:i18n><span> &gt;&gt;</span>
-        </a>
-       
+        </a><br/>
+       <!-- <a href="{ conf:param('request-root') }{ $wgoto-search:id}/charters-on-map">
+            <xrx:i18n>
+                <xrx:key>map</xrx:key>
+                <xrx:default>Show charter on Map</xrx:default>
+            </xrx:i18n><span> &gt;&gt;</span>
+        </a> -->
+             <a href="{ conf:param('request-root') }{ $wgoto-search:id}/collection-register-search?modus=collection">
+             <xrx:i18n>
+                 <xrx:key>register search</xrx:key>
+                 <xrx:default>Register Search</xrx:default>
+             </xrx:i18n><span> &gt;&gt;</span>
+             </a>
+       </div>
         else(
        <a href="{ conf:param('request-root') }{$wgoto-search:id}/collection">
             <xrx:i18n>
