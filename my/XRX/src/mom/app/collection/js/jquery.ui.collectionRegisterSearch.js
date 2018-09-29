@@ -1,7 +1,8 @@
 ;(function( $, undefined ){
 
-	var myCollectionSearchService = "service/collection-content-search-terms";
-	var myCollectionSearchKeyService = "service/collection-content-search-key-terms"
+	var myCollectionRegSearchService = "service/collection-content-reg-search-terms";
+	var myCollectionSearchService = "service/collection-search-terms";
+	var myCollectionSearchKeyService = "service/collection-content-search-key-terms";
 	var myCollectionSearchGetChartersService = "service/collection-search-charters";
 
     var myCollectionSearchService;
@@ -12,6 +13,7 @@
 		requestRoot: "",
 	    collectionId: "",
 	    termsearch: "",
+		collectionType: ""
 	},
 
 
@@ -26,7 +28,9 @@
 		
         if(!jQuery.isEmptyObject(this.options.termsearch)){
 			self.json =  JSON.parse(this.options.termsearch);
-			self._createTermList(self.json);
+			self._createTermList(self.json, "contentResultsList", "content");
+			self._keySearch();
+			self._refSearch();
 		}
         
         
@@ -38,31 +42,30 @@
         			$(this).removeClass("inactive").addClass("active");
         			id = $(this).attr('id');
         			if(id=="contentTab"){
-        				$(".options.active").removeClass("active").addClass("inactive")
-        				$("#contentSearch").removeClass("inactive").addClass("active");
+        				$(".list.active").removeClass("active").addClass("inactive")
+        				$("#contentResultsList").removeClass("inactive").addClass("active");
         			}
         			else if(id=="keyTab"){
-        				$(".options.active").removeClass("active").addClass("inactive");
-        				$("#keySearch").removeClass("inactive").addClass("active")
+        				$(".list.active").removeClass("active").addClass("inactive");
+        				$("#keyResultList").removeClass("inactive").addClass("active")
         			}
-        			$(".options.active").show();
-        			$(".options.inactive").hide();
-        			
+        			else if(id == "refTab"){
+        				$(".list.active").removeClass("active").addClass("inactive");
+        				$("#refResultList").removeClass("inactive").addClass("active");
+					}
+        			$(".list.active").show();
+        			$(".list.inactive").hide();
         		}
         });
         
 
         var contentsearchbutton = $("#contentSearchButton").
             click(function(event){
-				var TagName = $("#elementNameField").val();
+				var TagName = $("#elementNameSelect").val();
 			    var FirstCharacter = $("#firstCharacterSelect").val();
 
-		    	if($('#keysearchcheck').prop("checked")){
-		    		var mode = "key_search";
-		    		url = self._serviceUrl(myCollectionSearchKeyService);}
-		    	else{
-		    		var mode = "free_search";
-		    		url = self._serviceUrl(myCollectionSearchService); }
+			    var mode = "free_search";
+				url = self._serviceUrl(myCollectionSearchService);
 			    
 
 			    if(jQuery.isEmptyObject(self.json)){
@@ -78,7 +81,6 @@
         var keysearchbutton = $("#keySearchButton").click(function(event){
         	var TagName = $("#elementNameField").val();
         	var key = $("#keyField").val();
-        	console.log("KeySearchButton clicked");
         });
 	},
 		
@@ -86,46 +88,66 @@
 	_freeTagSearch: function(TagName, FirstCharacter, url){
 	    var self = this ;	    	
     	$.getJSON(url,
-	    		 {collection: this.options.collectionId, nodename: TagName, firstchar: FirstCharacter },
+	    		 {collection: this.options.collectionId, nodename: TagName, firstchar: FirstCharacter, collectionType: self.options.collectionType },
 	    		  function(data){
 	    			 self.json = data;
-	    			 self._createTermList(self.json); });
-
-
+					 self._createTermList(self.json, "contentResultsList", "content");
+					 self._keySearch();
+					 self._refSearch()
+                  });
     },
 
-    
-    _createTermList: function(json){   
+
+	_keySearch: function(){
+		var self = this;
+		$.getJSON(self._serviceUrl(myCollectionSearchKeyService), function(data){
+			self._createTermList(data, "keyResultList", "key");
+		});
+	},
+
+
+	_refSearch: function(){
+		var self = this;
+		$.getJSON(self._serviceUrl(myCollectionRegSearchService), function(data){
+			self._createTermList(data,"refResultList", "ref");
+		});
+	},
+
+
+
+
+    _createTermList: function(json, listname, mode){
     	var self = this;
-    	
-    	var list = $("#termResultsList").empty();
+    	var list = $("#"+listname).empty();
     	for (var c = 0; c < json.results.length; c++){
     		console.log(json.results[c].term)
     		if(json.results[c].key){var listitem = $("<li class='resultsListItem'><span><a>" + json.results[c].term + "</a><sup class='key'> "+json.results[c].key+"</sup></span></li>").appendTo(list).click(function(e){
-    			self._CharterSearch(this.innerText);
+    			self._CharterSearch(this.innerText, mode);
     		});}
     		else{
     		var listitem = $("<li class='resultsListItem'><a>" + json.results[c].term + "</a></li>").appendTo(list).click(function(e){
-    			self._CharterSearch(this.innerText);
+    			self._CharterSearch(this.innerText, mode);
     		});
     		}
     	}
     },
     
     
-    _CharterSearch: function(clickedItem){
+    _CharterSearch: function(clickedItem, mode){
     	var self = this;
     	
     	$.ajax({
     		url: this._serviceUrl(myCollectionSearchGetChartersService),
-    		data: {collection: this.options.collectionId, searchterm: clickedItem},
+    		data: {collection: this.options.collectionId, searchterm: clickedItem, type: mode, collectionType: self.options.collectionType},
     		dataType : "xml", 
-    		success: function(data){
-    	        location.reload();
-    		}
-    		
+    		success: function(data) {
+    			location.reload();
+               /* $("#resultIframe").attr("src", function (index, attr) {
+                    return attr+"?modus='"+self.options.collectionType+"'";
+                });
+                */
+            }
     	});
-    	
     }
     
  });

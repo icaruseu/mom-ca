@@ -1,5 +1,5 @@
 <xrx:service xmlns:eag="http://www.archivgut-online.de/eag" xmlns:xrx="http://www.monasterium.net/NS/xrx" >
-  <xrx:id>tag:www.monasterium.net,2011:/mom/service/collection-content-search-key-terms</xrx:id>
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/collection-content-reg-search-terms</xrx:id>
   <xrx:title>
     <xrx:i18n>
       <xrx:key></xrx:key>
@@ -30,10 +30,10 @@ You should have received a copy of the GNU General Public License
 along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   </xrx:licence>
  <xrx:variables>
-  <xrx:variable>
-      <xrx:name>$resultXml</xrx:name>
-      <xrx:expression>session:get-attribute("_collectionSearchAsXml")</xrx:expression>
-  </xrx:variable>
+     <xrx:variable>
+         <xrx:name>$resultXml</xrx:name>
+         <xrx:expression>session:get-attribute("_collectionSearchAsXml")</xrx:expression>
+     </xrx:variable>
  </xrx:variables>
     <xrx:init>
         <xrx:processor>
@@ -43,11 +43,12 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     </xrx:init>
   <xrx:body>
   {
-      let $keyResultXml := collectionsearch:createKeyResultXml($resultXml)
-      let $setSessionVariable_collectionKeySearchAsXml := session:set-attribute("_collectionKeySearchAsXml", $keyResultXml)
-      let $resultJson := collectionsearch:createResultJson($keyResultXml)
+      let $regResultXml := collectionsearch:createRegResultXml($resultXml)
+      let $setSessionVariable_collectionRegSearchAsXml := session:set-attribute("_collectionRegSearchAsXml", $regResultXml)
 
+      let $resultJson := collectionsearch:createResultJson($regResultXml)
       return $resultJson
-    }
+
+   }
   </xrx:body>
 </xrx:service>

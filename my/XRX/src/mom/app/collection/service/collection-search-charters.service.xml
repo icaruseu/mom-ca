@@ -38,17 +38,34 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
    		<xrx:name>$search_term</xrx:name>
    		<xrx:expression>request:get-parameter('searchterm','')</xrx:expression>		
    </xrx:variable>
- <xrx:variable>
+  <xrx:variable>
+        <xrx:name>$type</xrx:name>
+        <xrx:expression>request:get-parameter('type','')</xrx:expression>
+   </xrx:variable>
+      <xrx:variable>
+          <xrx:name>$collectionType</xrx:name>
+          <xrx:expression>request:get-parameter('collectionType','')</xrx:expression>
+      </xrx:variable>
+   <xrx:variable>
 	   <xrx:name>$collection-base-path</xrx:name>
-	   <xrx:expression>metadata:base-collection-path('charter','public')</xrx:expression>
+	   <xrx:expression>
+           if($collectionType = "collection") then
+            metadata:base-collection-path('charter','public')
+           else metadata:base-collection-path('charter', 'private')
+       </xrx:expression>
    </xrx:variable>
    <xrx:variable>
-   	<xrx:name>$collection_path</xrx:name>
-   	<xrx:expression>concat($collection-base-path, $collection_id)</xrx:expression>
+       <xrx:name>$collection_path</xrx:name>
+   	   <xrx:expression>concat($collection-base-path, $collection_id)</xrx:expression>
    </xrx:variable>
    <xrx:variable>
    	<xrx:name>$collectionSearch_results</xrx:name>
-   	<xrx:expression>session:get-attribute("_collectionSearchAsXml")</xrx:expression>
+   	<xrx:expression>
+        if($type = "content") then session:get-attribute("_collectionSearchAsXml")
+        else if($type = "key") then session:get-attribute("_collectionKeySearchAsXml")
+        else if($type = "reg") then session:get-attribute("_collectionRegSearchAsXml")
+        else session:get-attribute("_collectionSearchAsXml")
+    </xrx:expression>
    </xrx:variable>
   </xrx:variables>
   <xrx:init>
@@ -58,28 +75,9 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   </xrx:init>
   <xrx:body>
     {
-    
-    let $atomids := 
-       for $result in $collectionSearch_results//result[term/text() = $search_term]
-    	return $result/ids
- 
-     let $resultsXml := <myCollectionSearchCharters>
-    					<collectionid>{$collection_id}</collectionid>
-    					<collectionpath>{$collection_path}</collectionpath>
-    					<searchterm>{$search_term}</searchterm>
-    					<results>{
-    					      for $id in $atomids//id/text()
-        						let $tokenized_id := tokenize($id, "/")
-        						let $file := concat($collection_path,"/", $tokenized_id[last()], ".cei.xml")
-        						return doc($file)
-        						}
-    					</results>
-    				</myCollectionSearchCharters>
-        
-    let $setSessionVariable_collectionSearchCharters := session:set-attribute("_collectionSearchCharters", $resultsXml)
-        
-    return $resultsXml
-
+     let $resultsXml := collectionsearch:createCharterResultXml($collection_id, $collection_path, $search_term, $type,$collectionSearch_results)
+     let $setSessionVariable_collectionSearchCharters := session:set-attribute("_collectionSearchCharters", $resultsXml)
+     return $resultsXml
     }
   </xrx:body>
 </xrx:service>
