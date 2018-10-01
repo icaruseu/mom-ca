@@ -153,7 +153,7 @@ it leaves the active development stage.
         	margin-left: 80px;
         	margin-top: -21px;
         }}
-		#refTab{{
+		#regTab{{
 			width: 40%;
 			margin-left: 142px;
 			margin-top: -21px;
@@ -346,22 +346,26 @@ it leaves the active development stage.
 		<div id="divSearchType">
 			<div id="contentTab" class="typeTab active">Content</div>
 			<div id="keyTab" class="typeTab inactive">Key</div>
-			<div id="refTab" class="typeTab inactive">Normalized</div>
+			<div id="regTab" class="typeTab inactive">Normalized</div>
 		</div>
 		<div id="termResults">
 			<ul id="contentResultsList" class="list active"></ul>
 			<ul id="keyResultList" class="list inactive"></ul>
-			<ul id="refResultList" class="list inactive"></ul>
+			<ul id="regResultList" class="list inactive"></ul>
 		</div>
 	  </div>
 	  <div id="rightFrame">
-
+		{			  let $cleanSession := collectionsearch:cleanSession($collectionId, session:get-attribute("_collectionSearchCharters"))
+		  return()
+		  }
 
 		  <div id="searchResults">
 			  {
 			  if(empty(session:get-attribute("_collectionSearchCharters"))) then ()
 			  else (
+
 			  let $searchXml := session:get-attribute("_collectionSearchCharters")
+
 			  return
 			  <div id="resultsDiv">
 				  {
@@ -435,6 +439,41 @@ it leaves the active development stage.
 					  }
 				  </div>
 				  )
+
+				  else if(collectionsearch:type($searchXml) = "reg") then(
+				  <div id="searchResultsHead">
+					  <div id="searchTerm">
+						  <span><xrx:i18n><xrx:key>normalized</xrx:key><xrx:default>Normalized</xrx:default></xrx:i18n>: {collectionsearch:searchterm($searchXml)}</span>
+					  </div>
+					  {
+					  if(collectionsearch:keys($searchXml)) then(
+					  <div id="keysDiv">
+						  <xrx:span>Key: </xrx:span>
+						  <xrx:span>{collectionsearch:keys($searchXml)/*}</xrx:span>
+					  </div>
+					  )
+					  else()
+					  }
+					  {
+					  if(collectionsearch:content($searchXml)) then(
+					  <div id="ContentsDiv">
+						  <span id="ContentsLabel">
+							  <xrx:i18n>
+								  <xrx:key>content</xrx:key>
+								  <xrx:default>Content</xrx:default></xrx:i18n>:
+						  </span>
+						  <ul id="ContentsList">
+							  {
+							  for $item in collectionsearch:content($searchXml)
+							  return <li class="resultContentListItem">{$item}</li>
+							  }
+						  </ul>
+					  </div>
+					  )
+					  else()
+					  }
+				  </div>
+				  )
 				  else()
 
 				  }
@@ -468,13 +507,6 @@ it leaves the active development stage.
 			  </div>
 			  )
 			  }
-
-
-
-
-			<!--<iframe id="resultIframe" src="{ conf:param('request-root')}{$collectionId}/collection-search-results" frameBorder="0" scrolling="no">
-
-			</iframe> -->
 		  </div>
 	  </div>
 

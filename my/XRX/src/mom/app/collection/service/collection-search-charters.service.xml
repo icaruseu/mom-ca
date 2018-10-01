@@ -76,6 +76,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   <xrx:body>
     {
      let $resultsXml := collectionsearch:createCharterResultXml($collection_id, $collection_path, $search_term, $type,$collectionSearch_results)
+      let $bla := util:log("ERROR", $resultsXml)
      let $setSessionVariable_collectionSearchCharters := session:set-attribute("_collectionSearchCharters", $resultsXml)
      return $resultsXml
     }

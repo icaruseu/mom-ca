@@ -44,11 +44,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   <xrx:body>
   {
       let $regResultXml := collectionsearch:createRegResultXml($resultXml)
+
       let $setSessionVariable_collectionRegSearchAsXml := session:set-attribute("_collectionRegSearchAsXml", $regResultXml)
 
       let $resultJson := collectionsearch:createResultJson($regResultXml)
       return $resultJson
-
    }
   </xrx:body>
 </xrx:service>

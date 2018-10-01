@@ -30,7 +30,7 @@
 			self.json =  JSON.parse(this.options.termsearch);
 			self._createTermList(self.json, "contentResultsList", "content");
 			self._keySearch();
-			self._refSearch();
+			self._regSearch();
 		}
         
         
@@ -49,9 +49,9 @@
         				$(".list.active").removeClass("active").addClass("inactive");
         				$("#keyResultList").removeClass("inactive").addClass("active")
         			}
-        			else if(id == "refTab"){
+        			else if(id == "regTab"){
         				$(".list.active").removeClass("active").addClass("inactive");
-        				$("#refResultList").removeClass("inactive").addClass("active");
+        				$("#regResultList").removeClass("inactive").addClass("active");
 					}
         			$(".list.active").show();
         			$(".list.inactive").hide();
@@ -93,9 +93,20 @@
 	    			 self.json = data;
 					 self._createTermList(self.json, "contentResultsList", "content");
 					 self._keySearch();
-					 self._refSearch()
+					 self._regSearch()
                   });
+
+    	self._writeSearchToList("contentResultsList");
+    	self._writeSearchToList("keyResultList");
+    	self._writeSearchToList("regResultList");
+
     },
+
+	_writeSearchToList: function(listname){
+        var self = this;
+        var list = $("#"+listname).empty();
+        var listitem = $("li class='resultsListItem'><span>Searching please wait</span></li>").appendTo(list);
+	},
 
 
 	_keySearch: function(){
@@ -106,10 +117,10 @@
 	},
 
 
-	_refSearch: function(){
+	_regSearch: function(){
 		var self = this;
 		$.getJSON(self._serviceUrl(myCollectionRegSearchService), function(data){
-			self._createTermList(data,"refResultList", "ref");
+			self._createTermList(data,"regResultList", "reg");
 		});
 	},
 
@@ -119,33 +130,32 @@
     _createTermList: function(json, listname, mode){
     	var self = this;
     	var list = $("#"+listname).empty();
-    	for (var c = 0; c < json.results.length; c++){
-    		console.log(json.results[c].term)
-    		if(json.results[c].key){var listitem = $("<li class='resultsListItem'><span><a>" + json.results[c].term + "</a><sup class='key'> "+json.results[c].key+"</sup></span></li>").appendTo(list).click(function(e){
-    			self._CharterSearch(this.innerText, mode);
-    		});}
-    		else{
-    		var listitem = $("<li class='resultsListItem'><a>" + json.results[c].term + "</a></li>").appendTo(list).click(function(e){
-    			self._CharterSearch(this.innerText, mode);
-    		});
-    		}
-    	}
+    	if(json.results.length <= 0){var listitem = $("li class='resultsListItem'><span>No results found</span></li>").appendTo(list);}
+        else {
+            for (var c = 0; c < json.results.length; c++) {
+                if (json.results[c].key) {
+                    var listitem = $("<li class='resultsListItem'><span><a>" + json.results[c].term + "</a><sup class='key'> " + json.results[c].key + "</sup></span></li>").appendTo(list).click(function (e) {
+                        self._CharterSearch(this.innerText, mode);
+                    });
+                }
+                else {
+                    var listitem = $("<li class='resultsListItem'><a>" + json.results[c].term + "</a></li>").appendTo(list).click(function (e) {
+                        self._CharterSearch(this.innerText, mode);
+                    });
+                }
+            }
+        }
     },
     
     
     _CharterSearch: function(clickedItem, mode){
     	var self = this;
-    	
     	$.ajax({
     		url: this._serviceUrl(myCollectionSearchGetChartersService),
     		data: {collection: this.options.collectionId, searchterm: clickedItem, type: mode, collectionType: self.options.collectionType},
     		dataType : "xml", 
     		success: function(data) {
     			location.reload();
-               /* $("#resultIframe").attr("src", function (index, attr) {
-                    return attr+"?modus='"+self.options.collectionType+"'";
-                });
-                */
             }
     	});
     }

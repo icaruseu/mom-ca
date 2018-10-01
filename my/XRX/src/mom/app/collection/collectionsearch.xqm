@@ -32,6 +32,21 @@ import module namespace conf="http://www.monasterium.net/NS/conf" at "xmldb:exis
 import module namespace jsonx="http://www.monasterium.net/NS/jsonx" at "xmldb:exist:///db/www/core/app/json/jsonx.xqm";
 
 
+
+
+declare function collectionsearch:cleanSession($collectionId, $sessionVariable){
+
+    let $cleaned := if($sessionVariable//collectionid/text() != $collectionId) then(
+
+    let $clean_collectionSearchAsJson := session:remove-attribute("_collectionSearchAsJson")
+    let $clean_collectionSearchAsXml := session:remove-attribute("_collectionSearchCharters")
+        return fn:true())
+        else(fn:false())
+
+    return $cleaned
+};
+
+
 declare function collectionsearch:createResults($collection, $collection_id, $node_name, $first_character) as node(){
     <search>
         <collectionid>{$collection_id}</collectionid>
@@ -115,7 +130,7 @@ declare function collectionsearch:createKeyResultXml($resultXml) as node(){
 };
 
 declare function collectionsearch:createRegResultXml($resultXml)as node(){
-    <search>
+   <search>
         <collectionid>{$resultXml/collectionid/text()}</collectionid>
         <node_name>{$resultXml/node_name/text()}</node_name>
         <first_character>{$resultXml/first_character/text()}</first_character>
@@ -139,16 +154,13 @@ declare function collectionsearch:createRegResultXml($resultXml)as node(){
             else()
         }
     </search>
+
 };
 
 declare function collectionsearch:createCharterResultXml($collection_id, $collection_path, $search_term, $type, $collectionSearch_results) as node(){
     let $atomids :=
         for $result in $collectionSearch_results//result[term/text() = $search_term]
         return $result//charter/id
-
-    let $bla := util:log("ERROR", "atomids")
-    let $bla2:= util:log("ERROR", $type)
-
     return
     <myCollectionSearchCharters>
         <collectionid>{$collection_id}</collectionid>
@@ -167,7 +179,7 @@ declare function collectionsearch:createCharterResultXml($collection_id, $collec
                     if($atomids/../content !="")then(<contents>{$atomids/../content}</contents>)else()
                 )
                 else if($type = "reg") then(
-                        if($atomids/../cdontent !="")then(<contents>{$atomids/../content}</contents>)else(),
+                        if($atomids/../content !="")then(<contents>{$atomids/../content}</contents>)else(),
                         if($atomids/../key !="") then(<keys>{$atomids/../key}</keys>)else()
                     )
                     else()
@@ -232,7 +244,7 @@ declare function collectionsearch:createResultJson($resultXml){
                                                             jsonx:string(if(not(empty($charter/reg))) then $charter/reg else(""))),
                                                     jsonx:pair(
                                                             jsonx:string("content"),
-                                                            jsonx:string(if(not(empty($charter/content))) then $charter/reg else(""))),
+                                                            jsonx:string(if(not(empty($charter/content))) then $charter/content else(""))),
                                                     jsonx:pair(
                                                             jsonx:string("id"),
                                                             jsonx:string(if(not(empty($charter/id))) then $charter/id else(""))
