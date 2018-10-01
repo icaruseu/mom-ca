@@ -51,10 +51,10 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   </xrx:init>
   <xrx:body>
     {
-      let $json := 
+      let $json :=
         if(count($entries) gt 0) then
           jsonx:object(
-            for $entry at $num in $entries       
+            for $entry at $num in $entries
             let $objectid := metadata:objectid($entry//atom:id/text())
             (: These is part of the function publication:build-url
             ~ function is not callable from service :)
@@ -65,21 +65,21 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
             let $fondid := $sub[2]
             let $collectionid := $sub[1]
             let $url := if($context = "collection") then concat($collectionid, "/", $objectid) else concat($archiveid, "/", $fondid, "/", $objectid)
-              
+
             let $date := if(exists($entry//cei:date/@value/string())) then $entry//cei:date/@value/string() else $entry//cei:dateRange/@from/string()
-            
+
             let $idno := $entry//cei:body/cei:idno/text()
-            let $title := 
+            let $title :=
               let $charter-title := normalize-space(concat(substring(string-join($entry//cei:abstract//text(), ''), 1, 50), ' ...'))
               return
               if($charter-title != ' ...') then concat($idno, ', ', $charter-title) else $idno
-            let $atomid-linked-charter := $entry/atom:link/@ref/string()
+            let $atomid-linked-charter := if($entry//atom:link) then $entry//atom:link/@ref/string() else ""
             let $uri-tokens-linked-charter := if($atomid-linked-charter != '') then metadata:uri-tokens($atomid-linked-charter) else ()
             let $objectid-linked-charter := if($atomid-linked-charter != '') then metadata:objectid($atomid-linked-charter) else ''
             let $base-collection-linked-charter := if(count($uri-tokens-linked-charter) gt 0) then metadata:base-collection('charter', $uri-tokens-linked-charter, 'public') else ()
             let $entry-linked-charter := if(count($base-collection-linked-charter) gt 0) then $base-collection-linked-charter//atom:id[.=$atomid-linked-charter]/parent::atom:entry else ()
             let $version-of-title := if(count($uri-tokens-linked-charter) gt 0) then string-join(($uri-tokens-linked-charter, $objectid-linked-charter), ' | ') else ''
-            let $version-of-link := concat(conf:param('request-root'), substring-after($atomid-linked-charter, '/charter/'), '/charter')
+            let $version-of-link :=  if($atomid-linked-charter) then concat(conf:param('request-root'), substring-after($atomid-linked-charter, '/charter/'), '/charter') else ""
             let $just-linked := xs:string(exists($entry/atom:content/@src))
             order by $date
             return
@@ -111,8 +111,8 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
                     jsonx:string("url"),
                     jsonx:string($url)
                   )
-                  
-	              )         
+
+	              )
               )
             )
           )
