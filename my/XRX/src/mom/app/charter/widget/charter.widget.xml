@@ -871,7 +871,7 @@ p#first {{
           <span> &gt; </span>
           <a href="{ concat(conf:param('request-root'), $charter:rarchiveid, '/', $charter:rfondid, '/fond?block=', $wcharter:block, '#ch', $wcharter:anchor) }">{ $charter:rfondid }</a>
           <span> &gt; </span>
-          <a href="{ request:get-url() }?{ request:get-query-string() }">{ $wcharter:idno }</a>
+          <a href="{ request:get-url() }?{ request:get-query-string() }">{ $xrx:tokenized-uri[last()-1] }</a>
         </div>
         else if($wcharter:context = 'collection') then
         <div data-demoid="7d4563a2-b169-4d83-8133-b7d80ace50c3">
