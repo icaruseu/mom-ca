@@ -65,7 +65,7 @@ it leaves the active development stage.
   <div>
    {
   if($xrx:tokenized-uri[last()] ='fond') then  
-        <a href="{ conf:param('request-root') }{ $wgoto-search:id }/{ xmldb:decode($fondid)}/images?block=1">
+        <a href="{ conf:param('request-root') }{ $xrx:tokenized-uri[1]}/{ xmldb:decode($fondid)}/images?block=1">
             <xrx:i18n>
               <xrx:key>image_preview</xrx:key>
               <xrx:default>Image preview</xrx:default>
