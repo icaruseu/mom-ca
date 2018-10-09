@@ -372,12 +372,6 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               <xrx:key>search</xrx:key>
               <xrx:default>Search</xrx:default>
             </xrx:i18n>
-            <sup style="color:red">
-              (<xrx:i18n>
-                <xrx:key>beta</xrx:key>
-                <xrx:default>beta</xrx:default>
-              </xrx:i18n>)
-            </sup>
           </div>
           {
           let $no-result := request:get-parameter('noresult', 'true')

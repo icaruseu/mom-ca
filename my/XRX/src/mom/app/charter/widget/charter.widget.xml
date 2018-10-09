@@ -219,6 +219,10 @@ it leaves the active development stage.
       <xrx:expression>$wcharter:charter//cei:body/cei:idno/text()</xrx:expression>
     </xrx:variable>
     <xrx:variable>
+      <xrx:name>$wcharter:idnoid</xrx:name>
+      <xrx:expression>data($wcharter:charter//cei:body/cei:idno/@id)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
       <xrx:name>$wcharter:link-to-charter-in-archive</xrx:name>
       <xrx:expression>data($wcharter:charter//cei:archIdentifier/cei:ref/@target)</xrx:expression>
     </xrx:variable>
@@ -871,7 +875,7 @@ p#first {{
           <span> &gt; </span>
           <a href="{ concat(conf:param('request-root'), $charter:rarchiveid, '/', $charter:rfondid, '/fond?block=', $wcharter:block, '#ch', $wcharter:anchor) }">{ $charter:rfondid }</a>
           <span> &gt; </span>
-          <a href="{ request:get-url() }?{ request:get-query-string() }">{ $wcharter:idno }</a>
+          <a href="{ request:get-url() }?{ request:get-query-string() }">{ $wcharter:idnoid }</a>
         </div>
         else if($wcharter:context = 'collection') then
         <div data-demoid="7d4563a2-b169-4d83-8133-b7d80ace50c3">

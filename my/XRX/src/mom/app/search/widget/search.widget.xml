@@ -192,6 +192,21 @@ right:220px;
   padding:3px;
 }}
 
+/* block-navi */
+
+.block-navi-link a {{
+  padding:0.1em;
+}}
+
+.hits {{
+  padding:0.5em;
+}}
+
+.hits b {{
+  padding:0.2em;
+}}
+
+
     </style>
   </xrx:csss>
   <xrx:jss>
@@ -458,8 +473,8 @@ right:220px;
               <xrx:default>beta</xrx:default>
             </xrx:i18n>)
           </sup>
-        </div>
-        <div data-demoid="8a71862e-f853-4553-a978-7886e57287fe">
+        </div>      
+        <div class="hits" data-demoid="8a71862e-f853-4553-a978-7886e57287fe">
           <xrx:i18n>
             <xrx:key>hits</xrx:key>
             <xrx:default>Hits</xrx:default>
