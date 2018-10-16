@@ -272,7 +272,7 @@ it leaves the active development stage.
       <xrx:name>$wcharter:collection-context</xrx:name>
       <xrx:expression>metadata:object-type($wcharter:meta/ancestor::atom:entry/atom:id/text())</xrx:expression>
     </xrx:variable>
-    <xrx:variable>
+   <!--  <xrx:variable>
       <xrx:name>$wcharter:image-base-uri</xrx:name>
       <xrx:expression>
         if($wcharter:context = 'fond' or $wcharter:context = 'linked-fond') then
@@ -280,7 +280,7 @@ it leaves the active development stage.
         else
           concat('http://', $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(), '/')
       </xrx:expression>
-    </xrx:variable>
+    </xrx:variable> -->
     <xrx:variable>
       <xrx:name>$wcharter:fond</xrx:name>
       <xrx:expression>
@@ -299,7 +299,9 @@ it leaves the active development stage.
       <xrx:name>$wcharter:image-base-uri</xrx:name>
       <xrx:expression>
     if($wcharter:context = 'fond' or $wcharter:context = 'linked-fond') then
-      concat($wcharter:preferences/xrx:param[@name='image-server-base-url']/text(), '/') 
+      concat($wcharter:preferences/xrx:param[@name='image-server-base-url']/text(), '/')
+    else if($wcharter:linked-atomid != '') then
+    $wcharter:linked-charter-image-base-uri     
     else
       concat('http://', $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(), '/')
         </xrx:expression>
