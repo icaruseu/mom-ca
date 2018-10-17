@@ -271,16 +271,7 @@ it leaves the active development stage.
     <xrx:variable>
       <xrx:name>$wcharter:collection-context</xrx:name>
       <xrx:expression>metadata:object-type($wcharter:meta/ancestor::atom:entry/atom:id/text())</xrx:expression>
-    </xrx:variable>
-   <!--  <xrx:variable>
-      <xrx:name>$wcharter:image-base-uri</xrx:name>
-      <xrx:expression>
-        if($wcharter:context = 'fond' or $wcharter:context = 'linked-fond') then
-          concat($wcharter:meta/parent::ead:c/@xml:base/string(), '/') 
-        else
-          concat('http://', $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(), '/')
-      </xrx:expression>
-    </xrx:variable> -->
+    </xrx:variable> 
     <xrx:variable>
       <xrx:name>$wcharter:fond</xrx:name>
       <xrx:expression>
