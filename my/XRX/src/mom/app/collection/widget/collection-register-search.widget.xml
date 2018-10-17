@@ -302,6 +302,30 @@ it leaves the active development stage.
 							<xrx:default>Place Names</xrx:default>
 						</xrx:i18n>
 					</option>
+					<option value="cei:orgName">
+						<xrx:i18n>
+							<xrx:key>organisiation</xrx:key>
+							<xrx:default>Organisations</xrx:default>
+						</xrx:i18n>
+					</option>
+					<option value="cei:issuer">
+						<xrx:i18n>
+							<xrx:key>issueres</xrx:key>
+							<xrx:default>Issueres</xrx:default>
+						</xrx:i18n>
+					</option>
+					<option value="cei:testis">
+						<xrx:i18n>
+							<xrx:key>witnisses</xrx:key>
+							<xrx:default>Witnisses</xrx:default>
+						</xrx:i18n>
+					</option>
+					<option value="cei:rolename">
+						<xrx:i18n>
+							<xrx:key>role</xrx:key>
+							<xrx:default>Roles</xrx:default>
+						</xrx:i18n>
+					</option>
 				</select></div>
 			<div id="contentSearch">
 				<div id="firstCharacter">
@@ -483,24 +507,26 @@ it leaves the active development stage.
 				  for $charter at $num in $searchXml//atom:entry
 				  let $entry := <atom:entry xmlns:atom="http://www.w3.org/2005/Atom">{$charter/*}</atom:entry>
 				  return
-				  <div id="dcharter-preview-main">
-					  <xrx:subwidget>
-						  <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/result</xrx:atomid>
-						  <xrx:pass>
-							  <xrx:parameter>
-								  <xrx:name>$constructor:charter</xrx:name>
-								  <xrx:expression>root($entry)</xrx:expression>
-							  </xrx:parameter>
-							  <xrx:parameter>
-								  <xrx:name>$constructor:pos</xrx:name>
-								  <xrx:expression>$num + 1 -1</xrx:expression>
-							  </xrx:parameter>
-							  <xrx:parameter>
-								  <xrx:name>$collectionType</xrx:name>
-								  <xrx:expression>$collectionType</xrx:expression>
-							  </xrx:parameter>
-						  </xrx:pass>
-					  </xrx:subwidget>
+				  <div id="results">
+					  <div id="dcharter-preview-main">
+						  <xrx:subwidget>
+							  <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/result</xrx:atomid>
+							  <xrx:pass>
+								  <xrx:parameter>
+									  <xrx:name>$constructor:charter</xrx:name>
+									  <xrx:expression>root($entry)</xrx:expression>
+								  </xrx:parameter>
+								  <xrx:parameter>
+									  <xrx:name>$constructor:pos</xrx:name>
+									  <xrx:expression>$num + 1 -1</xrx:expression>
+								  </xrx:parameter>
+								  <xrx:parameter>
+									  <xrx:name>$collectionType</xrx:name>
+									  <xrx:expression>$collectionType</xrx:expression>
+								  </xrx:parameter>
+							  </xrx:pass>
+						  </xrx:subwidget>
+					  </div>
 				  </div>
 				  }
 				  </div>
