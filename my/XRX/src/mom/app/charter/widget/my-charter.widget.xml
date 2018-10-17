@@ -197,7 +197,11 @@ it leaves the active development stage.
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter:image-base-uri</xrx:name>
-      <xrx:expression>''</xrx:expression>
+      <xrx:expression>if($wcharter:linked-charter-atomid != '') then
+    $wcharter:linked-charter-image-base-uri 
+        
+    else
+      concat('http://', $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(), '/')</xrx:expression>
     </xrx:variable>
     <!-- archive information -->
     <xrx:variable>
@@ -342,8 +346,8 @@ let $vocabular := replace(data($i/@rdf:about), '#', '')
           <a href="{ concat(conf:param('request-root'), $charter:rcollectionid, '/my-collection?block=', $wcharter:block, '#ch', $wcharter:anchor) }">{ $wcharter:fond }</a>
           <span> &gt; </span>         
           <a href="{ request:get-url() }?{ request:get-query-string() }">{ $wcharter:idno }</a>
-       <!-- <p id="preferenz">{$wcharter:preferences}</p>
-        <p id="image-base-uri">{$wcharter:image-base-uri}</p>-->
+        <!-- <p id="preferenz">{$wcharter:preferences}</p>
+        <p id="image-base-uri">{$wcharter:image-base-uri}</p>     -->  
                 </div>     
       </xrx:view>
     </xrx:div>
