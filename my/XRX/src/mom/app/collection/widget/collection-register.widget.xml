@@ -7,7 +7,10 @@
     </xrx:i18n>
   </xrx:title>
   <xrx:subtitle/>
-  <xrx:description/>
+	<xrx:description>Main widget for registers of collections.
+	It creates the left search-frame with options for the search.
+	If the session variable _collectionSearchCharters exists it checks the collection ids, when the saved is not the id of the actual collection,
+	the session variable will be deleted. Otherwise for all charters in the variable the subwidget result is called.</xrx:description>
   <xrx:author>jbigalke</xrx:author>
   <xrx:licence>
 This is a component file of the VdU Software for a Virtual Research
