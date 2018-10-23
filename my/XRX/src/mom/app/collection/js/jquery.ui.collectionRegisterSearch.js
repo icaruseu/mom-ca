@@ -1,5 +1,7 @@
 ;(function( $, undefined ){
 
+	/* Contains functions for the register functions.*/
+
 	var myCollectionRegSearchService = "service/register-content-reg-search-terms";
 	var myCollectionSearchService = "service/register-search-terms";
 	var myCollectionSearchKeyService = "service/register-content-search-key-terms";
@@ -25,7 +27,7 @@
 	_create: function(){
 		var self = this;
         this.json = {};
-		
+		/* when there is a an JSON in options.termsearch it creates the register lists*/
         if(!jQuery.isEmptyObject(this.options.termsearch)){
 			self.json =  JSON.parse(this.options.termsearch);
 			self._createTermList(self.json, "contentResultsList", "content");
@@ -34,7 +36,7 @@
 		}
         
         
-        
+        /*functions to switch between lists for Content, Normalized and Key Register*/
         var searchTabInactive = $(".typeTab").click(function(event){
         	if($(this).hasClass("inactive"))
         		{
@@ -58,7 +60,7 @@
         		}
         });
         
-
+		/* Functions to start registersearch*/
         var contentsearchbutton = $("#contentSearchButton").
             click(function(event){
 				var TagName = $("#elementNameSelect").val();
@@ -83,8 +85,9 @@
         	var key = $("#keyField").val();
         });
 	},
-		
-		
+
+
+		/*ajax call for services, if the call is successfull the functions to create the List for Content, Key and Normalized are called */
 	_freeTagSearch: function(TagName, FirstCharacter, url){
 	    var self = this ;	    	
     	$.getJSON(url,
@@ -108,7 +111,7 @@
         var listitem = $("li class='resultsListItem'><span>Searching please wait</span></li>").appendTo(list);
 	},
 
-
+		/*Call service service/register-content-search-key-terms */
 	_keySearch: function(){
 		var self = this;
 		$.getJSON(self._serviceUrl(myCollectionSearchKeyService), function(data){
@@ -116,7 +119,7 @@
 		});
 	},
 
-
+        /*Call service service/register-content-search-reg-terms */
 	_regSearch: function(){
 		var self = this;
 		$.getJSON(self._serviceUrl(myCollectionRegSearchService), function(data){
@@ -126,7 +129,7 @@
 
 
 
-
+	/*write search result into lists*/
     _createTermList: function(json, listname, mode){
     	var self = this;
     	var list = $("#"+listname).empty();
@@ -147,7 +150,7 @@
         }
     },
     
-    
+    /*calls service service/register-search-charters, succuess reload page to show results. */
     _CharterSearch: function(clickedItem, mode){
     	var self = this;
     	$.ajax({
