@@ -249,24 +249,24 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     	<xrx:atomid>tag:www.monasterium.net,2011:/mom/service/my-collection-check-charter-exists</xrx:atomid>
     </xrx:map>
     <xrx:map>
-    	<xrx:uripattern>/service/collection-content-search-key-terms</xrx:uripattern>
+    	<xrx:uripattern>/service/register-content-search-key-terms</xrx:uripattern>
     	<xrx:mode>service</xrx:mode>
-    	<xrx:atomid>tag:www.monasterium.net,2011:/mom/service/collection-content-search-key-terms</xrx:atomid>
+    	<xrx:atomid>tag:www.monasterium.net,2011:/mom/service/register-content-search-key-terms</xrx:atomid>
     </xrx:map>
         <xrx:map>
-    	<xrx:uripattern>/service/collection-content-reg-search-terms</xrx:uripattern>
+    	<xrx:uripattern>/service/register-content-reg-search-terms</xrx:uripattern>
     	<xrx:mode>service</xrx:mode>
-    	<xrx:atomid>tag:www.monasterium.net,2011:/mom/service/collection-content-reg-search-terms</xrx:atomid>
+    	<xrx:atomid>tag:www.monasterium.net,2011:/mom/service/register-content-reg-search-terms</xrx:atomid>
     </xrx:map>
         <xrx:map>
-    	<xrx:uripattern>/service/collection-search-charters</xrx:uripattern>
+    	<xrx:uripattern>/service/register-search-charters</xrx:uripattern>
     	<xrx:mode>service</xrx:mode>
-    	<xrx:atomid>tag:www.monasterium.net,2011:/mom/service/collection-search-charters</xrx:atomid>
+    	<xrx:atomid>tag:www.monasterium.net,2011:/mom/service/register-search-charters</xrx:atomid>
     </xrx:map>
     <xrx:map>
-      <xrx:uripattern>/service/collection-search-terms</xrx:uripattern>
+      <xrx:uripattern>/service/register-search-terms</xrx:uripattern>
       <xrx:mode>service</xrx:mode>
-      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/collection-search-terms</xrx:atomid>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/register-search-terms</xrx:atomid>
     </xrx:map>
     <!-- main widgets -->
     <xrx:map>
@@ -340,9 +340,9 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/my-collection-charter-edit</xrx:atomid>
     </xrx:map>
     <xrx:map>
-    	<xrx:uripattern>/collection-register-search$</xrx:uripattern>
+    	<xrx:uripattern>/collection-register$</xrx:uripattern>
     	<xrx:mode>mainwidget</xrx:mode>
-    	<xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/collection-register-search</xrx:atomid>
+    	<xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/collection-register</xrx:atomid>
     </xrx:map>
     <xrx:map>
       <xrx:uripattern>/charters-on-map$</xrx:uripattern>
