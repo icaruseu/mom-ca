@@ -33,7 +33,8 @@ import module namespace jsonx="http://www.monasterium.net/NS/jsonx" at "xmldb:ex
 
 
 
-
+(: test if the atom:id of the actuel collection is the same as the id of the collection saved in the session variable
+if not delete session variables so the user doesn't see results from other register searches:)
 declare function collectionsearch:cleanSession($collectionId, $sessionVariable){
 
     let $cleaned := if($sessionVariable//collectionid/text() != $collectionId) then(
@@ -46,8 +47,15 @@ declare function collectionsearch:cleanSession($collectionId, $sessionVariable){
     return $cleaned
 };
 
+(: take all charters in the actual collection with the element <$node_name> check first character of content == $first_charater.
+if $first_char == "All" take all Charters.
+Save the id of the Charters, <$node_name>-text(), the values of @reg and @key
+:)
 
 declare function collectionsearch:createResults($collection, $collection_id, $node_name, $first_character) as node(){
+
+
+    (:save some search-informations into xml:)
     <search>
         <collectionid>{$collection_id}</collectionid>
         <node_name>{$node_name}</node_name>
@@ -55,7 +63,10 @@ declare function collectionsearch:createResults($collection, $collection_id, $no
         <mode>false</mode>
         <results>
             {
+                (:for all charters in collection with the node == $node_name:)
             for $entries in distinct-values($collection//cei:text//*[name()=$node_name]) order by $entries return
+                (:When $first_character == "All", don't test if the first character of node/text() == $first_character,
+                  save contentn of node and count nodes with same content and save result:)
                 if($first_character = "All") then
                     if(string($entries) eq "") then()
                     else(
@@ -64,6 +75,7 @@ declare function collectionsearch:createResults($collection, $collection_id, $no
                             <count>{count($collection//cei:text//*[name()=$node_name][. eq $entries])}</count>
                             <charters>
                                 {
+                                    (: for all nodes with the same content save ids of charters and @key and @reg values. :)
                                     for $entrie in $collection//cei:text//*[name()=$node_name][. eq $entries]
                                     return <charter>
                                         <key>{$entrie/@key/string()}</key>
@@ -75,6 +87,7 @@ declare function collectionsearch:createResults($collection, $collection_id, $no
                         </result>
                     )
                 else(
+                    (:same as befor but this time the first character of node/text() must match $first_character:)
                     if(string($entries) eq "") then()
                     else(
                         if(starts-with(upper-case(string($entries)), $first_character) ) then(
@@ -102,6 +115,10 @@ declare function collectionsearch:createResults($collection, $collection_id, $no
     </search>
 };
 
+(:
+    example for structure of $resultXml see collectionsearch:createResults()
+ for all <result>-elements with the childelement <key> with different content in $resultXml create new <result>
+:)
 declare function collectionsearch:createKeyResultXml($resultXml) as node(){
     <search>
         <collectionid>{$resultXml/collectionid/text()}</collectionid>
@@ -129,6 +146,9 @@ declare function collectionsearch:createKeyResultXml($resultXml) as node(){
     </search>
 };
 
+(:    example for structure of $resultXml see collectionsearch:createResults()
+ for all <result>-elements with the childelement <reg> with different content in $resultXml create new <result>
+ :)
 declare function collectionsearch:createRegResultXml($resultXml)as node(){
    <search>
         <collectionid>{$resultXml/collectionid/text()}</collectionid>
@@ -156,7 +176,10 @@ declare function collectionsearch:createRegResultXml($resultXml)as node(){
     </search>
 
 };
-
+(: for example for $collectionSearch_results look collectionsearch:createResults()
+takes all charter id in result with <term>/text() ==$search_term
+For all ids get the charters in the actual Collection and save them into new xml with some search informations.
+:)
 declare function collectionsearch:createCharterResultXml($collection_id, $collection_path, $search_term, $type, $collectionSearch_results) as node(){
     let $atomids :=
         for $result in $collectionSearch_results//result[term/text() = $search_term]
@@ -198,7 +221,8 @@ declare function collectionsearch:createCharterResultXml($collection_id, $collec
 };
 
 
-
+(: creates a json from $resultXml,
+   for resultXml exampel see collectionsearch:createResults():)
 declare function collectionsearch:createResultJson($resultXml){
     let $resultJson :=
         jsonx:object((
@@ -264,17 +288,13 @@ declare function collectionsearch:createResultJson($resultXml){
 
 };
 
+(:following functions returns content of elements in $searchXml (see collectionsearch:createResults )
+was important because namespace-trouble in collection-register.widget.xml
+:)
 declare function collectionsearch:searchterm($searchXml){$searchXml//searchterm/text()};
 declare function collectionsearch:type($searchXml) { $searchXml//type/text()};
 declare function collectionsearch:keys($searchXml) { $searchXml//keys };
 declare function collectionsearch:regs($searchXml) { $searchXml//regs};
 declare function collectionsearch:content($searchXml) {$searchXml//contents};
 
-declare function collectionsearch:createSearchResultHead($searchXml) as node(){
 
-    let $type := $searchXml//type/text()
-
-    let $searchterm := $searchXml//searchterm/text()
-
-     return $type
-};
