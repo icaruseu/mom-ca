@@ -7,7 +7,10 @@
         </xrx:i18n>
     </xrx:title>
     <xrx:subtitle></xrx:subtitle>
-    <xrx:description></xrx:description>
+    <xrx:description>gets the collection id, the name of the node and the first character for the register.
+        collection_type defines if it is a private or public collection.
+    collectionsearch:createResults takes all charters checks if the element $node_name exists and creates an resultXml.
+    The xml is saved in a session variable _collectionSearchAsXml and a json will be created for jquery functions</xrx:description>
     <xrx:author>JBigalke</xrx:author>
     <xrx:licence>
         This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.

@@ -7,7 +7,8 @@
     </xrx:i18n>
   </xrx:title>
   <xrx:subtitle></xrx:subtitle>
-  <xrx:description></xrx:description>
+  <xrx:description>gets the collection id, the searchterm and the type of collection,
+      creates an xml with the charters which contains the searched node with the searched content. and saves them into the session variable _collectionSearchCharters </xrx:description>
   <xrx:author>jBigalke@smail.uni-koeln.de</xrx:author>
   <xrx:licence>
 This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
