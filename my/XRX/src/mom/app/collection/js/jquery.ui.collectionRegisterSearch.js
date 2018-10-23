@@ -1,9 +1,9 @@
 ;(function( $, undefined ){
 
-	var myCollectionRegSearchService = "service/collection-content-reg-search-terms";
-	var myCollectionSearchService = "service/collection-search-terms";
-	var myCollectionSearchKeyService = "service/collection-content-search-key-terms";
-	var myCollectionSearchGetChartersService = "service/collection-search-charters";
+	var myCollectionRegSearchService = "service/register-content-reg-search-terms";
+	var myCollectionSearchService = "service/register-search-terms";
+	var myCollectionSearchKeyService = "service/register-content-search-key-terms";
+	var myCollectionSearchGetChartersService = "service/register-search-charters";
 
     var myCollectionSearchService;
     $.widget( "ui.collectionIndexSearch", {
