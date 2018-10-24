@@ -54,11 +54,11 @@ it leaves the active development stage.
       <xrx:name>$wcharter:atom-id</xrx:name>
       <xrx:expression>metadata:atomid('charter', ($charter:rcollectionid, $charter:rcharterid))</xrx:expression>
     </xrx:variable>
-    <!-- default url -->
+    <!-- default url 'http://monasterium.net/mom/'-->
     <xrx:variable>
       <xrx:name>$wcharter:default-url</xrx:name>
-      <xrx:expression>
-        concat('http://monasterium.net/mom/', substring-after($wcharter:atom-id, 'charter/'))
+      <xrx:expression>        
+        concat(conf:param('request-root'), substring-after($wcharter:atom-id, 'charter/'))
       </xrx:expression>
     </xrx:variable>
     <!-- 
@@ -201,7 +201,7 @@ it leaves the active development stage.
     $wcharter:linked-charter-image-base-uri 
         
     else
-      concat('http://', $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(), '/')</xrx:expression>
+      concat(conf:param('request-root'), $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(), '/')</xrx:expression>
     </xrx:variable>
     <!-- archive information -->
     <xrx:variable>
