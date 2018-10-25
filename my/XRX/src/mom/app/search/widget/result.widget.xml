@@ -53,6 +53,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
         <xrx:name>$collectionType</xrx:name>
         <xrx:default>()</xrx:default>
       </xrx:parameter>
+      <xrx:parameter>
+        <xrx:name>$resultType</xrx:name>
+        <xrx:default>()</xrx:default>
+      </xrx:parameter>
     </xrx:constructor>
   <xrx:variables>
 
@@ -237,13 +241,20 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             </xrx:i18n>
           </a>
           <br/>
-          <a href="{ $wcharter-preview:browse-url }">
-            <xrx:i18n>
-              <xrx:key>browse-in-search-results</xrx:key>
-              <xrx:default>Browse in search results</xrx:default>
-            </xrx:i18n>
-          </a>
-          <br/>
+          {if($resultType = 'registerResult') then()
+
+          else(
+          <div>
+            <a href="{ $wcharter-preview:browse-url }">
+              <xrx:i18n>
+                <xrx:key>browse-in-search-results</xrx:key>
+                <xrx:default>Browse in search results</xrx:default>
+              </xrx:i18n>
+            </a>
+            <br/>
+          </div>
+          )
+          }
           <a href="{ conf:param('request-root')}service/pdf-export?id={ xmldb:encode($wcharter-preview:atom-id) }&amp;lang={ $xrx:lang }" target="blank">
             <xrx:i18n>
               <xrx:key>pdf-export</xrx:key>
