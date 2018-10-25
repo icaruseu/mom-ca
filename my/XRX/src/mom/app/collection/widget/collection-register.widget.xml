@@ -127,7 +127,6 @@ it leaves the active development stage.
 		#leftFrame{{
 			width: 25%;
 			height: 1500px;
-			background-color: #f5f5f5;
 
 		}}
 
@@ -135,13 +134,8 @@ it leaves the active development stage.
         	display: inline;
 			margin-top:10px;
         }}
-		.typeTab{{
-			border: 1px solid black;
 
-		}}
 
-        .typeTab.inactive{{
-        }}
         
         .typeTab.active{{
 		background-color: aliceblue;
@@ -164,6 +158,7 @@ it leaves the active development stage.
 		}}
         #searchOptions{{
         	margin-left:5px;
+			margin-bottom: 7px;
         }}
         
 		.list{{
@@ -172,7 +167,11 @@ it leaves the active development stage.
 			overflow-x: auto;
 
 		}}
-        
+
+		.resultsListItem{{
+			margin-bottom: 5px;
+		}}
+
         .list.inactive{{
 
         	display: none;
@@ -210,8 +209,8 @@ it leaves the active development stage.
         	overflow-y: auto;
         	overflow-x: hidden;
 			max-height: 600px;
+			margin-top: 10px;
 			background-color: white;
-			border: 1px solid black;
         }}
 
         
