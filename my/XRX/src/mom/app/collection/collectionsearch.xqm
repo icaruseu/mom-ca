@@ -25,11 +25,11 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 module namespace collectionsearch="http://www.monasterium.net/NS/collectionsearch";
 
 
-import module namespace xrx="http://www.monasterium.net/NS/xrx" at "xmldb:exist:///db/www/core/app/xrx/xrx.xqm";
-import module namespace cei="http://www.monasterium.net/NS/cei" at "xmldb:exist:///db/XRX.live/mom/app/metadata/cei.xqm";
-import module namespace atom="http://www.w3.org/2005/Atom" at "xmldb:exist:///db/XRX.live/mom/app/data/atom.xqm";
-import module namespace conf="http://www.monasterium.net/NS/conf" at "xmldb:exist:///db/XRX.live/mom/app/xrx/conf.xqm";
-import module namespace jsonx="http://www.monasterium.net/NS/jsonx" at "xmldb:exist:///db/www/core/app/json/jsonx.xqm";
+declare namespace cei="http://www.monasterium.net/NS/cei";
+declare namespace atom="http://www.w3.org/2005/Atom";
+
+import module namespace conf="http://www.monasterium.net/NS/conf";
+import module namespace jsonx="http://www.monasterium.net/NS/jsonx";
 
 
 
