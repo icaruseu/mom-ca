@@ -527,6 +527,10 @@ it leaves the active development stage.
 									  <xrx:name>$collectionType</xrx:name>
 									  <xrx:expression>$collectionType</xrx:expression>
 								  </xrx:parameter>
+								  <xrx:parameter>
+									  <xrx:name>$resultType</xrx:name>
+									  <xrx:expression>'registerResult'</xrx:expression>
+								  </xrx:parameter>
 							  </xrx:pass>
 						  </xrx:subwidget>
 					  </div>
