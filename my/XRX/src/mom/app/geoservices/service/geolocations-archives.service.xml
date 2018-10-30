@@ -47,7 +47,6 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 
   let $locationsXml := geoservices:get_archive_locations($archivesCollection)
   let $json := geoservices:xmltoJson($locationsXml)
-  
   return $json
   }
 
