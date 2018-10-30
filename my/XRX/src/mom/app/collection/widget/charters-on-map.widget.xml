@@ -43,8 +43,46 @@
     </xrx:licence>
     <xrx:variables>
         <xrx:variable>
-            <xrx:name>$dummy</xrx:name>
-            <xrx:expression>"dumm"</xrx:expression>
+            <xrx:name>$pos</xrx:name>
+            <xrx:expression>request:get-parameter("pos", "")</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$place</xrx:name>
+            <xrx:expression>request:get-parameter("place","")</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$steps</xrx:name>
+            <xrx:expression>request:get-parameter("steps","")</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$count</xrx:name>
+            <xrx:expression>request:get-parameter("count","")</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$tokenizedurl</xrx:name>
+            <xrx:expression>tokenize(request:get-uri(), '/')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$fondId</xrx:name>
+            <xrx:expression>if(count($tokenizedurl) = 5) then $tokenizedurl[last()-2] else()</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$collectionId</xrx:name>
+            <xrx:expression>$tokenizedurl[last()-1]</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$collection-base-path</xrx:name>
+            <xrx:expression>
+                metadata:base-collection-path('charter','public')
+            </xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$collection_path</xrx:name>
+            <xrx:expression>if ($fondId !="") then concat($collection-base-path, $fondId,"/" ,$collectionId,"/") else(concat($collection-base-path ,$collectionId,"/"))</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$GeoCharterResults</xrx:name>
+            <xrx:expression>if($place != "" and $pos != "" and $steps != "" and $count !="") then session:get-attribute("_GeoCharterResults") else()</xrx:expression>
         </xrx:variable>
     </xrx:variables>
     <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
@@ -53,34 +91,90 @@
             <xrx:xformsflag>false</xrx:xformsflag>
         </xrx:processor>
     </xrx:init>
+    <xrx:csss>
+        <style>
+            #pageList{{
+            list-style: none;
+            display: inline;
+            margin-left: -40px;
+            }}
+            #pageList>li{{
+            display: inline;
+            }}
+        </style>
+    </xrx:csss>
     <xrx:jss>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/chartersOnMap</xrx:resource>
     </xrx:jss>
 
     <xrx:view>
-        <div><h2>Karte</h2>
-        <div id="map">
-            <xrx:subwidget>
-                <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/geomap</xrx:atomid>
-                <xrx:pass>
-                    <xrx:parameter>
-                        <xrx:name>$serviceName</xrx:name>
-                        <xrx:expression>"geolocations-charters-over-key"</xrx:expression>
-                    </xrx:parameter>
-                    <xrx:parameter>
-                        <xrx:name>$imagelink</xrx:name>
-                        <xrx:expression>concat(conf:param('request-root'),"resource/?atomid=tag:www.monasterium.net,2011:/xrx/resource/images/archive")</xrx:expression>
-                    </xrx:parameter>
-                    <xrx:parameter>
-                        <xrx:name>$mode</xrx:name>
-                        <xrx:expression>"collection"</xrx:expression>
-                    </xrx:parameter>
-                </xrx:pass>
-            </xrx:subwidget>
-        </div>
+        <div><h2><xrx:i18n><xrx:key>charter_an_map</xrx:key><xrx:default>Charters on Map</xrx:default></xrx:i18n></h2>
+            <div id="map">
+                <xrx:subwidget>
+                    <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/geomap</xrx:atomid>
+                    <xrx:pass>
+                        <xrx:parameter>
+                            <xrx:name>$serviceName</xrx:name>
+                            <xrx:expression>"geolocations-charters-over-key"</xrx:expression>
+                        </xrx:parameter>
+                        <xrx:parameter>
+                            <xrx:name>$imagelink</xrx:name>
+                            <xrx:expression>concat(conf:param('request-root'),"resource/?atomid=tag:www.monasterium.net,2011:/xrx/resource/images/archive")</xrx:expression>
+                        </xrx:parameter>
+                        <xrx:parameter>
+                            <xrx:name>$mode</xrx:name>
+                            <xrx:expression>"collection"</xrx:expression>
+                        </xrx:parameter>
+                        <xrx:parameter>
+                            <xrx:name>$linklabel</xrx:name>
+                            <xrx:expression>"charters"</xrx:expression>
+                        </xrx:parameter>
+                        <xrx:parameter>
+                            <xrx:name>$collection-path</xrx:name>
+                            <xrx:expression>$collection_path</xrx:expression>
+                        </xrx:parameter>
+                    </xrx:pass>
+                </xrx:subwidget>
+            </div>
+            {
+            if($GeoCharterResults) then(
+            <div id="results">
+                <div id="searchinformations"></div>
+                <div id="resultpages">
+                    <script type="text/javascript">$(document).ready(function(){{createPageList('{conf:param("request-root")}', '{xs:integer($steps)}','{xs:integer($count)}','{xs:integer($pos)}', '{$place}'); }});</script>
+                </div>
+                {
+                for $charter at $num in session:get-attribute("_GeoCharterResults")
+                return
+                <div id="dcharter-preview-main">
+                    <xrx:subwidget>
+                        <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/result</xrx:atomid>
+                        <xrx:pass>
+                            <xrx:parameter>
+                                <xrx:name>$constructor:charter</xrx:name>
+                                <xrx:expression>$charter</xrx:expression>
+                            </xrx:parameter>
+                            <xrx:parameter>
+                                <xrx:name>$constructor:pos</xrx:name>
+                                <xrx:expression>$num + 1 -1</xrx:expression>
+                            </xrx:parameter>
+                            <xrx:parameter>
+                                <xrx:name>$resultType</xrx:name>
+                                <xrx:expression>'registerResult'</xrx:expression>
+                            </xrx:parameter>
+                        </xrx:pass>
+                    </xrx:subwidget>
+                </div>
+                }
+            </div>
+
+            )
+            else()
+            }
         </div>
     </xrx:view>
-    </xrx:widget>
+</xrx:widget>
