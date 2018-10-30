@@ -1,32 +1,59 @@
 ;(function( $, undefined){
-
-
 $.widget("ui.GeoTool",{
 
 	
 	options:{
+		requestroot: "",
 		serviceLink: "",
 		imageLink: "",
+		mode: "",
+		linklabel: "",
+		collection: ""
 	},
 
 	_create: function(){
 		var self = this;
 		this.iconUrl = $("#markericon").attr("src");
-
+		console.log(this.options.collection);
 		self._createMap();
+
 
 	},
 
 	
 	_getJson: function(){
 		var self = this;
-		$.ajax({
-			  type: "GET",
-			  dataType: 'json',
-			  url:  self.options.serviceLink,
-			  success: function(json){self._createMap(json);},
-			   error: function(jqXHR,  textStatus, errorThrown){console.log(jqXHR, textStatus, errorThrown);}
-		});
+		mode = self.options.mode;
+		if(mode == "fonds") {
+            $.ajax({
+
+                type: "GET",
+                dataType: 'json',
+                url: self.options.serviceLink,
+                success: function (json) {
+                    self._createMarker(json);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR, textStatus, errorThrown);
+                }
+            });
+        }
+        if(mode == "collection"){
+			$.ajax({
+				type: "GET",
+				dataType: 'json',
+				url: self.options.serviceLink,
+                data: {collectionpath : self.options.collection},
+
+                success: function(json){
+					self._createMarkerForCharters(json);
+				},
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR, textStatus, errorThrown);
+                }
+			});
+		}
+
 	},
 	
 	
@@ -67,17 +94,32 @@ $.widget("ui.GeoTool",{
 	    
 	    self.map.addLayer(self.markers);
 	    self.map.addLayer(self.markers2);
-	    
-		$.ajax({
-			  type: "GET",
-			  dataType: 'json',
-			  url:  self.options.serviceLink,
-			  success: function(json){self._createMarker(json);},
-			   error: function(jqXHR,  textStatus, errorThrown){console.log(jqXHR, textStatus, errorThrown);}
-		});
+
 
 	    
-  
+		self._getJson();
+
+		self.map.on('popupopen', function(){
+			$(".clickLink").click(function(e){
+				place = $(this).attr("place");
+				count = $(this).attr("count");
+                $.ajax({
+                    type: "GET",
+                    dataType: 'xml',
+                    url: self.options.requestroot + "service/geolocations-charter-results",
+                    data: {clickedLocation: place},
+					success: function(data){
+                    	url = $(location).attr("href")
+                    	linkroot = url.substr(0, url.indexOf("?"));
+						window.location.href = linkroot+"?place="+place+"&count="+count+"&pos=1&steps=5";
+                    	},
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR, textStatus, errorThrown);
+                    }
+                });
+			});
+
+		})
 	},
 
 	_setMarker: function(lat, lng, result, mode){
@@ -90,7 +132,6 @@ $.widget("ui.GeoTool",{
         }
         marker.bindPopup(result);
         self.markers.addLayer(marker);
-
 	},
 	
 	_createMarker: function(json){
@@ -108,17 +149,28 @@ $.widget("ui.GeoTool",{
             self._setMarker(lat, lng, result, "archives");
         }	  
 		
-	}
-	
-	
+	},
+
+	_createMarkerForCharters: function(json){
+		self = this;
+        for(var locationsCounter = 0, locationsLength = json.geolocations.length; locationsCounter < locationsLength; locationsCounter++ ){
+            var lat = json.geolocations[locationsCounter].lat;
+            var lng = json.geolocations[locationsCounter].lng;
+            if(!json.geolocations[locationsCounter].name){
+                json.geolocations[locationsCounter].name = "???";
+            }
+            var result = "<b>"+json.geolocations[locationsCounter].name+"</b><br />";
+            result = result + "<a class='clickLink' place='"+json.geolocations[locationsCounter].name+"' count='"+json.geolocations[locationsCounter].results.length+"'>"+json.geolocations[locationsCounter].results.length+" "+self.options.linklabel+"</a><br/>";
+            self._setMarker(lat, lng, result, "archives");
+
+        }
+        },
 	});
 
 
+})
 
-
-})( jQuery );
-
-
+( jQuery );
 
 	
 
