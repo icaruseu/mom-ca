@@ -33,6 +33,8 @@ import module namespace conf="http://www.monasterium.net/NS/conf" at "xmldb:exis
 
 declare namespace geo = "http://www.monasterium.net/NS/geo";
 declare namespace eag= "http://www.archivgut-online.de/eag";
+
+
 import module namespace atom="http://www.w3.org/2005/Atom" at "xmldb:exist:///db/XRX.live/mom/app/data/atom.xqm";
 
 
@@ -68,6 +70,116 @@ return <locations>{$locationsXml}</locations>
 
 };
 
+declare function geoservices:get_charter_over_key($collectionPath){
+
+    let $collection := collection($collectionPath)
+    let $geodoc := doc("/db/mom-data/metadata.geo.public/geo.xml")
+
+
+    let $keys := distinct-values($collection//cei:issued/cei:placeName/@key)
+
+    for $key in $keys
+    let $locations := $geodoc//geo:location[@id=$key]
+
+    let $xml := for $location in $locations
+    return <location>
+        <name>{$location//geo:name/text()}</name>
+        <longitude>{$location//geo:lng/text()}</longitude>
+        <latitude>{$location/geo:lat/text()}</latitude>
+        <count>{count($collection[.//cei:issued/cei:placeName/@key = $key])}</count>
+        <results>
+            {
+                for $charter in $collection[.//cei:issued/cei:placeName/@key = $key]
+                return
+                    <result>
+                    <id>{$charter//atom:id/text()}</id>
+                    </result>
+            }
+        </results>
+    </location>
+    let $locationXml := <locations>{$xml}</locations>
+
+    return $locationXml
+
+};
+
+declare function geoservices:charter_results($clickedLocation, $locationsXml, $pos as xs:int, $steps as xs:int){
+
+    let $location := $locationsXml/location[name=$clickedLocation]
+
+    (:create Path to charters:)
+    let $id := $location//id[1]
+    let $tokenizedId := tokenize($id, "/")
+    let $context := if(count($tokenizedId) = 4) then "collection" else("fond")
+    let $base-path := metadata:base-collection-path("charter", "public")
+    let $charters-path := if($context = "fond") then concat($base-path, $tokenizedId[3],"/", $tokenizedId[4]) else(concat($base-path, $tokenizedId[3]))
+
+    let $startpos := ($pos - 1 )* $steps +1
+    let $bla6 := util:log("ERROR" ,$startpos)
+    let $results := $location/results/result/id
+    let $ids := subsequence($results, $startpos, $steps)
+
+    let $charters := for $id in $ids
+        let $fileName := metadata:entryname("cei", tokenize($id,"/")[last()])
+        return doc(concat($charters-path,"/",$fileName))
+
+    let $setSessionCharterResults := session:set-attribute("_GeoCharterResults", $charters)
+
+    return <result>{$charters}</result>
+};
+
+
+
+declare function geoservices:xmlToJsonForCharters($locationsXml){
+
+    let $json := jsonx:object(
+            jsonx:pair(
+                jsonx:string("geolocations"),
+                    jsonx:array(
+                        for $location in $locationsXml/location
+                            return   jsonx:object((
+                                jsonx:pair(
+                                        jsonx:string("name"),
+                                        jsonx:string($location/name)
+                                ),
+                                jsonx:pair(
+                                        jsonx:string("lat"),
+                                        jsonx:string($location/latitude)
+                                ),
+                                jsonx:pair(
+                                        jsonx:string("lng"),
+                                        jsonx:string($location/longitude)
+                                ),
+                                jsonx:pair(
+                                    jsonx:string("count"),
+                                    jsonx:string($location/count)
+                                ),
+                                jsonx:pair(
+                                        jsonx:string("results"),
+                                        jsonx:array(
+                                                for $result in $location//results/result
+                                                return jsonx:object((
+                                                    jsonx:pair(
+                                                            jsonx:string("id"),
+                                                            jsonx:string(if(empty($result/id)) then 'none' else($result/id))
+                                                    ),
+                                                    jsonx:pair(
+                                                            jsonx:string("displayText"),
+                                                            jsonx:string(if(empty($result/name)) then 'none' else($result/name))
+                                                    ),
+                                                    jsonx:pair(
+                                                            jsonx:string("url"),
+                                                            jsonx:string(if(empty($result/url)) then 'none' else($result/name))
+                                                    )))
+                                        )
+                                )
+                            ))
+                    )
+            )
+    )
+    return $json
+};
+
 
 declare function geoservices:xmltoJson($locationsXml){
 
@@ -96,18 +208,16 @@ declare function geoservices:xmltoJson($locationsXml){
                          return jsonx:object((
                           jsonx:pair(
                            jsonx:string("id"),
-                           jsonx:string($result/id)
+                           jsonx:string(if(empty($result/id)) then 'none' else($result/id))
                           ),
                           jsonx:pair(
                            jsonx:string("displayText"),
-                           jsonx:string($result/name)
+                           jsonx:string(if(empty($result/name)) then 'none' else($result/name))
                           ),
                          jsonx:pair(
                           jsonx:string("url"),
-                          jsonx:string($result/url)
-                          )
-
-                        ))
+                          jsonx:string(if(empty($result/url)) then 'none' else($result/name))
+                        )))
                       )
                     )     
                 ))
