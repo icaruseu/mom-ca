@@ -40,8 +40,25 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	    	<xrx:name>$imagelink</xrx:name>   
 	    	<xrx:default>()</xrx:default>
 	    </xrx:parameter>
+        <xrx:parameter>
+            <xrx:name>$mode</xrx:name>
+            <xrx:default>()</xrx:default>
+        </xrx:parameter>
+        <xrx:parameter>
+            <xrx:name>$collection-path</xrx:name>
+            <xrx:default>()</xrx:default>
+        </xrx:parameter>
+        <xrx:parameter>
+            <xrx:name>$linklabel</xrx:name>
+            <xrx:default>()</xrx:default>
+        </xrx:parameter>
     </xrx:constructor>
-
+    <xrx:variables>
+        <xrx:variable>
+            <xrx:name>$bla</xrx:name>
+            <xrx:expression>util:log("ERROR",  $collection-path)</xrx:expression>
+        </xrx:variable>
+    </xrx:variables>
     <xrx:csss>
      <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/css/leaflet</xrx:resource> 
      <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/css/leaflet-marker-cluster</xrx:resource>
@@ -61,11 +78,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource> 
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/leaflet</xrx:resource> 
-  	<xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/leaflet-marker-cluster</xrx:resource>     
-  	 <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/GeoTool</xrx:resource>
+  	<xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/leaflet-marker-cluster</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/GeoTool</xrx:resource>
   </xrx:jss>
+
       <xrx:view>
    		<div id="map"></div>
-		<script type="text/javascript">$(document).ready(function(){{$("#map").GeoTool({{serviceLink: "{conf:param('request-root')}service/{$serviceName}", imageLink: "{$imagelink}"}});}});</script>
+		<script type="text/javascript">$(document).ready(function(){{$("#map").GeoTool({{requestroot:"{conf:param('request-root')}", serviceLink: "{conf:param('request-root')}service/{$serviceName}", imageLink: "{$imagelink}", mode: "{$mode}", collection: "{$collection-path}", linklabel: "{$linklabel}"}});}});</script>
   </xrx:view>
 </xrx:widget>
