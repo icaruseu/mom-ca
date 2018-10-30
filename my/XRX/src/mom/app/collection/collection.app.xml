@@ -123,6 +123,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
      <xrx:relativepath>js/</xrx:relativepath>
      <xrx:name>jquery.ui.collectionRegisterSearch.js</xrx:name>
     </xrx:resource>
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/chartersOnMap</xrx:atomid>
+      <xrx:relativepath>js/</xrx:relativepath>
+      <xrx:name>jquery.ui.chartersOnMap.js</xrx:name>
+    </xrx:resource>
   </xrx:resources>
   <xrx:resolver>
     <!-- services -->
