@@ -818,7 +818,7 @@ function storeCrop(url, user, lang){
                  if (xmlhttp.status==200)
                      { 
                         jQuery('#loadgif').css('display', 'none');
-                        var xmlDoc = xmlhttp.responseXML;
+                        var xmlDoc =  jQuery.parseXML(xmlhttp.response);
                         if (xmlDoc.childNodes[0].nodeName == "data")
                         {
                             var outerid = xmlDoc.getElementsByTagName('dataid')[0].childNodes[0].nodeValue;
