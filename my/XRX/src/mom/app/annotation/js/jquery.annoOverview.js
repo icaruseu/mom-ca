@@ -157,7 +157,7 @@
       if (xmlhttp.readyState == 4) {
         if (xmlhttp.status == 200) {
           error = 0;
-          xmlDoc = xmlhttp.responseXML;
+          xmlDoc = jQuery.parseXML(xmlhttp.response);
           if(xmlDoc.getElementsByTagName('relationStatus')[0].childNodes[0].nodeValue == "ok"){
             // show metadata of annotation
             $('#data-table').css('display', 'block');
