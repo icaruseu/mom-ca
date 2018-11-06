@@ -90,8 +90,10 @@ declare function geoservices:get_charter_over_key($collectionPath){
         <results>
             {
                 for $charter in $collection[.//cei:issued/cei:placeName/@key = $key]
+                order by $charter//cei:date/@value
                 return
                     <result>
+                        {$charter//cei:date}
                     <id>{$charter//atom:id/text()}</id>
                     </result>
             }
@@ -103,31 +105,41 @@ declare function geoservices:get_charter_over_key($collectionPath){
 
 };
 
+
+
+
 declare function geoservices:charter_results($clickedLocation, $locationsXml, $pos as xs:int, $steps as xs:int){
 
     let $location := $locationsXml/location[name=$clickedLocation]
 
-    (:create Path to charters:)
-    let $id := $location//id[1]
-    let $tokenizedId := tokenize($id, "/")
-    let $context := if(count($tokenizedId) = 4) then "collection" else("fond")
-    let $base-path := metadata:base-collection-path("charter", "public")
-    let $charters-path := if($context = "fond") then concat($base-path, $tokenizedId[3],"/", $tokenizedId[4]) else(concat($base-path, $tokenizedId[3]))
-
     let $startpos := ($pos - 1 )* $steps +1
-    let $bla6 := util:log("ERROR" ,$startpos)
+
+
     let $results := $location/results/result/id
     let $ids := subsequence($results, $startpos, $steps)
 
     let $charters := for $id in $ids
+        let $charter-path := geoservices:charter_path_from_id($id)
         let $fileName := metadata:entryname("cei", tokenize($id,"/")[last()])
-        return doc(concat($charters-path,"/",$fileName))
+        return doc(concat($charter-path,"/",$fileName))
 
     let $setSessionCharterResults := session:set-attribute("_GeoCharterResults", $charters)
 
     return <result>{$charters}</result>
 };
 
+
+(: creates from a charter id a path to the charter.xml:)
+declare function geoservices:charter_path_from_id($id){
+    let $tokenizedId := tokenize($id, "/")
+    let $context := if(count($tokenizedId) = 4) then "collection" else("fond")
+    let $base-path := metadata:base-collection-path("charter", "public")
+    let $charter-path := if($context = "fond") then concat($base-path, $tokenizedId[3],"/", $tokenizedId[4]) else(concat($base-path, $tokenizedId[3]))
+
+    return $charter-path
+
+
+};
 
 
 declare function geoservices:xmlToJsonForCharters($locationsXml){
