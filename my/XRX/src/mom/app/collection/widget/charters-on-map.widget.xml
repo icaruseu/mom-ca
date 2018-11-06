@@ -59,6 +59,10 @@
             <xrx:expression>request:get-parameter("count","")</xrx:expression>
         </xrx:variable>
         <xrx:variable>
+            <xrx:name>$latlng</xrx:name>
+            <xrx:expression>request:get-parameter("mapview","")</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
             <xrx:name>$tokenizedurl</xrx:name>
             <xrx:expression>tokenize(request:get-uri(), '/')</xrx:expression>
         </xrx:variable>
@@ -136,6 +140,10 @@
                         <xrx:parameter>
                             <xrx:name>$collection-path</xrx:name>
                             <xrx:expression>$collection_path</xrx:expression>
+                        </xrx:parameter>
+                        <xrx:parameter>
+                            <xrx:name>$latlng</xrx:name>
+                            <xrx:expression>$latlng</xrx:expression>
                         </xrx:parameter>
                     </xrx:pass>
                 </xrx:subwidget>
