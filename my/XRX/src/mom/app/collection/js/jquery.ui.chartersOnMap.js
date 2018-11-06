@@ -34,7 +34,7 @@ function get_charters(requestroot, place, position, steps, range){
         success: function(data){
             url = $(location).attr("href");
             linkroot = url.substr(0, url.indexOf("?"));
-            window.location.href = linkroot+"?place="+place+"&count="+range+"&pos="+position+"&steps="+steps;
+            window.location.href = linkroot+"?place="+place+"&count="+range+"&pos="+position+"&steps="+step+"#results";
             },
         error:function(jqHXR, textStatus, errorThrown){
             console.log(jqHXR, textStatus, errorThrown);
