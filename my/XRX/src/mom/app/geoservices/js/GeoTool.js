@@ -8,7 +8,10 @@ $.widget("ui.GeoTool",{
 		imageLink: "",
 		mode: "",
 		linklabel: "",
-		collection: ""
+		collection: "",
+        lat: 0.0,
+        lng: 0.0,
+        zoomlevel: 0.0
 	},
 
 	_create: function(){
@@ -67,9 +70,22 @@ $.widget("ui.GeoTool",{
 				'Imagery Â© <a href="http://mapbox.com">Mapbox</a>',
 			id: 'mapbox.streets'
 		});
-		
+
+		var latlng = [];
+		console.log(self.options.lat);
+		var zoom;
+		if (self.options.lat != 0.0 && self.options.lng !=0.0){
+		    latlng = [self.options.lat, self.options.lng];
+		    zoom = 7;
+        }
+        else{
+		    latlng = [ 51.50, 20.21 ];
+            zoom = 4;
+		}
+		console.log(latlng);
+
 		this.map = L.map('map')
-		.setView([ 51.50, 20.21 ], 4)
+		.setView(latlng, zoom)
 		.addLayer(self.mainMapLayer);
 		
 		this.markers = new L.MarkerClusterGroup();
@@ -99,8 +115,9 @@ $.widget("ui.GeoTool",{
 	    
 		self._getJson();
 
-		self.map.on('popupopen', function(){
-			$(".clickLink").click(function(e){
+		self.map.on('popupopen', function(ev){
+            latlng = ev.popup._latlng;
+            $(".clickLink").click(function(e){
 				place = $(this).attr("place");
 				count = $(this).attr("count");
                 $.ajax({
@@ -111,7 +128,9 @@ $.widget("ui.GeoTool",{
 					success: function(data){
                     	url = $(location).attr("href")
                     	linkroot = url.substr(0, url.indexOf("?"));
-						window.location.href = linkroot+"?place="+place+"&count="+count+"&pos=1&steps=5";
+                    	lat = latlng.lat;
+                    	lng = latlng.lng;
+						window.location.href = linkroot+"?place="+place+"&count="+count+"&pos=1&steps=5&mapview="+lat+";"+lng+"#results";
                     	},
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log(jqXHR, textStatus, errorThrown);
