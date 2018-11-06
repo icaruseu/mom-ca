@@ -52,11 +52,27 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             <xrx:name>$linklabel</xrx:name>
             <xrx:default>()</xrx:default>
         </xrx:parameter>
+        <xrx:parameter>
+            <xrx:name>$latlng</xrx:name>
+            <xrx:default>()</xrx:default>
+        </xrx:parameter>
     </xrx:constructor>
     <xrx:variables>
         <xrx:variable>
-            <xrx:name>$bla</xrx:name>
-            <xrx:expression>util:log("ERROR",  $collection-path)</xrx:expression>
+            <xrx:name>$lat</xrx:name>
+            <xrx:expression>tokenize($latlng,';')[1]</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$lng</xrx:name>
+            <xrx:expression>tokenize($latlng, ';')[2]</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$debug</xrx:name>
+            <xrx:expression>util:log("ERROR", $lat)</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$debug2</xrx:name>
+            <xrx:expression>util:log("ERROR", $lng)</xrx:expression>
         </xrx:variable>
     </xrx:variables>
     <xrx:csss>
@@ -84,6 +100,6 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 
       <xrx:view>
    		<div id="map"></div>
-		<script type="text/javascript">$(document).ready(function(){{$("#map").GeoTool({{requestroot:"{conf:param('request-root')}", serviceLink: "{conf:param('request-root')}service/{$serviceName}", imageLink: "{$imagelink}", mode: "{$mode}", collection: "{$collection-path}", linklabel: "{$linklabel}"}});}});</script>
+		<script type="text/javascript">$(document).ready(function(){{$("#map").GeoTool({{requestroot:"{conf:param('request-root')}", serviceLink: "{conf:param('request-root')}service/{$serviceName}", imageLink: "{$imagelink}", mode: "{$mode}", collection: "{$collection-path}", linklabel: "{$linklabel}", lat: "{xs:float($lat)}", lng: "{xs:float($lng)}"}});}});</script>
   </xrx:view>
 </xrx:widget>
