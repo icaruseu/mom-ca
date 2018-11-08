@@ -63,6 +63,10 @@
             <xrx:expression>request:get-parameter("mapview","")</xrx:expression>
         </xrx:variable>
         <xrx:variable>
+            <xrx:name>$zoom</xrx:name>
+            <xrx:expression>request:get-parameter("zoom",0)</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
             <xrx:name>$tokenizedurl</xrx:name>
             <xrx:expression>tokenize(request:get-uri(), '/')</xrx:expression>
         </xrx:variable>
@@ -117,7 +121,7 @@
 
     <xrx:view>
         <div><h2><xrx:i18n><xrx:key>charter_an_map</xrx:key><xrx:default>Charters on Map</xrx:default></xrx:i18n></h2>
-            <div id="map">
+            <div id="geomap_widget">
                 <xrx:subwidget>
                     <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/geomap</xrx:atomid>
                     <xrx:pass>
@@ -144,6 +148,10 @@
                         <xrx:parameter>
                             <xrx:name>$latlng</xrx:name>
                             <xrx:expression>$latlng</xrx:expression>
+                        </xrx:parameter>
+                        <xrx:parameter>
+                            <xrx:name>$zoom</xrx:name>
+                            <xrx:expression>$zoom</xrx:expression>
                         </xrx:parameter>
                     </xrx:pass>
                 </xrx:subwidget>
