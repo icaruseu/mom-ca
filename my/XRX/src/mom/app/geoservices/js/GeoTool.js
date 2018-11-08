@@ -11,13 +11,14 @@ $.widget("ui.GeoTool",{
 		collection: "",
         lat: 0.0,
         lng: 0.0,
-        zoomlevel: 0.0
+        zoomlevel: 0.0,
+		zoom: 0,
+		loadergif: "resource/?atomid=tag:www.monasterium.net,2011:/mom/resource/images/loader"
 	},
 
 	_create: function(){
 		var self = this;
-		this.iconUrl = $("#markericon").attr("src");
-		console.log(this.options.collection);
+
 		self._createMap();
 
 
@@ -42,14 +43,18 @@ $.widget("ui.GeoTool",{
             });
         }
         if(mode == "collection"){
-			$.ajax({
+			$(".loader").removeClass("inactive").addClass("active");;
+            $.ajax({
 				type: "GET",
 				dataType: 'json',
 				url: self.options.serviceLink,
                 data: {collectionpath : self.options.collection},
 
                 success: function(json){
+                    $(".loader").removeClass("active").addClass("inactive");;
 					self._createMarkerForCharters(json);
+					if(self.options.lat == 0 && self.options.lng == 0)
+                    	self.map.fitBounds(self.markers.getBounds());
 				},
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR, textStatus, errorThrown);
@@ -59,7 +64,14 @@ $.widget("ui.GeoTool",{
 
 	},
 	
-	
+
+	_switchElementState: function($element){
+		console.log($element);
+		if($element.hasClass("inactive")){
+			$element.removeClass("inactive").addClass("active");
+		}
+	},
+
 	_createMap: function(){
 	    var self = this;
 	    
@@ -72,17 +84,18 @@ $.widget("ui.GeoTool",{
 		});
 
 		var latlng = [];
-		console.log(self.options.lat);
 		var zoom;
 		if (self.options.lat != 0.0 && self.options.lng !=0.0){
 		    latlng = [self.options.lat, self.options.lng];
-		    zoom = 7;
+		    if(self.options.zoom !=0)
+		    	zoom = self.options.zoom;
+		    else
+		    	zoom = 7;
         }
         else{
 		    latlng = [ 51.50, 20.21 ];
             zoom = 4;
 		}
-		console.log(latlng);
 
 		this.map = L.map('map')
 		.setView(latlng, zoom)
@@ -90,7 +103,10 @@ $.widget("ui.GeoTool",{
 		
 		this.markers = new L.MarkerClusterGroup();
 		this.markers2 = new L.MarkerClusterGroup();
-		
+
+
+
+
 		this.LeafIcon = L.Icon.extend({
 			options: {
 				iconSize:     [28, 28],
@@ -115,8 +131,11 @@ $.widget("ui.GeoTool",{
 	    
 		self._getJson();
 
+
+
 		self.map.on('popupopen', function(ev){
             latlng = ev.popup._latlng;
+            actualZoom = self.map.getZoom();
             $(".clickLink").click(function(e){
 				place = $(this).attr("place");
 				count = $(this).attr("count");
@@ -130,7 +149,7 @@ $.widget("ui.GeoTool",{
                     	linkroot = url.substr(0, url.indexOf("?"));
                     	lat = latlng.lat;
                     	lng = latlng.lng;
-						window.location.href = linkroot+"?place="+place+"&count="+count+"&pos=1&steps=5&mapview="+lat+";"+lng+"#results";
+						window.location.href = linkroot+"?place="+place+"&count="+count+"&pos=1&steps=5&mapview="+lat+";"+lng+"&zoom="+actualZoom+"#results";
                     	},
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log(jqXHR, textStatus, errorThrown);

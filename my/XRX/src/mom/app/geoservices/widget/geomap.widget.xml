@@ -56,6 +56,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             <xrx:name>$latlng</xrx:name>
             <xrx:default>()</xrx:default>
         </xrx:parameter>
+        <xrx:parameter>
+            <xrx:name>$zoom</xrx:name>
+            <xrx:default>()</xrx:default>
+        </xrx:parameter>
     </xrx:constructor>
     <xrx:variables>
         <xrx:variable>
@@ -65,14 +69,6 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
         <xrx:variable>
             <xrx:name>$lng</xrx:name>
             <xrx:expression>tokenize($latlng, ';')[2]</xrx:expression>
-        </xrx:variable>
-        <xrx:variable>
-            <xrx:name>$debug</xrx:name>
-            <xrx:expression>util:log("ERROR", $lat)</xrx:expression>
-        </xrx:variable>
-        <xrx:variable>
-            <xrx:name>$debug2</xrx:name>
-            <xrx:expression>util:log("ERROR", $lng)</xrx:expression>
         </xrx:variable>
     </xrx:variables>
     <xrx:csss>
@@ -87,6 +83,24 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 		width: 800px;
 		height: 500px;
 	}}
+
+        .loader{{
+        position: absolute;
+        top: 52px;
+        z-index: 1000;
+        width: 800px;
+        text-align: center;
+        padding: 240px 0;
+        background-color: rgba(0,0,0,0.2);
+        }}
+
+        .inactive{{
+            display: none;
+        }}
+
+        .active{{
+            display: block;
+        }}
   	</style>
   </xrx:csss>
     <xrx:jss>
@@ -99,7 +113,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   </xrx:jss>
 
       <xrx:view>
+          <div id="mapbox">
    		<div id="map"></div>
-		<script type="text/javascript">$(document).ready(function(){{$("#map").GeoTool({{requestroot:"{conf:param('request-root')}", serviceLink: "{conf:param('request-root')}service/{$serviceName}", imageLink: "{$imagelink}", mode: "{$mode}", collection: "{$collection-path}", linklabel: "{$linklabel}", lat: "{xs:float($lat)}", lng: "{xs:float($lng)}"}});}});</script>
+            <div class="loader inactive">Loading Map Please Wait</div>
+          </div>
+		<script type="text/javascript">$(document).ready(function(){{$("#map").GeoTool({{requestroot:"{conf:param('request-root')}", serviceLink: "{conf:param('request-root')}service/{$serviceName}", imageLink: "{$imagelink}", mode: "{$mode}", collection: "{$collection-path}", linklabel: "{$linklabel}", lat: "{xs:float($lat)}", lng: "{xs:float($lng)}", zoom:"{xs:integer($zoom)}"}});}});</script>
   </xrx:view>
 </xrx:widget>
