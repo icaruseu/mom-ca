@@ -59,7 +59,7 @@ it leaves the active development stage.
     <xrx:variable>
       <xrx:name>$wcharter:default-url</xrx:name>
       <xrx:expression>
-        concat('//monasterium.net/mom/', substring-after($wcharter:atom-id, 'charter/'))
+        concat($xrx:http-request-root, substring-after($wcharter:atom-id, 'charter/'))
       </xrx:expression>
     </xrx:variable>
     <!-- init metadata database collections -->
