@@ -453,6 +453,11 @@
         <copy todir="${exist-home}/lib" overwrite="true">
             <fileset dir="${my-exist-lib}"/>
         </copy>
+	<echo message="# build.properties"/>
+        <copy file="${exist-home}/build.properties" tofile="${exist-home}/build.properties.original"/>
+        <replace file="${exist-home}/build.properties">
+            <replacefilter token="autodeploy=dashboard,shared,eXide,monex,usermanager" value="autodeploy=dashboard,shared,eXide,monex,usermanager,xquery-versioning-module"/>
+        </replace>
         <echo message="# extensions/build.properties"/>
         <copy file="${exist-home}/extensions/build.properties" tofile="${exist-home}/extensions/build.properties.original"/>
         <replace file="${exist-home}/extensions/build.properties">
