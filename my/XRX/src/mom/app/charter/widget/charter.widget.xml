@@ -294,7 +294,7 @@ it leaves the active development stage.
     else if($wcharter:linked-atomid != '') then
     $wcharter:linked-charter-image-base-uri     
     else
-      concat(conf:param('request-root'), $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(), '/')
+      concat('//', $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(), '/')
         </xrx:expression>
     </xrx:variable>
     <!-- archive information -->
