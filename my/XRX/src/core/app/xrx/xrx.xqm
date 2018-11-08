@@ -138,9 +138,9 @@ declare variable $xrx:this :=
 (: the server port :)
 declare variable $xrx:port := request:get-server-port();
 (: the full server name, with or without port :)
-declare variable $xrx:servername := substring-before(substring-after(request:get-url(), 'http://'), '/');
+declare variable $xrx:servername := substring-before(substring-after(request:get-url(), '//'), '/');
 (: sometimes it is helpful to have the complete URL :)
-declare variable $xrx:http-request-root := concat('http://', $xrx:servername, concat('/', $xrx:platform-id, '/'));
+declare variable $xrx:http-request-root := concat('//', $xrx:servername, concat('/', $xrx:platform-id, '/'));
 (: 
     URI path relative to the request root
     e.g.: '../../../' 
@@ -156,10 +156,10 @@ declare variable $xrx:request-relative-path :=
         ''
     );
 declare variable $xrx:localhost-request-base-url :=
-    concat('http://localhost:', conf:param('jetty-port'), conf:param('request-root'));
+    concat('//localhost:', conf:param('jetty-port'), conf:param('request-root'));
 declare variable $xrx:jetty-request-base-url :=
-    concat('http://', conf:param('jetty-servername'), ':', conf:param('jetty-port'), conf:param('request-root'));
-declare variable $xrx:http-icon-root := concat('http://', request:get-server-name(), $xrx:port, concat('/', $xrx:platform-id, '/'), 'icon/');    
+    concat('//', conf:param('jetty-servername'), ':', conf:param('jetty-port'), conf:param('request-root'));
+declare variable $xrx:http-icon-root := concat('//', request:get-server-name(), $xrx:port, concat('/', $xrx:platform-id, '/'), 'icon/');    
 (: tokenize each incoming URI :)
 declare variable $xrx:_teed-help := 
     tokenize(substring-after(request:get-uri(), concat('/', $xrx:platform-id, '/')), '/');
