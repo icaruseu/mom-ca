@@ -159,9 +159,10 @@
             {
             if($GeoCharterResults) then(
             <div id="results">
+                <h2>{$place}</h2>
                 <div id="searchinformations"></div>
                 <div id="resultpages">
-                    <script type="text/javascript">$(document).ready(function(){{createPageList('{conf:param("request-root")}', '{xs:integer($steps)}','{xs:integer($count)}','{xs:integer($pos)}', '{$place}'); }});</script>
+                    <script type="text/javascript">$(document).ready(function(){{createPageList('{conf:param("request-root")}', '{xs:integer($steps)}','{xs:integer($count)}','{xs:integer($pos)}', '{$place}','{$latlng}', '{$zoom}'); }});</script>
                 </div>
                 {
                 for $charter at $num in session:get-attribute("_GeoCharterResults")
