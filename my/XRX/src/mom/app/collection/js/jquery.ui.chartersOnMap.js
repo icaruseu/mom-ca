@@ -1,4 +1,4 @@
-function createPageList(requestroot , steps, range, actualpos, place) {
+function createPageList(requestroot , steps, range, actualpos, place, latlng, actualzoom) {
     $list = $("<ul id='pageList'></ul>");
     lastpos = range / steps;
     for (counter = 0; counter < lastpos; counter++) {
@@ -17,7 +17,7 @@ function createPageList(requestroot , steps, range, actualpos, place) {
         else {
             $listitem = $("<li class='pagenumber' pos='" + position + "'><a>[" + text + "]</a></li>").click(function (e) {
                 newpos = parseInt($(this).attr("pos"));
-                get_charters(requestroot, place, newpos, steps, range)
+                get_charters(requestroot, place, newpos, steps, range, latlng, actualzoom)
             });
         }
         $list.append($listitem);
@@ -25,7 +25,7 @@ function createPageList(requestroot , steps, range, actualpos, place) {
     $("#resultpages").append($list);
 };
 
-function get_charters(requestroot, place, position, steps, range){
+function get_charters(requestroot, place, position, steps, range, latlng, actualZoom){
     $.ajax({
         type: "GET",
         dataType: "xml",
@@ -34,7 +34,7 @@ function get_charters(requestroot, place, position, steps, range){
         success: function(data){
             url = $(location).attr("href");
             linkroot = url.substr(0, url.indexOf("?"));
-            window.location.href = linkroot+"?place="+place+"&count="+range+"&pos="+position+"&steps="+step+"#results";
+            window.location.href = linkroot+"?place="+place+"&count="+range+"&pos="+position+"&steps="+steps+"&mapview="+latlng+"&zoom="+actualZoom+"#results";
             },
         error:function(jqHXR, textStatus, errorThrown){
             console.log(jqHXR, textStatus, errorThrown);
