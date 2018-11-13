@@ -369,7 +369,7 @@
           error = 0;
           
           // extract metadata
-          var desc, content, onClickFuntion, binding, xmlDoc = xmlhttp.responseXML;
+          var desc, content, onClickFuntion, binding, xmlDoc = jQuery.parseXML(xmlhttp.response);
           var relationStatus = xmlDoc.getElementsByTagName('relationStatus')[0].childNodes[0].nodeValue;
 
           // hide marked rect

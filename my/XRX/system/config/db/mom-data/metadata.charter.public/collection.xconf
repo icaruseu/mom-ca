@@ -1,5 +1,6 @@
 <collection xmlns="http://exist-db.org/collection-config/1.0"> 
     <index xmlns:atom="http://www.w3.org/2005/Atom" xmlns:cei="http://www.monasterium.net/NS/cei" xmlns:tei="http://www.tei-c.org/ns/1.0">
+        <fulltext default="none" attributes="no"/>
         <lucene> 
             <analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/> 
 	        <text qname="atom:id" />
@@ -79,7 +80,7 @@
             <text qname="@key"/>
             <text qname="@lemma"/>
             <text qname="@reason"/>
-	    <text qname="@reg"/>
+	        <text qname="@reg"/>
             <text qname="@sublemma"/>
             <text qname="@sic"/>
             <text qname="@to"/>
@@ -93,15 +94,10 @@
             <text qname="tei:surface"/>
             <text qname="tei:span"/>
         </lucene>
-        <create qname="@from" type="xs:integer"/>
-        <create qname="@to" type="xs:integer"/>
-        <create qname="@value" type="xs:integer"/>
+        <range>
+            <create qname="@from" type="xs:integer"/>
+            <create qname="@to" type="xs:integer"/>
+            <create qname="@value" type="xs:integer"/>
+        </range>
     </index>
-    <triggers>
-        <trigger class="org.exist.extensions.exquery.restxq.impl.RestXqTrigger"/>
-	<trigger event="create,delete,update"
-            class="org.exist.versioning.VersioningTrigger">
-            <parameter name="overwrite" value="yes"/>
-        </trigger>
-    </triggers>
 </collection>
