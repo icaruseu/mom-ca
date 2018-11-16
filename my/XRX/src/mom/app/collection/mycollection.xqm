@@ -241,11 +241,11 @@ declare function mycollection:node-exists ($nodeSet as node(), $nodeToFind as no
  (: Get Node via Path-matching :)
  declare function mycollection:getNode($nodeSet as element(), $nodeToFind as element() ) as element()* {
   (: Build Path of given Node :)
-  let $path := $nodeToFind/string-join(ancestor-or-self::atom:content/*:*/name(.), '/')
+  let $path := $nodeToFind/string-join(ancestor-or-self::atom:content//name(.), '/')
   (: Iterate through Nodeset until the given Node was found :)
   for $node in $nodeSet//*
     (: Get Path from current node :)
-    let $path_node := $node/string-join(ancestor-or-self::atom:content/*:*/name(.), '/')
+    let $path_node := $node/string-join(ancestor-or-self::atom:content//name(.), '/')
     let $try :=
       (: If path of the Node is Part of the Charter, return Node else next:)
       if($path_node = $path) then
@@ -549,7 +549,7 @@ declare function mycollection:return-existend-nodes ( $charter_ as element() ) a
             (: Does current Node from the Template exists inside the Charter?
             ~  If $config contains <target>, check if charter includes this target. Otherwise next Node 
             :)
-            let $path := $node/string-join(ancestor-or-self::atom:content/*:*/name(.), '/')
+            let $path := $node/string-join(ancestor-or-self::atom:content//name(.), '/')
             
             let $isPresent_item := 
               (: Itereate through all available Fields for this TabPage:)
@@ -669,7 +669,7 @@ declare function mycollection:makeControlls ( $charter as element()*, $nodes-the
             ~ $path contains a leading "/". It has to be removed! (functX)
             :)
             
-            let $nodes := if ($nodes-there/string-join(ancestor-or-self::atom:content/*:*/name(.), '/') = mycollection:replace-first($path, "/", "") ) then
+            let $nodes := if ($nodes-there/string-join(ancestor-or-self::atom:content//name(.), '/') = mycollection:replace-first($path, "/", "") ) then
                 
                 (: Generate Binding Name:)
                 let $bindingname := mycollection:buildNodeName($charter, string($pos), $mapped_item/path)
