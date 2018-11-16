@@ -58,7 +58,7 @@ it leaves the active development stage.
     <xrx:variable>
       <xrx:name>$wcharter:default-url</xrx:name>
       <xrx:expression>        
-        concat(conf:param('request-root'), substring-after($wcharter:atom-id, 'charter/'))
+        concat($xrx:http-request-root, substring-after($wcharter:atom-id, 'charter/'))
       </xrx:expression>
     </xrx:variable>
     <!-- 
@@ -201,7 +201,7 @@ it leaves the active development stage.
     $wcharter:linked-charter-image-base-uri 
         
     else
-      concat(conf:param('request-root'), $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(), '/')</xrx:expression>
+      concat($xrx:http-request-root, $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(), '/')</xrx:expression>
     </xrx:variable>
     <!-- archive information -->
     <xrx:variable>
