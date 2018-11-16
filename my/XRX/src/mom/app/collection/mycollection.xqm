@@ -269,7 +269,7 @@ declare function mycollection:return-node-with-names($charter as element(), $nod
 declare function mycollection:get-counter($charter as element(), $node_to_test as element()?) as xs:string {
     
     (: To ensure that multiple nodes are inside the same hierarchy, search within completed Path inside the Charter :)
-    let $path := $node_to_test/string-join(ancestor-or-self::atom:content/*:*/name(.), '/')
+    let $path := $node_to_test/string-join(ancestor-or-self::atom:content//name(.), '/')
     
     (: Get Node from original Charter :)
     let $node := mycollection:dynamic-path($charter, concat("atom:content/", $path) )
