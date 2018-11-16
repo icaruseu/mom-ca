@@ -120,8 +120,8 @@ declare function mycollection:charter-new-empty($atom-id as xs:string, $charter-
           <xsl:text>{ $atom-id }</xsl:text>
         </xsl:element>
       </xsl:template>
-      <xsl:template match="//cei:body/cei:idno">
-        <xsl:element name="cei:idno">
+      <xsl:template match="//*:body/*:idno">
+        <xsl:element name="*:idno">
           <xsl:attribute name="id">{ $charter-id }</xsl:attribute>
           <xsl:text>{ $charter-name }</xsl:text>
         </xsl:element>
@@ -157,8 +157,8 @@ declare function mycollection:charter-new-version($atom-id as xs:string, $charte
           <xsl:apply-templates/>
         </xsl:element>
       </xsl:template>
-      <xsl:template match="//cei:body/cei:idno">
-        <xsl:element name="cei:idno">
+      <xsl:template match="//*:body/*:idno">
+        <xsl:element name="*:idno">
           <xsl:attribute name="id">{ $charter-id }</xsl:attribute>
           <xsl:text>{ $charter-name }</xsl:text>
         </xsl:element>
@@ -285,7 +285,7 @@ declare function mycollection:buildNodeName($charter as element(), $pos as xs:st
   (: Get Node from Charter:)
   let $node_orig := mycollection:returnNode($charter, $node_path)
   (: Get local name for parent
-  ~ Nodename: cei:date
+  ~ Nodename: *:date
   ~ Localname: date
    :)
   let $nodename_parent := local-name($node_orig/..)
@@ -342,7 +342,7 @@ declare function mycollection:disctinct-mappings($charter as element(), $nodes a
 
     (: Make Map distinct 
     ~ e.g. Charter has two graphic-declarations
-    ~ so missing-node-item contains cei:graphic twice
+    ~ so missing-node-item contains *:graphic twice
     ~ This function makes this mapping-item unique and returns the path & occurence
     :)
     let $return :=
@@ -357,12 +357,12 @@ declare function mycollection:disctinct-mappings($charter as element(), $nodes a
 };
 
 (: Return individual Token from the Path-String 
-~ e.g. complete Path is /descendant::cei:issued/child::cei:date
+~ e.g. complete Path is /descendant::*:issued/child::*:date
 ~ if called with $deep =
-~  "parent"       => Return is cei:issued
-~  "main"         => Return is cei:date
-~  "parent_token" => Return is descendant::cei:issued
-~  "main_token"   => Return is child::cei:date
+~  "parent"       => Return is *:issued
+~  "main"         => Return is *:date
+~  "parent_token" => Return is descendant::*:issued
+~  "main_token"   => Return is child::*:date
 ~ 
 ~ Needed for Building the Bindings and the Binds of the Textcontrols
 :)
@@ -453,8 +453,8 @@ declare function mycollection:makeBindings($charter as element(), $mappings as e
             let $nodename_complete := mycollection:buildNodeName($charter, string($pos), $path_orig)
              
             (: If the node has multiple occurences, build path to node individualy 
-            ~ Node exists only once -> path complete /descendant::cei:issued/child::cei:date
-            ~ Node exists multiple times -> just /descendant::cei:issued
+            ~ Node exists only once -> path complete /descendant::*:issued/child::*:date
+            ~ Node exists multiple times -> just /descendant::*:issued
             ~ It is important for handling the bindings and the "<xrx:repeat>"
             :)
             
@@ -472,7 +472,7 @@ declare function mycollection:makeBindings($charter as element(), $mappings as e
             let $path_node :=  mycollection:path-to-string($path_orig, true())
             let $path_node := replace($path_node, "descendant::", "")
             let $path_node := replace($path_node, "child::", "")
-            let $path_node := concat("atom:content/cei:text", $path_node)
+            let $path_node := concat("atom:content/*:text", $path_node)
             
             let $log := util:log("ERROR", $path_node)
             
@@ -482,7 +482,7 @@ declare function mycollection:makeBindings($charter as element(), $mappings as e
             let $path_parent :=  mycollection:path-to-string($path_orig, false())
             let $path_parent := replace($path_parent, "descendant::", "")
             let $path_parent := replace($path_parent, "child::", "")
-            let $path_parent:= concat("atom:content/cei:text", $path_parent)
+            let $path_parent:= concat("atom:content/*:text", $path_parent)
             let $parent_node := mycollection:dynamic-path($charter, $path_parent)
             (: Get Occurence of the orig. Node and check if multiple occurences :)
             let $counter := count($orig_node)
@@ -494,8 +494,8 @@ declare function mycollection:makeBindings($charter as element(), $mappings as e
             
              
             (: Just take the first occurence of Witnesses; has to be replaced by dynamically approach :)
-            let $path := if(count($charter//cei:witness) > 1 ) then 
-              if(contains($path, "/child::cei:witness/") ) then replace($path, "/child::cei:witness/", "/child::cei:witness[1]/") else if(ends-with($path, "/child::cei:witness")) then replace($path, "/child::cei:witness", "/child::cei:witness[1]") else $path
+            let $path := if(count($charter//*:witness) > 1 ) then 
+              if(contains($path, "/child::*:witness/") ) then replace($path, "/child::*:witness/", "/child::*:witness[1]/") else if(ends-with($path, "/child::*:witness")) then replace($path, "/child::*:witness", "/child::*:witness[1]") else $path
               else $path
             
             (: single div :)
@@ -663,8 +663,8 @@ declare function mycollection:makeControlls ( $charter as element()*, $nodes-the
             
             (: $nodes-there contains all nodes which are allowed within this tabPage
             ~ Every node from the Charter must be checked explicit against their individual Parts.
-            ~ e.g. cei:p can contain cei:persName
-            ~ cei:persName is not allowed for tabPag6. Its an own field for tabPage 7.
+            ~ e.g. *:p can contain *:persName
+            ~ *:persName is not allowed for tabPag6. Its an own field for tabPage 7.
             ~ thats why the complete path have to be checked against the allowed Fields
             ~ $path contains a leading "/". It has to be removed! (functX)
             :)
@@ -687,7 +687,7 @@ declare function mycollection:makeControlls ( $charter as element()*, $nodes-the
                 let $item := $elements-tabPage//.[id =  $name_from_path]
                     
                 (: Get local name:)
-                let $local_name := replace($name_from_path, "cei:", "")
+                let $local_name := replace($name_from_path, "*:", "")
                 
                 (: Get Path from Mapped Item:)
                 let $path := mycollection:replace-first($path, "/", "")
@@ -702,7 +702,7 @@ declare function mycollection:makeControlls ( $charter as element()*, $nodes-the
                 let $path_parent :=  mycollection:path-to-string($path_orig, true())
                 let $path_parent := replace($path_parent, "descendant::", "")
                 let $path_parent := replace($path_parent, "child::", "")
-                let $path_parent:= concat("atom:content/cei:text", $path_parent)
+                let $path_parent:= concat("atom:content/*:text", $path_parent)
                 let $parent_node := mycollection:dynamic-path($charter,  $path_parent)
                 
                 (: Get Occurence of the orig. Node and check if multiple occurences :)
@@ -780,19 +780,19 @@ declare function mycollection:createControl($bindname as xs:string, $localname a
   
   (: extract Field-Name for i18n:)
   let $name := if($occur = "false") then 
-      replace(mycollection:getParentName($path, "main"), "cei:", "")
+      replace(mycollection:getParentName($path, "main"), "*:", "")
     else
       (: If occurs multiple times, take Info which Field should be taken for the i18n :)
       if($editor_item/message = "self") then
-        replace($editor_item/id, "cei:", "")
+        replace($editor_item/id, "*:", "")
       else
         if($editor_item/message = "target") then
-            replace($targetname, "cei:", "")
+            replace($targetname, "*:", "")
           else
             if($editor_item/message = "parent") then
-              replace($editor_item/parent, "cei:", "")
+              replace($editor_item/parent, "*:", "")
             else
-              replace(mycollection:getParentName($path, "main"), "cei:", "")
+              replace(mycollection:getParentName($path, "main"), "*:", "")
   return
   
     (: Call Creation of Textarea :)
@@ -1012,9 +1012,9 @@ declare function mycollection:path-to-string ( $node_path as xs:string , $comple
   let $path := replace($path,"/", "/child::") 
   
   (: If Flag $complete is set to false, return the path without the last Path-Element
-  ~   e.g. /cei:text/cei:chDesc/cei:witListPar
+  ~   e.g. /*:text/*:chDesc/*:witListPar
   ~   complete = false
-  ~   return /cei:text/cei:chDesc else /cei:text/cei:chDesc/cei:witListPar
+  ~   return /*:text/*:chDesc else /*:text/*:chDesc/*:witListPar
   ~
   ~   is neccessary for building the Path-Strings for repeatable Bindings
   :)
