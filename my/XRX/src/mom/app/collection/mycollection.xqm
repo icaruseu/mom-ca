@@ -1028,7 +1028,26 @@ declare function mycollection:path-to-string ( $node_path as xs:string , $comple
   return
         $path_to_node
 };
+(: Check if atom:content/*:text is present. If present but without prefix, add prefix to element
+~  20.11.2018 StMa
+:)
 
+declare function mycollection:checkForTag($entry) {
+	(: extract (cei)text-tag :)
+	let $ceicharter := $entry//*:text
+
+	(: cei:text is in correct namespace :)
+	let $check := if (namespace-uri($ceicharter) = "http://www.monasterium.net/NS/cei") then
+				(: but without namespace :)
+				if(not(name($ceicharter) = "cei:text")) then 
+					let $newceicharter := mycollection:change-element-ns-deep($ceicharter, "http://www.monasterium.net/NS/cei", "cei")
+					let $update := update replace $ceicharter with $newceicharter
+					return $update
+				else ()
+			else ()
+	return $check
+	
+};
  (: functx - Funktion - Path to Node 
  ~  modified by Stephan Makowski
  :)
@@ -1132,4 +1151,28 @@ let $entscheidung := if ($atomabgleich) then 'mycollection' else('collection')
 return $entscheidung
     
 };
- 
+
+(: The functx:change-element-ns-deep function changes the namespace of the XML elements in $nodes to $newns. Unlike the functx:change-element-ns function, it also changes the namespace of all their descendant elements. :)
+declare function mycollection:change-element-ns-deep
+  ( $nodes as node()* ,
+    $newns as xs:string ,
+    $prefix as xs:string )  as node()* {
+
+  for $node in $nodes
+  return if ($node instance of element())
+         then (element
+               {QName ($newns,
+                          concat($prefix,
+                                    if ($prefix = '')
+                                    then ''
+                                    else ':',
+                                    local-name($node)))}
+               {$node/@*,
+                mycollection:change-element-ns-deep($node/node(),
+                                           $newns, $prefix)})
+         else if ($node instance of document-node())
+         then mycollection:change-element-ns-deep($node/node(),
+                                           $newns, $prefix)
+         else $node
+ } ; 
+
