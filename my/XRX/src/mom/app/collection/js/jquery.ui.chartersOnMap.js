@@ -15,7 +15,7 @@ function createPageList(requestroot , steps, range, actualpos, place, latlng, ac
             $listitem = $("<li class='pagenumber hili' pos='"+position +"'>["+text+"]</li>")
         }
         else {
-            $listitem = $("<li class='pagenumber' pos='" + position + "'><a>[" + text + "]</a></li>").click(function (e) {
+            $listitem = $("<li class='pagenumber' pos='" + position + "'><a href='#'>[" + text + "]</a></li>").click(function (e) {
                 newpos = parseInt($(this).attr("pos"));
                 get_charters(requestroot, place, newpos, steps, range, latlng, actualzoom)
             });
