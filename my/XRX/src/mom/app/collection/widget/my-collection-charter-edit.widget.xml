@@ -348,8 +348,8 @@ font-weight: bold !important;
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/tabs</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/layout</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/imgareaselect</xrx:resource>
-            <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/dialog</xrx:resource>
-
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/dialog</xrx:resource>
+	<xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xpath</xrx:resource>
         <!-- jssaxparser resources -->
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/XMLFilterImpls</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/NamespaceSupport</xrx:resource>
