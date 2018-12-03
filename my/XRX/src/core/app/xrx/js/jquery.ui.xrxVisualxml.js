@@ -99,12 +99,14 @@ $.widget( "ui.xrxVisualxml", {
 		return controlId.concat(relativeId.split('.').splice(1));
 	},
 	
+
 	/*
 	 * Private Functions
 	 */
 	_create: function() {
 
 		var self = this, textarea = self.element[0];
+		
 		if(self.options.repeatflag) {
 			var ref = $(textarea).attr('data-xrx-ref');
 			var index = $(textarea).attr('data-xrx-index');
@@ -119,8 +121,24 @@ $.widget( "ui.xrxVisualxml", {
 				bind = $('#' + bindId),
 				expression = $(bind).attr('data-xrx-nodeset'),
 				instance = $('.xrx-instance').text(),
-				nodeset = window.XPath.query(expression, instance),
-				xml = nodeset.only.xml;
+				instancexml = new DOMParser().parseFromString(instance, "text/xml"),
+			
+				resolver = function(prefix) {
+				  var ns = {
+					'cei' : 'http://www.monasterium.net/NS/cei',
+					'atom': "http://www.w3.org/2005/Atom"
+					 };
+				  return ns[prefix] || null;
+				},
+
+			//	if (!!navigator.userAgent.match(/Trident\/7\./) ) {
+					nodeset = jQuery(instancexml).xpath(expression, resolver);
+					xml = new XMLSerializer().serializeToString(nodeset[0]);
+					
+ 			//	} else {
+			//		nodeset = document.evaluate(expression, instancexml, resolver, XPathResult.ANY_UNORDERED_NODE_TYPE, null),
+			//		xml = nodeset.singleNodeValue.outerHTML;
+			//	}
 
 			$(textarea).val(self._transformXml(xml));
 			self._codemirrorInstance(textarea);

@@ -184,6 +184,7 @@ declare function widget:compile-widget($app-name as xs:string,
                             $portal/xrx:jss/xhtml:script
                             )
                     }
+		<meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1" /> 
                 </head>,
                 <body data-xrx-widget="{ $portalid }">
                     {{
@@ -233,6 +234,7 @@ declare function widget:compile-widget($app-name as xs:string,
                             $portal/xrx:jss/xhtml:script
                             )
                     }
+		<meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1" /> 
                 </head>,
                 <body data-xrx-widget="{ $portalid }">
                     {{
