@@ -67,16 +67,16 @@
             <xrx:expression>request:get-parameter("zoom",0)</xrx:expression>
         </xrx:variable>
         <xrx:variable>
-            <xrx:name>$tokenizedurl</xrx:name>
+            <xrx:name>$tokenizedUrl</xrx:name>
             <xrx:expression>tokenize(request:get-uri(), '/')</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$fondId</xrx:name>
-            <xrx:expression>if(count($tokenizedurl) = 5) then $tokenizedurl[last()-2] else()</xrx:expression>
+            <xrx:expression>if(count($tokenizedUrl) = 6) then $tokenizedUrl[last()-3] else()</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$collectionId</xrx:name>
-            <xrx:expression>$tokenizedurl[last()-1]</xrx:expression>
+            <xrx:expression>$tokenizedUrl[last()-2]</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$collection-base-path</xrx:name>
@@ -108,6 +108,7 @@
             }}
             #pageList>li{{
             display: inline;
+            courser: pointer;
             }}
         </style>
     </xrx:csss>
@@ -120,7 +121,33 @@
     </xrx:jss>
 
     <xrx:view>
-        <div><h2><xrx:i18n><xrx:key>charter_an_map</xrx:key><xrx:default>Charters on Map</xrx:default></xrx:i18n></h2>
+        <div><h2>
+            <xrx:i18n>
+                <xrx:key>charters_on_map</xrx:key>
+                <xrx:default>Charters on map</xrx:default>
+            </xrx:i18n>:
+        </h2>
+            <div>
+                {
+                    let $type := $tokenizedUrl[last()-1]
+                    let $head :=
+                    if($type = "archive")then
+                        let $archiveId := $tokenizedUrl[last()-2]
+                        let $metadata-archive-collection := metadata:base-collection('archive', $archiveId, 'public')
+                        return <h2><xrx:i18n><xrx:key>archive</xrx:key><xrx:default>Archive</xrx:default></xrx:i18n>: {$metadata-archive-collection//eag:autform/text()}</h2>
+                    else if($type = "fond") then
+                        let $fondId := $tokenizedUrl[last()-2]
+                        let $archiveId := $tokenizedUrl[last()-3]
+                        let $metadata-fond-collection := metadata:base-collection('fond', ($archiveId , $fondId), 'public')
+                        return <h2><xrx:i18n><xrx:key>fond</xrx:key><xrx:default>Fond</xrx:default></xrx:i18n>: {$metadata-fond-collection//ead:unittitle/text()}</h2>
+                    else if($type = "collection") then
+                        let $collectionId := $tokenizedUrl[last()-2]
+                        let $metadata-collection := metadata:base-collection('collection', $collectionId, 'public')
+                        return <h2><xrx:i18n><xrx:key>collection</xrx:key><xrx:default>Collection</xrx:default></xrx:i18n>: {$metadata-collection//cei:titleStmt//text()}</h2>
+                    else()
+                return $head
+                }
+            </div>
             <div id="geomap_widget">
                 <xrx:subwidget>
                     <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/geomap</xrx:atomid>
