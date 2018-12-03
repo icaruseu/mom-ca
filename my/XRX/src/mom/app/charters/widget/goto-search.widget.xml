@@ -70,7 +70,7 @@
                         <xrx:default>Image preview</xrx:default>
                     </xrx:i18n><span> &gt;&gt;</span>
                 </a><br/>
-                <a href="{ conf:param('request-root') }{ $xrx:tokenized-uri[1] }/charters-on-map">
+                <a href="{ conf:param('request-root') }{ $xrx:tokenized-uri[1]}/{ xmldb:decode($fondid)}/fond/charters-on-map">
                     <xrx:i18n>
                         <xrx:key>charters_on_map</xrx:key>
                         <xrx:default>Charters on map</xrx:default>
@@ -115,7 +115,7 @@
                             <xrx:default>Register</xrx:default>
                         </xrx:i18n><span> &gt;&gt;</span>
                     </a><br/>
-                    <a href="{ conf:param('request-root') }{ $wgoto-search:id}/charters-on-map">
+                    <a href="{ conf:param('request-root') }{ $wgoto-search:id}/collection/charters-on-map">
                         <xrx:i18n>
                             <xrx:key>charters_on_map</xrx:key>
                             <xrx:default>Charters on map</xrx:default>
