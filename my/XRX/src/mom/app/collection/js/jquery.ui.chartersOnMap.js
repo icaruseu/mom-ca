@@ -1,11 +1,16 @@
+/** functions to create a List for result Pages and to get data for charters **/
+
+
+/** Create a List for Result-Pages,  **/
 function createPageList(requestroot , steps, range, actualpos, place, latlng, actualzoom) {
     $list = $("<ul id='pageList'></ul>");
     lastpos = range / steps;
     for (counter = 0; counter < lastpos; counter++) {
         startpos = counter * parseInt(steps,10) + 1;
         endpos = startpos + parseInt(steps,10) - 1;
-
         var text;
+
+        /** create Page entries, for all 5 results create a new Page entry.  **/
         if (endpos < range) {text =+startpos+"-"+endpos;}
         else if (startpos == range) {text = startpos;}
         else {text = startpos+"-"+range;};
@@ -25,6 +30,9 @@ function createPageList(requestroot , steps, range, actualpos, place, latlng, ac
     $("#resultpages").append($list);
 };
 
+
+/** when user clicks on an page entrie start a ajax-call for the service geolocations-charter-results.service.xml
+ * service is located in ../geoservices/service **/
 function get_charters(requestroot, place, position, steps, range, latlng, actualZoom){
     $.ajax({
         type: "GET",
