@@ -29,6 +29,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   </xrx:licence>
+    <!--xquery modules -->
      <xrx:modules>
     <xrx:module>
       <xrx:resource>geoservices.xqm</xrx:resource>
@@ -36,6 +37,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:uri>http://www.monasterium.net/NS/geoservices</xrx:uri>
     </xrx:module>
   </xrx:modules>
+    <!--js-->
     <xrx:resources>
     <xrx:resource>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/js/GeoTool</xrx:atomid>
@@ -84,6 +86,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   	<xrx:name>collection.png</xrx:name>
   </xrx:resource>
   </xrx:resources>
+    <!--services -->
   <xrx:resolver>
         <xrx:map>
     	<xrx:uripattern>service/geolocations-archives$</xrx:uripattern>

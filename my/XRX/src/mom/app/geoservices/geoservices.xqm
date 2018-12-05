@@ -25,21 +25,20 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 module namespace geoservices="http://www.monasterium.net/NS/geoservices";
 
 
-import module namespace jsonx="http://www.monasterium.net/NS/jsonx" at "xmldb:exist:///db/XRX.live/mom/app/xrx/jsonx.xqm";
-import module namespace metadata="http://www.monasterium.net/NS/metadata" at "xmldb:exist:///db/XRX.live/mom/app/metadata/metadata.xqm";
-import module namespace cei="http://www.monasterium.net/NS/cei" at "xmldb:exist:///db/XRX.live/mom/app/metadata/cei.xqm";
-import module namespace conf="http://www.monasterium.net/NS/conf" at "xmldb:exist:///db/XRX.src/core/app/xrx/conf.xqm";
+import module namespace jsonx="http://www.monasterium.net/NS/jsonx";
+import module namespace metadata="http://www.monasterium.net/NS/metadata";
+import module namespace cei="http://www.monasterium.net/NS/cei";
+import module namespace conf="http://www.monasterium.net/NS/conf";
+import module namespace atom="http://www.w3.org/2005/Atom";
 
 
 declare namespace geo = "http://www.monasterium.net/NS/geo";
 declare namespace eag= "http://www.archivgut-online.de/eag";
 
 
-import module namespace atom="http://www.w3.org/2005/Atom" at "xmldb:exist:///db/XRX.live/mom/app/data/atom.xqm";
 
-
+(:get all locations stored in the archive xml. Needs the path to the collection in which the archive xml is stored. Returns the result as xml  :)
 declare function geoservices:get_archive_locations($archivesCollection){
-
 let $locations := 
     for $location in $archivesCollection//eag:location
      let $lng := $location/@longitude
@@ -70,6 +69,7 @@ return <locations>{$locationsXml}</locations>
 
 };
 
+(:Get all charters with ..//cei:issued/cei:place/@key in a collection. Needs the path to the collection returns the result as xml :)
 declare function geoservices:get_charter_over_key($collectionPath){
 
     let $collection := collection($collectionPath)
@@ -107,7 +107,7 @@ declare function geoservices:get_charter_over_key($collectionPath){
 
 
 
-
+(: Get as many charters as $steps, from Charter at position $pos with the $clickedLocation in cei:issued/cei:place :)
 declare function geoservices:charter_results($clickedLocation, $locationsXml, $pos as xs:int, $steps as xs:int){
 
     let $location := $locationsXml/location[name=$clickedLocation]
@@ -129,6 +129,9 @@ declare function geoservices:charter_results($clickedLocation, $locationsXml, $p
 };
 
 
+
+
+
 (: creates from a charter id a path to the charter.xml:)
 declare function geoservices:charter_path_from_id($id){
     let $tokenizedId := tokenize($id, "/")
@@ -141,9 +144,8 @@ declare function geoservices:charter_path_from_id($id){
 
 };
 
-
+(:Converts a xml with results from geoservices:get_charter_over_key($collectionPath) into json:)
 declare function geoservices:xmlToJsonForCharters($locationsXml){
-
     let $json := jsonx:object(
             jsonx:pair(
                 jsonx:string("geolocations"),
@@ -192,7 +194,7 @@ declare function geoservices:xmlToJsonForCharters($locationsXml){
     return $json
 };
 
-
+(: converts a xml with resuls from geoservices:get_archive_locations into json:)
 declare function geoservices:xmltoJson($locationsXml){
 
             let $json := jsonx:object(
