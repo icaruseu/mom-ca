@@ -8,8 +8,7 @@
     </xrx:title>
     <xrx:subtitle/>
     <xrx:description>
-        Shows Charters from one collection on a Map.
-
+        Shows Charters from one collection/archive/fond on a Map.
     </xrx:description>
     <xrx:author>JBigalke</xrx:author>
     <xrx:licence>
@@ -108,7 +107,7 @@
             }}
             #pageList>li{{
             display: inline;
-            courser: pointer;
+            curser: pointer;
             }}
         </style>
     </xrx:csss>
