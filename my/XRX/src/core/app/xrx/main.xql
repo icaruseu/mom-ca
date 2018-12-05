@@ -365,6 +365,8 @@ declare function local:mode-resource() {
 :)
 declare function local:main() {
 
+    let $timeout := util:declare-option('exist:timeout', conf:param("timeout-in-ms") )
+    let $mode := 
     (: mode atom :)
     if($xrx:mode = 'atom') then
     
@@ -433,7 +435,7 @@ declare function local:main() {
         local:mode-resource()
             
     else ()
-
+    return $mode
 };
 
 (: 
