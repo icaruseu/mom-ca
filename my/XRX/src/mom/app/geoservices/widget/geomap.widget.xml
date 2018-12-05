@@ -7,7 +7,7 @@
     </xrx:i18n>
   </xrx:title>
   <xrx:subtitle/>
-  <xrx:description/>
+    <xrx:description>Subwidget to create a map</xrx:description>
   <xrx:author>JBigalke@smail.uni-koeln.de</xrx:author>
   <xrx:licence>
 This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
@@ -32,30 +32,38 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
   </xrx:licence>
     <xrx:constructor>
+        <!--Required part -->
+        <!--Name of the service to get the locations -->
 	    <xrx:parameter>
 	    	<xrx:name>$serviceName</xrx:name>
 	    	<xrx:default>()</xrx:default>
 	    </xrx:parameter>
+        <!-- Link to the img for the markers  -->
 	    <xrx:parameter>
 	    	<xrx:name>$imagelink</xrx:name>   
 	    	<xrx:default>()</xrx:default>
 	    </xrx:parameter>
+        <!--mode of the map at this moment the mode: archive and collection exists -->
         <xrx:parameter>
             <xrx:name>$mode</xrx:name>
             <xrx:default>()</xrx:default>
         </xrx:parameter>
+        <!--path to the collection with the geoinformations -->
         <xrx:parameter>
             <xrx:name>$collection-path</xrx:name>
             <xrx:default>()</xrx:default>
         </xrx:parameter>
+        <!--optional part -->
         <xrx:parameter>
             <xrx:name>$linklabel</xrx:name>
             <xrx:default>()</xrx:default>
         </xrx:parameter>
+        <!--lat/lng to center map at start -->
         <xrx:parameter>
             <xrx:name>$latlng</xrx:name>
             <xrx:default>()</xrx:default>
         </xrx:parameter>
+        <!-- zoom for map at start -->
         <xrx:parameter>
             <xrx:name>$zoom</xrx:name>
             <xrx:default>()</xrx:default>
@@ -82,7 +90,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   	 #map{{
 		width: 800px;
 		height: 500px;
-	}}
+	    }}
 
         .loader{{
         position: absolute;
