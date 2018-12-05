@@ -195,7 +195,7 @@ declare function search:query-string-scope($metadata-charter-db-base-collection-
 (: the basic full text query string :)
 declare function search:term-query-string() as xs:string {
 
-    concat("$context//cei:text[ft:query(.,'", $search:q, "',$search:options)]")
+    concat("$context//cei:text[ft:query(./descendant-or-self::node(),'", $search:q, "',$search:options)]")
 };
 
 
@@ -227,15 +227,10 @@ declare function search:sort-query-string() {
 
 
 
-(: compose the query string to be evaluated :)(: *** das trifft auf suche1 zu ***:)
+(: compose the query string to be evaluated :)
 declare function search:query-string($metadata-charter-db-base-collection-path) as xs:string {
 
-    concat(
-        if($xrx:tokenized-uri[last()] = 'search') then
-            search:scope-query-string($metadata-charter-db-base-collection-path)
-            
-        else
-            search:query-string-scope($metadata-charter-db-base-collection-path),
+    concat(search:query-string-scope($metadata-charter-db-base-collection-path),
         'for $charter in ',
         search:term-query-string(),
         search:img-query-string(),

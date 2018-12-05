@@ -59,7 +59,7 @@ it leaves the active development stage.
     <xrx:variable>
       <xrx:name>$wcharter:default-url</xrx:name>
       <xrx:expression>
-        concat('http://monasterium.net/mom/', substring-after($wcharter:atom-id, 'charter/'))
+        concat(conf:param('request-root'), substring-after($wcharter:atom-id, 'charter/'))
       </xrx:expression>
     </xrx:variable>
     <!-- init metadata database collections -->
@@ -219,6 +219,10 @@ it leaves the active development stage.
       <xrx:expression>$wcharter:charter//cei:body/cei:idno/text()</xrx:expression>
     </xrx:variable>
     <xrx:variable>
+      <xrx:name>$wcharter:idnoid</xrx:name>
+      <xrx:expression>data($wcharter:charter//cei:body/cei:idno/@id)</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
       <xrx:name>$wcharter:link-to-charter-in-archive</xrx:name>
       <xrx:expression>data($wcharter:charter//cei:archIdentifier/cei:ref/@target)</xrx:expression>
     </xrx:variable>
@@ -267,16 +271,7 @@ it leaves the active development stage.
     <xrx:variable>
       <xrx:name>$wcharter:collection-context</xrx:name>
       <xrx:expression>metadata:object-type($wcharter:meta/ancestor::atom:entry/atom:id/text())</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$wcharter:image-base-uri</xrx:name>
-      <xrx:expression>
-        if($wcharter:context = 'fond' or $wcharter:context = 'linked-fond') then
-          concat($wcharter:meta/parent::ead:c/@xml:base/string(), '/') 
-        else
-          concat('http://', $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(), '/')
-      </xrx:expression>
-    </xrx:variable>
+    </xrx:variable> 
     <xrx:variable>
       <xrx:name>$wcharter:fond</xrx:name>
       <xrx:expression>
@@ -295,9 +290,11 @@ it leaves the active development stage.
       <xrx:name>$wcharter:image-base-uri</xrx:name>
       <xrx:expression>
     if($wcharter:context = 'fond' or $wcharter:context = 'linked-fond') then
-      concat($wcharter:preferences/xrx:param[@name='image-server-base-url']/text(), '/') 
+      concat($wcharter:preferences/xrx:param[@name='image-server-base-url']/text(), '/')
+    else if($wcharter:linked-atomid != '') then
+    $wcharter:linked-charter-image-base-uri     
     else
-      concat($xrx:protocol, "://", $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(), '/')
+      concat(conf:param('request-root'), $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(), '/')
         </xrx:expression>
     </xrx:variable>
     <!-- archive information -->
@@ -871,7 +868,7 @@ p#first {{
           <span> &gt; </span>
           <a href="{ concat(conf:param('request-root'), $charter:rarchiveid, '/', $charter:rfondid, '/fond?block=', $wcharter:block, '#ch', $wcharter:anchor) }">{ $charter:rfondid }</a>
           <span> &gt; </span>
-          <a href="{ request:get-url() }?{ request:get-query-string() }">{ $wcharter:idno }</a>
+          <a href="{ request:get-url() }?{ request:get-query-string() }">{ $wcharter:idnoid }</a>
         </div>
         else if($wcharter:context = 'collection') then
         <div data-demoid="7d4563a2-b169-4d83-8133-b7d80ace50c3">
@@ -1025,7 +1022,7 @@ p#first {{
            <div class="interpretation"><p><xrx:i18n><xrx:key>interpretation</xrx:key><xrx:default>This charter is an interpretation of</xrx:default></xrx:i18n> :<br/>{ for $i in $src
            let $teil := substring-after($i, 'charter/')
            return
-           <span style="display:block"><a href="{concat('http://www.monasterium.net/mom/', $teil, '/charter')}">{substring-after($teil, '/')}</a></span>
+           <span style="display:block"><a href="{concat(conf:param('request-root'), $teil, '/charter')}">{substring-after($teil, '/')}</a></span>
            
            }</p></div>
 
