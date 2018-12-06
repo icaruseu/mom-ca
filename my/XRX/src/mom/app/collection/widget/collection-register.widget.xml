@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/collection-register</xrx:id>
+  <xrx:title>
+    <xrx:i18n>
+      <xrx:key/>
+      <xrx:default/>
+    </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle/>
+	<xrx:description>Main widget for registers of collections.
+	It creates the left search-frame with options for the search.
+	If the session variable _collectionSearchCharters exists it checks the collection ids, when the saved is not the id of the actual collection,
+	the session variable will be deleted. Otherwise for all charters in the variable the subwidget result is called.</xrx:description>
+  <xrx:author>jbigalke</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research
+Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha-
+and a beta-release, may be changed without any consideration of
+backward compatibility of other parts of the system, therefore,
+without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit
+(VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+
+We expect VdU/VRET to be distributed in the future with a license more
+lenient towards the inclusion of components into other systems, once
+it leaves the active development stage.
+  </xrx:licence>
+<xrx:variables>
+<xrx:variable>
+	<xrx:name>$collectionId</xrx:name>
+	<xrx:expression>tokenize(request:get-uri(),'/')[3]</xrx:expression>
+</xrx:variable>
+	<xrx:variable>
+		<xrx:name>$collectionType</xrx:name>
+		<xrx:expression>request:get-parameter("modus","")</xrx:expression>
+	</xrx:variable>
+</xrx:variables>
+    <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+    <xrx:init>
+        <xrx:processor>
+            <xrx:xformsflag>false</xrx:xformsflag>
+            <xrx:jqueryflag>false</xrx:jqueryflag>
+        </xrx:processor>
+        </xrx:init>
+        <xrx:csss>
+        <style type="text/css">
+
+
+        #SearchOptions{{
+            background-color: lightgrey;
+        	margin-left:190px;
+        	margin-top: -35px;
+        	position:absolute;
+        }}
+
+        #DivTagName{{
+        	position:relative:
+        }}
+        
+        #DivFirstCharacter{{
+        	margin-left:275px;
+        	margin-top: -28px;
+        }}
+        
+        #tagnamefield{{
+        	width: 159px;
+        }}
+        
+        #DivTermResultList{{
+                	
+            background-color: lightgrey;
+        	max-height: 700px;
+        	max-width: 185px; 
+        	overflow: scroll;
+        	direction: rtl;
+        	margin-top: 3px;
+        	
+        }}
+        
+        #DivKeyForm{{
+        	margin-left: 455px;
+        	margin-top: -30px;
+        }}
+        
+        #TermResultList{{
+        	direction: ltr;
+        	margin-left: -21px;
+        }}
+        
+        #right-content{{
+        	background-color: lightgrey;
+        	position: absolute;
+        	left: 230px;
+        	width: 700px;
+        	height: 100px;
+        	top: 19px;
+        }}
+        
+
+        
+        #dcharter-preview-main{{
+        	width: 760px !important;
+        }}
+        
+
+        
+        .key{{
+        	font-size: 8px;
+        }}
+
+		#leftFrame{{
+			width: 25%;
+			height: 1500px;
+
+		}}
+
+		#divSearchType{{
+        	display: inline;
+			margin-top:10px;
+        }}
+
+
+        
+        .typeTab.active{{
+		background-color: aliceblue;
+
+        }}
+        
+        #contentTab{{
+            width: 33%;
+        }}
+        #keyTab{{
+        	width:25%;
+        	margin-left: 80px;
+        	margin-top: -21px;
+        }}
+		#regTab{{
+			width: 40%;
+			margin-left: 142px;
+			margin-top: -21px;
+
+		}}
+        #searchOptions{{
+        	margin-left:5px;
+			margin-bottom: 7px;
+        }}
+        
+		.list{{
+			direction: ltr;
+			margin-left: -20px;
+			overflow-x: auto;
+
+		}}
+
+		.resultsListItem{{
+			margin-bottom: 5px;
+		}}
+
+        .list.inactive{{
+
+        	display: none;
+        }}
+        #elementName{{
+        	margin-top: 10px;
+        
+        }}
+        #elementNameField{{
+        	width: 55%;
+        	margin-left: 10px;
+        }}
+        #firstCharacter{{
+        	margin-top: 10px;
+        }}
+        #firstCharacterSelect{{
+        	margin-left: 10px;
+        }}
+        #key{{
+        	margin-top:10px;
+        	margin-left: -18px;
+        }}
+        
+        #keyLabel{{
+        	line-height: 9px;
+        	vertical-align: text-top;
+        }}
+        
+        #searchButton{{
+        	margin-left: 65px;
+        }}
+        
+        #termResults{{
+        	direction: rtl;
+        	overflow-y: auto;
+        	overflow-x: hidden;
+			max-height: 600px;
+			margin-top: 10px;
+			background-color: white;
+        }}
+
+        
+        #keyField{{
+        	margin-left: 10px;
+        	width: 72%;
+        }}
+
+		#searchResults{{
+			position: absolute;
+			top: 20px;
+			left: 270px;
+			width: 700px;
+		}}
+
+		#resultIframe{{
+			width: 715px;
+		height: 1000px;
+		overflow: hidden;
+
+		}}
+		#dcharter-preview-main{{
+			width: 690px !important;
+		}}
+		#searchResultsHead{{
+			width: 690px;
+			background-color: #f5f5f5;
+		}}
+
+		#resultsDiv{{
+			height: 100%;
+		}}
+		#contentDiv{{
+			height: 150px;
+			width: 200px;
+		}}
+		#searchTerm{{
+			width: 300px;
+		}}
+
+		#regsDiv{{
+			width: 300px;
+		}}
+
+		#ContentsDiv{{
+			width: 300px;
+			margin-left: 310px;
+			margin-top: -17px;
+		}}
+
+		#ContentsList{{
+			overflow-y: scroll;
+			margin-left: -25px;
+			margin-top: 2px;
+			border: 1px solid black;
+			background-color: white;
+		}}
+
+		#ContentsLabel{{
+			margin-left: -25px;
+		}}
+
+		.resultContentListItem{{
+			margin-left: -22px;
+		}}
+
+		#resultsDiv{{
+			margin-top: 10px;
+		}}
+
+        </style>
+        </xrx:csss>
+        <xrx:jss>
+            <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+   			<xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+        	<xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+    		<xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/collectionRegisterSearch</xrx:resource>
+        </xrx:jss>
+  <xrx:view>
+  	<div id="leftFrame">
+
+		<div id="searchOptions">
+			<div id="elementName"><span>Element:</span>
+				<select id="elementNameSelect">
+					<option value="cei:persName"><xrx:i18n><xrx:key>person_name</xrx:key>
+					<xrx:default >Person Names</xrx:default>
+					</xrx:i18n></option>
+					<option value="cei:placeName">
+						<xrx:i18n>
+							<xrx:key>place_name</xrx:key>
+							<xrx:default>Place Names</xrx:default>
+						</xrx:i18n>
+					</option>
+					<option value="cei:orgName">
+						<xrx:i18n>
+							<xrx:key>organisiation</xrx:key>
+							<xrx:default>Organisations</xrx:default>
+						</xrx:i18n>
+					</option>
+					<option value="cei:issuer">
+						<xrx:i18n>
+							<xrx:key>issueres</xrx:key>
+							<xrx:default>Issueres</xrx:default>
+						</xrx:i18n>
+					</option>
+					<option value="cei:testis">
+						<xrx:i18n>
+							<xrx:key>witnisses</xrx:key>
+							<xrx:default>Witnisses</xrx:default>
+						</xrx:i18n>
+					</option>
+					<option value="cei:rolename">
+						<xrx:i18n>
+							<xrx:key>role</xrx:key>
+							<xrx:default>Roles</xrx:default>
+						</xrx:i18n>
+					</option>
+				</select></div>
+			<div id="contentSearch">
+				<div id="firstCharacter">
+					<span><xrx:i18n>
+						<xrx:key>first_character</xrx:key>
+						<xrx:default>First Character</xrx:default>
+					</xrx:i18n>:</span>
+					<select id="firstCharacterSelect">
+						<option>All</option>
+						<option>A</option>
+						<option>B</option>
+						<option>C</option>
+						<option>D</option>
+						<option>E</option>
+						<option>F</option>
+						<option>G</option>
+						<option>H</option>
+						<option>I</option>
+						<option>J</option>
+						<option>K</option>
+						<option>L</option>
+						<option>M</option>
+						<option>N</option>
+						<option>O</option>
+						<option>P</option>
+						<option>Q</option>
+						<option>R</option>
+						<option>S</option>
+						<option>T</option>
+						<option>U</option>
+						<option>V</option>
+						<option>W</option>
+						<option>X</option>
+						<option>Y</option>
+						<option>Z</option>
+					</select>
+				</div>
+
+				<button id="contentSearchButton">Search</button>
+			</div>
+		</div>
+		<div id="divSearchType">
+			<div id="contentTab" class="typeTab active">Content</div>
+			<div id="keyTab" class="typeTab inactive">Key</div>
+			<div id="regTab" class="typeTab inactive">Normalized</div>
+		</div>
+		<div id="termResults">
+			<ul id="contentResultsList" class="list active"></ul>
+			<ul id="keyResultList" class="list inactive"></ul>
+			<ul id="regResultList" class="list inactive"></ul>
+		</div>
+	  </div>
+	  <div id="rightFrame">
+		{			  let $cleanSession := collectionsearch:cleanSession($collectionId, session:get-attribute("_collectionSearchCharters"))
+		  return()
+		  }
+
+		  <div id="searchResults">
+			  {
+			  if(empty(session:get-attribute("_collectionSearchCharters"))) then ()
+			  else (
+
+			  let $searchXml := session:get-attribute("_collectionSearchCharters")
+
+			  return
+			  <div id="resultsDiv">
+				  {
+
+				  if(collectionsearch:type($searchXml) = "content") then(
+				  <div id="searchResultsHead">
+					  <div id="searchTerm">
+						  <span>
+							  <xrx:i18n>
+								  <xrx:key>Search_term</xrx:key>
+								  <xrx:default>Search Term</xrx:default>
+							  </xrx:i18n>: </span>
+						  <span>{collectionsearch:searchterm($searchXml)}</span>
+					  </div>
+					  {
+					  if(collectionsearch:regs($searchXml)) then(
+					  <div id="regsDiv">
+						  <span>
+							  <xrx:i18n>
+								  <xrx:key>regularized_term</xrx:key>
+								  <xrx:default>Regularized Term</xrx:default>
+							  </xrx:i18n>: </span>
+					  </div>
+					  )else()
+					  }
+					  {
+					  if(collectionsearch:keys($searchXml)) then(
+					  <div id="keysDiv">
+						  <xrx:span>Key: </xrx:span>
+						  <xrx:span>{collectionsearch:keys($searchXml)/*}</xrx:span>
+					  </div>
+					  )
+					  else()
+					  }
+				  </div>
+				  )
+				  else if(collectionsearch:type($searchXml) = "key") then(
+				  <div id="searchResultsHead">
+					  <div id="searchTerm">
+						  <span>Key: {collectionsearch:searchterm($searchXml)}</span>
+					  </div>
+					  {
+					  if(collectionsearch:regs($searchXml)) then(
+					  <div id="regsDiv">
+						  <span>
+							  <xrx:i18n>
+								  <xrx:key>regularized_term</xrx:key>
+								  <xrx:default>Regularized Term</xrx:default>
+							  </xrx:i18n>: </span>
+					  </div>
+					  )
+					  else()
+					  }
+					  {
+					  if(collectionsearch:content($searchXml)) then(
+					  <div id="ContentsDiv">
+						  <span id="ContentsLabel">
+							  <xrx:i18n>
+								  <xrx:key>content</xrx:key>
+								  <xrx:default>Content</xrx:default></xrx:i18n>:
+						  </span>
+						  <ul id="ContentsList">
+							  {
+							  for $item in collectionsearch:content($searchXml)
+							  return <li class="resultContentListItem">{$item}</li>
+							  }
+						  </ul>
+					  </div>
+					  )
+					  else()
+					  }
+				  </div>
+				  )
+
+				  else if(collectionsearch:type($searchXml) = "reg") then(
+				  <div id="searchResultsHead">
+					  <div id="searchTerm">
+						  <span><xrx:i18n><xrx:key>normalized</xrx:key><xrx:default>Normalized</xrx:default></xrx:i18n>: {collectionsearch:searchterm($searchXml)}</span>
+					  </div>
+					  {
+					  if(collectionsearch:keys($searchXml)) then(
+					  <div id="keysDiv">
+						  <xrx:span>Key: </xrx:span>
+						  <xrx:span>{collectionsearch:keys($searchXml)/*}</xrx:span>
+					  </div>
+					  )
+					  else()
+					  }
+					  {
+					  if(collectionsearch:content($searchXml)) then(
+					  <div id="ContentsDiv">
+						  <span id="ContentsLabel">
+							  <xrx:i18n>
+								  <xrx:key>content</xrx:key>
+								  <xrx:default>Content</xrx:default></xrx:i18n>:
+						  </span>
+						  <ul id="ContentsList">
+							  {
+							  for $item in collectionsearch:content($searchXml)
+							  return <li class="resultContentListItem">{$item}</li>
+							  }
+						  </ul>
+					  </div>
+					  )
+					  else()
+					  }
+				  </div>
+				  )
+				  else()
+
+				  }
+				  <div id="resultsDiv">
+				  {
+
+				  for $charter at $num in $searchXml//atom:entry
+				  let $entry := <atom:entry xmlns:atom="http://www.w3.org/2005/Atom">{$charter/*}</atom:entry>
+				  return
+				  <div id="results">
+					  <div id="dcharter-preview-main">
+						  <xrx:subwidget>
+							  <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/result</xrx:atomid>
+							  <xrx:pass>
+								  <xrx:parameter>
+									  <xrx:name>$constructor:charter</xrx:name>
+									  <xrx:expression>root($entry)</xrx:expression>
+								  </xrx:parameter>
+								  <xrx:parameter>
+									  <xrx:name>$constructor:pos</xrx:name>
+									  <xrx:expression>$num + 1 -1</xrx:expression>
+								  </xrx:parameter>
+								  <xrx:parameter>
+									  <xrx:name>$collectionType</xrx:name>
+									  <xrx:expression>$collectionType</xrx:expression>
+								  </xrx:parameter>
+								  <xrx:parameter>
+									  <xrx:name>$resultType</xrx:name>
+									  <xrx:expression>'registerResult'</xrx:expression>
+								  </xrx:parameter>
+							  </xrx:pass>
+						  </xrx:subwidget>
+					  </div>
+				  </div>
+				  }
+				  </div>
+			  </div>
+			  )
+			  }
+		  </div>
+	  </div>
+
+<script type="text/javascript">jQuery(document).ready(function(){{ 
+ $("#leftFrame").collectionIndexSearch({{ requestRoot:"{conf:param('request-root')}", collectionId:"{$collectionId}", termsearch:'{session:get-attribute("_collectionSearchAsJson")}', collectionType:"{$collectionType}" }}); }});</script>
+
+  </xrx:view>
+</xrx:widget>

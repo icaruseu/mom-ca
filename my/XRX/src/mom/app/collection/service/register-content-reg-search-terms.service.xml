@@ -1,5 +1,5 @@
-<xrx:service xmlns:eag="http://www.archivgut-online.de/eag" xmlns:xrx="http://www.monasterium.net/NS/xrx">
-  <xrx:id>tag:www.monasterium.net,2011:/mom/service/geolocations-archives</xrx:id>
+<xrx:service xmlns:eag="http://www.archivgut-online.de/eag" xmlns:xrx="http://www.monasterium.net/NS/xrx" >
+  <xrx:id>tag:www.monasterium.net,2011:/mom/service/register-content-reg-search-terms</xrx:id>
   <xrx:title>
     <xrx:i18n>
       <xrx:key></xrx:key>
@@ -7,9 +7,8 @@
     </xrx:i18n>
   </xrx:title>
   <xrx:subtitle></xrx:subtitle>
-  <xrx:description>Service to get Archive-data from database an transform xml to json.
-    called functions are in geoservices.xqm. doesn't need any parameters and returns a json
-  </xrx:description>
+  <xrx:description>creates from session variabel _collectionSearchAsXml a version with @reg valie to create an index for normalized names.
+  new Xml is saved as new session variable. and a json is created and returned for Jquery functions.</xrx:description>
   <xrx:author>JBigalke</xrx:author>
   <xrx:licence>
 This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
@@ -31,26 +30,26 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   </xrx:licence>
-  <xrx:variables>
-   <xrx:variable>
-      <xrx:name>$archivesCollection</xrx:name>  
-      <xrx:expression>collection("/db/mom-data/metadata.archive.public")</xrx:expression>
-    </xrx:variable>
-  </xrx:variables> 
-  <xrx:init>
-   <xrx:processor>
-     <xrx:translateflag>false</xrx:translateflag>
-     <xrx:serializeas>method=text media-type=text/plain</xrx:serializeas>
-   </xrx:processor>
-  </xrx:init>
+ <xrx:variables>
+     <xrx:variable>
+         <xrx:name>$resultXml</xrx:name>
+         <xrx:expression>session:get-attribute("_collectionSearchAsXml")</xrx:expression>
+     </xrx:variable>
+ </xrx:variables>
+    <xrx:init>
+        <xrx:processor>
+            <xrx:translateflag>false</xrx:translateflag>
+                 <xrx:serializeas>method=text media-type=text/plain</xrx:serializeas>   
+        </xrx:processor>
+    </xrx:init>
   <xrx:body>
   {
+      let $regResultXml := collectionsearch:createRegResultXml($resultXml)
 
+      let $setSessionVariable_collectionRegSearchAsXml := session:set-attribute("_collectionRegSearchAsXml", $regResultXml)
 
-  let $locationsXml := geoservices:get_archive_locations($archivesCollection)
-  let $json := geoservices:xmltoJson($locationsXml)
-  return $json
-  }
-
-  </xrx:body> 
+      let $resultJson := collectionsearch:createResultJson($regResultXml)
+      return $resultJson
+   }
+  </xrx:body>
 </xrx:service>

@@ -48,9 +48,18 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
         <xrx:parameter>
     <xrx:name>$vocabular</xrx:name>
     <xrx:default>()</xrx:default>
-    </xrx:parameter>   
+    </xrx:parameter>
+      <xrx:parameter>
+        <xrx:name>$collectionType</xrx:name>
+        <xrx:default>()</xrx:default>
+      </xrx:parameter>
+      <xrx:parameter>
+        <xrx:name>$resultType</xrx:name>
+        <xrx:default>()</xrx:default>
+      </xrx:parameter>
     </xrx:constructor>
   <xrx:variables>
+
     <xrx:variable>
      <xrx:name>$wcharter-preview:num</xrx:name>
      <xrx:expression>$constructor:pos</xrx:expression>
@@ -77,7 +86,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:charter-context</xrx:name>
-      <xrx:expression>charter:context($wcharter-preview:atom-id, conf:param('atom-tag-name'))</xrx:expression>
+      <xrx:expression>if($collectionType = 'mycollection')then "mycollection" else charter:context($wcharter-preview:atom-id, conf:param('atom-tag-name'))</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:charter-id</xrx:name>
@@ -93,7 +102,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:collection-id</xrx:name>
-      <xrx:expression>if($wcharter-preview:charter-context = 'collection') then $wcharter-preview:tokens[last() - 1] else 'null'</xrx:expression>
+      <xrx:expression>if($wcharter-preview:charter-context = 'collection') then $wcharter-preview:tokens[last() - 1] else if($wcharter-preview:charter-context = 'mycollection') then $wcharter-preview:tokens[last() - 1] else 'null'</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:metadata-archive-collection</xrx:name>
@@ -189,7 +198,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <xrx:variable>
       <xrx:name>$wcharter-preview:charter-url</xrx:name>
       <xrx:expression>if($wcharter-preview:charter-context = 'fond') then concat(concat(conf:param('request-root'),$wcharter-preview:archive-id,'/',$wcharter-preview:fond-id,'/',$wcharter-preview:charter-id,'/charter'), '?q=',$search:q)
-          else concat(concat(conf:param('request-root'),$wcharter-preview:collection-id,'/',$wcharter-preview:charter-id,'/charter'), '?q=',$search:q)</xrx:expression>
+        else if($wcharter-preview:charter-context = 'mycollection') then concat(conf:param('request-root'),$wcharter-preview:collection-id,'/',$wcharter-preview:charter-id,'/my-charter')
+        else concat(concat(conf:param('request-root'),$wcharter-preview:collection-id,'/',$wcharter-preview:charter-id,'/charter'), '?q=',$search:q)</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:browse-url</xrx:name>
@@ -231,13 +241,20 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             </xrx:i18n>
           </a>
           <br/>
-          <a href="{ $wcharter-preview:browse-url }">
-            <xrx:i18n>
-              <xrx:key>browse-in-search-results</xrx:key>
-              <xrx:default>Browse in search results</xrx:default>
-            </xrx:i18n>
-          </a>
-          <br/>
+          {if($resultType = 'registerResult') then()
+
+          else(
+          <div>
+            <a href="{ $wcharter-preview:browse-url }">
+              <xrx:i18n>
+                <xrx:key>browse-in-search-results</xrx:key>
+                <xrx:default>Browse in search results</xrx:default>
+              </xrx:i18n>
+            </a>
+            <br/>
+          </div>
+          )
+          }
           <a href="{ conf:param('request-root')}service/pdf-export?id={ xmldb:encode($wcharter-preview:atom-id) }&amp;lang={ $xrx:lang }" target="blank">
             <xrx:i18n>
               <xrx:key>pdf-export</xrx:key>
