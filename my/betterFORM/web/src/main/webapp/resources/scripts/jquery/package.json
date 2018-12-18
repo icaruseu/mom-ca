@@ -1,0 +1,6 @@
+{
+    "name": "jquery",
+    "description": "jquery package",
+    "version": 1.0,
+    "dojoBuild": "jquery.profile.js"
+}

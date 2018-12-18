@@ -84,6 +84,9 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
         <xf:action ev:event="xforms-submit-done">
           <xf:setvalue ref="//value/@ready" value="'yes'"/>
         </xf:action>
+        <xf:action ev:event="xforms-submit-error">
+	  <xf:message><xf:output value="event('response-body')"/></xf:message>
+	</xf:action>
       </xf:submission>
       
       <xf:submission action="{ $xrx:jetty-request-base-url }service/excel-choose-sheet" id="sexcel-choose-sheet" instance="iexcel-choose-sheet-response" method="post" replace="instance"/>

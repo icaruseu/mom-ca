@@ -691,7 +691,7 @@ function addCrop(id, url, user, name, type, lang){
                 {
                  if (xmlhttp.status==200)
                      { 
-                        var xmlDoc = xmlhttp.responseXML;
+                        var xmlDoc = jQuery.parseXML(xmlhttp.response);
                         var addID = type+name+id;
                         
                         // define ID because of existing elements
@@ -818,7 +818,7 @@ function storeCrop(url, user, lang){
                  if (xmlhttp.status==200)
                      { 
                         jQuery('#loadgif').css('display', 'none');
-                        var xmlDoc = xmlhttp.responseXML;
+                        var xmlDoc =  jQuery.parseXML(xmlhttp.response);
                         if (xmlDoc.childNodes[0].nodeName == "data")
                         {
                             var outerid = xmlDoc.getElementsByTagName('dataid')[0].childNodes[0].nodeValue;

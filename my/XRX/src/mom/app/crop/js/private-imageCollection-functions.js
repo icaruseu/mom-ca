@@ -206,7 +206,7 @@ function changeViewport(side, changeType, user, lang){
             {
              if (xmlhttp.status==200)
                  { 
-                    var xmlDoc = xmlhttp.responseXML;
+                    var xmlDoc = jQuery.parseXML(xmlhttp.response);
                     var breadcrump = document.createElement("div");
              		 		breadcrump.innerHTML = xmlhttp.responseText;
                     // select the right side
@@ -306,7 +306,7 @@ function changeCollectionViewport(side, changeType){
             {
              if (xmlhttp.status==200)
                  { 
-                    var xmlDoc = xmlhttp.responseXML;
+                    var xmlDoc = jQuery.parseXML(xmlhttp.response);
                     var breadcrump = document.createElement("div");
              		 		breadcrump.innerHTML = xmlhttp.responseText;
                     // select the right side
@@ -524,7 +524,7 @@ function showImage(side, user){
                  $('.arrowright').css('display', 'block');
                  $('.innerviewport').css('display', 'table-cell');
                  $('.outerviewport').css('display', 'block');
-                 var xmlDoc = xmlhttp.responseXML;
+                 var xmlDoc = jQuery.parseXML(xmlhttp.response);
                  var breadcrump = document.createElement("div");
              		 breadcrump.innerHTML = xmlhttp.responseText;
                     // select the right side
@@ -1056,7 +1056,7 @@ function addCrop(id, url, user, name, type, role, lang){
                      { 
                         $('#process-img').css('display', 'none');
                         $('#result').css('display', 'block');
-                        var xmlDoc = xmlhttp.responseXML;
+                        var xmlDoc = jQuery.parseXML(xmlhttp.response);
                         var addID = type+name+id;
                         // define ID because of existing elements
                         var outerid = xmlDoc.getElementsByTagName('dataid')[0].childNodes[0].nodeValue;
@@ -1397,7 +1397,7 @@ function storeCrop(url, user, role, lang){
                         $('#loadgif').css('display', 'none');
                         $('#process-img').css('display', 'none');
                         $('#result').css('display', 'block');
-                        var xmlDoc = xmlhttp.responseXML;
+                        var xmlDoc = jQuery.parseXML(xmlhttp.response);
                         if (xmlDoc.childNodes[0].nodeName == "data")
                         {
                             var outerid = xmlDoc.getElementsByTagName('dataid')[0].childNodes[0].nodeValue;
@@ -2844,7 +2844,7 @@ function publishSingleCrop(id, user, name, type, role, lang){
                 {
                  if (xmlhttp.status==200)
                      { 
-                        var xmlDoc = xmlhttp.responseXML;
+                        var xmlDoc = jQuery.parseXML(xmlhttp.response);
                         // define ID because of existing elements
                         var outerid = xmlDoc.getElementsByTagName('dataid')[0].childNodes[0].nodeValue;
                         var newid = Math.floor((Math.random()*1000)+500)+Math.floor((Math.random()*1000)+500);
