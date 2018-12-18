@@ -248,6 +248,15 @@ float:left;
                     </xrx:i18n>
                   </a>
                 </div>
+                <div class="function-link">
+                  <a href="{ conf:param('request-root') }{ $xrx:tokenized-uri[1] }/collection-register?modus=mycollection">
+                    <span>‣ </span>
+                    <xrx:i18n>
+                      <xrx:key>register_search</xrx:key>
+                      <xrx:default>Register Search</xrx:default>
+                    </xrx:i18n>
+                  </a>
+                </div>
               </div>
             </div>       
           </xrx:true>

@@ -140,9 +140,9 @@ declare variable $xrx:protocol := substring-before(request:get-url(), "://");
 (: the server port :)
 declare variable $xrx:port := request:get-server-port();
 (: the full server name, with or without port :)
-declare variable $xrx:servername := substring-before(substring-after(request:get-url(), 'http://'), '/');
+declare variable $xrx:servername := substring-before(substring-after(request:get-url(), concat($xrx:protocol, '://') ), '/');
 (: sometimes it is helpful to have the complete URL :)
-declare variable $xrx:http-request-root := concat('http://', $xrx:servername, concat('/', $xrx:platform-id, '/'));
+declare variable $xrx:http-request-root := concat($xrx:protocol, '://', $xrx:servername, concat('/', $xrx:platform-id, '/'));
 (: 
     URI path relative to the request root
     e.g.: '../../../' 
@@ -423,3 +423,4 @@ declare function xrx:request-query-string($param-name as xs:string*, $param-valu
         $query-string
     )
 };
+

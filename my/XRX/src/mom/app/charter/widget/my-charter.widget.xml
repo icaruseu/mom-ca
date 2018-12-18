@@ -197,7 +197,11 @@ it leaves the active development stage.
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter:image-base-uri</xrx:name>
-      <xrx:expression>''</xrx:expression>
+      <xrx:expression>if($wcharter:linked-charter-atomid != '') then
+    $wcharter:linked-charter-image-base-uri 
+        
+    else
+      concat($xrx:protocol, "://" , $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(), '/')</xrx:expression>
     </xrx:variable>
     <!-- archive information -->
     <xrx:variable>

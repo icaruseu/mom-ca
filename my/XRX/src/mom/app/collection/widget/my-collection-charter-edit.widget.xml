@@ -1,5 +1,4 @@
-<xrx:widget xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events"
-    xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns:xf="http://www.w3.org/2002/xforms">
+<xrx:widget xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns:xf="http://www.w3.org/2002/xforms">
     <xrx:id>tag:www.monasterium.net,2011:/mom/widget/my-collection-charter-edit</xrx:id>
     <xrx:title>
         <xrx:i18n>
@@ -32,8 +31,8 @@
         </xrx:variable>
         <!-- charter -->
         <xrx:variable>
-        <xrx:name>$modusludens</xrx:name>
-        <xrx:expression>request:get-parameter('mode', '')</xrx:expression>
+            <xrx:name>$modusludens</xrx:name>
+            <xrx:expression>request:get-parameter('mode', '')</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$uuid</xrx:name>
@@ -61,13 +60,17 @@
         </xrx:variable>
                 <!--  parameters for saved-charter protection -->
         <xrx:variable>
-        	<xrx:name>$owner_mail</xrx:name>
-        	<xrx:expression>$entry//atom:author/atom:email/text() </xrx:expression>
-       </xrx:variable>
-       <xrx:variable>
-       		<xrx:name>$is-shared</xrx:name>
-       		<xrx:expression>mycharter:is-shared-with($entry, $xrx:user-id)</xrx:expression>
-       </xrx:variable>
+            <xrx:name>$owner_mail</xrx:name>
+            <xrx:expression>$entry//atom:author/atom:email/text() </xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$is-shared</xrx:name>
+            <xrx:expression>mycharter:is-shared-with($entry, $xrx:user-id)</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$ceitag</xrx:name>
+            <xrx:expression>mycollection:checkForTag($entry)</xrx:expression>
+        </xrx:variable>
         <xrx:variable>
             <xrx:name>$updater</xrx:name>
             <xrx:expression>mycollection:checkUpdateCharter($entry)</xrx:expression>
@@ -108,8 +111,8 @@
             <xrx:expression>serialize($entry, ())</xrx:expression>
         </xrx:variable>
         <xrx:variable>
-        <xrx:name>$deserial-entry</xrx:name>
-        <xrx:expression>replace($entry-as-string, '&amp;amp;', '&amp;')</xrx:expression>
+            <xrx:name>$deserial-entry</xrx:name>
+            <xrx:expression>replace($entry-as-string, '&amp;amp;', '&amp;')</xrx:expression>
         <!-- replace(/&/g,'&amp;').replace(/&amp;amp;/g, '&amp;'); -->
         </xrx:variable>
         <xrx:variable>
@@ -263,9 +266,9 @@
             <xrx:name>$topics</xrx:name>
             <xrx:expression>xmleditor:json-element-topics($xrx-schema)</xrx:expression>
         </xrx:variable>
-         <xrx:variable>
-        <xrx:name>$sprache</xrx:name>
-        <xrx:expression>if($xrx:lang = 'deu') then 'de' else if ($xrx:lang = 'fra') then 'fr' else if ($xrx:lang = 'ita') then 'it' else 'en'</xrx:expression>
+        <xrx:variable>
+            <xrx:name>$sprache</xrx:name>
+            <xrx:expression>if($xrx:lang = 'deu') then 'de' else if ($xrx:lang = 'fra') then 'fr' else if ($xrx:lang = 'ita') then 'it' else 'en'</xrx:expression>
         </xrx:variable>
         <!-- controlled Vocabularies -->
         
@@ -349,7 +352,8 @@ font-weight: bold !important;
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/layout</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/external/imgareaselect</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/dialog</xrx:resource>
-	<xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xpath</xrx:resource>
+	      <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/xpath</xrx:resource>
+
         <!-- jssaxparser resources -->
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/XMLFilterImpls</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/NamespaceSupport</xrx:resource>
@@ -362,7 +366,7 @@ font-weight: bold !important;
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jssaxparser/XPath</xrx:resource>
         <!-- codemirror resources -->
         <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/lib/codemirror</xrx:resource>
-        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/mode/xml</xrx:resource>        
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/mode/xml</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/js/codemirror/mode/visualxml</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/js/codemirror/keymap/visualxml</xrx:resource>
         <!-- core resources -->
@@ -370,7 +374,7 @@ font-weight: bold !important;
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrxInstance</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/xrxI18n</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrx</xrx:resource>
-       <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxLayout</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxLayout</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxTabs</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxSelect1</xrx:resource>
         <xrx:resource>tag:www.monasterium.net,2011:/core/resource/jquery/ui/xrxMessage</xrx:resource>
@@ -391,7 +395,7 @@ font-weight: bold !important;
         <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/createanno</xrx:resource>
     </xrx:jss>
     <xrx:instances>
-        <xrx:instance id="icharter">{ $entry-as-string}</xrx:instance>      
+        <xrx:instance id="icharter">{ $entry-as-string}</xrx:instance>
     </xrx:instances>
     <xrx:binds>
         <xrx:bind id="bclass" nodeset="/descendant::cei:class"/>
@@ -409,7 +413,7 @@ font-weight: bold !important;
                     <xrx:option key="north__resizable">false</xrx:option>
                     <xrx:option key="south__size">.5</xrx:option>
                 </xrx:options>
-               <xrx:center>
+                <xrx:center>
                     <xrx:auth>
                         <xrx:rules>
                             <xrx:rule>
@@ -417,9 +421,8 @@ font-weight: bold !important;
                                 <xrx:dbgroup>atom</xrx:dbgroup>
                             </xrx:rule>
                         </xrx:rules>
-                        <xrx:true>             
-                           <div data-demoid="09a18129-a5e4-42f7-ab9e-1d4bcf9497bb"
-                                id="dui-imageann">
+                        <xrx:true>
+                            <div data-demoid="09a18129-a5e4-42f7-ab9e-1d4bcf9497bb" id="dui-imageann">
                                 <script type="text/javascript"> $(document).ready(function(){{
                                     jQuery(document).imageTool({{ requestRoot: "{
                                     conf:param('request-root') }", charter: "{ $uuid }", collection:
@@ -430,8 +433,7 @@ font-weight: bold !important;
                                     ($(this).is(':checked')) {{ var caseDiv = $(this).val();
                                     $(".xrx-case", "#dviewer-switch").hide(); $("#"+ caseDiv,
                                     "#dviewer-switch").show(); }} }}); }}); </script>
-                                <xrx:select1 appearance="xrx-appearance-buttonset"
-                                    id="s1viewer-choice">
+                                <xrx:select1 appearance="xrx-appearance-buttonset" id="s1viewer-choice">
                                     <xrx:item>
                                         <xrx:label>
                                             <xrx:i18n>
@@ -453,33 +455,21 @@ font-weight: bold !important;
                                 </xrx:select1>
                                 <xrx:switch id="dviewer-switch">
                                     <xrx:case id="ui-imageann-wrapper">
-                                        <div data-demoid="a4fa4172-275b-4337-8a83-15f398663e76"
-                                            id="selected-folio">
+                                        <div data-demoid="a4fa4172-275b-4337-8a83-15f398663e76" id="selected-folio">
                                             <span id="select-result"/>
                                         </div>
-                                        <div data-demoid="b90a2b1c-9164-49b9-a8cb-f47f1413947c"
-                                            id="folio-links">
+                                        <div data-demoid="b90a2b1c-9164-49b9-a8cb-f47f1413947c" id="folio-links">
                                             <ol id="ui-imageselect"> { for $folio at $p in $folios
-                                                return <li
-                                                  title="{ if(not(contains($urls[$p], '/'))) then concat($image-base-url, $urls[$p]) else $urls[$p]    }"
-                                                  >{ if($p = 1) then attribute class {
+                                                return <li title="{ if(not(contains($urls[$p], '/'))) then concat($image-base-url, $urls[$p]) else $urls[$p]    }">{ if($p = 1) then attribute class {
                                                   'ui-widget-content ui-selected' } else attribute
                                                   class { 'ui-widget-content' } }{ $folio }</li> }
                                             </ol>
                                         </div>
-                                        <div data-demoid="f224f11c-46c7-41b3-839d-02eb5f9e278a"
-                                            id="ui-imageann"
-                                            style="width:100%;height:100%;position:relative;overflow:hidden;">
+                                        <div data-demoid="f224f11c-46c7-41b3-839d-02eb5f9e278a" id="ui-imageann" style="width:100%;height:100%;position:relative;overflow:hidden;">
                                             <div data-demoid="5c720e82-758a-4e64-9b13-a6295c9e833c">
-                                                <div
-                                                  data-demoid="f1542ed4-df27-4ddb-bb3a-46c629f63f2c"
-                                                  id="img-svg"/>
-                                                <div
-                                                  data-demoid="0bff0a22-184d-49c8-84bb-3e8eaf390028"
-                                                  id="img-img">
-                                                  <img alt="image" class="zoomable" id="img"
-                                                  src="{ if($urls[1] = '' or not($urls[1])) then 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' else (if(not(contains($urls[1], '/'))) then concat($image-base-url, $urls[1]) else $urls[1] ) }"
-                                                  style="z-index:1;position:absolute;"/>
+                                                <div data-demoid="f1542ed4-df27-4ddb-bb3a-46c629f63f2c" id="img-svg"/>
+                                                <div data-demoid="0bff0a22-184d-49c8-84bb-3e8eaf390028" id="img-img">
+                                                    <img alt="image" class="zoomable" id="img" src="{ if($urls[1] = '' or not($urls[1])) then 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' else (if(not(contains($urls[1], '/'))) then concat($image-base-url, $urls[1]) else $urls[1] ) }" style="z-index:1;position:absolute;"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -489,7 +479,7 @@ font-weight: bold !important;
                                     </xrx:case>
                                     <xrx:case id="dcharter-instance"/>
                                 </xrx:switch>
-                            </div> 
+                            </div>
                         </xrx:true>
                         <xrx:false>
                             <div data-demoid="de9f813e-6b5d-49f6-91b3-eee1a1731a7b"/>
@@ -497,8 +487,7 @@ font-weight: bold !important;
                     </xrx:auth>
                 </xrx:center>
                 <xrx:north>
-                    <div data-demoid="48d984c8-63e8-48df-95bc-00ad1e2b62c5"
-                        id="dmy-collection-header">
+                    <div data-demoid="48d984c8-63e8-48df-95bc-00ad1e2b62c5" id="dmy-collection-header">
                         {if($modusludens = 'illurk')
                           then (
                         <h2>EditIllurk</h2>
@@ -507,28 +496,24 @@ font-weight: bold !important;
                         <h2>EditMOM</h2>
                         )
                         }
-                        <div data-demoid="4c56fbe3-1728-47c6-af7e-ab39fb266752" id="autoSaveStatus"
-                        />
-                        
-             
+                        <div data-demoid="4c56fbe3-1728-47c6-af7e-ab39fb266752" id="autoSaveStatus"/>
                     </div>
                     <div id="header-options-div">
-                    <div id="mode-select-div" >
-                         <select id="mode-select">
-                         	<option value="">Standard</option>
-                         	<option value="?mode=illurk">Illurk</option>
-                         	<option value="?mode=max">Full</option>
-                         </select>
-                    </div>
-                   
-                    <div data-demoid="4e751e31-7e32-42cd-96a3-ce571b5ea97a" id="image-tool-div">
-                        <button id="open-image-tool">
-                            <xrx:i18n>
-                                <xrx:key>open-image-tools</xrx:key>
-                                <xrx:default>Open Image Tools</xrx:default>
-                            </xrx:i18n>
-                        </button>
-                    </div>
+                        <div id="mode-select-div">
+                            <select id="mode-select">
+                                <option value="">Standard</option>
+                                <option value="?mode=illurk">Illurk</option>
+                                <option value="?mode=max">Full</option>
+                            </select>
+                        </div>
+                        <div data-demoid="4e751e31-7e32-42cd-96a3-ce571b5ea97a" id="image-tool-div">
+                            <button id="open-image-tool">
+                                <xrx:i18n>
+                                    <xrx:key>open-image-tools</xrx:key>
+                                    <xrx:default>Open Image Tools</xrx:default>
+                                </xrx:i18n>
+                            </button>
+                        </div>
                     </div>
                 </xrx:north>
                 <xrx:south id="dtextann">
@@ -540,89 +525,84 @@ font-weight: bold !important;
                             </xrx:rule>
                         </xrx:rules>
                         <xrx:true>
-                            <div data-demoid="d6062366-8073-43c1-9472-4667e1c44c95"
-                                id="dinner-textann">
+                            <div data-demoid="d6062366-8073-43c1-9472-4667e1c44c95" id="dinner-textann">
                                 <xrx:layout>
                                     <xrx:options>
                                         <xrx:option key="east__size">.3</xrx:option>
                                     </xrx:options>
                                     <xrx:center>
-                                      <div class="xrx-layout"
-                                            data-demoid="bd089740-6647-48f3-9042-544ae9d31cae"
-                                            onclick="return {{ north__resizable: false, north__showOverflowOnHover: true }}">
-                                            <div class="ui-layout-center xrx-tabs"
-                                                data-demoid="086ae85e-889f-4d7e-b2cd-3e19bd63819f"
-                                                style="overflow:auto;">
+                                        <div class="xrx-layout" data-demoid="bd089740-6647-48f3-9042-544ae9d31cae" onclick="return {{ north__resizable: false, north__showOverflowOnHover: true }}">
+                                            <div class="ui-layout-center xrx-tabs" data-demoid="086ae85e-889f-4d7e-b2cd-3e19bd63819f" style="overflow:auto;">
                                                 <ul> { (:
                                                   if($nodes-for-editcontrol//.[tab_page/text() =
                                                   "1"]) then:) if(contains($helper,
                                                   "<tab_page>1</tab_page>")) then <li>
-                                                  <a class="anchor" href="#tab-1">
-                                                  <xrx:i18n>
-                                                  <xrx:key>abstract</xrx:key>
-                                                  <xrx:default>abstract</xrx:default>
-                                                  </xrx:i18n>
-                                                  </a>
-                                                  </li> else () }
+                                                        <a class="anchor" href="#tab-1">
+                                                            <xrx:i18n>
+                                                                <xrx:key>abstract</xrx:key>
+                                                                <xrx:default>abstract</xrx:default>
+                                                            </xrx:i18n>
+                                                        </a>
+                                                    </li> else () }
                                                      { if(contains($helper,
                                                   "<tab_page>8</tab_page>")) then <li>
-                                                  <a class="anchor" href="#tab-8">
-                                                  <xrx:i18n>
-                                                  <xrx:key>decoDesc</xrx:key>
-                                                  <xrx:default>decoDesc</xrx:default>
-                                                  </xrx:i18n>
-                                                  </a>
-                                                  </li> else () }
+                                                        <a class="anchor" href="#tab-8">
+                                                            <xrx:i18n>
+                                                                <xrx:key>decoDesc</xrx:key>
+                                                                <xrx:default>decoDesc</xrx:default>
+                                                            </xrx:i18n>
+                                                        </a>
+                                                    </li> else () }
                                                   
                                                    { if(contains($helper,
                                                   "<tab_page>2</tab_page>")) then <li>
-                                                  <a class="anchor" href="#tab-2">
-                                                  <xrx:i18n>
-                                                  <xrx:key>fulltext</xrx:key>
-                                                  <xrx:default>fulltext</xrx:default>
-                                                  </xrx:i18n>
-                                                  </a>
-                                                  </li> else () } { if(contains($helper,
+                                                        <a class="anchor" href="#tab-2">
+                                                            <xrx:i18n>
+                                                                <xrx:key>fulltext</xrx:key>
+                                                                <xrx:default>fulltext</xrx:default>
+                                                            </xrx:i18n>
+                                                        </a>
+                                                    </li> else () } { if(contains($helper,
                                                   "<tab_page>3</tab_page>")) then <li>
-                                                  <a class="anchor" href="#tab-3">
-                                                  <xrx:i18n>
-                                                  <xrx:key>source</xrx:key>
-                                                  <xrx:default>source</xrx:default>
-                                                  </xrx:i18n>
-                                                  </a>
-                                                  </li> else () } { if(contains($helper,
+                                                        <a class="anchor" href="#tab-3">
+                                                            <xrx:i18n>
+                                                                <xrx:key>source</xrx:key>
+                                                                <xrx:default>source</xrx:default>
+                                                            </xrx:i18n>
+                                                        </a>
+                                                    </li> else () } { if(contains($helper,
                                                   "<tab_page>4</tab_page>")) then <li>
-                                                  <a class="anchor" href="#tab-4">
-                                                  <xrx:i18n>
-                                                  <xrx:key>description-of-original</xrx:key>
-                                                  <xrx:default>description of original</xrx:default>
-                                                  </xrx:i18n>
-                                                  </a>
-                                                  </li> else () } { if(contains($helper,
+                                                        <a class="anchor" href="#tab-4">
+                                                            <xrx:i18n>
+                                                                <xrx:key>description-of-original</xrx:key>
+                                                                <xrx:default>description of original</xrx:default>
+                                                            </xrx:i18n>
+                                                        </a>
+                                                    </li> else () } { if(contains($helper,
                                                   "<tab_page>5</tab_page>")) then <li>
-                                                  <a class="anchor" href="#tab-5">
-                                                  <xrx:i18n>
-                                                  <xrx:key>copies</xrx:key>
-                                                  <xrx:default>copies</xrx:default>
-                                                  </xrx:i18n>
-                                                  </a>
-                                                  </li> else () } { if(contains($helper,
+                                                        <a class="anchor" href="#tab-5">
+                                                            <xrx:i18n>
+                                                                <xrx:key>copies</xrx:key>
+                                                                <xrx:default>copies</xrx:default>
+                                                            </xrx:i18n>
+                                                        </a>
+                                                    </li> else () } { if(contains($helper,
                                                   "<tab_page>6</tab_page>")) then <li>
-                                                  <a class="anchor" href="#tab-6">
-                                                  <xrx:i18n>
-                                                  <xrx:key>commentary</xrx:key>
-                                                  <xrx:default>commentary</xrx:default>
-                                                  </xrx:i18n>
-                                                  </a>
-                                                  </li> else () } { if(contains($helper,
+                                                        <a class="anchor" href="#tab-6">
+                                                            <xrx:i18n>
+                                                                <xrx:key>commentary</xrx:key>
+                                                                <xrx:default>commentary</xrx:default>
+                                                            </xrx:i18n>
+                                                        </a>
+                                                    </li> else () } { if(contains($helper,
                                                   "<tab_page>7</tab_page>")) then <li>
-                                                  <a class="anchor" href="#tab-7">
-                                                  <xrx:i18n>
-                                                  <xrx:key>appendix</xrx:key>
-                                                  <xrx:default>appendix</xrx:default>
-                                                  </xrx:i18n>
-                                                  </a>
-                                                  </li> else () }                                                
+                                                        <a class="anchor" href="#tab-7">
+                                                            <xrx:i18n>
+                                                                <xrx:key>appendix</xrx:key>
+                                                                <xrx:default>appendix</xrx:default>
+                                                            </xrx:i18n>
+                                                        </a>
+                                                    </li> else () }                                                
                                                   </ul>                                     
                                                  <!--  <div data-demoid="c0ca5834-6e65-4b0a-bd53-c1ecdfd5ee2f" id="tab-1">{$entry}</div> -->
                                                 <!-- Creates the Content for the specific TabPage
@@ -645,58 +625,45 @@ font-weight: bold !important;
                                                 {mycollection:returnTabPageContent("8", $entry,
                                                 $distinct_nodes)}
                                                 </div>
-                                            <div class="ui-layout-north"
-                                                data-demoid="5da89345-2191-497a-98de-b895609836b1">
-                                                <div class="dmy-collection-toolbar"
-                                                  data-demoid="f007ba43-bb97-4d77-b520-d58fe71674e7">
-                                                  <xrx:elements/>
-                                                  <span style="font-size:1.6em;">&#160;</span>
+                                            <div class="ui-layout-north" data-demoid="5da89345-2191-497a-98de-b895609836b1">
+                                                <div class="dmy-collection-toolbar" data-demoid="f007ba43-bb97-4d77-b520-d58fe71674e7">
+                                                    <xrx:elements/>
+                                                    <span style="font-size:1.6em;">&#160;</span>
                                                 </div>
-                                            </div> 
+                                            </div>
                                         </div>
                                     </xrx:center>
                                     <xrx:east>
-                                        <div class="xrx-layout"
-                                            data-demoid="10237aca-70ac-46c7-baf6-eb371153610b"
-                                            onclick="return {{ north__resizable: false }}">
-                                            <div class="ui-layout-center xrx-tabs"
-                                                data-demoid="1fbb416a-875f-4730-8ff8-2738bc087545">
+                                        <div class="xrx-layout" data-demoid="10237aca-70ac-46c7-baf6-eb371153610b" onclick="return {{ north__resizable: false }}">
+                                            <div class="ui-layout-center xrx-tabs" data-demoid="1fbb416a-875f-4730-8ff8-2738bc087545">
                                                 <ul>
-                                                  <li>
-                                                  <a href="#atab-1">
-                                                  <xrx:i18n>
-                                                  <xrx:key>attributes</xrx:key>
-                                                  <xrx:default>Attributes</xrx:default>
-                                                  </xrx:i18n>
-                                                  </a>
-                                                  </li>
-                                                  <li>
-                                                  <a href="#atab-2" id="tab-validation-report">
-                                                  <xrx:i18n>
-                                                  <xrx:key>validation-report</xrx:key>
-                                                  <xrx:default>Validation Report</xrx:default>
-                                                  </xrx:i18n>
-                                                  </a>
-                                                  </li>
+                                                    <li>
+                                                        <a href="#atab-1">
+                                                            <xrx:i18n>
+                                                                <xrx:key>attributes</xrx:key>
+                                                                <xrx:default>Attributes</xrx:default>
+                                                            </xrx:i18n>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#atab-2" id="tab-validation-report">
+                                                            <xrx:i18n>
+                                                                <xrx:key>validation-report</xrx:key>
+                                                                <xrx:default>Validation Report</xrx:default>
+                                                            </xrx:i18n>
+                                                        </a>
+                                                    </li>
                                                 </ul>
-                                                <div
-                                                  data-demoid="aa7f3e52-4827-4461-b9c6-1b45d6634e8d"
-                                                  id="atab-1">
-                                                  <xrx:attributes/>
+                                                <div data-demoid="aa7f3e52-4827-4461-b9c6-1b45d6634e8d" id="atab-1">
+                                                    <xrx:attributes/>
                                                 </div>
-                                                <div
-                                                  data-demoid="a4b8cd5f-f77c-417f-a681-383d0d419a45"
-                                                  id="atab-2">
-                                                  <div class="xrx-report"
-                                                  data-demoid="2e057ed2-f72f-4e57-82b8-59c2cdb7a89e"
-                                                  />
+                                                <div data-demoid="a4b8cd5f-f77c-417f-a681-383d0d419a45" id="atab-2">
+                                                    <div class="xrx-report" data-demoid="2e057ed2-f72f-4e57-82b8-59c2cdb7a89e"/>
                                                 </div>
                                             </div>
-                                            <div class="ui-layout-north"
-                                                data-demoid="09c01686-e6d0-4ae7-bfa3-4692484cfac5">
-                                                <div class="dmy-collection-toolbar"
-                                                  data-demoid="d77ece62-d2ce-4928-b045-5ad66686e512">
-                                                  <xrx:tagname>&#160;</xrx:tagname>
+                                            <div class="ui-layout-north" data-demoid="09c01686-e6d0-4ae7-bfa3-4692484cfac5">
+                                                <div class="dmy-collection-toolbar" data-demoid="d77ece62-d2ce-4928-b045-5ad66686e512">
+                                                    <xrx:tagname>&#160;</xrx:tagname>
                                                 </div>
                                             </div>
                                         </div>
@@ -717,11 +684,8 @@ font-weight: bold !important;
                 </xrx:south>
             </xrx:layout>
             <div data-demoid="255993c7-4e5d-4a9b-90b3-beec82724ac7" id="image-tool-widget">
-                <xrx:resource id="image-tool-widget-close-button" title="Close Image Tool"
-                    type="image/png"
-                    >tag:www.monasterium.net,2011:/mom/resource/image/button_close</xrx:resource>
-                <div data-demoid="9540bf3f-0242-4de2-9ba0-5359d2224809"
-                    id="image-tool-widget-button-bar">
+                <xrx:resource id="image-tool-widget-close-button" title="Close Image Tool" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/button_close</xrx:resource>
+                <div data-demoid="9540bf3f-0242-4de2-9ba0-5359d2224809" id="image-tool-widget-button-bar">
                     <button class="image-tool-widget-button" id="create-new-anno-button">
                         <xrx:i18n>
                             <xrx:key>create-new</xrx:key>
@@ -771,12 +735,9 @@ font-weight: bold !important;
             </xrx:i18n>
           </button -->
                 </div>
-                <div data-demoid="0117de43-721b-46bb-84a3-18025d685f5c"
-                    id="image-tool-widget-metadata-area">
+                <div data-demoid="0117de43-721b-46bb-84a3-18025d685f5c" id="image-tool-widget-metadata-area">
                     <div data-demoid="8aeb9681-8d6f-47e7-8c0b-56fc79cfc5a3" id="drop-area">
-                        <div class="inactive-drop-annotation"
-                            data-demoid="b9b37ec7-8611-48f9-9e86-d08a36593590"
-                            id="drop-annotation-markup-tag">
+                        <div class="inactive-drop-annotation" data-demoid="b9b37ec7-8611-48f9-9e86-d08a36593590" id="drop-annotation-markup-tag">
                             <span>
                                 <xrx:i18n>
                                     <xrx:key>drop-here</xrx:key>
@@ -785,8 +746,7 @@ font-weight: bold !important;
                             </span>
                         </div>
                     </div>
-                    <div data-demoid="24b30514-d664-4f20-9b43-6ac97b31c97e"
-                        id="create-metadata-field">
+                    <div data-demoid="24b30514-d664-4f20-9b43-6ac97b31c97e" id="create-metadata-field">
                         <span class="meta-caption" style="float:left;">
                             <xrx:i18n>
                                 <xrx:key>selected-tag</xrx:key>
@@ -829,16 +789,13 @@ font-weight: bold !important;
                 </div>
             </div>
             <div class="xrx-message" data-demoid="aa0e9f99-53e1-4893-9290-2cf835e1c3ca"/>
-            <div class="xrx-forms-json-attribute-suggestions"
-                data-demoid="a9a1b205-f185-4e4c-8fcc-8d1a397c881e" style="display:none">{
+            <div class="xrx-forms-json-attribute-suggestions" data-demoid="a9a1b205-f185-4e4c-8fcc-8d1a397c881e" style="display:none">{
                 $attribute-suggestions }</div>
-            <div class="xrx-forms-json-element-suggestions"
-                data-demoid="90164e9b-8793-4426-9cb3-9c91b1252326" style="display:none">{
+            <div class="xrx-forms-json-element-suggestions" data-demoid="90164e9b-8793-4426-9cb3-9c91b1252326" style="display:none">{
                 $element-suggestions }</div>
-            <div class="xrx-forms-json-topics" data-demoid="29dc1908-0c8d-4501-ab7d-5e0cbdc492b9"
-                style="display:none">{ $topics }</div>
-            <div class="xrx-language-for-skos" style="display:none">{$sprache}</div>           
-             <div class="available-controlled-vocabularies" style="display:none">{
+            <div class="xrx-forms-json-topics" data-demoid="29dc1908-0c8d-4501-ab7d-5e0cbdc492b9" style="display:none">{ $topics }</div>
+            <div class="xrx-language-for-skos" style="display:none">{$sprache}</div>
+            <div class="available-controlled-vocabularies" style="display:none">{
 let $glossare := collection("/db/mom-data/metadata.controlledVocabulary.public")//atom:entry/atom:content/rdf:RDF
 let $job :=  (for $i in $glossare/skos:ConceptScheme
 let $cvtranslated := if($i/skos:prefLabel/@xml:lang=$sprache)then normalize-space($i/skos:prefLabel[@xml:lang=$sprache]/text()) else(normalize-space($i/skos:prefLabel[1]/text()))
@@ -856,10 +813,15 @@ return  jsonx:array($job)}</div>
                 $(this).xrxVisualxml("clear"); }}); }});
                 jQuery("#mode-select").change(function(){{var path = window.location.pathname + $(this).val();  window.location.replace(path);}});               
                 var mode = window.location.href.substring(window.location.href.indexOf("?"));
-                jQuery("#mode-select > option[value='"+mode+"']").attr("selected", "selected");
+                jQuery("#mode-select &gt; option[value='"+mode+"']").attr("selected", "selected");
                  }}); </script>
-                <div id="permission_dialog" title="Permission denied" style="display: none"><xrx:i18n><xrx:key>permission-denied-text</xrx:key><xrx:default>This is a private Charter, you need a permission to edit it. 
-                																						Closing this dialog redirects you to the Monasterium-Homepage.</xrx:default></xrx:i18n></div>
+            <div id="permission_dialog" title="Permission denied" style="display: none">
+                <xrx:i18n>
+                    <xrx:key>permission-denied-text</xrx:key>
+                    <xrx:default>This is a private Charter, you need a permission to edit it. 
+                																						Closing this dialog redirects you to the Monasterium-Homepage.</xrx:default>
+                </xrx:i18n>
+            </div>
         </div>
     </xrx:view>
 </xrx:widget>

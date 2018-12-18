@@ -297,7 +297,7 @@ it leaves the active development stage.
     if($wcharter:context = 'fond' or $wcharter:context = 'linked-fond') then
       concat($wcharter:preferences/xrx:param[@name='image-server-base-url']/text(), '/') 
     else
-      concat('http://', $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(), '/')
+      concat($xrx:protocol, "://", $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(), '/')
         </xrx:expression>
     </xrx:variable>
     <!-- archive information -->

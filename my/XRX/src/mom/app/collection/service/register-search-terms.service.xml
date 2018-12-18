@@ -1,0 +1,84 @@
+<xrx:service xmlns:eag="http://www.archivgut-online.de/eag" xmlns:xrx="http://www.monasterium.net/NS/xrx" >
+    <xrx:id>tag:www.monasterium.net,2011:/mom/service/register-search-terms</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key></xrx:key>
+            <xrx:default></xrx:default>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:subtitle></xrx:subtitle>
+    <xrx:description>gets the collection id, the name of the node and the first character for the register.
+        collection_type defines if it is a private or public collection.
+    collectionsearch:createResults takes all charters checks if the element $node_name exists and creates an resultXml.
+    The xml is saved in a session variable _collectionSearchAsXml and a json will be created for jquery functions</xrx:description>
+    <xrx:author>JBigalke</xrx:author>
+    <xrx:licence>
+        This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+        As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+        This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+        The VdU/VRET is free software: you can redistribute it and/or modify
+        it under the terms of the GNU General Public License as published by
+        the Free Software Foundation, either version 3 of the License, or
+        (at your option) any later version.
+
+        VdU/VRET is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        GNU General Public License for more details.
+
+        You should have received a copy of the GNU General Public License
+        along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+    </xrx:licence>
+    <xrx:variables>
+        <xrx:variable>
+            <xrx:name>$collection_id</xrx:name>
+            <xrx:expression>request:get-parameter('collection', '')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$node_name</xrx:name>
+            <xrx:expression>request:get-parameter('nodename','')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$first_character</xrx:name>
+            <xrx:expression>request:get-parameter('firstchar','')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$collection_Type</xrx:name>
+            <xrx:expression>request:get-parameter('collectionType','')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$collection-base-path</xrx:name>
+            <xrx:expression>
+                if($collection_Type = "collection") then
+                    metadata:base-collection-path('charter','public')
+                else metadata:base-collection-path('charter', 'private')
+            </xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$collection_path</xrx:name>
+            <xrx:expression>concat($collection-base-path, $collection_id)</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$collection</xrx:name>
+            <xrx:expression>collection($collection_path)</xrx:expression>
+        </xrx:variable>
+    </xrx:variables>
+    <xrx:init>
+        <xrx:processor>
+            <xrx:translateflag>false</xrx:translateflag>
+        </xrx:processor>
+    </xrx:init>
+    <xrx:body>
+        {
+
+            let $resultXml := collectionsearch:createResults($collection, $collection_id, $node_name, $first_character)
+            let $setSessionVariable_collectionSearchAsXml := session:set-attribute("_collectionSearchAsXml", $resultXml)
+            let $resultJson := collectionsearch:createResultJson($resultXml)
+            let $setSessionVariable_collectionSearchAsJson := session:set-attribute("_collectionSearchAsJson", $resultJson)
+            return $resultJson
+        }
+    </xrx:body>
+</xrx:service>

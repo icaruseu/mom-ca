@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
+    <xrx:id>tag:www.monasterium.net,2011:/mom/widget/charters-on-map</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key/>
+            <xrx:default/>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:subtitle/>
+    <xrx:description>
+        Shows Charters from one collection/archive/fond on a Map.
+    </xrx:description>
+    <xrx:author>JBigalke</xrx:author>
+    <xrx:licence>
+        This is a component file of the VdU Software for a Virtual Research
+        Environment for the handling of Medieval charters.
+
+        As the source code is available here, it is somewhere between an alpha-
+        and a beta-release, may be changed without any consideration of
+        backward compatibility of other parts of the system, therefore,
+        without any notice.
+
+        This file is part of the VdU Virtual Research Environment Toolkit
+        (VdU/VRET).
+
+        The VdU/VRET is free software: you can redistribute it and/or modify
+        it under the terms of the GNU General Public License as published by
+        the Free Software Foundation, either version 3 of the License, or
+        (at your option) any later version.
+
+        VdU/VRET is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+        GNU General Public License for more details.
+
+        You should have received a copy of the GNU General Public License
+        along with VdU/VRET. If not, see http://www.gnu.org/licenses.
+
+        We expect VdU/VRET to be distributed in the future with a license more
+        lenient towards the inclusion of components into other systems, once
+        it leaves the active development stage.
+    </xrx:licence>
+    <xrx:variables>
+        <xrx:variable>
+            <xrx:name>$pos</xrx:name>
+            <xrx:expression>request:get-parameter("pos", "")</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$place</xrx:name>
+            <xrx:expression>request:get-parameter("place","")</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$steps</xrx:name>
+            <xrx:expression>request:get-parameter("steps","")</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$count</xrx:name>
+            <xrx:expression>request:get-parameter("count","")</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$latlng</xrx:name>
+            <xrx:expression>request:get-parameter("mapview","")</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$zoom</xrx:name>
+            <xrx:expression>request:get-parameter("zoom",0)</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$tokenizedUrl</xrx:name>
+            <xrx:expression>tokenize(request:get-uri(), '/')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$fondId</xrx:name>
+            <xrx:expression>if(count($tokenizedUrl) = 6) then $tokenizedUrl[last()-3] else()</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$collectionId</xrx:name>
+            <xrx:expression>$tokenizedUrl[last()-2]</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$collection-base-path</xrx:name>
+            <xrx:expression>
+                metadata:base-collection-path('charter','public')
+            </xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$collection_path</xrx:name>
+            <xrx:expression>if ($fondId !="") then concat($collection-base-path, $fondId,"/" ,$collectionId,"/") else(concat($collection-base-path ,$collectionId,"/"))</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$GeoCharterResults</xrx:name>
+            <xrx:expression>if($place != "" and $pos != "" and $steps != "" and $count !="") then session:get-attribute("_GeoCharterResults") else()</xrx:expression>
+        </xrx:variable>
+    </xrx:variables>
+    <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
+    <xrx:init>
+        <xrx:processor>
+            <xrx:xformsflag>false</xrx:xformsflag>
+        </xrx:processor>
+    </xrx:init>
+    <xrx:csss>
+        <style>
+            #pageList{{
+            list-style: none;
+            display: inline;
+            margin-left: -40px;
+            }}
+            #pageList>li{{
+            display: inline;
+            curser: pointer;
+            }}
+        </style>
+    </xrx:csss>
+    <xrx:jss>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/core</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/widget</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/ui/button</xrx:resource>
+        <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/chartersOnMap</xrx:resource>
+    </xrx:jss>
+
+    <xrx:view>
+        <div><h2>
+            <xrx:i18n>
+                <xrx:key>charters_on_map</xrx:key>
+                <xrx:default>Charters on map</xrx:default>
+            </xrx:i18n>:
+        </h2>
+            <div>
+                {
+                    let $type := $tokenizedUrl[last()-1]
+                    let $head :=
+                    if($type = "archive")then
+                        let $archiveId := $tokenizedUrl[last()-2]
+                        let $metadata-archive-collection := metadata:base-collection('archive', $archiveId, 'public')
+                        return <h2><xrx:i18n><xrx:key>archive</xrx:key><xrx:default>Archive</xrx:default></xrx:i18n>: {$metadata-archive-collection//eag:autform/text()}</h2>
+                    else if($type = "fond") then
+                        let $fondId := $tokenizedUrl[last()-2]
+                        let $archiveId := $tokenizedUrl[last()-3]
+                        let $metadata-fond-collection := metadata:base-collection('fond', ($archiveId , $fondId), 'public')
+                        return <h2><xrx:i18n><xrx:key>fond</xrx:key><xrx:default>Fond</xrx:default></xrx:i18n>: {$metadata-fond-collection//ead:unittitle/text()}</h2>
+                    else if($type = "collection") then
+                        let $collectionId := $tokenizedUrl[last()-2]
+                        let $metadata-collection := metadata:base-collection('collection', $collectionId, 'public')
+                        return <h2><xrx:i18n><xrx:key>collection</xrx:key><xrx:default>Collection</xrx:default></xrx:i18n>: {$metadata-collection//cei:titleStmt//text()}</h2>
+                    else()
+                return $head
+                }
+            </div>
+            <div id="geomap_widget">
+                <xrx:subwidget>
+                    <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/geomap</xrx:atomid>
+                    <xrx:pass>
+                        <xrx:parameter>
+                            <xrx:name>$serviceName</xrx:name>
+                            <xrx:expression>"geolocations-charters-over-key"</xrx:expression>
+                        </xrx:parameter>
+                        <xrx:parameter>
+                            <xrx:name>$imagelink</xrx:name>
+                            <xrx:expression>concat(conf:param('request-root'),"resource/?atomid=tag:www.monasterium.net,2011:/xrx/resource/images/archive")</xrx:expression>
+                        </xrx:parameter>
+                        <xrx:parameter>
+                            <xrx:name>$mode</xrx:name>
+                            <xrx:expression>"collection"</xrx:expression>
+                        </xrx:parameter>
+                        <xrx:parameter>
+                            <xrx:name>$linklabel</xrx:name>
+                            <xrx:expression>"charters"</xrx:expression>
+                        </xrx:parameter>
+                        <xrx:parameter>
+                            <xrx:name>$collection-path</xrx:name>
+                            <xrx:expression>$collection_path</xrx:expression>
+                        </xrx:parameter>
+                        <xrx:parameter>
+                            <xrx:name>$latlng</xrx:name>
+                            <xrx:expression>$latlng</xrx:expression>
+                        </xrx:parameter>
+                        <xrx:parameter>
+                            <xrx:name>$zoom</xrx:name>
+                            <xrx:expression>$zoom</xrx:expression>
+                        </xrx:parameter>
+                    </xrx:pass>
+                </xrx:subwidget>
+            </div>
+            {
+            if($GeoCharterResults) then(
+            <div id="results">
+                <h2>{$place}</h2>
+                <div id="searchinformations"></div>
+                <div id="resultpages">
+                    <script type="text/javascript">$(document).ready(function(){{createPageList('{conf:param("request-root")}', '{xs:integer($steps)}','{xs:integer($count)}','{xs:integer($pos)}', '{$place}','{$latlng}', '{$zoom}'); }});</script>
+                </div>
+                {
+                for $charter at $num in session:get-attribute("_GeoCharterResults")
+                return
+                <div id="dcharter-preview-main">
+                    <xrx:subwidget>
+                        <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/result</xrx:atomid>
+                        <xrx:pass>
+                            <xrx:parameter>
+                                <xrx:name>$constructor:charter</xrx:name>
+                                <xrx:expression>$charter</xrx:expression>
+                            </xrx:parameter>
+                            <xrx:parameter>
+                                <xrx:name>$constructor:pos</xrx:name>
+                                <xrx:expression>$num + 1 -1</xrx:expression>
+                            </xrx:parameter>
+                            <xrx:parameter>
+                                <xrx:name>$resultType</xrx:name>
+                                <xrx:expression>'registerResult'</xrx:expression>
+                            </xrx:parameter>
+                        </xrx:pass>
+                    </xrx:subwidget>
+                </div>
+                }
+            </div>
+
+            )
+            else()
+            }
+        </div>
+    </xrx:view>
+</xrx:widget>
