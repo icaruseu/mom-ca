@@ -1020,7 +1020,7 @@ p#first {{
            let $src := if ($urkunde//atom:link/@ref) then data($urkunde//atom:link/@ref) else()        
            let $interpretationstest := if ($src != '')then
            <div class="interpretation"><p><xrx:i18n><xrx:key>interpretation</xrx:key><xrx:default>This charter is an interpretation of</xrx:default></xrx:i18n> :<br/>{ for $i in $src
-           let $teil := substring-after($i, 'charter')
+           let $teil := substring-after($i, 'charter/')
            return
            <span style="display:block"><a href="{concat(conf:param('request-root'), $teil, '/charter')}">{substring-after($teil, '/')}</a></span>
            
