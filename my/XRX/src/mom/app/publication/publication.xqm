@@ -28,6 +28,7 @@ import module namespace momathon="http://www.monasterium.net/NS/momathon" at "xm
 import module namespace charter="http://www.monasterium.net/NS/charter" at "xmldb:exist:///db/XRX.live/mom/app/charter/charter.xqm";
 import module namespace metadata="http://www.monasterium.net/NS/metadata" at "xmldb:exist:///db/XRX.live/mom/app/metadata/metadata.xqm";
 import module namespace community="http://www.monasterium.net/NS/community" at "xmldb:exist:///db/XRX.live/mom/app/auth/community.xqm";
+import module namespace i18n="http://www.monasterium.net/NS/i18n" at "xmldb:exist:///db/XRX.live/mom/app/i18n/i18n.xqm";
 declare namespace xf="http://www.w3.org/2002/xforms";
 declare namespace ev="http://www.w3.org/2001/xml-events";
 declare namespace xrx="http://www.monasterium.net/NS/xrx";
@@ -262,7 +263,8 @@ declare function publication:edit-trigger(
     $edit-charter-message as element(xhtml:span),
     $edit-mom3-message as element(xhtml:span)
     ) {
-
+    let $editmom3msg := <span>{i18n:value("editmom3", $xrx:lang, "Edit with EditMOM 3 beta")}</span>
+    return
     if($is-moderator and (matches($widget-key,'charters-to-publish'))) then
     <div>
         <img src="{ $request-root }resource/?atomid=tag:www.monasterium.net,2011:/mom/resource/image/button_edit"/>
@@ -299,7 +301,7 @@ declare function publication:edit-trigger(
         <div>        
         <img src="{ $request-root }resource/?atomid=tag:www.monasterium.net,2011:/mom/resource/image/button_edit"/>        
         <xf:trigger appearance="minimal">
-            <xf:label>Edit with EditMOM 3 beta</xf:label><!-- Label for editMOM3, used just here -->
+            <xf:label>{$editmom3msg}</xf:label><!-- Label for editMOM3, used just here -->
             <xf:action ev:event="DOMActivate">              
                   <xf:load show="new">
                     <xf:resource value="'{ $request-root }/{publication:build-url($atomid)}'"/> 
@@ -540,7 +542,7 @@ declare function publication:user-actions(
     $remove-charter-message as element(xhtml:span),
     $publish-charter-message as element(xhtml:span)) as element() {
 
-    let $editmom3msg :=           <span>Edit with EditMOM 3 beta</span>
+    let $editmom3msg :=  <span>{i18n:value("editmom3", $xrx:lang, "Edit with EditMOM 3 beta")}</span>
     
     (: MOMathon-Trigger :)
     let $case-momathon-charter :=
@@ -607,3 +609,4 @@ declare function publication:change-element-ns
                                 local-name($element)))}
            {$element/@*, $element/node()}
  } ;
+
