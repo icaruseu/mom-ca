@@ -49,6 +49,10 @@
             <xrx:name>$wgoto-search:id</xrx:name>
             <xrx:default>''</xrx:default>
         </xrx:parameter>
+ 	<xrx:parameter>
+ 	    <xrx:name>$wgoto-search:fond</xrx:name>
+            <xrx:default>''</xrx:default>
+	</xrx:parameter>
     </xrx:constructor>
     <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
     <xrx:view>
