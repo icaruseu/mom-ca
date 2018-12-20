@@ -96,7 +96,8 @@
             <span>{ $xrx:tokenized-uri[1] } &gt; {$fondid} &gt;&gt;</span>
             <form style="padding:0;" action="{conf:param('request-root') }search?">
                 <input id="search-field" name="q" type="text" value="{request:get-parameter('q', '')}"/>
-                <input type="hidden" name="context" value="{$wgoto-search:id}"/>
+		<input type="hidden" name="arch" value="{$wgoto-search:id}"/>
+		<input type="hidden" name="col" value="{$wgoto-search:fond}"/>
                 <input id="search-trigger" type="submit" value="{i18n:value('search', $xrx:lang, 'Search')}"/>
             </form>
         </div>
