@@ -124,14 +124,16 @@ MOM-CA with the following role: moderator
     </xrx:email>
   </xrx:emails>
   <xrx:body>
-		{
+		{ (: atom:put returns document if successfully stored :)
 		let $store := 
 		 if($charter-to-release) then atom:PUT(conf:param('xrx-user-atom-base-uri'), concat(xmldb:encode($xrx:user-id), '.xml'), $updated-released)
 		 else()
-    let $sendmail :=
+
+    (: just send email if document was stored :)
+    let $sendmail := if($store) then
     <xrx:sendmail>
       <xrx:key>release-charter-email</xrx:key>
-    </xrx:sendmail>
+    </xrx:sendmail> else ()
 	  
 		return
 	  ()
