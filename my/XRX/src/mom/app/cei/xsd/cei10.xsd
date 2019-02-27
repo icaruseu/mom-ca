@@ -1887,6 +1887,7 @@
                     <xs:element ref="settlement"/>
                     <xs:element ref="region"/>
                     <xs:element ref="country"/>
+                    <xs:element ref="institution"/>
                     <xs:element ref="repository"/>
                     <xs:element ref="ref"/>
                     <xs:element ref="arch"/>
@@ -1920,6 +1921,7 @@
                         <xs:element ref="settlement"/>
                         <xs:element ref="region"/>
                         <xs:element ref="country"/>
+                        <xs:element ref="institution"/>
                         <xs:element ref="repository"/>
                         <xs:element minOccurs="0" ref="arch"/>
                     </xs:choice>
@@ -2041,6 +2043,7 @@
                     <xs:element ref="settlement"/>
                     <xs:element ref="region"/>
                     <xs:element ref="country"/>
+                    <xs:element ref="institution"/>
                     <xs:element ref="repository"/>
                     <xs:element ref="idno"/>
                     <xs:element ref="scope"/>
@@ -2048,6 +2051,34 @@
             </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="institution">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>cei_institution</xrx:key>
+                        <xrx:default>institution</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+                <xrxe:menu-item>
+                    <xrx:i18n>
+                        <xrx:key>references</xrx:key>
+                        <xrx:default>references</xrx:default>
+                    </xrx:i18n>
+                </xrxe:menu-item>
+            </xs:appinfo>
+            <xs:documentation xml:lang="deu">Die Einrichtung, deren teil ein Archiv ist.
+                ist.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:anySimpleType">
+                    <xs:attributeGroup ref="lang"/>
+                    <xs:attributeGroup ref="standard"/>
+                </xs:extension>
+            </xs:simpleContent>
         </xs:complexType>
     </xs:element>
     <xs:element name="repository">
@@ -4960,6 +4991,7 @@
                 <xs:element ref="bibl"/>
                 <xs:element ref="msIdentifier"/>
                 <xs:element ref="archIdentifier"/>
+                <xs:element ref="institution"/>
                 <xs:element ref="repository"/>
             </xs:choice>
         </xs:sequence>

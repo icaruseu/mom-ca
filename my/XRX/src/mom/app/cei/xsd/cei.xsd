@@ -447,9 +447,9 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                                                   </xs:element>
                                                   </xs:sequence>
                                                   <xs:attribute name="ref">
-                                                     <xs:annotation>
-                                                        <xs:documentation xml:lang="deu">Verweis auf eine Textpassage, zu der hier die Quelle angegeben wird.</xs:documentation>
-                                                   </xs:annotation>
+                                                  <xs:annotation>
+                                                  <xs:documentation xml:lang="deu">Verweis auf eine Textpassage, zu der hier die Quelle angegeben wird.</xs:documentation>
+                                                  </xs:annotation>
                                                   </xs:attribute>
                                                   <xs:attributeGroup ref="standard"/>
                                                   </xs:complexType>
@@ -1992,6 +1992,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                     <xs:element ref="settlement"/>
                     <xs:element ref="region"/>
                     <xs:element ref="country"/>
+                    <xs:element ref="institution"/>
                     <xs:element ref="repository"/>
                     <xs:element ref="ref"/>
                     <xs:element ref="arch"/>
@@ -2026,6 +2027,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                         <xs:element ref="settlement"/>
                         <xs:element ref="region"/>
                         <xs:element ref="country"/>
+                        <xs:element ref="institution"/>
                         <xs:element ref="repository"/>
                         <xs:element minOccurs="0" ref="arch"/>
                     </xs:choice>
@@ -2162,6 +2164,33 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
+    <xs:element name="institution">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:label>
+                    <xrx:i18n>
+                        <xrx:key>cei_institution</xrx:key>
+                        <xrx:default>institution</xrx:default>
+                    </xrx:i18n>
+                </xrxe:label>
+                <xrxe:menu-item>
+                    <xrx:i18n>
+                        <xrx:key>references</xrx:key>
+                        <xrx:default>references</xrx:default>
+                    </xrx:i18n>
+                </xrxe:menu-item>
+            </xs:appinfo>
+            <xs:documentation xml:lang="deu">Die Einrichtung, deren teil ein Archiv ist.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:anySimpleType">
+                    <xs:attributeGroup ref="lang"/>
+                    <xs:attributeGroup ref="standard"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
     <xs:element name="repository">
         <xs:annotation>
             <xs:appinfo source="EditVDU">
@@ -2179,7 +2208,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                 </xrxe:menu-item>
             </xs:appinfo>
             <xs:documentation xml:lang="deu">Die Einrichtung, in der
-        ein Objekt gelagert ist.</xs:documentation>
+                ein Objekt gelagert ist.</xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:simpleContent>
@@ -2598,7 +2627,8 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                 </xrxe:menu-item>
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
-            </xs:appinfo></xs:annotation>
+            </xs:appinfo>
+        </xs:annotation>
         <xs:complexType mixed="true">
             <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -4079,7 +4109,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
             <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
-		    <xs:group ref="Sachauszeichnung"/>
+                    <xs:group ref="Sachauszeichnung"/>
                 </xs:choice>
             </xs:sequence>
             <xs:attributeGroup ref="lang"/>
@@ -5182,6 +5212,7 @@ fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19
                 <xs:element ref="bibl"/>
                 <xs:element ref="msIdentifier"/>
                 <xs:element ref="archIdentifier"/>
+                <xs:element ref="institution"/>
                 <xs:element ref="repository"/>
             </xs:choice>
         </xs:sequence>
