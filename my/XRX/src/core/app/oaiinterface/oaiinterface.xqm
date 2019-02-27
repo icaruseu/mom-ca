@@ -161,7 +161,7 @@ declare function local:find-earliest-datestamp($oai-collections as xs:string*) {
 };
 
 (: validate parameters :)
-declare function local:validate-params($oai-collections as xs:string*, $base-url as xs:string, $function-pointer as function) as node()*{
+declare function local:validate-params($oai-collections as xs:string*, $base-url as xs:string, $function-pointer ) as node()*{
 
 let $errors :=
 
@@ -224,7 +224,7 @@ return
 };
 
 (: transform digital objects to metadata prefix format :)
-declare function local:oai-transform($oai-from as xs:string, $oai-until as xs:string, $oai-collections as xs:string*, $function-pointer as function) as node()*{
+declare function local:oai-transform($oai-from as xs:string, $oai-until as xs:string, $oai-collections as xs:string*, $function-pointer  ) as node()*{
 (: index for resumptionToken :)
 let $index := 
               if(fn:compare($oaiinterface:resumption-token,"0")=0)then
@@ -300,7 +300,7 @@ declare function local:search-res-point($oai-collections as xs:string*) as xs:in
 };
 
 (: handle parameters to produce a response:)
-declare function local:response($oai-collections as xs:string*, $base-url as xs:string, $function-pointer as function) as node()*{ 
+declare function local:response($oai-collections as xs:string*, $base-url as xs:string, $function-pointer  ) as node()*{ 
     if($oaiinterface:verb  ="Identify")
        then
             let $earliest-datestamp := local:find-earliest-datestamp($oai-collections)
@@ -382,7 +382,7 @@ return
 
 (: main function as starting point of the response- process :)
 (: Param $oai-collection as specific path to recources in DB/ Param $base-url as baseURL of the OAI- Interface:)
-declare function oaiinterface:main($oai-collections as xs:string*, $base-url as xs:string, $function-pointer as function){
+declare function oaiinterface:main($oai-collections as xs:string*, $base-url as xs:string, $function-pointer  ){
     (: OAI- PMH informations - have to be defined:)
     <OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" 
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

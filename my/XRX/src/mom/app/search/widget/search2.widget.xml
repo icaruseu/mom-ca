@@ -372,6 +372,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
               <xrx:key>search</xrx:key>
               <xrx:default>Search</xrx:default>
             </xrx:i18n>
+            <sup style="color:red">
+              (<xrx:i18n>
+                <xrx:key>beta</xrx:key>
+                <xrx:default>beta</xrx:default>
+              </xrx:i18n>)
+            </sup>
           </div>
           {
           let $no-result := request:get-parameter('noresult', 'true')
@@ -400,7 +406,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       if($wsearch:count != 0) then 
       <div data-demoid="46eda2fa-8442-4a23-a974-4fa3ab442f24" id="result">
         <div data-demoid="addea255-e7ff-43c6-be01-2357edd28ad2" id="back">
-          <a href="search">
+          <a href="search2">
             <span>&lt;&lt; </span>
             <xrx:i18n>
               <xrx:key>back</xrx:key>
@@ -419,6 +425,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             <xrx:default>Page</xrx:default>
           </xrx:i18n>
           <span> { $wsearch:block }</span>
+          <sup style="color:red">
+            (<xrx:i18n>
+              <xrx:key>beta</xrx:key>
+              <xrx:default>beta</xrx:default>
+            </xrx:i18n>)
+          </sup>
         </div>
         <div class="hits" data-demoid="f863ef63-4a29-4b3c-856a-60416a7ead05">
           <xrx:i18n>

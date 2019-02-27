@@ -23,7 +23,7 @@ public class SheetFunction extends ExcelFunction {
 		new FunctionSignature(
 				new QName("sheet", ExcelModule.NAMESPACE_URI, ExcelModule.PREFIX),
 				"returns a Excel sheet as a table in XML format",
-				new SequenceType[] { 
+				new SequenceType[] {
 					new FunctionParameterSequenceType("workbook", Type.ANY_URI, Cardinality.EXACTLY_ONE, "URL of the workbook"),
 					new FunctionParameterSequenceType("sheetnum", Type.INTEGER, Cardinality.EXACTLY_ONE, "number of the sheet"),
 					new FunctionParameterSequenceType("rows", Type.INTEGER, Cardinality.ONE_OR_MORE, "sequence of row numbers"),
@@ -45,15 +45,15 @@ public class SheetFunction extends ExcelFunction {
 		}
 		HSSFSheet sheet = getSheet(workbook, args);
 		int rownum = 0, cellnum = 0;
-		
+
 		builder.startDocument();
-		
+
 		if(workbook == null) {
-			
+
 			buildWorkbookError();
 		}
 		else if(sheet == null) {
-			
+
 			try {
 				buildSheetError(Integer.parseInt(args[1].itemAt(0).getStringValue()));
 			} catch (NumberFormatException e) {
@@ -63,19 +63,19 @@ public class SheetFunction extends ExcelFunction {
 			}
 		}
 		else {
-			
+
 			builder.startElement( new QName( "sheet", ExcelModule.NAMESPACE_URI, ExcelModule.PREFIX ), null );
 			try {
-				builder.addAttribute( new QName( "num" ), args[1].itemAt(0).getStringValue() );
+				builder.addAttribute( new QName( "num","" ), args[1].itemAt(0).getStringValue() );
 			} catch (XPathException e1) {
 				e1.printStackTrace();
 			}
-			builder.addAttribute( new QName( "name" ), sheet.getSheetName() );
-			
+			builder.addAttribute( new QName( "name","" ), sheet.getSheetName() );
+
 			for(int i=0; i < args[2].getItemCount(); i++) {
-				
+
 				HSSFRow row = null;
-				
+
 				try {
 					rownum = Integer.parseInt(args[2].itemAt(i).getStringValue()) - 1;
 				} catch (NumberFormatException e) {
@@ -83,22 +83,22 @@ public class SheetFunction extends ExcelFunction {
 				} catch (XPathException e) {
 					e.printStackTrace();
 				}
-				
+
 				if(rownum >= 0) row = sheet.getRow(rownum);
-				
+
 				if(row == null) {
-					
+
 					buildRowError(rownum + 1);
 				}
 				else {
-					
+
 					builder.startElement( new QName( "row", ExcelModule.NAMESPACE_URI, ExcelModule.PREFIX ), null );
-					builder.addAttribute( new QName( "num" ), String.valueOf(rownum + 1));
-					
+					builder.addAttribute( new QName( "num","" ), String.valueOf(rownum + 1));
+
 					for(int j=0; j < args[3].getItemCount(); j++) {
 
 						HSSFCell cell = null;
-						
+
 						try {
 							cellnum = Integer.parseInt(args[3].itemAt(j).getStringValue()) - 1;
 						} catch (NumberFormatException e) {
@@ -108,18 +108,18 @@ public class SheetFunction extends ExcelFunction {
 						}
 
 						cell = row.getCell(cellnum);
-						
+
 						if(cell == null) {
-							
+
 							// return a empty cell
 							builder.startElement( new QName( "cell", ExcelModule.NAMESPACE_URI, ExcelModule.PREFIX ), null );
-							builder.addAttribute( new QName( "num" ), String.valueOf(cellnum + 1) );
+							builder.addAttribute( new QName( "num","" ), String.valueOf(cellnum + 1) );
 							builder.endElement();
 						}
 						else {
-							
+
 							builder.startElement( new QName( "cell", ExcelModule.NAMESPACE_URI, ExcelModule.PREFIX ), null );
-							builder.addAttribute( new QName( "num" ), String.valueOf(cellnum + 1) );
+							builder.addAttribute( new QName( "num","" ), String.valueOf(cellnum + 1) );
 							if(cell != null) {
 								cell.setCellType(Cell.CELL_TYPE_STRING);
 								builder.characters( cell.getStringCellValue() );
@@ -127,18 +127,18 @@ public class SheetFunction extends ExcelFunction {
 							builder.endElement();
 						}
 					}
-					
+
 					builder.endElement();
 				}
 			}
-			
+
 			builder.endElement();
 		}
-		
+
 		builder.endDocument();
-		
+
 		xmlResponse = (NodeValue) builder.getDocument().getDocumentElement();
-		
+
 		return (xmlResponse);
-	}	
+	}
 }

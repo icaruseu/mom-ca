@@ -148,7 +148,7 @@ it leaves the active development stage.
         <xrx:variable>
       <xrx:name>$wcharter:backwhereicamefrom</xrx:name><!-- das ist problematisch weil ich auch in search2 ev search diese var setzen muss -->
       <xrx:expression>if(contains(session:get-attribute('whereami'), 'index')) then session:get-attribute('whereami')
-      else(concat(conf:param('request-root'), 'search', $wsearch-result:query-string))</xrx:expression>
+      else(concat(conf:param('request-root'), 'search2', $wsearch-result:query-string))</xrx:expression>
     </xrx:variable>
     <xrx:variable>
     <xrx:name>$wcharter:previous</xrx:name>

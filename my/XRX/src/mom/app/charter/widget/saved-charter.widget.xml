@@ -44,15 +44,15 @@ it leaves the active development stage.
       <xrx:name>$wcharter:just-linked</xrx:name>
       <xrx:expression>false()</xrx:expression>
     </xrx:variable>
-    <!-- 
-    	charter context: collection or fond? 
+    <!--
+    	charter context: collection or fond?
     -->
     <xrx:variable>
       <xrx:name>$wcharter:context</xrx:name>
       <xrx:expression>if(count($xrx:tokenized-uri) = 3) then 'collection' else 'fond'</xrx:expression>
     </xrx:variable>
     <!--
-      atom ID 
+      atom ID
     -->
     <xrx:variable>
       <xrx:name>$wcharter:atom-id</xrx:name>
@@ -65,8 +65,8 @@ it leaves the active development stage.
         concat('http://monasterium.net/mom/', substring-after($wcharter:atom-id, 'charter/'))
       </xrx:expression>
     </xrx:variable>
-    <!-- 
-    	init metadata database collections 
+    <!--
+    	init metadata database collections
     -->
     <xrx:variable>
       <xrx:name>$wcharter:tokens</xrx:name>
@@ -88,7 +88,7 @@ it leaves the active development stage.
       <xrx:name>$wcharter:metadata-collection-collection</xrx:name>
       <xrx:expression>metadata:base-collection('collection', $wcharter:tokens[last() - 1], 'public')</xrx:expression>
     </xrx:variable>
-    <!-- 
+    <!--
       the CEI document
      -->
     <xrx:variable>
@@ -116,7 +116,7 @@ it leaves the active development stage.
       <xrx:name>$wcharter:linked-charter-image-base-uri</xrx:name>
       <xrx:expression>concat($wcharter:metadata-linked-charter-fond-collection/xrx:preferences/xrx:param[@name='image-server-base-url']/text(), '/')</xrx:expression>
     </xrx:variable>
-    <!-- 
+    <!--
       charter infos
      -->
     <xrx:variable>
@@ -127,7 +127,7 @@ it leaves the active development stage.
       <xrx:name>$wcharter:link-to-charter-in-archive</xrx:name>
       <xrx:expression>data($wcharter:charter//cei:archIdentifier/cei:ref/@target)</xrx:expression>
     </xrx:variable>
-    <!-- 
+    <!--
       the charter and its siblings
      -->
     <xrx:variable>
@@ -146,8 +146,8 @@ it leaves the active development stage.
       <xrx:name>$wcharter:pos</xrx:name>
       <xrx:expression>charter:position($wcharter:charters, $wcharter:charter, $xrx:user-xml, $wcharter:atom-id, $xrx:tokenized-uri[last()])</xrx:expression>
     </xrx:variable>
-        <!-- 
-		  back link to fond or collection 
+        <!--
+		  back link to fond or collection
 		-->
     <xrx:variable>
       <xrx:name>$wcharter:block</xrx:name>
@@ -157,14 +157,14 @@ it leaves the active development stage.
       <xrx:name>$wcharter:anchor</xrx:name>
       <xrx:expression>charter:anchor(xs:integer($wcharter:pos))</xrx:expression>
     </xrx:variable>
-    <!-- 
-		  status of the charter 
+    <!--
+		  status of the charter
 		-->
     <xrx:variable>
       <xrx:name>$wcharter:is-bookmarked</xrx:name>
       <xrx:expression>bookmark:is-bookmarked($xrx:user-xml, $wcharter:atom-id)</xrx:expression>
     </xrx:variable>
-    <!-- 
+    <!--
       fond or collection information
      -->
     <xrx:variable>
@@ -175,7 +175,7 @@ it leaves the active development stage.
       <xrx:name>$wcharter:fond</xrx:name>
       <xrx:expression>if($wcharter:context = 'fond') then $wcharter:meta//ead:unittitle/text() else $wcharter:meta//cei:provenance/text()</xrx:expression>
     </xrx:variable>
-    <!-- 
+    <!--
       image access
      -->
     <xrx:variable>
@@ -186,14 +186,14 @@ it leaves the active development stage.
       <xrx:name>$wcharter:image-base-uri</xrx:name>
       <xrx:expression>if($wcharter:context = 'fond') then concat($wcharter:preferences/xrx:param[@name='image-server-base-url']/text(), '/') else concat('http://', $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(),'/')</xrx:expression>
     </xrx:variable>
-    <!-- 
+    <!--
       archive information
      -->
     <xrx:variable>
       <xrx:name>$wcharter:archive</xrx:name>
       <xrx:expression>$wcharter:metadata-archive-collection//eag:autform/text()</xrx:expression>
     </xrx:variable>
-    <!-- 
+    <!--
       XSLT transformation
      -->
     <xrx:variable>
@@ -208,7 +208,7 @@ it leaves the active development stage.
         </parameters>
       </xrx:expression>
     </xrx:variable>
-    <!-- 
+    <!--
       links
      -->
     <xrx:variable>
@@ -219,7 +219,7 @@ it leaves the active development stage.
       <xrx:name>$wcharter:next</xrx:name>
       <xrx:expression>concat('?id=', $wcharter:next-and-previous[1])</xrx:expression>
     </xrx:variable>
-    <!-- 
+    <!--
       image tools
     -->
     <xrx:variable>
@@ -257,10 +257,8 @@ it leaves the active development stage.
       <xrx:key>signature</xrx:key>
       <xrx:view>
         <div data-demoid="33f114f7-83e4-48b4-af9b-c2ba8ef8d59c">
-          {
-          if(starts-with($charter:rfondid,'MIB')) then
-          (
-          <div class="idno" data-demoid="6f6cc228-df0d-43ac-91c1-46c7a54a52e7" id="idno-num" style="float:left">
+
+          <div class="idno" data-demoid="2cc611f7-5e62-4316-9ee4-6c86edb955f9" id="idno-num">
             {
             if($wcharter:is-bookmarked) then
             (
@@ -276,36 +274,6 @@ it leaves the active development stage.
             </xrx:i18n>
             <span>: { $wcharter:idno }</span>
           </div>
-          ,
-          <div data-demoid="2f369771-f977-4c60-a236-1d10bc16c608" style="position:relative;left:170px;margin-bottom:10px;">
-            <span>
-              <xrx:i18n>
-                <xrx:key>source</xrx:key>
-                <xrx:default>Source</xrx:default>
-              </xrx:i18n>
-              :
-            </span>
-            Institut für Geschichtliche Landeskunde an der Universität Mainz e.V.
-          </div>
-          )
-          else
-          <div class="idno" data-demoid="2cc611f7-5e62-4316-9ee4-6c86edb955f9" id="idno-num">
-            {
-            if($wcharter:is-bookmarked) then
-            (
-            <xrx:resource type="image/jpg">tag:www.monasterium.net,2011:/mom/resource/image/button_bookmarkAdd</xrx:resource>
-            ,
-            <span>  </span>
-            )
-            else()
-            }
-            <xrx:i18n>
-              <xrx:key>signature</xrx:key>
-              <xrx:default>Signature</xrx:default>
-            </xrx:i18n>
-            <span>: { $wcharter:idno }</span>  
-          </div>
-          }
         </div>
       </xrx:view>
     </xrx:div>

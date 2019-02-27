@@ -1,54 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui xmlns:xrx="http://www.monasterium.net/NS/xrx">    
-   
-    <text id="cancal">       
+<ui xmlns:xrx="http://www.monasterium.net/NS/xrx">
+    <text id="cancal">
         <xrx:i18n>
             <xrx:key>cancal</xrx:key>
             <xrx:default>Cancal</xrx:default>
-        </xrx:i18n>        
+        </xrx:i18n>
     </text>
-    <text id="ok">   
+    <text id="ok">
         <xrx:i18n>
             <xrx:key>ok</xrx:key>
             <xrx:default>OK</xrx:default>
-        </xrx:i18n>        
+        </xrx:i18n>
     </text>
-    <text id="remove-annotation">        
+    <text id="remove-annotation">
         <xrx:i18n>
             <xrx:key>remove-annotation</xrx:key>
             <xrx:default>Remove Annotation</xrx:default>
         </xrx:i18n>
     </text>
-    <text id="attributes">        
+    <text id="attributes">
         <xrx:i18n>
             <xrx:key>attributes</xrx:key>
             <xrx:default>Attributes</xrx:default>
         </xrx:i18n>
     </text>
-    <text id="save">      
+    <text id="save">
         <xrx:i18n>
             <xrx:key>save</xrx:key>
             <xrx:default>Save</xrx:default>
-        </xrx:i18n>        
+        </xrx:i18n>
     </text>
-    <text id="select-annotation">       
+    <text id="select-annotation">
         <xrx:i18n>
             <xrx:key>select-annotation</xrx:key>
             <xrx:default>Select Annotation</xrx:default>
         </xrx:i18n>
     </text>
-    <text id="insert-text">       
+    <text id="insert-text">
         <xrx:i18n>
             <xrx:key>insert-text</xrx:key>
             <xrx:default>Insert Text</xrx:default>
         </xrx:i18n>
     </text>
-    <text id="inserting-textbox-below">       
+    <text id="inserting-textbox-below">
         <xrx:i18n>
             <xrx:key>inserting-textbox-below</xrx:key>
             <xrx:default>For inserting text please use the textbox below</xrx:default>
         </xrx:i18n>
     </text>
+    <text id="unescape-submit-error">
+        <xrx:i18n>
+            <xrx:key>unescape-submit-error</xrx:key>
+            <xrx:default>An Error during the submit has occured.</xrx:default>
+        </xrx:i18n>
+    </text>
 </ui>
-
-

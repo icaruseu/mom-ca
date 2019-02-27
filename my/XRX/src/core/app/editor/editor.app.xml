@@ -34,31 +34,32 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
      	<xrx:resource>qxrxa.xqm</xrx:resource>
       <xrx:prefix>qxrxa</xrx:prefix>
       <xrx:uri>http://www.monasterium.net/NS/qxrxa</xrx:uri>
-    </xrx:module> 
+    </xrx:module>
   	<xrx:module>
      	<xrx:resource>qxrxe.xqm</xrx:resource>
       <xrx:prefix>qxrxe</xrx:prefix>
       <xrx:uri>http://www.monasterium.net/NS/qxrxe</xrx:uri>
-    </xrx:module> 
+    </xrx:module>
   	<xrx:module>
      	<xrx:resource>qxsd.xqm</xrx:resource>
       <xrx:prefix>qxsd</xrx:prefix>
       <xrx:uri>http://www.monasterium.net/NS/qxsd</xrx:uri>
-    </xrx:module> 
+    </xrx:module>
   	<xrx:module>
      	<xrx:resource>xrxe-conf.xqm</xrx:resource>
       <xrx:prefix>xrxe-conf</xrx:prefix>
       <xrx:uri>http://www.monasterium.net/NS/xrxe-conf</xrx:uri>
-    </xrx:module> 
+    </xrx:module>
   	<xrx:module>
      	<xrx:resource>xrxe-services.xql</xrx:resource>
       <xrx:prefix>xrxe-services</xrx:prefix>
       <xrx:uri>http://www.monasterium.net/NS/xrxe-services</xrx:uri>
-    </xrx:module> 
+    </xrx:module>
   	<xrx:module>
      	<xrx:resource>xrxe.xqm</xrx:resource>
       <xrx:prefix>xrxe</xrx:prefix>
       <xrx:uri>http://www.monasterium.net/NS/xrxe</xrx:uri>
-    </xrx:module>    
+    </xrx:module>
+
   </xrx:modules>
 </xrx:app>

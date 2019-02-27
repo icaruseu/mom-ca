@@ -1,14 +1,13 @@
 <collection xmlns="http://exist-db.org/collection-config/1.0">
-  <index xmlns:xrx="http://www.monasterium.net/NS/xrx">
-   
-    <fulltext default="none" attributes="no"/>
-    <lucene> 
-      <analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/> 
-      <text qname="xrx:i18n"/> 
-    </lucene> 
-    
-    <create qname="xrx:i18n" type="xs:string"/>
-    <create qname="xrx:key" type="xs:string"/>
-    
-  </index>
+    <index xmlns:xrx="http://www.monasterium.net/NS/xrx">
+        <fulltext default="none" attributes="no"/>
+        <lucene>
+            <analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/>
+            <text qname="xrx:i18n"/>
+        </lucene>
+        <range>
+            <create qname="xrx:i18n" type="xs:string"/>
+            <create qname="xrx:key" type="xs:string"/>
+        </range>
+    </index>
 </collection>

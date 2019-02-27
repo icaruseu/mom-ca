@@ -37,7 +37,7 @@ import module namespace xrxe-conf="http://www.monasterium.net/NS/xrxe-conf" at "
 declare namespace xs="http://www.w3.org/2001/XMLSchema";
 declare namespace xsl="http://www.w3.org/1999/XSL/Transform";
 declare namespace xrxe="http://www.monasterium.net/NS/xrxe";
-declare namespace functx = "http://www.functx.com"; 
+declare namespace functx = "http://www.functx.com";
 
 
 (:#####################SERVICES BY PATH ############################:)
@@ -52,28 +52,28 @@ declare function qxsd:get-node($path, $xsd){
 
 (: ### returns the <xs:element or xs:attribute name="..."> for the path resolves xs:element@ref if occures ###:)
 declare function qxsd:get-node-definition($path, $xsd){
-    let $xsd := qxsd:xsd($xsd)    
-    let $node := qxsd:get-node($path, $xsd) 
+    let $xsd := qxsd:xsd($xsd)
+    let $node := qxsd:get-node($path, $xsd)
     return  qxsd:node-definition($node, $xsd)
 };
 
 declare function qxsd:get-node-content($path, $xsd){
-    let $xsd := qxsd:xsd($xsd)        
+    let $xsd := qxsd:xsd($xsd)
     let $type := qxsd:get-type(qxsd:get-node-definition($path, $xsd), $xsd)
     return qxsd:get-content($type, $xsd)
 };
 
 declare function qxsd:get-node-elements($path, $xsd){
-    let $xsd := qxsd:xsd($xsd)        
+    let $xsd := qxsd:xsd($xsd)
     let $type := qxsd:get-type(qxsd:get-node-definition($path, $xsd), $xsd)
     let $content := qxsd:get-content($type, $xsd)
     return qxsd:get-elements($content, $xsd)
 };
 
 declare function qxsd:get-node-attributes($path, $xsd){
-    let $xsd := qxsd:xsd($xsd)        
-    let $node := qxsd:get-node-definition($path, $xsd)   
-    let $type := qxsd:get-type(qxsd:get-node-definition($path, $xsd), $xsd)    
+    let $xsd := qxsd:xsd($xsd)
+    let $node := qxsd:get-node-definition($path, $xsd)
+    let $type := qxsd:get-type(qxsd:get-node-definition($path, $xsd), $xsd)
     return qxsd:get-attributes($type, $xsd)
 };
 
@@ -92,14 +92,14 @@ declare function qxsd:tokenize-path($path){
 
 declare function qxsd:find($something)
 
-{  
+{
     if($something instance of xs:string) then
         if (exists(doc($something))) then
             doc($something)/element()
         else if (collection($xrxe-conf:default-search-id-in)/*[@id=$something]) then
-            collection($xrxe-conf:default-search-id-in)/*[@id=$something]    
+            collection($xrxe-conf:default-search-id-in)/*[@id=$something]
         else ()
-    
+
 
     else if ($something instance of node()) then
         if($something instance of document-node()) then
@@ -120,19 +120,19 @@ declare function qxsd:find($something)
 declare function qxsd:get-path($context as xs:string)
 as xs:string
 {
-    (:TODO: fails if [...] contains '/' in the steps other than the last:)    
+    (:TODO: fails if [...] contains '/' in the steps other than the last:)
     (:handle [/] at last step:)
-    let $context := 
+    let $context :=
         if (fn:contains($context, '[')) then
              fn:substring-before($context, '[')
-        else 
+        else
              $context
-    
+
     let $context :=
         if (contains($context, '[')) then
             fn:string-join(
                      for $token in tokenize($context, '/')
-                         return 
+                         return
                              if(contains($token, '[')) then
                                  fn:substring-before($token, '[')
                              else $token
@@ -151,20 +151,20 @@ as xs:string
 declare function  qxsd:get-name($path as xs:string)
 {
     let $path := qxsd:get-path($path)
-    
+
     let $name :=
         if (fn:contains($path, '/')) then
             let $tokens := tokenize($path, '/')
             return $tokens[count($tokens)]
             (:tokenize($path, '/')[last()]:)
-        else 
-            $path  
-    
-    let $name := 
+        else
+            $path
+
+    let $name :=
         if (fn:contains($name, '@')) then
             fn:substring-after($name, '@')
-        else $name 
-    
+        else $name
+
     return $name
 };
 
@@ -173,10 +173,10 @@ declare function  qxsd:get-name($path as xs:string)
 (:declare function qxsd:get-attribute-name($att-name as xs:string)
 as xs:string
 {
-    let $name := 
+    let $name :=
         if (fn:contains($att-name, '@')) then
             fn:substring-after($att-name, '@')
-        else $at-name 
+        else $at-name
     return $name
 };:)
 
@@ -185,11 +185,11 @@ as xs:string
 declare function qxsd:get-local-name($name as xs:string)
 as xs:string
 {
-    let $name := qxsd:get-name($name)    
+    let $name := qxsd:get-name($name)
     return
     if (fn:contains($name, ':')) then
            substring-after($name, ':')
-     else 
+     else
         $name
 };
 
@@ -212,57 +212,57 @@ declare function qxsd:xsd($xsd)
             $xsd
         else if($xsd instance of document-node() and $xsd/xs:schema) then
             $xsd/xs:schema
-        else 
+        else
             qxsd:find($xsd)
-     
-     return $xsd  
+
+     return $xsd
      (:return <div>{
-     qxsd:get-absolute-db-path(util:collection-name($xsd), '../../xlink/xsd/xlink.xsd') 
+     qxsd:get-absolute-db-path(util:collection-name($xsd), '../../xlink/xsd/xlink.xsd')
      }</div>:)
-    
-     
+
+
 
 };
 
-declare function functx:substring-after-last 
+declare function functx:substring-after-last
   ( $arg as xs:string? ,
     $delim as xs:string )  as xs:string {
-       
+
    replace ($arg,concat('^.*',functx:escape-for-regex($delim)),'')
  } ;
- 
- declare function functx:escape-for-regex 
+
+ declare function functx:escape-for-regex
   ( $arg as xs:string? )  as xs:string {
-       
+
    replace($arg,
            '(\.|\[|\]|\\|\||\-|\^|\$|\?|\*|\+|\{|\}|\(|\))','\\$1')
  } ;
 
 declare function qxsd:get-schema-location($xsd, $import){
-    
+
     let $location := xs:string($import/@schemaLocation)
-    return            
-        if(starts-with($location, 'http://')) then 
+    return
+        if(starts-with($location, 'http://')) then
             $location
         else if(starts-with($location, '..')) then
-            qxsd:get-absolute-db-path(util:collection-name($xsd), $location) 
+            qxsd:get-absolute-db-path(util:collection-name($xsd), $location)
         else if($location) then
             concat(qxsd:get-schema-db-context($xsd), $location)
-        else 
+        else
             ()
 };
 
 declare function qxsd:get-absolute-db-path($absolute-path, $relative-path){
-   
-     
+
+
      let $relative-path-tokens := tokenize($relative-path, '/')
-     let $ups := count($relative-path-tokens[.='..'])     
+     let $ups := count($relative-path-tokens[.='..'])
      let $absolute-path-tokens := tokenize($absolute-path, '/')
-     let $count-absoulte := count($absolute-path-tokens)     
-     let $part-count := $count-absoulte - $ups     
+     let $count-absoulte := count($absolute-path-tokens)
+     let $part-count := $count-absoulte - $ups
      let $head := fn:subsequence($absolute-path-tokens, 1, $part-count)
-     let $tail := $relative-path-tokens[.!='..']     
-     let $db-path := fn:string-join(($head, $tail), '/')     
+     let $tail := $relative-path-tokens[.!='..']
+     let $db-path := fn:string-join(($head, $tail), '/')
      return
         $db-path
 
@@ -273,7 +273,7 @@ declare function qxsd:get-schema-db-context($xsd){
     return
         if($xsd-context !='') then
             concat($xsd-context, '/')
-        else 
+        else
             $xsd-context
 };
 
@@ -292,19 +292,19 @@ declare function qxsd:get-attribute-form-default($xsd){
 (: ##########***  FIND NODES (XS:ELEMENT OR XS:ATTRIBUTE) IN THE XS:SCHEMA NODE BY SIMPLE PATH-EXPRESSION  ***###########:)
 
 declare function qxsd:find-node($tokenize, $ancestor, $pos, $xsd){
-    
-           
+
+
            let $part := $tokenize[$pos]
            let $context := qxsd:find-context($ancestor, $part, $xsd)
            let $name := qxsd:get-name($part)
            let $current-node := qxsd:find-current-node($part, $name, $context, $xsd)
-            
-           return    
-                if($pos = count($tokenize)) then 
+
+           return
+                if($pos = count($tokenize)) then
                      $current-node
                 else if ($current-node) then
-                     qxsd:find-node($tokenize, qxsd:node-definition($current-node, $xsd)  , $pos + 1, $xsd)   
-                else 
+                     qxsd:find-node($tokenize, qxsd:node-definition($current-node, $xsd)  , $pos + 1, $xsd)
+                else
                      ()
 };
 
@@ -312,13 +312,13 @@ declare function qxsd:find-node($tokenize, $ancestor, $pos, $xsd){
 declare function qxsd:find-context($ancestor, $part, $xsd){
     if($ancestor instance of element (xs:schema)) then
         $ancestor
-    else 
+    else
         let $type := qxsd:get-type($ancestor, $xsd)
         return
         if(qxsd:is-attribute-part($part)) then
             $type
         else
-           qxsd:get-content($type, $xsd) 
+           qxsd:get-content($type, $xsd)
 };
 
 
@@ -326,7 +326,7 @@ declare function qxsd:find-current-node($part, $name, $context, $xsd){
     if(qxsd:is-attribute-part($part)) then
         qxsd:find-attribute($context, $name, $xsd)
     else
-       let $local-name := qxsd:get-local-name($name) 
+       let $local-name := qxsd:get-local-name($name)
        return
        qxsd:find-element($context, $local-name, $xsd)
 };
@@ -341,25 +341,25 @@ declare function qxsd:is-attribute-part($part){
 (:searches and element in xs:schema, xs:sequence xs:all xs:choice and xs:group:)
 
 declare function qxsd:find-element($context, $name, $xsd){
-    
-    let $element := 
+
+    let $element :=
         if($context/xs:element[xs:string(@name) = $name]) then
-            $context/xs:element[xs:string(@name) = $name]         
+            $context/xs:element[xs:string(@name) = $name]
         else if ($context/xs:element[xs:string(@ref) = $name]) then
-             $context/xs:element[xs:string(@ref) = $name] 
-        else 
-            let $content-model-items := $context/xs:sequence | $context/xs:choice | $context/xs:all | $context/xs:group   
+             $context/xs:element[xs:string(@ref) = $name]
+        else
+            let $content-model-items := $context/xs:sequence | $context/xs:choice | $context/xs:all | $context/xs:group
             for $content-model-item in  $content-model-items
-            return 
+            return
                 if ($content-model-item instance of element(xs:sequence) or $content-model-item instance of element(xs:choice) or $content-model-item instance of element(xs:all)) then
-                    qxsd:find-element($content-model-item, $name, $xsd)        
+                    qxsd:find-element($content-model-item, $name, $xsd)
                 else if ($content-model-item instance of element(xs:group)) then
                     let $group-definition := qxsd:group-definition($content-model-item, $xsd)
                     let $group-context := qxsd:get-content($group-definition, $xsd)
                     return
                     qxsd:find-element($group-context, $name, $xsd)
-                else () 
- 
+                else ()
+
     return $element[1]
 
 };
@@ -367,24 +367,24 @@ declare function qxsd:find-element($context, $name, $xsd){
 
 
 declare function qxsd:find-element($context, $name, $xsd){
-    
-    let $element := 
-        if($context/xs:element[xs:string(@name) = $name]) then
-            $context/xs:element[xs:string(@name) = $name] 
-        
-        else if ($context/xs:element[xs:string(@ref) = $name]) then
-             $context/xs:element[xs:string(@ref) = $name] 
 
-        else 
+    let $element :=
+        if($context/xs:element[xs:string(@name) = $name]) then
+            $context/xs:element[xs:string(@name) = $name]
+
+        else if ($context/xs:element[xs:string(@ref) = $name]) then
+             $context/xs:element[xs:string(@ref) = $name]
+
+        else
 
             for $content-model-item in  $context/xs:sequence | $context/xs:choice | $context/xs:all | $context/xs:group
-            return 
+            return
                 if ($content-model-item instance of element(xs:sequence) or $content-model-item instance of element(xs:choice) or $content-model-item instance of element(xs:all)) then
-                    qxsd:find-element($content-model-item, $name, $xsd)        
-                else if ($content-model-item instance of element(xs:group)) then   
+                    qxsd:find-element($content-model-item, $name, $xsd)
+                else if ($content-model-item instance of element(xs:group)) then
                     qxsd:find-element(qxsd:get-content(qxsd:group-definition($content-model-item, $xsd), $xsd), $name, $xsd)
-                else () 
- 
+                else ()
+
     return $element
 
 };
@@ -395,18 +395,18 @@ declare function qxsd:find-element($context, $name, $xsd){
 declare function qxsd:group-definition($group, $xsd){
         if($group/@name) then
             $group
-        else if($group/@ref) then   
+        else if($group/@ref) then
             qxsd:group-global-definition($group, $xsd)
-        else 
+        else
             ()
-};  
+};
 
 declare function qxsd:group-global-definition($group, $xsd){
-            
+
             let $name := xs:string($group/@ref)
             let $xsd := qxsd:get-xsd($name, $xsd)
             let $local-name := qxsd:get-local-name($name)
-            return 
+            return
                 $xsd/xs:group[@name=$local-name]
 };
 
@@ -415,46 +415,46 @@ declare function qxsd:node-definition($node, $xsd){
 
     if($node/@name) then
         $node
-    else if($node/@ref) then    
-        qxsd:node-global-definition($node, $xsd)   
-    else ()        
+    else if($node/@ref) then
+        qxsd:node-global-definition($node, $xsd)
+    else ()
 };
 
-declare function qxsd:node-global-definition($node, $xsd){    
-      
+declare function qxsd:node-global-definition($node, $xsd){
+
         let $name := xs:string($node/@ref)
         let $xsd := qxsd:get-xsd($name, $xsd)
         let $local-name := qxsd:get-local-name($name)
-        return        
+        return
             if(qxsd:get-node-type($node)='element') then
-                $xsd/xs:element[@name=$local-name] 
+                $xsd/xs:element[@name=$local-name]
             else if (qxsd:get-node-type($node)='attribute') then
-                $xsd/xs:attribute[@name=$local-name] 
-            else 
+                $xsd/xs:attribute[@name=$local-name]
+            else
                 ()
 };
 
 
 
 (: ### returns the type of a element either a string like 'xs:string', a <xs:complyType /> or a <xs:simpleType />### :)
-declare function qxsd:get-type($node as node(), $xsd as node())
+declare function qxsd:get-type($node, $xsd)
 {
-    if ($node/@type) then          
+    if ($node/@type) then
          if(qxsd:is-xs-datatype($node/@type)) then
            qxsd:get-xs-datatype-string($node/@type)
-         else 
-            qxsd:type-global-definition($node/@type, $xsd) 
+         else
+            qxsd:type-global-definition($node/@type, $xsd)
     else if($node/xs:complexType) then
         $node/xs:complexType
     else if($node/xs:simpleType) then
         $node/xs:simpleType
-    else 
+    else
         ()(:'xs:anySimpleType':)
 };
 
 
 declare function qxsd:type-global-definition($type, $xsd){
-        
+
         let $name := xs:string($type)
         let $xsd := qxsd:get-xsd($name, $xsd)
         let $local-name := qxsd:get-local-name($name)
@@ -463,14 +463,14 @@ declare function qxsd:type-global-definition($type, $xsd){
             $xsd/xs:complexType[@name = $local-name]
         else  if($xsd/xs:simpleType[@name = $local-name]) then
             $xsd/xs:simpleType[@name = $local-name]
-        else 
+        else
             ()
 };
 
 (: ################################# CONTENT #####################################################################################:)
 
 (:$parent is xs:complexType or xs:group:)
-declare function qxsd:get-content($parent, $xsd){     
+declare function qxsd:get-content($parent, $xsd){
     (:exactly 1:)
     if($parent instance of element()) then
     ($parent/xs:sequence | $parent/xs:choice | $parent/xs:all | qxsd:group-definition($parent/xs:group, $xsd))[1]
@@ -484,7 +484,7 @@ declare function qxsd:get-elements($parent, $xsd){
 };
 
 declare function qxsd:get-content-model-items($content-definition){
-    $content-definition/xs:element | $content-definition/xs:group | $content-definition/xs:sequence  |  $content-definition/xs:choice | $content-definition/xs:all 
+    $content-definition/xs:element | $content-definition/xs:group | $content-definition/xs:sequence  |  $content-definition/xs:choice | $content-definition/xs:all
 };
 
 declare function qxsd:get-elements-of-content-model-item($content-model-item, $xsd){
@@ -504,23 +504,23 @@ declare function qxsd:get-attribute-items($type, $xsd){
 };
 
 declare function qxsd:get-attributes($parent, $xsd){
-    
+
     for $attribute-item in qxsd:get-attribute-items($parent, $xsd)
         return qxsd:get-attributes-of-attribute-item($attribute-item, $xsd)
 };
-    
+
 declare function qxsd:get-attributes-of-attribute-item($attribute-item, $xsd){
     if ($attribute-item instance of element(xs:attribute)) then
         qxsd:node-definition($attribute-item, $xsd)
     else if ($attribute-item instance of element(xs:attribute-group)) then
-        qxsd:get-attributes($attribute-item, $xsd)       
+        qxsd:get-attributes($attribute-item, $xsd)
     else ()
 };
 
 
 (: ######################################################################################################################:)
 
-(: ################# QUERY ELEMENT CONTENT #################:)  
+(: ################# QUERY ELEMENT CONTENT #################:)
 
 
 
@@ -530,9 +530,9 @@ declare function qxsd:get-local-elements($type){
         for  $element in $type//xs:element (:constrain be sure that the xs:element is not in another xs:element when using //:)
             return
                 $element
-                
+
     else ()
-    
+
 };
 
 (: Make deprecated:)
@@ -540,30 +540,30 @@ declare function qxsd:get-groups($type){
     if($type instance of element()) then
         for  $group in $type//xs:group  (:constrain ????? //:)
             return
-                $group                    
+                $group
     else ()
 };
 
 (: Make deprecated:)
-declare function qxsd:get-group-definitions($type, $xsd){ 
+declare function qxsd:get-group-definitions($type, $xsd){
         for $group in qxsd:get-groups($type)
-        return qxsd:group-definition($group, $xsd)      
+        return qxsd:group-definition($group, $xsd)
 };
 
 
 
-declare function qxsd:get-group-elements($group-definitions, $xsd){ 
- 
+declare function qxsd:get-group-elements($group-definitions, $xsd){
+
         for $group-definition in $group-definitions
-            
+
             let $group-local-elements := $group-definition//xs:element
-            
-            let $groups-in-group := $group-definition//xs:group 
+
+            let $groups-in-group := $group-definition//xs:group
             let $group-defs :=
-                for $group-in-group in $groups-in-group 
-                return qxsd:group-definition($group-in-group, $xsd)            
-            
-            let $group-group-elements := 
+                for $group-in-group in $groups-in-group
+                return qxsd:group-definition($group-in-group, $xsd)
+
+            let $group-group-elements :=
                 for $group-def in  $group-defs
                     return qxsd:get-group-elements($group-def, $xsd)
          return ($group-local-elements, $group-group-elements)
@@ -572,7 +572,7 @@ declare function qxsd:get-group-elements($group-definitions, $xsd){
 
 
 
-declare function qxsd:get-node-definitions($nodes, $xsd){     
+declare function qxsd:get-node-definitions($nodes, $xsd){
         for $node in $nodes
             return qxsd:node-definition($node, $xsd)
 };
@@ -583,7 +583,7 @@ declare function qxsd:get-node-definitions($nodes, $xsd){
 (: ##########***  QUERY NODES (XS:ELEMENT OR XS:ATTRIBUTE)  ***###########:)
 
 (: Copied from qxrxe returns either 'element' or 'attrbute' :)
-declare function qxsd:get-node-type($node){ 
+declare function qxsd:get-node-type($node){
     local-name($node)
 };
 
@@ -597,20 +597,20 @@ declare function qxsd:get-node-type($node){
 declare function qxsd:is-xs-datatype($type-attribute){
     if (starts-with(xs:string($type-attribute), 'xs:')) then
         true()
-    else 
+    else
         false()
 };
 
 declare function qxsd:get-xs-datatype-string($type-attribute){
     if (qxsd:is-xs-datatype($type-attribute)) then
         xs:string($type-attribute)
-    else 
+    else
         ()
 };
 
 (:DESTROY:)
 (:OLD WHERE IS THIS USED??? CAN is-xs-datatype and qxsd:get-xs-datatype-string be used?:)
- declare function qxsd:get-xs-type($type){ 
+ declare function qxsd:get-xs-type($type){
        if($type instance of xs:string and starts-with($type, 'xs:')) then
            $type
        else
@@ -621,12 +621,12 @@ declare function qxsd:get-xs-datatype-string($type-attribute){
 (:returns either xs:complexType or xs:simpleType TODO: or xs:datatype:)
 declare function qxsd:get-type-type($node, $xsd){
     let $type := qxsd:get-type($node, $xsd)
-    return 
-        if ($type instance of xs:string) then          
+    return
+        if ($type instance of xs:string) then
             'simpleType'
         else if(not($type)) then
-            'simpleType' 
-        else 
+            'simpleType'
+        else
             local-name($type)
 };
 
@@ -647,25 +647,25 @@ declare function qxsd:is-complexType($type){
 
 (: ##########***  QUERY XS:COMPLEXTYPE OR XS:SIMPLETYPE ***###########:)
 
-declare function qxsd:is-enum-restriction($type){ 
+declare function qxsd:is-enum-restriction($type){
     let $enum-restriction :=
         if($type instance of xs:string) then
             false()
         else
             if($type/xs:restriction/xs:enumeration) then
                 true()
-            else             
+            else
                 false()
-    return $enum-restriction  
+    return $enum-restriction
 };
 
- declare function qxsd:get-enums($type){ 
+ declare function qxsd:get-enums($type){
         if($type instance of xs:string) then
             ()
         else
             if($type/xs:restriction/xs:enumeration) then
                 $type/xs:restriction/xs:enumeration
-            else             
+            else
                 ()
 };
 
@@ -676,14 +676,14 @@ declare function qxsd:get-first-enum-value($type){
         else
             if($type/xs:restriction/xs:enumeration ) then
                 data($type/xs:restriction/xs:enumeration[1]/@value)
-            else             
+            else
                 false()
-    return $enum-value 
+    return $enum-value
 };
 
 (: ##########***  QUERY XS:COMPLEXTYPE  ***###########:)
 
-declare function qxsd:is-mixed($node-info, $xsd){ 
+declare function qxsd:is-mixed($node-info, $xsd){
         let $type := qxsd:get-type($node-info, $xsd)
         return
         if($type instance of element() and $type/@mixed = 'true') then
@@ -697,15 +697,15 @@ declare function qxsd:attribute-group-definition($attribute-group, $xsd){
             $attribute-group
         else if($attribute-group/@ref) then
            qxsd:attribute-group-global-definition($attribute-group, $xsd)
-        else () 
-};  
+        else ()
+};
 
 declare function qxsd:attribute-group-global-definition($attribute-group, $xsd){
-            
+
             let $name := xs:string($attribute-group/@ref)
             let $xsd := qxsd:get-xsd($name, $xsd)
             let $local-name := qxsd:get-local-name($name)
-            return 
+            return
                 $xsd/xs:attributeGroup[@name=$local-name]
 };
 
@@ -722,17 +722,17 @@ declare function qxsd:attribute-definition($attribute, $xsd){
 };
 
 declare function qxsd:attribute-global-definition($attribute, $xsd){
-            
+
         let $name := xs:string($attribute/@ref)
         let $xsd := qxsd:get-xsd($name, $xsd)
         let $local-name := qxsd:get-local-name($name)
-        return 
+        return
             $xsd/xs:attribute[@name=$local-name]
 };
 
 declare function qxsd:get-xsd($name, $xsd)
 {
-        
+
     let $import := $xsd/xs:import[xs:string(@namespace)=qxsd:get-namespace($name, $xsd)]
     let $schemaLocation := qxsd:get-schema-location($xsd, $import)
     return
@@ -744,13 +744,13 @@ declare function qxsd:get-xsd($name, $xsd)
 };
 
 declare function qxsd:get-namespace($name, $xsd){
-    let $prefix := qxsd:get-prefix($name)           
-                    
+    let $prefix := qxsd:get-prefix($name)
+
     return
-        if($prefix) then 
-            fn:namespace-uri-for-prefix($prefix, $xsd) 
-        else xs:string($xsd/@targetNamespace) 
-        
+        if($prefix) then
+            fn:namespace-uri-for-prefix($prefix, $xsd)
+        else xs:string($xsd/@targetNamespace)
+
 };
 
 
@@ -758,31 +758,31 @@ declare function qxsd:get-namespace($name, $xsd){
 
 (:######### searches for a xs:attribute within xs:compleyType by name################:)
 declare function qxsd:find-attribute($context, $name, $xsd){
-    
-       
+
+
     if($context/xs:simpleContent/xs:extension) then
         qxsd:find-attribute($context/xs:simpleContent/xs:extension, $name, $xsd)
     else if($context/xs:attribute[xs:string(@name) = $name]) then
-        $context/xs:attribute[@name = $name]       
-    
-    else if ($context/xs:attribute[xs:string(@ref) = $name]) then
-        $context/xs:attribute[@ref = $name]      
+        $context/xs:attribute[@name = $name]
 
-    else if ($context/xs:attributeGroup) then (:constrain?:) 
+    else if ($context/xs:attribute[xs:string(@ref) = $name]) then
+        $context/xs:attribute[@ref = $name]
+
+    else if ($context/xs:attributeGroup) then (:constrain?:)
          qxsd:find-attribute-in-groups($context, $name, $xsd)
-      
+
      (: else xs:anyAttribute :)
      (: else find-attribute-in-extentions :)
      (: else find-attribute-in-restrictions:)
-     
+
      else
-        ()   
+        ()
 };
 
 declare function qxsd:find-attribute-in-groups($parent, $name, $xsd){
-    for $attribute-group in $parent/xs:attributeGroup 
-            return 
-                qxsd:find-attribute-in-group($attribute-group, $name, $xsd) 
+    for $attribute-group in $parent/xs:attributeGroup
+            return
+                qxsd:find-attribute-in-group($attribute-group, $name, $xsd)
 };
 
 
@@ -790,14 +790,14 @@ declare function qxsd:find-attribute-in-group($attribute-group, $name, $xsd){
             let $attribute-group-definition := qxsd:attribute-group-definition($attribute-group, $xsd)
             return
 
-                if($attribute-group-definition/xs:attribute[@name = $name]) then                
+                if($attribute-group-definition/xs:attribute[@name = $name]) then
                     $attribute-group-definition/xs:attribute[@name = $name]
-                else  if($attribute-group-definition/xs:attribute[@ref = $name]) then 
+                else  if($attribute-group-definition/xs:attribute[@ref = $name]) then
                     qxsd:attribute-definition($attribute-group-definition/xs:attribute[@ref = $name], $xsd)
 
-                else if ($attribute-group-definition/xs:attributeGroup) then                    
+                else if ($attribute-group-definition/xs:attributeGroup) then
                    qxsd:find-attribute-in-groups($attribute-group-definition, $name, $xsd)
-                   
+
                 (: else xs:anyAttribute :)
                 else
                     ()
@@ -818,7 +818,7 @@ declare function qxsd:get-default($attribute, $xsd){
 declare function qxsd:get-default-string($attribute, $xsd){
    if ($attribute/@default) then
         xs:string($attribute/@default)
-   else 
+   else
         ()
 };
 
@@ -831,7 +831,7 @@ declare function qxsd:get-fixed($attribute, $xsd){
 declare function qxsd:get-fixed-string($attribute, $xsd){
    if ($attribute/@fixed) then
         xs:string($attribute/@fixed)
-   else 
+   else
         ()
 };
 
@@ -839,15 +839,15 @@ declare function qxsd:get-fixed-string($attribute, $xsd){
 
 declare function qxsd:value($node-info, $xsd){
     let $fixed-value := qxsd:get-fixed-string($node-info, $xsd)
-    let $default-value := qxsd:get-default-string($node-info, $xsd)  
+    let $default-value := qxsd:get-default-string($node-info, $xsd)
     return
         if($fixed-value) then
             $fixed-value
         else if($default-value) then
             $default-value
         else
-            ()        
-   
+            ()
+
 };
 
 
@@ -861,21 +861,21 @@ declare function qxsd:value($node-info, $xsd){
 declare function qxsd:is-optional($attribute, $xsd){
    if(xs:string(qxsd:get-use($attribute, $xsd))='optional') then
         true()
-   else 
+   else
         false()
 };
 
 declare function qxsd:is-required($attribute, $xsd){
    if(xs:string(qxsd:get-use($attribute, $xsd))='required') then
         true()
-   else 
+   else
         false()
 };
 
 declare function qxsd:is-prohibited($attribute, $xsd){
    if(xs:string(qxsd:get-use($attribute, $xsd))='prohibited') then
         true()
-   else 
+   else
         false()
 };
 :)
@@ -887,7 +887,7 @@ declare function qxsd:get-default($attribute){
     let $default :=
         if($attribute/@default) then
             data($attribute/@default)
-        else 
+        else
             ()
     return $default
 };
@@ -896,7 +896,7 @@ declare function qxsd:get-fixed($attribute){
     let $fixed :=
         if($attribute/@fixed) then
             data($attribute/@fixed)
-        else 
+        else
             ()
     return $fixed
 };
@@ -912,7 +912,7 @@ declare function qxsd:get-fixed($attribute){
 
 
 
-(: ################# ANNOTATION DUMMYS #################:)  
+(: ################# ANNOTATION DUMMYS #################:)
 
 
 
@@ -924,10 +924,10 @@ declare function qxsd:get-context-content($context){
 
 
 (:### return the complexType an Element is in ###:)
-declare function qxsd:get-types-element-is-in($element){    
-    
-    let $types := 
-        if($element/ancestor::xs:complexType[1]) then 
+declare function qxsd:get-types-element-is-in($element){
+
+    let $types :=
+        if($element/ancestor::xs:complexType[1]) then
             $element/ancestor::xs:complexType[1]
         else () (:Element is in group:)
     return $types
@@ -935,42 +935,42 @@ declare function qxsd:get-types-element-is-in($element){
 
 
 declare function qxsd:contained-in-types($element, $xsd){
-    
+
     let $types :=
         if($element/ancestor::xs:complexType) then
             $element/ancestor::xs:complexType[1]
         else
             let $group := $element/ancestor::xs:group
             return  qxsd:deep-find-type-of-group($group, $xsd)
-            
-         
-    
+
+
+
     return $types
 };
 
 declare function qxsd:deep-find-type-of-group($groups, $xsd){
-            
+
         for $group in $groups
-        return 
+        return
             let $group-name := xs:string($group/@name)
             let $group-refs := $xsd//xs:group[@ref=$group-name]
-            let $types-of-group-refs := $group-refs/ancestor::xs:complexType[1] 
+            let $types-of-group-refs := $group-refs/ancestor::xs:complexType[1]
             let $groups-of-group-refs := $group-refs/ancestor::xs:group[1]
             return ($types-of-group-refs, qxsd:deep-find-type-of-group($groups-of-group-refs, $xsd))
 
 };
 
-declare function qxsd:type-contained-in-element($types, $xsd){    
+declare function qxsd:type-contained-in-element($types, $xsd){
     let $elements :=
          for $type in $types
              let $element :=
                  if($type/@name) then
                      let $type-name := xs:string($type/@name)
-                     let $elements := $xsd//xs:element[@type=$type-name][1] 
+                     let $elements := $xsd//xs:element[@type=$type-name][1]
                      return $elements
 
-                 else 
-                     $type/ancestor::xs:element[1]            
+                 else
+                     $type/ancestor::xs:element[1]
              return $element
     return $elements
 };
@@ -983,7 +983,7 @@ declare function  qxsd:get-element-create-min($path, $xsd){
     let $xsd := qxsd:xsd($xsd)
     let $prefix := qxsd:get-name($path)
     let $element := qxsd:get-node($path, $xsd)
-    
+
     return qxsd:create-element($element, $prefix, 'min' , $xsd, 1)
 };
 
@@ -995,11 +995,11 @@ declare function  qxsd:get-element-create-opt($path, $xsd){
     let $xsd := qxsd:xsd($xsd)
     let $prefix := qxsd:get-name($path)
     let $element := qxsd:get-node($path, $xsd)
-    
+
     return qxsd:create-element($element, $prefix, 'opt', $xsd, 1)
 };
 
-declare function qxsd:create-elements($element, $prefix, $mode, $xsd, $depth){    
+declare function qxsd:create-elements($element, $prefix, $mode, $xsd, $depth){
     let $count := qxsd:get-content-model-item-count($element, $mode, $xsd)
     for $num in (1 to $count)
         return   qxsd:create-element($element, $prefix, $mode, $xsd, $depth)
@@ -1007,46 +1007,46 @@ declare function qxsd:create-elements($element, $prefix, $mode, $xsd, $depth){
 
 declare function qxsd:create-element($element, $prefix, $mode,  $xsd, $depth){
 
-    let $element-definition := qxsd:node-definition($element, $xsd)    
-    let $local-name := $element-definition/@name    
+    let $element-definition := qxsd:node-definition($element, $xsd)
+    let $local-name := $element-definition/@name
     let $name := concat($prefix, ':', $local-name)
-    
+
     let $type := qxsd:get-type($element-definition, $xsd)
-    
-    let $element := 
+
+    let $element :=
             if($depth > $xrxe-conf:default-max-depth) then
                 ()
-            else 
-                element {$local-name} {  
-                    
+            else
+                element {$local-name} {
+
                     qxsd:create-attributes($type, $mode, $xsd)
-                    
+
                     (:Debugging:)
                     (: ,
                     attribute depth {$depth}:)
                     ,
                     if(not(qxsd:get-xs-type($type)) and not(qxsd:is-mixed($element, $xsd))) then
                          qxsd:create-content($type, $prefix, $mode, $xsd, $depth + 1, ())
-                    else 
+                    else
                         ()
-                } 
-    return $element 
+                }
+    return $element
 };
 
 
 declare function qxsd:create-attributes($type, $mode, $xsd){
     for $attribute  in qxsd:get-attributes($type, $xsd)
     let $attribute-name := $attribute/@name
-    
+
     let $attribute := attribute {$attribute-name} {qxsd:create-attribute-value($attribute, $xsd)}
-    return 
+    return
         $attribute
 };
 
 declare function qxsd:create-attribute-value($attribute, $xsd){
     let $type := qxsd:get-type($attribute, $xsd)
-    
-    let $value := 
+
+    let $value :=
         if(qxsd:get-fixed($attribute)) then
             qxsd:get-fixed($attribute)
         else if(qxsd:get-default($attribute)) then
@@ -1055,32 +1055,32 @@ declare function qxsd:create-attribute-value($attribute, $xsd){
             qxsd:get-first-enum-value($type)
         else
             ''
-   return $value 
+   return $value
 };
 
 
 declare function qxsd:create-content($content-model, $mode, $prefix, $xsd, $depth, $pos){
-    
-    
+
+
     let $all-content-model-items := $content-model/xs:sequence  | $content-model/xs:element | $content-model/xs:choice | $content-model/xs:group
-    let $relevant-content-model-items := 
+    let $relevant-content-model-items :=
         if($content-model instance of element(xs:choice)) then
             $all-content-model-items[$pos] (: qxrxe:get-first-choice :)
         else
             $all-content-model-items
-    
+
     for $content-model-item in $relevant-content-model-items
-    return 
+    return
         if ($content-model-item instance of element(xs:sequence)) then
             qxsd:create-sequences($content-model-item, $prefix, $mode, $xsd, $depth)
         else if ($content-model-item instance of element(xs:choice)) then
-            qxsd:create-choices($content-model-item, $prefix, $mode, $xsd, $depth) 
+            qxsd:create-choices($content-model-item, $prefix, $mode, $xsd, $depth)
         else if ($content-model-item instance of element(xs:element)) then
             qxsd:create-elements($content-model-item, $prefix, $mode, $xsd, $depth)
         else if ($content-model-item instance of element(xs:group)) then
             qxsd:create-groups($content-model-item, $prefix, $mode, $xsd, $depth)
-        else () 
- 
+        else ()
+
 
 
 };
@@ -1114,7 +1114,7 @@ declare function qxsd:create-choices($choice, $prefix, $mode, $xsd, $depth){
 };
 
 declare function qxsd:create-choice($choice, $prefix, $mode, $xsd, $depth, $pos){
-    qxsd:create-content($choice, $prefix, $mode, $xsd, $depth, $pos) 
+    qxsd:create-content($choice, $prefix, $mode, $xsd, $depth, $pos)
 
 };
 
@@ -1128,22 +1128,22 @@ declare function qxsd:content-model-item-min-occurs($content-model-item, $xsd){
 
 declare function qxsd:max-occurs($context, $xsd)
 {
-    
+
     if($context/@maxOccurs) then
         if(xs:string($context/@maxOccurs) = 'unbounded') then
             ()
         else
             xs:int($context/@maxOccurs)
     else 1
-}; 
+};
 
 declare function qxsd:min-occurs($context, $xsd){
-    
+
     if($context instance of element(xs:attribute)) then
         if(xs:string($context/@use)='required') then
             1
         else
-            ()  
+            ()
     else
         if($context/@minOccurs) then
             if ($context/@minOccurs = '0') then
@@ -1151,7 +1151,7 @@ declare function qxsd:min-occurs($context, $xsd){
             else
                 xs:int($context/@minOccurs)
         else 1
-}; 
+};
 
 declare function qxsd:content-model-item-max-occurs($content-model-item, $xsd)
 as xs:int
@@ -1160,7 +1160,7 @@ as xs:int
         if($content-model-item/@maxOccurs) then
             if($content-model-item/@maxOccurs = 'unbounded') then
                 $xrxe-conf:unbounded
-            else 
+            else
                 xs:int($content-model-item/@maxOccurs)
         else 1
     return xs:int($max-occur)
@@ -1168,7 +1168,7 @@ as xs:int
 
 declare function qxsd:get-content-model-item-count($content-model-item, $mode, $xsd){
     let $min := qxsd:content-model-item-min-occurs($content-model-item, $xsd)
-    let $count := 
+    let $count :=
         if($min = 0) then
             if($content-model-item instance of element(xs:sequence) or $content-model-item instance of element(xs:group) or $content-model-item instance of element(xs:element)) then
                 1
