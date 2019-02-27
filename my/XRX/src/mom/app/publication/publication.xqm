@@ -24,6 +24,11 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 
 module namespace publication="http://www.monasterium.net/NS/publication";
 import module namespace momathon="http://www.monasterium.net/NS/momathon" at "xmldb:exist:///db/XRX.live/mom/app/momathon/momathon.xqm";
+import module namespace charter="http://www.monasterium.net/NS/charter" at "xmldb:exist:///db/XRX.live/mom/app/charter/charter.xqm";
+import module namespace metadata="http://www.monasterium.net/NS/metadata" at "xmldb:exist:///db/XRX.live/mom/app/metadata/metadata.xqm";
+import module namespace community="http://www.monasterium.net/NS/community" at "xmldb:exist:///db/XRX.live/mom/app/auth/community.xqm";
+import module namespace i18n="http://www.monasterium.net/NS/i18n" at "xmldb:exist:///db/XRX.live/mom/app/i18n/i18n.xqm";
+
 declare namespace xf="http://www.w3.org/2002/xforms";
 declare namespace ev="http://www.w3.org/2001/xml-events";
 declare namespace xrx="http://www.monasterium.net/NS/xrx";
@@ -187,7 +192,10 @@ declare function publication:edit-trigger(
     $is-moderator as xs:boolean,
     $widget-key as xs:string,
     $edit-charter-message as element(xhtml:span),
-    $edit-mode as xs:string) {
+    $edit-mom3-message as element(xhtml:span)
+    ) {
+    let $editmom3msg := <span>{i18n:value("editmom3", $xrx:lang, "Edit with EditMOM 3 beta")}</span>
+    return
 
     if($is-moderator and (matches($widget-key,'charters-to-publish'))) then
     <div>
@@ -219,6 +227,24 @@ declare function publication:edit-trigger(
               }
             </xf:action>
         </xf:trigger>
+
+       </div><!-- Editmom3 added as 2nd editing possibility #583-->
+       { if($widget-key !="mom-ca") then
+        <div>        
+        <img src="{ $request-root }resource/?atomid=tag:www.monasterium.net,2011:/mom/resource/image/button_edit"/>        
+        <xf:trigger appearance="minimal">
+            <xf:label>{$editmom3msg}</xf:label><!-- Label for editMOM3, used just here -->
+            <xf:action ev:event="DOMActivate">              
+                  <xf:load show="new">
+                    <xf:resource value="'{ $request-root }/{publication:build-url($atomid)}'"/> 
+                  </xf:load>              
+            </xf:action>
+        </xf:trigger>
+     </div>
+     else
+     <div/>
+      }
+
     </div>
     else
     <div/>
@@ -448,7 +474,8 @@ declare function publication:user-actions(
     $remove-charter-message as element(xhtml:span),
     $publish-charter-message as element(xhtml:span)) as element() {
 
-    let $editmom3msg :=           <span>Edit</span>
+    let $editmom3msg :=  <span>{i18n:value("editmom3", $xrx:lang, "Edit with EditMOM 3 beta")}</span>
+    
 
     (: MOMathon-Trigger :)
     let $case-momathon-charter :=
