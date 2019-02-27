@@ -31,10 +31,10 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 
 We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
   </xrx:licence>
-  <xrx:variables>
+  <xrx:variables>	  
     <xrx:variable>
       <xrx:name>$wsearch:metadata-charter-db-base-collection-path</xrx:name>
-      <xrx:expression>metadata:base-collection-path('charter', 'public')</xrx:expression>
+      <xrx:expression>if($search:arch-id != "") then if($search:fond-id != "") then metadata:base-collection-path("charter", ($search:arch-id,$search:fond-id), "public") else metadata:base-collection-path("charter", $search:arch-id, "public") else metadata:base-collection-path('charter', 'public')</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wsearch:query-string</xrx:name>
