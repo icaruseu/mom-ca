@@ -1,8 +1,7 @@
 <xs:schema xmlns="http://www.monasterium.net/NS/cei" xmlns:xerces="http://xerces.apache.org"
     xmlns:xrxe="http://www.monasterium.net/NS/xrxe" xmlns:xrx="http://www.monasterium.net/NS/xrx"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified"
-    elementFormDefault="qualified" targetNamespace="http://www.monasterium.net/NS/cei" id="cei"
-    vc:minVersion="1.1" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning">
+    elementFormDefault="qualified" targetNamespace="http://www.monasterium.net/NS/cei" id="cei">
     <xs:element name="cei">
         <xs:annotation>
             <xs:documentation xml:lang="deu">
