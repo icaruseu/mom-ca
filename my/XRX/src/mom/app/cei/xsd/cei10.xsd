@@ -1,7 +1,8 @@
 <xs:schema xmlns="http://www.monasterium.net/NS/cei" xmlns:xerces="http://xerces.apache.org"
     xmlns:xrxe="http://www.monasterium.net/NS/xrxe" xmlns:xrx="http://www.monasterium.net/NS/xrx"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified"
-    elementFormDefault="qualified" targetNamespace="http://www.monasterium.net/NS/cei" id="cei10">
+    elementFormDefault="qualified" targetNamespace="http://www.monasterium.net/NS/cei" id="cei10"
+    vc:minVersion="1.1" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning">
     <xs:element name="cei">
         <xs:annotation>
             <xs:documentation xml:lang="deu"> Wurzelelement für alle Dokumente, die den Regeln der
@@ -423,9 +424,9 @@
                                                   </xs:element>
                                                   </xs:sequence>
                                                   <xs:attribute name="ref">
-                                                        <xs:annotation>
-                                                            <xs:documentation xml:lang="deu"> Verweis auf eine Textpassage, zu der hier die Quelle angegeben wird. </xs:documentation>
-                                                    </xs:annotation>
+                                                  <xs:annotation>
+                                                  <xs:documentation xml:lang="deu"> Verweis auf eine Textpassage, zu der hier die Quelle angegeben wird. </xs:documentation>
+                                                  </xs:annotation>
                                                   </xs:attribute>
                                                   <xs:attributeGroup ref="standard"/>
                                                   </xs:complexType>
@@ -1743,6 +1744,27 @@
                             </xs:appinfo>
                         </xs:annotation>
                     </xs:element>
+                    <xs:element name="plica" type="xs:string">
+                        <xs:annotation>
+                            <xs:appinfo source="EditVDU">
+                                <xrxe:label>
+                                    <xrx:i18n>
+                                        <xrx:key>cei_plica</xrx:key>
+                                        <xrx:default>plica</xrx:default>
+                                    </xrx:i18n>
+                                </xrxe:label>
+                                <xrxe:menu-item>
+                                    <xrx:i18n>
+                                        <xrx:key>textual-tradition</xrx:key>
+                                        <xrx:default>textual tradition</xrx:default>
+                                    </xrx:i18n>
+                                </xrxe:menu-item>
+                            </xs:appinfo>
+                            <xs:documentation xml:lang="eng">
+                                describes the depth of the fold used to secure the threads for the seal
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
                 </xs:choice>
             </xs:sequence>
             <xs:attributeGroup ref="standard"/>
@@ -2511,7 +2533,8 @@
                 </xrxe:menu-item>
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
-            </xs:appinfo></xs:annotation>
+            </xs:appinfo>
+        </xs:annotation>
         <xs:complexType mixed="true">
             <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -3936,7 +3959,7 @@
             <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
-		    <xs:group ref="Sachauszeichnung"/>
+                    <xs:group ref="Sachauszeichnung"/>
                 </xs:choice>
             </xs:sequence>
             <xs:attributeGroup ref="lang"/>
