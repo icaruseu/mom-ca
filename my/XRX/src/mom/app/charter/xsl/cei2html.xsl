@@ -10,8 +10,8 @@
     <xsl:preserve-space elements="cei:*"/>
     <xsl:variable name="sitemap" select="/xhtml:page/xhtml:div"/>
     <xsl:variable name="cei" select="/xhtml:page//cei:text"/>
-    
-    <xsl:template match="/">     
+
+    <xsl:template match="/">
         <xsl:apply-templates select="$sitemap"/>
     </xsl:template>
 
@@ -20,10 +20,10 @@
     <xsl:param name="image-base-uri"/>
     <xsl:param name="controlledvocabularies"/>
     <xsl:param name="personfilelist"/>
-    
-   <!-- 
+
+   <!--
    ***********************************************************
-   
+
    New Workaround for i18n terms in xsl:attribute elements:
    These following parameters are used to get i18n:translations used in @title of respective elements
    this is necessary because the eXist transform module skips i18n out of xsl:attribute.
@@ -32,14 +32,14 @@
    the variable $wcharter:params takes all i18n of this xsl document and translate it.
    The value is stored in parameters/param and are available in the xsl.
    If we want to use a new translation as attribute value,
-   a new <xsl:param> has to be introduced and 
+   a new <xsl:param> has to be introduced and
    at the respective element a <xsl:variable name="i18n><xrx:i18n>....</> is set.
    When calling the $param, the translation will be available.
    I don't know if this takes too much performance!
-   
+
    *************************************************************
       -->
-     
+
     <xsl:param name="cei_persName"/>
     <xsl:param name="cei_placeName"/>
     <xsl:param name="cei_issuer"/>
@@ -57,10 +57,10 @@
     <xsl:param name="cei_quote"/>
     <xsl:param name="cei_damage"/>
     <xsl:param name="cei_supplied"/>
-    <xsl:param name="cei_unclear"/> 
-     
+    <xsl:param name="cei_unclear"/>
 
-    <!-- function that looks, if there is a controlled vocabulary for cei:index/@indexName and @lemma. 
+
+    <!-- function that looks, if there is a controlled vocabulary for cei:index/@indexName and @lemma.
        the Index (Item) has still many exceptions to deal with. Maybe this has to be compound in another way:
        the cases: - cei:index just with a text node
                   - cei:index with @lemma (@sublemma)
@@ -72,7 +72,7 @@
     <xsl:function name="xrx:getvocabularies">
         <xsl:param name="indexname"/>
         <xsl:param name="lemma"/>
-        <xsl:param name="sprache"/>        
+        <xsl:param name="sprache"/>
 
         <xsl:choose>
             <xsl:when test="$lemma = '' and contains($controlledvocabularies, $indexname)">
@@ -87,7 +87,7 @@
                  <xsl:value-of
                     select="document($url)//atom:entry/atom:content//skos:ConceptScheme/skos:prefLabel[1]"/>
                 </xsl:otherwise>
-                </xsl:choose>               
+                </xsl:choose>
 
             </xsl:when>
             <xsl:when test="contains($controlledvocabularies, $indexname)">
@@ -97,12 +97,12 @@
                <xsl:choose>
                <xsl:when test="document($url)//skos:prefLabel[upper-case(parent::*/@*) = $lemma]/@xml:lang = $sprache">
                   <xsl:value-of
-                    select="document($url)//skos:prefLabel[upper-case(parent::*/@*) = $lemma][@xml:lang = $sprache]"/>               
+                    select="document($url)//skos:prefLabel[upper-case(parent::*/@*) = $lemma][@xml:lang = $sprache]"/>
                </xsl:when>
                <xsl:otherwise>
                   <xsl:value-of select="document($url)//skos:prefLabel[upper-case(parent::*/@*) = $lemma][1]"/>
                </xsl:otherwise>
-               </xsl:choose>             
+               </xsl:choose>
             </xsl:when>
         </xsl:choose>
     </xsl:function>
@@ -231,7 +231,7 @@
     <xsl:template match="xhtml:insert-abstract">
         <xsl:choose>
             <xsl:when test="$cei//cei:chDesc/cei:abstract/node() != ''">
-                <!-- <div data-demoid="b8e0ecd8-c6f1-49c3-bae2-c8b0b8c7074c" id="abstract"> 
+                <!-- <div data-demoid="b8e0ecd8-c6f1-49c3-bae2-c8b0b8c7074c" id="abstract">
         <div class="p" data-demoid="9d6496f6-8645-4dd5-8804-ddf89e4fbc78"> -->
                 <xsl:call-template name="abstract"/>
                 <!--  </div>
@@ -399,7 +399,7 @@
                                 group-by="@indexName">
                                 <xsl:sort select="@indexName" order="descending"/>
                                 <xsl:variable name="indexname" select="@indexName"/>
-                                <li class="indexname">                               
+                                <li class="indexname">
                                     <xsl:choose>
                                         <xsl:when test="xrx:getvocabularies($indexname, '', $sprache)">
                                             <xsl:value-of
@@ -416,10 +416,10 @@
                                 <xsl:call-template name="item"> </xsl:call-template>
                                 <xsl:if test="((count(./@*) = 1) and @indexName)">
                                     <ul class="indexname">
-                                                                          
+
                                         <xsl:for-each-group select="current-group()"
                                             group-by="text()">
-                                         
+
                                             <xsl:call-template name="text">
                                                 <xsl:with-param name="txt" select="text()"/>
                                             </xsl:call-template>
@@ -679,9 +679,9 @@
             <xrx:default>person name</xrx:default>
         </xrx:i18n>
     </xsl:variable>
-        <span class="cei-persname" title="{$cei_persName}">            
-            <xsl:apply-templates/>            
-        </span>     
+        <span class="cei-persname" title="{$cei_persName}">
+            <xsl:apply-templates/>
+        </span>
     </xsl:template>
     <xsl:template match="cei:issuer">
      <xsl:variable name="i18n">
@@ -704,7 +704,7 @@
                     <xrx:default>recipient</xrx:default>
                 </xrx:i18n>
       </xsl:variable>
-        <span class="cei-recipient">        
+        <span class="cei-recipient">
             <xsl:attribute name="title">
               <xsl:value-of select="$cei_recipient"/>
             </xsl:attribute>
@@ -848,8 +848,8 @@
                     <xrx:key>cei_del</xrx:key>
                     <xrx:default>deleted</xrx:default>
                 </xrx:i18n>
-        </xsl:variable>        
-        
+        </xsl:variable>
+
         <span class="cei-del" style="text-decoration:line-through">
             <xsl:attribute name="title">
                <xsl:value-of select="$cei_del"/>
@@ -1127,7 +1127,7 @@
             </xsl:choose>
         </xsl:element>
     </xsl:template>
-    
+
     <xsl:template match="cei:rubrum|cei:nota">
         <li><xsl:apply-templates/></li>
     </xsl:template>
@@ -1311,7 +1311,7 @@
     </xsl:variable>
         <span class="cei-placename" title="{$cei_placeName}">
             <xsl:apply-templates/>
-       </span>      
+       </span>
     </xsl:template>
     <xsl:template name="issued">
         <xsl:apply-templates select="$cei//cei:issued/cei:dateRange"/>
@@ -1644,7 +1644,7 @@
     </xsl:template>
     <xsl:template match="cei:p" mode="diplA">
         <xsl:if test="./node()">
-            <div>          
+            <div>
                 <xsl:if test="count(preceding-sibling::cei:p) = 0">
                     <p class="localheading">
                         <b>
@@ -1732,17 +1732,17 @@
     		 <xsl:sort select="."/>
 		     <xsl:if test="./node()">
 	         <li id="{./@key}">
-           	<xsl:choose>                            
+           	<xsl:choose>
               <xsl:when test="@key">
               	<xsl:call-template name="sucheperson">
                   <xsl:with-param name="len" select="$len" />
                   <xsl:with-param name="key" select="@key"/>
-              	</xsl:call-template>         
+              	</xsl:call-template>
             	</xsl:when>
             	<xsl:otherwise>
               	<xsl:apply-templates/>
             	</xsl:otherwise>
-            </xsl:choose>   
+            </xsl:choose>
          	</li>
          	<ul class="inline">
          		<xsl:call-template name="language"/>
@@ -1774,7 +1774,7 @@
 <xsl:variable name="url" select="concat('/db/mom-data/metadata.person.public/', $filename)"/>
 <xsl:variable name="fileatomid" select="substring-after(document($url)/atom:entry/atom:id, '/person/')"/>
 <xsl:choose>
-<xsl:when test="document($url)/atom:entry[//tei:person/@xml:id = $key]/atom:id = 'tag:www.monasterium.net,2011:/person/BischoefeAblaesse'">
+<xsl:when test="document($url)/atom:entry[.//tei:person/@xml:id = $key]/atom:id = 'tag:www.monasterium.net,2011:/person/BischoefeAblaesse'">
   <xsl:attribute name="value">true</xsl:attribute>
    <xsl:attribute name="class"><xsl:value-of select="$fileatomid"/></xsl:attribute>
    <xsl:apply-templates/>
@@ -1784,10 +1784,10 @@
   <xsl:when test="document($url)/atom:entry//tei:person/@xml:id = $key">
    <xsl:attribute name="value">true</xsl:attribute>
    <xsl:attribute name="class"><xsl:value-of select="$fileatomid"/></xsl:attribute>
-    <xsl:value-of select="document($url)//atom:entry//tei:person[@xml:id = $key]/tei:persName"/>          
+    <xsl:value-of select="document($url)//atom:entry//tei:person[@xml:id = $key]/tei:persName"/>
   </xsl:when>
   <xsl:otherwise></xsl:otherwise>
-</xsl:choose> 
+</xsl:choose>
 
 <xsl:variable name="newlen" select="$len - 1"/>
 <xsl:call-template name="sucheperson"><xsl:with-param name="len" select="$newlen"/>
@@ -1869,7 +1869,7 @@
                             <xsl:text>false</xsl:text>
                         </xsl:otherwise>
                     </xsl:choose>
-                </xsl:variable>     
+                </xsl:variable>
                 <li><xsl:attribute name="class">
                         <xsl:value-of select="@indexName"/>
                     </xsl:attribute>
@@ -1903,24 +1903,24 @@
                             </xsl:variable>
                             <xsl:choose>
 
-                                <xsl:when test="xrx:getvocabularies(@indexName, '', $sprache)">                           
-                                <!-- der übersetzte Lemma wert kommt hier hin -->                                                             
+                                <xsl:when test="xrx:getvocabularies(@indexName, '', $sprache)">
+                                <!-- der übersetzte Lemma wert kommt hier hin -->
                                     <xsl:value-of
                                         select="xrx:getvocabularies(@indexName, $norm, $sprache)"/>
                                 </xsl:when>
-                                <xsl:otherwise>                              
+                                <xsl:otherwise>
                                     <xsl:value-of select="@lemma"/>
                                 </xsl:otherwise>
                             </xsl:choose>
                           <!--  Das verwirrt nur den user <xsl:if
                                 test="(compare(xrx:getvocabularies(@indexName, $norm, $sprache), .) = -1)">
-                                <xsl:text>  </xsl:text>                            
+                                <xsl:text>  </xsl:text>
 
-                                <xsl:value-of select="."/>                             
+                                <xsl:value-of select="."/>
                             </xsl:if> -->
                         </xsl:otherwise>
                     </xsl:choose>
-                </li>       
+                </li>
             </xsl:when>
         </xsl:choose>
     </xsl:template>
@@ -1977,7 +1977,7 @@
     <xsl:template match="cei:index[@indexName = 'IllUrkGlossar']">
         <xsl:variable name="pm" select="replace(./@lemma, '#', '')"/>
         <xsl:variable name="url" select="concat('/mom/index/IllUrkGlossar/', $pm, '?pm=charter')"/>
-        
+
         <a target="_blank">
             <xsl:attribute name="title">
                 <xsl:value-of select="$url"/>
