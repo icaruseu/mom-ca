@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:atom="http://www.w3.org/2005/Atom" 
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" 
-    xmlns:i18n="http://www.mom-ca.uni-koeln.de/NS/i18n" 
-    xmlns:ead="urn:isbn:1-931666-22-9" 
-    xmlns:exist="http://exist.sourceforge.net/NS/exist" id="eadp2html" version="1.0">
+<xsl:stylesheet xmlns:atom="http://www.w3.org/2005/Atom" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:i18n="http://www.mom-ca.uni-koeln.de/NS/i18n" xmlns:ead="urn:isbn:1-931666-22-9" xmlns:exist="http://exist.sourceforge.net/NS/exist" id="eadp2html" version="1.0">
     <xsl:template match="ead:p">
         <p>
             <xsl:apply-templates/>
