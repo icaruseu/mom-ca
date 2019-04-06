@@ -4,7 +4,6 @@
 
     <xmlproperty file="build.properties.xml" semanticAttributes="true" keepRoot="true" includeSemanticAttribute="true"/>
 
-
     <!-- #######################
          # Properties          #
          ####################### -->
