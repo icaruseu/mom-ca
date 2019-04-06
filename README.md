@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/StephanMa/mom-ca.svg?branch=master)](https://travis-ci.com/StephanMa/mom-ca)
 mom-ca
 ======
 Source Code of the Monasterium Collaborative Archive (MOM-CA).
