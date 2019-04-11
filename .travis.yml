@@ -1,0 +1,6 @@
+language: java
+jdK: oracle8jdk
+install: ant install
+env:
+  global:
+    - JAVA_HOME=/usr/lib/jvm/java-8-oracle

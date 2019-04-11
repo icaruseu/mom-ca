@@ -4,7 +4,6 @@
 
     <xmlproperty file="build.properties.xml" semanticAttributes="true" keepRoot="true" includeSemanticAttribute="true"/>
 
-
     <!-- #######################
          # Properties          #
          ####################### -->
@@ -26,7 +25,7 @@
     <!-- Tool urls -->
     <property name="download-url-betterform" value="https://github.com/icaruseu/betterFORM.git"/>
     <property name="download-url-codemirror" value="https://github.com/codemirror/CodeMirror/archive/v2.zip"/>
-    <property name="download-url-exist" value="https://github.com/eXist-db/exist/archive/873a493e1c60364e419c008a2ebabfa4776746b2.zip"/>
+    <property name="download-url-exist" value="https://github.com/eXist-db/exist/archive/eXist-4.6.1.zip"/>
     <property name="download-url-jquery" value="https://github.com/jquery/jquery-ui/archive/1-9-stable.zip"/>
     <property name="download-url-leaflet" value="https://github.com/Leaflet/Leaflet/archive/v1.3.4.zip"/>
     <property name="download-url-leaflet-markercluster" value="https://github.com/Leaflet/Leaflet.markercluster/archive/v1.4.1.zip"/>
@@ -83,7 +82,8 @@
     <property name="keystore-file" value="${exist-home}/key.store"/>
     <property name="keystore-password" value="secret"/>
     <property name="my-exist" value="my/eXist"/>
-    <property name="my-exist-extensions-src" value="${my-exist}/extensions/modules/src"/>
+    <property name="my-exist-core" value="${my-exist}/exist-core"/>
+    <property name="my-exist-extensions-src" value="${my-exist}/extensions/modules"/>
     <property name="my-exist-lib" value="${my-exist}/lib"/>
     <property name="my-exist-jetty" value="${my-exist}/tools/jetty"/>
     <property name="my-exist-src" value="${my-exist}/src"/>
@@ -444,12 +444,16 @@
         <mkdir dir="${exist-build-workaround-webapp}"/>
         <mkdir dir="${exist-build-workaround-webapp}/WEB-INF/classes"/>
         <touch file="${exist-build-workaround-webapp}/logo.jpg"/>
-        <copy todir="${exist-home}/extensions/modules/src" overwrite="true">
+        <copy todir="${exist-home}/extensions/modules" overwrite="true">
             <fileset dir="${my-exist-extensions-src}"/>
         </copy>
-        <copy todir="${exist-home}/src" overwrite="true">
-            <fileset dir="${my-exist-src}"/>
+		
+		<!-- XQueryURLRewrite.java has to be patched because of rewrite of controller search -->
+		<copy todir="${exist-home}/exist-core" overwrite="true">
+            <fileset dir="${my-exist-core}"/>
         </copy>
+		<!-- -->
+		
         <copy todir="${exist-home}/lib" overwrite="true">
             <fileset dir="${my-exist-lib}"/>
         </copy>
@@ -492,13 +496,9 @@
             <arg line="-f ${exist-home}/build.xml"/>
         </exec>
         <!-- unsign all exist jars -->
-        <exec executable="${exist-home}/build.sh">
-            <arg line="jnlp-unsign-all"/>
-        </exec>
+        <ant antfile="${exist-home}/build.xml" target="jnlp-unsign-all" useNativeBaseDir="true"/>
         <!-- sign all exist jars -->
-        <exec executable="${exist-home}/build.sh">
-            <arg line="jnlp-all"/>
-        </exec>
+        <ant antfile="${exist-home}/build.xml" target="jnlp-all" useNativeBaseDir="true"/>
     </target>
 
     <target name="build-betterform">

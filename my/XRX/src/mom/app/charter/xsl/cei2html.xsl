@@ -1768,7 +1768,7 @@
     <xsl:template name="sucheperson">
         <xsl:param name="len"/>
         <xsl:param name="key"/>
-        <xsl:if test="$len &gt; 0">
+        <!--<xsl:if test="$len &gt; 0">
             <xsl:variable name="filename" select="tokenize($personfilelist, ' ')[$len]"/>
             <xsl:variable name="url" select="concat('/db/mom-data/metadata.person.public/', $filename)"/>
             <xsl:variable name="fileatomid" select="substring-after(document($url)/atom:entry/atom:id, '/person/')"/>
@@ -1799,7 +1799,7 @@
                     </xsl:call-template>
                 </xsl:otherwise>
             </xsl:choose>
-        </xsl:if>
+        </xsl:if>-->
     </xsl:template>
 
     <xsl:template name="language">

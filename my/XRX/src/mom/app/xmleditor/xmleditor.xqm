@@ -122,7 +122,7 @@ declare function xmleditor:validation-report-message($message as xs:string) as x
 
 declare function xmleditor:validation-report($instance as element()) {
 
-    let $report := validation:xrx-instance($instance, false(), $xmleditor:catalog-url)
+    let $report := validation:jaxp-report($instance, false(), $xmleditor:catalog-url)
     return
     jsonx:object((
         jsonx:pair(
