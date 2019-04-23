@@ -11,7 +11,7 @@ pipeline {
         stage('build') {
             steps {
                 echo 'building'
-                withAnt(installation: 'myinstall') {
+                withAnt(installation: 'LocalAnt', jdk: 'JDK 10u02') {
                     dir("mom.XRX") {
                        sh "ant "
                     }
