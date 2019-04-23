@@ -13,12 +13,7 @@ pipeline {
                 echo 'building'
                 withAnt(installation: 'myinstall') {
                     dir("mom.XRX") {
-                        if (isUnix()) {
-                          sh "ant "
-
-                        } else {
-                          bat "ant"
-                        }
+                       sh "ant "
                     }
                 }
             }
