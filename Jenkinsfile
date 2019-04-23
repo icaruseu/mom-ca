@@ -11,7 +11,7 @@ pipeline {
         stage('build') {
             steps {
                 echo 'building'
-                withAnt(installation: 'ant-latest', jdk: 'jdk10') {
+                withAnt(installation: 'ant_latest', jdk: 'jdk8u212') {
                     dir("mom.XRX") {
                        sh "ant "
                     }
