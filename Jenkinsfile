@@ -2,10 +2,11 @@ checkout([$class: 'GitSCM', branches: [[name: '*/exist-next']], doGenerateSubmod
 
 withAnt(installation: 'myinstall') {
     dir("mom.XRX") {
-    if (isUnix()) {
-      sh "ant "
+        if (isUnix()) {
+          sh "ant "
 
-    } else {
-      bat "ant"
+        } else {
+          bat "ant"
+        }
     }
 }
