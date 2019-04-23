@@ -216,6 +216,9 @@
     <!-- #######################
          # Tasks               #
          ####################### -->
+    <target name="test">
+        <log message="Preparing tests....[in progress]"/>
+    </target>
 
     <target name="exist-classpath">
         <typedef resource="org/exist/ant/antlib.xml" uri="http://exist-db.org/ant">
