@@ -159,8 +159,9 @@ declare variable $xrx:request-relative-path :=
     );
 declare variable $xrx:localhost-request-base-url :=
     concat($xrx:protocol, '://localhost:', conf:param('jetty-port'), conf:param('request-root'));
-declare variable $xrx:jetty-request-base-url :=
-    concat($xrx:protocol, '://', conf:param('jetty-servername'), ':', conf:param('jetty-port'), conf:param('request-root'));
+declare variable $xrx:jetty-request-base-url := if(contains(conf:param('jetty-servername'), "monasterium")) then
+    concat($xrx:protocol, '://', conf:param('jetty-servername'), conf:param('request-root')) else
+    concat($xrx:protocol, '://', conf:param('jetty-servername'), ":", conf:param('jetty-port'), conf:param('request-root')) ; 
 declare variable $xrx:http-icon-root := concat($xrx:protocol, '://', request:get-server-name(), $xrx:port, concat('/', $xrx:platform-id, '/'), 'icon/');    
 (: tokenize each incoming URI :)
 declare variable $xrx:_teed-help := 

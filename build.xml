@@ -216,6 +216,9 @@
     <!-- #######################
          # Tasks               #
          ####################### -->
+    <target name="test">
+        <log message="Preparing tests....[in progress]"/>
+    </target>
 
     <target name="exist-classpath">
         <typedef resource="org/exist/ant/antlib.xml" uri="http://exist-db.org/ant">
@@ -596,12 +599,12 @@
 
     <target name="install-daemon">
         <log message="Installing the eXist daemon"/>
-        <exec executable="${wrapper-home}/bin/installDaemonNoPriv.sh"/>
+        <exec executable="${wrapper-home}/bin/installDaemon.sh"/>
     </target>
 
     <target name="uninstall-daemon">
         <log message="Removing the eXist daemon"/>
-        <exec executable="${wrapper-home}/bin/uninstallDaemonNoPriv.sh"/>
+        <exec executable="${wrapper-home}/bin/uninstallDaemon.sh"/>
     </target>
 
     <target name="set-admin-password" depends="exist-classpath">
