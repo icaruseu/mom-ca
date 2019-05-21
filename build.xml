@@ -25,7 +25,7 @@
     <!-- Tool urls -->
     <property name="download-url-betterform" value="https://github.com/icaruseu/betterFORM.git"/>
     <property name="download-url-codemirror" value="https://github.com/codemirror/CodeMirror/archive/v2.zip"/>
-    <property name="download-url-exist" value="https://github.com/eXist-db/exist/archive/eXist-4.6.1.zip"/>
+    <property name="download-url-exist" value="https://github.com/eXist-db/exist/archive/eXist-4.7.0.zip"/>
     <property name="download-url-jquery" value="https://github.com/jquery/jquery-ui/archive/1-9-stable.zip"/>
     <property name="download-url-leaflet" value="https://github.com/Leaflet/Leaflet/archive/v1.3.4.zip"/>
     <property name="download-url-leaflet-markercluster" value="https://github.com/Leaflet/Leaflet.markercluster/archive/v1.4.1.zip"/>
