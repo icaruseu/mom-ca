@@ -25,7 +25,7 @@
     <!-- Tool urls -->
     <property name="download-url-betterform" value="https://github.com/icaruseu/betterFORM.git"/>
     <property name="download-url-codemirror" value="https://github.com/codemirror/CodeMirror/archive/v2.zip"/>
-    <property name="download-url-exist" value="https://github.com/eXist-db/exist/archive/eXist-4.6.1.zip"/>
+    <property name="download-url-exist" value="https://github.com/eXist-db/exist/archive/eXist-4.7.0.zip"/>
     <property name="download-url-jquery" value="https://github.com/jquery/jquery-ui/archive/1-9-stable.zip"/>
     <property name="download-url-leaflet" value="https://github.com/Leaflet/Leaflet/archive/v1.3.4.zip"/>
     <property name="download-url-leaflet-markercluster" value="https://github.com/Leaflet/Leaflet.markercluster/archive/v1.4.1.zip"/>
@@ -216,6 +216,9 @@
     <!-- #######################
          # Tasks               #
          ####################### -->
+    <target name="test">
+        <log message="Preparing tests....[in progress]"/>
+    </target>
 
     <target name="exist-classpath">
         <typedef resource="org/exist/ant/antlib.xml" uri="http://exist-db.org/ant">
@@ -596,12 +599,12 @@
 
     <target name="install-daemon">
         <log message="Installing the eXist daemon"/>
-        <exec executable="${wrapper-home}/bin/installDaemonNoPriv.sh"/>
+        <exec executable="${wrapper-home}/bin/installDaemon.sh"/>
     </target>
 
     <target name="uninstall-daemon">
         <log message="Removing the eXist daemon"/>
-        <exec executable="${wrapper-home}/bin/uninstallDaemonNoPriv.sh"/>
+        <exec executable="${wrapper-home}/bin/uninstallDaemon.sh"/>
     </target>
 
     <target name="set-admin-password" depends="exist-classpath">

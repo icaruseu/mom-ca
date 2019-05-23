@@ -78,6 +78,7 @@
       <module uri="http://exist-db.org/xquery/sql" class="org.exist.xquery.modules.sql.SQLModule"/>
       <module uri="http://exist-db.org/xquery/cache" class="org.exist.xquery.modules.cache.CacheModule" />
       <module uri="http://itineranova.be/features" class="org.itineranova.features.text.TextModule"/>
+      <module uri="http://exist-db.org/xquery/versioning" class="org.exist.versioning.xquery.VersioningModule"/>
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
