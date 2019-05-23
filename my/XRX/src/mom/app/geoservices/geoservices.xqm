@@ -57,7 +57,7 @@ let $locationsXml :=
                                     <result>
                                     <id>{$archive//atom:id/text()}</id>
                                     <name>{$archive//eag:autform/text()}</name>
-                                        <url>{concat(conf:param('request-root'),tokenize($archive//atom:id/text(),'/')[3] ,"/archive")}</url>
+                                        <url>{concat(conf:param('request-root'),$archive//eag:repositoryid/text() ,"/archive")}</url>
                                     </result>
                                 else()
                         }
@@ -182,7 +182,7 @@ declare function geoservices:xmlToJsonForCharters($locationsXml){
                                                     ),
                                                     jsonx:pair(
                                                             jsonx:string("url"),
-                                                            jsonx:string(if(empty($result/url)) then 'none' else($result/name))
+                                                            jsonx:string(if(empty($result/url)) then 'none' else($result/url))
                                                     )))
                                         )
                                 )
@@ -229,7 +229,7 @@ declare function geoservices:xmltoJson($locationsXml){
                           ),
                          jsonx:pair(
                           jsonx:string("url"),
-                          jsonx:string(if(empty($result/url)) then 'none' else($result/name))
+                          jsonx:string(if(empty($result/url)) then 'none' else($result/url))
                         )))
                       )
                     )     
