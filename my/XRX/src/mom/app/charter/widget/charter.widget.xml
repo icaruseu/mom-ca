@@ -423,7 +423,7 @@ let $vocabular := replace(data($i/@rdf:about), '#', '')
   <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/charter</xrx:portal>
   <xrx:init>
     <xrx:processor>
-      <xrx:xformsflag>true</xrx:xformsflag>
+      <xrx:xformsflag>false</xrx:xformsflag>
       <xrx:jqueryflag>true</xrx:jqueryflag>
     </xrx:processor>
   </xrx:init>
