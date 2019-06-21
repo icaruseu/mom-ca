@@ -325,7 +325,7 @@
             	var indexnamewert;
                 var einf = $("<option> --- </option>");
                 if (name == "indexName") {
-
+                    $("select[role='menu']").removeClass("ui-menu");
                     menuliste.append(einf);
                     for (var i = 0; i < controlledVocabularies.length; i++) {
                         var currentVocabulary = controlledVocabularies[i];
@@ -346,6 +346,7 @@
 
             	}
                 else {
+
                         menuliste.append(einf);                        
                                                	
                         	 function findindexName(edAttr){                        		 
