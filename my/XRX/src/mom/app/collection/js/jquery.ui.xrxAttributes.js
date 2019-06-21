@@ -305,6 +305,8 @@
                 
                 
             });            
+                /* removed since firefox isnt able to display select correctly StMa */
+                $("select[role='menu']").removeClass("ui-menu");
             
             /* Defining the SELECT box:
              * function to set the options in the select box.
@@ -313,11 +315,12 @@
              * are appended to 'menuliste'.*/
             
             function setoptioninSelect(name) {
-            	
+
             	var lemmawert;
             	var indexnamewert;
                 var einf = $("<option> --- </option>");
                 if (name == "indexName") {
+
                     menuliste.append(einf);
                     for (var i = 0; i < controlledVocabularies.length; i++) {
                         var currentVocabulary = controlledVocabularies[i];
@@ -337,6 +340,7 @@
         		}
             	}
                 else {
+
                         menuliste.append(einf);                        
                                                	
                         	 function findindexName(edAttr){                        		 
@@ -402,6 +406,9 @@
             	   }  
             	  
                	};          
+                  /* removed since firefox isnt able to display select correctly StMa */
+                  $("select[role='menu']").removeClass("ui-menu");
+
                   return true;
                                     },     
                             error: function(){
