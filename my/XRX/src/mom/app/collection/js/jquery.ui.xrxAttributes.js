@@ -305,8 +305,6 @@
                 
                 
             });            
-                /* removed since firefox isnt able to display select correctly StMa */
-                $("select[role='menu']").removeClass("ui-menu");
             
             /* Defining the SELECT box:
              * function to set the options in the select box.
