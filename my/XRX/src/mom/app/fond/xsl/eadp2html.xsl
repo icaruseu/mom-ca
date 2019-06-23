@@ -159,12 +159,21 @@
                         <xsl:attribute name="style">
                             vertical-align:super;
                         </xsl:attribute>
+                        <xsl:attribute name="href">
+                            <xsl:text>#</xsl:text>
+                            <xsl:value-of select="./@xlink:href"/>
+                        </xsl:attribute>
                     </xsl:if>
-                    <xsl:attribute name="href">#                        <xsl:value-of select="./@xlink:href"/>
-                    </xsl:attribute>
-                    <xsl:value-of select="."/>
+                    <xsl:apply-templates/>
                 </xsl:element>
-
+            </xsl:when>
+            <xsl:when test="@target">
+                <xsl:element name="a">
+                    <xsl:attribute name="href">
+                        <xsl:value-of select="@target"/>
+                    </xsl:attribute>
+                    <xsl:apply-templates/>
+                </xsl:element>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:element name="span">
