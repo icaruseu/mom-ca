@@ -1721,54 +1721,48 @@
   </xsl:template>-->
 
     <!-- index persName -->
-    <xsl:template name="persName">        <!-- Bischofsliste_Ablaesse -->
-        <xsl:variable name="len" select="count(tokenize($personfilelist, ' '))"/>
-        <xsl:choose>
-            <xsl:when test="$len &gt; 1">
-                <xsl:for-each select="$cei//cei:persName">
-                    <xsl:sort select="."/>
-                    <xsl:if test="./node()">
-                        <li id="{./@key}">
-                            <xsl:choose>
-                                <xsl:when test="@key">
-                                    <xsl:call-template name="sucheperson">
-                                        <xsl:with-param name="len" select="$len" />
-                                        <xsl:with-param name="key" select="@key"/>
-                                    </xsl:call-template>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:apply-templates/>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </li>
-                        <ul class="inline">
-                            <xsl:call-template name="language"/>
-                            <xsl:call-template name="reg"/>
-                            <xsl:call-template name="existent"/>
-                            <xsl:call-template name="type"/>
-                        </ul>
-                    </xsl:if>
-                </xsl:for-each>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:for-each select="$cei//cei:persName">
-                    <li>
-                        <xsl:apply-templates/>
-                    </li>
-                    <ul class="inline">
-                        <xsl:call-template name="language"/>
-                        <xsl:call-template name="reg"/>
-                        <xsl:call-template name="existent"/>
-                        <xsl:call-template name="type"/>
-                    </ul>
-                </xsl:for-each>
-            </xsl:otherwise>
-        </xsl:choose>
+    <xsl:template name="persName">
+        <xsl:for-each select="$cei//cei:persName">
+            <xsl:sort select="."/>
+            <xsl:if test="./node()">
+                <li id="{./@key}">
+                    <xsl:apply-templates select="." mode="index"/>
+                </li>
+                <ul class="inline">
+                    <xsl:call-template name="language"/>
+                    <xsl:call-template name="reg"/>
+                    <xsl:call-template name="existent"/>
+                    <xsl:call-template name="type"/>
+                </ul>
+            </xsl:if>
+        </xsl:for-each>
+    </xsl:template>
+    <xsl:template match="cei:persName[starts-with(@key,'http://')]" mode="index">
+        <xsl:apply-templates/>
+        <a href=".">
+            <xrx:i18n>
+                <xrx:key>key-external-information</xrx:key>
+                <xrx:default>[Additional information (external)]</xrx:default>
+            </xrx:i18n>
+        </a>
+    </xsl:template>
+    <xsl:template match="cei:persName[@key]" priority="-1" mode="index">
+        <xsl:apply-templates/>
+        <!--
+            ToDo: add service-call to getPersonInfo (when this is finished)
+        <a href=".">
+            <xrx:i18n>
+                <xrx:key>key-internal-information</xrx:key>
+                <xrx:default>[Additional information]</xrx:default>
+            </xrx:i18n>
+        </a>-->
     </xsl:template>
     <xsl:template name="sucheperson">
         <xsl:param name="len"/>
         <xsl:param name="key"/>
-        <!--<xsl:if test="$len &gt; 0">
+        <!--
+            ToDo: This should be replaced by a service call
+            <xsl:if test="$len &gt; 0">
             <xsl:variable name="filename" select="tokenize($personfilelist, ' ')[$len]"/>
             <xsl:variable name="url" select="concat('/db/mom-data/metadata.person.public/', $filename)"/>
             <xsl:variable name="fileatomid" select="substring-after(document($url)/atom:entry/atom:id, '/person/')"/>
