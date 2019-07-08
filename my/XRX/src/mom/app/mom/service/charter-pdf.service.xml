@@ -86,15 +86,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
                         <value>flate</value>
                     </filterList>
                     <fonts>
-                        <font metrics-url="dejavusans.xml" kerning="yes" embed-url="DejaVuSans.ttf">
-                            <font-triplet name="DejaVuSans" style="normal" weight="normal"/>
-                        </font>
-                        <font metrics-url="dejavusans-oblique.xml" kerning="yes" embed-url="DejaVuSans-Oblique.ttf">
-                            <font-triplet name="DejaVuSans" style="oblique" weight="normal"/>
-                        </font>
-                        <font metrics-url="dejavusans-bold.xml" kerning="yes" embed-url="DejaVuSans-Bold.ttf">
-                            <font-triplet name="DejaVuSans" style="normal" weight="bold"/>
-                        </font>
+			<auto-detect/>
                     </fonts>
                 </renderer>
             </renderers>

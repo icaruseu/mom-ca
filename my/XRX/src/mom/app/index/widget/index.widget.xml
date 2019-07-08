@@ -60,7 +60,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
      <!-- suchergebnisse -->
      <xrx:variable>
       <xrx:name>$indexterm</xrx:name>
-      <xrx:expression>if(starts-with($xrx:tokenized-uri[3], 'P_')) then $xrx:tokenized-uri[3] else(concat('#', $xrx:tokenized-uri[3]))</xrx:expression>
+      <xrx:expression>if(not(exists($xrx:tokenized-uri[3]))) then '' else if(starts-with($xrx:tokenized-uri[3], 'P_')) then $xrx:tokenized-uri[3] else (concat('#', $xrx:tokenized-uri[3]))</xrx:expression>
     </xrx:variable>        
     <xrx:variable>    
       <xrx:name>$windex:index</xrx:name>
@@ -101,7 +101,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
      dann kann in der korrekten Reihefolge geblättert werden (browse search results)-->
     <xrx:variable>
     <xrx:name>$setresults</xrx:name>
-    <xrx:expression>session:set-attribute($search:RESULT, $windex:index)</xrx:expression>
+    <xrx:expression>if ($search:RESULT) then session:set-attribute($search:RESULT, $windex:index) else () </xrx:expression>
     </xrx:variable> 
     <xrx:variable>
       <xrx:name>$index-use-text</xrx:name>
@@ -716,7 +716,7 @@ ul.namelist {{
                  for $top in $vocabulary//skos:hasTopConcept
                  let $label1 := <a>{ $vocabulary//skos:Concept[@rdf:about= data($top/@rdf:resource)]//text()}</a>
                  let $rdfabout1 := data($top/@rdf:resource)
-                 let $memo:= session:set-attribute(replace($rdfabout1,'#', ''), $label1)
+                 let $memo:= if($rdfabout1 != "") then session:set-attribute(replace($rdfabout1,'#', ''), $label1) else ()
                  return              
                  <div class="accordion">
                  <h3>{ $vocabulary//skos:Concept[@rdf:about= data($top/@rdf:resource)]//text()}</h3>
@@ -732,7 +732,7 @@ ul.namelist {{
               let $rdfabout := substring-after(data($g/@rdf:about), '#')
 
               let $label:= if ($g/prefLabel/@xml:lang= $sprache) then $g/prefLabel[@xml:lang= $sprache]/text() else($g/skos:prefLabel[1]/text())
-              let $memo := session:set-attribute($rdfabout, $label)
+              let $memo := if($rdfabout != "") then session:set-attribute($rdfabout, $label) else ()
               order by $label
               return 
               <li><a href="{concat(conf:param('request-root'),'index/', $voc, '/', $rdfabout)}">{$label}</a></li>
@@ -772,7 +772,7 @@ ul.namelist {{
                 else()
                 let $aufbereitung := if($place) then substring-before(serialize($place), ' ') else(concat(' (', substring-after($personid, 'P_'), ')'))
                 let $inhalt := concat($name/text(), ' ',$aufbereitung)
-                let $memo := session:set-attribute($personid, $inhalt)             
+                let $memo := if($personid != "") then session:set-attribute($personid, $inhalt) else ()
                 for $n in  $name                
                 return                                      
                 <li class="list">                
@@ -807,7 +807,7 @@ ul.namelist {{
          else($i//atom:content//skos:ConceptScheme/skos:prefLabel[1]/text())
 
          let $name := tokenize($i//atom:id/text(), '/')[last()]
-         let $memo := session:set-attribute($name, $text)
+         let $memo := if($name != "") then session:set-attribute($name, $text) else ()
         
          return          
          
@@ -823,7 +823,7 @@ ul.namelist {{
           then $p//atom:content//tei:title[@xml:lang=$sprache]/text()
          else($p//atom:content//tei:title[1]/text())
          let $name := tokenize($p//atom:id/text(), '/')[last()]         
-         let $memo := session:set-attribute($name, $text)
+         let $memo := if($name != "") then session:set-attribute($name, $text) else ()
          
          return        
          

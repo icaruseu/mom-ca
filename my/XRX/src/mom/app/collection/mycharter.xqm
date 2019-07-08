@@ -144,11 +144,6 @@ let $xslt :=
                 <xsl:apply-templates select="@*|node()"/>
             </xsl:copy>
         </xsl:template>
-        <xsl:template match="@|node()" mode="copy">
-            <xsl:copy>
-                <xsl:apply-templates select="@|node()" mode="copy"/>
-            </xsl:copy>
-        </xsl:template>
         <xsl:template match="atom:id/text()">
             <xsl:value-of select="$new_atom_id"/>       
         </xsl:template>

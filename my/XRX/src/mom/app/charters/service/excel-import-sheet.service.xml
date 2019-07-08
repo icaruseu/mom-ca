@@ -33,31 +33,31 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     <!-- charter context info -->
     <xrx:variable>
       <xrx:name>$cacheid</xrx:name>
-      <xrx:expression>xs:string($data//*:cacheid/text())</xrx:expression>
+      <xrx:expression>if($data//*:cacheid) then $data//*:cacheid/text() else request:get-parameter("cacheid", "")</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$processid</xrx:name>
-      <xrx:expression>xs:string($data//*:processid/text())</xrx:expression>
+      <xrx:expression>if($data//*:processid) then $data//*:processid/text() else request:get-parameter("processid", "")</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$context</xrx:name>
-      <xrx:expression>$data//*:context/text()</xrx:expression>
+      <xrx:expression>if($data//*:context) then $data//*:context/text() else request:get-parameter("context", "")</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$archid</xrx:name>
-      <xrx:expression>$data//*:archid/text()</xrx:expression>
+      <xrx:expression>if($data//*:archid) then $data//*:archid/text() else request:get-parameter("archid", "")</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$fondid</xrx:name>
-      <xrx:expression>$data//*:fondid/text()</xrx:expression>
+      <xrx:expression>if($data//*:fondid) then $data//*:fondid/text() else request:get-parameter("fondid", "")</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$collectionid</xrx:name>
-      <xrx:expression>$data//*:collectionid/text()</xrx:expression>
+      <xrx:expression>if($data//*:collectionid) then $data//*:collectionid/text() else request:get-parameter("collectionid", "")</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$action</xrx:name>
-      <xrx:expression>$data//*:action/text()</xrx:expression>
+      <xrx:expression>if ($data//*:action) then $data//*:action/text() else request:get-parameter("action", "")</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$uri-tokens</xrx:name>
@@ -75,11 +75,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     <!-- sheet info -->
     <xrx:variable>
       <xrx:name>$sheetnum</xrx:name>
-      <xrx:expression>xs:integer($data//*:sheetnum/text())</xrx:expression>
+      <xrx:expression>if($data//*:sheetnum) then xs:integer($data//*:sheetnum/text()) else xs:integer(request:get-parameter("sheetnum", "0"))</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$fileuri</xrx:name>
-      <xrx:expression>xmldb:decode($data//*:fileuri/text())</xrx:expression>
+      <xrx:expression>if($data//*:fileuri) then xmldb:decode($data//*:fileuri/text()) else xmldb:decode(request:get-parameter("fileuri", ""))</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$filename</xrx:name>
@@ -87,7 +87,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$uploadtype</xrx:name>
-      <xrx:expression>$data//*:uploadtype/text()</xrx:expression>
+      <xrx:expression>if($data//*:uploadtype) then $data//*:uploadtype/text() else request:get-parameter("uploadtype", "")</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$url</xrx:name>
@@ -119,7 +119,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$rows</xrx:name>
-      <xrx:expression>excelimport:chooserow($data//*:chooserow/text())</xrx:expression>
+      <xrx:expression>if ($data//*:chooserow) then excelimport:chooserow($data//*:chooserow/text()) else excelimport:chooserow(request:get-parameter("chooserow", ""))</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$sheet</xrx:name>
@@ -162,11 +162,25 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     </xrx:progress>
     let $cache := cache:put($cacheid, $processid, $progress1)
     let $wait := util:wait(2000)
-    let $remove-charters :=
-      if(xmldb:collection-available($destination-db-base-collection-path) and $action = 'replace') then
-      	xmldb:remove($destination-db-base-collection-path)
-      else ()
-    
+
+    (: Clear all locks on the collection :)
+    let $remove-charters := try{
+      if($action = 'replace') then
+      	system:as-user("admin", conf:param("dba-password"), xmldb:remove($destination-db-base-collection-path))
+      else () } catch * {
+	let $progress-error := 
+		<xrx:progress>
+			<xrx:cacheid>{$cacheid}</xrx:cacheid>
+			<xrx:processid>{$processid}</xrx:processid>
+			<xrx:actual>0</xrx:actual>
+			<xrx:total>0</xrx:total>
+			<xrx:message>Error during remove collection</xrx:message>
+		</xrx:progress>
+	let $cache := cache:put($cacheid, $processid, $progress-error)
+	return ()
+	}
+    let $logs := util:log("ERROR", "locks removed")
+
     (: prepare idnos :)
     let $progress2 := 
     <xrx:progress>

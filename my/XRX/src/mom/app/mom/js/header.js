@@ -10,3 +10,4 @@
  
  
 });
+$(window).off('beforeunload');

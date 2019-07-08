@@ -181,7 +181,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 		              <xf:action ev:event="DOMActivate">
 		                <xf:send submission="snew-fond"/>
 		                <xf:load if="instance('iresponse')/@status = '1'" show="replace">
-		                  <xf:resource value="concat('{ conf:param('request-root') }{ $archive-id }/', fondid, '/edit-fond')"/>
+                          <xf:resource value="concat('{ conf:param('request-root') }{ $archive-id }/', fondid, '/fond')"/>
+                          <!--<xf:resource value="concat('{ conf:param('request-root') }{ $archive-id }/', fondid, '/edit-fond')"/>-->
 		                </xf:load>
 		              </xf:action>
 		            </xf:trigger>

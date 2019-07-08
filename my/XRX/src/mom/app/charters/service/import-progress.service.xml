@@ -32,11 +32,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   <xrx:variables>
     <xrx:variable>
       <xrx:name>$cacheid</xrx:name>
-      <xrx:expression>xs:string($data//xrx:cacheid/text())</xrx:expression>
+      <xrx:expression>if($data//*:cacheid) then xs:string($data//*:cacheid/text()) else request:get-parameter("cacheid", "")</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$processid</xrx:name>
-      <xrx:expression>xs:string($data//xrx:processid/text())</xrx:expression>
+      <xrx:expression>if($data//*:processid) then xs:string($data//*:processid/text()) else request:get-parameter("processid", "")</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$is-running</xrx:name>

@@ -201,7 +201,8 @@ it leaves the active development stage.
     $wcharter:linked-charter-image-base-uri 
         
     else
-      concat($xrx:protocol, "://" , $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(), '/')</xrx:expression>
+      concat("http://" , $wcharter:meta//cei:image_server_address/text(),'/', $wcharter:meta//cei:image_server_folder/text(), '/')</xrx:expression>
+
     </xrx:variable>
     <!-- archive information -->
     <xrx:variable>
