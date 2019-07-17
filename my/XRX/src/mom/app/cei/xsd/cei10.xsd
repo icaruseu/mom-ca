@@ -1953,6 +1953,7 @@
                 </xs:choice>
             </xs:sequence>
             <xs:attributeGroup ref="standard"/>
+            <xs:attributeGroup ref="type"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="arch">

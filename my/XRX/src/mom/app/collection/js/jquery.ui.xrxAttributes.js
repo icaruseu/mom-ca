@@ -148,7 +148,8 @@
             
             /* All GUI parts concerning the Attributes are appended */            
             mainDiv.append(controlledVocButton).append(editAttributesDiv).append(suggestedAttributesDiv); //.append(droppableAttributeDiv)
-            self.element.replaceWith(mainDiv);         
+            self.element.replaceWith(mainDiv);        
+            $("select").removeClass("ui-menu"); 
             /* function ausblenden is used for usabilty reasons, 
              * when a controlled Vocabulary is specified in the @indexName then just @lemma should be draggable.
              * after @lemma is set - all other attributes are draggable again.
@@ -200,6 +201,7 @@
             /* the jquery menu is initialized. the cv is realized in a drop down menu */                        
             $(function () {
                 $("#choose").menu();
+                $("select").removeClass("ui-menu");
             });            
             
         },        
@@ -224,6 +226,7 @@
             menuliste = $('<select></select>').attr('class', 'choose').addClass(uiFormsTableCellClass),
             newEditAttributeTrash = $('<div><span class="ui-icon ui-icon-trash"/></div>').
             addClass(uiFormsTableCellClass);       
+            $("select").removeClass("ui-menu");
            /* it has to be proofed if from the last use of the attribute widget,
                  * the user used the cv or not.
                  * so the editedAttributes values are compared with the controlledVocabularies
@@ -269,6 +272,7 @@
                         newEditAttributeInput.hide();
                         newEditAttribute.append(newEditValuelabel).append(menuliste).append(newEditAttributeTrash);
                         var x = setoptioninSelect(name);
+                        
                     }
                  else {
                     newEditAttribute.append(newEditAttributeLabel).append(newEditAttributeInput).append(newEditAttributeTrash);
@@ -279,6 +283,9 @@
                 newEditAttribute.append(newEditAttributeLabel).append(newEditAttributeInput).append(newEditAttributeTrash);
             }
             
+            /* removed since firefox isnt able to display select correctly StMa */
+            $("select").removeClass("ui-menu");
+                        
             /*the div.forms-mixedcontent-edit-attributes gets the method _trashIconClickable */
         
             self._trashIconClickable(newEditAttributeTrash, newEditAttribute, value);
@@ -313,11 +320,12 @@
              * are appended to 'menuliste'.*/
             
             function setoptioninSelect(name) {
-            	
+
             	var lemmawert;
             	var indexnamewert;
                 var einf = $("<option> --- </option>");
                 if (name == "indexName") {
+                    $("select[role='menu']").removeClass("ui-menu");
                     menuliste.append(einf);
                     for (var i = 0; i < controlledVocabularies.length; i++) {
                         var currentVocabulary = controlledVocabularies[i];
@@ -333,10 +341,12 @@
                             indexnamewert = value;
                         }
             		
-            		menuliste.append(newOption);
-        		}
+            		    menuliste.append(newOption);
+        		    }
+
             	}
                 else {
+
                         menuliste.append(einf);                        
                                                	
                         	 function findindexName(edAttr){                        		 
@@ -358,7 +368,6 @@
                              }                       
                           
                         var sprachwert = $(".xrx-language-for-skos").text();
-               
                         $.ajax({     
                             url: "/mom/service/editMomgetControlledVoc",
                             type:"GET",                            
@@ -402,6 +411,8 @@
             	   }  
             	  
                	};          
+
+
                   return true;
                                     },     
                             error: function(){
@@ -485,12 +496,13 @@
                 /* Set the new value of the attributes in the instance. The function replaceAttrbiuteValue of the
                  * jquery wigdet xrxInstance.js is called */                
                 $('.xrx-instance').xrxInstance().replaceAttributeValue(contextId, attributes);
+                $("select").removeClass("ui-menu");
             });
             //end of change function
             
             
             $(menuliste).menu();
-          
+            $("select").removeClass("ui-menu");
             return newEditAttribute;
         },      
         /*End of _newEditAttribute */    
@@ -659,6 +671,7 @@
                       
                       editedAttributes.push({qName: qName, value: ""});
                       suggestedAttribute.addClass("ui-state-disabled");        			 
+                      $("select").removeClass("ui-menu");
         		 }
         	
         	}); 
@@ -672,3 +685,4 @@
         }
     });
 })(jQuery);
+

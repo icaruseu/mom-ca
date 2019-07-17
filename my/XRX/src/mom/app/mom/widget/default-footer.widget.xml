@@ -102,12 +102,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 						<a href="http://exist-db.org" target="_blank">
 							<xrx:resource alt="eXist Logo" type="image/gif">tag:www.monasterium.net,2011:/mom/resource/image/exist-logo</xrx:resource>
 						</a>
-					</div>
+					</div><!-- Betterform page doesnt exist anymore
 					<div class="dlogo" data-demoid="824cc513-ee0f-4bdf-bc00-2e7b0bd9fe08">
 						<a href="http://betterform.de" target="_blank">
 							<xrx:resource alt="betterFORM Logo" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/betterform-logo</xrx:resource>
 						</a>
-					</div>
+					</div> -->
 					<div class="dlogo" data-demoid="d97ce2a1-402d-455e-bb5b-8bb637b13957">
 						<a href="https://ec.europa.eu/programmes/creative-europe/" target="_blank">
 							<xrx:resource alt="Co-funded by Creative Europe Logo" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/creative-europe-logo</xrx:resource>

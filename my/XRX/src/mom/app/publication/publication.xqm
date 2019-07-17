@@ -278,25 +278,25 @@ declare function publication:edit-trigger(
         </xf:trigger>
     </div>
     else if(matches($widget-key, '^(fond|collection|search|saved-charters|charter|charters-to-publish|bookmarks|mom-ca)$')) then
-    <div>  
+    <div>  <!--
        <div>
        <img src="{ $request-root }resource/?atomid=tag:www.monasterium.net,2011:/mom/resource/image/button_edit"/>
        <xf:trigger appearance="minimal">
             <xf:label>{ $edit-charter-message }</xf:label>
             <xf:action ev:event="DOMActivate">
             {
-              if ($widget-key="mom-ca") then
+              (: $widget-key="mom-ca") then :)
                   <xf:load show="new">
                     <xf:resource value="'{ $request-root }/{publication:build-url($atomid)}'"/> 
                   </xf:load>
-              else
+              (: else
                   <xf:load show="replace">
                       <xf:resource value="'{ $request-root }edit-charter?id={ $atomid }'"/>
-                  </xf:load>
+                  </xf:load> :)
               }
             </xf:action>
         </xf:trigger>
-       </div><!-- Editmom3 added as 2nd editing possibility #583-->
+       </div> --><!-- Editmom3 added as 2nd editing possibility #583-->
        { if($widget-key !="mom-ca") then
         <div>        
         <img src="{ $request-root }resource/?atomid=tag:www.monasterium.net,2011:/mom/resource/image/button_edit"/>        

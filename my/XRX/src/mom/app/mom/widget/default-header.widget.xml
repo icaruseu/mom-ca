@@ -369,35 +369,7 @@ form span.lang {{
                 </div>
                 <div class="extras" data-demoid="f5446b9e-d957-4fe3-a3d3-751e8c253643">
                     <div class="lang-select" data-demoid="152cd053-7f3c-43c0-b368-0ef8a4fcfd4e">
-            {
-            if($xrx:xformsflag) then
-            <div data-demoid="56201e27-24eb-4da5-bfee-3f14cacd4199" id="lang-select-form">
-              
-                            <xf:group model="mdefault-header">
-               { $login-link-div }
-                { $register-link-div }
-                <div style="clear:both;"/>
-                   <span class="lang">
-                                    <xrx:i18n>
-                                        <xrx:key>choose-a-language</xrx:key>
-                                        <xrx:default>Choose a Language</xrx:default>
-                                    </xrx:i18n>
-                                </span>
-                                <xf:select1 bind="blang" incremental="true">
-                                    <xf:itemset nodeset="instance('iconfigured-langs')//xrx:lang">
-                                        <xf:label ref="@name"/>
-                                        <xf:value ref="@key"/>
-                                    </xf:itemset>
-                                    <xf:action ev:event="xforms-value-changed">
-                                        <xf:load show="replace">
-                                            <xf:resource value="concat('{ request:get-url() }{ xrx:request-query-string('', '') }&amp;_lang=', //xrx:lang)"/>
-                                        </xf:load>
-                                    </xf:action>
-                                </xf:select1>
-              
-                            </xf:group>
-                        </div>
-            else
+                                    
             <div data-demoid="dc721b5b-a0ad-4ac0-a381-d3cab4a492b3" id="lang-select-form">
                 { $login-link-div }
               { $register-link-div }
@@ -435,7 +407,7 @@ form span.lang {{
               </form>
             
                         </div>
-            }
+            
           </div>
                 </div>
             </div>

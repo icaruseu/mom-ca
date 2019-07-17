@@ -63,7 +63,9 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 	    <xrx:freigabe>no</xrx:freigabe>
 	  </xrx:saved>
 	  
-	  let $updated := upd:insert-into-as-first($xrx:user-xml//xrx:saved_list,$saved)
+	  (: some userfiles couldnt be loaded: had to be reloaded :)
+	  let $user-xml := user:document(xmldb:get-current-user())
+	  let $updated := upd:insert-into-as-first($user-xml//xrx:saved_list,$saved)
 	    
 	  (: make a copy of the charter if it isn't in use already :)
     let $charter-in-use := publication:is-saved($user:db-base-collection/xrx:user, $atomid)

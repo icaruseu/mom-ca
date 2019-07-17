@@ -75,11 +75,6 @@
       <xrx:name>Wappen_Rheinland-Pfalz.png</xrx:name>
     </xrx:resource>
     <xrx:resource>
-      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/betterform-logo</xrx:atomid>
-      <xrx:relativepath>image/</xrx:relativepath>
-      <xrx:name>betterform-logo.png</xrx:name>
-    </xrx:resource>
-    <xrx:resource>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/button_bookmarkAdd</xrx:atomid>
       <xrx:relativepath>image/</xrx:relativepath>
       <xrx:name>button_bookmarkAdd.jpg</xrx:name>

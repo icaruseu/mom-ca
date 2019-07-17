@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- @author: Jochen Graf -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-  
+
   <xsl:param name="cache-size"/>
   <xsl:param name="collection-cache"/>
   <xsl:param name="lucene-buffer"/>
   <xsl:param name="db-files"/>
   <xsl:param name="backup-cron-trigger"/>
-  
+
   <xsl:template match="//scheduler">
     <scheduler>
       <job type="system" name="check1"
@@ -32,7 +32,7 @@
   <xsl:template match="//pool/@max">
     <xsl:attribute name="max">40</xsl:attribute>
   </xsl:template>
-  
+
   <xsl:template match="//module[@id='lucene-index']/@buffer">
     <xsl:attribute name="buffer">
       <xsl:value-of select="$lucene-buffer"/>
@@ -44,11 +44,11 @@
       <xsl:value-of select="$cache-size"/>
     </xsl:attribute>
   </xsl:template>
-  
+
   <xsl:template match="//xquery/@enable-java-binding">
     <xsl:attribute name="enable-java-binding">yes</xsl:attribute>
   </xsl:template>
-  
+
   <xsl:template match="//db-connection/@collectionCache">
     <xsl:attribute name="collectionCache">
       <xsl:value-of select="$collection-cache"/>
@@ -77,6 +77,8 @@
       <module uri="http://exist-db.org/xquery/datetime" class="org.exist.xquery.modules.datetime.DateTimeModule"/>
       <module uri="http://exist-db.org/xquery/sql" class="org.exist.xquery.modules.sql.SQLModule"/>
       <module uri="http://exist-db.org/xquery/cache" class="org.exist.xquery.modules.cache.CacheModule" />
+      <module uri="http://itineranova.be/features" class="org.itineranova.features.text.TextModule"/>
+      <module uri="http://exist-db.org/xquery/versioning" class="org.exist.versioning.xquery.VersioningModule"/>
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
@@ -84,7 +86,7 @@
   <xsl:template match="//serializer/@indent">
     <xsl:attribute name="indent">no</xsl:attribute>
   </xsl:template>
-  
+
   <xsl:template match="@*|*|comment()" priority="-2">
     <xsl:copy>
       <xsl:apply-templates select="@*|node()"/>

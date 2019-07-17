@@ -57,7 +57,7 @@ let $locationsXml :=
                                     <result>
                                     <id>{$archive//atom:id/text()}</id>
                                     <name>{$archive//eag:autform/text()}</name>
-                                        <url>{concat(conf:param('request-root'),tokenize($archive//atom:id/text(),'/')[3] ,"/archive")}</url>
+                                        <url>{concat(conf:param('request-root'),$archive//eag:repositorid/text() ,"/archive")}</url>
                                     </result>
                                 else()
                         }
@@ -182,7 +182,7 @@ declare function geoservices:xmlToJsonForCharters($locationsXml){
                                                     ),
                                                     jsonx:pair(
                                                             jsonx:string("url"),
-                                                            jsonx:string(if(empty($result/url)) then 'none' else($result/name))
+                                                            jsonx:string(if(empty($result/url)) then 'none' else($result/url))
                                                     )))
                                         )
                                 )
@@ -195,7 +195,6 @@ declare function geoservices:xmlToJsonForCharters($locationsXml){
 
 (: converts a xml with resuls from geoservices:get_archive_locations into json:)
 declare function geoservices:xmltoJson($locationsXml){
-
             let $json := jsonx:object(
                jsonx:pair(
                 jsonx:string("geolocations"),
@@ -229,7 +228,7 @@ declare function geoservices:xmltoJson($locationsXml){
                           ),
                          jsonx:pair(
                           jsonx:string("url"),
-                          jsonx:string(if(empty($result/url)) then 'none' else($result/name))
+                          jsonx:string(if(empty($result/url)) then 'none' else($result/url))
                         )))
                       )
                     )     
