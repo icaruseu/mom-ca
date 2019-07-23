@@ -1121,7 +1121,13 @@
             <xsl:apply-templates/>
         </li>
     </xsl:template>
-    <xsl:template match="cei:archIdentifier">
+    <xsl:template match="cei:archIdentifier | cei:altIdentifier">
+        <xsl:if test="self::cei:archIdentifier">
+            <xsl:text>  </xsl:text>
+        </xsl:if>
+        <xsl:if test=".[@type='old']">
+            <xsl:text>ehem. </xsl:text>
+        </xsl:if>
         <xsl:choose>
             <xsl:when test="text()[normalize-space() != '']">
                 <xsl:value-of select="."/>
@@ -1130,7 +1136,7 @@
                 <xsl:apply-templates/>
             </xsl:otherwise>
         </xsl:choose>
-
+        
         <xsl:if test="cei:ref/@target">
             <li style="list-style:none">
                 <a target="_blank">
@@ -1140,39 +1146,16 @@
                     <xrx:i18n>
                         <xrx:key>charter-on-archives-website</xrx:key>
                         <xrx:default>Charter on the archive's website</xrx:default>
-                    </xrx:i18n>
+                    </xrx:i18n>alt
                 </a>
             </li>
         </xsl:if>
     </xsl:template>
     <xsl:template match="cei:idno">
-
         <xsl:value-of select="normalize-space(replace(., ',', ''))"/>
-        <xsl:if test="following-sibling::*">
-            <xsl:text>, </xsl:text>
+        <xsl:if test="parent::cei:altIdentifier|parent::ceiarchIdentifier">
+            <xsl:text>.</xsl:text>
         </xsl:if>
-        <!--      <li>
-                <span>
-                  <xrx:i18n>
-                    <xrx:key>signature</xrx:key>
-                    <xrx:default>Signature</xrx:default>
-                  </xrx:i18n>
-                  <span>:&#160;</span>
-                </span>
-                <xsl:value-of select="." />
-              </li>
-            <xsl:if test="@n">
-              <li>
-                <span>
-                  <xrx:i18n>
-                    <xrx:key>internal-signature</xrx:key>
-                    <xrx:default>Internal Signature</xrx:default>
-                  </xrx:i18n>
-                  <span>:&#160;</span>
-                </span>
-                <xsl:value-of select="@n" />
-              </li>
-            </xsl:if> -->
     </xsl:template>
     <xsl:template match="cei:altIdentifier">
         <li>
@@ -1256,9 +1239,9 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    <xsl:template match="cei:arch">
+    <xsl:template match="cei:arch | cei:institution">
         <xsl:value-of select="normalize-space(replace(., ',', ''))"/>
-        <xsl:if test="following-sibling::*">
+        <xsl:if test="following-sibling::*[1][. != '']">
             <xsl:text>, </xsl:text>
         </xsl:if>
         <!--<xsl:apply-templates />
