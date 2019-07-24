@@ -1146,7 +1146,7 @@
                     <xrx:i18n>
                         <xrx:key>charter-on-archives-website</xrx:key>
                         <xrx:default>Charter on the archive's website</xrx:default>
-                    </xrx:i18n>alt
+                    </xrx:i18n>
                 </a>
             </li>
         </xsl:if>
