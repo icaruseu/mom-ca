@@ -164,7 +164,11 @@ div.clear {{
                 <xrx:parameter>
                 <xrx:name>$imagelink</xrx:name>
                 <xrx:expression>concat(conf:param('request-root'),"resource/?atomid=tag:www.monasterium.net,2011:/xrx/resource/images/archive")</xrx:expression>
-                </xrx:parameter>           
+                </xrx:parameter>
+		 <xrx:parameter>
+                <xrx:name>$mode</xrx:name>
+                <xrx:expression>"fonds"</xrx:expression>
+                </xrx:parameter>     
               </xrx:pass>              
             </xrx:subwidget> 
             <script type="text/javascript">$(document).ready(function(){{$('#fonds-map').hide();
