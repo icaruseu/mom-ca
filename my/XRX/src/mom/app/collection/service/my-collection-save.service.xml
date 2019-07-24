@@ -48,7 +48,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$base-collection</xrx:name>
-      <xrx:expression>if( not(contains($atomid, "charter" ) )) then $user:db-base-collection else  metadata:base-collection('charter', 'saved')</xrx:expression>
+      <xrx:expression>if( not(contains($atomid, "charter" ) )) then user:home-collection(xmldb:get-current-user()) else  metadata:base-collection('charter', 'saved')</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$entry</xrx:name>
