@@ -322,7 +322,7 @@ it leaves the active development stage.
           </xrx:parameter>
           <xrx:parameter>
               <xrx:name>$wgoto-search:id</xrx:name>
-              <xrx:expression>$charter:rarchiveid</xrx:expression>
+	      <xrx:expression>concat($charter:rarchiveid, ';', $charter:rfondid)</xrx:expression>
           </xrx:parameter>
 	  <xrx:parameter>
 	      <xrx:name>$wgoto-search:fond</xrx:name>
