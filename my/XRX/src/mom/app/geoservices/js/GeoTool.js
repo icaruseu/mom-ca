@@ -153,6 +153,26 @@ $.widget("ui.GeoTool",{
                 }
             });
         }
+        if(mode == "chartersearch"){
+            $(".loader").removeClass("inactive").addClass("active");;
+            $.ajax({
+                type: "GET",
+                dataType: 'json',
+                url: self.options.serviceLink,
+                data: {collectionpath : self.options.collection},
+
+                success: function(json){
+                    $(".loader").removeClass("active").addClass("inactive");;
+                    self._createMarkerForCharters(json);
+                    if(self.options.lat == 0 && self.options.lng == 0)
+                        self.map.fitBounds(self.markers.getBounds());
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR, textStatus, errorThrown);
+                }
+            });
+
+        }
 
     },
 
