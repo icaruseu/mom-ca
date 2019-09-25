@@ -92,6 +92,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:name>$wsearch:invert-selection</xrx:name>
       <xrx:expression>i18n:translate(<xrx:i18n><xrx:key>invert-selection</xrx:key><xrx:default>invert selection</xrx:default></xrx:i18n>)</xrx:expression>
     </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wsearch:showmap</xrx:name>
+      <xrx:expression>request:get-parameter('map', 'false')</xrx:expression>
+    </xrx:variable>
   </xrx:variables>
   <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
   <xrx:init>
@@ -243,6 +247,39 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   height: 200px;
 }}
 
+
+div.inlinehead, div.greyinlinehead, div.light-green, div.light-green:visited{{
+  position:relative;
+  float:left;
+  font-weight:bold;
+  width: 800px;
+  background-color:{conf:param('color5') };
+  color:rgb(255,255,255);
+/*color:rgb(142,163,132);*/
+  margin:0px;
+  margin-top:5px;
+  line-height:200%;
+  margin-bottom:5px;
+}}
+
+.headlineIcon{{
+  height: 12px;
+  margin-right: 3px;
+  margin-left: 2px;
+}}
+
+.headlineIcon#open{{
+  transform: rotate(180deg);
+}}
+
+.headlineIcon#closed{{
+  transform:rotate(90deg);
+}}
+
+#fonds-map{{
+  margin-left: 75px;
+}}
+
     </style>
   </xrx:csss>
   <xrx:jss>
@@ -286,6 +323,13 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             <xrx:i18n>
               <xrx:key>phrase</xrx:key>
               <xrx:default>phrase</xrx:default>
+            </xrx:i18n>
+          </span>
+          <input name="map" type="checkbox" value="true" checked="checked"/>
+          <span>
+            <xrx:i18n>
+              <xrx:key>map</xrx:key>
+              <xrx:default>map</xrx:default>
             </xrx:i18n>
           </span>
           <div data-demoid="27ae8693-da56-4e32-8665-f30827136a5f" style="display: none">
@@ -653,8 +697,42 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             
           </div>
         </div>
+        {
+        if(count(session:get-attribute($search:RESULT)) != 0 and $wsearch:showmap = 'true') then
+        <div>
+        <div class="inlinehead cat abs" data-demoid="b4e90807-c5fe-45a1-a974-b80c3a605587" onclick="showHideDiv('search-map',this)">
+          <xrx:resource alt="ausklappen" class="headlineIcon" id="closed" type="image/png" >tag:www.monasterium.net,2011:/mom/resource/image/path_up</xrx:resource>
+          <xrx:i18n>
+            <xrx:key>geomap</xrx:key>
+            <xrx:default>Map</xrx:default>
+          </xrx:i18n>
+        </div>
+        <div id="search-map">
+          <xrx:subwidget>
+            <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/geomap</xrx:atomid>
+            <xrx:pass>
+              <xrx:parameter>
+                <xrx:name>$serviceName</xrx:name>
+                <xrx:expression>"geolocations-search-charters-over-key"</xrx:expression>
+              </xrx:parameter>
+              <xrx:parameter>
+                <xrx:name>$imagelink</xrx:name>
+                <xrx:expression>concat(conf:param('request-root'),"resource/?atomid=tag:www.monasterium.net,2011:/xrx/resource/images/archive")</xrx:expression>
+              </xrx:parameter>
+              <xrx:parameter>
+                <xrx:name>$mode</xrx:name>
+                <xrx:expression>"chartersearch"</xrx:expression>
+              </xrx:parameter>
+            </xrx:pass>
+          </xrx:subwidget>
+        </div>
+          <script type="text/javascript">$(document).ready(function(){{$('#search-map').hide();
+          }})</script>
+        </div>
+        else ()
+        }
         <div data-demoid="bceb746e-7a77-4337-8e07-4f8b49e7388f" id="dcharter-preview-main">         
-          {      
+          {
           for $charter at $num in session:get-attribute($search:RESULT)[ position() = $wsearch:start to $wsearch:stop ]
           return
           <xrx:subwidget>
@@ -669,7 +747,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                 <xrx:expression>$num + $wsearch:start -1</xrx:expression>
               </xrx:parameter>
             </xrx:pass>
-          </xrx:subwidget>         
+          </xrx:subwidget>
          }
         </div>
       <xrx:div>select-block-div</xrx:div>
