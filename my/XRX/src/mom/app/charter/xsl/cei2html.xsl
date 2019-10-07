@@ -1126,7 +1126,6 @@
             <xsl:text>  </xsl:text>
         </xsl:if>
         <xsl:if test=".[@type='old']">
-            <xsl:if test=".[@type='old']">
                 <xrx:i18n>
                     <xrx:key>formerly: </xrx:key>
                     <xrx:default>ehem. </xrx:default>
