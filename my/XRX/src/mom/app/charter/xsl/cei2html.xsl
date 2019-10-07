@@ -1126,7 +1126,11 @@
             <xsl:text>  </xsl:text>
         </xsl:if>
         <xsl:if test=".[@type='old']">
-            <xsl:text>ehem. </xsl:text>
+            <xsl:if test=".[@type='old']">
+                <xrx:i18n>
+                    <xrx:key>formerly: </xrx:key>
+                    <xrx:default>ehem. </xrx:default>
+                </xrx:i18n>
         </xsl:if>
         <xsl:choose>
             <xsl:when test="text()[normalize-space() != '']">
@@ -1153,7 +1157,7 @@
     </xsl:template>
     <xsl:template match="cei:idno">
         <xsl:value-of select="normalize-space(replace(., ',', ''))"/>
-        <xsl:if test="parent::cei:altIdentifier|parent::ceiarchIdentifier">
+        <xsl:if test="parent::cei:altIdentifier|parent::cei:archIdentifier">
             <xsl:text>.</xsl:text>
         </xsl:if>
     </xsl:template>
