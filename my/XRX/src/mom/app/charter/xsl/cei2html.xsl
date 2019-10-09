@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<xsl:stylesheet xmlns:atom="http://www.w3.org/2005/Atom" xmlns:exist="http://exist.sourceforge.net/NS/exist" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns:cei="http://www.monasterium.net/NS/cei" id="cei2html" xmlns:xhtml="http://www.w3.org/1999/xhtml" version="2.0" xmlns="http://www.w3.org/1999/xhtml" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:tei="http://www.tei-c.org/ns/1.0/">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:cei="http://www.monasterium.net/NS/cei" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:exist="http://exist.sourceforge.net/NS/exist" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:tei="http://www.tei-c.org/ns/1.0/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:xrx="http://www.monasterium.net/NS/xrx" id="cei2html" version="2.0">
     <xsl:strip-space elements="*"/>
     <xsl:preserve-space elements="cei:*"/>
     <xsl:variable name="sitemap" select="/xhtml:page/xhtml:div"/>
@@ -140,13 +139,7 @@
         </xsl:variable>
         <xsl:choose>
             <!--   <xsl:when test="$cei//cei:witnessOrig/* != ''">-->
-            <xsl:when test="
-                    $cei//cei:witnessOrig/cei:traditioForm != '' or
-                    $cei//cei:witnessOrig/cei:figure != '' or
-                    $cei//cei:witnessOrig/cei:archIdentifier != '' or
-                    $cei//cei:witnessOrig/cei:auth != '' or
-                    $cei//cei:witnessOrig/cei:nota != '' or
-                    $cei//cei:witnessOrig/cei:rubrum != ''">
+            <xsl:when test="                     $cei//cei:witnessOrig/cei:traditioForm != '' or                     $cei//cei:witnessOrig/cei:figure != '' or                     $cei//cei:witnessOrig/cei:archIdentifier != '' or                     $cei//cei:witnessOrig/cei:auth != '' or                     $cei//cei:witnessOrig/cei:nota != '' or                     $cei//cei:witnessOrig/cei:rubrum != ''">
                 <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af" id="witList">
                     <xsl:for-each select="$cei//cei:witnessOrig">
                         <!-- <xsl:value-of select="position()"/> -->
@@ -157,10 +150,7 @@
                     </xsl:for-each>
                 </div>
             </xsl:when>
-            <xsl:when test="
-                    $cei//cei:witnessOrig/cei:physicalDesc/cei:material != '' or
-                    $cei//cei:witnessOrig/cei:physicalDesc/cei:dimensions != '' or
-                    $cei//cei:witnessOrig/cei:physicalDesc/cei:condition != ''">
+            <xsl:when test="                     $cei//cei:witnessOrig/cei:physicalDesc/cei:material != '' or                     $cei//cei:witnessOrig/cei:physicalDesc/cei:dimensions != '' or                     $cei//cei:witnessOrig/cei:physicalDesc/cei:condition != ''">
 
                 <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af" id="witList">
 
@@ -304,7 +294,7 @@
                 <!--  <div class="line">x</div> -->
                 <xsl:call-template name="tenornotes"/>
             </xsl:when>
-            <xsl:otherwise></xsl:otherwise>
+            <xsl:otherwise/>
         </xsl:choose>
 
     </xsl:template>
@@ -336,7 +326,7 @@
     </xsl:template>
     <xsl:template match="xhtml:insert-decoDesc">
         <xsl:choose>
-            <!-- <xsl:when test="count($cei//cei:decoDesc/cei:p/node()) &gt; 0"> -->
+            <!-- <xsl:when test="count($cei//cei:decoDesc/cei:p/node()) > 0"> -->
             <xsl:when test="$cei//cei:decoDesc/cei:p != ''">
                 <div id="decoDesc">
                     <xsl:element name="div">
@@ -397,7 +387,7 @@
                                         </xsl:otherwise>
                                     </xsl:choose>
                                 </li>
-                                <xsl:call-template name="item"></xsl:call-template>
+                                <xsl:call-template name="item"/>
                                 <xsl:if test="((count(./@*) = 1) and @indexName)">
                                     <ul class="indexname">
 
@@ -635,7 +625,7 @@
     <!-- common elements -->
     <xsl:template match="cei:ref[not(parent::cei:archIdentifier)]">
         <xsl:element name="a">
-            <xsl:attribute name="class"></xsl:attribute>
+            <xsl:attribute name="class"/>
             <xsl:attribute name="href">
                 <xsl:value-of select="@target"/>
             </xsl:attribute>
@@ -936,7 +926,7 @@
             <xsl:attribute name="title">
                 <xsl:value-of select="$cei_unclear"/>
                 <xsl:if test="normalize-space(@type) != ''">
-                    <xsl:text></xsl:text>
+                    <xsl:text/>
                     <xsl:value-of select="@type"/>
                 </xsl:if>
             </xsl:attribute>
@@ -955,10 +945,8 @@
             <div class="witness-text" name="wit">
                 <br/>
                 <xsl:call-template name="traditioForm"/>
-                <ul class="nostyle">
-
+                <div class="p">
                     <xsl:if test="./cei:archIdentifier/node()">
-                        <li>
                             <b>
                                 <xrx:i18n>
                                     <xrx:key>actual-repository</xrx:key>
@@ -966,10 +954,9 @@
                                 </xrx:i18n>
                                 <span>:&#160;</span>
                             </b>
-                        </li>
                         <xsl:apply-templates select="cei:archIdentifier"/>
                     </xsl:if>
-                </ul>
+                </div>
                 <br/>
 
                 <xsl:choose>
@@ -1121,16 +1108,17 @@
             <xsl:apply-templates/>
         </li>
     </xsl:template>
-    <xsl:template match="cei:archIdentifier | cei:altIdentifier">
-        <xsl:if test="self::cei:archIdentifier">
-            <xsl:text>  </xsl:text>
-        </xsl:if>
-        <xsl:if test=".[@type='old']">
-                <xrx:i18n>
-                    <xrx:key>formerly: </xrx:key>
-                    <xrx:default>ehem. </xrx:default>
-                </xrx:i18n>
-        </xsl:if>
+  <xsl:template match="cei:archIdentifier | cei:altIdentifier">
+<!--    <xsl:if test="self::cei:archIdentifier">
+      <xsl:text>  </xsl:text>
+    </xsl:if>-->
+      <br/>
+    <xsl:if test=".[@type='old']">
+        <xrx:i18n>
+            <xrx:key>formerly: </xrx:key>
+            <xrx:default>ehem.: </xrx:default>
+        </xrx:i18n>
+    </xsl:if>
         <xsl:choose>
             <xsl:when test="text()[normalize-space() != '']">
                 <xsl:value-of select="."/>
@@ -1139,7 +1127,7 @@
                 <xsl:apply-templates/>
             </xsl:otherwise>
         </xsl:choose>
-        
+
         <xsl:if test="cei:ref/@target">
             <li style="list-style:none">
                 <a target="_blank">
@@ -1149,29 +1137,31 @@
                     <xrx:i18n>
                         <xrx:key>charter-on-archives-website</xrx:key>
                         <xrx:default>Charter on the archive's website</xrx:default>
-                    </xrx:i18n>
+                    </xrx:i18n>alt
                 </a>
             </li>
         </xsl:if>
     </xsl:template>
     <xsl:template match="cei:idno">
+      <span>
         <xsl:value-of select="normalize-space(replace(., ',', ''))"/>
-        <xsl:if test="parent::cei:altIdentifier|parent::cei:archIdentifier">
-            <xsl:text>.</xsl:text>
+        <xsl:if test="parent::cei:altIdentifier|parent::ceiarchIdentifier">
+          <xsl:text>.</xsl:text>
         </xsl:if>
+      </span>
     </xsl:template>
-    <xsl:template match="cei:altIdentifier">
+     <!--<xsl:template match="cei:altIdentifier">
         <li>
-            <!--  <span>
+             <span>
                   <xrx:i18n>
                     <xrx:key>old-signature</xrx:key>
                     <xrx:default>Old Signature</xrx:default>
                   </xrx:i18n>
-                  <span>:&#160;</span>
-                </span> -->
+                  <span>: </span>
+                </span>
             <xsl:value-of select="."/>
         </li>
-    </xsl:template>
+    </xsl:template> -->
     <!--  <xsl:if test="cei:idno/@n">
               <li>
                 <span>
@@ -1449,7 +1439,7 @@
             <a class="fn-link" href="#backlink_{generate-id()}">
                 <xsl:value-of select="count(preceding::cei:note[not(ancestor::cei:back)])+1"/>
             </a>
-            <xsl:text></xsl:text>
+            <xsl:text/>
             <xsl:apply-templates/>
         </div>
     </xsl:template>
@@ -1748,7 +1738,7 @@
         <xsl:param name="key"/>
         <!--
             ToDo: This should be replaced by a service call
-            <xsl:if test="$len &gt; 0">
+            <xsl:if test="$len > 0">
             <xsl:variable name="filename" select="tokenize($personfilelist, ' ')[$len]"/>
             <xsl:variable name="url" select="concat('/db/mom-data/metadata.person.public/', $filename)"/>
             <xsl:variable name="fileatomid" select="substring-after(document($url)/atom:entry/atom:id, '/person/')"/>
@@ -1884,7 +1874,7 @@
                         <xsl:otherwise>
                             <xsl:variable name="lem" select="@lemma"/>
                             <xsl:variable name="norm">
-                                <xsl:value-of select="concat('#',upper-case($lem))"></xsl:value-of>
+                                <xsl:value-of select="concat('#',upper-case($lem))"/>
                             </xsl:variable>
                             <xsl:choose>
 
