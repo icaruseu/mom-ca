@@ -73,7 +73,7 @@ declare function resolver:is-metadata-resource-existing($uri-tokens as xs:string
     let $possible_atomid := request:get-parameter("atomid", "")
     
     let $uri-tokens := if ($resource-type = "charter" and $possible_atomid != "") then 
-                        tokenize($possible_atomid, "/") else ()
+                        tokenize($possible_atomid, "/") else $uri-tokens
                         
     let $resource-db-paths := resolver:create-possible-resource-db-paths($uri-tokens, $resource-type)
     let $existing-resources :=
