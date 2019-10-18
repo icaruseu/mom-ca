@@ -86,7 +86,7 @@ declare function resolver:is-metadata-resource-existing($uri-tokens as xs:string
                 
     
     let $is-resource-existing := not(empty($existing-resources))
-    let $log := util:log("ERROR", ($possible_atomid, $resource-type, $resource-db-paths))
+    
     return
         if ($is-resource-existing = false() and $resource-type = ("collection", "my-charter", "my-collection")) then
             resolver:is-private-metadata-resource-existing($uri-tokens, $resource-type)
