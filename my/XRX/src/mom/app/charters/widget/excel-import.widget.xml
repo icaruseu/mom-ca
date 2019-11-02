@@ -89,15 +89,15 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	</xf:action>
       </xf:submission>
       
-      <xf:submission action="{ $xrx:jetty-request-base-url }service/excel-choose-sheet" id="sexcel-choose-sheet" instance="iexcel-choose-sheet-response" method="post" replace="instance"/>
+      <xf:submission action="{ conf:param('request-root') }service/excel-choose-sheet" id="sexcel-choose-sheet" instance="iexcel-choose-sheet-response" method="post" replace="instance"/>
       
-      <xf:submission action="{ $xrx:jetty-request-base-url }service/excel-choose-row" id="sexcel-choose-row" instance="iexcel-choose-row-response" method="post" replace="instance"/>
+      <xf:submission action="{ conf:param('request-root') }service/excel-choose-row" id="sexcel-choose-row" instance="iexcel-choose-row-response" method="post" replace="instance"/>
             
-      <xf:submission action="{ $xrx:jetty-request-base-url }service/excel-validate-sheet" id="sexcel-validate-sheet" instance="iexcel-validate-sheet-response" method="post" replace="instance"/>
+      <xf:submission action="{ conf:param('request-root') }service/excel-validate-sheet" id="sexcel-validate-sheet" instance="iexcel-validate-sheet-response" method="post" replace="instance"/>
             
-      <xf:submission action="{ $xrx:jetty-request-base-url }service/excel-transform-sheet" id="sexcel-transform-sheet" instance="iexcel-transform-sheet-response" method="post" replace="instance"/>
+      <xf:submission action="{ conf:param('request-root') }service/excel-transform-sheet" id="sexcel-transform-sheet" instance="iexcel-transform-sheet-response" method="post" replace="instance"/>
              
-      <xf:submission action="{ $xrx:jetty-request-base-url }service/excel-import-sheet" id="sexcel-import-sheet" instance="iexcel-import-sheet-response" method="post" replace="instance"/>
+      <xf:submission action="{ conf:param('request-root') }service/excel-import-sheet" id="sexcel-import-sheet" instance="iexcel-import-sheet-response" method="post" replace="instance"/>
               
       <xf:bind nodeset="upload"> 
         <xf:bind nodeset="value" type="xs:base64Binary"/> 

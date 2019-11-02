@@ -70,6 +70,11 @@ declare function resolver:is-resource-existing($uri as xs:string) as xs:boolean 
 (: Returns true if the provided URI tokens and resource type stand for an existing metadata resource, e.g. an existing
  : charter or archive. Returns false if the resource doesn't exist. :)
 declare function resolver:is-metadata-resource-existing($uri-tokens as xs:string*, $resource-type as xs:string) as xs:boolean {
+    let $possible_atomid := request:get-parameter("atomid", "")
+    
+    let $uri-tokens := if ($resource-type = "charter" and $possible_atomid != "") then 
+                        tokenize($possible_atomid, "/") else $uri-tokens
+                        
     let $resource-db-paths := resolver:create-possible-resource-db-paths($uri-tokens, $resource-type)
     let $existing-resources :=
         for $resource-db-path in $resource-db-paths
@@ -78,7 +83,10 @@ declare function resolver:is-metadata-resource-existing($uri-tokens as xs:string
                 $resource-db-path
             else
                 ()
+                
+    
     let $is-resource-existing := not(empty($existing-resources))
+    
     return
         if ($is-resource-existing = false() and $resource-type = ("collection", "my-charter", "my-collection")) then
             resolver:is-private-metadata-resource-existing($uri-tokens, $resource-type)
@@ -122,7 +130,8 @@ declare function resolver:create-possible-resource-db-paths($uri-tokens as xs:st
                 (
                     "/db/mom-data/metadata.charter.public/" || $uri-tokens[last() - 3] || "/" || $uri-tokens[last() - 2] || "/" || $uri-tokens[last() - 1] || ".cei.xml",
                     "/db/mom-data/metadata.charter.public/" || $uri-tokens[last() - 2] || "/" || $uri-tokens[last() - 1] || ".cei.xml",
-                    "/db/mom-data/metadata.charter.public/" || $uri-tokens[last() - 2] || "/" || $uri-tokens[last() - 1] || ".charter.xml"
+                    "/db/mom-data/metadata.charter.public/" || $uri-tokens[last() - 2] || "/" || $uri-tokens[last() - 1] || ".charter.xml",
+                    "/db/mom-data/metadata.charter.public/" || $uri-tokens[last() - 2] || "/" || $uri-tokens[last() - 1] || "/" || $uri-tokens[last()] || ".cei.xml"  
                 )
             case "collection" return
                 (
@@ -139,8 +148,11 @@ declare function resolver:create-possible-resource-db-paths($uri-tokens as xs:st
                     "/db/mom-data/metadata.collection.public/" || $uri-tokens[last() - 1] || "/" || $uri-tokens[last() - 1] || ".cei.xml",
                     "/db/mom-data/metadata.mycollection.public/" || $uri-tokens[last() - 1] || "/" || $uri-tokens[last() - 1] || ".mycollection.xml"
                 )
+                
             default return
-                ()
+                (
+                    
+                    )
     return
         for $path in $paths
         return
