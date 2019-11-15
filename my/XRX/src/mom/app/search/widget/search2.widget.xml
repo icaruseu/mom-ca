@@ -92,10 +92,6 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:name>$wsearch:invert-selection</xrx:name>
       <xrx:expression>i18n:translate(<xrx:i18n><xrx:key>invert-selection</xrx:key><xrx:default>invert selection</xrx:default></xrx:i18n>)</xrx:expression>
     </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$wsearch:showmap</xrx:name>
-      <xrx:expression>request:get-parameter('map', 'false')</xrx:expression>
-    </xrx:variable>
   </xrx:variables>
   <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
   <xrx:init>
@@ -439,6 +435,7 @@ div.inlinehead, div.greyinlinehead, div.light-green, div.light-green:visited{{
         <!-- the value or these inputs is defined in jquery.ui.search.js -->
         <input id="categories-search" name="categories" type="hidden" value=""/>
         <input id="context-search" name="context" type="hidden" value=""/>
+        <input id="issuedplaces-search" name="issuedplaces" type="hidden" value=""/>
       </form>     
       {       
       if($wsearch:count != 0) then 
@@ -694,11 +691,39 @@ div.inlinehead, div.greyinlinehead, div.light-green, div.light-green:visited{{
             <div class="confine-trigger-div" data-demoid="75603079-1b52-4ecd-91e5-1c4cd7221c7e">
               <input class="confine-trigger" type="submit" value="→"/>
             </div>
-            
+
           </div>
+      <!--
+          <div id="issuedplaces-result">
+            <b>
+              <xrx:i18n>
+                <xrx:key>places</xrx:key>
+                <xrx:default>places</xrx:default>
+              </xrx:i18n>
+            </b><br/>
+            <div>
+              <input id="invert_issuedplaces_checkboxes" type="button" value="{ $wsearch:invert-selection }" onclick="invert_all_checkboxes('issuedplaces_checkbox')"/>
+            </div>
+            {
+            for $place in distinct-values(session:get-attribute($search:RESULT)//cei:issued/cei:placeName)
+            let $count := count(session:get-attribute($search:RESULT)//cei:issued/cei:placeName[./text() eq $place])
+            order by $place
+            return
+            <div>
+              <input name="{$place}" type="checkbox" class="issuedplaces_checkbox"></input>
+              <span title="{$place}">{$place}</span>
+              <span class="light-grey">({$count})</span>
+            </div>
+            }
+            <div class="confine-trigger-div">
+              <input class="confine-trigger" type="submit" value="→"/>
+            </div>
+
+          </div>
+          -->
         </div>
         {
-        if(count(session:get-attribute($search:RESULT)) != 0 and $wsearch:showmap = 'true') then
+        if(count(session:get-attribute($search:RESULT)) != 0) then
         <div>
         <div class="inlinehead cat abs" data-demoid="b4e90807-c5fe-45a1-a974-b80c3a605587" onclick="showHideDiv('search-map',this)">
           <xrx:resource alt="ausklappen" class="headlineIcon" id="closed" type="image/png" >tag:www.monasterium.net,2011:/mom/resource/image/path_up</xrx:resource>
