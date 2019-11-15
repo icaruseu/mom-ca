@@ -1,8 +1,5 @@
 function showHideDiv(id, clickedElement){
 	
-	//console.log(clickedElement);
-	
-	console.log($(clickedElement).find("img"));
 
    headlineArrow = $(clickedElement).find("img")
 
