@@ -153,6 +153,27 @@ $.widget("ui.GeoTool",{
                 }
             });
         }
+        if(mode == "chartersearch"){
+            console.log(self.options.serviceLink)
+            $(".loader").removeClass("inactive").addClass("active");;
+            $.ajax({
+                type: "GET",
+                dataType: 'json',
+                url: self.options.serviceLink,
+                data: {collectionpath : self.options.collection},
+
+                success: function(json){
+                    $(".loader").removeClass("active").addClass("inactive");;
+                    self._createMarkerForCharterSearch(json);
+                    if(self.options.lat == 0 && self.options.lng == 0)
+                        self.map.fitBounds(self.markers.getBounds());
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR, textStatus, errorThrown);
+                }
+            });
+
+        }
 
     },
 
@@ -203,6 +224,22 @@ $.widget("ui.GeoTool",{
 
         }
         },
+
+    /** create Markers for Charters on Map in search2 **/
+    _createMarkerForCharterSearch: function(json){
+        self = this;
+        for(var locationsCounter = 0, locationsLength = json.geolocations.length; locationsCounter < locationsLength; locationsCounter++ ){
+            var lat = json.geolocations[locationsCounter].lat;
+            var lng = json.geolocations[locationsCounter].lng;
+            if(!json.geolocations[locationsCounter].name){
+                json.geolocations[locationsCounter].name = "???";
+            }
+            var result = "<b>"+json.geolocations[locationsCounter].name+"</b><br />";
+            result = result + "<a class='clickLink' href='"+window.location+"&issuedplace="+json.geolocations[locationsCounter].name+"' place="+json.geolocations[locationsCounter].name+"' count='"+json.geolocations[locationsCounter].results.length+"'>"+json.geolocations[locationsCounter].results.length+" "+self.options.linklabel+"</a><br/>";
+            self._setMarker(lat, lng, result, "archives");
+
+        }
+    },
 	});
 
 

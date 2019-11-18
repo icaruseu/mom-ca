@@ -68,6 +68,40 @@ return <locations>{$locationsXml}</locations>
 
 };
 
+declare function geoservices:get_charter_over_key_from_entries($entries){
+    let $geodoc := doc("/db/mom-data/metadata.geo.public/geo.xml")
+
+
+    let $keys := distinct-values($entries//cei:issued/cei:placeName/@key)
+
+    for $key in $keys
+    let $locations := $geodoc//geo:location[@id=$key]
+
+    let $xml := for $location in $locations
+    return <location>
+        <name>{$location//geo:name/text()}</name>
+        <longitude>{$location//geo:lng/text()}</longitude>
+        <latitude>{$location/geo:lat/text()}</latitude>
+        <count>{count($entries[.//cei:issued/cei:placeName/@key = $key])}</count>
+        <results>
+            {
+                for $charter in $entries[.//cei:issued/cei:placeName/@key = $key]
+                order by $charter//cei:date/@value
+                return
+                    <result>
+                        {$charter//cei:date}
+                        <id>{$charter//atom:id/text()}</id>
+                    </result>
+            }
+        </results>
+    </location>
+    let $locationXml := <locations>{$xml}</locations>
+
+    return $locationXml
+};
+
+
+
 (:Get all charters with ..//cei:issued/cei:place/@key in a collection. Needs the path to the collection returns the result as xml :)
 declare function geoservices:get_charter_over_key($collectionPath){
 

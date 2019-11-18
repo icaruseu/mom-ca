@@ -7,6 +7,42 @@
  *   jquery.ui.autocomplete.js
  */
 
+
+ function showHideDiv(id, clickedElement){
+   headlineArrow = $(clickedElement).find("img")
+   if(headlineArrow.attr('id') == "open"){
+     $({deg: 180}).animate({deg: 90}, {
+       duration: 400,
+       step: function(now) {
+         headlineArrow.css({
+           transform: 'rotate(' + now + 'deg)'
+         });
+       },
+       complete: function(){
+         headlineArrow.attr('id', 'closed');
+       }
+     });
+
+     $("#"+id).slideUp("slow");
+   }
+   else if(headlineArrow.attr('id') == "closed"){
+     $({deg: 90}).animate({deg: 180}, {
+       duration: 400,
+       step: function(now) {
+         headlineArrow.css({
+           transform: 'rotate(' + now + 'deg)'
+         });
+       },
+       complete: function(){
+         headlineArrow.attr('id', 'open');
+       }
+     });
+
+     $("#"+id).slideDown("slow");
+   }
+ }
+
+
 ;(function( $, undefined ) {
 var selCheckbox_ = "input[type=checkbox]";
 
