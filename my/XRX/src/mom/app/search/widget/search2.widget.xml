@@ -321,13 +321,6 @@ div.inlinehead, div.greyinlinehead, div.light-green, div.light-green:visited{{
               <xrx:default>phrase</xrx:default>
             </xrx:i18n>
           </span>
-          <input name="map" type="checkbox" value="true" checked="checked"/>
-          <span>
-            <xrx:i18n>
-              <xrx:key>map</xrx:key>
-              <xrx:default>map</xrx:default>
-            </xrx:i18n>
-          </span>
           <div data-demoid="27ae8693-da56-4e32-8665-f30827136a5f" style="display: none">
             <input id="search-only-image" name="img" type="hidden" value="{ $search:img }"/>
             <input id="search-only-annotations" name="annotations" type="hidden" value="{ $search:annotations }"/>
@@ -435,8 +428,7 @@ div.inlinehead, div.greyinlinehead, div.light-green, div.light-green:visited{{
         <!-- the value or these inputs is defined in jquery.ui.search.js -->
         <input id="categories-search" name="categories" type="hidden" value=""/>
         <input id="context-search" name="context" type="hidden" value=""/>
-        <input id="issuedplaces-search" name="issuedplaces" type="hidden" value=""/>
-      </form>     
+      </form>
       {       
       if($wsearch:count != 0) then 
       <div data-demoid="46eda2fa-8442-4a23-a974-4fa3ab442f24" id="result">
