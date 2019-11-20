@@ -9,7 +9,7 @@
 
 
  function showHideDiv(id, clickedElement){
-   headlineArrow = $(clickedElement).find("img")
+   headlineArrow = $(clickedElement).find("img");
    if(headlineArrow.attr('id') == "open"){
      $({deg: 180}).animate({deg: 90}, {
        duration: 400,
