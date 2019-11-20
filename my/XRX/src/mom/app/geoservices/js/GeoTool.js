@@ -154,8 +154,7 @@ $.widget("ui.GeoTool",{
             });
         }
         if(mode == "chartersearch"){
-            console.log(self.options.serviceLink)
-            $(".loader").removeClass("inactive").addClass("active");;
+            $(".loader").removeClass("inactive").addClass("active");
             $.ajax({
                 type: "GET",
                 dataType: 'json',
@@ -163,7 +162,7 @@ $.widget("ui.GeoTool",{
                 data: {collectionpath : self.options.collection},
 
                 success: function(json){
-                    $(".loader").removeClass("active").addClass("inactive");;
+                    $(".loader").removeClass("active").addClass("inactive");
                     self._createMarkerForCharterSearch(json);
                     if(self.options.lat == 0 && self.options.lng == 0)
                         self.map.fitBounds(self.markers.getBounds());
