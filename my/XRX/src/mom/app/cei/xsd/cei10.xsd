@@ -2131,6 +2131,7 @@
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:element ref="num"/>
+                    <xs:element ref="note"/>
                 </xs:choice>
             </xs:sequence>
             <xs:attributeGroup ref="lang"/>
