@@ -178,8 +178,8 @@
                                 <xsl:value-of select="$charter-image-url"/>
                             </xsl:otherwise>
                         </xsl:choose> -->
-                        <xsl:variable name="iiif" select="http://images.icar-us.eu/iiif/2/" />
-                        <xsl:variable name="option" select="/full/1024,/0/default.jpg" />
+                        <xsl:variable name="iiif" select="'http://images.icar-us.eu/iiif/2/'" />
+                        <xsl:variable name="option" select="'/full/1024,/0/default.jpg'" />
                         <xsl:variable name="charter-image-url" select=".//cei:witnessOrig/cei:figure/cei:graphic[string-length(@url)&gt;0]/@url"/>
                         <xsl:value-of select="$iiif"/>
                         <xsl:value-of select="$charter-image-url"/>
