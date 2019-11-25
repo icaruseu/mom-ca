@@ -46,6 +46,7 @@
                 <xsl:if test=".//cei:issuer/text()">
                     <dc:creator>
                         <xsl:value-of select=".//cei:issuer"/>
+                        <xsl:attribute name="creatorrole">issuer</xsl:attribute>
                     </dc:creator>
                 </xsl:if>
                 <xsl:if test=".//cei:witness/cei:physicalDesc/cei:material/text() or .//cei:witness/cei:physicalDesc/condition/text()">
