@@ -243,6 +243,39 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   height: 200px;
 }}
 
+
+div.inlinehead, div.greyinlinehead, div.light-green, div.light-green:visited{{
+  position:relative;
+  float:left;
+  font-weight:bold;
+  width: 800px;
+  background-color:{conf:param('color5') };
+  color:rgb(255,255,255);
+/*color:rgb(142,163,132);*/
+  margin:0px;
+  margin-top:5px;
+  line-height:200%;
+  margin-bottom:5px;
+}}
+
+.headlineIcon{{
+  height: 12px;
+  margin-right: 3px;
+  margin-left: 2px;
+}}
+
+.headlineIcon#open{{
+  transform: rotate(180deg);
+}}
+
+.headlineIcon#closed{{
+  transform:rotate(90deg);
+}}
+
+#fonds-map{{
+  margin-left: 75px;
+}}
+
     </style>
   </xrx:csss>
   <xrx:jss>
@@ -395,7 +428,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
         <!-- the value or these inputs is defined in jquery.ui.search.js -->
         <input id="categories-search" name="categories" type="hidden" value=""/>
         <input id="context-search" name="context" type="hidden" value=""/>
-      </form>     
+      </form>
       {       
       if($wsearch:count != 0) then 
       <div data-demoid="46eda2fa-8442-4a23-a974-4fa3ab442f24" id="result">
@@ -650,11 +683,73 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             <div class="confine-trigger-div" data-demoid="75603079-1b52-4ecd-91e5-1c4cd7221c7e">
               <input class="confine-trigger" type="submit" value="→"/>
             </div>
-            
+
           </div>
+      <!--
+          <div id="issuedplaces-result">
+            <b>
+              <xrx:i18n>
+                <xrx:key>places</xrx:key>
+                <xrx:default>places</xrx:default>
+              </xrx:i18n>
+            </b><br/>
+            <div>
+              <input id="invert_issuedplaces_checkboxes" type="button" value="{ $wsearch:invert-selection }" onclick="invert_all_checkboxes('issuedplaces_checkbox')"/>
+            </div>
+            {
+            for $place in distinct-values(session:get-attribute($search:RESULT)//cei:issued/cei:placeName)
+            let $count := count(session:get-attribute($search:RESULT)//cei:issued/cei:placeName[./text() eq $place])
+            order by $place
+            return
+            <div>
+              <input name="{$place}" type="checkbox" class="issuedplaces_checkbox"></input>
+              <span title="{$place}">{$place}</span>
+              <span class="light-grey">({$count})</span>
+            </div>
+            }
+            <div class="confine-trigger-div">
+              <input class="confine-trigger" type="submit" value="→"/>
+            </div>
+
+          </div>
+          -->
         </div>
+        {
+        if(count(session:get-attribute($search:RESULT)) != 0) then
+        <div>
+        <div class="inlinehead cat abs" data-demoid="b4e90807-c5fe-45a1-a974-b80c3a605587" onclick="showHideDiv('search-map',this)">
+          <xrx:resource alt="ausklappen" class="headlineIcon" id="closed" type="image/png" >tag:www.monasterium.net,2011:/mom/resource/image/path_up</xrx:resource>
+          <xrx:i18n>
+            <xrx:key>geomap</xrx:key>
+            <xrx:default>Map</xrx:default>
+          </xrx:i18n>
+        </div>
+        <div id="search-map">
+          <xrx:subwidget>
+            <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/geomap</xrx:atomid>
+            <xrx:pass>
+              <xrx:parameter>
+                <xrx:name>$serviceName</xrx:name>
+                <xrx:expression>"geolocations-search-charters-over-key"</xrx:expression>
+              </xrx:parameter>
+              <xrx:parameter>
+                <xrx:name>$imagelink</xrx:name>
+                <xrx:expression>concat(conf:param('request-root'),"resource/?atomid=tag:www.monasterium.net,2011:/xrx/resource/images/archive")</xrx:expression>
+              </xrx:parameter>
+              <xrx:parameter>
+                <xrx:name>$mode</xrx:name>
+                <xrx:expression>"chartersearch"</xrx:expression>
+              </xrx:parameter>
+            </xrx:pass>
+          </xrx:subwidget>
+        </div>
+          <script type="text/javascript">$(document).ready(function(){{$('#search-map').hide();
+          }})</script>
+        </div>
+        else ()
+        }
         <div data-demoid="bceb746e-7a77-4337-8e07-4f8b49e7388f" id="dcharter-preview-main">         
-          {      
+          {
           for $charter at $num in session:get-attribute($search:RESULT)[ position() = $wsearch:start to $wsearch:stop ]
           return
           <xrx:subwidget>
@@ -669,7 +764,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                 <xrx:expression>$num + $wsearch:start -1</xrx:expression>
               </xrx:parameter>
             </xrx:pass>
-          </xrx:subwidget>         
+          </xrx:subwidget>
          }
         </div>
       <xrx:div>select-block-div</xrx:div>
