@@ -230,7 +230,7 @@
                 </europeana:isShownAt>
                 <xsl:if test=".//cei:graphic[string-length(@url)&gt;0]">
                     <europeana:isShownBy>
-                        <xsl:variable name="option" select="'/full/1024,/0/default.jpg'" />
+                        <xsl:variable name="option" select="'/full/1200,/0/default.jpg'" />
                         <xsl:variable name="charter-image-url" select=".//cei:graphic[string-length(@url)&gt;0]/@url"/>
                         <xsl:value-of select="$base-image-url"/>
 
