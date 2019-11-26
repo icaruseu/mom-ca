@@ -11,6 +11,7 @@
                         <xsl:text>&#160;]</xsl:text>
                     </xsl:if>
                 </dc:title>
+                <dc:type>charter</dc:type>
                 <xsl:if test=".//cei:lang_MOM/text()">
                     <dc:language>
                         <xsl:apply-templates select=".//cei:lang_MOM"/>
@@ -25,7 +26,7 @@
                     <xsl:apply-templates select=".//atom:id"/>
                 </dc:identifier>
                 <xsl:if test=".//cei:issued/cei:placeName/text() or .//cei:abstract/cei:placeName/text() or .//cei:abstract/cei:geogName/text() or .//cei:tenor/cei:placeName/text() or .//cei:tenor/cei:geogName/text()">
-                    <dc:spacial>
+                    <dc:spatial>
                         <xsl:if test=".//cei:issued/cei:placeName/text()">
                             <xsl:text>Issued-place-name:&#160;</xsl:text>
                             <xsl:apply-templates select=".//cei:issued/cei:placeName"/>
@@ -49,7 +50,7 @@
                                 <xsl:text>,&#160;</xsl:text>
                             </xsl:for-each>
                         </xsl:if>
-                    </dc:spacial>
+                    </dc:spatial>
                 </xsl:if>
                 <xsl:if test=".//cei:issuer/text()">
                     <dc:creator>

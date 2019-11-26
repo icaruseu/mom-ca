@@ -6,13 +6,11 @@
         <oai:metadata>
             <europeana:record xmlns="http://www.europeana.eu/schemas/ese/">
                 <dc:title>
-                    <xsl:apply-templates select=".//cei:abstract"/>
-                    <xsl:if test=".//cei:sourceDescRegest/cei:bibl/text()">
-                        <xsl:text>&#160;[Source:&#160;</xsl:text>
-                        <xsl:apply-templates select=".//cei:sourceDescRegest/cei:bibl"/>
-                        <xsl:text>&#160;]</xsl:text>
-                    </xsl:if>
+                    <xsl:text>Charter</xsl:text>
                 </dc:title>
+                <dc:type>
+                    <xsl:text>Charter</xsl:text>
+                </dc:type>
                 <xsl:if test=".//cei:lang_MOM/text()">
                     <dc:language>
                         <xsl:apply-templates select=".//cei:lang_MOM"/>
@@ -26,32 +24,24 @@
                 <dc:identifier>
                     <xsl:apply-templates select=".//atom:id"/>
                 </dc:identifier>
-                <xsl:if test=".//cei:issued/cei:placeName/text() or .//cei:abstract/cei:placeName/text() or .//cei:abstract/cei:geogName/text() or .//cei:tenor/cei:placeName/text() or .//cei:tenor/cei:geogName/text()">
-                    <dc:spacial>
-                        <xsl:if test=".//cei:issued/cei:placeName/text()">
-                            <xsl:text>Issued-place-name:&#160;</xsl:text>
-                            <xsl:apply-templates select=".//cei:issued/cei:placeName"/>
-                        </xsl:if>
-                        <xsl:if test=".//cei:abstract/cei:placeName/text() or .//cei:abstract/cei:geogName/text() or .//cei:tenor/cei:placeName/text() or .//cei:tenor/cei:geogName/text()">
-                            <xsl:text>;&#160;Place-names:</xsl:text>
-                            <xsl:for-each select=".//cei:abstract/cei:placeName">
-                                <xsl:value-of select="./text()"/>
-                                <xsl:text>,&#160;</xsl:text>
-                            </xsl:for-each>
-                            <xsl:for-each select=".//cei:abstract/cei:geogName">
-                                <xsl:value-of select="./text()"/>
-                                <xsl:text>,&#160;</xsl:text>
-                            </xsl:for-each>
-                            <xsl:for-each select=".//cei:tenor/cei:placeName">
-                                <xsl:value-of select="./text()"/>
-                                <xsl:text>,&#160;</xsl:text>
-                            </xsl:for-each>
-                            <xsl:for-each select=".//cei:tenor/cei:geogName">
-                                <xsl:value-of select="./text()"/>
-                                <xsl:text>,&#160;</xsl:text>
-                            </xsl:for-each>
-                        </xsl:if>
-                    </dc:spacial>
+                <xsl:if test=".//cei:abstract/text()">
+                    <dc:description>
+                        <xsl:apply-templates select=".//cei:abstract"/>
+                    </dc:description>
+                </xsl:if>
+                <xsl:if test=".//cei:placeName/text()">
+                    <xsl:for-each select=".//cei:abstract/cei:placeName">
+                        <dc:spatial>
+                            <xsl:value-of select="./text()"/>
+                        </dc:spatial>
+                    </xsl:for-each>
+                </xsl:if>
+                <xsl:if test=".//cei:geogName/text()">
+                    <xsl:for-each select=".//cei:geogName">
+                        <dc:spatial>
+                            <xsl:value-of select="./text()"/>
+                        </dc:spatial>
+                    </xsl:for-each>
                 </xsl:if>
                 <xsl:if test=".//cei:issuer/text()">
                     <dc:creator>
@@ -80,16 +70,22 @@
                         </xsl:if>
                     </dc:publisher>
                 </xsl:if>
-                <xsl:if test=".//cei:index">
-                    <dc:subject>
-                        <xsl:for-each select=".//cei:index">
+                <xsl:if test=".//cei:abstract">
+                    <xsl:for-each select=".//cei:abstract">
+                        <dc:subject>
                             <xsl:value-of select="./text()"/>
-                            <xsl:text>,&#160;</xsl:text>
-                        </xsl:for-each>
-                    </dc:subject>
+                        </dc:subject>
+                    </xsl:for-each>  
+                </xsl:if>
+                <xsl:if test=".//cei:keyword">
+                    <xsl:for-each select=".//cei:keyword">
+                        <dc:subject>
+                            <xsl:value-of select="./text()"/>
+                        </dc:subject>
+                    </xsl:for-each>  
                 </xsl:if>
                 <xsl:if test=".//cei:issued/cei:date/text() or .//cei:issued/cei:dateRange/text()">
-                    <dc:date>
+                    <dc:date><!--
                         <xsl:text>Issued-date:&#160;</xsl:text>
                         <xsl:choose>
                             <xsl:when test=".//cei:issued/cei:date/@value">
@@ -114,7 +110,95 @@
                             <xsl:text>,&#160;"</xsl:text>
                             <xsl:value-of select=".//cei:quoteOriginaldatierung/text()[1]"/>
                         </xsl:if>
-                        <xsl:text>)</xsl:text>
+                        <xsl:text>)</xsl:text> -->
+                        <xsl:choose>
+                            <xsl:when test=".//cei:issued/cei:date/@value != 99999999">
+                                <xsl:variable name="date" select=".//cei:issued/cei:date/@value" />
+                                <xsl:variable name="mm">
+                                   <xsl:value-of select="substring($date,1,2)" />
+                                </xsl:variable>
+                             
+                                <xsl:variable name="dd">
+                                   <xsl:value-of select="substring($date,3,2)" />
+                                </xsl:variable>
+                             
+                                <xsl:variable name="yyyy">
+                                   <xsl:value-of select="substring($date,5,4)" />
+                                </xsl:variable>
+                             
+                                <xsl:value-of select="$yyyy" />
+                                <xsl:value-of select="'-'" />
+                                <xsl:value-of select="$mm" />
+                                <xsl:value-of select="'-'" />
+                                <xsl:value-of select="$dd" />
+                            
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:choose>
+                                    <xsl:when test="(.//cei:issued/cei:dateRange/@from = .//cei:issued/cei:dateRange/@to) and (.//cei:issued/cei:dateRange/@from != '99999999')">
+                                        <xsl:variable name="date" select=".//cei:issued/cei:dateRange/@from" />
+                                        <xsl:variable name="mm">
+                                             <xsl:value-of select="substring($date,5,2)" />
+                                        </xsl:variable>
+                                     
+                                        <xsl:variable name="dd">
+                                           <xsl:value-of select="substring($date,7,2)" />
+                                        </xsl:variable>
+                                     
+                                        <xsl:variable name="yyyy">
+                                           <xsl:value-of select="substring($date,1,4)" />
+                                        </xsl:variable>
+                                     
+                                        <xsl:value-of select="$yyyy" />
+                                        <xsl:value-of select="'-'" />
+                                        <xsl:value-of select="$mm" />
+                                        <xsl:value-of select="'-'" />
+                                        <xsl:value-of select="$dd" />
+                                    </xsl:when>
+
+                                    <xsl:when test="(.//cei:issued/cei:dateRange/@from != .//cei:issued/cei:dateRange/@to) and (.//cei:issued/cei:dateRange/@from = '99999999')">
+                                        <xsl:variable name="date_from" select=".//cei:issued/cei:dateRange/@from" />
+                                        <xsl:variable name="date_to" select=".//cei:issued/cei:dateRange/@to" />
+                                        <xsl:variable name="mm">
+                                            <xsl:value-of select="substring($date_from,5,2)" />
+                                        </xsl:variable>
+                                     
+                                        <xsl:variable name="dd">
+                                           <xsl:value-of select="substring($date_from,7,2)" />
+                                        </xsl:variable>
+                                     
+                                        <xsl:variable name="yyyy">
+                                           <xsl:value-of select="substring($date_from,1,4)" />
+                                        </xsl:variable>
+                                     
+                                        <xsl:value-of select="$yyyy" />
+                                        <xsl:value-of select="'-'" />
+                                        <xsl:value-of select="$mm" />
+                                        <xsl:value-of select="'-'" />
+                                        <xsl:value-of select="$dd" />
+                                        <xsl:text>&#160;-&#160;</xsl:text>
+                                        <xsl:variable name="mmt">
+                                            <xsl:value-of select="substring($date_to,5,2)" />
+                                        </xsl:variable>
+                                     
+                                        <xsl:variable name="ddt">
+                                           <xsl:value-of select="substring($date_to,7,2)" />
+                                        </xsl:variable>
+                                     
+                                        <xsl:variable name="yyyyt">
+                                           <xsl:value-of select="substring($date_to,1,4)" />
+                                        </xsl:variable>
+                                     
+                                        <xsl:value-of select="$yyyyt" />
+                                        <xsl:value-of select="'-'" />
+                                        <xsl:value-of select="$mmt" />
+                                        <xsl:value-of select="'-'" />
+                                        <xsl:value-of select="$ddt" />
+                                    </xsl:when>
+                                    <xsl:otherwise/>
+                                </xsl:choose>
+                            </xsl:otherwise>
+                        </xsl:choose>
                     </dc:date>
                 </xsl:if>
                 <europeana:provider>
@@ -146,20 +230,13 @@
                 </europeana:isShownAt>
                 <xsl:if test=".//cei:graphic[string-length(@url)&gt;0]">
                     <europeana:isShownBy>
-                        <xsl:variable name="charter-image-url" select=".//cei:witnessOrig/cei:figure/cei:graphic[string-length(@url)&gt;0]/@url"/>
-                        <xsl:variable name="length-charter-url" select="string-length($charter-image-url)"/>
-                        <xsl:variable name="length-base-url" select="string-length($base-image-url)"/>
-                        <xsl:choose>
-                            <xsl:when test="((substring($base-image-url, $length-base-url)='/') and not(substring($charter-image-url, $length-charter-url)='/')) or (not(substring($base-image-url, $length-base-url)='/') and (substring($charter-image-url, $length-charter-url)='/'))">
-                                <xsl:value-of select="$base-image-url"/>
-                                <xsl:value-of select="$charter-image-url"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:value-of select="$base-image-url"/>
-                                <xsl:text>/</xsl:text>
-                                <xsl:value-of select="$charter-image-url"/>
-                            </xsl:otherwise>
-                        </xsl:choose>
+                        <xsl:variable name="option" select="'/full/1200,/0/default.jpg'" />
+                        <xsl:variable name="charter-image-url" select=".//cei:graphic[string-length(@url)&gt;0]/@url"/>
+                        <xsl:value-of select="$base-image-url"/>
+
+                        <xsl:value-of select="$charter-image-url"/>
+                        <xsl:value-of select="$option"/>
+
                     </europeana:isShownBy>
                 </xsl:if>
             </europeana:record>

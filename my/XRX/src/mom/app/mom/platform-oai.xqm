@@ -129,6 +129,16 @@ let $image-url :=
                 '/metadata.collection.public/',
                 $tokens[1]))))//cei:text/cei:front/cei:image_server_folder,
                 '/')
+
+(: Für Europeana alle images.monasterium.net Images über IIIF schleifen:)
+
+let $image-url := if(contains($image-url, "http://images.monasterium.net")) then
+    let $rest := substring-after($image-url,"http://images.monasterium.net/")
+    let $encoded := encode-for-uri($rest)
+    return concat("http://images.icar-us.eu/iiif/2/", $encoded)
+else $image-url
+
+
 return
     $image-url
 };
