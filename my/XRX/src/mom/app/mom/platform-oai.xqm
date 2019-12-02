@@ -36,12 +36,14 @@ declare function platform-oai:transform($verb as xs:string, $document as node()*
     let $header-xsl := collection($platform-oai:platform-base-uri)//xsl:stylesheet[@id ='cei2oaiheader']
     (: define data provider and image URL (in addiction to archive/ collection/ fonds) :)
     let $data-provider := local:search-for-data-provider($document//atom:entry/atom:id/text())
+    let $fondid := local:object-uri-tokens($document//atom:entry/atom:id/text())[2]
     let $base-image-url := local:search-for-image-url($document//atom:entry/atom:id/text())
     (: specific params for XSLT Transformation :)
     let $xsl-content-params := <parameters>
                                       <param name="platform-id" value="{ $conf:project-name }"/>
                                       <param name="data-provider" value="{ $data-provider }"/>
                                       <param name="base-image-url" value="{ $base-image-url}"/>
+                                      <param name="fond-id" value="{ $fondid }"/>
                                </parameters> 
     let $xsl-header-params := <parameters>
                                       <param name="platform-id" value="{ $conf:project-name }"/>
