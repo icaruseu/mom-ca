@@ -1,12 +1,16 @@
-<xsl:stylesheet xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:xrx="http://www.mom-ca.uni-koeln.de/NS/xrx" xmlns:oai="http://www.openarchives.org/OAI/2.0/" xmlns:cei="http://www.monasterium.net/NS/cei" xmlns:europeana="http://www.europeana.eu/schemas/ese/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" id="cei2ese">
+<xsl:stylesheet xmlns:europeana="http://www.europeana.eu/schemas/ese/" xmlns:cei="http://www.monasterium.net/NS/cei" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:oai="http://www.openarchives.org/OAI/2.0/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xrx="http://www.mom-ca.uni-koeln.de/NS/xrx" xmlns:dcterms="http://purl.org/dc/terms/" version="1.0" id="cei2ese" >
     <xsl:param name="platform-id"/>
     <xsl:param name="data-provider"/>
     <xsl:param name="base-image-url"/>
+    <xsl:param name="fond-id"/>
     <xsl:template match="/">
         <oai:metadata>
             <europeana:record xmlns="http://www.europeana.eu/schemas/ese/">
                 <dc:title>
-                    <xsl:text>Charter</xsl:text>
+                    <xsl:text>Charter: </xsl:text>
+                    <xsl:value-of select="$fond-id"/>
+                    <xsl:text> </xsl:text>
+                    <xsl:apply-templates select=".//cei:idno/@id"/>
                 </dc:title>
                 <dc:type>
                     <xsl:text>Charter</xsl:text>
@@ -17,9 +21,14 @@
                     </dc:language>
                 </xsl:if>
                 <xsl:if test=".//cei:physicalDesc/cei:dimensions/text()">
-                    <dc:extent>
+                    <dcterms:extent>
                         <xsl:apply-templates select=".//cei:physicalDesc/cei:dimensions"/>
-                    </dc:extent>
+                    </dcterms:extent>
+                </xsl:if>
+                <xsl:if test=".//cei:material/text()">
+                    <dcterms:medium>
+                        <xsl:apply-templates select=".//cei:material"/>
+                    </dcterms:medium>
                 </xsl:if>
                 <dc:identifier>
                     <xsl:apply-templates select=".//atom:id"/>
@@ -51,12 +60,12 @@
                 <xsl:if test=".//cei:witness/cei:physicalDesc/cei:material/text() or .//cei:witness/cei:physicalDesc/condition/text()">
                     <dc:format>
                         <xsl:if test=".//cei:witness/cei:physicalDesc/cei:material/text()">
-                            <xsl:text>Material:&#160;</xsl:text>
+                            <xsl:text>Material: </xsl:text>
                             <xsl:apply-templates select=".//cei:witness/cei:physicalDesc/cei:material"/>
-                            <xsl:text>;&#160;</xsl:text>
+                            <xsl:text>; </xsl:text>
                         </xsl:if>
                         <xsl:if test=".//cei:witness/cei:physicalDesc/cei:condition/text()">
-                            <xsl:text>Condition:&#160;</xsl:text>
+                            <xsl:text>Condition: </xsl:text>
                             <xsl:apply-templates select=".//cei:witness/cei:physicalDesc/cei:condition"/>
                         </xsl:if>
                     </dc:format>
@@ -65,7 +74,7 @@
                     <dc:publisher>
                         <xsl:value-of select=".//cei:subscriptio"/>
                         <xsl:if test=".//cei:notariusSub">
-                            <xsl:text>,&#160;</xsl:text>
+                            <xsl:text>, </xsl:text>
                             <xsl:value-of select=".//cei:notariusSub"/>
                         </xsl:if>
                     </dc:publisher>
@@ -86,7 +95,7 @@
                 </xsl:if>
                 <xsl:if test=".//cei:issued/cei:date/text() or .//cei:issued/cei:dateRange/text()">
                     <dc:date><!--
-                        <xsl:text>Issued-date:&#160;</xsl:text>
+                        <xsl:text>Issued-date: </xsl:text>
                         <xsl:choose>
                             <xsl:when test=".//cei:issued/cei:date/@value">
                                 <xsl:value-of select=".//cei:issued/cei:date/@value"/>
@@ -98,102 +107,102 @@
                                     </xsl:when>
                                     <xsl:otherwise>
                                         <xsl:value-of select=".//cei:issued/cei:dateRange/@from"/>
-                                        <xsl:text>&#160;-&#160;</xsl:text>
+                                        <xsl:text> - </xsl:text>
                                         <xsl:value-of select=".//cei:issued/cei:dateRange/@to"/>
                                     </xsl:otherwise>
                                 </xsl:choose>
                             </xsl:otherwise>
                         </xsl:choose>
-                        <xsl:text>&#160;(</xsl:text>
+                        <xsl:text> (</xsl:text>
                         <xsl:value-of select="concat(.//cei:issued/cei:dateRange/text(), .//cei:issued/cei:date/text())"/>
                         <xsl:if test=".//cei:quoteOriginaldatierung/text()[1]">
-                            <xsl:text>,&#160;"</xsl:text>
+                            <xsl:text>, "</xsl:text>
                             <xsl:value-of select=".//cei:quoteOriginaldatierung/text()[1]"/>
                         </xsl:if>
                         <xsl:text>)</xsl:text> -->
                         <xsl:choose>
                             <xsl:when test=".//cei:issued/cei:date/@value != 99999999">
-                                <xsl:variable name="date" select=".//cei:issued/cei:date/@value" />
+                                <xsl:variable name="date" select=".//cei:issued/cei:date/@value"/>
                                 <xsl:variable name="mm">
-                                   <xsl:value-of select="substring($date,1,2)" />
+                                   <xsl:value-of select="substring($date,1,2)"/>
                                 </xsl:variable>
                              
                                 <xsl:variable name="dd">
-                                   <xsl:value-of select="substring($date,3,2)" />
+                                   <xsl:value-of select="substring($date,3,2)"/>
                                 </xsl:variable>
                              
                                 <xsl:variable name="yyyy">
-                                   <xsl:value-of select="substring($date,5,4)" />
+                                   <xsl:value-of select="substring($date,5,4)"/>
                                 </xsl:variable>
                              
-                                <xsl:value-of select="$yyyy" />
-                                <xsl:value-of select="'-'" />
-                                <xsl:value-of select="$mm" />
-                                <xsl:value-of select="'-'" />
-                                <xsl:value-of select="$dd" />
+                                <xsl:value-of select="$yyyy"/>
+                                <xsl:value-of select="'-'"/>
+                                <xsl:value-of select="$mm"/>
+                                <xsl:value-of select="'-'"/>
+                                <xsl:value-of select="$dd"/>
                             
                             </xsl:when>
                             <xsl:otherwise>
                                 <xsl:choose>
                                     <xsl:when test="(.//cei:issued/cei:dateRange/@from = .//cei:issued/cei:dateRange/@to) and (.//cei:issued/cei:dateRange/@from != '99999999')">
-                                        <xsl:variable name="date" select=".//cei:issued/cei:dateRange/@from" />
+                                        <xsl:variable name="date" select=".//cei:issued/cei:dateRange/@from"/>
                                         <xsl:variable name="mm">
-                                             <xsl:value-of select="substring($date,5,2)" />
+                                             <xsl:value-of select="substring($date,5,2)"/>
                                         </xsl:variable>
                                      
                                         <xsl:variable name="dd">
-                                           <xsl:value-of select="substring($date,7,2)" />
+                                           <xsl:value-of select="substring($date,7,2)"/>
                                         </xsl:variable>
                                      
                                         <xsl:variable name="yyyy">
-                                           <xsl:value-of select="substring($date,1,4)" />
+                                           <xsl:value-of select="substring($date,1,4)"/>
                                         </xsl:variable>
                                      
-                                        <xsl:value-of select="$yyyy" />
-                                        <xsl:value-of select="'-'" />
-                                        <xsl:value-of select="$mm" />
-                                        <xsl:value-of select="'-'" />
-                                        <xsl:value-of select="$dd" />
+                                        <xsl:value-of select="$yyyy"/>
+                                        <xsl:value-of select="'-'"/>
+                                        <xsl:value-of select="$mm"/>
+                                        <xsl:value-of select="'-'"/>
+                                        <xsl:value-of select="$dd"/>
                                     </xsl:when>
 
                                     <xsl:when test="(.//cei:issued/cei:dateRange/@from != .//cei:issued/cei:dateRange/@to) and (.//cei:issued/cei:dateRange/@from = '99999999')">
-                                        <xsl:variable name="date_from" select=".//cei:issued/cei:dateRange/@from" />
-                                        <xsl:variable name="date_to" select=".//cei:issued/cei:dateRange/@to" />
+                                        <xsl:variable name="date_from" select=".//cei:issued/cei:dateRange/@from"/>
+                                        <xsl:variable name="date_to" select=".//cei:issued/cei:dateRange/@to"/>
                                         <xsl:variable name="mm">
-                                            <xsl:value-of select="substring($date_from,5,2)" />
+                                            <xsl:value-of select="substring($date_from,5,2)"/>
                                         </xsl:variable>
                                      
                                         <xsl:variable name="dd">
-                                           <xsl:value-of select="substring($date_from,7,2)" />
+                                           <xsl:value-of select="substring($date_from,7,2)"/>
                                         </xsl:variable>
                                      
                                         <xsl:variable name="yyyy">
-                                           <xsl:value-of select="substring($date_from,1,4)" />
+                                           <xsl:value-of select="substring($date_from,1,4)"/>
                                         </xsl:variable>
                                      
-                                        <xsl:value-of select="$yyyy" />
-                                        <xsl:value-of select="'-'" />
-                                        <xsl:value-of select="$mm" />
-                                        <xsl:value-of select="'-'" />
-                                        <xsl:value-of select="$dd" />
-                                        <xsl:text>&#160;-&#160;</xsl:text>
+                                        <xsl:value-of select="$yyyy"/>
+                                        <xsl:value-of select="'-'"/>
+                                        <xsl:value-of select="$mm"/>
+                                        <xsl:value-of select="'-'"/>
+                                        <xsl:value-of select="$dd"/>
+                                        <xsl:text> - </xsl:text>
                                         <xsl:variable name="mmt">
-                                            <xsl:value-of select="substring($date_to,5,2)" />
+                                            <xsl:value-of select="substring($date_to,5,2)"/>
                                         </xsl:variable>
                                      
                                         <xsl:variable name="ddt">
-                                           <xsl:value-of select="substring($date_to,7,2)" />
+                                           <xsl:value-of select="substring($date_to,7,2)"/>
                                         </xsl:variable>
                                      
                                         <xsl:variable name="yyyyt">
-                                           <xsl:value-of select="substring($date_to,1,4)" />
+                                           <xsl:value-of select="substring($date_to,1,4)"/>
                                         </xsl:variable>
                                      
-                                        <xsl:value-of select="$yyyyt" />
-                                        <xsl:value-of select="'-'" />
-                                        <xsl:value-of select="$mmt" />
-                                        <xsl:value-of select="'-'" />
-                                        <xsl:value-of select="$ddt" />
+                                        <xsl:value-of select="$yyyyt"/>
+                                        <xsl:value-of select="'-'"/>
+                                        <xsl:value-of select="$mmt"/>
+                                        <xsl:value-of select="'-'"/>
+                                        <xsl:value-of select="$ddt"/>
                                     </xsl:when>
                                     <xsl:otherwise/>
                                 </xsl:choose>
@@ -230,7 +239,7 @@
                 </europeana:isShownAt>
                 <xsl:if test=".//cei:graphic[string-length(@url)&gt;0]">
                     <europeana:isShownBy>
-                        <xsl:variable name="option" select="'/full/1200,/0/default.jpg'" />
+                        <xsl:variable name="option" select="'/full/1200,/0/default.jpg'"/>
                         <xsl:variable name="charter-image-url" select=".//cei:graphic[string-length(@url)&gt;0]/@url"/>
                         <xsl:value-of select="$base-image-url"/>
 
