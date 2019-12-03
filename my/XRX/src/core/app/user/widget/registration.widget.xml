@@ -267,7 +267,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 									<xf:action ev:event="xforms-value-changed">
 										<xf:load show="embed" targetid="moderator-div">
 											<xf:resource
-												value="concat('{ $xrx:localhost-request-base-url }moderator-info?email=', /xrx:user/xrx:moderator)" />
+												value="concat('{ $xrx:http-request-root }service/moderator-info?email=', /xrx:user/xrx:moderator)" />
                     	<xf:extension includeCSS="false" includeScript="false"></xf:extension>
 										</xf:load>
 									</xf:action>
