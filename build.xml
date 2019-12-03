@@ -270,6 +270,7 @@
         <antcall target="sleep-until-started"/>
         <antcall target="set-admin-password"/>
         <antcall target="clean-xrx"/>
+	<antcall target="initialize-index-configuration" />
         <antcall target="deploy-tools"/>
         <antcall target="compile-xrx-project"/>
         <antcall target="stop"/>
