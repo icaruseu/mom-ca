@@ -621,6 +621,7 @@
         <sleep seconds="2"/>
         <exist-remove uri="${xmldb-root-uri}" collection="${xrx-src-collection-name}"/>
         <sleep seconds="2"/>
+	<echo file="${xrx-compiler-tmp-file}">01/01/1990 00:00:00 AM</echo>
     </target>
 
     <target name="deploy-tools">
@@ -714,7 +715,6 @@
     <target name="deploy-my-modified-xrx" depends="exist-classpath">
         <log message="Deploying modified XRX source files"/>
         <available property="xrx-compiler-tmp-file-exists" file="${xrx-compiler-tmp-file}"/>
-        <echo file="${xrx-compiler-tmp-file}">01/01/1990 00:00:00 AM</echo>
         <loadfile property="last-modified" srcFile="${xrx-compiler-tmp-file}"/>
         <echo>Last modified: ${last-modified}</echo>
         <tstamp>
