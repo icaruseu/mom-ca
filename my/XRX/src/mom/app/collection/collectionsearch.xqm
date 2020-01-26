@@ -27,6 +27,7 @@ module namespace collectionsearch="http://www.monasterium.net/NS/collectionsearc
 
 declare namespace cei="http://www.monasterium.net/NS/cei";
 declare namespace atom="http://www.w3.org/2005/Atom";
+declare namespace util="http://exist-db.org/xquery/util";
 
 import module namespace conf="http://www.monasterium.net/NS/conf";
 import module namespace jsonx="http://www.monasterium.net/NS/jsonx";
@@ -47,7 +48,7 @@ declare function collectionsearch:cleanSession($collectionId, $sessionVariable){
     return $cleaned
 };
 
-(: take all charters in the actual collection with the element <$node_name> check first character of content == $first_charater.
+(: take all charters in the current collection with the element <$node_name> check first character of content == $first_charater.
 if $first_char == "All" take all Charters.
 Save the id of the Charters, <$node_name>-text(), the values of @reg and @key
 :)
@@ -64,23 +65,26 @@ declare function collectionsearch:createResults($collection, $collection_id, $no
         <results>
             {
                 (:for all charters in collection with the node == $node_name:)
-            for $entries in distinct-values($collection//cei:text//*[name()=$node_name]) order by $entries return
+                let $nodes := util:eval(concat('$collection//cei:text//',$node_name))
+                for $entries in distinct-values($nodes/normalize-space())
+                    order by $entries
+                    return
                 (:When $first_character == "All", don't test if the first character of node/text() == $first_character,
-                  save contentn of node and count nodes with same content and save result:)
+                  save content of node and count nodes with same content and save result:)
                 if($first_character = "All") then
                     if(string($entries) eq "") then()
                     else(
                         <result>
                             <term>{$entries}</term>
-                            <count>{count($collection//cei:text//*[name()=$node_name][. eq $entries])}</count>
+                            <count>{count($nodes[. eq $entries])}</count>
                             <charters>
                                 {
                                     (: for all nodes with the same content save ids of charters and @key and @reg values. :)
-                                    for $entrie in $collection//cei:text//*[name()=$node_name][. eq $entries]
+                                    for $entry in $nodes[. eq $entries]
                                     return <charter>
-                                        <key>{$entrie/@key/string()}</key>
-                                        <reg>{$entrie/@reg/string()}</reg>
-                                        <id>{root($entrie)//atom:id/text()}</id>
+                                        <key>{$entry/@key/string()}</key>
+                                        <reg>{$entry/@reg/string()}</reg>
+                                        <id>{root($entry)//atom:id/text()}</id>
                                     </charter>
                                 }
                             </charters>
@@ -93,14 +97,14 @@ declare function collectionsearch:createResults($collection, $collection_id, $no
                         if(starts-with(upper-case(string($entries)), $first_character) ) then(
                             <result>
                                 <term>{string($entries)}</term>
-                                <count>{count($collection//cei:text//*[name()=$node_name][. eq $entries])}</count>
+                                <count>{count($nodes[. eq $entries])}</count>
                                 <charters>
                                     {
-                                        for $entrie in $collection//cei:text//*[name()=$node_name][. eq $entries]
+                                        for $entry in $nodes[. eq $entries]
                                         return <charter>
-                                            <key>{$entrie/@key/string()}</key>
-                                            <reg>{$entrie/@reg/string()}</reg>
-                                            <id>{root($entrie)//atom:id/text()}</id>
+                                            <key>{$entry/@key/string()}</key>
+                                            <reg>{$entry/@reg/string()}</reg>
+                                            <id>{root($entry)//atom:id/text()}</id>
 
                                         </charter>
                                     }
