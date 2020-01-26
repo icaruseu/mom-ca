@@ -9,8 +9,7 @@
   <xrx:subtitle/>
 	<xrx:description>Main widget for registers of collections.
 	It creates the left search-frame with options for the search.
-	If the session variable _collectionSearchCharters exists it checks the collection ids, when the saved is not the id of the actual collection,
-	the session variable will be deleted. Otherwise for all charters in the variable the subwidget result is called.</xrx:description>
+	If the session variable _collectionSearchCharters exists it checks the collection ids, when the saved is not the id of the current collection, the session variable will be deleted. Otherwise for all charters in the variable the subwidget result is called.</xrx:description>
   <xrx:author>jbigalke</xrx:author>
   <xrx:licence>
 This is a component file of the VdU Software for a Virtual Research
@@ -290,18 +289,18 @@ it leaves the active development stage.
     		<xrx:resource>tag:www.monasterium.net,2011:/mom/resource/jquery/ui/collectionRegisterSearch</xrx:resource>
         </xrx:jss>
   <xrx:view>
+  	<!-- ToDo: Add Breadcrump -->
   	<div id="leftFrame">
-
 		<div id="searchOptions">
 			<div id="elementName"><span>Element:</span>
 				<select id="elementNameSelect">
 					<option value="cei:persName"><xrx:i18n><xrx:key>person_name</xrx:key>
-					<xrx:default >Person Names</xrx:default>
+					<xrx:default >Persons</xrx:default>
 					</xrx:i18n></option>
 					<option value="cei:placeName">
 						<xrx:i18n>
 							<xrx:key>place_name</xrx:key>
-							<xrx:default>Place Names</xrx:default>
+							<xrx:default>Places</xrx:default>
 						</xrx:i18n>
 					</option>
 					<option value="cei:orgName">
@@ -313,13 +312,13 @@ it leaves the active development stage.
 					<option value="cei:issuer">
 						<xrx:i18n>
 							<xrx:key>issueres</xrx:key>
-							<xrx:default>Issueres</xrx:default>
+							<xrx:default>Issuers</xrx:default>
 						</xrx:i18n>
 					</option>
 					<option value="cei:testis">
 						<xrx:i18n>
 							<xrx:key>witnisses</xrx:key>
-							<xrx:default>Witnisses</xrx:default>
+							<xrx:default>Witnesses</xrx:default>
 						</xrx:i18n>
 					</option>
 					<option value="cei:rolename">
@@ -336,7 +335,6 @@ it leaves the active development stage.
 						<xrx:default>First Character</xrx:default>
 					</xrx:i18n>:</span>
 					<select id="firstCharacterSelect">
-						<option>All</option>
 						<option>A</option>
 						<option>B</option>
 						<option>C</option>
@@ -363,9 +361,15 @@ it leaves the active development stage.
 						<option>X</option>
 						<option>Y</option>
 						<option>Z</option>
+						<option>All</option>
 					</select>
 				</div>
-
+				<div>
+					<xrx:i18n>
+						<xrx:key>attention_takes_time</xrx:key>
+						<xrx:default>Attention, depending on the amount of markup, this can take quite a while!</xrx:default>
+					</xrx:i18n>
+				</div>
 				<button id="contentSearchButton">Search</button>
 			</div>
 		</div>
