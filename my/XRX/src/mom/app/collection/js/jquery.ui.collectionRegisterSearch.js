@@ -27,7 +27,6 @@
 
 	_create: function(){
 		var self = this;
-		console.log(self.options.fondId)
         this.json = {};
 		/* when there is a an JSON in options.termsearch it creates the register lists*/
         if(!jQuery.isEmptyObject(this.options.termsearch)){
