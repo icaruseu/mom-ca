@@ -518,8 +518,6 @@ it leaves the active development stage.
 				  }
 				  <div id="resultsDiv">
 				  {
-					  let $bla := util:log("ERROR", $searchXml)
-
 				  for $charter at $num in $searchXml//atom:entry
 				  let $entry := <atom:entry xmlns:atom="http://www.w3.org/2005/Atom">{$charter/*}</atom:entry>
 				  return
