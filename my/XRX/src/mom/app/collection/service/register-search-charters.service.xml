@@ -47,11 +47,17 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
           <xrx:name>$collectionType</xrx:name>
           <xrx:expression>request:get-parameter('collectionType','')</xrx:expression>
       </xrx:variable>
+      <xrx:variable>
+          <xrx:name>$fond_Id</xrx:name>
+          <xrx:expression>request:get-parameter('fondId','')</xrx:expression>
+      </xrx:variable>
    <xrx:variable>
 	   <xrx:name>$collection-base-path</xrx:name>
 	   <xrx:expression>
            if($collectionType = "collection") then
             metadata:base-collection-path('charter','public')
+           else if($collectionType = "fond") then
+            metadata:base-collection-path('charter',$fond_Id, 'public')
            else metadata:base-collection-path('charter', 'private')
        </xrx:expression>
    </xrx:variable>
