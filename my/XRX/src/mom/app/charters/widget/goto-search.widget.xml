@@ -76,7 +76,13 @@
                         <xrx:key>charters_on_map</xrx:key>
                         <xrx:default>Charters on map</xrx:default>
                     </xrx:i18n><span> &gt;&gt;</span>
-                </a></div>
+                </a><br/>
+                    <a href="{ conf:param('request-root') }{ $xrx:tokenized-uri[1] }/{ xmldb:decode($fondid)}/collection-register?modus=fond">
+                        <xrx:i18n>
+                            <xrx:key>collection-register</xrx:key>
+                            <xrx:default>Register</xrx:default>
+                        </xrx:i18n><span> &gt;&gt;</span>
+                    </a></div>
                 else(<a href="{ conf:param('request-root') }{$wgoto-search:id}/{ xmldb:decode($xrx:tokenized-uri[2])}/fond?block=1">
                     <xrx:i18n>
                         <xrx:key>fond_preview</xrx:key>
