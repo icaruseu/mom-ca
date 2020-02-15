@@ -41,13 +41,21 @@ lenient towards the inclusion of components into other systems, once
 it leaves the active development stage.
   </xrx:licence>
 <xrx:variables>
-<xrx:variable>
-	<xrx:name>$collectionId</xrx:name>
-	<xrx:expression>tokenize(request:get-uri(),'/')[3]</xrx:expression>
-</xrx:variable>
 	<xrx:variable>
 		<xrx:name>$collectionType</xrx:name>
 		<xrx:expression>request:get-parameter("modus","")</xrx:expression>
+	</xrx:variable>
+	<xrx:variable>
+		<xrx:name>$tokenizedUri</xrx:name>
+		<xrx:expression>tokenize(request:get-uri(),'/')</xrx:expression>
+	</xrx:variable>
+	<xrx:variable>
+		<xrx:name>$collectionId</xrx:name>
+		<xrx:expression>if($collectionType = 'fond') then $tokenizedUri[4] else ($tokenizedUri[3])</xrx:expression>
+	</xrx:variable>
+	<xrx:variable>
+		<xrx:name>$fondId</xrx:name>
+		<xrx:expression>if($collectionType= 'fond') then $tokenizedUri[3] else()</xrx:expression>
 	</xrx:variable>
 </xrx:variables>
     <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
@@ -385,7 +393,8 @@ it leaves the active development stage.
 		</div>
 	  </div>
 	  <div id="rightFrame">
-		{			  let $cleanSession := collectionsearch:cleanSession($collectionId, session:get-attribute("_collectionSearchCharters"))
+		{
+		  let $cleanSession := collectionsearch:cleanSession($collectionId, session:get-attribute("_collectionSearchCharters"))
 		  return()
 		  }
 
@@ -509,6 +518,7 @@ it leaves the active development stage.
 				  }
 				  <div id="resultsDiv">
 				  {
+					  let $bla := util:log("ERROR", $searchXml)
 
 				  for $charter at $num in $searchXml//atom:entry
 				  let $entry := <atom:entry xmlns:atom="http://www.w3.org/2005/Atom">{$charter/*}</atom:entry>
@@ -547,7 +557,7 @@ it leaves the active development stage.
 	  </div>
 
 <script type="text/javascript">jQuery(document).ready(function(){{ 
- $("#leftFrame").collectionIndexSearch({{ requestRoot:"{conf:param('request-root')}", collectionId:"{$collectionId}", termsearch:'{session:get-attribute("_collectionSearchAsJson")}', collectionType:"{$collectionType}" }}); }});</script>
+ $("#leftFrame").collectionIndexSearch({{ requestRoot:"{conf:param('request-root')}", collectionId:"{$collectionId}", termsearch:'{session:get-attribute("_collectionSearchAsJson")}', collectionType:"{$collectionType}", fondId:"{$fondId}" }}); }});</script>
 
   </xrx:view>
 </xrx:widget>
