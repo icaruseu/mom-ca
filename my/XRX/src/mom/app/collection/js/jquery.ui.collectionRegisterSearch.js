@@ -15,7 +15,8 @@
 		requestRoot: "",
 	    collectionId: "",
 	    termsearch: "",
-		collectionType: ""
+		collectionType: "",
+		fondId: ""
 	},
 
 
@@ -26,6 +27,7 @@
 
 	_create: function(){
 		var self = this;
+		console.log(self.options.fondId)
         this.json = {};
 		/* when there is a an JSON in options.termsearch it creates the register lists*/
         if(!jQuery.isEmptyObject(this.options.termsearch)){
@@ -91,7 +93,7 @@
 	_freeTagSearch: function(TagName, FirstCharacter, url){
 	    var self = this ;	    	
     	$.getJSON(url,
-	    		 {collection: this.options.collectionId, nodename: TagName, firstchar: FirstCharacter, collectionType: self.options.collectionType },
+	    		 {collection: this.options.collectionId, nodename: TagName, firstchar: FirstCharacter, collectionType: self.options.collectionType, fondId: self.options.fondId },
 	    		  function(data){
 	    			 self.json = data;
 					 self._createTermList(self.json, "contentResultsList", "content");
@@ -155,7 +157,7 @@
     	var self = this;
     	$.ajax({
     		url: this._serviceUrl(myCollectionSearchGetChartersService),
-    		data: {collection: this.options.collectionId, searchterm: clickedItem, type: mode, collectionType: self.options.collectionType},
+    		data: {collection: this.options.collectionId, searchterm: clickedItem, type: mode, collectionType: self.options.collectionType, fondId: self.options.fondId},
     		dataType : "xml", 
     		success: function(data) {
     			location.reload();
