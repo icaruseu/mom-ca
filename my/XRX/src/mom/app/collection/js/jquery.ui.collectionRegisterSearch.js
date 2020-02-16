@@ -15,7 +15,8 @@
 		requestRoot: "",
 	    collectionId: "",
 	    termsearch: "",
-		collectionType: ""
+		collectionType: "",
+		fondId: ""
 	},
 
 
@@ -91,7 +92,7 @@
 	_freeTagSearch: function(TagName, FirstCharacter, url){
 	    var self = this ;	    	
     	$.getJSON(url,
-	    		 {collection: this.options.collectionId, nodename: TagName, firstchar: FirstCharacter, collectionType: self.options.collectionType },
+	    		 {collection: this.options.collectionId, nodename: TagName, firstchar: FirstCharacter, collectionType: self.options.collectionType, fondId: self.options.fondId },
 	    		  function(data){
 	    			 self.json = data;
 					 self._createTermList(self.json, "contentResultsList", "content");
@@ -155,7 +156,7 @@
     	var self = this;
     	$.ajax({
     		url: this._serviceUrl(myCollectionSearchGetChartersService),
-    		data: {collection: this.options.collectionId, searchterm: clickedItem, type: mode, collectionType: self.options.collectionType},
+    		data: {collection: this.options.collectionId, searchterm: clickedItem, type: mode, collectionType: self.options.collectionType, fondId: self.options.fondId},
     		dataType : "xml", 
     		success: function(data) {
     			location.reload();

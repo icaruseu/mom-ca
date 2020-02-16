@@ -50,10 +50,16 @@
             <xrx:expression>request:get-parameter('collectionType','')</xrx:expression>
         </xrx:variable>
         <xrx:variable>
+            <xrx:name>$fond_Id</xrx:name>
+            <xrx:expression>request:get-parameter('fondId','')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
             <xrx:name>$collection-base-path</xrx:name>
             <xrx:expression>
                 if($collection_Type = "collection") then
                     metadata:base-collection-path('charter','public')
+                else if($collection_Type = 'fond') then
+                    metadata:base-collection-path('charter',$fond_Id, 'public')
                 else metadata:base-collection-path('charter', 'private')
             </xrx:expression>
         </xrx:variable>
