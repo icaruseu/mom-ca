@@ -1916,6 +1916,7 @@
                     <xs:element ref="idno"/>
                     <xs:element ref="scope"/>
                     <xs:element ref="altIdentifier"/>
+                    <xs:element ref="hi"/>
                 </xs:choice>
             </xs:sequence>
             <xs:attributeGroup ref="lang"/>
