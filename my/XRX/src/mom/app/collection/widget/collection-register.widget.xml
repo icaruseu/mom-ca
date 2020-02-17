@@ -286,6 +286,11 @@ it leaves the active development stage.
 
 		#resultsDiv{{
 			margin-top: 10px;
+
+		}}
+		.results{{
+			overflow: auto;
+			max-height: 1450px;
 		}}
 
         </style>
@@ -516,7 +521,7 @@ it leaves the active development stage.
 				  else()
 
 				  }
-				  <div id="resultsDiv">
+				  <div id="resultsDiv" class="results">
 				  {
 				  for $charter at $num in $searchXml//atom:entry
 				  let $entry := <atom:entry xmlns:atom="http://www.w3.org/2005/Atom">{$charter/*}</atom:entry>
