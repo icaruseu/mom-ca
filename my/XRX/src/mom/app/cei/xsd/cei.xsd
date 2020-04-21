@@ -1,8 +1,4 @@
-<xs:schema xmlns="http://www.monasterium.net/NS/cei" xmlns:xerces="http://xerces.apache.org"
-    xmlns:xrxe="http://www.monasterium.net/NS/xrxe" xmlns:xrx="http://www.monasterium.net/NS/xrx"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified"
-    elementFormDefault="qualified" targetNamespace="http://www.monasterium.net/NS/cei" id="cei"
-    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" vc:minVersion="1.1">
+<?xml version="1.0" encoding="UTF-8"?><xs:schema xmlns="http://www.monasterium.net/NS/cei" xmlns:xerces="http://xerces.apache.org" xmlns:xrxe="http://www.monasterium.net/NS/xrxe" xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.monasterium.net/NS/cei" id="cei" vc:minVersion="1.1">
     <xs:element name="cei">
         <xs:annotation>
             <xs:documentation xml:lang="deu"> Wurzelelement für alle Dokumente, die den Regeln der
@@ -27,32 +23,32 @@
                 lang auf ausgewählte Elemente beschränkt (vgl. EditMOM), nota in
                 "diplomaticAnalysis" eingefügt. measure mit num/index und Originalbefund versehen.
                 GV 2006-08-09: seal, witness und alle Subelemente als globale Elemente definiert,
-                den neuen globalen Elementen &lt;menu> vergeben (GV) 2006-07-06: pict zu
+                den neuen globalen Elementen &lt;menu&gt; vergeben (GV) 2006-07-06: pict zu
                 group:Originalbefund hinzugefügt, NotariusSub auch als Teil von group:Formular
                 eingefügt; issuer, recipient auch in der Transkription zulässig (GV) 2006-07-05:
                 lang_MOM in mixed Type true umgewandelt (GV) 2006-06-27: verschiedene
                 Attribut-Korrekturen (GV) 2006-06-26: lang_MOM eingeführt. (GV) 2006-06-21:
                 teiHeader fakultativ, respStmt aus text/front herausgenommen (GV) 2006-06-16:
-                date_sort korrigiert, Attribut b_name zu &lt;text> eingeführt (GV) 2006-06-07:
+                date_sort korrigiert, Attribut b_name zu &lt;text&gt; eingeführt (GV) 2006-06-07:
                 issuer &amp; recipient nur in abstract zugelassen; subelemente von bibl entfernt; a
                 global definiert, appinfo zu settlement, repository und scope global definiert. (GV)
-                2006-05-21: Captions geändert und ein paar Sicherheits &lt;present>no eingefügt.
+                2006-05-21: Captions geändert und ein paar Sicherheits &lt;present&gt;no eingefügt.
                 (GV) 2006-05-18: sourceDescVolltext ergänzt und kleinere editMOM-Ergänzungen (GV)
                 2006-05-17: sourceDesc aufgeräumt; Versuch alle Elemente, die in die Maske kommen,
                 global zu definieren; note aus den Fließtexten geworfen. (GV) 2006-05-16: expan
-                statt abbr für Abkürzung, note/index als eigener Reiter, &lt;caption xml:lang="deu">
-                eingefügt; Attribute (z.B. id/n) mit &lt;present>no&lt;/present> versehen. Menü
-                "Siegelbeschreibung" ergänzt. &lt;sup> in p und abstract zugelassen, aber nicht in
+                statt abbr für Abkürzung, note/index als eigener Reiter, &lt;caption xml:lang="deu"&gt;
+                eingefügt; Attribute (z.B. id/n) mit &lt;present&gt;no&lt;/present&gt; versehen. Menü
+                "Siegelbeschreibung" ergänzt. &lt;sup&gt; in p und abstract zugelassen, aber nicht in
                 Menüs übernommen, denn diese Tags müssen noch nachbearbeitet werden. (GV) 2006-05-11
                 Einige Elemente, die in Fließtextfeldern auftauchen, global definiert (pTenor, a,
-                legend), in einigen Fällen &lt;present>no&lt;/present> eingefügt (group etc.) (GV)
+                legend), in einigen Fällen &lt;present&gt;no&lt;/present&gt; eingefügt (group etc.) (GV)
                 2006-05-09 Knoten, die selber nicht angezeigt werden und keine anzuzeigenden
-                Subknoten haben, sind mit dem Attribut &lt;present>no&lt;/present> in der
+                Subknoten haben, sind mit dem Attribut &lt;present&gt;no&lt;/present&gt; in der
                 EditMOM-appinfo versehen. Alle Elemente, die als Fließtext auftauchen können, sind
                 global definiert. (GV) 2006-05-02 listBibl (listBiblEdition, listBiblRegest,
                 listBiblFaksimile, listBiblErw), sourceDesc (sourceDescRegest), p (p, pTenor)
                 typisiert, um in der Anzeige differenzieren zu können. EditMOM:Auswahlliste
-                eingeführt. (GV) 2006-04-25 Weitere &lt;tab>-hinzugefügt. (GV) 2006-04-06 Innerhalb
+                eingeführt. (GV) 2006-04-25 Weitere &lt;tab&gt;-hinzugefügt. (GV) 2006-04-06 Innerhalb
                 von hi Formular zugelassen; issuer verzweigt wie persName, persName kann auch note
                 enthalten. Weitere Attributlisten plausibler aufgereiht. (GV) 2006-04-05 Reihenfolge
                 der Tenorelemente plausibler angeordnet, hi::target in hi::type korrigiert, ein paar
@@ -104,8 +100,7 @@
                                                 </xs:documentation>
                                             </xs:annotation>
                                             <xs:complexType>
-                                                <xs:sequence>
-                                                  <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                                <xs:choice minOccurs="0" maxOccurs="unbounded">
                                                   <xs:element ref="title"/>
                                                   <xs:element name="author">
                                                   <xs:annotation>
@@ -122,7 +117,6 @@
                                                   </xs:element>
                                                   <xs:element ref="p"/>
                                                   </xs:choice>
-                                                </xs:sequence>
                                                 <xs:attributeGroup ref="standard"/>
                                             </xs:complexType>
                                         </xs:element>
@@ -147,11 +141,9 @@
                                                 </xs:documentation>
                                             </xs:annotation>
                                             <xs:complexType>
-                                                <xs:sequence>
-                                                  <xs:choice minOccurs="0">
+                                                <xs:choice minOccurs="0">
                                                   <xs:element ref="p"/>
                                                   </xs:choice>
-                                                </xs:sequence>
                                                 <xs:attributeGroup ref="standard"/>
                                             </xs:complexType>
                                         </xs:element>
@@ -175,12 +167,10 @@
                                     </xs:documentation>
                                 </xs:annotation>
                                 <xs:complexType>
-                                    <xs:sequence>
-                                        <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                    <xs:choice minOccurs="0" maxOccurs="unbounded">
                                             <xs:element ref="p"/>
                                             <xs:element ref="respStmt"/>
                                         </xs:choice>
-                                    </xs:sequence>
                                     <xs:attributeGroup ref="standard"/>
                                 </xs:complexType>
                             </xs:element>
@@ -232,8 +222,7 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element name="publisher">
                         <xs:annotation>
                             <xs:appinfo source="EditVDU">
@@ -301,7 +290,6 @@
                     <xs:group ref="date"/>
                     <xs:element ref="p"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
@@ -320,8 +308,7 @@
                 verlegerische Verantwortung </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="name"/>
                     <xs:element name="resp">
                         <xs:annotation>
@@ -351,7 +338,6 @@
                     </xs:element>
                     <xs:group ref="date"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
@@ -383,8 +369,7 @@
                             </xs:documentation>
                         </xs:annotation>
                         <xs:complexType mixed="true">
-                            <xs:sequence>
-                                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                            <xs:choice minOccurs="0" maxOccurs="unbounded">
                                     <xs:element name="sourceDesc">
                                         <xs:annotation>
                                             <xs:appinfo source="EditVDU">
@@ -397,8 +382,7 @@
                                             </xs:appinfo>
                                         </xs:annotation>
                                         <xs:complexType>
-                                            <xs:sequence>
-                                                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                            <xs:choice minOccurs="0" maxOccurs="unbounded">
                                                   <xs:element name="sourceDescRegest">
                                                   <xs:annotation>
                                                   <xs:appinfo source="EditVDU">
@@ -475,7 +459,6 @@
                                                   </xs:annotation>
                                                   </xs:element>
                                                 </xs:choice>
-                                            </xs:sequence>
                                         </xs:complexType>
                                     </xs:element>
                                     <xs:element ref="publicationStmt">
@@ -495,7 +478,6 @@
                                         </xs:annotation>
                                     </xs:element>
                                 </xs:choice>
-                            </xs:sequence>
                         </xs:complexType>
                     </xs:element>
                     <xs:choice>
@@ -537,9 +519,7 @@
                                         <xs:element minOccurs="0" ref="tenor"/>
                                     </xs:sequence>
                                 </xs:choice>
-                                <xs:assert test="idno/text() != ''"
-                                    xpathDefaultNamespace="##targetNamespace"
-                                    xerces:message="i18n:charter-signature-required-message">
+                                <xs:assert test="idno/text() != ''" xpathDefaultNamespace="##targetNamespace" xerces:message="i18n:charter-signature-required-message">
                                     <xs:annotation>
                                         <xs:appinfo>
                                             <xrx:i18n>
@@ -566,12 +546,10 @@
                                     Texten als Teil eines Corpus z.B. </xs:documentation>
                             </xs:annotation>
                             <xs:complexType>
-                                <xs:sequence>
-                                    <xs:choice maxOccurs="unbounded">
+                                <xs:choice maxOccurs="unbounded">
                                         <xs:element ref="h1"/>
                                         <xs:element ref="text"/>
                                     </xs:choice>
-                                </xs:sequence>
                                 <xs:attributeGroup ref="standard"/>
                             </xs:complexType>
                         </xs:element>
@@ -585,8 +563,7 @@
                                 Register, Verzeichnisse) </xs:documentation>
                         </xs:annotation>
                         <xs:complexType>
-                            <xs:sequence>
-                                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                            <xs:choice minOccurs="0" maxOccurs="unbounded">
                                     <xs:element ref="persName">
                                         <xs:annotation>
                                             <xs:appinfo source="EditVDU">
@@ -642,7 +619,6 @@
                                     </xs:element>
                                     <xs:element ref="divNotes"/>
                                 </xs:choice>
-                            </xs:sequence>
                         </xs:complexType>
                     </xs:element>
                 </xs:sequence>
@@ -675,11 +651,7 @@
                 Handschriftensignatur in einer Bibliothek. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence minOccurs="0" maxOccurs="unbounded">
-                <xs:choice>
-                    <xs:group ref="layout"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded"><xs:group ref="layout"/></xs:choice>
             <xs:attributeGroup ref="standard"/>
             <xs:attribute name="old"/>
         </xs:complexType>
@@ -701,8 +673,7 @@
                 charter</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="class"/>
                     <xs:element ref="abstract"/>
                     <xs:element name="issued" minOccurs="1" maxOccurs="1">
@@ -727,8 +698,7 @@
                                     <xrxe:mixed>false</xrxe:mixed>
                                 </xs:appinfo>
                             </xs:annotation>
-                            <xs:sequence>
-                                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                            <xs:choice minOccurs="0" maxOccurs="unbounded">
                                     <xs:element ref="placeName">
                                         <xs:annotation>
                                             <xs:appinfo source="EditVDU">
@@ -756,8 +726,8 @@
                                                   <xrx:example>
                                                   <xrx:i18n>
                                                   <xrx:key>cei_issued_date_example</xrx:key>
-                                                  <xrx:default>&lt;cei:date value="16091001">1609
-                                                  Oktober 1&lt;/cei:date></xrx:default>
+                                                  <xrx:default>&lt;cei:date value="16091001"&gt;1609
+                                                  Oktober 1&lt;/cei:date&gt;</xrx:default>
                                                   </xrx:i18n>
                                                   </xrx:example>
                                                 </xs:documentation>
@@ -773,12 +743,8 @@
                                         </xs:element>
                                     </xs:choice>
                                 </xs:choice>
-                            </xs:sequence>
                             <xs:attributeGroup ref="standard"/>
-                            <xs:assert
-                                test="(matches(string(date/@value), '-?[129]?[0-9][0-9][0-9][019][0-9][01239][0-9]') and date) or not(date)"
-                                xpathDefaultNamespace="##targetNamespace"
-                                xerces:message="i18n:wrong-date-format-message">
+                            <xs:assert test="(matches(string(date/@value), '-?[129]?[0-9][0-9][0-9][019][0-9][01239][0-9]') and date) or not(date)" xpathDefaultNamespace="##targetNamespace" xerces:message="i18n:wrong-date-format-message">
                                 <xs:annotation>
                                     <xs:appinfo>
                                         <xrx:i18n>
@@ -789,10 +755,7 @@
                                     </xs:appinfo>
                                 </xs:annotation>
                             </xs:assert>
-                            <xs:assert
-                                test="(matches(string(dateRange/@from), '-?[129]?[0-9][0-9][0-9][019][0-9][01239][0-9]') and dateRange) or not(dateRange)"
-                                xpathDefaultNamespace="##targetNamespace"
-                                xerces:message="i18n:wrong-date-format-message">
+                            <xs:assert test="(matches(string(dateRange/@from), '-?[129]?[0-9][0-9][0-9][019][0-9][01239][0-9]') and dateRange) or not(dateRange)" xpathDefaultNamespace="##targetNamespace" xerces:message="i18n:wrong-date-format-message">
                                 <xs:annotation>
                                     <xs:appinfo>
                                         <xrx:i18n>
@@ -803,10 +766,7 @@
                                     </xs:appinfo>
                                 </xs:annotation>
                             </xs:assert>
-                            <xs:assert
-                                test="(matches(string(dateRange/@to), '-?[129]?[0-9][0-9][0-9][019][0-9][01239][0-9]') and dateRange) or not(dateRange)"
-                                xpathDefaultNamespace="##targetNamespace"
-                                xerces:message="i18n:wrong-date-format-message">
+                            <xs:assert test="(matches(string(dateRange/@to), '-?[129]?[0-9][0-9][0-9][019][0-9][01239][0-9]') and dateRange) or not(dateRange)" xpathDefaultNamespace="##targetNamespace" xerces:message="i18n:wrong-date-format-message">
                                 <xs:annotation>
                                     <xs:appinfo>
                                         <xrx:i18n>
@@ -834,8 +794,7 @@
                             </xs:appinfo>
                         </xs:annotation>
                         <xs:complexType mixed="true">
-                            <xs:sequence>
-                                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                            <xs:choice minOccurs="0" maxOccurs="unbounded">
                                     <xs:element ref="traditioForm">
                                         <xs:annotation>
                                             <xs:appinfo source="EditVDU">
@@ -861,7 +820,6 @@
                                     <xs:element ref="p"/>
                                     <!--Erweiterung-->
                                 </xs:choice>
-                            </xs:sequence>
                             <xs:attributeGroup ref="certainty"/>
                             <xs:attribute name="type" type="xs:anySimpleType" use="optional"/>
                             <xs:attribute name="sigil" type="xs:anySimpleType">
@@ -895,8 +853,7 @@
                             </xs:documentation>
                         </xs:annotation>
                         <xs:complexType mixed="true">
-                            <xs:sequence>
-                                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                            <xs:choice minOccurs="0" maxOccurs="unbounded">
                                     <xs:element name="listBibl">
                                         <xs:annotation>
                                             <xs:appinfo source="EditVDU">
@@ -913,14 +870,12 @@
                                                 Urkunde betreffen.. </xs:documentation>
                                         </xs:annotation>
                                         <xs:complexType mixed="true">
-                                            <xs:sequence>
-                                                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                            <xs:choice minOccurs="0" maxOccurs="unbounded">
                                                   <xs:choice>
                                                   <xs:element minOccurs="0" ref="ref"/>
                                                   <xs:element ref="bibl"/>
                                                   </xs:choice>
                                                 </xs:choice>
-                                            </xs:sequence>
                                             <xs:attribute name="type"/>
                                             <!--Erweiterung-->
                                             <xs:attributeGroup ref="standard"/>
@@ -942,14 +897,12 @@
                                             </xs:documentation>
                                         </xs:annotation>
                                         <xs:complexType mixed="true">
-                                            <xs:sequence>
-                                                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                            <xs:choice minOccurs="0" maxOccurs="unbounded">
                                                   <xs:choice>
                                                   <xs:element minOccurs="0" ref="ref"/>
                                                   <xs:element ref="bibl"/>
                                                   </xs:choice>
                                                 </xs:choice>
-                                            </xs:sequence>
                                             <xs:attributeGroup ref="standard"/>
                                         </xs:complexType>
                                     </xs:element>
@@ -969,14 +922,12 @@
                                             </xs:documentation>
                                         </xs:annotation>
                                         <xs:complexType mixed="true">
-                                            <xs:sequence>
-                                                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                            <xs:choice minOccurs="0" maxOccurs="unbounded">
                                                   <xs:choice>
                                                   <xs:element minOccurs="0" ref="ref"/>
                                                   <xs:element ref="bibl"/>
                                                   </xs:choice>
                                                 </xs:choice>
-                                            </xs:sequence>
                                             <xs:attributeGroup ref="standard"/>
                                         </xs:complexType>
                                     </xs:element>
@@ -996,14 +947,12 @@
                                                 type="facsimilia" </xs:documentation>
                                         </xs:annotation>
                                         <xs:complexType mixed="true">
-                                            <xs:sequence>
-                                                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                            <xs:choice minOccurs="0" maxOccurs="unbounded">
                                                   <xs:choice>
                                                   <xs:element minOccurs="0" ref="ref"/>
                                                   <xs:element ref="bibl"/>
                                                   </xs:choice>
                                                 </xs:choice>
-                                            </xs:sequence>
                                             <xs:attributeGroup ref="standard"/>
                                         </xs:complexType>
                                     </xs:element>
@@ -1023,14 +972,12 @@
                                             </xs:documentation>
                                         </xs:annotation>
                                         <xs:complexType mixed="true">
-                                            <xs:sequence>
-                                                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                            <xs:choice minOccurs="0" maxOccurs="unbounded">
                                                   <xs:choice>
                                                   <xs:element minOccurs="0" ref="ref"/>
                                                   <xs:element ref="bibl"/>
                                                   </xs:choice>
                                                 </xs:choice>
-                                            </xs:sequence>
                                             <xs:attributeGroup ref="standard"/>
                                         </xs:complexType>
                                     </xs:element>
@@ -1047,7 +994,6 @@
                                     <xs:element ref="incipit"/>
                                     <xs:element ref="divNotes"/>
                                 </xs:choice>
-                            </xs:sequence>
                             <xs:attributeGroup ref="standard"/>
                         </xs:complexType>
                     </xs:element>
@@ -1073,7 +1019,6 @@
                         </xs:complexType>
                     </xs:element>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
@@ -1103,25 +1048,23 @@
                 <xrx:example>
                     <xrx:i18n>
                         <xrx:key>cei_abstract_example</xrx:key>
-                        <xrx:default>&lt;cei:abstract>&lt;cei:issuer>Rudolph III. Herzog von
-                            Österreich&lt;/cei:issuer> bestätigt die Privilegien des
-                            &lt;cei:recipient>Klosters Geras&lt;/cei:recipient>, namentlich in
+                        <xrx:default>&lt;cei:abstract&gt;&lt;cei:issuer&gt;Rudolph III. Herzog von
+                            Österreich&lt;/cei:issuer&gt; bestätigt die Privilegien des
+                            &lt;cei:recipient&gt;Klosters Geras&lt;/cei:recipient&gt;, namentlich in
                             gewissen Beziehungen, in denen Beeinträchtigungen eingetreten
-                            waren.&lt;/cei:abstract></xrx:default>
+                            waren.&lt;/cei:abstract&gt;</xrx:default>
                     </xrx:i18n>
                 </xrx:example>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="class"/>
                     <xs:group ref="Sachliches"/>
                     <xs:group ref="layout"/>
                     <xs:element ref="recipient"/>
                     <xs:element ref="issuer"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -1156,12 +1099,10 @@
                         </xs:appinfo>
                     </xs:annotation>
                     <xs:complexType mixed="true">
-                        <xs:sequence>
-                            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                        <xs:choice minOccurs="0" maxOccurs="unbounded">
                                 <xs:group ref="layout"/>
                                 <xs:group ref="biblArch"/>
                             </xs:choice>
-                        </xs:sequence>
                         <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
                 </xs:element>
@@ -1178,12 +1119,10 @@
                         </xs:appinfo>
                     </xs:annotation>
                     <xs:complexType mixed="true">
-                        <xs:sequence>
-                            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                        <xs:choice minOccurs="0" maxOccurs="unbounded">
                                 <xs:element ref="ref"/>
                                 <xs:element ref="bibl"/>
                             </xs:choice>
-                        </xs:sequence>
                         <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
                 </xs:element>
@@ -1202,11 +1141,9 @@
                         </xs:appinfo>
                     </xs:annotation>
                     <xs:complexType mixed="true">
-                        <xs:sequence>
-                            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                        <xs:choice minOccurs="0" maxOccurs="unbounded">
                                 <xs:element ref="desc"/>
                             </xs:choice>
-                        </xs:sequence>
                         <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
                 </xs:element>
@@ -1317,11 +1254,9 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="witness"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -1342,8 +1277,7 @@
             <xs:documentation xml:lang="deu"> Der einzelne Textzeuge </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="traditioForm">
                         <xs:annotation>
                             <xs:appinfo source="EditVDU">
@@ -1363,7 +1297,6 @@
                     <xs:group ref="layout"/>
                     <xs:group ref="textualElements"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="id"/>
             <xs:attribute name="n" type="xs:anySimpleType">
@@ -1397,11 +1330,7 @@
                 entnehmen oder in der profileDesc zu dokumentieren. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence minOccurs="0" maxOccurs="unbounded">
-                <xs:choice>
-                    <xs:group ref="layout"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded"><xs:group ref="layout"/></xs:choice>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
@@ -1420,12 +1349,7 @@
             </xs:appinfo>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence minOccurs="0" maxOccurs="unbounded">
-                <xs:choice>
-                    <xs:element ref="foreign"/>
-                    <xs:group ref="layout"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded"><xs:element ref="foreign"/><xs:group ref="layout"/></xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -1442,11 +1366,9 @@
             </xs:appinfo>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="index"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -1468,14 +1390,12 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="notariusDesc"/>
                     <xs:element ref="sealDesc"/>
                     <xs:element ref="subscriptio"/>
                     <xs:element ref="chirograph"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -1497,14 +1417,12 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="seal"/>
                     <xs:element ref="legend"/>
                     <xs:group ref="layout"/>
                     <xs:element ref="index"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -1531,8 +1449,7 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="layout"/>
                     <xs:element ref="sigillant"/>
                     <xs:element ref="legend"/>
@@ -1541,7 +1458,6 @@
                     <xs:element ref="sealCondition"/>
                     <xs:element ref="index"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -1568,11 +1484,9 @@
                 wieder. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attribute name="place"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -1599,12 +1513,10 @@
             <xs:documentation xml:lang="deu"> der Siegelinhaber </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="quote"/>
                     <xs:group ref="Sachauszeichnung"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="reg"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -1625,8 +1537,7 @@
                 Unterfertigung.</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="notariusSub">
                         <xs:annotation>
                             <xs:appinfo source="EditVDU">
@@ -1648,7 +1559,6 @@
                     <xs:element ref="index"/>
                     <xs:element ref="num"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -1700,12 +1610,10 @@
                 preserving archives or the recipient. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="type"/>
             <xs:attribute name="position" type="xs:anySimpleType" use="optional"/>
             <xs:attributeGroup ref="lang"/>
@@ -1732,12 +1640,10 @@
                 "type" specifies if it refers to specific part of the text.</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -1759,14 +1665,12 @@
                 Beschreibstoff (material), Maße (dimensions) etc. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="material"/>
                     <xs:element ref="dimensions"/>
                     <xs:element ref="condition"/>
                     <xs:element ref="decoDesc"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
@@ -1786,11 +1690,9 @@
                 Beschreibung</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="p"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="reference"/>
         </xs:complexType>
     </xs:element>
@@ -1810,9 +1712,7 @@
                 Elementen) </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence minOccurs="0" maxOccurs="unbounded">
-                <xs:choice>
-                    <xs:element name="width" type="xs:string">
+            <xs:choice minOccurs="0" maxOccurs="unbounded"><xs:element name="width" type="xs:string">
                         <xs:annotation>
                             <xs:appinfo source="EditVDU">
                                 <xrxe:label>
@@ -1829,8 +1729,7 @@
                                 </xrxe:menu-item>
                             </xs:appinfo>
                         </xs:annotation>
-                    </xs:element>
-                    <xs:element name="height" type="xs:string">
+                    </xs:element><xs:element name="height" type="xs:string">
                         <xs:annotation>
                             <xs:appinfo source="EditVDU">
                                 <xrxe:label>
@@ -1847,8 +1746,7 @@
                                 </xrxe:menu-item>
                             </xs:appinfo>
                         </xs:annotation>
-                    </xs:element>
-                    <xs:element name="plica" type="xs:string">
+                    </xs:element><xs:element name="plica" type="xs:string">
                         <xs:annotation>
                             <xs:appinfo source="EditVDU">
                                 <xrxe:label>
@@ -1867,9 +1765,7 @@
                             <xs:documentation xml:lang="eng"> describes the depth of the fold used
                                 to secure the threads for the seal </xs:documentation>
                         </xs:annotation>
-                    </xs:element>
-                </xs:choice>
-            </xs:sequence>
+                    </xs:element></xs:choice>
             <xs:attributeGroup ref="standard"/>
             <xs:attribute name="type" type="xs:string"/>
             <!--Erweiterung-->
@@ -1920,12 +1816,7 @@
                 written </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence minOccurs="0" maxOccurs="unbounded">
-                <xs:choice>
-                    <xs:element ref="foreign"/>
-                    <xs:group ref="layout"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded"><xs:element ref="foreign"/><xs:group ref="layout"/></xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -1977,12 +1868,10 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="type"/>
             <xs:attribute name="position" type="xs:anySimpleType" use="optional"/>
             <xs:attributeGroup ref="lang"/>
@@ -2011,8 +1900,7 @@
                 Archivale (mit Lagerort, Signatur etc.) </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="settlement"/>
                     <xs:element ref="region"/>
                     <xs:element ref="country"/>
@@ -2026,7 +1914,6 @@
                     <xs:element ref="altIdentifier"/>
                     <xs:element ref="hi"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -2045,8 +1932,7 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:choice>
                         <xs:element ref="settlement"/>
                         <xs:element ref="region"/>
@@ -2060,7 +1946,6 @@
                     <xs:element ref="scope"/>
                     <xs:element ref="note"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="standard"/>
             <xs:attributeGroup ref="type"/>
         </xs:complexType>
@@ -2086,11 +1971,7 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence minOccurs="0" maxOccurs="unbounded">
-                <xs:choice>
-                    <xs:group ref="layout"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded"><xs:group ref="layout"/></xs:choice>
             <xs:attributeGroup ref="expan"/>
             <xs:attributeGroup ref="key"/>
             <xs:attributeGroup ref="lang"/>
@@ -2169,8 +2050,7 @@
                 Signatur/Bezeichnung innerhalb der lagernden Institution. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="settlement"/>
                     <xs:element ref="region"/>
                     <xs:element ref="country"/>
@@ -2178,7 +2058,6 @@
                     <xs:element ref="idno"/>
                     <xs:element ref="scope"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -2256,13 +2135,11 @@
                 type="Originaldatierung" </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:element ref="num"/>
                     <xs:element ref="note"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -2283,14 +2160,12 @@
                 Transkriptionselemente</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                     <xs:group ref="Formular"/>
                     <xs:element ref="pTenor"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
@@ -2314,8 +2189,7 @@
             <xs:documentation xml:lang="deu">Ein Absatz mit Fließtext </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Sachliches"/>
                     <xs:element ref="archIdentifier"/>
                     <xs:element ref="msIdentifier"/>
@@ -2328,7 +2202,6 @@
                     <xs:element ref="scope"/>
                     <!--Erweiterung-->
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="resp"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2359,15 +2232,13 @@
             <xs:documentation xml:lang="deu">Ein Absatz </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Formular"/>
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                     <xs:element ref="recipient"/>
                     <xs:element ref="issuer"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -2415,13 +2286,11 @@
                 Gottes</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                     <xs:element ref="setPhrase"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2449,13 +2318,11 @@
                 Titeln</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                     <xs:element ref="setPhrase"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2482,13 +2349,11 @@
             <xs:documentation xml:lang="deu">Eine Adresse im Urkundentext</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                     <xs:element ref="setPhrase"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2515,13 +2380,11 @@
             <xs:documentation xml:lang="deu">Die Veröffentlichungsformel</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                     <xs:element ref="setPhrase"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2549,13 +2412,11 @@
                 Urkunde begründet </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                     <xs:element ref="setPhrase"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2583,15 +2444,13 @@
                 Ausstellung der Urkunde vorangegangen sind </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                     <xs:element ref="rogatio"/>
                     <xs:element ref="intercessio"/>
                     <xs:element ref="setPhrase"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2619,13 +2478,11 @@
                 (cf. VID n. 326 http://www.cei.lmu.de/VID/VID.php?326)</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                     <xs:element ref="setPhrase"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2653,13 +2510,11 @@
             </xs:appinfo>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                     <xs:element ref="setPhrase"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2687,13 +2542,11 @@
                 Rechtsverfügungen</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                     <xs:element ref="setPhrase"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2720,13 +2573,11 @@
             <xs:documentation xml:lang="deu">kündigt die Beglaubigungsmittel an</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                     <xs:element ref="setPhrase"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2754,12 +2605,10 @@
             </xs:appinfo>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2787,14 +2636,12 @@
             </xs:appinfo>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                     <xs:element minOccurs="0" maxOccurs="unbounded" ref="setPhrase"/>
                     <xs:element minOccurs="0" maxOccurs="unbounded" ref="notariusSub"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="type">
                 <xs:annotation>
                     <xs:documentation xml:lang="deu"> Die Unterscheidung in "Signumzeile",
@@ -2828,13 +2675,11 @@
             <xs:documentation xml:lang="deu">Datierung der Urkunde </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                     <xs:element ref="setPhrase"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2854,13 +2699,11 @@
                 Floskel</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                     <xs:element ref="setPhrase"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2891,12 +2734,10 @@
                 des "Vocabulaire Internationale de Diplomatique" orientieren. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2925,12 +2766,10 @@
             <xs:documentation xml:lang="deu">Die Notarsunterschrift </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -3056,8 +2895,7 @@
                 machen. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="expan"/>
                     <xs:element ref="c"/>
                     <xs:element ref="lb"/>
@@ -3071,7 +2909,6 @@
                     <!--Erweiterung-->
                     <xs:group ref="Sachliches"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attribute name="extent" type="xs:anySimpleType"/>
             <xs:attribute name="degree" type="xs:anySimpleType">
                 <xs:annotation>
@@ -3125,8 +2962,7 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="expan"/>
                     <xs:element ref="c"/>
                     <xs:element ref="lb"/>
@@ -3134,7 +2970,6 @@
                     <xs:element ref="handShift"/>
                     <xs:element ref="pict"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attribute name="extent" type="xs:anySimpleType">
                 <xs:annotation>
                     <xs:appinfo source="EditVDU">
@@ -3249,8 +3084,7 @@
                             Version.</xs:documentation>
                     </xs:annotation>
                     <xs:complexType mixed="true">
-                        <xs:sequence>
-                            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                        <xs:choice minOccurs="0" maxOccurs="unbounded">
                                 <xs:group ref="Sachauszeichnung"/>
                                 <xs:group ref="biblArch"/>
                                 <xs:group ref="layout"/>
@@ -3267,7 +3101,6 @@
                                 <xs:element ref="supplied"/>
                                 <!--Erweiterung-->
                             </xs:choice>
-                        </xs:sequence>
                         <xs:attributeGroup ref="wit"/>
                         <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
@@ -3285,8 +3118,7 @@
                         <xs:documentation xml:lang="eng">reading </xs:documentation>
                     </xs:annotation>
                     <xs:complexType mixed="true">
-                        <xs:sequence>
-                            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                        <xs:choice minOccurs="0" maxOccurs="unbounded">
                                 <xs:element ref="w"/>
                                 <!--Erweiterung-->
                                 <xs:element ref="add"/>
@@ -3299,7 +3131,6 @@
                                 <xs:group ref="layout"/>
                                 <xs:group ref="reference"/>
                             </xs:choice>
-                        </xs:sequence>
                         <xs:attribute name="type"/>
                         <!--Erweiterung-->
                         <xs:attributeGroup ref="wit"/>
@@ -3332,8 +3163,7 @@
                 Abkürzung.</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="c"/>
                     <xs:element ref="lb"/>
                     <xs:element ref="pb"/>
@@ -3342,7 +3172,6 @@
                     <xs:element ref="sic"/>
                     <xs:element ref="damage"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="abbr">
                 <xs:annotation>
@@ -3376,8 +3205,7 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="expan"/>
                     <xs:element ref="c"/>
                     <xs:element ref="lb"/>
@@ -3386,7 +3214,6 @@
                     <xs:element ref="handShift"/>
                     <xs:group ref="Referenz"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attribute name="corr">
                 <xs:annotation>
                     <xs:appinfo source="EditVDU">
@@ -3419,8 +3246,7 @@
                 und dann mit dem Inhalt des Elements korrigiert worden ist. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="expan"/>
                     <xs:element ref="sic"/>
                     <xs:element ref="lb"/>
@@ -3431,7 +3257,6 @@
                     <xs:group ref="Sachauszeichnung"/>
                     <xs:group ref="Referenz"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attribute name="sic"/>
             <xs:attributeGroup ref="transcription"/>
             <xs:attributeGroup ref="lang"/>
@@ -3460,8 +3285,7 @@
                 ist (z.B. durch Durchstreichen, Unterpunkten, Rasur). </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="expan"/>
                     <xs:element ref="add"/>
                     <xs:element ref="supplied"/>
@@ -3472,7 +3296,6 @@
                     <xs:element ref="sic"/>
                     <xs:group ref="Referenz"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="transcription"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -3499,8 +3322,7 @@
                 Text ersetzen. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="expan"/>
                     <xs:element ref="c"/>
                     <xs:element ref="lb"/>
@@ -3515,7 +3337,6 @@
                     <xs:group ref="Sachauszeichnung"/>
                     <xs:group ref="Referenz"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attribute name="status"/>
             <!--Erweiterung-->
             <xs:attributeGroup ref="transcription"/>
@@ -3545,8 +3366,7 @@
                 dokumentiert ist, durch den Editor. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="c"/>
                     <xs:element ref="lb"/>
                     <xs:element ref="pb"/>
@@ -3559,7 +3379,6 @@
                     <xs:group ref="Sachauszeichnung"/>
                     <xs:group ref="Referenz"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="transcription"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -3791,13 +3610,11 @@
                 Texte, Texte zwischen Referenzpunkten, Elongata </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                     <xs:group ref="Formular"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="rend"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -3936,15 +3753,13 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                     <xs:element ref="bibl"/>
                     <xs:element ref="archIdentifier"/>
                     <xs:element ref="msIdentifier"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attribute name="place"/>
             <xs:attributeGroup ref="id"/>
             <xs:attributeGroup ref="type"/>
@@ -4059,11 +3874,9 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="textualElements"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -4082,11 +3895,9 @@
             <xs:documentation xml:lang="deu">Enthält die Fußnoten zur Urkunde.</xs:documentation>
         </xs:annotation>
         <xs:complexType>
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="note"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
@@ -4114,12 +3925,10 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachauszeichnung"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -4184,14 +3993,12 @@
                 Urkunde unseres Vaters die folgenden Wortlaut hat: .... </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachauszeichnung"/>
                     <xs:group ref="reference"/>
                     <xs:element ref="foreign"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -4268,12 +4075,10 @@
             <xs:documentation xml:lang="deu">Ein Listenpunkt </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachliches"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
@@ -4312,13 +4117,11 @@
                 einer Maßangabe besteht. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="num"/>
                     <xs:element ref="index"/>
                     <xs:group ref="Originalbefund"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -4345,14 +4148,12 @@
             <xs:documentation xml:lang="deu">Eine Zahlenangabe </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="w"/>
                     <!--Erweiterung-->
                     <xs:element ref="pc"/>
                     <!--Erweiterung-->
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="type"/>
             <xs:attribute name="value" type="xs:double"/>
             <xs:attributeGroup ref="lang"/>
@@ -4418,13 +4219,11 @@
                 Stichwörtern (Register, Index) </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="foreign"/>
                     <xs:element ref="ref"/>
                     <xs:group ref="Originalbefund"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attribute name="indexName">
                 <xs:annotation>
                     <xs:appinfo source="EditVDU">
@@ -4491,13 +4290,11 @@
             <xs:documentation xml:lang="deu"> Die Angabe eines spezifischen Tages in einem Kalender
                 (=Datumsangabe). </xs:documentation>
         </xs:annotation>
-        <xs:alternative test="ancestor::issued" type="dateNormalized"
-            xpathDefaultNamespace="##targetNamespace"/>
+        <xs:alternative test="ancestor::issued" type="dateNormalized" xpathDefaultNamespace="##targetNamespace"/>
         <xs:alternative type="date" xpathDefaultNamespace="##targetNamespace"/>
     </xs:element>
     <xs:complexType name="dateGeneral" mixed="true">
-        <xs:sequence>
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element ref="foreign"/>
                 <xs:element ref="num"/>
                 <xs:group ref="Originalbefund"/>
@@ -4505,7 +4302,6 @@
                 <xs:element ref="figure"/>
                 <!--Erweiterung-->
             </xs:choice>
-        </xs:sequence>
         <xs:attributeGroup ref="lang"/>
         <xs:attributeGroup ref="standard"/>
     </xs:complexType>
@@ -4545,13 +4341,11 @@
                 zutreffenden Datums in den Attributen "from" und "to" </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="foreign"/>
                     <xs:element ref="num"/>
                     <xs:group ref="Originalbefund"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attribute name="from" type="normalizedDateValue" use="required">
                 <xs:annotation>
                     <xs:appinfo source="EditVDU">
@@ -4633,8 +4427,7 @@
             <xs:documentation xml:lang="deu">Die Bezeichnung einer Organisation</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:choice>
                         <xs:annotation>
                             <xs:documentation xml:lang="deu">Geographische Angaben
@@ -4648,7 +4441,6 @@
                     <xs:element ref="note"/>
                     <xs:group ref="Originalbefund"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="identification"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="type"/>
@@ -4675,8 +4467,7 @@
             <xs:documentation xml:lang="deu">ein Personenname </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:choice>
                         <xs:annotation>
                             <xs:documentation xml:lang="deu">Geographische Angaben
@@ -4694,7 +4485,6 @@
                     <xs:element ref="note"/>
                     <xs:group ref="Originalbefund"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="identification"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="type"/>
@@ -4721,13 +4511,11 @@
             <xs:documentation xml:lang="deu">ein Vorname</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="foreign"/>
                     <xs:element ref="note"/>
                     <xs:group ref="Originalbefund"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="standard"/>
@@ -4754,8 +4542,7 @@
                 Unterscheidung einer Person z.B. durch Gruppenzuordnung dient.</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="rolename"/>
                     <xs:choice>
                         <xs:annotation>
@@ -4771,7 +4558,6 @@
                     <!--Erweiterung-->
                     <xs:group ref="Originalbefund"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="standard"/>
@@ -4798,15 +4584,13 @@
                 ...</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="foreign"/>
                     <xs:element ref="note"/>
                     <xs:group ref="Originalbefund"/>
                     <xs:group ref="Sachauszeichnung"/>
                     <!--Erweiterung-->
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="standard"/>
@@ -4836,8 +4620,7 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="foreign"/>
                     <xs:element ref="persName"/>
                     <xs:element ref="orgName"/>
@@ -4851,7 +4634,6 @@
                     </xs:choice>
                     <xs:group ref="Originalbefund"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -4880,8 +4662,7 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="persName"/>
                     <xs:element ref="orgName"/>
                     <xs:choice>
@@ -4896,7 +4677,6 @@
                     <xs:element ref="note"/>
                     <xs:group ref="Originalbefund"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -4922,8 +4702,7 @@
             <xs:documentation xml:lang="deu">Ein einzelner Zeuge. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="foreign"/>
                     <xs:group ref="Originalbefund"/>
                     <xs:choice>
@@ -4936,7 +4715,6 @@
                     </xs:choice>
                     <xs:element ref="persName"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -5047,8 +4825,7 @@
                 Klöster, Burgen, Bundesländer, Herrschaften, Staaten etc. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="index"/>
                     <xs:element ref="foreign"/>
                     <xs:element ref="note"/>
@@ -5058,7 +4835,6 @@
                     <!--Erweiterung-->
                     <xs:group ref="Originalbefund"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="key"/>
             <xs:attributeGroup ref="geog"/>
             <xs:attributeGroup ref="type"/>
@@ -5089,13 +4865,11 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="foreign"/>
                     <xs:element ref="note"/>
                     <xs:group ref="Originalbefund"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attributeGroup ref="geog"/>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
@@ -5156,8 +4930,7 @@
                         </xs:appinfo>
                     </xs:annotation>
                     <xs:complexType mixed="true">
-                        <xs:sequence>
-                            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                        <xs:choice minOccurs="0" maxOccurs="unbounded">
                                 <xs:element ref="scope"/>
                                 <xs:element name="pubPlace">
                                     <xs:complexType>
@@ -5170,7 +4943,6 @@
                                 </xs:element>
                                 <xs:group ref="date"/>
                             </xs:choice>
-                        </xs:sequence>
                         <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
                 </xs:element>
@@ -5240,15 +5012,13 @@
             <xs:documentation xml:lang="eng">Bibliographic informations</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:group ref="layout"/>
                     <xs:element ref="foreign"/>
                     <xs:element ref="quote"/>
                     <xs:group ref="Referenz"/>
                     <xs:group ref="BibliographicInformation"/>
                 </xs:choice>
-            </xs:sequence>
             <xs:attribute name="status"/>
             <!--Erweiterung-->
             <xs:attribute name="type"/>
@@ -5394,9 +5164,7 @@
                             <xrx:default>certainty</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant
-                        context="='persName' or $context='orgName' or $context='geogName' or $context='placeName' or $context='sic' or $context='del' or $context='expan' or $context='damage'"
-                    />
+                    <xrxe:relevant context="='persName' or $context='orgName' or $context='geogName' or $context='placeName' or $context='sic' or $context='del' or $context='expan' or $context='damage'"/>
                 </xs:appinfo>
                 <xs:documentation xml:lang="deu"> Für Genauigkeitsangaben z.B. bei Datierungen,
                     werden mit Schlüsselwörtern (zu benennen in der encodingDesc) oder kurzen
@@ -5432,9 +5200,7 @@
                             <xrx:default>reg</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant
-                        context="='persName' or $context='orgName' or $context='geogName' or $context='placeName'"
-                    />
+                    <xrxe:relevant context="='persName' or $context='orgName' or $context='geogName' or $context='placeName'"/>
                 </xs:appinfo>
             </xs:annotation>
         </xs:attribute>
@@ -5465,9 +5231,7 @@
                             <xrx:default>type</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant
-                        context="='persName' or $context='orgName' or $context='geogName' or $context='placeName' or $context='c'"
-                    />
+                    <xrxe:relevant context="='persName' or $context='orgName' or $context='geogName' or $context='placeName' or $context='c'"/>
                 </xs:appinfo>
             </xs:annotation>
         </xs:attribute>
