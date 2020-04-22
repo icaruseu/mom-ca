@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns="http://www.monasterium.net/NS/cei" xmlns:xerces="http://xerces.apache.org"
     xmlns:xrxe="http://www.monasterium.net/NS/xrxe" xmlns:xrx="http://www.monasterium.net/NS/xrx"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified"
@@ -7,7 +8,8 @@
             <xs:documentation xml:lang="deu"> Wurzelelement für alle Dokumente, die den Regeln der
                 CEI (Charters Encoding Initiative, http://www.cei.lmu.de) folgen. CEI-Ableger mit
                 Angaben zur EditMOM-Verarbeitung als appinfo und verringert auf ein
-                Auszeichnungskonzept für Monasterium.net 2006-05-21 Änderungen: 2016-05-28: (lem|rdg)@wit eingeführt 2015-10-17: supplied hinzugefügt (GV) 2010-02-08:
+                Auszeichnungskonzept für Monasterium.net 2006-05-21 Änderungen: 2016-05-28:
+                (lem|rdg)@wit eingeführt 2015-10-17: supplied hinzugefügt (GV) 2010-02-08:
                 group:layout als Kind von abstract eingeführt 2009-11-20: listBibl wieder eingeführt
                 2009-09-04: minOccurs="1" und maxOccurs="1" für Elemente "body/idno", "issued" und
                 "date_sort" für Validierung beim Import eingeführt (JG) 2009-09-03: persName als
@@ -25,33 +27,33 @@
                 lang auf ausgewählte Elemente beschränkt (vgl. EditMOM), nota in
                 "diplomaticAnalysis" eingefügt. measure mit num/index und Originalbefund versehen.
                 GV 2006-08-09: seal, witness und alle Subelemente als globale Elemente definiert,
-                den neuen globalen Elementen &lt;menu> vergeben (GV) 2006-07-06: pict zu
+                den neuen globalen Elementen &lt;menu&gt; vergeben (GV) 2006-07-06: pict zu
                 group:Originalbefund hinzugefügt, NotariusSub auch als Teil von group:Formular
                 eingefügt; issuer, recipient auch in der Transkription zulässig (GV) 2006-07-05:
                 lang_MOM in mixed Type true umgewandelt (GV) 2006-06-27: verschiedene
                 Attribut-Korrekturen (GV) 2006-06-26: lang_MOM eingeführt. (GV) 2006-06-21:
                 teiHeader fakultativ, respStmt aus text/front herausgenommen (GV) 2006-06-16:
-                date_sort korrigiert, Attribut b_name zu &lt;text> eingeführt (GV) 2006-06-07:
+                date_sort korrigiert, Attribut b_name zu &lt;text&gt; eingeführt (GV) 2006-06-07:
                 issuer &amp; recipient nur in abstract zugelassen; subelemente von bibl entfernt; a
                 global definiert, appinfo zu settlement, repository und scope global definiert. (GV)
-                2006-05-21: Captions geändert und ein paar Sicherheits &lt;present>no eingefügt.
+                2006-05-21: Captions geändert und ein paar Sicherheits &lt;present&gt;no eingefügt.
                 (GV) 2006-05-18: sourceDescVolltext ergänzt und kleinere editMOM-Ergänzungen (GV)
                 2006-05-17: sourceDesc aufgeräumt; Versuch alle Elemente, die in die Maske kommen,
                 global zu definieren; note aus den Fließtexten geworfen. (GV) 2006-05-16: expan
                 statt abbr für Abkürzung, note/index als eigener Reiter, &lt;caption
-                xml:lang="deu"> eingefügt; Attribute (z.B. id/n) mit
-                &lt;present>no&lt;/present> versehen. Menü "Siegelbeschreibung" ergänzt.
-                &lt;sup> in p und abstract zugelassen, aber nicht in Menüs übernommen, denn diese
+                xml:lang="deu"&gt; eingefügt; Attribute (z.B. id/n) mit
+                &lt;present&gt;no&lt;/present&gt; versehen. Menü "Siegelbeschreibung" ergänzt.
+                &lt;sup&gt; in p und abstract zugelassen, aber nicht in Menüs übernommen, denn diese
                 Tags müssen noch nachbearbeitet werden. (GV) 2006-05-11 Einige Elemente, die in
                 Fließtextfeldern auftauchen, global definiert (pTenor, a, legend), in einigen Fällen
-                &lt;present>no&lt;/present> eingefügt (group etc.) (GV) 2006-05-09 Knoten, die
+                &lt;present&gt;no&lt;/present&gt; eingefügt (group etc.) (GV) 2006-05-09 Knoten, die
                 selber nicht angezeigt werden und keine anzuzeigenden Subknoten haben, sind mit dem
-                Attribut &lt;present>no&lt;/present> in der EditMOM-appinfo versehen. Alle
+                Attribut &lt;present&gt;no&lt;/present&gt; in der EditMOM-appinfo versehen. Alle
                 Elemente, die als Fließtext auftauchen können, sind global definiert. (GV)
                 2006-05-02 listBibl (listBiblEdition, listBiblRegest, listBiblFaksimile,
                 listBiblErw), sourceDesc (sourceDescRegest), p (p, pTenor) typisiert, um in der
                 Anzeige differenzieren zu können. EditMOM:Auswahlliste eingeführt. (GV) 2006-04-25
-                Weitere &lt;tab>-hinzugefügt. (GV) 2006-04-06 Innerhalb von hi Formular
+                Weitere &lt;tab&gt;-hinzugefügt. (GV) 2006-04-06 Innerhalb von hi Formular
                 zugelassen; issuer verzweigt wie persName, persName kann auch note enthalten.
                 Weitere Attributlisten plausibler aufgereiht. (GV) 2006-04-05 Reihenfolge der
                 Tenorelemente plausibler angeordnet, hi::target in hi::type korrigiert, ein paar
@@ -90,12 +92,12 @@
                                         <xs:element name="titleStmt">
                                             <xs:annotation>
                                                 <xs:appinfo source="EditVDU">
-                                                    <xrxe:label>
-                                                        <xrx:i18n>
-                                                            <xrx:key>cei_titleStmt</xrx:key>
-                                                            <xrx:default>titleStmt</xrx:default>
-                                                        </xrx:i18n>
-                                                    </xrxe:label>
+                                                  <xrxe:label>
+                                                  <xrx:i18n>
+                                                  <xrx:key>cei_titleStmt</xrx:key>
+                                                  <xrx:default>titleStmt</xrx:default>
+                                                  </xrx:i18n>
+                                                  </xrxe:label>
                                                 </xs:appinfo>
                                                 <xs:documentation xml:lang="deu"> Den Regeln der TEI
                                                   entsprechend müßten hier verschiedene Elemente
@@ -103,25 +105,23 @@
                                                 </xs:documentation>
                                             </xs:annotation>
                                             <xs:complexType>
-                                                <xs:sequence>
-                                                  <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                                <xs:choice minOccurs="0" maxOccurs="unbounded">
                                                   <xs:element ref="title"/>
                                                   <xs:element name="author">
                                                   <xs:annotation>
                                                   <xs:appinfo source="EditVDU">
-                                                                    <xrxe:label>
-                                                                        <xrx:i18n>
-                                                                            <xrx:key>cei_author</xrx:key>
-                                                                            <xrx:default>author</xrx:default>
-                                                                        </xrx:i18n>
-                                                                    </xrxe:label>
-                                                                    <xrxe:relevant>false</xrxe:relevant>
-                                                                </xs:appinfo>
+                                                  <xrxe:label>
+                                                  <xrx:i18n>
+                                                  <xrx:key>cei_author</xrx:key>
+                                                  <xrx:default>author</xrx:default>
+                                                  </xrx:i18n>
+                                                  </xrxe:label>
+                                                  <xrxe:relevant>false</xrxe:relevant>
+                                                  </xs:appinfo>
                                                   </xs:annotation>
                                                   </xs:element>
                                                   <xs:element ref="p"/>
-                                                  </xs:choice>
-                                                </xs:sequence>
+                                                </xs:choice>
                                                 <xs:attributeGroup ref="standard"/>
                                             </xs:complexType>
                                         </xs:element>
@@ -129,13 +129,13 @@
                                         <xs:element minOccurs="0" name="sourceDesc">
                                             <xs:annotation>
                                                 <xs:appinfo source="EditVDU">
-                                                    <xrxe:label>
-                                                        <xrx:i18n>
-                                                            <xrx:key>cei_sourceDesc</xrx:key>
-                                                            <xrx:default>sourceDesc</xrx:default>
-                                                        </xrx:i18n>
-                                                    </xrxe:label>
-                                                    <xrxe:relevant>false</xrxe:relevant>
+                                                  <xrxe:label>
+                                                  <xrx:i18n>
+                                                  <xrx:key>cei_sourceDesc</xrx:key>
+                                                  <xrx:default>sourceDesc</xrx:default>
+                                                  </xrx:i18n>
+                                                  </xrxe:label>
+                                                  <xrxe:relevant>false</xrxe:relevant>
                                                 </xs:appinfo>
                                                 <xs:documentation xml:lang="deu"> enthält die
                                                   bibliographischen Angaben der Quellen, aus denen
@@ -146,11 +146,9 @@
                                                 </xs:documentation>
                                             </xs:annotation>
                                             <xs:complexType>
-                                                <xs:sequence>
-                                                  <xs:choice minOccurs="0">
+                                                <xs:choice minOccurs="0">
                                                   <xs:element ref="p"/>
-                                                  </xs:choice>
-                                                </xs:sequence>
+                                                </xs:choice>
                                                 <xs:attributeGroup ref="standard"/>
                                             </xs:complexType>
                                         </xs:element>
@@ -174,12 +172,10 @@
                                     </xs:documentation>
                                 </xs:annotation>
                                 <xs:complexType>
-                                    <xs:sequence>
-                                        <xs:choice minOccurs="0" maxOccurs="unbounded">
-                                            <xs:element ref="p"/>
-                                            <xs:element ref="respStmt"/>
-                                        </xs:choice>
-                                    </xs:sequence>
+                                    <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                        <xs:element ref="p"/>
+                                        <xs:element ref="respStmt"/>
+                                    </xs:choice>
                                     <xs:attributeGroup ref="standard"/>
                                 </xs:complexType>
                             </xs:element>
@@ -231,76 +227,73 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element name="publisher">
-                        <xs:annotation>
-                            <xs:appinfo source="EditVDU">
-                                <xrxe:label>
-                                    <xrx:i18n>
-                                        <xrx:key>cei_publisher</xrx:key>
-                                        <xrx:default>publisher</xrx:default>
-                                    </xrx:i18n>
-                                </xrxe:label>
-                                <xrxe:relevant>false</xrxe:relevant>
-                            </xs:appinfo>
-                        </xs:annotation>
-                        <xs:complexType>
-                            <xs:simpleContent>
-                                <xs:extension base="xs:anySimpleType">
-                                    <xs:attributeGroup ref="standard"/>
-                                </xs:extension>
-                            </xs:simpleContent>
-                        </xs:complexType>
-                    </xs:element>
-                    <xs:element name="pubPlace">
-                        <xs:annotation>
-                            <xs:appinfo source="EditVDU">
-                                <xrxe:label>
-                                    <xrx:i18n>
-                                        <xrx:key>cei_pubPlace</xrx:key>
-                                        <xrx:default>pubPlace</xrx:default>
-                                    </xrx:i18n>
-                                </xrxe:label>
-                                <xrxe:relevant>false</xrxe:relevant>
-                            </xs:appinfo>
-                            <xs:documentation xml:lang="deu">Ort der
-                                Veröffentlichung</xs:documentation>
-                        </xs:annotation>
-                        <xs:complexType>
-                            <xs:simpleContent>
-                                <xs:extension base="xs:anySimpleType">
-                                    <xs:attributeGroup ref="standard"/>
-                                </xs:extension>
-                            </xs:simpleContent>
-                        </xs:complexType>
-                    </xs:element>
-                    <xs:element name="availability">
-                        <xs:annotation>
-                            <xs:appinfo source="EditVDU">
-                                <xrxe:label>
-                                    <xrx:i18n>
-                                        <xrx:key>cei_availability</xrx:key>
-                                        <xrx:default>availability</xrx:default>
-                                    </xrx:i18n>
-                                </xrxe:label>
-                                <xrxe:relevant>false</xrxe:relevant>
-                            </xs:appinfo>
-                            <xs:documentation xml:lang="deu"> Verfügbarkeit und insbesondere ihre
-                                Einschränkungen ("restricted") </xs:documentation>
-                        </xs:annotation>
-                        <xs:complexType mixed="true">
-                            <xs:sequence>
-                                <xs:element ref="p" minOccurs="0"/>
-                            </xs:sequence>
-                            <xs:attribute name="status" type="xs:anySimpleType"/>
-                            <xs:attributeGroup ref="standard"/>
-                        </xs:complexType>
-                    </xs:element>
-                    <xs:group ref="date"/>
-                    <xs:element ref="p"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="publisher">
+                    <xs:annotation>
+                        <xs:appinfo source="EditVDU">
+                            <xrxe:label>
+                                <xrx:i18n>
+                                    <xrx:key>cei_publisher</xrx:key>
+                                    <xrx:default>publisher</xrx:default>
+                                </xrx:i18n>
+                            </xrxe:label>
+                            <xrxe:relevant>false</xrxe:relevant>
+                        </xs:appinfo>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:anySimpleType">
+                                <xs:attributeGroup ref="standard"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="pubPlace">
+                    <xs:annotation>
+                        <xs:appinfo source="EditVDU">
+                            <xrxe:label>
+                                <xrx:i18n>
+                                    <xrx:key>cei_pubPlace</xrx:key>
+                                    <xrx:default>pubPlace</xrx:default>
+                                </xrx:i18n>
+                            </xrxe:label>
+                            <xrxe:relevant>false</xrxe:relevant>
+                        </xs:appinfo>
+                        <xs:documentation xml:lang="deu">Ort der Veröffentlichung</xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:anySimpleType">
+                                <xs:attributeGroup ref="standard"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="availability">
+                    <xs:annotation>
+                        <xs:appinfo source="EditVDU">
+                            <xrxe:label>
+                                <xrx:i18n>
+                                    <xrx:key>cei_availability</xrx:key>
+                                    <xrx:default>availability</xrx:default>
+                                </xrx:i18n>
+                            </xrxe:label>
+                            <xrxe:relevant>false</xrxe:relevant>
+                        </xs:appinfo>
+                        <xs:documentation xml:lang="deu"> Verfügbarkeit und insbesondere ihre
+                            Einschränkungen ("restricted") </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType mixed="true">
+                        <xs:sequence>
+                            <xs:element ref="p" minOccurs="0"/>
+                        </xs:sequence>
+                        <xs:attribute name="status" type="xs:anySimpleType"/>
+                        <xs:attributeGroup ref="standard"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:group ref="date"/>
+                <xs:element ref="p"/>
+            </xs:choice>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
@@ -319,38 +312,35 @@
                 verlegerische Verantwortung </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="name"/>
-                    <xs:element name="resp">
-                        <xs:annotation>
-                            <xs:appinfo source="EditVDU">
-                                <xrxe:label>
-                                    <xrx:i18n>
-                                        <xrx:key>cei_resp</xrx:key>
-                                        <xrx:default>resp</xrx:default>
-                                    </xrx:i18n>
-                                </xrxe:label>
-                                <xrxe:relevant>false</xrxe:relevant>
-                            </xs:appinfo>
-                            <xs:documentation xml:lang="deu"> beschreibt die intellektuelle
-                                Verantwortlichkeit einer Person </xs:documentation>
-                            <xs:documentation xml:lang="eng"> contains a phrase describing the
-                                nature of a person's intellectual responsibility.
-                            </xs:documentation>
-                        </xs:annotation>
-                        <xs:complexType>
-                            <xs:simpleContent>
-                                <xs:extension base="xs:string">
-                                    <xs:attributeGroup ref="identification"/>
-                                    <xs:attributeGroup ref="standard"/>
-                                </xs:extension>
-                            </xs:simpleContent>
-                        </xs:complexType>
-                    </xs:element>
-                    <xs:group ref="date"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="name"/>
+                <xs:element name="resp">
+                    <xs:annotation>
+                        <xs:appinfo source="EditVDU">
+                            <xrxe:label>
+                                <xrx:i18n>
+                                    <xrx:key>cei_resp</xrx:key>
+                                    <xrx:default>resp</xrx:default>
+                                </xrx:i18n>
+                            </xrxe:label>
+                            <xrxe:relevant>false</xrxe:relevant>
+                        </xs:appinfo>
+                        <xs:documentation xml:lang="deu"> beschreibt die intellektuelle
+                            Verantwortlichkeit einer Person </xs:documentation>
+                        <xs:documentation xml:lang="eng"> contains a phrase describing the nature of
+                            a person's intellectual responsibility. </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:string">
+                                <xs:attributeGroup ref="identification"/>
+                                <xs:attributeGroup ref="standard"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:group ref="date"/>
+            </xs:choice>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
@@ -382,38 +372,36 @@
                             </xs:documentation>
                         </xs:annotation>
                         <xs:complexType mixed="true">
-                            <xs:sequence>
-                                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                                    <xs:element name="sourceDesc">
-                                        <xs:annotation>
-                                            <xs:appinfo source="EditVDU">
-                                                <xrxe:label>
-                                                    <xrx:i18n>
-                                                        <xrx:key>cei_sourceDesc</xrx:key>
-                                                        <xrx:default>sourceDesc</xrx:default>
-                                                    </xrx:i18n>
-                                                </xrxe:label>
-                                            </xs:appinfo>
-                                        </xs:annotation>
-                                        <xs:complexType>
-                                            <xs:sequence>
-                                                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                                                  <xs:element name="sourceDescRegest">
-                                                  <xs:annotation>
+                            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                <xs:element name="sourceDesc">
+                                    <xs:annotation>
+                                        <xs:appinfo source="EditVDU">
+                                            <xrxe:label>
+                                                <xrx:i18n>
+                                                  <xrx:key>cei_sourceDesc</xrx:key>
+                                                  <xrx:default>sourceDesc</xrx:default>
+                                                </xrx:i18n>
+                                            </xrxe:label>
+                                        </xs:appinfo>
+                                    </xs:annotation>
+                                    <xs:complexType>
+                                        <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                            <xs:element name="sourceDescRegest">
+                                                <xs:annotation>
                                                   <xs:appinfo source="EditVDU">
-                                                                <xrxe:label>
-                                                                    <xrx:i18n>
-                                                                        <xrx:key>cei_sourceDescRegest</xrx:key>
-                                                                        <xrx:default>sourceDescRegest</xrx:default>
-                                                                    </xrx:i18n>
-                                                                </xrxe:label>
-                                                            </xs:appinfo>
+                                                  <xrxe:label>
+                                                  <xrx:i18n>
+                                                  <xrx:key>cei_sourceDescRegest</xrx:key>
+                                                  <xrx:default>sourceDescRegest</xrx:default>
+                                                  </xrx:i18n>
+                                                  </xrxe:label>
+                                                  </xs:appinfo>
                                                   <xs:documentation xml:lang="deu">
                                                   CEI_MOM-spezifisch: Eigentlich eine SourceDesc,
                                                   die über ein Schlüsselwort "Regest" auf die Quelle
                                                   des Regests verweist. </xs:documentation>
-                                                  </xs:annotation>
-                                                  <xs:complexType>
+                                                </xs:annotation>
+                                                <xs:complexType>
                                                   <xs:sequence>
                                                   <xs:element maxOccurs="unbounded" ref="bibl">
                                                   <xs:annotation>
@@ -424,28 +412,30 @@
                                                   </xs:sequence>
                                                   <xs:attribute name="ref">
                                                   <xs:annotation>
-                                                  <xs:documentation xml:lang="deu"> Verweis auf eine Textpassage, zu der hier die Quelle angegeben wird. </xs:documentation>
+                                                  <xs:documentation xml:lang="deu">Verweis auf eine
+                                                  Textpassage, zu der hier die Quelle angegeben
+                                                  wird.</xs:documentation>
                                                   </xs:annotation>
                                                   </xs:attribute>
                                                   <xs:attributeGroup ref="standard"/>
-                                                  </xs:complexType>
-                                                  </xs:element>
-                                                  <xs:element name="sourceDescVolltext">
-                                                  <xs:annotation>
+                                                </xs:complexType>
+                                            </xs:element>
+                                            <xs:element name="sourceDescVolltext">
+                                                <xs:annotation>
                                                   <xs:appinfo source="EditVDU">
-                                                                <xrxe:label>
-                                                                    <xrx:i18n>
-                                                                        <xrx:key>cei_sourceDescVolltext</xrx:key>
-                                                                        <xrx:default>sourceDescVolltext</xrx:default>
-                                                                    </xrx:i18n>
-                                                                </xrxe:label>
-                                                            </xs:appinfo>
+                                                  <xrxe:label>
+                                                  <xrx:i18n>
+                                                  <xrx:key>cei_sourceDescVolltext</xrx:key>
+                                                  <xrx:default>sourceDescVolltext</xrx:default>
+                                                  </xrx:i18n>
+                                                  </xrxe:label>
+                                                  </xs:appinfo>
                                                   <xs:documentation xml:lang="deu">
                                                   CEI_MOM-spezifisch: Eigentlich eine SourceDesc,
                                                   die über ein Schlüsselwort "Volltext" auf die
                                                   Quelle des Regests verweist. </xs:documentation>
-                                                  </xs:annotation>
-                                                  <xs:complexType>
+                                                </xs:annotation>
+                                                <xs:complexType>
                                                   <xs:sequence>
                                                   <xs:element maxOccurs="unbounded" ref="bibl">
                                                   <xs:annotation>
@@ -462,37 +452,35 @@
                                                   </xs:annotation>
                                                   </xs:attribute>
                                                   <xs:attributeGroup ref="standard"/>
-                                                  </xs:complexType>
-                                                  </xs:element>
-                                                  <xs:element ref="p">
-                                                  <xs:annotation>
+                                                </xs:complexType>
+                                            </xs:element>
+                                            <xs:element ref="p">
+                                                <xs:annotation>
                                                   <xs:appinfo source="EditVDU">
-                                                                <xrxe:relevant>false</xrxe:relevant>
-                                                            </xs:appinfo>
-                                                  </xs:annotation>
-                                                  </xs:element>
-                                                </xs:choice>
-                                            </xs:sequence>
-                                        </xs:complexType>
-                                    </xs:element>
-                                    <xs:element ref="publicationStmt">
-                                        <xs:annotation>
-                                            <xs:appinfo source="EditVDU">
-                                                <xrxe:relevant>false</xrxe:relevant>
-                                            </xs:appinfo>
-                                        </xs:annotation>
-                                    </xs:element>
-                                    <xs:group ref="textualElements"/>
-                                    <xs:group ref="reference"/>
-                                    <xs:element ref="provenance">
-                                        <xs:annotation>
-                                            <xs:appinfo source="EditVDU">
-                                                <xrxe:relevant>false</xrxe:relevant>
-                                            </xs:appinfo>
-                                        </xs:annotation>
-                                    </xs:element>
-                                </xs:choice>
-                            </xs:sequence>
+                                                  <xrxe:relevant>false</xrxe:relevant>
+                                                  </xs:appinfo>
+                                                </xs:annotation>
+                                            </xs:element>
+                                        </xs:choice>
+                                    </xs:complexType>
+                                </xs:element>
+                                <xs:element ref="publicationStmt">
+                                    <xs:annotation>
+                                        <xs:appinfo source="EditVDU">
+                                            <xrxe:relevant>false</xrxe:relevant>
+                                        </xs:appinfo>
+                                    </xs:annotation>
+                                </xs:element>
+                                <xs:group ref="textualElements"/>
+                                <xs:group ref="reference"/>
+                                <xs:element ref="provenance">
+                                    <xs:annotation>
+                                        <xs:appinfo source="EditVDU">
+                                            <xrxe:relevant>false</xrxe:relevant>
+                                        </xs:appinfo>
+                                    </xs:annotation>
+                                </xs:element>
+                            </xs:choice>
                         </xs:complexType>
                     </xs:element>
                     <xs:choice>
@@ -509,13 +497,13 @@
                                         <xs:element minOccurs="1" maxOccurs="1" name="idno">
                                             <xs:annotation>
                                                 <xs:appinfo source="EditVDU">
-                                                    <xrxe:label>
-                                                        <xrx:i18n>
-                                                            <xrx:key>cei_idno</xrx:key>
-                                                            <xrx:default>idno</xrx:default>
-                                                        </xrx:i18n>
-                                                    </xrxe:label>
-                                                    <xrxe:relevant>false</xrxe:relevant>
+                                                  <xrxe:label>
+                                                  <xrx:i18n>
+                                                  <xrx:key>cei_idno</xrx:key>
+                                                  <xrx:default>idno</xrx:default>
+                                                  </xrx:i18n>
+                                                  </xrxe:label>
+                                                  <xrxe:relevant>false</xrxe:relevant>
                                                 </xs:appinfo>
                                                 <xs:documentation xml:lang="deu"> Gibt die
                                                   Identifikationsnummer der Urkunde im aktuellen
@@ -551,12 +539,10 @@
                                     Texten als Teil eines Corpus z.B. </xs:documentation>
                             </xs:annotation>
                             <xs:complexType>
-                                <xs:sequence>
-                                    <xs:choice maxOccurs="unbounded">
-                                        <xs:element ref="h1"/>
-                                        <xs:element ref="text"/>
-                                    </xs:choice>
-                                </xs:sequence>
+                                <xs:choice maxOccurs="unbounded">
+                                    <xs:element ref="h1"/>
+                                    <xs:element ref="text"/>
+                                </xs:choice>
                                 <xs:attributeGroup ref="standard"/>
                             </xs:complexType>
                         </xs:element>
@@ -570,69 +556,68 @@
                                 Register, Verzeichnisse) </xs:documentation>
                         </xs:annotation>
                         <xs:complexType>
-                            <xs:sequence>
-                                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                                    <xs:element ref="persName">
-                                        <xs:annotation>
-                                            <xs:appinfo source="EditVDU">
-                                                <xrxe:min-occur>0</xrxe:min-occur>
-                                                <xrxe:max-occur>unbounded</xrxe:max-occur>
-                                                <xrxe:content-control>annotation</xrxe:content-control>
-                                            </xs:appinfo>
-                                        </xs:annotation>
-                                    </xs:element>
-                                    <xs:element ref="orgName">
-                                        <xs:annotation>
-                                            <xs:appinfo source="EditVDU">
-                                                <xrxe:min-occur>0</xrxe:min-occur>
-                                                <xrxe:max-occur>unbounded</xrxe:max-occur>
-                                                <xrxe:content-control>annotation</xrxe:content-control>
-                                            </xs:appinfo>
-                                        </xs:annotation>
-                                    </xs:element>
-                                    <xs:element ref="class">
-                                        <xs:annotation>
-                                            <xs:appinfo source="EditVDU">
-                                                <xrxe:min-occur>0</xrxe:min-occur>
-                                                <xrxe:max-occur>unbounded</xrxe:max-occur>
-                                                <xrxe:content-control>annotation</xrxe:content-control>
-                                            </xs:appinfo>
-                                        </xs:annotation>
-                                    </xs:element>
-                                    <xs:element ref="placeName">
-                                        <xs:annotation>
-                                            <xs:appinfo source="EditVDU">
-                                                <xrxe:min-occur>0</xrxe:min-occur>
-                                                <xrxe:max-occur>unbounded</xrxe:max-occur>
-                                                <xrxe:content-control>annotation</xrxe:content-control>
-                                            </xs:appinfo>
-                                        </xs:annotation>
-                                    </xs:element>
-                                    <xs:element ref="index">
-                                        <xs:annotation>
-                                            <xs:appinfo source="EditVDU">
-                                                <xrxe:min-occur>0</xrxe:min-occur>
-                                                <xrxe:max-occur>unbounded</xrxe:max-occur>
-                                            </xs:appinfo>
-                                        </xs:annotation>
-                                    </xs:element>
-                                    <xs:element ref="geogName">
-                                        <xs:annotation>
-                                            <xs:appinfo source="EditVDU">
-                                                <xrxe:min-occur>0</xrxe:min-occur>
-                                                <xrxe:max-occur>unbounded</xrxe:max-occur>
-                                                <xrxe:relevant>false</xrxe:relevant>
-                                            </xs:appinfo>
-                                        </xs:annotation>
-                                    </xs:element>
-                                    <xs:element ref="divNotes"/>
-                                </xs:choice>
-                            </xs:sequence>
+                            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                <xs:element ref="persName">
+                                    <xs:annotation>
+                                        <xs:appinfo source="EditVDU">
+                                            <xrxe:min-occur>0</xrxe:min-occur>
+                                            <xrxe:max-occur>unbounded</xrxe:max-occur>
+                                            <xrxe:content-control>annotation</xrxe:content-control>
+                                        </xs:appinfo>
+                                    </xs:annotation>
+                                </xs:element>
+                                <xs:element ref="orgName">
+                                    <xs:annotation>
+                                        <xs:appinfo source="EditVDU">
+                                            <xrxe:min-occur>0</xrxe:min-occur>
+                                            <xrxe:max-occur>unbounded</xrxe:max-occur>
+                                            <xrxe:content-control>annotation</xrxe:content-control>
+                                        </xs:appinfo>
+                                    </xs:annotation>
+                                </xs:element>
+                                <xs:element ref="class">
+                                    <xs:annotation>
+                                        <xs:appinfo source="EditVDU">
+                                            <xrxe:min-occur>0</xrxe:min-occur>
+                                            <xrxe:max-occur>unbounded</xrxe:max-occur>
+                                            <xrxe:content-control>annotation</xrxe:content-control>
+                                        </xs:appinfo>
+                                    </xs:annotation>
+                                </xs:element>
+                                <xs:element ref="placeName">
+                                    <xs:annotation>
+                                        <xs:appinfo source="EditVDU">
+                                            <xrxe:min-occur>0</xrxe:min-occur>
+                                            <xrxe:max-occur>unbounded</xrxe:max-occur>
+                                            <xrxe:content-control>annotation</xrxe:content-control>
+                                        </xs:appinfo>
+                                    </xs:annotation>
+                                </xs:element>
+                                <xs:element ref="index">
+                                    <xs:annotation>
+                                        <xs:appinfo source="EditVDU">
+                                            <xrxe:min-occur>0</xrxe:min-occur>
+                                            <xrxe:max-occur>unbounded</xrxe:max-occur>
+                                        </xs:appinfo>
+                                    </xs:annotation>
+                                </xs:element>
+                                <xs:element ref="geogName">
+                                    <xs:annotation>
+                                        <xs:appinfo source="EditVDU">
+                                            <xrxe:min-occur>0</xrxe:min-occur>
+                                            <xrxe:max-occur>unbounded</xrxe:max-occur>
+                                            <xrxe:relevant>false</xrxe:relevant>
+                                        </xs:appinfo>
+                                    </xs:annotation>
+                                </xs:element>
+                                <xs:element ref="divNotes"/>
+                            </xs:choice>
                         </xs:complexType>
                     </xs:element>
                 </xs:sequence>
             </xs:choice>
-            <xs:attribute name="type"/>
+            <xs:attribute name="type" fixed="charter"/>
+            <!--Erweiterung-->
             <xs:attributeGroup ref="picture"/>
             <xs:attributeGroup ref="certainty"/>
             <xs:attributeGroup ref="standard"/>
@@ -660,11 +645,9 @@
                 Handschriftensignatur in einer Bibliothek. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence minOccurs="0" maxOccurs="unbounded">
-                <xs:choice>
-                    <xs:group ref="layout"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="layout"/>
+            </xs:choice>
             <xs:attributeGroup ref="standard"/>
             <xs:attribute name="old"/>
         </xs:complexType>
@@ -686,334 +669,313 @@
                 charter</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="class"/>
-                    <xs:element ref="abstract"/>
-                    <xs:element name="issued" minOccurs="1" maxOccurs="1">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="class"/>
+                <xs:element ref="abstract"/>
+                <xs:element name="issued" minOccurs="1" maxOccurs="1">
+                    <xs:annotation>
+                        <xs:appinfo source="EditVDU">
+                            <xrxe:label>
+                                <xrx:i18n>
+                                    <xrx:key>cei_issued</xrx:key>
+                                    <xrx:default>issued</xrx:default>
+                                </xrx:i18n>
+                            </xrxe:label>
+                            <xrxe:mixed>false</xrxe:mixed>
+                        </xs:appinfo>
+                        <xs:documentation xml:lang="deu"> Diese Konstruktion kann allgemeine
+                            Elemente für die Beschreibung von Ausstellungsort und -zeit verwenden
+                            und ist deshalb den Konstrukten "issuePlace" und "date" bzw.
+                            "publicationStmt" vorzuziehen. [strict!] </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType mixed="true">
                         <xs:annotation>
                             <xs:appinfo source="EditVDU">
-                                <xrxe:label>
-                                    <xrx:i18n>
-                                        <xrx:key>cei_issued</xrx:key>
-                                        <xrx:default>issued</xrx:default>
-                                    </xrx:i18n>
-                                </xrxe:label>
                                 <xrxe:mixed>false</xrxe:mixed>
                             </xs:appinfo>
-                            <xs:documentation xml:lang="deu"> Diese Konstruktion kann allgemeine
-                                Elemente für die Beschreibung von Ausstellungsort und -zeit
-                                verwenden und ist deshalb den Konstrukten "issuePlace" und "date"
-                                bzw. "publicationStmt" vorzuziehen. [strict!] </xs:documentation>
                         </xs:annotation>
-                        <xs:complexType mixed="true">
-                            <xs:annotation>
-                                <xs:appinfo source="EditVDU">
-                                    <xrxe:mixed>false</xrxe:mixed>
-                                </xs:appinfo>
-                            </xs:annotation>
-                            <xs:sequence>
-                                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                                    <xs:element ref="placeName">
-                                        <xs:annotation>
-                                            <xs:appinfo source="EditVDU">
-                                                <xrxe:min-occur>1</xrxe:min-occur>
-                                                <xrxe:max-occur>1</xrxe:max-occur>
-                                            </xs:appinfo>
-                                        </xs:annotation>
-                                    </xs:element>
-                                    <xs:choice>
-                                        <xs:element ref="date">
-                                            <xs:annotation>
-                                                <xs:appinfo source="EditVDU">
-                                                    <xrxe:min-occur>0</xrxe:min-occur>
-                                                    <xrxe:max-occur>1</xrxe:max-occur>
-                                                </xs:appinfo>
-                                                <xs:documentation>
-                                                    <xrx:description>
-                                                        <xrx:i18n>
-                                                            <xrx:key>cei_issued_date_description</xrx:key>
-                                                            <xrx:default>Datum, an dem die Urkunde ausgestellt
+                        <xs:choice minOccurs="0" maxOccurs="unbounded">
+                            <xs:element ref="placeName">
+                                <xs:annotation>
+                                    <xs:appinfo source="EditVDU">
+                                        <xrxe:min-occur>1</xrxe:min-occur>
+                                        <xrxe:max-occur>1</xrxe:max-occur>
+                                    </xs:appinfo>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:choice>
+                                <xs:element ref="date">
+                                    <xs:annotation>
+                                        <xs:appinfo source="EditVDU">
+                                            <xrxe:min-occur>0</xrxe:min-occur>
+                                            <xrxe:max-occur>1</xrxe:max-occur>
+                                        </xs:appinfo>
+                                        <xs:documentation>
+                                            <xrx:description>
+                                                <xrx:i18n>
+                                                  <xrx:key>cei_issued_date_description</xrx:key>
+                                                  <xrx:default>Datum, an dem die Urkunde ausgestellt
                                                   ist. Die Daten werden im Format 'Jahr Monat (als
                                                   Wort) Tag' angegeben.</xrx:default>
-                                                        </xrx:i18n>
-                                                    </xrx:description>
-                                                    <xrx:example>
-                                                        <xrx:i18n>
-                                                            <xrx:key>cei_issued_date_example</xrx:key>
-                                                            <xrx:default>&lt;cei:date
-                                                  value="16091001">1609 Oktober
-                                                  1&lt;/cei:date></xrx:default>
-                                                        </xrx:i18n>
-                                                    </xrx:example>
-                                                </xs:documentation>
-                                            </xs:annotation>
-                                        </xs:element>
-                                        <xs:element ref="dateRange">
-                                            <xs:annotation>
-                                                <xs:appinfo source="EditVDU">
-                                                    <xrxe:min-occur>0</xrxe:min-occur>
-                                                    <xrxe:max-occur>1</xrxe:max-occur>
-                                                </xs:appinfo>
-                                            </xs:annotation>
-                                        </xs:element>
-                                    </xs:choice>
-                                </xs:choice>
-                            </xs:sequence>
-                            <xs:attributeGroup ref="standard"/>
-                        </xs:complexType>
-                    </xs:element>
-                    <xs:element name="witnessOrig">
-                        <xs:annotation>
-                            <xs:documentation xml:lang="deu">Der einzelne Textzeuge
-                                (MOM)</xs:documentation>
-                            <xs:appinfo source="EditVDU">
-                                <xrxe:label>
-                                    <xrx:i18n>
-                                        <xrx:key>cei_witnessOrig</xrx:key>
-                                        <xrx:default>witnessOrig</xrx:default>
-                                    </xrx:i18n>
-                                </xrxe:label>
-                                <xrxe:mixed>false</xrxe:mixed>
-                            </xs:appinfo>
-                        </xs:annotation>
-                        <xs:complexType mixed="true">
-                            <xs:sequence>
-                                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                                    <xs:element ref="traditioForm">
-                                        <xs:annotation>
-                                            <xs:appinfo source="EditVDU">
-                                                <xrxe:min-occur>0</xrxe:min-occur>
-                                            </xs:appinfo>
-                                        </xs:annotation>
-                                    </xs:element>
-                                    <xs:choice>
-                                        <xs:element ref="archIdentifier"/>
-                                        <xs:element ref="msIdentifier"/>
-                                    </xs:choice>
-                                    <xs:element ref="auth"/>
-                                    <xs:element ref="physicalDesc"/>
-                                    <xs:element ref="nota"/>
-                                    <xs:element ref="rubrum"/>
-                                    <xs:element ref="figure">
-                                        <xs:annotation>
-                                            <xs:appinfo source="EditVDU">
-                                                <xrxe:relevant>false</xrxe:relevant>
-                                            </xs:appinfo>
-                                        </xs:annotation>
-                                    </xs:element>
-                                </xs:choice>
-                            </xs:sequence>
-                            <xs:attributeGroup ref="certainty"/>
-                            <xs:attribute name="type" type="xs:anySimpleType" use="optional"/>
-                            <xs:attribute name="sigil" type="xs:anySimpleType">
+                                                </xrx:i18n>
+                                            </xrx:description>
+                                            <xrx:example>
+                                                <xrx:i18n>
+                                                  <xrx:key>cei_issued_date_example</xrx:key>
+                                                  <xrx:default>&lt;cei:date value="16091001"&gt;1609
+                                                  Oktober 1&lt;/cei:date&gt;</xrx:default>
+                                                </xrx:i18n>
+                                            </xrx:example>
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:element>
+                                <xs:element ref="dateRange">
+                                    <xs:annotation>
+                                        <xs:appinfo source="EditVDU">
+                                            <xrxe:min-occur>0</xrxe:min-occur>
+                                            <xrxe:max-occur>1</xrxe:max-occur>
+                                        </xs:appinfo>
+                                    </xs:annotation>
+                                </xs:element>
+                            </xs:choice>
+                        </xs:choice>
+                        <xs:attributeGroup ref="standard"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="witnessOrig">
+                    <xs:annotation>
+                        <xs:documentation xml:lang="deu">Der einzelne Textzeuge
+                            (MOM)</xs:documentation>
+                        <xs:appinfo source="EditVDU">
+                            <xrxe:label>
+                                <xrx:i18n>
+                                    <xrx:key>cei_witnessOrig</xrx:key>
+                                    <xrx:default>witnessOrig</xrx:default>
+                                </xrx:i18n>
+                            </xrxe:label>
+                            <xrxe:mixed>false</xrxe:mixed>
+                        </xs:appinfo>
+                    </xs:annotation>
+                    <xs:complexType mixed="true">
+                        <xs:choice minOccurs="0" maxOccurs="unbounded">
+                            <xs:element ref="traditioForm">
                                 <xs:annotation>
-                                    <xs:documentation xml:lang="deu"> P5 sieht dafür das Attribut id
-                                        vor. Diese Lösung ist sowohl dem Element, als auch dem
-                                        Attribut vorzuziehen. [strict!] </xs:documentation>
+                                    <xs:appinfo source="EditVDU">
+                                        <xrxe:min-occur>0</xrxe:min-occur>
+                                    </xs:appinfo>
                                 </xs:annotation>
-                            </xs:attribute>
-                            <xs:attribute name="sameAs" type="xs:anySimpleType" use="optional"/>
-                            <xs:attributeGroup ref="standard"/>
-                        </xs:complexType>
-                    </xs:element>
-                    <xs:element ref="witListPar"/>
-                    <xs:element name="diplomaticAnalysis">
-                        <xs:annotation>
-                            <xs:appinfo source="EditVDU">
-                                <xrxe:label>
-                                    <xrx:i18n>
-                                        <xrx:key>cei_diplomaticAnalysis</xrx:key>
-                                        <xrx:default>diplomatic analysis</xrx:default>
-                                    </xrx:i18n>
-                                </xrxe:label>
-                                <xrxe:mixed>false</xrxe:mixed>
-                            </xs:appinfo>
-                            <xs:documentation xml:lang="deu"> Enthält Bemerkungen zur diplomatischen
-                                Kritik der Urkunde, die formale Beobachtungen der inneren wie
-                                äußeren Merkmale ebenso wie inhaltliche Überlegungen enthalten kann. </xs:documentation>
-                            <xs:documentation xml:lang="eng"> contains a diplomatic analysis of the
-                                document, formal critics or critics by the content.
-                            </xs:documentation>
-                        </xs:annotation>
-                        <xs:complexType mixed="true">
-                            <xs:sequence>
-                                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                                    <xs:element name="listBibl">
-                                        <xs:annotation>
-                                            <xs:appinfo source="EditVDU">
-                                                <xrxe:label>
-                                                    <xrx:i18n>
-                                                        <xrx:key>cei_listBibl</xrx:key>
-                                                        <xrx:default>listBibl</xrx:default>
-                                                    </xrx:i18n>
-                                                </xrxe:label>
-                                                <xrxe:mixed>false</xrxe:mixed>
-                                            </xs:appinfo>
-                                            <xs:documentation xml:lang="deu"> undifferenzierte
-                                                Bibliographische Auflistung von Titeln, die die
-                                                Urkunde betreffen.. </xs:documentation>
-                                        </xs:annotation>
-                                        <xs:complexType mixed="true">
-                                            <xs:sequence>
-                                                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                                                  <xs:choice>
-                                                  <xs:element minOccurs="0" ref="ref"/>
-                                                  <xs:element ref="bibl"/>
-                                                  </xs:choice>
-                                                </xs:choice>
-                                            </xs:sequence>
-                                            <xs:attributeGroup ref="standard"/>
-                                        </xs:complexType>
-                                    </xs:element>
-                                    <xs:element name="listBiblEdition">
-                                        <xs:annotation>
-                                            <xs:appinfo source="EditVDU">
-                                                <xrxe:label>
-                                                    <xrx:i18n>
-                                                        <xrx:key>cei_listBiblEdition</xrx:key>
-                                                        <xrx:default>listBiblEdition</xrx:default>
-                                                    </xrx:i18n>
-                                                </xrxe:label>
-                                                <xrxe:mixed>false</xrxe:mixed>
-                                            </xs:appinfo>
-                                            <xs:documentation xml:lang="deu"> Bibliographische
-                                                Auflistung der Editionen = listBibl type="print".
-                                            </xs:documentation>
-                                        </xs:annotation>
-                                        <xs:complexType mixed="true">
-                                            <xs:sequence>
-                                                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                                                  <xs:choice>
-                                                  <xs:element minOccurs="0" ref="ref"/>
-                                                  <xs:element ref="bibl"/>
-                                                  </xs:choice>
-                                                </xs:choice>
-                                            </xs:sequence>
-                                            <xs:attributeGroup ref="standard"/>
-                                        </xs:complexType>
-                                    </xs:element>
-                                    <xs:element name="listBiblRegest">
-                                        <xs:annotation>
-                                            <xs:appinfo source="EditVDU">
-                                                <xrxe:label>
-                                                    <xrx:i18n>
-                                                        <xrx:key>cei_listBiblRegest</xrx:key>
-                                                        <xrx:default>listBiblRegest</xrx:default>
-                                                    </xrx:i18n>
-                                                </xrxe:label>
-                                                <xrxe:mixed>false</xrxe:mixed>
-                                            </xs:appinfo>
-                                            <xs:documentation xml:lang="deu"> Bibliographische
-                                                Auflistungen = listBibl type="regesta".
-                                            </xs:documentation>
-                                        </xs:annotation>
-                                        <xs:complexType mixed="true">
-                                            <xs:sequence>
-                                                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                                                  <xs:choice>
-                                                  <xs:element minOccurs="0" ref="ref"/>
-                                                  <xs:element ref="bibl"/>
-                                                  </xs:choice>
-                                                </xs:choice>
-                                            </xs:sequence>
-                                            <xs:attributeGroup ref="standard"/>
-                                        </xs:complexType>
-                                    </xs:element>
-                                    <xs:element name="listBiblFaksimile">
-                                        <xs:annotation>
-                                            <xs:appinfo source="EditVDU">
-                                                <xrxe:label>
-                                                    <xrx:i18n>
-                                                        <xrx:key>cei_listBiblFaksimile</xrx:key>
-                                                        <xrx:default>listBiblFaksimile</xrx:default>
-                                                    </xrx:i18n>
-                                                </xrxe:label>
-                                                <xrxe:mixed>false</xrxe:mixed>
-                                            </xs:appinfo>
-                                            <xs:documentation xml:lang="deu"> Bibliographische
-                                                Auflistung der Faksimiles = listBibl
-                                                type="facsimilia" </xs:documentation>
-                                        </xs:annotation>
-                                        <xs:complexType mixed="true">
-                                            <xs:sequence>
-                                                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                                                  <xs:choice>
-                                                  <xs:element minOccurs="0" ref="ref"/>
-                                                  <xs:element ref="bibl"/>
-                                                  </xs:choice>
-                                                </xs:choice>
-                                            </xs:sequence>
-                                            <xs:attributeGroup ref="standard"/>
-                                        </xs:complexType>
-                                    </xs:element>
-                                    <xs:element name="listBiblErw">
-                                        <xs:annotation>
-                                            <xs:appinfo source="EditVDU">
-                                                <xrxe:label>
-                                                    <xrx:i18n>
-                                                        <xrx:key>cei_listBiblErw</xrx:key>
-                                                        <xrx:default>listBiblErw</xrx:default>
-                                                    </xrx:i18n>
-                                                </xrxe:label>
-                                                <xrxe:mixed>false</xrxe:mixed>
-                                            </xs:appinfo>
-                                            <xs:documentation xml:lang="deu"> Bibliographische
-                                                Auflistung der Erwähnungen = listBibl type="studies"
-                                            </xs:documentation>
-                                        </xs:annotation>
-                                        <xs:complexType mixed="true">
-                                            <xs:sequence>
-                                                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                                                  <xs:choice>
-                                                  <xs:element minOccurs="0" ref="ref"/>
-                                                  <xs:element ref="bibl"/>
-                                                  </xs:choice>
-                                                </xs:choice>
-                                            </xs:sequence>
-                                            <xs:attributeGroup ref="standard"/>
-                                        </xs:complexType>
-                                    </xs:element>
-                                    <xs:element ref="p" maxOccurs="unbounded">
-                                        <xs:annotation>
-                                            <xs:appinfo source="EditVDU">
-                                                <xrxe:max-occur>unbounded</xrxe:max-occur>
-                                            </xs:appinfo>
-                                        </xs:annotation>
-                                    </xs:element>
-                                    <xs:element ref="quoteOriginaldatierung"/>
-                                    <xs:element ref="nota"/>
-                                    <xs:element ref="rubrum"/>
-                                    <xs:element ref="divNotes"/>
-                                    <xs:element ref="incipit"/>
-                                </xs:choice>
-                            </xs:sequence>
-                            <xs:attributeGroup ref="standard"/>
-                        </xs:complexType>
-                    </xs:element>
-                    <xs:element name="lang_MOM">
-                        <xs:annotation>
-                            <xs:appinfo source="EditVDU">
-                                <xrxe:label>
-                                    <xrx:i18n>
-                                        <xrx:key>cei_lang_MOM</xrx:key>
-                                        <xrx:default>lang_MOM</xrx:default>
-                                    </xrx:i18n>
-                                </xrxe:label>
-                                <xrxe:min-occur>0</xrxe:min-occur>
-                                <xrxe:type-type>simpleType</xrxe:type-type>
-                                <xrxe:mixed>false</xrxe:mixed>
-                                <xrxe:control-control>input</xrxe:control-control>
-                            </xs:appinfo>
-                            <xs:documentation> MOM-spezifisch: Eigentlich tenor@lang
-                            </xs:documentation>
-                        </xs:annotation>
-                        <xs:complexType mixed="true">
-                            <xs:attributeGroup ref="standard"/>
-                        </xs:complexType>
-                    </xs:element>
-                </xs:choice>
-            </xs:sequence>
+                            </xs:element>
+                            <xs:choice>
+                                <xs:element ref="archIdentifier"/>
+                                <xs:element ref="msIdentifier"/>
+                            </xs:choice>
+                            <xs:element ref="auth"/>
+                            <xs:element ref="physicalDesc"/>
+                            <xs:element ref="nota"/>
+                            <xs:element ref="rubrum"/>
+                            <xs:element ref="figure">
+                                <xs:annotation>
+                                    <xs:appinfo source="EditVDU">
+                                        <xrxe:relevant>false</xrxe:relevant>
+                                    </xs:appinfo>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element ref="p"/>
+                            <!--Erweiterung-->
+                        </xs:choice>
+                        <xs:attributeGroup ref="certainty"/>
+                        <xs:attribute name="type" type="xs:anySimpleType" use="optional"/>
+                        <xs:attribute name="sigil" type="xs:anySimpleType">
+                            <xs:annotation>
+                                <xs:documentation xml:lang="deu"> P5 sieht dafür das Attribut id
+                                    vor. Diese Lösung ist sowohl dem Element, als auch dem Attribut
+                                    vorzuziehen. [strict!] </xs:documentation>
+                            </xs:annotation>
+                        </xs:attribute>
+                        <xs:attribute name="sameAs" type="xs:anySimpleType" use="optional"/>
+                        <xs:attributeGroup ref="standard"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element ref="witListPar"/>
+                <xs:element name="diplomaticAnalysis">
+                    <xs:annotation>
+                        <xs:appinfo source="EditVDU">
+                            <xrxe:label>
+                                <xrx:i18n>
+                                    <xrx:key>cei_diplomaticAnalysis</xrx:key>
+                                    <xrx:default>diplomatic analysis</xrx:default>
+                                </xrx:i18n>
+                            </xrxe:label>
+                            <xrxe:mixed>false</xrxe:mixed>
+                        </xs:appinfo>
+                        <xs:documentation xml:lang="deu"> Enthält Bemerkungen zur diplomatischen
+                            Kritik der Urkunde, die formale Beobachtungen der inneren wie äußeren
+                            Merkmale ebenso wie inhaltliche Überlegungen enthalten kann. </xs:documentation>
+                        <xs:documentation xml:lang="eng"> contains a diplomatic analysis of the
+                            document, formal critics or critics by the content. </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType mixed="true">
+                        <xs:choice minOccurs="0" maxOccurs="unbounded">
+                            <xs:element name="listBibl">
+                                <xs:annotation>
+                                    <xs:appinfo source="EditVDU">
+                                        <xrxe:label>
+                                            <xrx:i18n>
+                                                <xrx:key>cei_listBibl</xrx:key>
+                                                <xrx:default>listBibl</xrx:default>
+                                            </xrx:i18n>
+                                        </xrxe:label>
+                                        <xrxe:mixed>false</xrxe:mixed>
+                                    </xs:appinfo>
+                                    <xs:documentation xml:lang="deu"> undifferenzierte
+                                        Bibliographische Auflistung von Titeln, die die Urkunde
+                                        betreffen.. </xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType mixed="true">
+                                    <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                        <xs:choice>
+                                            <xs:element minOccurs="0" ref="ref"/>
+                                            <xs:element ref="bibl"/>
+                                        </xs:choice>
+                                    </xs:choice>
+                                    <xs:attributeGroup ref="standard"/>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="listBiblEdition">
+                                <xs:annotation>
+                                    <xs:appinfo source="EditVDU">
+                                        <xrxe:label>
+                                            <xrx:i18n>
+                                                <xrx:key>cei_listBiblEdition</xrx:key>
+                                                <xrx:default>listBiblEdition</xrx:default>
+                                            </xrx:i18n>
+                                        </xrxe:label>
+                                        <xrxe:mixed>false</xrxe:mixed>
+                                    </xs:appinfo>
+                                    <xs:documentation xml:lang="deu"> Bibliographische Auflistung
+                                        der Editionen = listBibl type="print". </xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType mixed="true">
+                                    <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                        <xs:choice>
+                                            <xs:element minOccurs="0" ref="ref"/>
+                                            <xs:element ref="bibl"/>
+                                        </xs:choice>
+                                    </xs:choice>
+                                    <xs:attributeGroup ref="standard"/>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="listBiblRegest">
+                                <xs:annotation>
+                                    <xs:appinfo source="EditVDU">
+                                        <xrxe:label>
+                                            <xrx:i18n>
+                                                <xrx:key>cei_listBiblRegest</xrx:key>
+                                                <xrx:default>listBiblRegest</xrx:default>
+                                            </xrx:i18n>
+                                        </xrxe:label>
+                                        <xrxe:mixed>false</xrxe:mixed>
+                                    </xs:appinfo>
+                                    <xs:documentation xml:lang="deu"> Bibliographische Auflistungen
+                                        = listBibl type="regesta". </xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType mixed="true">
+                                    <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                        <xs:choice>
+                                            <xs:element minOccurs="0" ref="ref"/>
+                                            <xs:element ref="bibl"/>
+                                        </xs:choice>
+                                    </xs:choice>
+                                    <xs:attributeGroup ref="standard"/>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="listBiblFaksimile">
+                                <xs:annotation>
+                                    <xs:appinfo source="EditVDU">
+                                        <xrxe:label>
+                                            <xrx:i18n>
+                                                <xrx:key>cei_listBiblFaksimile</xrx:key>
+                                                <xrx:default>listBiblFaksimile</xrx:default>
+                                            </xrx:i18n>
+                                        </xrxe:label>
+                                        <xrxe:mixed>false</xrxe:mixed>
+                                    </xs:appinfo>
+                                    <xs:documentation xml:lang="deu"> Bibliographische Auflistung
+                                        der Faksimiles = listBibl type="facsimilia"
+                                    </xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType mixed="true">
+                                    <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                        <xs:choice>
+                                            <xs:element minOccurs="0" ref="ref"/>
+                                            <xs:element ref="bibl"/>
+                                        </xs:choice>
+                                    </xs:choice>
+                                    <xs:attributeGroup ref="standard"/>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="listBiblErw">
+                                <xs:annotation>
+                                    <xs:appinfo source="EditVDU">
+                                        <xrxe:label>
+                                            <xrx:i18n>
+                                                <xrx:key>cei_listBiblErw</xrx:key>
+                                                <xrx:default>listBiblErw</xrx:default>
+                                            </xrx:i18n>
+                                        </xrxe:label>
+                                        <xrxe:mixed>false</xrxe:mixed>
+                                    </xs:appinfo>
+                                    <xs:documentation xml:lang="deu"> Bibliographische Auflistung
+                                        der Erwähnungen = listBibl type="studies"
+                                    </xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType mixed="true">
+                                    <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                        <xs:choice>
+                                            <xs:element minOccurs="0" ref="ref"/>
+                                            <xs:element ref="bibl"/>
+                                        </xs:choice>
+                                    </xs:choice>
+                                    <xs:attributeGroup ref="standard"/>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element ref="p" maxOccurs="unbounded">
+                                <xs:annotation>
+                                    <xs:appinfo source="EditVDU">
+                                        <xrxe:max-occur>unbounded</xrxe:max-occur>
+                                    </xs:appinfo>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element ref="quoteOriginaldatierung"/>
+                            <xs:element ref="nota"/>
+                            <xs:element ref="rubrum"/>
+                            <xs:element ref="divNotes"/>
+                            <xs:element ref="incipit"/>
+                        </xs:choice>
+                        <xs:attributeGroup ref="standard"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="lang_MOM">
+                    <xs:annotation>
+                        <xs:appinfo source="EditVDU">
+                            <xrxe:label>
+                                <xrx:i18n>
+                                    <xrx:key>cei_lang_MOM</xrx:key>
+                                    <xrx:default>lang_MOM</xrx:default>
+                                </xrx:i18n>
+                            </xrxe:label>
+                            <xrxe:min-occur>0</xrxe:min-occur>
+                            <xrxe:type-type>simpleType</xrxe:type-type>
+                            <xrxe:mixed>false</xrxe:mixed>
+                            <xrxe:control-control>input</xrxe:control-control>
+                        </xs:appinfo>
+                        <xs:documentation> MOM-spezifisch: Eigentlich tenor@lang </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType mixed="true">
+                        <xs:attributeGroup ref="standard"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:choice>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
@@ -1043,25 +1005,23 @@
                 <xrx:example>
                     <xrx:i18n>
                         <xrx:key>cei_abstract_example</xrx:key>
-                        <xrx:default>&lt;cei:abstract>&lt;cei:issuer>Rudolph III. Herzog von
-                            Österreich&lt;/cei:issuer> bestätigt die Privilegien des
-                            &lt;cei:recipient>Klosters Geras&lt;/cei:recipient>, namentlich in
+                        <xrx:default>&lt;cei:abstract&gt;&lt;cei:issuer&gt;Rudolph III. Herzog von
+                            Österreich&lt;/cei:issuer&gt; bestätigt die Privilegien des
+                            &lt;cei:recipient&gt;Klosters Geras&lt;/cei:recipient&gt;, namentlich in
                             gewissen Beziehungen, in denen Beeinträchtigungen eingetreten
-                            waren.&lt;/cei:abstract></xrx:default>
+                            waren.&lt;/cei:abstract&gt;</xrx:default>
                     </xrx:i18n>
                 </xrx:example>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="class"/>
-                    <xs:group ref="Sachliches"/>
-                    <xs:group ref="layout"/>
-                    <xs:element ref="recipient"/>
-                    <xs:element ref="issuer"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="class"/>
+                <xs:group ref="Sachliches"/>
+                <xs:group ref="layout"/>
+                <xs:element ref="recipient"/>
+                <xs:element ref="issuer"/>
+            </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -1096,12 +1056,10 @@
                         </xs:appinfo>
                     </xs:annotation>
                     <xs:complexType mixed="true">
-                        <xs:sequence>
-                            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                                <xs:group ref="layout"/>
-                                <xs:group ref="biblArch"/>
-                            </xs:choice>
-                        </xs:sequence>
+                        <xs:choice minOccurs="0" maxOccurs="unbounded">
+                            <xs:group ref="layout"/>
+                            <xs:group ref="biblArch"/>
+                        </xs:choice>
                         <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
                 </xs:element>
@@ -1118,12 +1076,10 @@
                         </xs:appinfo>
                     </xs:annotation>
                     <xs:complexType mixed="true">
-                        <xs:sequence>
-                            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                                <xs:element ref="ref"/>
-                                <xs:element ref="bibl"/>
-                            </xs:choice>
-                        </xs:sequence>
+                        <xs:choice minOccurs="0" maxOccurs="unbounded">
+                            <xs:element ref="ref"/>
+                            <xs:element ref="bibl"/>
+                        </xs:choice>
                         <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
                 </xs:element>
@@ -1142,11 +1098,9 @@
                         </xs:appinfo>
                     </xs:annotation>
                     <xs:complexType mixed="true">
-                        <xs:sequence>
-                            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                                <xs:element ref="desc"/>
-                            </xs:choice>
-                        </xs:sequence>
+                        <xs:choice minOccurs="0" maxOccurs="unbounded">
+                            <xs:element ref="desc"/>
+                        </xs:choice>
                         <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
                 </xs:element>
@@ -1193,7 +1147,8 @@
                     </xrx:i18n>
                 </xrxe:label>
             </xs:appinfo>
-            <xs:documentation xml:lang="en">add complex text to a tagged part of the document.</xs:documentation>
+            <xs:documentation xml:lang="en">add complex text to a tagged part of the
+                document.</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="lang"/>
@@ -1201,6 +1156,46 @@
             <xs:attributeGroup ref="resp"/>
         </xs:complexType>
     </xs:element>
+    <!--Erweiterung-Anfang-->
+    <xs:element name="w">
+        <xs:annotation>
+            <xs:documentation xml:lang="deu">Wort-Element für Transkription.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="expan"/>
+                <xs:element ref="lb"/>
+                <xs:element ref="hi"/>
+                <xs:element ref="sic"/>
+                <xs:element ref="seg"/>
+                <xs:element ref="space"/>
+            </xs:choice>
+            <xs:attribute name="id"/>
+            <xs:attribute name="note"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="pc">
+        <xs:annotation>
+            <xs:documentation xml:lang="deu">Satzzeichen-Element für
+                Tranksription.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attribute name="id"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="seg">
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="expan"/>
+                <xs:element ref="hi"/>
+                <xs:element ref="damage"/>
+            </xs:choice>
+            <xs:attribute name="type"/>
+            <xs:attribute name="id"/>
+            <xs:attribute name="part"/>
+        </xs:complexType>
+    </xs:element>
+    <!--Erweiterung-Ende-->
     <xs:element name="witListPar">
         <xs:annotation>
             <xs:appinfo source="EditVDU">
@@ -1216,11 +1211,9 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="witness"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="witness"/>
+            </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -1241,28 +1234,26 @@
             <xs:documentation xml:lang="deu"> Der einzelne Textzeuge </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="traditioForm">
-                        <xs:annotation>
-                            <xs:appinfo source="EditVDU">
-                                <xrxe:min-occur>0</xrxe:min-occur>
-                            </xs:appinfo>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:choice>
-                        <xs:element ref="archIdentifier"/>
-                        <xs:element ref="msIdentifier"/>
-                    </xs:choice>
-                    <xs:element ref="auth"/>
-                    <xs:element ref="physicalDesc"/>
-                    <xs:element ref="nota"/>
-                    <xs:element ref="rubrum"/>
-                    <xs:element ref="figure"/>
-                    <xs:group ref="layout"/>
-                    <xs:group ref="textualElements"/>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="traditioForm">
+                    <xs:annotation>
+                        <xs:appinfo source="EditVDU">
+                            <xrxe:min-occur>0</xrxe:min-occur>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:choice>
+                    <xs:element ref="archIdentifier"/>
+                    <xs:element ref="msIdentifier"/>
                 </xs:choice>
-            </xs:sequence>
+                <xs:element ref="auth"/>
+                <xs:element ref="physicalDesc"/>
+                <xs:element ref="nota"/>
+                <xs:element ref="rubrum"/>
+                <xs:element ref="figure"/>
+                <xs:group ref="layout"/>
+                <xs:group ref="textualElements"/>
+            </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="id"/>
             <xs:attribute name="n" type="xs:anySimpleType">
@@ -1296,11 +1287,9 @@
                 entnehmen oder in der profileDesc zu dokumentieren. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence minOccurs="0" maxOccurs="unbounded">
-                <xs:choice>
-                    <xs:group ref="layout"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="layout"/>
+            </xs:choice>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
@@ -1319,12 +1308,10 @@
             </xs:appinfo>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence minOccurs="0" maxOccurs="unbounded">
-                <xs:choice>
-                    <xs:element ref="foreign"/>
-                    <xs:group ref="layout"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="foreign"/>
+                <xs:group ref="layout"/>
+            </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -1341,11 +1328,9 @@
             </xs:appinfo>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="index"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="index"/>
+            </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -1367,14 +1352,12 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="notariusDesc"/>
-                    <xs:element ref="sealDesc"/>
-                    <xs:element ref="subscriptio"/>
-                    <xs:element ref="chirograph"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="notariusDesc"/>
+                <xs:element ref="sealDesc"/>
+                <xs:element ref="subscriptio"/>
+                <xs:element ref="chirograph"/>
+            </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -1396,14 +1379,12 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="seal"/>
-                    <xs:element ref="legend"/>
-                    <xs:group ref="layout"/>
-                    <xs:element ref="index"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="seal"/>
+                <xs:element ref="legend"/>
+                <xs:group ref="layout"/>
+                <xs:element ref="index"/>
+            </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -1430,17 +1411,15 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="layout"/>
-                    <xs:element ref="sigillant"/>
-                    <xs:element ref="legend"/>
-                    <xs:element ref="sealDimensions"/>
-                    <xs:element ref="sealMaterial"/>
-                    <xs:element ref="sealCondition"/>
-                    <xs:element ref="index"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="layout"/>
+                <xs:element ref="sigillant"/>
+                <xs:element ref="legend"/>
+                <xs:element ref="sealDimensions"/>
+                <xs:element ref="sealMaterial"/>
+                <xs:element ref="sealCondition"/>
+                <xs:element ref="index"/>
+            </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -1467,11 +1446,9 @@
                 wieder. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+            </xs:choice>
             <xs:attribute name="place"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -1498,12 +1475,10 @@
             <xs:documentation xml:lang="deu"> der Siegelinhaber </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="quote"/>
-                    <xs:group ref="Sachauszeichnung"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="quote"/>
+                <xs:group ref="Sachauszeichnung"/>
+            </xs:choice>
             <xs:attributeGroup ref="reg"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -1524,30 +1499,27 @@
                 Unterfertigung.</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="notariusSub">
-                        <xs:annotation>
-                            <xs:appinfo source="EditVDU">
-                                <xrxe:max-occur>unbounded</xrxe:max-occur>
-                            </xs:appinfo>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element ref="notariusSign"/>
-                    <xs:element ref="quote"/>
-                    <xs:element ref="persName"/>
-                    <xs:choice>
-                        <xs:annotation>
-                            <xs:documentation xml:lang="deu"> Geographische Angaben
-                            </xs:documentation>
-                        </xs:annotation>
-                        <xs:element ref="placeName"/>
-                        <xs:element ref="geogName"/>
-                    </xs:choice>
-                    <xs:element ref="index"/>
-                    <xs:element ref="num"/>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="notariusSub">
+                    <xs:annotation>
+                        <xs:appinfo source="EditVDU">
+                            <xrxe:max-occur>unbounded</xrxe:max-occur>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="notariusSign"/>
+                <xs:element ref="quote"/>
+                <xs:element ref="persName"/>
+                <xs:choice>
+                    <xs:annotation>
+                        <xs:documentation xml:lang="deu"> Geographische Angaben </xs:documentation>
+                    </xs:annotation>
+                    <xs:element ref="placeName"/>
+                    <xs:element ref="geogName"/>
                 </xs:choice>
-            </xs:sequence>
+                <xs:element ref="index"/>
+                <xs:element ref="num"/>
+            </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -1567,7 +1539,9 @@
                 <xrxe:relevant>true</xrxe:relevant>
             </xs:appinfo>
             <xs:documentation xml:lang="de">Teilurkundenschnitt</xs:documentation>
-            <xs:documentation xml:lang="en">contains a description of the method how a chirograph/carta partita (cfr. VID 44, http://www.cei.lmu.de/VID/#VID_44) is executed, e.g. the text written in the place of cutting, and/or the form of the cutting.</xs:documentation>
+            <xs:documentation xml:lang="en">contains a description of the method how a chirograph
+                (cfr. VID 44, http://www.cei.lmu.de/VID/#VID_44) is executed, e.g. the text written
+                in the place of cutting, and/or the form of the cutting.</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:sequence minOccurs="0" maxOccurs="unbounded">
@@ -1591,18 +1565,16 @@
                 <xrxe:content-control>annotation</xrxe:content-control>
                 <xrxe:relevant>false</xrxe:relevant>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Enthält Vermerke des verwahrenden Archivs oder des Empfängers auf der
-                Urkunde.</xs:documentation>
-            <xs:documentation xml:lang="eng">contains notes on the document applied by the preserving archives or the recipient.
-            </xs:documentation>
+            <xs:documentation xml:lang="deu"> Enthält Vermerke des verwahrenden Archivs oder des
+                Empfängers auf der Urkunde.</xs:documentation>
+            <xs:documentation xml:lang="eng">contains notes on the document applied by the
+                preserving archives or the recipient. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+            </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attribute name="position" type="xs:anySimpleType" use="optional"/>
             <xs:attributeGroup ref="lang"/>
@@ -1623,16 +1595,16 @@
                 <xrxe:content-control>annotation</xrxe:content-control>
                 <xrxe:relevant>false</xrxe:relevant>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu">Enthält die ersten Wörter des Textes. Im Attribute "type" wird angegeben, auf welchen Textteil es sich bezieht,</xs:documentation>
-            <xs:documentation xml:lang="eng">contains the first words of the text. The attribute "type" specifies if it refers to specific part of the text.</xs:documentation>
+            <xs:documentation xml:lang="deu">Enthält die ersten Wörter des Textes. Im Attribute
+                "type" wird angegeben, auf welchen Textteil es sich bezieht,</xs:documentation>
+            <xs:documentation xml:lang="eng">contains the first words of the text. The attribute
+                "type" specifies if it refers to specific part of the text.</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+            </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -1654,14 +1626,12 @@
                 Beschreibstoff (material), Maße (dimensions) etc. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="material"/>
-                    <xs:element ref="dimensions"/>
-                    <xs:element ref="condition"/>
-                    <xs:element ref="decoDesc"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="material"/>
+                <xs:element ref="dimensions"/>
+                <xs:element ref="condition"/>
+                <xs:element ref="decoDesc"/>
+            </xs:choice>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
@@ -1681,11 +1651,9 @@
                 Beschreibung</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="p"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="p"/>
+            </xs:choice>
             <xs:attributeGroup ref="reference"/>
         </xs:complexType>
     </xs:element>
@@ -1705,68 +1673,69 @@
                 Elementen) </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence minOccurs="0" maxOccurs="unbounded">
-                <xs:choice>
-                    <xs:element name="width" type="xs:string">
-                        <xs:annotation>
-                            <xs:appinfo source="EditVDU">
-                                <xrxe:label>
-                                    <xrx:i18n>
-                                        <xrx:key>cei_width</xrx:key>
-                                        <xrx:default>width</xrx:default>
-                                    </xrx:i18n>
-                                </xrxe:label>
-                                <xrxe:menu-item>
-                                    <xrx:i18n>
-                                        <xrx:key>textual-tradition</xrx:key>
-                                        <xrx:default>textual tradition</xrx:default>
-                                    </xrx:i18n>
-                                </xrxe:menu-item>
-                            </xs:appinfo>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="height" type="xs:string">
-                        <xs:annotation>
-                            <xs:appinfo source="EditVDU">
-                                <xrxe:label>
-                                    <xrx:i18n>
-                                        <xrx:key>cei_height</xrx:key>
-                                        <xrx:default>height</xrx:default>
-                                    </xrx:i18n>
-                                </xrxe:label>
-                                <xrxe:menu-item>
-                                    <xrx:i18n>
-                                        <xrx:key>textual-tradition</xrx:key>
-                                        <xrx:default>textual tradition</xrx:default>
-                                    </xrx:i18n>
-                                </xrxe:menu-item>
-                            </xs:appinfo>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="plica" type="xs:string">
-                        <xs:annotation>
-                            <xs:appinfo source="EditVDU">
-                                <xrxe:label>
-                                    <xrx:i18n>
-                                        <xrx:key>cei_plica</xrx:key>
-                                        <xrx:default>plica</xrx:default>
-                                    </xrx:i18n>
-                                </xrxe:label>
-                                <xrxe:menu-item>
-                                    <xrx:i18n>
-                                        <xrx:key>textual-tradition</xrx:key>
-                                        <xrx:default>textual tradition</xrx:default>
-                                    </xrx:i18n>
-                                </xrxe:menu-item>
-                            </xs:appinfo>
-                            <xs:documentation xml:lang="eng">
-                                describes the depth of the fold used to secure the threads for the seal
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="width" type="xs:string">
+                    <xs:annotation>
+                        <xs:appinfo source="EditVDU">
+                            <xrxe:label>
+                                <xrx:i18n>
+                                    <xrx:key>cei_width</xrx:key>
+                                    <xrx:default>width</xrx:default>
+                                </xrx:i18n>
+                            </xrxe:label>
+                            <xrxe:menu-item>
+                                <xrx:i18n>
+                                    <xrx:key>textual-tradition</xrx:key>
+                                    <xrx:default>textual tradition</xrx:default>
+                                </xrx:i18n>
+                            </xrxe:menu-item>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="height" type="xs:string">
+                    <xs:annotation>
+                        <xs:appinfo source="EditVDU">
+                            <xrxe:label>
+                                <xrx:i18n>
+                                    <xrx:key>cei_height</xrx:key>
+                                    <xrx:default>height</xrx:default>
+                                </xrx:i18n>
+                            </xrxe:label>
+                            <xrxe:menu-item>
+                                <xrx:i18n>
+                                    <xrx:key>textual-tradition</xrx:key>
+                                    <xrx:default>textual tradition</xrx:default>
+                                </xrx:i18n>
+                            </xrxe:menu-item>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="plica" type="xs:string">
+                    <xs:annotation>
+                        <xs:appinfo source="EditVDU">
+                            <xrxe:label>
+                                <xrx:i18n>
+                                    <xrx:key>cei_plica</xrx:key>
+                                    <xrx:default>plica</xrx:default>
+                                </xrx:i18n>
+                            </xrxe:label>
+                            <xrxe:menu-item>
+                                <xrx:i18n>
+                                    <xrx:key>textual-tradition</xrx:key>
+                                    <xrx:default>textual tradition</xrx:default>
+                                </xrx:i18n>
+                            </xrxe:menu-item>
+                        </xs:appinfo>
+                        <xs:documentation xml:lang="eng"> describes the depth of the fold used to
+                            secure the threads for the seal </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
             <xs:attributeGroup ref="standard"/>
+            <xs:attribute name="type" type="xs:string"/>
+            <!--Erweiterung-->
+            <xs:attribute name="unit" type="xs:string"/>
+            <!--Erweiterung-->
         </xs:complexType>
     </xs:element>
     <xs:element name="sealDimensions">
@@ -1812,12 +1781,10 @@
                 written </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence minOccurs="0" maxOccurs="unbounded">
-                <xs:choice>
-                    <xs:group ref="layout"/>
-                    <xs:element ref="foreign"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="foreign"/>
+                <xs:group ref="layout"/>
+            </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -1869,12 +1836,10 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+            </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attribute name="position" type="xs:anySimpleType" use="optional"/>
             <xs:attributeGroup ref="lang"/>
@@ -1903,22 +1868,20 @@
                 Archivale (mit Lagerort, Signatur etc.) </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="settlement"/>
-                    <xs:element ref="region"/>
-                    <xs:element ref="country"/>
-                    <xs:element ref="institution"/>
-                    <xs:element ref="repository"/>
-                    <xs:element ref="ref"/>
-                    <xs:element ref="arch"/>
-                    <xs:element ref="archFond"/>
-                    <xs:element ref="idno"/>
-                    <xs:element ref="scope"/>
-                    <xs:element ref="altIdentifier"/>
-                    <xs:element ref="hi"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="settlement"/>
+                <xs:element ref="region"/>
+                <xs:element ref="country"/>
+                <xs:element ref="institution"/>
+                <xs:element ref="repository"/>
+                <xs:element ref="ref"/>
+                <xs:element ref="arch"/>
+                <xs:element ref="archFond"/>
+                <xs:element ref="idno"/>
+                <xs:element ref="scope"/>
+                <xs:element ref="altIdentifier"/>
+                <xs:element ref="hi"/>
+            </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -1937,22 +1900,20 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:choice>
-                        <xs:element ref="settlement"/>
-                        <xs:element ref="region"/>
-                        <xs:element ref="country"/>
-                        <xs:element ref="institution"/>
-                        <xs:element ref="repository"/>
-                        <xs:element minOccurs="0" ref="arch"/>
-                    </xs:choice>
-                    <xs:element ref="archFond"/>
-                    <xs:element ref="idno"/>
-                    <xs:element ref="scope"/>
-                    <xs:element ref="note"/>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:choice>
+                    <xs:element ref="settlement"/>
+                    <xs:element ref="region"/>
+                    <xs:element ref="country"/>
+                    <xs:element ref="institution"/>
+                    <xs:element ref="repository"/>
+                    <xs:element minOccurs="0" ref="arch"/>
                 </xs:choice>
-            </xs:sequence>
+                <xs:element ref="archFond"/>
+                <xs:element ref="idno"/>
+                <xs:element ref="scope"/>
+                <xs:element ref="note"/>
+            </xs:choice>
             <xs:attributeGroup ref="standard"/>
             <xs:attributeGroup ref="type"/>
         </xs:complexType>
@@ -1978,11 +1939,9 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence minOccurs="0" maxOccurs="unbounded">
-                <xs:choice>
-                    <xs:group ref="layout"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="layout"/>
+            </xs:choice>
             <xs:attributeGroup ref="expan"/>
             <xs:attributeGroup ref="key"/>
             <xs:attributeGroup ref="lang"/>
@@ -2061,17 +2020,15 @@
                 Signatur/Bezeichnung innerhalb der lagernden Institution. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="settlement"/>
-                    <xs:element ref="region"/>
-                    <xs:element ref="country"/>
-                    <xs:element ref="institution"/>
-                    <xs:element ref="repository"/>
-                    <xs:element ref="idno"/>
-                    <xs:element ref="scope"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="settlement"/>
+                <xs:element ref="region"/>
+                <xs:element ref="country"/>
+                <xs:element ref="institution"/>
+                <xs:element ref="repository"/>
+                <xs:element ref="idno"/>
+                <xs:element ref="scope"/>
+            </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -2092,7 +2049,7 @@
                     </xrx:i18n>
                 </xrxe:menu-item>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu">Die Einrichtung, deren teil ein Archiv ist.
+            <xs:documentation xml:lang="deu">Die Einrichtung, deren teil ein Archiv
                 ist.</xs:documentation>
         </xs:annotation>
         <xs:complexType>
@@ -2149,13 +2106,11 @@
                 type="Originaldatierung" </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:element ref="num"/>
-                    <xs:element ref="note"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:element ref="num"/>
+                <xs:element ref="note"/>
+            </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -2176,14 +2131,12 @@
                 Transkriptionselemente</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                    <xs:group ref="Formular"/>
-                    <xs:element ref="pTenor"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+                <xs:group ref="Formular"/>
+                <xs:element ref="pTenor"/>
+            </xs:choice>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
@@ -2207,22 +2160,26 @@
             <xs:documentation xml:lang="deu">Ein Absatz mit Fließtext </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Sachliches"/>
-                    <xs:element ref="archIdentifier"/>
-                    <xs:element ref="msIdentifier"/>
-                    <xs:element ref="bibl"/>
-                    <xs:element ref="lb"/>
-                    <xs:element ref="a"/>
-                    <xs:element ref="hi"/>
-                    <xs:element ref="c"/>
-                    <xs:element ref="sup"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Sachliches"/>
+                <xs:element ref="archIdentifier"/>
+                <xs:element ref="msIdentifier"/>
+                <xs:element ref="bibl"/>
+                <xs:element ref="lb"/>
+                <xs:element ref="a"/>
+                <xs:element ref="hi"/>
+                <xs:element ref="c"/>
+                <xs:element ref="sup"/>
+                <xs:element ref="scope"/>
+                <!--Erweiterung-->
+            </xs:choice>
             <xs:attributeGroup ref="resp"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
+            <xs:attribute name="type"/>
+            <!--Erweiterung-->
+            <xs:attribute name="witness"/>
+            <!--Erweiterung-->
         </xs:complexType>
     </xs:element>
     <xs:element name="pTenor">
@@ -2246,15 +2203,13 @@
             <xs:documentation xml:lang="deu">Ein Absatz </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Formular"/>
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                    <xs:element ref="recipient"/>
-                    <xs:element ref="issuer"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Formular"/>
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+                <xs:element ref="recipient"/>
+                <xs:element ref="issuer"/>
+            </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -2302,13 +2257,11 @@
                 Gottes</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                    <xs:element ref="setPhrase"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+                <xs:element ref="setPhrase"/>
+            </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2336,13 +2289,11 @@
                 Titeln</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                    <xs:element ref="setPhrase"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+                <xs:element ref="setPhrase"/>
+            </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2369,13 +2320,11 @@
             <xs:documentation xml:lang="deu">Eine Adresse im Urkundentext</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                    <xs:element ref="setPhrase"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+                <xs:element ref="setPhrase"/>
+            </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2402,13 +2351,11 @@
             <xs:documentation xml:lang="deu">Die Veröffentlichungsformel</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                    <xs:element ref="setPhrase"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+                <xs:element ref="setPhrase"/>
+            </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2436,13 +2383,11 @@
                 Urkunde begründet </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                    <xs:element ref="setPhrase"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+                <xs:element ref="setPhrase"/>
+            </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2470,15 +2415,13 @@
                 Ausstellung der Urkunde vorangegangen sind </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                    <xs:element ref="rogatio"/>
-                    <xs:element ref="intercessio"/>
-                    <xs:element ref="setPhrase"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+                <xs:element ref="rogatio"/>
+                <xs:element ref="intercessio"/>
+                <xs:element ref="setPhrase"/>
+            </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2502,16 +2445,15 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="en">clause expressing the request for formal documentation (cf. VID n. 326 http://www.cei.lmu.de/VID/VID.php?326)</xs:documentation>
+            <xs:documentation xml:lang="en">clause expressing the request for formal documentation
+                (cf. VID n. 326 http://www.cei.lmu.de/VID/VID.php?326)</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                    <xs:element ref="setPhrase"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+                <xs:element ref="setPhrase"/>
+            </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2519,7 +2461,8 @@
     </xs:element>
     <xs:element name="intercessio">
         <xs:annotation>
-            <xs:documentation xml:lang="en">part of the text describing the intervention of a third to support a petition (cf. VID n. 328)</xs:documentation>
+            <xs:documentation xml:lang="en">part of the text describing the intervention of a third
+                to support a petition (cf. VID n. 328)</xs:documentation>
             <xs:appinfo source="EditVDU">
                 <xrxe:label>
                     <xrx:i18n>
@@ -2538,13 +2481,11 @@
             </xs:appinfo>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                    <xs:element ref="setPhrase"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+                <xs:element ref="setPhrase"/>
+            </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2572,13 +2513,11 @@
                 Rechtsverfügungen</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                    <xs:element ref="setPhrase"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+                <xs:element ref="setPhrase"/>
+            </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2605,13 +2544,11 @@
             <xs:documentation xml:lang="deu">kündigt die Beglaubigungsmittel an</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                    <xs:element ref="setPhrase"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+                <xs:element ref="setPhrase"/>
+            </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2639,12 +2576,10 @@
             </xs:appinfo>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+            </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2672,14 +2607,12 @@
             </xs:appinfo>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                    <xs:element minOccurs="0" maxOccurs="unbounded" ref="setPhrase"/>
-                    <xs:element minOccurs="0" maxOccurs="unbounded" ref="notariusSub"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="setPhrase"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="notariusSub"/>
+            </xs:choice>
             <xs:attributeGroup ref="type">
                 <xs:annotation>
                     <xs:documentation xml:lang="deu"> Die Unterscheidung in "Signumzeile",
@@ -2713,13 +2646,11 @@
             <xs:documentation xml:lang="deu">Datierung der Urkunde </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                    <xs:element ref="setPhrase"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+                <xs:element ref="setPhrase"/>
+            </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2739,13 +2670,11 @@
                 Floskel</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                    <xs:element ref="setPhrase"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+                <xs:element ref="setPhrase"/>
+            </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2776,12 +2705,10 @@
                 des "Vocabulaire Internationale de Diplomatique" orientieren. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+            </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -2810,12 +2737,10 @@
             <xs:documentation xml:lang="deu">Die Notarsunterschrift </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+            </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -2868,6 +2793,10 @@
                 <xs:element ref="sic"/>
                 <xs:element ref="handShift"/>
                 <xs:element ref="unclear"/>
+                <xs:element ref="w"/>
+                <!--Erweiterung-->
+                <xs:element ref="pc"/>
+                <!--Erweiterung-->
             </xs:choice>
         </xs:sequence>
     </xs:group>
@@ -2937,18 +2866,20 @@
                 machen. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="expan"/>
-                    <xs:element ref="c"/>
-                    <xs:element ref="lb"/>
-                    <xs:element ref="pb"/>
-                    <xs:element ref="hi"/>
-                    <xs:element ref="handShift"/>
-                    <xs:element ref="pict"/>
-                    <xs:group ref="Sachliches"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="expan"/>
+                <xs:element ref="c"/>
+                <xs:element ref="lb"/>
+                <xs:element ref="pb"/>
+                <xs:element ref="hi"/>
+                <xs:element ref="handShift"/>
+                <xs:element ref="pict"/>
+                <xs:element ref="pc"/>
+                <!--Erweiterung-->
+                <xs:element ref="w"/>
+                <!--Erweiterung-->
+                <xs:group ref="Sachliches"/>
+            </xs:choice>
             <xs:attribute name="extent" type="xs:anySimpleType"/>
             <xs:attribute name="degree" type="xs:anySimpleType">
                 <xs:annotation>
@@ -2998,19 +2929,18 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> enthält Text, der nicht eindeutig lesbar sind. </xs:documentation>
+            <xs:documentation xml:lang="deu"> enthält Text, der nicht eindeutig lesbar sind.
+            </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="expan"/>
-                    <xs:element ref="c"/>
-                    <xs:element ref="lb"/>
-                    <xs:element ref="pb"/>
-                    <xs:element ref="handShift"/>
-                    <xs:element ref="pict"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="expan"/>
+                <xs:element ref="c"/>
+                <xs:element ref="lb"/>
+                <xs:element ref="pb"/>
+                <xs:element ref="handShift"/>
+                <xs:element ref="pict"/>
+            </xs:choice>
             <xs:attribute name="extent" type="xs:anySimpleType">
                 <xs:annotation>
                     <xs:appinfo source="EditVDU">
@@ -3125,15 +3055,21 @@
                             Version.</xs:documentation>
                     </xs:annotation>
                     <xs:complexType mixed="true">
-                        <xs:sequence>
-                            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                                <xs:group ref="Sachauszeichnung"/>
-                                <xs:group ref="biblArch"/>
-                                <xs:group ref="layout"/>
-                                <xs:group ref="reference"/>
-                                <xs:group ref="textualElements"/>
-                            </xs:choice>
-                        </xs:sequence>
+                        <xs:choice minOccurs="0" maxOccurs="unbounded">
+                            <xs:group ref="Sachauszeichnung"/>
+                            <xs:group ref="biblArch"/>
+                            <xs:group ref="layout"/>
+                            <xs:group ref="reference"/>
+                            <xs:group ref="textualElements"/>
+                            <xs:element ref="w"/>
+                            <!--Erweiterung-->
+                            <xs:element ref="pc"/>
+                            <!--Erweiterung-->
+                            <xs:element ref="space"/>
+                            <!--Erweiterung-->
+                            <xs:element ref="supplied"/>
+                            <!--Erweiterung-->
+                        </xs:choice>
                         <xs:attributeGroup ref="wit"/>
                         <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
@@ -3151,13 +3087,21 @@
                         <xs:documentation xml:lang="eng">reading </xs:documentation>
                     </xs:annotation>
                     <xs:complexType mixed="true">
-                        <xs:sequence>
-                            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                                <xs:group ref="biblArch"/>
-                                <xs:group ref="layout"/>
-                                <xs:group ref="reference"/>
-                            </xs:choice>
-                        </xs:sequence>
+                        <xs:choice minOccurs="0" maxOccurs="unbounded">
+                            <xs:element ref="w"/>
+                            <!--Erweiterung-->
+                            <xs:element ref="add"/>
+                            <!--Erweiterung-->
+                            <xs:element ref="app"/>
+                            <!--Erweiterung-->
+                            <xs:element ref="foreign"/>
+                            <!--Erweiterung-->
+                            <xs:group ref="biblArch"/>
+                            <xs:group ref="layout"/>
+                            <xs:group ref="reference"/>
+                        </xs:choice>
+                        <xs:attribute name="type"/>
+                        <!--Erweiterung-->
                         <xs:attributeGroup ref="wit"/>
                         <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
@@ -3188,18 +3132,16 @@
                 Abkürzung.</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="c"/>
-                    <xs:element ref="lb"/>
-                    <xs:element ref="pb"/>
-                    <xs:element ref="add"/>
-                    <xs:element ref="supplied"/>
-                    <xs:element ref="corr"/>
-                    <xs:element ref="sic"/>
-                    <xs:element ref="damage"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="c"/>
+                <xs:element ref="lb"/>
+                <xs:element ref="pb"/>
+                <xs:element ref="add"/>
+                <xs:element ref="supplied"/>
+                <xs:element ref="corr"/>
+                <xs:element ref="sic"/>
+                <xs:element ref="damage"/>
+            </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="abbr">
                 <xs:annotation>
@@ -3233,17 +3175,15 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="expan"/>
-                    <xs:element ref="c"/>
-                    <xs:element ref="lb"/>
-                    <xs:element ref="add"/>
-                    <xs:element ref="supplied"/>
-                    <xs:element ref="handShift"/>
-                    <xs:group ref="Referenz"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="expan"/>
+                <xs:element ref="c"/>
+                <xs:element ref="lb"/>
+                <xs:element ref="add"/>
+                <xs:element ref="supplied"/>
+                <xs:element ref="handShift"/>
+                <xs:group ref="Referenz"/>
+            </xs:choice>
             <xs:attribute name="corr">
                 <xs:annotation>
                     <xs:appinfo source="EditVDU">
@@ -3276,19 +3216,17 @@
                 und dann mit dem Inhalt des Elements korrigiert worden ist. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="expan"/>
-                    <xs:element ref="sic"/>
-                    <xs:element ref="lb"/>
-                    <xs:element ref="pb"/>
-                    <xs:element ref="c"/>
-                    <xs:element ref="damage"/>
-                    <xs:element ref="handShift"/>
-                    <xs:group ref="Sachauszeichnung"/>
-                    <xs:group ref="Referenz"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="expan"/>
+                <xs:element ref="sic"/>
+                <xs:element ref="lb"/>
+                <xs:element ref="pb"/>
+                <xs:element ref="c"/>
+                <xs:element ref="damage"/>
+                <xs:element ref="handShift"/>
+                <xs:group ref="Sachauszeichnung"/>
+                <xs:group ref="Referenz"/>
+            </xs:choice>
             <xs:attribute name="sic"/>
             <xs:attributeGroup ref="transcription"/>
             <xs:attributeGroup ref="lang"/>
@@ -3317,19 +3255,17 @@
                 ist (z.B. durch Durchstreichen, Unterpunkten, Rasur). </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="expan"/>
-                    <xs:element ref="add"/>
-                    <xs:element ref="supplied"/>
-                    <xs:element ref="c"/>
-                    <xs:element ref="damage"/>
-                    <xs:element ref="lb"/>
-                    <xs:element ref="pb"/>
-                    <xs:element ref="sic"/>
-                    <xs:group ref="Referenz"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="expan"/>
+                <xs:element ref="add"/>
+                <xs:element ref="supplied"/>
+                <xs:element ref="c"/>
+                <xs:element ref="damage"/>
+                <xs:element ref="lb"/>
+                <xs:element ref="pb"/>
+                <xs:element ref="sic"/>
+                <xs:group ref="Referenz"/>
+            </xs:choice>
             <xs:attributeGroup ref="transcription"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -3356,21 +3292,23 @@
                 Text ersetzen. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="expan"/>
-                    <xs:element ref="c"/>
-                    <xs:element ref="lb"/>
-                    <xs:element ref="pb"/>
-                    <xs:element ref="sic"/>
-                    <xs:element ref="corr"/>
-                    <xs:element ref="del"/>
-                    <xs:element ref="damage"/>
-                    <xs:element ref="handShift"/>
-                    <xs:group ref="Sachauszeichnung"/>
-                    <xs:group ref="Referenz"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="expan"/>
+                <xs:element ref="c"/>
+                <xs:element ref="lb"/>
+                <xs:element ref="pb"/>
+                <xs:element ref="sic"/>
+                <xs:element ref="corr"/>
+                <xs:element ref="del"/>
+                <xs:element ref="damage"/>
+                <xs:element ref="handShift"/>
+                <xs:element ref="w"/>
+                <!--Erweiterung-->
+                <xs:group ref="Sachauszeichnung"/>
+                <xs:group ref="Referenz"/>
+            </xs:choice>
+            <xs:attribute name="status"/>
+            <!--Erweiterung-->
             <xs:attributeGroup ref="transcription"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -3394,25 +3332,30 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu">
-                Hinzufügungen von Text, der in der Vorlage nicht dokumentiert ist, durch den Editor.
-            </xs:documentation>
+            <xs:documentation xml:lang="deu"> Hinzufügungen von Text, der in der Vorlage nicht
+                dokumentiert ist, durch den Editor. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="c"/>
-                    <xs:element ref="lb"/>
-                    <xs:element ref="pb"/>
-                    <xs:element ref="damage"/>
-                    <xs:element ref="expan"/>
-                    <xs:group ref="Sachauszeichnung"/>
-                    <xs:group ref="Referenz"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="c"/>
+                <xs:element ref="lb"/>
+                <xs:element ref="pb"/>
+                <xs:element ref="damage"/>
+                <xs:element ref="expan"/>
+                <xs:element ref="w"/>
+                <!--Erweiterung-->
+                <xs:element ref="pc"/>
+                <!--Erweiterung-->
+                <xs:group ref="Sachauszeichnung"/>
+                <xs:group ref="Referenz"/>
+            </xs:choice>
             <xs:attributeGroup ref="transcription"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
+            <xs:attribute name="source"/>
+            <!--Erweiterung-->
+            <xs:attribute name="reason"/>
+            <!--Erweiterung-->
         </xs:complexType>
     </xs:element>
     <xs:element name="pict">
@@ -3552,6 +3495,8 @@
             <xs:documentation xml:lang="eng">Line break in the source. </xs:documentation>
         </xs:annotation>
         <xs:complexType>
+            <xs:attribute name="break"/>
+            <!--Erweiterung-->
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
@@ -3635,13 +3580,11 @@
                 Texte, Texte zwischen Referenzpunkten, Elongata </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                    <xs:group ref="Formular"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+                <xs:group ref="Formular"/>
+            </xs:choice>
             <xs:attributeGroup ref="rend"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -3780,15 +3723,13 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                    <xs:element ref="bibl"/>
-                    <xs:element ref="archIdentifier"/>
-                    <xs:element ref="msIdentifier"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+                <xs:element ref="bibl"/>
+                <xs:element ref="archIdentifier"/>
+                <xs:element ref="msIdentifier"/>
+            </xs:choice>
             <xs:attribute name="place"/>
             <xs:attributeGroup ref="id"/>
             <xs:attributeGroup ref="type"/>
@@ -3903,11 +3844,9 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="textualElements"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="textualElements"/>
+            </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -3926,11 +3865,9 @@
             <xs:documentation xml:lang="deu">Enthält die Fußnoten zur Urkunde.</xs:documentation>
         </xs:annotation>
         <xs:complexType>
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="note"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="note"/>
+            </xs:choice>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
@@ -3958,12 +3895,10 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachauszeichnung"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachauszeichnung"/>
+            </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -4028,14 +3963,12 @@
                 Urkunde unseres Vaters die folgenden Wortlaut hat: .... </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachauszeichnung"/>
-                    <xs:group ref="reference"/>
-                    <xs:element ref="foreign"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachauszeichnung"/>
+                <xs:group ref="reference"/>
+                <xs:element ref="foreign"/>
+            </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -4112,12 +4045,10 @@
             <xs:documentation xml:lang="deu">Ein Listenpunkt </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="Originalbefund"/>
-                    <xs:group ref="Sachliches"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachliches"/>
+            </xs:choice>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
@@ -4156,13 +4087,11 @@
                 einer Maßangabe besteht. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="num"/>
-                    <xs:element ref="index"/>
-                    <xs:group ref="Originalbefund"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="num"/>
+                <xs:element ref="index"/>
+                <xs:group ref="Originalbefund"/>
+            </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -4189,6 +4118,12 @@
             <xs:documentation xml:lang="deu">Eine Zahlenangabe </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="w"/>
+                <!--Erweiterung-->
+                <xs:element ref="pc"/>
+                <!--Erweiterung-->
+            </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="value"/>
             <xs:attributeGroup ref="lang"/>
@@ -4204,7 +4139,7 @@
                 <xs:element ref="orgName"/>
                 <xs:choice>
                     <xs:annotation>
-                        <xs:documentation xml:lang="deu">Geographische Angaben </xs:documentation>
+                        <xs:documentation xml:lang="deu">Geographische Angaben</xs:documentation>
                     </xs:annotation>
                     <xs:element ref="placeName"/>
                     <xs:element ref="geogName"/>
@@ -4227,6 +4162,8 @@
         <xs:choice>
             <xs:element ref="date"/>
             <xs:element ref="dateRange"/>
+            <xs:element ref="w"/>
+            <!--Erweiterung-->
         </xs:choice>
     </xs:group>
     <xs:element name="index">
@@ -4252,12 +4189,10 @@
                 Stichwörtern (Register, Index) </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="foreign"/>
-                    <xs:group ref="Originalbefund"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="foreign"/>
+                <xs:group ref="Originalbefund"/>
+            </xs:choice>
             <xs:attribute name="indexName">
                 <xs:annotation>
                     <xs:appinfo source="EditVDU">
@@ -4325,14 +4260,14 @@
                 (=Datumsangabe). </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="foreign"/>
-                    <xs:element ref="num"/>
-                    <xs:group ref="Originalbefund"/>
-                    <xs:element ref="ref"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="foreign"/>
+                <xs:element ref="num"/>
+                <xs:group ref="Originalbefund"/>
+                <xs:element ref="ref"/>
+                <xs:element ref="figure"/>
+                <!-- Erweiterung -->
+            </xs:choice>
             <xs:attributeGroup ref="date"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -4360,13 +4295,11 @@
                 zutreffenden Datums in den Attributen "from" und "to" </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="foreign"/>
-                    <xs:element ref="num"/>
-                    <xs:group ref="Originalbefund"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="foreign"/>
+                <xs:element ref="num"/>
+                <xs:group ref="Originalbefund"/>
+            </xs:choice>
             <xs:attribute name="from" type="normalizedDateValue" use="required">
                 <xs:annotation>
                     <xs:appinfo source="EditVDU">
@@ -4448,22 +4381,19 @@
             <xs:documentation xml:lang="deu">Die Bezeichnung einer Organisation</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:choice>
-                        <xs:annotation>
-                            <xs:documentation xml:lang="deu">Geographische Angaben
-                            </xs:documentation>
-                        </xs:annotation>
-                        <xs:element ref="persName"/>
-                        <xs:element ref="placeName"/>
-                        <xs:element ref="geogName"/>
-                    </xs:choice>
-                    <xs:element ref="foreign"/>
-                    <xs:element ref="note"/>
-                    <xs:group ref="Originalbefund"/>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:choice>
+                    <xs:annotation>
+                        <xs:documentation xml:lang="deu">Geographische Angaben </xs:documentation>
+                    </xs:annotation>
+                    <xs:element ref="persName"/>
+                    <xs:element ref="placeName"/>
+                    <xs:element ref="geogName"/>
                 </xs:choice>
-            </xs:sequence>
+                <xs:element ref="foreign"/>
+                <xs:element ref="note"/>
+                <xs:group ref="Originalbefund"/>
+            </xs:choice>
             <xs:attributeGroup ref="identification"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="type"/>
@@ -4490,26 +4420,23 @@
             <xs:documentation xml:lang="deu">ein Personenname </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:choice>
-                        <xs:annotation>
-                            <xs:documentation xml:lang="deu">Geographische Angaben
-                            </xs:documentation>
-                        </xs:annotation>
-                        <xs:element ref="persName"/>
-                        <xs:element ref="orgName"/>
-                        <xs:element ref="placeName"/>
-                        <xs:element ref="geogName"/>
-                        <xs:element ref="forename"/>
-                        <xs:element ref="surname"/>
-                        <xs:element ref="rolename"/>
-                    </xs:choice>
-                    <xs:element ref="foreign"/>
-                    <xs:element ref="note"/>
-                    <xs:group ref="Originalbefund"/>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:choice>
+                    <xs:annotation>
+                        <xs:documentation xml:lang="deu">Geographische Angaben </xs:documentation>
+                    </xs:annotation>
+                    <xs:element ref="persName"/>
+                    <xs:element ref="orgName"/>
+                    <xs:element ref="placeName"/>
+                    <xs:element ref="geogName"/>
+                    <xs:element ref="forename"/>
+                    <xs:element ref="surname"/>
+                    <xs:element ref="rolename"/>
                 </xs:choice>
-            </xs:sequence>
+                <xs:element ref="foreign"/>
+                <xs:element ref="note"/>
+                <xs:group ref="Originalbefund"/>
+            </xs:choice>
             <xs:attributeGroup ref="identification"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="type"/>
@@ -4536,13 +4463,11 @@
             <xs:documentation xml:lang="deu">ein Vorname</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="foreign"/>
-                    <xs:element ref="note"/>
-                    <xs:group ref="Originalbefund"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="foreign"/>
+                <xs:element ref="note"/>
+                <xs:group ref="Originalbefund"/>
+            </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="standard"/>
@@ -4565,25 +4490,25 @@
                 </xrxe:menu-item>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu">ein Familienname oder anderer Beiname, der zur Unterscheidung einer Person z.B. durch Gruppenzuordnung dient.</xs:documentation>
+            <xs:documentation xml:lang="deu">ein Familienname oder anderer Beiname, der zur
+                Unterscheidung einer Person z.B. durch Gruppenzuordnung dient.</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="rolename"/>
-                    <xs:choice>
-                        <xs:annotation>
-                            <xs:documentation xml:lang="deu">Geographische Angaben
-                            </xs:documentation>
-                        </xs:annotation>
-                        <xs:element ref="placeName"/>
-                        <xs:element ref="geogName"/>
-                    </xs:choice>
-                    <xs:element ref="foreign"/>
-                    <xs:element ref="note"/>
-                    <xs:group ref="Originalbefund"/>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="rolename"/>
+                <xs:choice>
+                    <xs:annotation>
+                        <xs:documentation xml:lang="deu">Geographische Angaben </xs:documentation>
+                    </xs:annotation>
+                    <xs:element ref="placeName"/>
+                    <xs:element ref="geogName"/>
                 </xs:choice>
-            </xs:sequence>
+                <xs:element ref="foreign"/>
+                <xs:element ref="note"/>
+                <xs:element ref="orgName"/>
+                <!--Erweiterung-->
+                <xs:group ref="Originalbefund"/>
+            </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="standard"/>
@@ -4606,16 +4531,17 @@
                 </xrxe:menu-item>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu">ein Rollennamen, z.B. Adelstitel, Anrede, Epitheton ...</xs:documentation>
+            <xs:documentation xml:lang="deu">ein Rollennamen, z.B. Adelstitel, Anrede, Epitheton
+                ...</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="foreign"/>
-                    <xs:element ref="note"/>
-                    <xs:group ref="Originalbefund"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="foreign"/>
+                <xs:element ref="note"/>
+                <xs:group ref="Originalbefund"/>
+                <xs:group ref="Sachauszeichnung"/>
+                <!--Erweiterung-->
+            </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="standard"/>
@@ -4645,22 +4571,19 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="foreign"/>
-                    <xs:element ref="persName"/>
-                    <xs:element ref="orgName"/>
-                    <xs:choice>
-                        <xs:annotation>
-                            <xs:documentation xml:lang="deu">Geographische Angaben
-                            </xs:documentation>
-                        </xs:annotation>
-                        <xs:element ref="placeName"/>
-                        <xs:element ref="geogName"/>
-                    </xs:choice>
-                    <xs:group ref="Originalbefund"/>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="foreign"/>
+                <xs:element ref="persName"/>
+                <xs:element ref="orgName"/>
+                <xs:choice>
+                    <xs:annotation>
+                        <xs:documentation xml:lang="deu">Geographische Angaben </xs:documentation>
+                    </xs:annotation>
+                    <xs:element ref="placeName"/>
+                    <xs:element ref="geogName"/>
                 </xs:choice>
-            </xs:sequence>
+                <xs:group ref="Originalbefund"/>
+            </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -4689,23 +4612,20 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="persName"/>
-                    <xs:element ref="orgName"/>
-                    <xs:choice>
-                        <xs:annotation>
-                            <xs:documentation xml:lang="deu">Geographische Angaben
-                            </xs:documentation>
-                        </xs:annotation>
-                        <xs:element ref="placeName"/>
-                        <xs:element ref="geogName"/>
-                    </xs:choice>
-                    <xs:element ref="foreign"/>
-                    <xs:element ref="note"/>
-                    <xs:group ref="Originalbefund"/>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="persName"/>
+                <xs:element ref="orgName"/>
+                <xs:choice>
+                    <xs:annotation>
+                        <xs:documentation xml:lang="deu">Geographische Angaben </xs:documentation>
+                    </xs:annotation>
+                    <xs:element ref="placeName"/>
+                    <xs:element ref="geogName"/>
                 </xs:choice>
-            </xs:sequence>
+                <xs:element ref="foreign"/>
+                <xs:element ref="note"/>
+                <xs:group ref="Originalbefund"/>
+            </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -4731,21 +4651,18 @@
             <xs:documentation xml:lang="deu">Ein einzelner Zeuge. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="foreign"/>
-                    <xs:group ref="Originalbefund"/>
-                    <xs:choice>
-                        <xs:annotation>
-                            <xs:documentation xml:lang="deu">Geographische Angaben
-                            </xs:documentation>
-                        </xs:annotation>
-                        <xs:element ref="placeName"/>
-                        <xs:element ref="geogName"/>
-                    </xs:choice>
-                    <xs:element ref="persName"/>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="foreign"/>
+                <xs:group ref="Originalbefund"/>
+                <xs:choice>
+                    <xs:annotation>
+                        <xs:documentation xml:lang="deu">Geographische Angaben </xs:documentation>
+                    </xs:annotation>
+                    <xs:element ref="placeName"/>
+                    <xs:element ref="geogName"/>
                 </xs:choice>
-            </xs:sequence>
+                <xs:element ref="persName"/>
+            </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -4779,8 +4696,7 @@
                     </xrx:i18n>
                 </xrxe:label>
             </xs:appinfo>
-            <xs:documentation>der Name einer Region, eines Bundeslandes u.ä.
-      </xs:documentation>
+            <xs:documentation>der Name einer Region, eines Bundeslandes u.ä. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="type"/>
@@ -4857,14 +4773,16 @@
                 Klöster, Burgen, Bundesländer, Herrschaften, Staaten etc. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="index"/>
-                    <xs:element ref="foreign"/>
-                    <xs:element ref="note"/>
-                    <xs:group ref="Originalbefund"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="index"/>
+                <xs:element ref="foreign"/>
+                <xs:element ref="note"/>
+                <xs:element ref="placeName"/>
+                <!--Erweiterung-->
+                <xs:element ref="persName"/>
+                <!--Erweiterung-->
+                <xs:group ref="Originalbefund"/>
+            </xs:choice>
             <xs:attributeGroup ref="key"/>
             <xs:attributeGroup ref="geog"/>
             <xs:attributeGroup ref="type"/>
@@ -4895,13 +4813,11 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="foreign"/>
-                    <xs:element ref="note"/>
-                    <xs:group ref="Originalbefund"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="foreign"/>
+                <xs:element ref="note"/>
+                <xs:group ref="Originalbefund"/>
+            </xs:choice>
             <xs:attributeGroup ref="geog"/>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="lang"/>
@@ -4962,21 +4878,19 @@
                         </xs:appinfo>
                     </xs:annotation>
                     <xs:complexType mixed="true">
-                        <xs:sequence>
-                            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                                <xs:element ref="scope"/>
-                                <xs:element name="pubPlace">
-                                    <xs:complexType>
-                                        <xs:simpleContent>
-                                            <xs:extension base="xs:string">
-                                                <xs:attributeGroup ref="standard"/>
-                                            </xs:extension>
-                                        </xs:simpleContent>
-                                    </xs:complexType>
-                                </xs:element>
-                                <xs:group ref="date"/>
-                            </xs:choice>
-                        </xs:sequence>
+                        <xs:choice minOccurs="0" maxOccurs="unbounded">
+                            <xs:element ref="scope"/>
+                            <xs:element name="pubPlace">
+                                <xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:extension base="xs:string">
+                                            <xs:attributeGroup ref="standard"/>
+                                        </xs:extension>
+                                    </xs:simpleContent>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:group ref="date"/>
+                        </xs:choice>
                         <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
                 </xs:element>
@@ -5046,15 +4960,19 @@
             <xs:documentation xml:lang="eng">Bibliographic informations</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:group ref="layout"/>
-                    <xs:element ref="foreign"/>
-                    <xs:element ref="quote"/>
-                    <xs:group ref="Referenz"/>
-                    <xs:group ref="BibliographicInformation"/>
-                </xs:choice>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="layout"/>
+                <xs:element ref="foreign"/>
+                <xs:element ref="note"/>
+                <!--Erweiterung-->
+                <xs:element ref="quote"/>
+                <xs:group ref="Referenz"/>
+                <xs:group ref="BibliographicInformation"/>
+            </xs:choice>
+            <xs:attribute name="status"/>
+            <!--Erweiterung-->
+            <xs:attribute name="type"/>
+            <!--Erweiterung-->
             <xs:attributeGroup ref="key"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -5196,7 +5114,9 @@
                             <xrx:default>certainty</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant context="='persName' or $context='orgName' or $context='geogName' or $context='placeName' or $context='sic' or $context='del' or $context='expan' or $context='damage'"/>
+                    <xrxe:relevant
+                        context="='persName' or $context='orgName' or $context='geogName' or $context='placeName' or $context='sic' or $context='del' or $context='expan' or $context='damage'"
+                    />
                 </xs:appinfo>
                 <xs:documentation xml:lang="deu"> Für Genauigkeitsangaben z.B. bei Datierungen,
                     werden mit Schlüsselwörtern (zu benennen in der encodingDesc) oder kurzen
@@ -5232,7 +5152,9 @@
                             <xrx:default>reg</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant context="='persName' or $context='orgName' or $context='geogName' or $context='placeName'"/>
+                    <xrxe:relevant
+                        context="='persName' or $context='orgName' or $context='geogName' or $context='placeName'"
+                    />
                 </xs:appinfo>
             </xs:annotation>
         </xs:attribute>
@@ -5248,8 +5170,8 @@
                         </xrx:i18n>
                     </xrxe:label>
                 </xs:appinfo>
-                <xs:documentation xml:lang="deu">Der verantwortliche Bearbeiter für die
-                    Kodierung, den Inhalt der Kodierung oder die vergebenen Attribute.</xs:documentation>
+                <xs:documentation xml:lang="deu">Der verantwortliche Bearbeiter für die Kodierung,
+                    den Inhalt der Kodierung oder die vergebenen Attribute.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:attributeGroup>
@@ -5263,7 +5185,9 @@
                             <xrx:default>type</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant context="='persName' or $context='orgName' or $context='geogName' or $context='placeName' or $context='c'"/>
+                    <xrxe:relevant
+                        context="='persName' or $context='orgName' or $context='geogName' or $context='placeName' or $context='c'"
+                    />
                 </xs:appinfo>
             </xs:annotation>
         </xs:attribute>
@@ -5440,6 +5364,8 @@
         <xs:attributeGroup ref="n"/>
         <xs:attributeGroup ref="facs"/>
         <xs:attributeGroup ref="resp"/>
+        <xs:attributeGroup ref="rend"/>
+        <!--Erweiterung-->
     </xs:attributeGroup>
     <xs:attributeGroup name="facs">
         <xs:attribute name="facs">
@@ -5468,10 +5394,8 @@
                         </xrx:i18n>
                     </xrxe:label>
                 </xs:appinfo>
-                <xs:documentation xml:lang="deu">
-          Eine im gesamten Dokument eindeutige ID, die mit einem Buchtstaben
-          beginnt.
-              </xs:documentation>
+                <xs:documentation xml:lang="deu"> Eine im gesamten Dokument eindeutige ID, die mit
+                    einem Buchstaben beginnt. </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:attributeGroup>
@@ -5570,7 +5494,8 @@
                         </xrx:i18n>
                     </xrxe:label>
                 </xs:appinfo>
-                <xs:documentation xml:lang="en">Reference to textual witness identified in charter description.</xs:documentation>
+                <xs:documentation xml:lang="en">Reference to textual witness identified in charter
+                    description.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:attributeGroup>
@@ -5585,9 +5510,10 @@
                         </xrx:i18n>
                     </xrxe:label>
                 </xs:appinfo>
-                <xs:documentation xml:lang="deu">Bezeichner der 
-                    Ressource (bevorzugt eine URI), auf der Inhalt eines Textes verweist.</xs:documentation>
-                <xs:documentation xml:lang="en">Reference to a resource (preferable URI) wich is referenced by the content of a text.</xs:documentation>
+                <xs:documentation xml:lang="deu">Bezeichner der Ressource (bevorzugt eine URI), auf
+                    der Inhalt eines Textes verweist.</xs:documentation>
+                <xs:documentation xml:lang="en">Reference to a resource (preferable URI) wich is
+                    referenced by the content of a text.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:attributeGroup>
