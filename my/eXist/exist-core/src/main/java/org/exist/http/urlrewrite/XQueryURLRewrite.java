@@ -27,7 +27,6 @@ import java.io.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import org.exist.dom.persistent.LockedDocument;
 import org.exist.http.servlets.Authenticator;
 import org.exist.http.servlets.BasicAuthenticator;
 import org.exist.security.internal.web.HttpAccount;
@@ -95,16 +94,16 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 /**
  * A servlet to redirect HTTP requests. Similar to the popular UrlRewriteFilter, but
  * based on XQuery.
- *
+ * <p>
  * The request is passed to an XQuery whose return value determines where the request will be
  * redirected to. An empty return value means the request will be passed through the filter
  * untouched. Otherwise, the query should return a single XML element, which will instruct the filter
  * how to further process the request. Details about the format can be found in the main documentation.
- *
+ * <p>
  * The request is forwarded via {@link javax.servlet.RequestDispatcher#forward(javax.servlet.ServletRequest, javax.servlet.ServletResponse)}.
  * Contrary to HTTP forwarding, there is no additional roundtrip to the client. It all happens on
  * the server. The client will not notice the redirect.
- *
+ * <p>
  * Please read the <a href="http://exist-db.org/urlrewrite.html">documentation</a> for further information.
  */
 public class XQueryURLRewrite extends HttpServlet {
@@ -728,22 +727,19 @@ public class XQueryURLRewrite extends HttpServlet {
 
     private @Nullable
     SourceInfo findSourceFromDb(final DBBroker broker, final String basePath, final String path, final String[] components) {
-        LockedDocument lockedControllerDoc = null;
+        DocumentImpl controllerDoc = null;
         try {
             final XmldbURI locationUri = XmldbURI.xmldbUriFor(basePath);
             XmldbURI resourceUri = locationUri;
             for(final String component : components) {
                 resourceUri = resourceUri.append(component);
             }
+            controllerDoc = findDbControllerXql(broker, locationUri, resourceUri);
 
-            lockedControllerDoc = findDbControllerXql(broker, locationUri, resourceUri);
-
-            if (lockedControllerDoc == null) {
+            if (controllerDoc == null) {
                 LOG.warn("XQueryURLRewrite controller could not be found for path: " + path);
                 return null;
             }
-
-            final DocumentImpl controllerDoc = lockedControllerDoc.getDocument();
 
             if (LOG.isTraceEnabled()) {
                 LOG.trace("Found controller file: " + controllerDoc.getURI());
@@ -762,8 +758,8 @@ public class XQueryURLRewrite extends HttpServlet {
             LOG.warn("Bad URI for base path: " + e.getMessage(), e);
             return null;
         } finally {
-            if (lockedControllerDoc != null) {
-                lockedControllerDoc.close();
+            if (controllerDoc != null) {
+                controllerDoc.getUpdateLock().release(LockMode.READ_LOCK);
             }
         }
     }
@@ -787,18 +783,25 @@ public class XQueryURLRewrite extends HttpServlet {
      */
     //@tailrec
     private @Nullable
-    LockedDocument findDbControllerXql(final DBBroker broker, final XmldbURI collectionUri, final XmldbURI resourceUri) {
-        //if (collectionUri.compareTo(resourceUri) > 0) {
-        //    return null;
-        //}
-
-        try (final Collection collection = broker.openCollection(resourceUri, LockMode.READ_LOCK)) {
+    DocumentImpl findDbControllerXql(final DBBroker broker, final XmldbURI collectionUri, final XmldbURI resourceUri) {
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("entry parms collectionUri/resourceUri: " + collectionUri, resourceUri);
+        }
+        
+        /*if (collectionUri.compareTo(resourceUri) > 0) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("collectionUri > 0");
+            }
+            return null;
+        }*/
+        
+        Collection collection = null;
+        try {
+            collection = broker.openCollection(resourceUri, LockMode.READ_LOCK);
             if (collection != null) {
-                final LockedDocument lockedDoc = collection.getDocumentWithLock(broker, XQUERY_CONTROLLER_URI, LockMode.READ_LOCK);
-                if (lockedDoc != null) {
-                    // NOTE: early release of Collection lock inline with Asymmetrical Locking scheme
-                    // collection lock will be released by the try-with-resources before the locked document is returned by this function
-                    return lockedDoc;
+                final DocumentImpl doc = collection.getDocumentWithLock(broker, XQUERY_CONTROLLER_URI, LockMode.READ_LOCK);
+                if (doc != null) {
+                    return doc;
                 }
             }
         } catch (final PermissionDeniedException e) {
@@ -811,9 +814,13 @@ public class XQueryURLRewrite extends HttpServlet {
                 LOG.debug("LockException while scanning for XQueryURLRewrite controllers: " + e.getMessage(), e);
             }
             return null;
+        } finally {
+            if (collection != null) {
+                collection.getLock().release(LockMode.READ_LOCK);
+            }
         }
 
-        if(resourceUri.numSegments() == 1) {
+        if(resourceUri.numSegments() == 2) {
             return null;
         }
         final XmldbURI subResourceUri = resourceUri.removeLastSegment();
@@ -874,13 +881,12 @@ public class XQueryURLRewrite extends HttpServlet {
             // Is the module source stored in the database?
             try {
                 final XmldbURI locationUri = XmldbURI.xmldbUriFor(query);
-
-                try (final LockedDocument lockedSourceDoc = broker.getXMLResource(locationUri.toCollectionPathURI(), LockMode.READ_LOCK);) {
-                    if (lockedSourceDoc == null) {
+                DocumentImpl sourceDoc = null;
+                try {
+                    sourceDoc = broker.getXMLResource(locationUri.toCollectionPathURI(), LockMode.READ_LOCK);
+                    if (sourceDoc == null) {
                         throw new ServletException("XQuery resource: " + query + " not found in database");
                     }
-
-                    final DocumentImpl sourceDoc = lockedSourceDoc.getDocument();
                     if (sourceDoc.getResourceType() != DocumentImpl.BINARY_FILE ||
                             !"application/xquery".equals(sourceDoc.getMetadata().getMimeType())) {
                         throw new ServletException("XQuery resource: " + query + " is not an XQuery or " +
@@ -890,6 +896,10 @@ public class XQueryURLRewrite extends HttpServlet {
                             locationUri.toString());
                 } catch (final PermissionDeniedException e) {
                     throw new ServletException("permission denied to read module source from " + query);
+                } finally {
+                    if (sourceDoc != null) {
+                        sourceDoc.getUpdateLock().release(LockMode.READ_LOCK);
+                    }
                 }
             } catch (final URISyntaxException e) {
                 throw new ServletException(e.getMessage(), e);

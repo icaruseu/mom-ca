@@ -25,7 +25,7 @@
     <!-- Tool urls -->
     <property name="download-url-betterform" value="https://github.com/icaruseu/betterFORM.git"/>
     <property name="download-url-codemirror" value="https://github.com/codemirror/CodeMirror/archive/v2.zip"/>
-    <property name="download-url-exist" value="https://github.com/StephanMa/exist/"/>
+    <property name="download-url-exist" value="https://github.com/eXist-db/exist/archive/eXist-4.7.0.zip"/>
     <property name="download-url-jquery" value="https://github.com/jquery/jquery-ui/archive/1-9-stable.zip"/>
     <property name="download-url-leaflet" value="https://github.com/Leaflet/Leaflet/archive/v1.3.4.zip"/>
     <property name="download-url-leaflet-markercluster" value="https://github.com/Leaflet/Leaflet.markercluster/archive/v1.4.1.zip"/>
@@ -88,7 +88,7 @@
     <property name="my-exist-jetty" value="${my-exist}/tools/jetty"/>
     <property name="my-exist-src" value="${my-exist}/src"/>
     <property name="my-exist-webapp" value="${my-exist}/webapp"/>
-    <property name="webinf-home" value="${exist-home}/etc/webapp/WEB-INF"/>
+    <property name="webinf-home" value="${exist-home}/webapp/WEB-INF"/>
 
     <!-- Jetty -->
     <property name="jetty-home" value="${exist-home}/tools/jetty"/>
@@ -233,7 +233,7 @@
 
     <target name="start" description="Starts the XRX Application Server">
         <log message="Starting XRX Application Server"/>
-        <exec executable="${exist-home}/bin/startup.sh"/>
+        <exec executable="${wrapper-home}/bin/startDaemonNoPriv.sh"/>
     </target>
 
     <target name="sleep-until-started">
@@ -247,13 +247,17 @@
 
     <target name="stop" description="Stops the XRX Application Server">
         <log message="Stopping XRX Application Server"/>
-        <exec executable="${exist-home}/bin/shutdown.sh"/>
+        <exec executable="${wrapper-home}/bin/stopDaemonNoPriv.sh"/>
     </target>
 
     <target name="restart" description="Restarts the XRX Application Server">
         <log message="Restarting XRX Application Server"/>
-	<exec executable="${exist-home}/bin/shutdown.sh"/>
-        <exec executable="${exist-home}/bin/startup.sh"/>
+        <exec executable="${wrapper-home}/bin/stopDaemon.sh">
+            <arg value="stop"/>
+        </exec>
+        <exec executable="${wrapper-home}/bin/startDaemon.sh">
+            <arg value="start"/>
+        </exec>
     </target>
 
     <target name="install" description="Installs the XRX Application Server">
@@ -261,7 +265,7 @@
         <mkdir dir="${tmp-home}"/>
         <antcall target="prepare-tools"/>
         <antcall target="prepare-app"/>
-		<!--<antcall target="install-daemon"/>-->
+        <antcall target="install-daemon"/>
         <antcall target="restart"/>
         <antcall target="sleep-until-started"/>
         <antcall target="set-admin-password"/>
@@ -295,17 +299,17 @@
 
     <target name="download-exist">
         <log message="Downloading eXist"/>
-	<delete dir="${exist-home}" failonerror="false"/><!--
+        <delete dir="${exist-home}" failonerror="false"/>
         <download src="${download-url-exist}" destdir="${tmp-home}" destname="exist.zip"/>
         <unzip src="${tmp-home}/exist.zip" dest="${exist-home}">
             <patternset>
                 <include name="**/*/**"/>
             </patternset>
             <regexpmapper from="^exist-[A-Za-z0-9\-\_\.]*/(.*)$" to="\1"/>
-		    </unziip>-->        
+        </unzip>        <!--
 	<exec executable="git">
-		<arg line=" clone http://github.com/StephanMa/exist/ -b master --single-branch localhost "/>
-	</exec><!--
+		<arg line=" clone http://github.com/eXist-db/exist/ -b develop -single-branch localhost "/>
+	</exec>
 	<exec executable="git" dir="./localhost">
 		<arg line=" checkout bf5fc14719a7c"/>
 	</exec> -->
@@ -458,7 +462,7 @@
             <fileset dir="${my-exist-lib}"/>
         </copy>
 	<echo message="# build.properties"/>
-	<!--<copy file="${exist-home}/build.properties" tofile="${exist-home}/build.properties.original"/>
+        <copy file="${exist-home}/build.properties" tofile="${exist-home}/build.properties.original"/>
         <replace file="${exist-home}/build.properties">
             <replacefilter token="autodeploy=dashboard,shared,eXide,monex,usermanager" value="autodeploy=dashboard,shared,eXide,monex,usermanager,xquery-versioning-module"/>
         </replace>
@@ -480,39 +484,25 @@
             <format property="time" pattern="yyyy-MM-dd-hh-mm-ss"/>
         </tstamp>
         <delete file="localhost/extensions/betterform/main/lib/betterform.jar"/>
-	<copy tofile="localhost/extensions/betterform/main/lib/betterform${time}.jar" file="my/eXist/extensions/betterform/main/lib/betterform.jar" overwrite="true"/> -->
+        <copy tofile="localhost/extensions/betterform/main/lib/betterform${time}.jar" file="my/eXist/extensions/betterform/main/lib/betterform.jar" overwrite="true"/>
     </target>
 
     <target name="build-tools">
         <log message="Building the tools"/>
         <antcall target="build-exist"/>
-	<!--	<antcall target="build-betterform"/>-->
+        <antcall target="build-betterform"/>
     </target>
 
     <target name="build-exist">
         <log message="Building eXist"/>
-		<!-- build exist -->
-	<exec executable="mvn">
-		<arg line="-f ${exist-home}/pom.xml  -DskipTests -U -T 4C clean package" />
-	</exec>
-
-	<copy todir="${exist-home}" overwrite="true">
-		<fileset dir="${exist-home}/exist-distribution/target/exist-distribution-5.2.0-dir/"/>
-	</copy>
-
-        <chmod perm="+x">
-                <fileset dir="${exist-home}">	
-                    <include name="**/*.sh"/>
-                </fileset>
-        </chmod>
-	<!--
+        <!-- build exist -->
         <exec executable="${exist-home}/build.sh">
             <arg line="-f ${exist-home}/build.xml"/>
-    </exec>-->
+        </exec>
         <!-- unsign all exist jars -->
-    <!--<ant antfile="${exist-home}/build.xml" target="jnlp-unsign-all" useNativeBaseDir="true"/>
-        <!- sign all exist jars ->
-    <ant antfile="${exist-home}/build.xml" target="jnlp-all" useNativeBaseDir="true"/>-->
+        <ant antfile="${exist-home}/build.xml" target="jnlp-unsign-all" useNativeBaseDir="true"/>
+        <!-- sign all exist jars -->
+        <ant antfile="${exist-home}/build.xml" target="jnlp-all" useNativeBaseDir="true"/>
     </target>
 
     <target name="build-betterform">
@@ -525,7 +515,7 @@
         <antcall target="patch-app"/>
         <antcall target="configure-jetty"/>
         <antcall target="configure-exist"/>
-		<!--        <antcall target="configure-wrapper"/>-->
+        <antcall target="configure-wrapper"/>
     </target>
 
     <target name="patch-app">
@@ -540,27 +530,27 @@
 
     <target name="configure-jetty">
         <log message="Configuring Jetty"/>
-	<copy file="${exist-home}/etc/jetty/jetty.xml" tofile="${exist-home}/etc/jetty/jetty.xml.original"/>
-	<xslt in="${exist-home}/etc/jetty/jetty.xml.original" style="${build-scripts-home}/jetty.xsl" out="${exist-home}/etc/jetty/jetty.xml">
+        <copy file="${jetty-home}/etc/jetty.xml" tofile="${jetty-home}/etc/jetty.xml.original"/>
+        <xslt in="${jetty-home}/etc/jetty.xml.original" style="${build-scripts-home}/jetty.xsl" out="${jetty-home}/etc/jetty.xml">
         </xslt>
-	<copy file="${exist-home}/etc/jetty/jetty-http.xml" tofile="${exist-home}/etc/jetty/jetty-http.xml.original"/>
-	<xslt in="${exist-home}/etc/jetty/jetty-http.xml.original" style="${build-scripts-home}/jetty-http.xsl" out="${exist-home}/etc/jetty/jetty-http.xml">
+        <copy file="${jetty-home}/etc/jetty-http.xml" tofile="${jetty-home}/etc/jetty-http.xml.original"/>
+        <xslt in="${jetty-home}/etc/jetty-http.xml.original" style="${build-scripts-home}/jetty-http.xsl" out="${jetty-home}/etc/jetty-http.xml">
             <param name="jetty-port" expression="${jetty-port}"/>
         </xslt>
-	<copy file="${exist-home}/etc/jetty/jetty-ssl.xml" tofile="${exist-home}/etc/jetty/jetty-ssl.xml.original"/>
-	<xslt in="${exist-home}/etc/jetty/jetty-ssl.xml.original" style="${build-scripts-home}/jetty-ssl.xsl" out="${exist-home}/etc/jetty/jetty-ssl.xml">
+        <copy file="${jetty-home}/etc/jetty-ssl.xml" tofile="${jetty-home}/etc/jetty-ssl.xml.original"/>
+        <xslt in="${jetty-home}/etc/jetty-ssl.xml.original" style="${build-scripts-home}/jetty-ssl.xsl" out="${jetty-home}/etc/jetty-ssl.xml">
             <param name="jetty-port-ssl" expression="${jetty-port-ssl}"/>
         </xslt>
-	<copy file="${exist-home}/etc/jetty/webapps/exist-webapp-context.xml" tofile="${exist-home}/etc/jetty/webapps/exist-webapp-context.xml.original"/>
-	<xslt in="${exist-home}/etc/jetty/webapps/exist-webapp-context.xml.original" style="${build-scripts-home}/jetty-context.xsl" out="${exist-home}/etc/jetty/webapps/exist-webapp-context.xml">
+        <copy file="${jetty-home}/webapps/exist-webapp-context.xml" tofile="${jetty-home}/webapps/exist-webapp-context.xml.original"/>
+        <xslt in="${jetty-home}/webapps/exist-webapp-context.xml.original" style="${build-scripts-home}/jetty-context.xsl" out="${jetty-home}/webapps/exist-webapp-context.xml">
         </xslt>
-        <delete dir="${exist-home}/webapps/portal"/>
+        <delete dir="${jetty-home}/webapps/portal"/>
     </target>
 
     <target name="configure-exist">
         <log message="Configuring eXist"/>
-	<copy file="${exist-home}/etc/conf.xml" tofile="${exist-home}/etc/conf.xml.original"/>
-	<xslt in="${exist-home}/etc/conf.xml.original" style="${build-scripts-home}/conf.xsl" out="${exist-home}/etc/conf.xml">
+        <copy file="${exist-home}/conf.xml" tofile="${exist-home}/conf.xml.original"/>
+        <xslt in="${exist-home}/conf.xml.original" style="${build-scripts-home}/conf.xsl" out="${exist-home}/conf.xml">
             <param name="cache-size" expression="${exist-cache-size}"/>
             <param name="collection-cache" expression="${exist-collection-cache}"/>
             <param name="lucene-buffer" expression="${exist-lucene-buffer}"/>
@@ -572,8 +562,8 @@
             <param name="project-name" expression="${project-name}"/>
             <param name="xrx-live-db-base-collection-path" expression="${xrx-live-db-base-collection-path}"/>
         </xslt>
-	<copy file="${exist-home}/etc/webapp/controller.xql" tofile="${exist-home}/etc/webapp/controller.xql.original"/>
-	<echo file="${exist-home}/etc/webapp/controller.xql" append="false">
+        <copy file="${exist-home}/webapp/controller.xql" tofile="${exist-home}/webapp/controller.xql.original"/>
+        <echo file="${exist-home}/webapp/controller.xql" append="false">
 
             xquery version '3.0';
 
