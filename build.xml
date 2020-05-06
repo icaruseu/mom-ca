@@ -39,6 +39,7 @@
     <!-- XRX -->
     <property name="db-uri" value="xmldb:exist://172.17.0.2:${jetty-port}"/>
     <property name="exist-build-workaround-webapp" value="webapp"/>
+    <property name="my-home" value="my" />
     <property name="my-xrx-res" value="my/XRX/res"/>
     <property name="my-xrx-src" value="my/XRX/src"/>
     <property name="my-xrx-system" value="my/XRX/system"/>
@@ -215,7 +216,17 @@
 
     <!-- #######################
          # Tasks               #
-         ####################### -->
+    ####################### -->
+    <target name="systemd">
+	<copy todir="/etc/systemd/system">
+	  <fileset dir="${my-home}/system/"/>
+        </copy>
+    </target>
+
+    <target name="systemd-reload">
+	<exec executable="build/systemd.sh"/>
+    </target>
+
     <target name="test">
         <log message="Preparing tests....[in progress]"/>
     </target>
@@ -249,16 +260,16 @@
 
     <target name="stop" description="Stops the XRX Application Server">
         <log message="Stopping XRX Application Server"/>
-        <exec dir="/etc/init.d" spawn="false" executable="bash" newenvironment="false">
-	              <arg line="exist-db stop"/>
+        <exec executable="systemctl">
+              <arg line="stop exist-db.service"/>
         </exec>
     </target>
 
     <target name="restart" description="Restarts the XRX Application Server">
         <log message="Restarting XRX Application Server"/>
 			<!--<exec executable="systemd exist-db restart"/>-->
-        <exec dir="/etc/init.d" spawn="false" executable="bash" newenvironment="false">
-              <arg line="exist-db restart"/>
+        <exec executable="systemctl" >
+              <arg line="restart exist-db.service"/>
         </exec>
     </target>
 
@@ -266,7 +277,9 @@
         <log message="Installing XRX Application Server"/>
         <mkdir dir="${tmp-home}"/>
         <antcall target="prepare-tools"/>
-        <antcall target="prepare-app"/>
+	<antcall target="prepare-app"/>
+        <antcall target="systemd"/>
+	<antcall target="systemd-reload"/>
 		<!--<antcall target="install-daemon"/>-->
         <antcall target="restart"/>
         <antcall target="sleep-until-started"/>
