@@ -62,6 +62,13 @@
     </xsl:attribute>
   </xsl:template>
 
+  <xsl:template match="//recovery/@journal-dir">
+    <xsl:attribute name="journal-dir">
+       <xsl:text>../</xsl:text>
+       <xsl:value-of select="$db-files"/>
+    </xsl:attribute>
+  </xsl:template>
+
   <xsl:template match="//xquery/builtin-modules">
     <xsl:element name="builtin-modules">
       <xsl:copy-of select="@*"/>
