@@ -1,0 +1,13 @@
+[Unit]
+Description=eXist-db 5.2.0 Server
+Documentation=
+After=syslog.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/opt/mom.XRX/localhost/bin/startup.sh
+
+[Install]
+WantedBy=multi-user.target
