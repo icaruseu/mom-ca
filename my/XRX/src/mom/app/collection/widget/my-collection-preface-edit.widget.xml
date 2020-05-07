@@ -132,7 +132,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     let $rmycollectionid := $xrx:tokenized-uri[2]
     
     let $preface-entry := user:home-collection($xrx:user-id)//atom:id[ends-with(.,$rmycollectionid)]/parent::atom:entry
-    let $entry-as-string := util:serialize($preface-entry, ())
+    let $entry-as-string := serialize($preface-entry, ())
     
     (: xPath :)
     let $xpath-title-stmt := '/atom:entry/atom:content/cei:cei/cei:teiHeader/cei:fileDesc/cei:titleStmt'

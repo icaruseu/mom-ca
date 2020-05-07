@@ -640,7 +640,7 @@
     <target name="set-admin-password" depends="exist-classpath">
         <log message="Setting the admin password if it's not already set to the configured value"/>
         <exist-query user="guest" password="guest" failonerror="false">
-            system:as-user('${admin-name}', '', xmldb:change-user('${admin-name}', '${admin-password}', 'dba', '/db'))
+            system:as-user('${admin-name}', '', passwd('${admin-name}', '${admin-password}'))
         </exist-query>
     </target>
 

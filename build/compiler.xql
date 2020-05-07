@@ -83,7 +83,7 @@ declare variable $compiler:src-objects := $xrx-src-db-base-collection/(xrx:app|x
 (: XRX++ Schema :)
 declare variable $xrx-schema := $xrx-src-db-base-collection/xs:schema[@id='xrx'];
 declare variable $xrx-object-child-elements := 
-    map:new(
+    map(
         for $object-type in $compiler:object-types
         return
         map:entry($object-type, xsd:child-element-names($object-type, $object-type, $xrx-schema))

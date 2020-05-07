@@ -156,7 +156,7 @@ declare function local:cached-resource(
 :)
 declare function local:eval($xrx as element()) {
 
-    let $serialize := util:serialize($xrx, ())
+    let $serialize := serialize($xrx, ())
     return
     if($serialize != '') then util:eval($serialize, false())
     else()

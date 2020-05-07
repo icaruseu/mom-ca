@@ -159,7 +159,7 @@ declare function account:confirm($code as xs:string) as xs:string {
     let $login := xmldb:login(conf:param('xrx-user-db-base-uri'), $account:admin-user, $account:admin-pass)
     let $create-user-account := 
         if(not(xmldb:exists-user($email))) then xmldb:create-user($email, $password, $account:user-groups, '')
-        else xmldb:change-user($email, $password, $account:user-groups, '')
+        else passwd($email, $password, $account:user-groups)
     let $remove-password := account:remove-password($user-xml)
     let $update-user-xml := atom:POST(conf:param('xrx-user-atom-base-uri'), concat(xmldb:encode($email), '.xml'), $remove-password)
     let $logout := xmldb:login(conf:param('xrx-user-db-base-uri'), 'guest', 'guest')
@@ -182,7 +182,7 @@ declare function account:reset-password($code) {
         system:as-user(
             $account:admin-user,
             $account:admin-pass,
-            xmldb:change-user($email, $new-password, $account:user-groups, '')
+            passwd($email, $new-password, $account:user-groups, '')
         )
     return
     $new-password
@@ -230,7 +230,7 @@ declare function account:update-user($user-xml) {
             system:as-user(
                 $account:admin-user,
                 $account:admin-pass,
-                xmldb:change-user($email, $password, $account:user-groups, '')
+                passwd($email, $password, $account:user-groups, '')
             )
         )
         else()
@@ -261,7 +261,7 @@ declare function account:change-password($email, $data) {
             system:as-user(
                 $account:admin-user,
                 $account:admin-pass,
-                xmldb:change-user($email, $newpassword, $account:user-groups, '')
+                passwd($email, $newpassword, $account:user-groups, '')
             )
         else()
     return
