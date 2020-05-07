@@ -65,7 +65,7 @@ declare variable $user:db-base-collection :=
 declare variable $user:feed :=
     substring-after($user:db-base-collection-path, conf:param('atom-db-base-uri'));
 
-declare variable $user:is-loggedin := sm:id()//username/text() != 'guest';
+declare variable $user:is-loggedin := sm:id()//sm:username/text() != 'guest';
 
 (:
     ##################

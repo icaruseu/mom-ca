@@ -64,7 +64,7 @@ declare function bookmark:model($request-root as xs:string) as element() {
             replace="none">
             <xf:header>
                 <xf:name>userid</xf:name>
-                <xf:value>{ sm:id()//username/text() }</xf:value>
+                <xf:value>{ sm:id()//sm:username/text() }</xf:value>
             </xf:header>
         </xf:submission>
         
@@ -74,7 +74,7 @@ declare function bookmark:model($request-root as xs:string) as element() {
             replace="none">
             <xf:header>
                 <xf:name>userid</xf:name>
-                <xf:value>{ sm:id()//username/text() }</xf:value>
+                <xf:value>{ sm:id()//sm:username/text() }</xf:value>
             </xf:header>
         </xf:submission>
         
@@ -84,7 +84,7 @@ declare function bookmark:model($request-root as xs:string) as element() {
             replace="none">
             <xf:header>
                 <xf:name>userid</xf:name>
-                <xf:value>{ sm:id()//username/text() }</xf:value>
+                <xf:value>{ sm:id()//sm:username/text() }</xf:value>
             </xf:header>
         </xf:submission>
       

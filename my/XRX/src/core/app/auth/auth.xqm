@@ -139,8 +139,8 @@ declare function auth:matches($rule as element(xrx:rule)) as xs:boolean {
     case element(xrx:dbgroup) return
     
         let $user-db-groups := 
-            if(sm:id()//username/text() != 'guest') then 
-                system:as-user('admin', conf:param('dba-password'), xmldb:get-user-groups(sm:id()//username/text())) 
+            if(sm:id()//sm:username/text() != 'guest') then 
+                system:as-user('admin', conf:param('dba-password'), xmldb:get-user-groups(sm:id()//sm:username/text())) 
             else 
                 ()
         let $match := 
@@ -155,7 +155,7 @@ declare function auth:matches($rule as element(xrx:rule)) as xs:boolean {
     (: Do we authenticate against a role? :)
     case element(xrx:role) return
     
-        let $user-roles := user:home-collection(sm:id()//username/text())//xrx:role
+        let $user-roles := user:home-collection(sm:id()//sm:username/text())//xrx:role
         let $match := 
             for $user-role in $user-roles
             return
@@ -168,7 +168,7 @@ declare function auth:matches($rule as element(xrx:rule)) as xs:boolean {
     (: Do we authenticate against a community? :)
     case element(xrx:community) return
     
-        let $user-communities := user:home-collection(sm:id()//username/text())//xrx:community
+        let $user-communities := user:home-collection(sm:id()//sm:username/text())//xrx:community
         let $match := 
             for $user-community in $user-communities
             return
