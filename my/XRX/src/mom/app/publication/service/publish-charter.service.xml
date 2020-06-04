@@ -131,7 +131,7 @@ MOM-CA with the following role: user
 	  
 	  (: move saved charter to public area :)
 	  let $store-charter := 
-	    atom:PUTSILENT($feed, util:document-name($published-charter), $saved-charter)
+	    system:as-user('admin', conf:param('dba-password'), atom:PUTSILENT($feed, util:document-name($published-charter), $saved-charter))
 		
 		(: remove saved charter :)
 		let $remove-saved-charter :=
