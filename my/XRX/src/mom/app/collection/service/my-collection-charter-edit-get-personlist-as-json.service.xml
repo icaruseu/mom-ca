@@ -73,7 +73,7 @@
             if(not(empty($beforemode)) and not(empty($beforeterm)) and not(empty($beforelist))) then(
                 if ($mode != $beforemode or $searchterm != $beforeterm)
             then(
-                if($searchterm gt $beforeterm) then(
+                if(string-length($searchterm) gt string-length($beforeterm)) then(
                     if(contains($searchterm, $beforeterm)) then("false")
                     else("true")
                 )
