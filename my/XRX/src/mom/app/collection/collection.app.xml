@@ -278,6 +278,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:mode>service</xrx:mode>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/register-search-terms</xrx:atomid>
     </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/service/personlist-as-json</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/my-collection-charter-edit-get-personlist-as-json</xrx:atomid>
+    </xrx:map>
     <!-- main widgets -->
     <xrx:map>
       <xrx:uripattern>/new-collection</xrx:uripattern>
