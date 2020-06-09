@@ -1,0 +1,164 @@
+<xrx:service xmlns:eag="http://www.archivgut-online.de/eag" xmlns:xrx="http://www.monasterium.net/NS/xrx">
+    <xrx:id>tag:www.monasterium.net,2011:/mom/service/my-collection-charter-edit-get-personlist-as-json</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key></xrx:key>
+            <xrx:default></xrx:default>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:subtitle></xrx:subtitle>
+    <xrx:description>
+        Service to get person lists from /db/mom-data/metadata.person.public/ and converts relevant elements to json for autocompletelist functions
+    </xrx:description>
+    <xrx:author>Jbigalke@smail.uni-koeln.de</xrx:author>
+    <xrx:licence>
+        This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+        As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+        This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+        The VdU/VRET is free software: you can redistribute it and/or modify
+        it under the terms of the GNU General Public License as published by
+        the Free Software Foundation, either version 3 of the License, or
+        (at your option) any later version.
+
+        VdU/VRET is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        GNU General Public License for more details.
+
+        You should have received a copy of the GNU General Public License
+        along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+    </xrx:licence>
+    <xrx:variables>
+        <xrx:variable>
+            <xrx:name>$collectionid</xrx:name>
+            <xrx:expression>request:get-parameter("collectionid", ())</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$searchterm</xrx:name>
+            <xrx:expression>request:get-parameter('searchterm', ())</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$mode</xrx:name>
+            <xrx:expression>request:get-parameter('mode', ())</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$beforemode</xrx:name>
+            <xrx:expression>session:get-attribute("_autocompletemode")</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$beforeterm</xrx:name>
+            <xrx:expression>session:get-attribute("_autocompletesearchterm")</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$beforelist</xrx:name>
+            <xrx:expression>session:get-attribute("_autocompletelist")</xrx:expression>
+        </xrx:variable>
+    </xrx:variables>
+    <xrx:init>
+        <xrx:processor>
+            <xrx:translateflag>false</xrx:translateflag>
+            <xrx:serializeas>method=text media-type=text/javascript</xrx:serializeas>
+        </xrx:processor>
+    </xrx:init>
+    <xrx:body>
+     {
+        (:
+            Check if a new search is required. For this check if a json in session-variables exists. if the searchmode
+        has changed or the searchterm has changed.
+        :)
+        let $newsearch :=
+            if(not(empty($beforemode)) and not(empty($beforeterm)) and not(empty($beforelist))) then(
+                if ($mode != $beforemode or $searchterm != $beforeterm)
+            then(
+                if($searchterm gt $beforeterm) then(
+                    if(contains($searchterm, $beforeterm)) then("false")
+                    else("true")
+                )
+            else(
+                if(contains($beforeterm, $searchterm)) then("false")
+                else("true")
+                )
+                )
+                else("false"))
+            else("true")
+
+
+            (: if a search is required get all matching person entries from personlists and convert results to json
+                save json to session-variable and return json
+                if no new search required return json stored in session-variable
+            :)
+            let $result := if($newsearch = "true") then(
+                    let $personlist := if($mode = "id") then(collection('/db/mom-data/metadata.person.public/')//tei:person[contains(@xml:id,$searchterm)])
+                                       else(collection('/db/mom-data/metadata.person.public/')//tei:person[contains(.,$searchterm)])
+                    let $setbeforemode := session:set-attribute("_autocompletemode", $mode)
+                    let $setbeforeterm := session:set-attribute("_autocompletesearchterm", $searchterm)
+                    let $json :=
+                        jsonx:object(
+                            jsonx:pair(
+                                jsonx:string("entries"),
+                                jsonx:array(
+                                    for $entry in $personlist
+                                        let $id := root($entry)//atom:id/text()
+                                        let $collectionid := tokenize($id, "/")[last()]
+                                        return jsonx:object((
+                                            if($entry/@xml:id) then(
+                                                jsonx:pair(
+                                                    jsonx:string("id"),
+                                                    jsonx:string($entry/@xml:id)
+                                                )
+                                            ) else(),
+                                                jsonx:pair(
+                                                    jsonx:string("name"),
+                                                    jsonx:string(replace($entry/tei:persName, ',\s*$',''))
+                                            ),
+                                                if($entry/tei:occupation) then(
+                                                    jsonx:pair(
+                                                        jsonx:string("occupation"),
+                                                        jsonx:string(normalize-space($entry/tei:occupation[1]))
+                                                    )
+                                                ) else(),
+                                                if($entry/tei:birth) then(
+                                                    jsonx:pair(
+                                                        jsonx:string("birth"),
+                                                        jsonx:string(normalize-space($entry/tei:birth))
+                                                    )
+                                                ) else(),
+                                                if($entry/tei:death) then(
+                                                    jsonx:pair(
+                                                        jsonx:string("death"),
+                                                        jsonx:string(normalize-space($entry/tei:death))
+                                                    )
+                                                ) else(),
+                                                if($entry/tei:floruit) then(
+                                                    jsonx:pair(
+                                                        jsonx:string("floruit"),
+                                                        jsonx:string(normalize-space($entry/tei:floruit))
+                                                    )
+                                                ) else(),
+                                                if($entry/tei:bibl) then(
+                                                    jsonx:pair(
+                                                        jsonx:string("bibl"),
+                                                        jsonx:string(normalize-space($entry/tei:bibl))
+                                                    )
+                                                ) else(),
+                                                if ($collectionid) then(
+                                                    jsonx:pair(
+                                                        jsonx:string("collection"),
+                                                        jsonx:string(normalize-space($collectionid))
+                                                )
+                                            )else()
+                            ))
+                            )
+                        ))
+            let $setautocompletelist := session:set-attribute("_autocompletelist", $json)
+            return $json
+            )
+        else($beforelist)
+
+        return $result
+        }
+    </xrx:body>
+</xrx:service>
