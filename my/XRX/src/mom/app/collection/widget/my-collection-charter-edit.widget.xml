@@ -279,11 +279,6 @@
             <xrx:expression>xs:string('')</xrx:expression>
         </xrx:variable>
 
-        <!-- Autocomplete Variables -->
-        <xrx:variable>
-            <xrx:name>$personlistjson</xrx:name>
-            <xrx:expression>xmleditor:personlistautocompletejson()</xrx:expression>
-        </xrx:variable>
     </xrx:variables>
     <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/empty</xrx:portal>
     <xrx:init>
