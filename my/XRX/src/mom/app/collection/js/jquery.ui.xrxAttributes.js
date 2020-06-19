@@ -9,7 +9,6 @@
 
 (function ($, undefined) {
     
-    
     var uiMainDivId = "xrx-attributes";
     var uiTagnameDivClass = "forms-mixedcontent-attributes-tagname";
     var uiEditAttributesDivClass = "forms-mixedcontent-edit-attributes";
@@ -42,7 +41,8 @@
             suggestedAttributes: null,
             editedAttributes: null,
             cm: null,
-            token: null
+            token: null,
+            personjson: null
         },
         /* option properties get values from codemirror.mode.visualxml.js*/
         
@@ -117,8 +117,9 @@
             //droppableAttributeDiv = $('<div">&#160;</div>').addClass(uiDroppableAttributeDivClass),
             suggestedAttributesDiv = $('<div></div>').addClass(uiSuggestedAttributesDivClass),
             controlledVocButton = $('<div>Use Controlled Vocabulary:</div>').addClass('controlledVocabulary').css("text-align", "right");
-            
-            
+
+            //self._getListJson();
+
             /* a method to switch off/on the use of the controlled Vocabulary*/
             self._onoffButton(controlledVocButton, editedAttributes);
             
@@ -205,9 +206,29 @@
             });            
             
         },        
-        /*End of create function */    
-        
+        /*End of create function */
+
+
+
+
+
         _newEditAttribute: function (name, label, value) {
+
+
+            function getListJson (inputvalue, mode, inputfield){
+                var self = this;
+                var CollectionId = document.URL.split('/')[2];
+                $.ajax({
+                    url: "/mom/service/personlist-as-json",
+                    type: "GET",
+                    dataType: 'json',
+                    data: {'collectionid': CollectionId, 'searchterm': inputvalue, 'mode' : mode},
+                    success:function(data, textStatus, jqXHR)
+                    {
+                        createautocompletelist(inputvalue, mode, data, inputfield);
+                    }
+                });
+            }
           
         	controlledVocabularies = JSON.parse($("div.available-controlled-vocabularies").text());
         	/* the variable is needed in the case any controlled vocabulary was usedin or will be set in the indexName Attribute*/
@@ -227,6 +248,9 @@
             newEditAttributeTrash = $('<div><span class="ui-icon ui-icon-trash"/></div>').
             addClass(uiFormsTableCellClass);       
             $("select").removeClass("ui-menu");
+
+
+
            /* it has to be proofed if from the last use of the attribute widget,
                  * the user used the cv or not.
                  * so the editedAttributes values are compared with the controlledVocabularies
@@ -234,6 +258,7 @@
                  *               
                  * 
                */
+
             function backbone(attr){            	
                 if(attr.qName == "indexName")
                 {	
@@ -246,7 +271,7 @@
                     }
                 };              
             }
-            var vocabulartest = editedAttributes.find(backbone);                    
+            var vocabulartest = editedAttributes.find(backbone);
             
                if ((elementName == "cei:index") && ((name == "lemma") | (name == "indexName"))){            	  
             		   if(vocabulartest != undefined){
@@ -266,8 +291,6 @@
             
                 if ((controlledVoc == true) && ((name == "lemma") | (name == "indexName")))
                 {
-                                    	                               
-                                                                 
                         newEditAttributeLabel.hide();
                         newEditAttributeInput.hide();
                         newEditAttribute.append(newEditValuelabel).append(menuliste).append(newEditAttributeTrash);
@@ -276,11 +299,16 @@
                     }
                  else {
                     newEditAttribute.append(newEditAttributeLabel).append(newEditAttributeInput).append(newEditAttributeTrash);
+                    // add to inputfield autocompletefunctionality
+                    addAutocompletelist($(newEditAttributeInput), name,$('.xrx-tagname').text() )
                 }
                 }            
                       
             else {
                 newEditAttribute.append(newEditAttributeLabel).append(newEditAttributeInput).append(newEditAttributeTrash);
+                // add to inputfield autocompletefunctionality
+                addAutocompletelist($(newEditAttributeInput), name,$('.xrx-tagname').text() )
+
             }
             
             /* removed since firefox isnt able to display select correctly StMa */
@@ -308,17 +336,220 @@
                 var controlId = nodeset.only.levelId;
                 var relativeId = token.state.context.id.split('.').splice(1);
                 var contextId = controlId.concat(relativeId);                
-                $('.xrx-instance').xrxInstance().replaceAttributeValue(contextId, attributes);                           
+                $('.xrx-instance').xrxInstance().replaceAttributeValue(contextId, attributes);
+
                 
-                
-            });            
-            
+            });
+
+            /*Start of autocompletefunctionality
+            *  if inpufield == id in persname
+            * add function autocomplete. create a new <div> class="autocompeltelist. */
+            function addAutocompletelist(inputfield, attributename, fieldname){
+                    if (attributename === "id") {
+                        if (self.options.elementName === 'cei:persName') {
+                            $(newEditAttributeInput).after('<div class="autocompletelist"></div>');
+                            /*for each input in run autocompletefunctin and add keydown event
+                            * wenn input is keydown run scrollautocompletelist*/
+                            $(newEditAttributeInput).on('input', function (e) {
+                                autocomplete(this, self);
+                                if ($(this).hasClass("keydownevent") !== true) {
+                                    $(this).on('keydown', function (e) {
+                                        $(this).addClass("keydownevent");
+                                        scrollautocompletelist(e, $(newEditAttributeInput));
+                                    });
+                                }
+                            });
+                        }
+                    }
+            }
+
+            /*check if value of $(inputfield) is bigger then 3 characters. */
+            function autocomplete(inputfield){
+                var inputvalue = $(inputfield).val();
+                cleanautocompletelist();
+                if (inputvalue.length >=3) {
+                    /* if so check if value contains _ and then when length of value >= 5 run getListJson with mode = id
+                    */
+                    if (inputvalue.includes("_")){
+                        if(inputvalue.length >= 5) getListJson(inputvalue, "id", inputfield);
+                    }
+                    /*if value of inputfield is bigger then 3 but does not contain _ run getListJson with mode = name */
+                    else{ getListJson(inputvalue, "name", inputfield);}
+
+                }
+                else $(".autocompletelist:visible").toggle();
+
+            }
+
+            /*create list check if inputfield value matches  with entry in json if so run createautocompletelistitem to
+             create listitem */
+            function createautocompletelist(inputvalue, mode, autocompletearray, inputfield) {
+                $(".autocompletelist:hidden").toggle();
+                for (i = 0; i < autocompletearray.entries.length; i++) {
+                    var obj = autocompletearray.entries[i];
+                    if (mode === "id") var teststring = obj.id;
+                    else var teststring = obj.name;
+                    createautocompletelistitem(inputvalue, teststring, obj, inputfield, mode)
+                }
+            }
+
+            /*creates autocompletelistitems
+            * for each matching entry in json it calls the function createautocompletelistitemcontent*/
+            function createautocompletelistitem(inputvalue, teststring, obj, inputfield, mode) {
+                if (teststring.substring(0, inputvalue.length).toUpperCase() === inputvalue.toUpperCase()) {
+                    listitem = createautocompletelistitemcontent(inputvalue, teststring, obj, mode);
+                    $('.autocompletelist').show();
+                    $('.autocompletelist').append(listitem);
+                    /*ad hover funktion for selection with mouse */
+                    $(listitem).hover(function () {
+                            $(this).css("background-color", "#e9e9e9");
+                        },
+                        function () {
+                            $(this).css("background-color", "white");
+                        });
+                    /* after click on entry add personid into inputfield and delete autocompletelist */
+                    $(listitem).click(function () {
+                        var clickedtext = $(this).attr('key');
+                        $(inputfield).val(clickedtext);
+                        cleanautocompletelist();
+
+                        /*add content off inputfield to codemirror */
+                        if ($(inputfield).val().includes('&')) var text = $(inputfield).val().replace('&', '&amp;');
+                        else var text = $(inputfield).val();
+
+                        var attributes = new AttributesImpl();
+                        attributes.addAttribute(null, name, name, undefined, text);
+                        var nodeset = $(document).xrx.nodeset(cm.getInputField());
+                        var controlId = nodeset.only.levelId;
+                        var relativeId = token.state.context.id.split('.').splice(1);
+                        var contextId = controlId.concat(relativeId);
+                        $('.xrx-instance').xrxInstance().replaceAttributeValue(contextId, attributes);
+                        $(".autocompletelist").toggle();
+                        return $(inputfield).val();
+
+                    });
+                }
+            }
+
+            /*creates autocompletelist entrys from json with informationes about person like name, id related collection id */
+            function createautocompletelistitemcontent(inputvalue, teststring, obj, mode){
+                var autocompletelistitem = $('<div class="autocompletelistitem" key="' + obj.id + '"></div>');
+
+                var label = $('<span><strong>' + teststring.substr(0, inputvalue.length) + '</strong>'
+                              + teststring.substr(inputvalue.length)+'</span>');
+                $(autocompletelistitem).append(label);
+                var smallline = $('<div class="minid"></div>');
+
+                if(mode === "name") {
+                    var idlabel = $('<span>' + obj.id + ': </span');
+                    $(smallline).append(idlabel);
+                    }
+                else{
+                    var minname = $('<span>' + obj.name +': <span>');
+                    $(smallline).append(minname);
+                }
+                if(obj.hasOwnProperty('occupation')) {
+                    var occupation = $('<span> ' + obj.occupation + ';</span>');
+                    $(smallline).append(occupation);
+                }
+                if(obj.hasOwnProperty('birth')){
+                    var birth = $('<span> *' + obj.birth + ';</span>');
+                    $(smallline).append(birth);
+                }
+
+                if(obj.hasOwnProperty('death')){
+                    var birth = $('<span> ✝' + obj.death + ';</span>');
+                    $(smallline).append(birth);
+                }
+                if(obj.hasOwnProperty('collection')){
+                    var collection = $('<span> coll.:' + obj.collection + ';</span>');
+                    $(smallline).append(collection);
+                }
+                if(obj.hasOwnProperty('bibl')){
+                    var bibl = $('<div><span class="biblline"> ✝' + obj.bibl + ';</span></div>');
+                    $(smallline).append(bibl);
+                }
+                $(autocompletelistitem).append(smallline);
+
+                return autocompletelistitem
+            }
+
+            /*Scroll and selectionfunction for autocompleteliste */
+            function scrollautocompletelist(event, inputfield){
+                // for down
+                if (event.keyCode === 40){
+                    if($(".autocompletelistitem.focus").length==0){
+                        $(".autocompletelistitem").first().addClass("focus").css("background-color", "#e9e9e9");
+                    }
+                    else{
+                        if($(".autocompletelistitem.focus").next().is(".autocompletelistitem")){
+                            $(".autocompletelistitem.focus").next().addClass("focus").css("background-color", "#e9e9e9");
+                            $(".autocompletelistitem.focus").first().removeClass("focus").css("background-color", "white");
+                        }
+                        else {
+                            $(".autocompletelistitem.focus").removeClass("focus").css("background-color", "white");
+                            $(".autocompletelistitem").first().addClass("focus");
+                        }
+                    }
+                }
+                // for up
+                else if(event.keyCode === 38) {
+                    if ($(".autocompletelistitem.focus").length == 0) {
+                        $(".autocompletelistitem").last().addClass("focus").css("background-color", "#e9e9e9");
+                    } else {
+                        if ($(".autocompletelistitem.focus").prev().is(".autocompletelistitem")) {
+                            $(".autocompletelistitem.focus").prev().addClass("focus").css("background-color", "#e9e9e9");
+                            $(".autocompletelistitem.focus").last().removeClass("focus").css("background-color", "white");
+                        } else {
+                            $(".autocompletelistitem.focus").removeClass("focus").css("background-color", "white");
+                            $(".autocompletelistitem").last().addClass("focus");
+                        }
+                    }
+                }
+                // for Enter copy selected item to inputfield and inputfieldcontentn to codemirror
+                else if(event.keyCode === 13) {
+                    if ($(".autocompletelistitem.focus").length != 0) {
+                        var selectedtext = $(".autocompletelistitem.focus").attr("key");
+                        $(inputfield).val(selectedtext);
+                        cleanautocompletelist();
+
+                        if ($(inputfield).val().includes('&')){
+                            var text = $(inputfield).val().replace('&', '&amp;');
+                        }
+                        else{
+                            var text = $(inputfield).val();
+                        }
+                        var attributes = new AttributesImpl();
+                        attributes.addAttribute(null, name, name, undefined, text);
+                        var nodeset = $(document).xrx.nodeset(cm.getInputField());
+                        var controlId = nodeset.only.levelId;
+                        var relativeId = token.state.context.id.split('.').splice(1);
+                        var contextId = controlId.concat(relativeId);
+                        $('.xrx-instance').xrxInstance().replaceAttributeValue(contextId, attributes);
+
+                    }
+                    $(".autocompletelist").toggle();
+
+                }
+            }
+
+            /*remove all childs of autocomplete list. */
+            function cleanautocompletelist(){
+                var listitems = $(".autocompletelistitem");
+                for (var i=0; i<listitems.length; i++){
+                    listitems[i].remove();
+                }
+
+            }
+
+
+
             /* Defining the SELECT box:
              * function to set the options in the select box.
              * The function deals with the values from the json-object.             *             
              * In the 'newli' variable the option elements with the possible values
              * are appended to 'menuliste'.*/
-            
+
             function setoptioninSelect(name) {
 
             	var lemmawert;

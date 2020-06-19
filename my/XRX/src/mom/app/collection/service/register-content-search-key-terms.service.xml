@@ -39,7 +39,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     <xrx:init>
         <xrx:processor>
             <xrx:translateflag>false</xrx:translateflag>
-                 <xrx:serializeas>method=text media-type=text/plain</xrx:serializeas>   
+            <xrx:serializeas>method=text media-type=text/plain</xrx:serializeas>
         </xrx:processor>
     </xrx:init>
   <xrx:body>
