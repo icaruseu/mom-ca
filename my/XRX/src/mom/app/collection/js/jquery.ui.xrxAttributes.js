@@ -346,7 +346,7 @@
             * add function autocomplete. create a new <div> class="autocompeltelist. */
             function addAutocompletelist(inputfield, attributename, fieldname){
                     if (attributename === "id") {
-                        if (fieldname === 'person name') {
+                        if (self.options.elementName === 'cei:persName') {
                             $(newEditAttributeInput).after('<div class="autocompletelist"></div>');
                             /*for each input in run autocompletefunctin and add keydown event
                             * wenn input is keydown run scrollautocompletelist*/
