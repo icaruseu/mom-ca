@@ -782,6 +782,10 @@
                             </xs:element>
                             <xs:element ref="p"/>
                             <!--Erweiterung-->
+                            <xs:element ref="note"/>
+                            <!--Erweiterung-->
+                            <xs:element ref="hi"/>
+                            <!--Erweiterung-->
                         </xs:choice>
                         <xs:attributeGroup ref="certainty"/>
                         <xs:attribute name="type" type="xs:anySimpleType" use="optional"/>
@@ -838,6 +842,8 @@
                                             <xs:element ref="bibl"/>
                                         </xs:choice>
                                     </xs:choice>
+                                    <xs:attribute name="type"/>
+                                    <!--Erweiterung-->
                                     <xs:attributeGroup ref="standard"/>
                                 </xs:complexType>
                             </xs:element>
@@ -949,8 +955,8 @@
                             <xs:element ref="quoteOriginaldatierung"/>
                             <xs:element ref="nota"/>
                             <xs:element ref="rubrum"/>
-                            <xs:element ref="divNotes"/>
                             <xs:element ref="incipit"/>
+                            <xs:element ref="divNotes"/>
                         </xs:choice>
                         <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
@@ -1163,12 +1169,15 @@
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="add"/>
+                <xs:element ref="c"/>
                 <xs:element ref="expan"/>
                 <xs:element ref="lb"/>
                 <xs:element ref="hi"/>
                 <xs:element ref="sic"/>
                 <xs:element ref="seg"/>
                 <xs:element ref="space"/>
+                <xs:element ref="supplied"/>
             </xs:choice>
             <xs:attribute name="id"/>
             <xs:attribute name="note"/>
@@ -1186,6 +1195,7 @@
     <xs:element name="seg">
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="c"/>
                 <xs:element ref="expan"/>
                 <xs:element ref="hi"/>
                 <xs:element ref="damage"/>
@@ -2136,6 +2146,10 @@
                 <xs:group ref="Sachliches"/>
                 <xs:group ref="Formular"/>
                 <xs:element ref="pTenor"/>
+                <xs:element ref="figure"/>
+                <!--Erweiterung-->
+                <xs:element name="graphic"/>
+                <!--Erweiterung-->
             </xs:choice>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -3096,6 +3110,16 @@
                             <!--Erweiterung-->
                             <xs:element ref="foreign"/>
                             <!--Erweiterung-->
+                            <xs:element ref="num"/>
+                            <!--Erweiterung-->
+                            <xs:element ref="sic"/>
+                            <!--Erweiterung-->
+                            <xs:element ref="space"/>
+                            <!--Erweiterung-->
+                            <xs:element ref="handShift"/>
+                            <!--Erweiterung-->
+                            <xs:element ref="del"/>
+                            <!--Erweiterung-->
                             <xs:group ref="biblArch"/>
                             <xs:group ref="layout"/>
                             <xs:group ref="reference"/>
@@ -3106,6 +3130,8 @@
                         <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
                 </xs:element>
+                <xs:element minOccurs="0" ref="note"/>
+                <!--Erweiterung-->
             </xs:sequence>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -3138,6 +3164,7 @@
                 <xs:element ref="pb"/>
                 <xs:element ref="add"/>
                 <xs:element ref="supplied"/>
+                <!--Erweiterung-->
                 <xs:element ref="corr"/>
                 <xs:element ref="sic"/>
                 <xs:element ref="damage"/>
@@ -3182,6 +3209,8 @@
                 <xs:element ref="add"/>
                 <xs:element ref="supplied"/>
                 <xs:element ref="handShift"/>
+                <xs:element ref="w"/>
+                <!--Erweiterung-->
                 <xs:group ref="Referenz"/>
             </xs:choice>
             <xs:attribute name="corr">
@@ -3345,6 +3374,12 @@
                 <xs:element ref="w"/>
                 <!--Erweiterung-->
                 <xs:element ref="pc"/>
+                <!--Erweiterung-->
+                <xs:element ref="space"/>
+                <!--Erweiterung-->
+                <xs:element ref="hi"/>
+                <!--Erweiterung-->
+                <xs:element ref="figure"/>
                 <!--Erweiterung-->
                 <xs:group ref="Sachauszeichnung"/>
                 <xs:group ref="Referenz"/>
@@ -3547,6 +3582,10 @@
                 und Verarbeitung ist in der encodingDesc zu beschreiben. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="expan"/>
+                <!--Erweiterung-->
+            </xs:choice>
             <xs:attributeGroup ref="type">
                 <xs:annotation>
                     <xs:documentation xml:lang="deu"> Der Name des Zeichens, wie er in der
@@ -3729,6 +3768,8 @@
                 <xs:element ref="bibl"/>
                 <xs:element ref="archIdentifier"/>
                 <xs:element ref="msIdentifier"/>
+                <xs:element ref="p"/>
+                <!--Erweiterung-->
             </xs:choice>
             <xs:attribute name="place"/>
             <xs:attributeGroup ref="id"/>
@@ -4123,6 +4164,16 @@
                 <!--Erweiterung-->
                 <xs:element ref="pc"/>
                 <!--Erweiterung-->
+                <xs:element ref="hi"/>
+                <!--Erweiterung-->
+                <xs:element ref="space"/>
+                <!--Erweiterung-->
+                <xs:element ref="add"/>
+                <!--Erweiterung-->
+                <xs:element ref="app"/>
+                <!--Erweiterung-->
+                <xs:element ref="lb"/>
+                <!--Erweiterung-->
             </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="value"/>
@@ -4389,6 +4440,8 @@
                     <xs:element ref="persName"/>
                     <xs:element ref="placeName"/>
                     <xs:element ref="geogName"/>
+                    <xs:element ref="orgName"/>
+                    <!--Erweiterung-->
                 </xs:choice>
                 <xs:element ref="foreign"/>
                 <xs:element ref="note"/>
@@ -4781,6 +4834,10 @@
                 <!--Erweiterung-->
                 <xs:element ref="persName"/>
                 <!--Erweiterung-->
+                <xs:element ref="forename"/>
+                <!--Erweiterung-->
+                <xs:element ref="orgName"/>
+                <!--Erweiterung-->
                 <xs:group ref="Originalbefund"/>
             </xs:choice>
             <xs:attributeGroup ref="key"/>
@@ -4816,6 +4873,8 @@
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element ref="foreign"/>
                 <xs:element ref="note"/>
+                <xs:element ref="placeName"/>
+                <!--Erweiterung-->
                 <xs:group ref="Originalbefund"/>
             </xs:choice>
             <xs:attributeGroup ref="geog"/>
@@ -4965,6 +5024,12 @@
                 <xs:element ref="foreign"/>
                 <xs:element ref="note"/>
                 <!--Erweiterung-->
+                <xs:element ref="persName"/>
+                <!--Erweiterung-->
+                <xs:element ref="placeName"/>
+                <!--Erweiterung-->
+                <xs:element ref="orgName"/>
+                <!--Erweiterung-->
                 <xs:element ref="quote"/>
                 <xs:group ref="Referenz"/>
                 <xs:group ref="BibliographicInformation"/>
@@ -4972,6 +5037,8 @@
             <xs:attribute name="status"/>
             <!--Erweiterung-->
             <xs:attribute name="type"/>
+            <!--Erweiterung-->
+            <xs:attribute name="sameAs"/>
             <!--Erweiterung-->
             <xs:attributeGroup ref="key"/>
             <xs:attributeGroup ref="lang"/>
