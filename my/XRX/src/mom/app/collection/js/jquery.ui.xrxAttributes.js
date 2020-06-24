@@ -345,7 +345,7 @@
             *  if inpufield == id in persname
             * add function autocomplete. create a new <div> class="autocompeltelist. */
             function addAutocompletelist(inputfield, attributename, fieldname){
-                    if (attributename === "id") {
+                    if (attributename === "key") {
                         if (self.options.elementName === 'cei:persName') {
                             $(newEditAttributeInput).after('<div class="autocompletelist"></div>');
                             /*for each input in run autocompletefunctin and add keydown event
@@ -433,7 +433,7 @@
 
             /*creates autocompletelist entrys from json with informationes about person like name, id related collection id */
             function createautocompletelistitemcontent(inputvalue, teststring, obj, mode){
-                var autocompletelistitem = $('<div class="autocompletelistitem" key="' + obj.id + '"></div>');
+                var autocompletelistitem = $('<div class="autocompletelistitem" key="' +obj.collection+":"+obj.id + '"></div>');
 
                 var label = $('<span><strong>' + teststring.substr(0, inputvalue.length) + '</strong>'
                               + teststring.substr(inputvalue.length)+'</span>');
