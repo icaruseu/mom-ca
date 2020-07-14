@@ -450,7 +450,7 @@ declare function search:filter-result($result, $map) {
            else
                ft:score($charter)
        return $charter
-      else return $result
+      else $result
 
     return
     $return
