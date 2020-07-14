@@ -433,20 +433,27 @@ declare function search:set-hits-filtered($result-unique, $count) {
 
 
 declare function search:filter-result($result, $map) {
-    for $charter in ($result except
-        (for $ex in search:categories-excluded()
-        return 
-            map:get($map, $ex)/ancestor::cei:text)) intersect
-            ((for $in in search:categories-included()
-            return
-                map:get($map, $in)/ancestor::cei:text))
-    order by 
-        if($search:sort = 'date') then
-             ($charter//cei:date/@value, $charter//cei:dateRange/@from, $charter//cei:dateRange/@to)[1]
-        else
-            ft:score($charter)
+   (: get excluded categories; just proceed if exclusions are there :)
+   let $excl := search:categories-excluded()
+   let $result :=
+     if(count($excl) > 0) then
+       for $charter in ($result except
+           (for $ex in search:categories-excluded()
+           return 
+               map:get($map, $ex)/ancestor::cei:text)) intersect
+               ((for $in in search:categories-included()
+               return
+                   map:get($map, $in)/ancestor::cei:text))
+       order by 
+           if($search:sort = 'date') then
+                ($charter//cei:date/@value, $charter//cei:dateRange/@from, $charter//cei:dateRange/@to)[1]
+           else
+               ft:score($charter)
+       return $charter
+      else return $result
+
     return
-    $charter
+    $return
 };
 
 
