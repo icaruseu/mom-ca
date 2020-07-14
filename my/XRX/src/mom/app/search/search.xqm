@@ -435,7 +435,7 @@ declare function search:set-hits-filtered($result-unique, $count) {
 declare function search:filter-result($result, $map) {
    (: get excluded categories; just proceed if exclusions are there :)
    let $excl := search:categories-excluded()
-   let $result :=
+   let $return :=
      if(count($excl) > 0) then
        for $charter in ($result except
            (for $ex in search:categories-excluded()
