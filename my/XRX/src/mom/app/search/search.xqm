@@ -436,6 +436,8 @@ declare function search:filter-result($result, $map) {
     
     (: just work with excluded categories when they are provided
     ~ otherwise just return ordered charters
+    ~ search:categories-excluded gets all categories, which arent selected by the user.
+    ~ By except/intersect those categories are filtered out of the resultset.
     :)
     let $excl := search:categories-excluded()
     let $return := 
