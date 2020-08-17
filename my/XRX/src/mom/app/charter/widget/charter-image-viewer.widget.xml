@@ -327,12 +327,13 @@ img#aus {{
           <div data-demoid="f52d37ea-4440-40a3-8ea5-8f0e429f550f" id="change-image-links">
 						{
 						for $img-url at $num in $wcharter-image-viewer:img-urls
+		  				let $trimmed := replace(replace($img-url,'\s+$',''),'^\s+','')
 						return
 						if($charter:rarchiveid != 'DE-LABW') then
 						  if ($num = 1) then
-						  <a class="imageLink" title="{$img-url}" href="javascript:changeImage('{ $img-url }', '{$num}')" id="gelb">{ $num }</a>
+						  <a class="imageLink" title="{$trimmed}" href="javascript:changeImage('{ $trimmed }', '{$num}')" id="gelb">{ $num }</a>
 						  else (
-						  <a class="imageLink" title="{$img-url}" href="javascript:changeImage('{ $img-url }', '{$num}')" id="schwarz">{ $num }</a>
+						  <a class="imageLink" title="{$trimmed}" href="javascript:changeImage('{ $trimmed }', '{$num}')" id="schwarz">{ $num }</a>
 						  )
 						
 						else()
