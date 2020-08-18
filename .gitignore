@@ -1,4 +1,7 @@
 *.iml
 .idea
 .vscode
+.vim
 .travis.yml
+.env
+*.override.yml
