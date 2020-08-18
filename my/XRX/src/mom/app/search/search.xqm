@@ -433,20 +433,39 @@ declare function search:set-hits-filtered($result-unique, $count) {
 
 
 declare function search:filter-result($result, $map) {
-    for $charter in ($result except
-        (for $ex in search:categories-excluded()
-        return 
-            map:get($map, $ex)/ancestor::cei:text)) intersect
-            ((for $in in search:categories-included()
+    
+    (: just work with excluded categories when they are provided
+    ~ otherwise just return ordered charters
+    ~ search:categories-excluded gets all categories, which arent selected by the user.
+    ~ By except/intersect those categories are filtered out of the resultset.
+    :)
+    let $excl := search:categories-excluded()
+    let $return := 
+        if(count($excl) > 0) then
+            for $charter in ($result except
+                (for $ex in $excl
+                return 
+                    map:get($map, $ex)/ancestor::cei:text)) intersect
+                    ((for $in in search:categories-included()
+                    return
+                        map:get($map, $in)/ancestor::cei:text))
+            order by 
+                if($search:sort = 'date') then
+                     ($charter//cei:date/@value, $charter//cei:dateRange/@from, $charter//cei:dateRange/@to)[1]
+                else
+                    ft:score($charter)
             return
-                map:get($map, $in)/ancestor::cei:text))
-    order by 
-        if($search:sort = 'date') then
-             ($charter//cei:date/@value, $charter//cei:dateRange/@from, $charter//cei:dateRange/@to)[1]
-        else
-            ft:score($charter)
-    return
-    $charter
+            $charter
+         else 
+             for $charter in $result
+                order by 
+                    if($search:sort = 'date') then
+                         ($charter//cei:date/@value, $charter//cei:dateRange/@from, $charter//cei:dateRange/@to)[1]
+                    else
+                        ft:score($charter)
+                    return
+                    $charter
+    return $return
 };
 
 

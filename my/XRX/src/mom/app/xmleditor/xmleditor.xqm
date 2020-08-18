@@ -142,11 +142,11 @@ declare function xmleditor:validation-report($instance as element()) {
                 jsonx:string("messages"),
                 jsonx:object(
                     for $message in $report/message
-                    let $nodeId := $message/@nodeId/string()
+                    let $column := $message/@column/string()
                     let $text := xmleditor:validation-report-message(xs:string($message/text()))
                     return
                     jsonx:pair(
-                        jsonx:string($nodeId),
+                        jsonx:string($column),
                         jsonx:array(
                                 for $entry in $text
                                     let $returner := $entry
