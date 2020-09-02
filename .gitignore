@@ -5,3 +5,4 @@
 .travis.yml
 .env
 *.override.yml
+test/
