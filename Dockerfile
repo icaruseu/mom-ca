@@ -11,7 +11,7 @@ ARG BACKUP_TRIGGER='0 0 4 * * ?'
 ARG CACHE_SIZE=256
 ARG COLLECTION_CACHE=256
 ARG HTTPS_PORT=8443
-ARG HTTP_PORT=8080
+ARG HTTP_PORT=8181
 ARG INIT_MEMORY=256
 ARG LUCENE_BUFFER=256
 ARG MAIL_DOMAIN
@@ -77,8 +77,7 @@ RUN ant install &&\
 
 VOLUME /opt/momca/mom.XRX-data
 
-RUN mkdir -p /tmp/restore &&\
-  mkdir -p /opt/momca/mom.XRX-data/export &&\
+RUN mkdir -p /opt/momca/mom.XRX-data/export &&\
   mkdir -p /opt/momca/mom.XRX/localhost/webapp/WEB-INF/logs
 
 ENV EXIST_HOME=/opt/momca/mom.XRX/localhost
@@ -140,16 +139,16 @@ RUN if ${USE_SSL}; then \
   fi
 
 RUN echo 'cd /opt/momca/mom.XRX' >> /usr/local/bin/docker-entrypoint.sh &&\
-  echo './localhost/bin/startup.sh &' >> /usr/local/bin/docker-entrypoint.sh &&\
-  # TODO: Add step to recompile the the xrx project in the database from the sources in the image to update the actual web-app in mom.XRX-data
-  # echo 'ant sleep-until-started' >> /usr/local/bin/docker-entrypoint.sh &&\
+  echo 'ant start' >> /usr/local/bin/docker-entrypoint.sh &&\
+  echo 'ant sleep-until-started' >> /usr/local/bin/docker-entrypoint.sh &&\
+  echo 'curl -s http://localhost:${HTTP_PORT}/mom/home > /dev/null' >> /usr/local/bin/docker-entrypoint.sh &&\
   # echo 'ant compile-xrx-project' >> /usr/local/bin/docker-entrypoint.sh &&\
-  echo 'tail -f ./localhost/webapp/WEB-INF/logs/exist.log' >> /usr/local/bin/docker-entrypoint.sh &&\
+  echo 'tail -f ./localhost/webapp/WEB-INF/logs/exist.log -f ./localhost/webapp/WEB-INF/logs/xmlrpc.log -f ./localhost/webapp/WEB-INF/logs/restxq.log' >> /usr/local/bin/docker-entrypoint.sh &&\
   chmod +x /usr/local/bin/docker-entrypoint.sh
 
 EXPOSE ${HTTP_PORT} ${HTTPS_PORT}
 
 HEALTHCHECK --interval=5m --timeout=3s \
-  CMD curl -f http://localhost:${HTTP_PORT}/ || exit 1
+  CMD curl -f http://localhost:${HTTP_PORT}/mom/home || exit 1
 
 ENTRYPOINT ["docker-entrypoint.sh"]
