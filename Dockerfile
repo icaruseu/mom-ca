@@ -144,8 +144,8 @@ RUN if ${USE_SSL}; then \
 
 RUN echo 'cd /opt/momca/mom.XRX' >> /usr/local/bin/docker-entrypoint.sh &&\
   echo 'ant start' >> /usr/local/bin/docker-entrypoint.sh &&\
-  echo 'ant sleep-until-started' >> /usr/local/bin/docker-entrypoint.sh &&\
-  echo 'curl -s http://localhost:${HTTP_PORT}/mom/home > /dev/null' >> /usr/local/bin/docker-entrypoint.sh &&\
+  # echo 'ant sleep-until-started' >> /usr/local/bin/docker-entrypoint.sh &&\
+  # echo 'curl -s http://localhost:${HTTP_PORT}/mom/home > /dev/null' >> /usr/local/bin/docker-entrypoint.sh &&\
   # echo 'ant compile-xrx-project' >> /usr/local/bin/docker-entrypoint.sh &&\
   echo 'tail -f ./localhost/webapp/WEB-INF/logs/exist.log -f ./localhost/webapp/WEB-INF/logs/xmlrpc.log -f ./localhost/webapp/WEB-INF/logs/restxq.log -f /var/log/msmtp/msmtp.log' >> /usr/local/bin/docker-entrypoint.sh &&\
   chmod +x /usr/local/bin/docker-entrypoint.sh
