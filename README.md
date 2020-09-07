@@ -39,7 +39,7 @@ MOM-CA is based on [eXist-db](http://exist-db.org), an XML database and applicat
 
 ### Prerequisites
 
-- A server with docker installed. While windows should be possible it is preferrable to use a Linux server or the [Windows Subsystem for Linux (WSL2)](https://docs.docker.com/docker-for-windows/wsl/).
+- A server with docker installed. While Windows should be OK it is preferrable to use a Linux server or the [Windows Subsystem for Linux (WSL2)](https://docs.docker.com/docker-for-windows/wsl/).
 
 
 ### Build configuration
