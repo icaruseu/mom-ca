@@ -73,6 +73,9 @@ RUN rm build.properties.xml &&\
   echo '</XRX>' >> build.properties.xml
 
 RUN ant install &&\
+  ant start &&\
+  ant sleep-until-started &&\
+  ant initialize-new-database &&\
   ant stop
 
 VOLUME /opt/momca/mom.XRX-data
@@ -107,6 +110,7 @@ RUN ln -s /usr/bin/msmtp /usr/sbin/sendmail &&\
 # Logrotate
 
 RUN mkdir /var/log/msmtp &&\
+  touch /var/log/msmtp/msmtp.log &&\
   touch /etc/logrotate.d/msmtp &&\
   echo "/var/log/msmtp/*.log {" >> /etc/logrotate.d/msmtp &&\
   echo "rotate 12" >> /etc/logrotate.d/msmtp &&\
@@ -143,7 +147,7 @@ RUN echo 'cd /opt/momca/mom.XRX' >> /usr/local/bin/docker-entrypoint.sh &&\
   echo 'ant sleep-until-started' >> /usr/local/bin/docker-entrypoint.sh &&\
   echo 'curl -s http://localhost:${HTTP_PORT}/mom/home > /dev/null' >> /usr/local/bin/docker-entrypoint.sh &&\
   # echo 'ant compile-xrx-project' >> /usr/local/bin/docker-entrypoint.sh &&\
-  echo 'tail -f ./localhost/webapp/WEB-INF/logs/exist.log -f ./localhost/webapp/WEB-INF/logs/xmlrpc.log -f ./localhost/webapp/WEB-INF/logs/restxq.log' >> /usr/local/bin/docker-entrypoint.sh &&\
+  echo 'tail -f ./localhost/webapp/WEB-INF/logs/exist.log -f ./localhost/webapp/WEB-INF/logs/xmlrpc.log -f ./localhost/webapp/WEB-INF/logs/restxq.log -f /var/log/msmtp/msmtp.log' >> /usr/local/bin/docker-entrypoint.sh &&\
   chmod +x /usr/local/bin/docker-entrypoint.sh
 
 EXPOSE ${HTTP_PORT} ${HTTPS_PORT}
