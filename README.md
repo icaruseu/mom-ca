@@ -88,4 +88,4 @@ Whenever the MOM-CA source code is changed, either by pulling changes and buildi
 
 `docker exec -it momca ant compile-xrx-project`
 
-**DISCLAIMER: Due to the nature this can be somewhat unreliable and sometimes has to be done multiple times (until it works) ¯\\\_(ツ)\_/¯**
+**DISCLAIMER: Due to the nature of MOM-CA this can be somewhat unreliable and sometimes has to be done multiple times (until it works) ¯\\\_(ツ)\_/¯**
