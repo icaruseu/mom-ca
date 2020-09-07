@@ -23,12 +23,12 @@ services:
         SMTP_URL: ${SMTP_URL}
         USE_SSL: ${USE_SSL:-false}
     environment:
-        HTTP_PORT: ${HTTP_PORT:-8080}
+        HTTP_PORT: ${HTTP_PORT:-8181}
     volumes:
       - data:/opt/momca/mom.XRX-data
       - ./my:/opt/momca/mom.XRX/my
     ports: 
-      - "${HTTP_PORT:-8080}:${HTTP_PORT:-8080}"
+      - "${HTTP_PORT:-8181}:${HTTP_PORT:-8181}"
       - "${HTTPS_PORT:-8443}:${HTTPS_PORT:-8443}"
     container_name: momca
     restart: always
