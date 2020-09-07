@@ -25,8 +25,9 @@ MOM-CA is based on [eXist-db](http://exist-db.org), an XML database and applicat
 2. Adapt [`build.properties.xml`](./build.properties.xml) to your needs ([details](https://github.com/icaruseu/mom-ca/wiki/Configuration)).
 3. Build the software by using `ant install` in `mom.XRX`
 4. Start MOM-CA by using `ant start`. It will be reachable under `localhost:8181` by default or with the port chosen by you in step #2.
-5. You can log into the database with the user `admin` in combination with the password chosen by you in step #2.
-6. Stop MOM-CA by using `ant stop`.
+5. You can restore a backup by using `ant restore-backup -Dbackup=[PATH_TO_BACKUP_FILE]`
+6. In case you don't want to restore a backup you have to initialize the database and admin user account by using `ant initialize-new-database`.
+7. Stop MOM-CA by using `ant stop`.
 
 ## Running with Docker
 
@@ -34,7 +35,7 @@ MOM-CA is based on [eXist-db](http://exist-db.org), an XML database and applicat
 
 - The database content is defined as a volume and is defined in the included `docker-compose.yml` as the `data` volume.
 - The `./my` folder is mounted into the container to direct changes to the source code easily possible. Changes still have to be compiled to be visible *inside* the database.
-- The included `docker-compose.yml` can be extended by using [multiple configuration files](https://docs.docker.com/compose/extends/#multiple-compose-files)e
+- The included `docker-compose.yml` can be extended by using [multiple configuration files](https://docs.docker.com/compose/extends/#multiple-compose-files).
 - An admin user with the password specified in the environment parameters will be created in the image
 - The system will be accessible at localhost:8181 (or using the configured port). To be reachable outside of the host system, a reverse proxy like nginx or traefik has to be configured.
 
