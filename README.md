@@ -105,7 +105,7 @@ To enable the use of this files, the `USE_SSL` Environment parameter needs to be
 
 The following shows a valid override file for MOM-CA using Traefik 2:
 
-```
+```yml
 version: '3'
 
 services:
