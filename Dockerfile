@@ -138,7 +138,7 @@ RUN echo '#!/bin/bash' >> /usr/local/bin/docker-entrypoint.sh &&\
 RUN if ${USE_SSL}; then \
   echo 'cd /opt/momca' >> /usr/local/bin/docker-entrypoint.sh ; \
   echo 'keytool -genkey -keystore ./mom.XRX/localhost/tools/jetty/etc/KeyStore.jks -keyalg RSA -keysize 2048 -alias app -dname "cn=Unknown, ou=Unknown, o=Unknown, c=Unknown" -storepass '"${PASSWORD}"' -keypass '"${PASSWORD}" >> /usr/local/bin/docker-entrypoint.sh ; \
-  echo 'openssl pkcs12 -export -nodes -out keystore.pkcs12 -in ./ssl/fullchain.pem -inkey ./ssl/privkey.pem -passout pass:'"${PASSWORD}" >> /usr/local/bin/docker-entrypoint.sh ; \
+  echo 'openssl pkcs12 -export -nodes -out keystore.pkcs12 -in ./ssl/certificate.crt -inkey ./ssl/privatekey.key -passout pass:'"${PASSWORD}" >> /usr/local/bin/docker-entrypoint.sh ; \
   echo 'keytool -importkeystore -srckeystore keystore.pkcs12 -srcstoretype PKCS12 -destkeystore ./mom.XRX/localhost/tools/jetty/etc/KeyStore.jks -storepass '"${PASSWORD}"'  -srcstorepass '"${PASSWORD}"' -noprompt' >> /usr/local/bin/docker-entrypoint.sh ; \
   fi
 
@@ -152,7 +152,7 @@ RUN echo 'cd /opt/momca/mom.XRX' >> /usr/local/bin/docker-entrypoint.sh &&\
 
 EXPOSE ${HTTP_PORT} ${HTTPS_PORT}
 
-HEALTHCHECK --interval=5m --timeout=3s \
+HEALTHCHECK --interval=1m --timeout=10s \
   CMD curl -f http://localhost:${HTTP_PORT}/mom/home || exit 1
 
 ENTRYPOINT ["docker-entrypoint.sh"]

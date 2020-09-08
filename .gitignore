@@ -6,3 +6,5 @@
 .env
 *.override.yml
 test/
+full*.zip
+inc*.zip

@@ -90,3 +90,51 @@ Whenever the MOM-CA source code is changed, either by pulling changes and buildi
 `docker exec -it momca ant compile-xrx-project`
 
 **DISCLAIMER: Due to the nature of MOM-CA this can be somewhat unreliable and sometimes has to be done multiple times (until it works) ¯\\\_(ツ)\_/¯**
+
+### Enable HTTPS
+
+If so desired, the docker can be used in combination with a router like [Traefik](https://docs.traefik.io/) to enable HTTPS connection. To do this, the `docker-compose.yml` file has to be modified or a `docker-compose.override.yml` has to be created next to the main compose file. In addition to the specific setup needed to serve the content from the MOM-CA container (Traefik needs specific *Labels* to create a configuration for the container) valid key files need to be mounted at a specific location of the container:
+
+- `[PATH_TO_CERTIFICATE.crt]:/opt/momca/ssl/certificate.crt:ro`
+- `[PATH_TO_PRIVATE_KEY.key]:/opt/momca/ssl/privatekey.key:ro`
+
+To enable the use of this files, the `USE_SSL` Environment parameter needs to be set to `true`.
+
+*Note: this certificates will be embedded into MOM-CA on each container start so if the certificate needs to be renewed the container needs to be restarted for the new certificate to be used.*
+
+
+The following shows a valid override file for MOM-CA using Traefik 2:
+
+```
+version: '3'
+
+services:
+
+  momca:
+    volumes:
+      - /ssl/momca.example.com/certificate.crt:/opt/momca/ssl/certificate.crt:ro
+      - /ssl/momca.example.com/privatekey.key:/opt/momca/ssl/privatekey.key:ro
+    networks:
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.momca.entrypoints=http
+      - traefik.http.routers.momca.rule=Host(`momca.example.com`)
+      - traefik.http.middlewares.momca-https-redirect.redirectscheme.scheme=https
+      - traefik.http.routers.momca.middlewares=momca-https-redirect
+      - traefik.http.routers.momca-secure.entrypoints=https
+      - traefik.http.routers.momca-secure.rule=Host(`momca.example.com`)
+      - traefik.http.routers.momca-secure.tls=true
+      - traefik.http.routers.momca-secure.tls.certresolver=http
+      - traefik.http.routers.momca-secure.service=momca
+      - traefik.http.services.momca.loadbalancer.server.port=8181
+      - traefik.docker.network=traefik
+
+networks:
+  traefik:
+    external: true
+```
+
+### Email
+
+For a live server it is advisable to configure an smtp server so that MOM-CA can send notification emails. This can be achieved by setting the appropriate .env parameters (see above).
