@@ -34,7 +34,7 @@ MOM-CA is based on [eXist-db](http://exist-db.org), an XML database and applicat
 ### Notes
 
 - The database content is defined as a volume and is defined in the included `docker-compose.yml` as the `data` volume.
-- The `./my` folder is mounted into the container to direct changes to the source code easily possible. Changes still have to be compiled to be visible *inside* the database.
+- The `./my` folder is mounted into the container to make direct changes to the source code easily possible. Changes still have to be compiled to be visible *inside* the database.
 - The included `docker-compose.yml` can be extended by using [multiple configuration files](https://docs.docker.com/compose/extends/#multiple-compose-files).
 - An admin user with the password specified in the environment parameters will be created in the image
 - The system will be accessible at localhost:8181 (or using the configured port). To be reachable outside of the host system, a reverse proxy like nginx or traefik has to be configured.
