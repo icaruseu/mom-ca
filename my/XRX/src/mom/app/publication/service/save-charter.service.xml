@@ -64,7 +64,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 	  </xrx:saved>
 	  
 	  (: some userfiles couldnt be loaded: had to be reloaded :)
-	  let $user-xml := user:document(xmldb:get-current-user())
+	  let $user-xml := user:document(sm:id()//sm:username/text())
 	  let $updated := upd:insert-into-as-first($user-xml//xrx:saved_list,$saved)
 	    
 	  (: make a copy of the charter if it isn't in use already :)

@@ -250,7 +250,7 @@ declare function search:i18n-category-name($category) {
 
 declare function search:compile-categories-map($result) {
 
-    map:new(
+    map(
         for $category in search:categories()
         let $query-string := concat("$result/root()//", $category, "[ft:query(., '", $search:q, "', $search:options)]", 
                               if($search:annotations = 'true') then "[@facs or ./descendant::node()/@facs]" else())

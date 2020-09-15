@@ -137,7 +137,7 @@ declare function publication:model($request-root as xs:string) as element() {
             <xf:action ev:event="xforms-submit-error"><xf:message level="ephemeral">ERROR</xf:message></xf:action>
             <xf:header>
               <xf:name>userid</xf:name>
-              <xf:value>{ xmldb:get-current-user() }</xf:value>
+              <xf:value>{ sm:id()//sm:username/text() }</xf:value>
             </xf:header>
         </xf:submission>
         
@@ -147,7 +147,7 @@ declare function publication:model($request-root as xs:string) as element() {
             replace="none">
             <xf:header>
               <xf:name>userid</xf:name>
-              <xf:value>{ xmldb:get-current-user() }</xf:value>
+              <xf:value>{ sm:id()//sm:username/text() }</xf:value>
             </xf:header>
         </xf:submission>
         
@@ -157,7 +157,7 @@ declare function publication:model($request-root as xs:string) as element() {
             replace="none">
             <xf:header>
               <xf:name>userid</xf:name>
-              <xf:value>{ xmldb:get-current-user() }</xf:value>
+              <xf:value>{ sm:id()//sm:username/text() }</xf:value>
             </xf:header>
         </xf:submission>
 
@@ -174,7 +174,7 @@ declare function publication:model($request-root as xs:string) as element() {
             </xf:action-->
             <xf:header>
               <xf:name>userid</xf:name>
-              <xf:value>{ xmldb:get-current-user() }</xf:value>
+              <xf:value>{ sm:id()//sm:username/text() }</xf:value>
             </xf:header>
         </xf:submission>
                            

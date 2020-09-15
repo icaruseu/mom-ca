@@ -310,7 +310,7 @@ declare function mycollection:buildNodeName($charter as element(), $pos as xs:st
     ~</mappings>
 :)
 declare function mycollection:disctinct-mappings($charter as element(), $nodes as element()*) as element()* {
-  let $map := map:new()
+  let $map := map()
 
   (: Build mapping structure
   ~  Item contains Path to Node and Occurence as string
@@ -326,7 +326,7 @@ declare function mycollection:disctinct-mappings($charter as element(), $nodes a
             let $count := mycollection:get-counter($charter, $node)
             (: If not there, insert Item to map :)
             let $map := if(not(map:contains($map, $path_of_node ))) then
-                    map:new(($map, map{$path_of_node := $count}))
+                    map(($map, map{$path_of_node := $count}))
                 else
                     ()
             (: Build individual Mapping Item:)

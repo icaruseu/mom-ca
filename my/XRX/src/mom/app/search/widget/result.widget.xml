@@ -66,7 +66,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:is-loggedin</xrx:name>
-      <xrx:expression>xmldb:get-current-user() != 'guest'</xrx:expression>
+      <xrx:expression>sm:id()//sm:username/text() != 'guest'</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter-preview:atom-id</xrx:name>

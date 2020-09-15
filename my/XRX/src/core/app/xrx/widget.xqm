@@ -124,7 +124,7 @@ declare function widget:compile-widget($app-name as xs:string,
     let $widgetkey := widget:key($widgetid)
     let $flag := $widget/xrx:init/xrx:processor/xrx:xformsflag/text()
     let $xforms-flag := 
-        if(($flag = 'true' and xmldb:get-current-user() != 'guest') or matches($widgetkey, '(registration|request-password|iipmooviewer)')) then 
+        if(($flag = 'true' and sm:id()//sm:username/text() != 'guest') or matches($widgetkey, '(registration|request-password|iipmooviewer)')) then 
             true()
         else
             false()

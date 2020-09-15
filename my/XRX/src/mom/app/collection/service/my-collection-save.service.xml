@@ -48,7 +48,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$base-collection</xrx:name>
-      <xrx:expression>if( not(contains($atomid, "charter" ) )) then user:home-collection(xmldb:get-current-user()) else  metadata:base-collection('charter', 'saved')</xrx:expression>
+      <xrx:expression>if( not(contains($atomid, "charter" ) )) then user:home-collection(sm:id()//sm:username/text()) else  metadata:base-collection('charter', 'saved')</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$entry</xrx:name>
@@ -72,7 +72,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$data_hash</xrx:name>
-      <xrx:expression>util:hash(util:serialize($data-content, ()), 'md5')</xrx:expression>
+      <xrx:expression>util:hash(serialize($data-content, ()), 'md5')</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$doc-path</xrx:name>
@@ -91,7 +91,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       
       (: get saved atom:content and childs from the saved document and create hash-value:)
       let $saved-data-content := doc($doc-path)//atom:content/descendant-or-self::*
-      let $saved-data-content-hash := util:hash(util:serialize($saved-data-content, ()),'md5')  
+      let $saved-data-content-hash := util:hash(serialize($saved-data-content, ()),'md5')  
       
       (: compare hash-values of from the saved document and the control data.:) 
       let $compared := compare($saved-data-content-hash, $data_hash)

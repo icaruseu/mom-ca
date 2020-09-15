@@ -72,7 +72,7 @@ declare function chimport:recent-file($import-info as element(xrx:import)) {
     return
     if($type != $chimport:EXCEL) then
       response:stream-binary(
-        util:string-to-binary(util:serialize(doc($path), ())), 
+        util:string-to-binary(serialize(doc($path), ())), 
         'application/octet-stream', 
         $filename
       )

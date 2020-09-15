@@ -135,11 +135,11 @@ MOM-CA with the following role: user
 		
 		(: remove saved charter :)
 		let $remove-saved-charter :=
-		  atom:DELETE(metadata:feed('charter', (), 'saved'), util:document-name($saved-charter))
+		  system:as-user('admin', conf:param('dba-password'), atom:DELETE(metadata:feed('charter', (), 'saved'), util:document-name($saved-charter)))
 		  	
 		(: save user xml :)
 		let $store-user-xml :=
-		  atom:PUT(conf:param('xrx-user-atom-base-uri'), util:document-name($user-xml), $update-user-xml)
+		  system:as-user('admin', conf:param('dba-password'), atom:PUT(conf:param('xrx-user-atom-base-uri'), util:document-name($user-xml), $update-user-xml))
 
     let $sendmail :=
     <xrx:sendmail>

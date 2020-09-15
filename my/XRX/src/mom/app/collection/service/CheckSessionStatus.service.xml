@@ -32,7 +32,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
  <xrx:variables>
     <xrx:variable>
     <xrx:name>$Session-UserName</xrx:name>
-    <xrx:expression>xmldb:get-current-user()</xrx:expression>
+    <xrx:expression>sm:id()//sm:username/text()</xrx:expression>
    </xrx:variable>
    <xrx:variable>
    <xrx:name>$user-id</xrx:name>

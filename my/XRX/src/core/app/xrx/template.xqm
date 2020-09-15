@@ -29,7 +29,7 @@ declare namespace xrx="http://www.monasterium.net/NS/xrx";
 declare function template:eval($template as element(xrx:template)) {
 
     let $xml := $template/xrx:xml
-    let $serialize := util:serialize($xml, ())
+    let $serialize := serialize($xml, ())
     return
     if($serialize != '') then util:eval($serialize, false())/node()
     else()

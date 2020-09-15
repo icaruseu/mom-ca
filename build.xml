@@ -33,19 +33,20 @@
 
     <!-- System -->
     <property name="build-scripts-home" value="build"/>
-    <property name="data-home" value="../${project-name}.XRX-data"/>
+    <property name="data-home" value="../../${project-name}.XRX-data"/>
     <property name="tmp-home" value="tmp"/>
 
     <!-- XRX -->
-    <property name="db-uri" value="xmldb:exist://localhost:${jetty-port}"/>
+    <property name="db-uri" value="xmldb:exist://172.17.0.2:${jetty-port}"/>
     <property name="exist-build-workaround-webapp" value="webapp"/>
+    <property name="my-home" value="my" />
     <property name="my-xrx-res" value="my/XRX/res"/>
     <property name="my-xrx-src" value="my/XRX/src"/>
     <property name="my-xrx-system" value="my/XRX/system"/>
     <property name="xrx-live-collection-name" value="XRX.live"/>
     <property name="xrx-res-collection-name" value="XRX.res"/>
     <property name="xrx-src-collection-name" value="XRX.src"/>
-    <property name="xmldb-xmlrpc-uri" value="${db-uri}/xmlrpc"/>
+    <property name="xmldb-xmlrpc-uri" value="${db-uri}/exist/xmlrpc"/>
     <property name="xmldb-root-uri" value="${xmldb-xmlrpc-uri}/db"/>
     <property name="xmldb-xrx-live-uri" value="${xmldb-root-uri}/${xrx-live-collection-name}"/>
     <property name="xmldb-xrx-res-uri" value="${xmldb-root-uri}/${xrx-res-collection-name}"/>
@@ -141,7 +142,7 @@
         <attribute name="createsubcollections" default="true"/>
         <element name="content" implicit="yes"/>
         <sequential>
-            <xdb:store xmlns:xdb="http://exist-db.org/ant" uri="@{uri}" createcollection="@{createcollection}" createsubcollections="@{createsubcollections}" user="@{user}" password="@{password}" permissions="@{permissions}">
+	    <xdb:store xmlns:xdb="http://exist-db.org/ant" uri="@{uri}" createcollection="@{createcollection}" createsubcollections="@{createsubcollections}" user="@{user}" password="@{password}" permissions="@{permissions}">
                 <content/>
             </xdb:store>
         </sequential>
@@ -168,7 +169,7 @@
         <attribute name="user" default="${admin-name}"/>
         <attribute name="password" default="${admin-password}"/>
         <sequential>
-            <xdb:create xmlns:xdb="http://exist-db.org/ant" uri="@{uri}" collection="@{collection}" user="@{user}" password="@{password}"/>
+		<xdb:create xmlns:xdb="http://exist-db.org/ant" uri="@{uri}" collection="@{collection}" user="@{user}" password="@{password}"/>
         </sequential>
     </macrodef>
 
@@ -198,12 +199,12 @@
         <fileset dir="${exist-home}/extensions">
             <include name="**/lib/*.jar"/>
         </fileset>
-        <fileset dir="${exist-home}/tools/ant/lib">
+	<!--<fileset dir="${exist-home}/tools/ant/lib">
             <include name="*.jar"/>
-        </fileset>
+	</fileset>--><!--
         <pathelement path="${exist-home}/exist.jar"/>
         <pathelement path="${exist-home}/exist-optional.jar"/>
-        <pathelement path="${exist-home}/start.jar"/>
+	<pathelement path="${exist-home}/start.jar"/>-->
     </path>
 
     <path id="classpath-exist-jetty">
@@ -215,7 +216,17 @@
 
     <!-- #######################
          # Tasks               #
-         ####################### -->
+    ####################### -->
+    <target name="systemd">
+	<copy todir="/etc/systemd/system">
+	  <fileset dir="${my-home}/system/"/>
+        </copy>
+    </target>
+
+    <target name="systemd-reload">
+	<exec executable="build/systemd.sh"/>
+    </target>
+
     <target name="test">
         <log message="Preparing tests....[in progress]"/>
     </target>
@@ -233,7 +244,9 @@
 
     <target name="start" description="Starts the XRX Application Server">
         <log message="Starting XRX Application Server"/>
-        <exec executable="${wrapper-home}/bin/startDaemonNoPriv.sh"/>
+	<exec executable="systemctl" newenvironment="false">
+              <arg line="start exist-db.service"/>
+        </exec>
     </target>
 
     <target name="sleep-until-started">
@@ -247,16 +260,16 @@
 
     <target name="stop" description="Stops the XRX Application Server">
         <log message="Stopping XRX Application Server"/>
-        <exec executable="${wrapper-home}/bin/stopDaemonNoPriv.sh"/>
+        <exec executable="systemctl">
+              <arg line="stop exist-db.service"/>
+        </exec>
     </target>
 
     <target name="restart" description="Restarts the XRX Application Server">
         <log message="Restarting XRX Application Server"/>
-        <exec executable="${wrapper-home}/bin/stopDaemon.sh">
-            <arg value="stop"/>
-        </exec>
-        <exec executable="${wrapper-home}/bin/startDaemon.sh">
-            <arg value="start"/>
+			<!--<exec executable="systemd exist-db restart"/>-->
+        <exec executable="systemctl" >
+              <arg line="restart exist-db.service"/>
         </exec>
     </target>
 
@@ -264,8 +277,11 @@
         <log message="Installing XRX Application Server"/>
         <mkdir dir="${tmp-home}"/>
         <antcall target="prepare-tools"/>
-        <antcall target="prepare-app"/>
-        <antcall target="install-daemon"/>
+	<antcall target="prepare-app"/>
+        <antcall target="systemd"/>
+	<antcall target="systemd-reload"/>
+		<!--<antcall target="install-daemon"/>-->
+
         <antcall target="restart"/>
         <antcall target="sleep-until-started"/>
         <antcall target="set-admin-password"/>
@@ -611,7 +627,7 @@
     <target name="set-admin-password" depends="exist-classpath">
         <log message="Setting the admin password if it's not already set to the configured value"/>
         <exist-query user="guest" password="guest" failonerror="false">
-            system:as-user('${admin-name}', '', xmldb:change-user('${admin-name}', '${admin-password}', 'dba', '/db'))
+            system:as-user('${admin-name}', '', passwd('${admin-name}', '${admin-password}'))
         </exist-query>
     </target>
 
@@ -634,7 +650,7 @@
     </target>
 
     <target name="prepare-xrx-res-collection" depends="exist-classpath">
-        <log message="Preparing the XRX resource collection in the database"/>
+        <log message="Preparing the XRX resource collection in the database in ${xmldb-root-uri}"/>
         <exist-create uri="${xmldb-root-uri}" collection="${xrx-res-collection-name}"/>
     </target>
 

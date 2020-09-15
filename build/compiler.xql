@@ -83,7 +83,7 @@ declare variable $compiler:src-objects := $xrx-src-db-base-collection/(xrx:app|x
 (: XRX++ Schema :)
 declare variable $xrx-schema := $xrx-src-db-base-collection/xs:schema[@id='xrx'];
 declare variable $xrx-object-child-elements := 
-    map:new(
+    map(
         for $object-type in $compiler:object-types
         return
         map:entry($object-type, xsd:child-element-names($object-type, $object-type, $xrx-schema))
@@ -92,11 +92,11 @@ declare variable $xrx-object-child-elements :=
 (: XRX++ compiler errors :)
 declare variable $xrx-compiler-error := 
     map {
-        "ERR1"  := "Object '{1}' inherits object '{2}' but '{2}' does not exist.",
-        "ERR2"  := "Invalid resource name '{1}'. Expected name is '{2}'.",
-        "ERR3"  := "Unknown target '{1}'",
-        "ERR4"  := "Widget or Service '{1}' is mapped by App '{2}' but Widget or Service '{1}' does not exist in App '{2}'",
-        "ERR5"  := "No Mapping found for Service '{1}' in App '{2}' but a Mapper is required for each Service."
+        "ERR1"  : "Object '{1}' inherits object '{2}' but '{2}' does not exist.",
+        "ERR2"  : "Invalid resource name '{1}'. Expected name is '{2}'.",
+        "ERR3"  : "Unknown target '{1}'",
+        "ERR4"  : "Widget or Service '{1}' is mapped by App '{2}' but Widget or Service '{1}' does not exist in App '{2}'",
+        "ERR5"  : "No Mapping found for Service '{1}' in App '{2}' but a Mapper is required for each Service."
     };
 
 (: compile XRX++ controller :)

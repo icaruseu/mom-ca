@@ -631,7 +631,7 @@ declare function revision:composeinfo($atomid as xs:string,
     return
     <xrx:revision>
         <xrx:id>{ $revision-atomid }</xrx:id>
-        <xrx:who>{ xmldb:get-current-user() }</xrx:who>
+        <xrx:who>{ sm:id()//sm:username/text() }</xrx:who>
         <xrx:when>{ current-dateTime() }</xrx:when>
         <xrx:operation>{ $operation }</xrx:operation>
         <xrx:comment>{ $comment }</xrx:comment>

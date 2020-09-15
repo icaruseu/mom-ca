@@ -55,7 +55,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
                 let $create-collection := xmldb:create-collection($language-catalog-path, $catalog-name) 
                 let $set-permisssion := xmldb:set-collection-permissions(
                                                                        $catalog-path,
-                                                                       xmldb:get-current-user(),
+                                                                       sm:id()//sm:username/text(),
                                                                        $atom:group-name,
                                                                        $atom:default-permission
                                                                        )

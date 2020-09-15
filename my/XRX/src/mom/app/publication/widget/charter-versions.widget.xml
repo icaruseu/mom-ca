@@ -173,10 +173,10 @@ right:220px;
     let $navigation := pagination:navi($count_rev)
     
     (: Check, if private Version is available :)
-    let $private := exists(root(metadata:base-collection('charter', 'saved')//atom:email[.=xmldb:get-current-user()][1])//cei:text//cei:idno[.=xmldb:decode(data($charter-id))])
+    let $private := exists(root(metadata:base-collection('charter', 'saved')//atom:email[.=sm:id()//sm:username/text()][1])//cei:text//cei:idno[.=xmldb:decode(data($charter-id))])
             
     (: Check, if User is metadata-manager :)
-    let $IsMetadataManager := role:exists(xmldb:get-current-user(), "metadata-manager")
+    let $IsMetadataManager := role:exists(sm:id()//sm:username/text(), "metadata-manager")
     
     return
     <div data-demoid="bbbeea5c-99a4-47e8-abc2-5aa82a49a5f0" id="dcharter-versions">

@@ -219,7 +219,7 @@ right:220px;
   <xrx:view>
     <div data-demoid="693bd17a-ced3-4321-b9b9-12da215ed64b" id="search">
     {
-    let $is-loggedin := xmldb:get-current-user() != 'guest'
+    let $is-loggedin := sm:id()//sm:username/text() != 'guest'
     (: compose the query string to be evaluated :)
     let $metadata-charter-db-base-collection-path := 
       concat(conf:param('atom-db-base-uri'), metadata:feed('charter', 'public'))

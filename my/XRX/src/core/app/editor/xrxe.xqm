@@ -2713,7 +2713,7 @@ declare function xrxe:create-attribute($name, $value){
 
  (:### used by xrxe-services.xql to unescape all escaped charaters from the document and sanitize it ###:)
  declare function xrxe:get-unescape-mixed-content($data){
-			let $serialize:= util:serialize($data, ())
+			let $serialize:= serialize($data, ())
 	    	let $replace := replace(replace($serialize, '&amp;lt;', '&lt;'), '&amp;gt;', '&gt;')
 	    	let $replace := replace($replace, 'xmlns:NS1=""', '')
 	    	let $replace := replace($replace, 'NS1:', '')
