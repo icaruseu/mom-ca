@@ -37,7 +37,7 @@
     <property name="tmp-home" value="tmp"/>
 
     <!-- XRX -->
-    <property name="db-uri" value="xmldb:exist://172.17.0.2:${jetty-port}"/>
+    <property name="db-uri" value="xmldb:exist://localhost:${jetty-port}"/>
     <property name="exist-build-workaround-webapp" value="webapp"/>
     <property name="my-home" value="my" />
     <property name="my-xrx-res" value="my/XRX/res"/>
