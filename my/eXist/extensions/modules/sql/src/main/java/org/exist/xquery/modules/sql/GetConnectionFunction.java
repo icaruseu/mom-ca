@@ -22,7 +22,8 @@
 
 package org.exist.xquery.modules.sql;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.exist.dom.QName;
 import org.exist.xquery.BasicFunction;
@@ -77,7 +78,7 @@ public class GetConnectionFunction extends BasicFunction
 
     protected static final FunctionParameterSequenceType JDBC_DRIVER_URL_PARAM		= new FunctionParameterSequenceType( "driver-url", Type.STRING, Cardinality.EXACTLY_ONE, "The JDBC driver URL in the form 'jar:file:/path/to/driver.jar!/'" );
     
-    private static final Logger                          logger                      = Logger.getLogger( GetConnectionFunction.class );
+    private static final Logger                          logger                      = LogManager.getLogger( GetConnectionFunction.class );
 
     public final static FunctionSignature[] signatures = {
 			new FunctionSignature(

@@ -21,7 +21,8 @@
  */
 package org.exist.xquery.modules.sql;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.exist.xquery.AbstractInternalModule;
 import org.exist.xquery.FunctionDef;
@@ -50,7 +51,7 @@ import org.exist.xquery.modules.ModuleUtils.ContextMapEntryModifier;
  */
 public class SQLModule extends AbstractInternalModule {
 
-    protected final static Logger LOG = Logger.getLogger(SQLModule.class);
+    protected final static Logger LOG = LogManager.getLogger(SQLModule.class);
     public final static String NAMESPACE_URI = "http://exist-db.org/xquery/sql";
     public final static String PREFIX = "sql";
     public final static String INCLUSION_DATE = "2006-09-25";
@@ -62,8 +63,8 @@ public class SQLModule extends AbstractInternalModule {
         new FunctionDef(GetConnectionFunction.signatures[3], GetConnectionFunction.class),
         new FunctionDef(GetJNDIConnectionFunction.signatures[0], GetJNDIConnectionFunction.class),
         new FunctionDef(GetJNDIConnectionFunction.signatures[1], GetJNDIConnectionFunction.class),
-        new FunctionDef(ExecuteFunction.signatures[0], ExecuteFunction.class),
-        new FunctionDef(ExecuteFunction.signatures[1], ExecuteFunction.class),
+        /*new FunctionDef(ExecuteFunction.signatures[0], ExecuteFunction.class),
+        new FunctionDef(ExecuteFunction.signatures[1], ExecuteFunction.class),*/
         new FunctionDef(PrepareFunction.signatures[0], PrepareFunction.class)
     };
     private static long currentUID = System.currentTimeMillis();
