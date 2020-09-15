@@ -513,7 +513,7 @@
         <log message="Building eXist"/>
         <!-- build exist -->
 	<exec dir="${exist-home}" executable="mvn">
-            <arg line=" -DskipTests clean package"/>
+            <arg line=" -P !mac-dmg-on-unix -DskipTests clean package"/>
         </exec>
         <!-- unsign all exist jars ->
         <ant antfile="${exist-home}/build.xml" target="jnlp-unsign-all" useNativeBaseDir="true"/>
