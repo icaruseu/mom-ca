@@ -23,7 +23,7 @@
     <property name="project-name" value="${XRX.project-name}"/>
 
     <!-- Tool urls -->
-    <property name="download-url-betterform" value="https://github.com/icaruseu/betterFORM.git"/>
+    <!--    <property name="download-url-betterform" value="https://github.com/icaruseu/betterFORM.git"/> -->
     <property name="download-url-codemirror" value="https://github.com/codemirror/CodeMirror/archive/v2.zip"/>
     <property name="download-url-exist" value="https://github.com/eXist-db/exist/archive/eXist-5.2.0.zip"/>
     <property name="download-url-jquery" value="https://github.com/jquery/jquery-ui/archive/1-9-stable.zip"/>
@@ -35,7 +35,8 @@
     <property name="build-scripts-home" value="build"/>
     <property name="data-home" value="../../${project-name}.XRX-data"/>
     <property name="tmp-home" value="tmp"/>
-
+    <property name="exist-extensions" value="extensions/betterform/main/lib" />
+    <property name="exist-live" value="exist-distribution/target/exist-distribution-5.2.0-dir/" />
     <!-- XRX -->
     <property name="db-uri" value="xmldb:exist://localhost:${jetty-port}"/>
     <property name="exist-build-workaround-webapp" value="webapp"/>
@@ -56,6 +57,7 @@
     <property name="xrx-live-db-base-collection-path" value="xmldb:exist:///db/${xrx-live-collection-name}"/>
 
     <!-- betterFORM -->
+    <property name="vendor" value="vendor"/>
     <property name="betterform-home" value="betterFORM"/>
     <property name="my-betterform-src" value="my/betterFORM"/>
     <property name="betterform-debug-allowed" value="false"/>
@@ -89,13 +91,12 @@
     <property name="my-exist-jetty" value="${my-exist}/tools/jetty"/>
     <property name="my-exist-src" value="${my-exist}/src"/>
     <property name="my-exist-webapp" value="${my-exist}/webapp"/>
-    <property name="webinf-home" value="${exist-home}/webapp/WEB-INF"/>
 
     <!-- Jetty -->
-    <property name="jetty-home" value="${exist-home}/tools/jetty"/>
-
+    <property name="jetty-home" value="${exist-home}/${exist-live}/etc/jetty"/>
+    <property name="webinf-home" value="${exist-home}/${exist-live}/etc//webapp/WEB-INF"/>
     <!-- YAJSW -->
-    <property name="wrapper-home" value="${exist-home}/tools/yajsw"/>
+    <!--    <property name="wrapper-home" value="${exist-home}/tools/yajsw"/> -->
 
 
     <!-- #######################
@@ -310,7 +311,7 @@
         <antcall target="download-jquery"/>
         <antcall target="download-leaflet"/>
         <antcall target="download-codemirror"/>
-        <antcall target="download-betterform"/>
+	<!--<antcall target="download-betterform"/> -->
     </target>
 
     <target name="download-exist">
@@ -405,7 +406,7 @@
         <antcall target="patch-jquery"/>
         <antcall target="patch-leaflet"/>
         <antcall target="patch-codemirror"/>
-        <antcall target="patch-betterform"/>
+	<!--	<antcall target="patch-betterform"/>-->
         <antcall target="patch-exist"/>
     </target>
 
@@ -506,7 +507,7 @@
     <target name="build-tools">
         <log message="Building the tools"/>
         <antcall target="build-exist"/>
-        <antcall target="build-betterform"/>
+	<!--	<antcall target="build-betterform"/>-->
     </target>
 
     <target name="build-exist">
@@ -531,7 +532,7 @@
         <antcall target="patch-app"/>
         <antcall target="configure-jetty"/>
         <antcall target="configure-exist"/>
-        <antcall target="configure-wrapper"/>
+	<!--        <antcall target="configure-wrapper"/>-->
     </target>
 
     <target name="patch-app">
@@ -546,15 +547,15 @@
 
     <target name="configure-jetty">
         <log message="Configuring Jetty"/>
-        <copy file="${jetty-home}/etc/jetty.xml" tofile="${jetty-home}/etc/jetty.xml.original"/>
-        <xslt in="${jetty-home}/etc/jetty.xml.original" style="${build-scripts-home}/jetty.xsl" out="${jetty-home}/etc/jetty.xml">
+        <copy file="${jetty-home}/jetty.xml" tofile="${jetty-home}/jetty.xml.original"/>
+        <xslt in="${jetty-home}/jetty.xml.original" style="${build-scripts-home}/jetty.xsl" out="${jetty-home}/jetty.xml">
         </xslt>
-        <copy file="${jetty-home}/etc/jetty-http.xml" tofile="${jetty-home}/etc/jetty-http.xml.original"/>
-        <xslt in="${jetty-home}/etc/jetty-http.xml.original" style="${build-scripts-home}/jetty-http.xsl" out="${jetty-home}/etc/jetty-http.xml">
+        <copy file="${jetty-home}/jetty-http.xml" tofile="${jetty-home}/jetty-http.xml.original"/>
+        <xslt in="${jetty-home}/jetty-http.xml.original" style="${build-scripts-home}/jetty-http.xsl" out="${jetty-home}/jetty-http.xml">
             <param name="jetty-port" expression="${jetty-port}"/>
         </xslt>
-        <copy file="${jetty-home}/etc/jetty-ssl.xml" tofile="${jetty-home}/etc/jetty-ssl.xml.original"/>
-        <xslt in="${jetty-home}/etc/jetty-ssl.xml.original" style="${build-scripts-home}/jetty-ssl.xsl" out="${jetty-home}/etc/jetty-ssl.xml">
+        <copy file="${jetty-home}/jetty-ssl.xml" tofile="${jetty-home}/jetty-ssl.xml.original"/>
+        <xslt in="${jetty-home}/jetty-ssl.xml.original" style="${build-scripts-home}/jetty-ssl.xsl" out="${jetty-home}/jetty-ssl.xml">
             <param name="jetty-port-ssl" expression="${jetty-port-ssl}"/>
         </xslt>
         <copy file="${jetty-home}/webapps/exist-webapp-context.xml" tofile="${jetty-home}/webapps/exist-webapp-context.xml.original"/>
@@ -565,8 +566,8 @@
 
     <target name="configure-exist">
         <log message="Configuring eXist"/>
-        <copy file="${exist-home}/conf.xml" tofile="${exist-home}/conf.xml.original"/>
-        <xslt in="${exist-home}/conf.xml.original" style="${build-scripts-home}/conf.xsl" out="${exist-home}/conf.xml">
+	<copy file="${exist-home}/${exist-live}/etc/conf.xml" tofile="${exist-home}/${exist-live}/etc/conf.xml.original"/>
+	<xslt in="${exist-home}/${exist-live}/etc/conf.xml.original" style="${build-scripts-home}/conf.xsl" out="${exist-home}/${exist-live}/etc/conf.xml">
             <param name="cache-size" expression="${exist-cache-size}"/>
             <param name="collection-cache" expression="${exist-collection-cache}"/>
             <param name="lucene-buffer" expression="${exist-lucene-buffer}"/>
@@ -578,8 +579,8 @@
             <param name="project-name" expression="${project-name}"/>
             <param name="xrx-live-db-base-collection-path" expression="${xrx-live-db-base-collection-path}"/>
         </xslt>
-        <copy file="${exist-home}/webapp/controller.xql" tofile="${exist-home}/webapp/controller.xql.original"/>
-        <echo file="${exist-home}/webapp/controller.xql" append="false">
+	<copy file="${exist-home}/${exist-live}/etc/webapp/controller.xql" tofile="${exist-home}/${exist-live}/etc/webapp/controller.xql.original"/>
+	<echo file="${exist-home}/${exist-live}/etc/webapp/controller.xql" append="false">
 
             xquery version '3.0';
 
@@ -641,7 +642,8 @@
     </target>
 
     <target name="deploy-tools">
-        <log message="Deploying the tools"/>
+	<log message="Deploying the tools and betterform"/>
+	<antcall target="deploy-betterform"/>
         <antcall target="prepare-xrx-res-collection"/>
         <antcall target="deploy-jssaxparser"/>
         <antcall target="deploy-jquery"/>
@@ -652,6 +654,16 @@
     <target name="prepare-xrx-res-collection" depends="exist-classpath">
         <log message="Preparing the XRX resource collection in the database in ${xmldb-root-uri}"/>
         <exist-create uri="${xmldb-root-uri}" collection="${xrx-res-collection-name}"/>
+    </target>
+
+    <target name="deploy-betterform">
+	<log message="Deploying betterform.jar" />
+	<delete failonerror="false">
+       	<fileset dir="${exist-home}/${exist-extensions}">
+		  <include name="betterform*.jar"/>
+        </fileset>
+	</delete>
+	<copy file="${vendor}/betterform.jar" tofile="${exist-home}/${exist-extensions}/betterform.jar"/>
     </target>
 
     <target name="deploy-jssaxparser" depends="exist-classpath">
