@@ -33,10 +33,10 @@
 
     <!-- System -->
     <property name="build-scripts-home" value="build"/>
-    <property name="data-home" value="../../${project-name}.XRX-data"/>
+    <property name="data-home" value="/opt/${project-name}.XRX-data"/>
     <property name="tmp-home" value="tmp"/>
     <property name="exist-extensions" value="extensions/betterform/main/lib" />
-    <property name="exist-live" value="exist-distribution/target/exist-distribution-5.2.0-dir/" />
+    <property name="exist-live" value="exist-distribution/target/exist-distribution-5.2.0-dir" />
     <!-- XRX -->
     <property name="db-uri" value="xmldb:exist://localhost:${jetty-port}"/>
     <property name="exist-build-workaround-webapp" value="webapp"/>
@@ -47,7 +47,7 @@
     <property name="xrx-live-collection-name" value="XRX.live"/>
     <property name="xrx-res-collection-name" value="XRX.res"/>
     <property name="xrx-src-collection-name" value="XRX.src"/>
-    <property name="xmldb-xmlrpc-uri" value="${db-uri}/exist/xmlrpc"/>
+    <property name="xmldb-xmlrpc-uri" value="${db-uri}/xmlrpc"/>
     <property name="xmldb-root-uri" value="${xmldb-xmlrpc-uri}/db"/>
     <property name="xmldb-xrx-live-uri" value="${xmldb-root-uri}/${xrx-live-collection-name}"/>
     <property name="xmldb-xrx-res-uri" value="${xmldb-root-uri}/${xrx-res-collection-name}"/>
@@ -86,8 +86,9 @@
     <property name="keystore-password" value="secret"/>
     <property name="my-exist" value="my/eXist"/>
     <property name="my-exist-core" value="${my-exist}/exist-core"/>
+    <property name="my-exist-distribution" value="${my-exist}/exist-distribution"/>
     <property name="my-exist-extensions-src" value="${my-exist}/extensions/modules"/>
-    <property name="my-exist-lib" value="${my-exist}/lib"/>
+    <property name="my-exist-lib" value="${my-exist}/lib/user"/>
     <property name="my-exist-jetty" value="${my-exist}/tools/jetty"/>
     <property name="my-exist-src" value="${my-exist}/src"/>
     <property name="my-exist-webapp" value="${my-exist}/webapp"/>
@@ -194,10 +195,10 @@
          ####################### -->
 
     <path id="classpath-exist-core">
-        <fileset dir="${exist-home}/lib">
+       <fileset dir="${exist-home}/${exist-live}/lib">
             <include name="**/*.jar"/>
         </fileset>
-        <fileset dir="${exist-home}/extensions">
+	<fileset dir="${exist-home}/extensions">
             <include name="**/lib/*.jar"/>
         </fileset>
 	<!--<fileset dir="${exist-home}/tools/ant/lib">
@@ -209,7 +210,7 @@
     </path>
 
     <path id="classpath-exist-jetty">
-        <fileset dir="${jetty-home}/lib">
+        <fileset dir="${jetty-home}/${exist-live}/lib">
             <include name="*.jar"/>
         </fileset>
     </path>
@@ -245,8 +246,8 @@
 
     <target name="start" description="Starts the XRX Application Server">
         <log message="Starting XRX Application Server"/>
-	<exec executable="systemctl" newenvironment="false">
-              <arg line="start exist-db.service"/>
+	<exec executable="service" newenvironment="false">
+              <arg line=" exist-db start"/>
         </exec>
     </target>
 
@@ -261,16 +262,16 @@
 
     <target name="stop" description="Stops the XRX Application Server">
         <log message="Stopping XRX Application Server"/>
-        <exec executable="systemctl">
-              <arg line="stop exist-db.service"/>
+        <exec executable="service">
+              <arg line=" exist-db stop"/>
         </exec>
     </target>
 
     <target name="restart" description="Restarts the XRX Application Server">
         <log message="Restarting XRX Application Server"/>
 			<!--<exec executable="systemd exist-db restart"/>-->
-        <exec executable="systemctl" >
-              <arg line="restart exist-db.service"/>
+        <exec executable="service" >
+              <arg line=" exist-db restart"/>
         </exec>
     </target>
 
@@ -280,7 +281,7 @@
         <antcall target="prepare-tools"/>
 	<antcall target="prepare-app"/>
         <antcall target="systemd"/>
-	<antcall target="systemd-reload"/>
+		<!--<antcall target="systemd-reload"/>-->
 		<!--<antcall target="install-daemon"/>-->
 
         <antcall target="restart"/>
@@ -301,7 +302,8 @@
         <log message="Preparing the tools (eXist, betterFORM etc.)"/>
         <antcall target="download-tools"/>
         <antcall target="patch-tools"/>
-        <antcall target="build-tools"/>
+	<antcall target="build-tools"/>
+		<!--<antcall target="deploy-libs"/>-->
     </target>
 
     <target name="download-tools">
@@ -457,6 +459,12 @@
         </replace>
     </target>
 
+    <target name="deploy-libs">
+	<copy todir="${exist-home}/${exist-live}/lib" overwrite="true">
+            <fileset dir="${my-exist-lib}"/>
+        </copy>
+    </target>
+
     <target name="patch-exist">
         <log message="Patching eXist"/>
         <!-- The creation of webapp/logo.txt is needed because the tests in the eXist build process fail otherwise;
@@ -465,19 +473,24 @@
         <mkdir dir="${exist-build-workaround-webapp}"/>
         <mkdir dir="${exist-build-workaround-webapp}/WEB-INF/classes"/>
         <touch file="${exist-build-workaround-webapp}/logo.jpg"/>
-        <copy todir="${exist-home}/extensions/modules" overwrite="true">
+	<copy todir="${exist-home}/extensions/modules" overwrite="true">
             <fileset dir="${my-exist-extensions-src}"/>
-        </copy>
+	</copy>
 		
 		<!-- XQueryURLRewrite.java has to be patched because of rewrite of controller search -->
 		<copy todir="${exist-home}/exist-core" overwrite="true">
             <fileset dir="${my-exist-core}"/>
+    </copy>
+
+        <copy todir="${exist-home}/exist-distribution" overwrite="true">
+            <fileset dir="${my-exist-distribution}"/>
         </copy>
-		<!-- -->
+
+		<!-- 
 		
-        <copy todir="${exist-home}/lib" overwrite="true">
+	<copy todir="${exist-home}/${exist-live}/lib" overwrite="true">
             <fileset dir="${my-exist-lib}"/>
-        </copy>
+		</copy> -->
 	<echo message="# build.properties"/>
 	<!--<copy file="${exist-home}/build.properties" tofile="${exist-home}/build.properties.original"/>
         <replace file="${exist-home}/build.properties">
@@ -512,7 +525,11 @@
 
     <target name="build-exist">
         <log message="Building eXist"/>
-        <!-- build exist -->
+		<!-- build exist -->
+	        <exec dir="${exist-home}" executable="mvn">
+            <arg line=" -P !mac-dmg-on-unix -DskipTests clean compile"/>
+        </exec>
+
 	<exec dir="${exist-home}" executable="mvn">
             <arg line=" -P !mac-dmg-on-unix -DskipTests clean package"/>
         </exec>
@@ -628,7 +645,7 @@
     <target name="set-admin-password" depends="exist-classpath">
         <log message="Setting the admin password if it's not already set to the configured value"/>
         <exist-query user="guest" password="guest" failonerror="false">
-            system:as-user('${admin-name}', '', passwd('${admin-name}', '${admin-password}'))
+            system:as-user('${admin-name}', '', sm:passwd('${admin-name}', '${admin-password}'))
         </exist-query>
     </target>
 

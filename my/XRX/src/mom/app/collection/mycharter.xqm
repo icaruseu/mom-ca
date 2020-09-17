@@ -68,7 +68,7 @@ declare function mycharter:share($base-collection-path as xs:string, $entryname 
     
     let $update := 
 
-        if(not(xmldb:exists-user($userid))) then
+        if(not(sm:user-exists($userid))) then
             false()
             
         else if(not($document-exists)) then

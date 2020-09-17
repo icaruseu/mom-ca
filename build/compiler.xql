@@ -82,12 +82,14 @@ declare variable $compiler:src-objects := $xrx-src-db-base-collection/(xrx:app|x
 
 (: XRX++ Schema :)
 declare variable $xrx-schema := $xrx-src-db-base-collection/xs:schema[@id='xrx'];
-declare variable $xrx-object-child-elements := 
-    map(
+declare variable $xrx-object-child-elements := (
+    let $object-type := 
         for $object-type in $compiler:object-types
         return
         map:entry($object-type, xsd:child-element-names($object-type, $object-type, $xrx-schema))
-    );
+    let $map := map:merge($object-type)
+    return $map
+);
 
 (: XRX++ compiler errors :)
 declare variable $xrx-compiler-error := 
@@ -118,7 +120,7 @@ declare function compiler:compile-controller($null) {
     let $store-controller := compiler:store($xrx-live-project-db-base-collection-path, 'controller.xql', $patch-controller)
     let $src-resource-collection := concat($xrx-src-project-db-base-collection-path, '/res')
     let $copy-resource-collection := 
-        if(xmldb:collection-available($src-resource-collection)) then xmldb:copy($src-resource-collection, $xrx-live-project-db-base-collection-path) else()
+        if(xmldb:collection-available($src-resource-collection)) then xmldb:copy-collection($src-resource-collection, $xrx-live-project-db-base-collection-path) else()
     return
     compiler:report($step, 'SUCCESSFUL')
 };
@@ -638,7 +640,7 @@ declare function compiler:store($collection-uri as xs:string, $resource-name as 
 
 declare function compiler:copy($source-collection as xs:string, $target-collection as xs:string, $resource-name as xs:string) {
 
-    let $copy := xmldb:copy($source-collection, $target-collection, $resource-name)
+    let $copy := xmldb:copy-resource($source-collection,$resource-name, $target-collection, $resource-name)
     let $target-path := concat($target-collection, '/', $resource-name)
     let $chmod := sm:chmod($target-path, 'rwxr-xr-x')
     return

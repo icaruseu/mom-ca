@@ -64,10 +64,9 @@ let $id := concat(concat(substring($name,1,2),substring($type,1,2)), translate($
 let $cropid :=  translate($code, '.', '')
 let $size := substring-before(substring-after($metadata, 'size='), '?!')
 let $anno-id := concat($size, $code)
-let $img := httpclient:get(xs:anyURI($pathToBinaryResource), true(),
-<headers>
-<header name="User-Agent" value="User-Agent: Mozilla/4.0"/>
-</headers>)
+let $img := <http:request href="{xs:anyURI($pathToBinaryResource)}" method="GET"> 
+	 	 <http:header  name="UserAgent" value="User-Agent: Mozilla/4.0"/>
+            </http:request>
  return 
 if(fn:compare($typus,"get")=0) then
     image:crop($img/*[2]/text(), (xs:integer($x1), xs:integer($y1), xs:integer($x2), xs:integer($y2)), 'image/jpeg')

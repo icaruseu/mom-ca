@@ -140,7 +140,7 @@ declare function auth:matches($rule as element(xrx:rule)) as xs:boolean {
     
         let $user-db-groups := 
             if(sm:id()//sm:username/text() != 'guest') then 
-                system:as-user('admin', conf:param('dba-password'), xmldb:get-user-groups(sm:id()//sm:username/text())) 
+                system:as-user('admin', conf:param('dba-password'), sm:get-user-groups(sm:id()//sm:username/text())) 
             else 
                 ()
         let $match := 

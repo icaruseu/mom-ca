@@ -3,8 +3,11 @@ package org.exist.xquery.modules.minify;
 import java.util.List;
 import java.util.Map;
 
-import org.exist.xquery.AbstractInternalModule;
-import org.exist.xquery.FunctionDef;
+import org.exist.xquery.*;
+
+import org.exist.xquery.value.FunctionParameterSequenceType;
+import org.exist.xquery.value.FunctionReturnSequenceType;
+import static org.exist.xquery.FunctionDSL.functionDefs;
 
 public class MinifyModule extends AbstractInternalModule {
 
@@ -19,7 +22,7 @@ public class MinifyModule extends AbstractInternalModule {
         new FunctionDef(JavascriptFunction.signature, JavascriptFunction.class)
     };
 
-    public MinifyModule(Map<String, List<? extends Object>> parameters) {
+    public MinifyModule(final Map<String, List<?>> parameters) {
         super(functions, parameters);
     }
 

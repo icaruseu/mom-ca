@@ -3,8 +3,10 @@ package org.exist.xquery.modules.excel;
 import java.util.List;
 import java.util.Map;
 
-import org.exist.xquery.AbstractInternalModule;
-import org.exist.xquery.FunctionDef;
+import org.exist.xquery.*;
+import org.exist.xquery.value.FunctionParameterSequenceType;
+import org.exist.xquery.value.FunctionReturnSequenceType;
+import static org.exist.xquery.FunctionDSL.functionDefs;
 
 public class ExcelModule extends AbstractInternalModule {
 
@@ -20,7 +22,7 @@ public class ExcelModule extends AbstractInternalModule {
 		new FunctionDef(SheetFunction.signature, SheetFunction.class)
 	};
 	
-	public ExcelModule(Map<String, List<? extends Object>> parameters) {
+	public ExcelModule(final Map<String, List<?>> parameters) {
 		super(functions, parameters);
 	}
 	

@@ -118,7 +118,7 @@ declare function upd:do-update(
 };
 
 declare function upd:create-attribute($name as xs:QName, $value as xs:string) {
-    root(util:parse(concat('<dummy ', xs:string($name), '="', $value ,'"/>')))//@*
+    root(parse-xml(concat('<dummy ', xs:string($name), '="', $value ,'"/>')))//@*
 };
 
 

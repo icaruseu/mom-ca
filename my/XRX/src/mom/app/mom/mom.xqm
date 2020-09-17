@@ -11,7 +11,7 @@ import module namespace metadata="http://www.monasterium.net/NS/metadata"
 
 declare function mom:statistics() {
 
-    let $timestamp-current := datetime:timestamp(current-dateTime())
+    let $timestamp-current := current-dateTime()
     let $timestamp-cached := xs:integer(cache:get('statistics', 'portal')//xrx:param[@name='timestamp']/text())
     let $outofdate := (($timestamp-current - $timestamp-cached) gt 86400000) or empty(cache:get('statistics', 'portal'))
     
@@ -30,7 +30,7 @@ declare function mom:statistics() {
             let $graphics := count($metadata-charter-collection//cei:graphic/@url)
             let $statistics := 
                 <xrx:statistics>
-                    <xrx:param name="timestamp">{ datetime:timestamp(current-dateTime()) }</xrx:param>
+                    <xrx:param name="timestamp">{current-dateTime() }</xrx:param>
                     <xrx:param name="archives">{ $archives }</xrx:param>
                     <xrx:param name="fonds">{ $fonds }</xrx:param>
                     <xrx:param name="collections">{ $collections }</xrx:param>

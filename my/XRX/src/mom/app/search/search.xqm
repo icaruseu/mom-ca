@@ -249,8 +249,8 @@ declare function search:i18n-category-name($category) {
 
 
 declare function search:compile-categories-map($result) {
-
-    map(
+    let $categories :=
+    
         for $category in search:categories()
         let $query-string := concat("$result/root()//", $category, "[ft:query(., '", $search:q, "', $search:options)]", 
                               if($search:annotations = 'true') then "[@facs or ./descendant::node()/@facs]" else())
@@ -258,7 +258,8 @@ declare function search:compile-categories-map($result) {
         let $count := count($r)       
         return
         if($count gt 0) then map:entry($category, $r) else ()
-    )    
+     let $map := map:merge($categories)
+     return $map
 };
 
 declare function search:compile-categories-xml($map) {

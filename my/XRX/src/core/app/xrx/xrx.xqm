@@ -217,7 +217,7 @@ declare variable $xrx:_platform-lang-key :=
 
 
 (: the ID of the current user :)
-declare variable $xrx:user-id := if(request:get-header('userid') != '') then xmldb:decode(request:get-header('userid')[1]) else sm:id()//sm:username/text();
+declare variable $xrx:user-id := if(request:get-header('userid') != '') then xmldb:decode(request:get-header('userid')[1]) else "sm:id()//sm:username/text()";
 (: the XML description of the current user :)
 declare variable $xrx:user-xml := 
     doc(concat(conf:param('xrx-user-db-base-uri'), xmldb:encode($xrx:user-id), '.xml'))/xrx:user;
@@ -328,7 +328,7 @@ declare function xrx:xformsflag() as xs:boolean {
         (: processor init defined by widget :)
         let $flag := $xrx:mainwidget/xrx:init/xrx:processor/xrx:xformsflag/text()
         return
-        if(($flag = 'true' and sm:id()//sm:username/text() != 'guest') or matches($xrx:tokenized-uri[last()], '(registration|request-password|iipmooviewer)')) then true()
+        if(($flag = 'true' and "guest" != 'guest') or matches($xrx:tokenized-uri[last()], '(registration|request-password|iipmooviewer)')) then true()
         else false()
     
     else false()

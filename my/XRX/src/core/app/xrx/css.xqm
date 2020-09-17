@@ -69,6 +69,6 @@ declare function css:compile($widget as element(xrx:widget), $csss as element(xr
             $external-css
         default return ''
     return
-    <xhtml:style id="{ $widgetid }">{ minify:css($css-strings) }</xhtml:style>
+    <xhtml:style id="{ $widgetid }">{ $css-strings }</xhtml:style>
 };
 

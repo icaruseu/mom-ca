@@ -3,8 +3,10 @@ package net.monasterium.xquery.exista;
 import java.util.List;
 import java.util.Map;
 
-import org.exist.xquery.AbstractInternalModule;
-import org.exist.xquery.FunctionDef;
+import org.exist.xquery.*;
+import org.exist.xquery.value.FunctionParameterSequenceType;
+import org.exist.xquery.value.FunctionReturnSequenceType;
+import static org.exist.xquery.FunctionDSL.functionDefs;
 
 public class ArchiveModule extends AbstractInternalModule {
 
@@ -18,7 +20,7 @@ public class ArchiveModule extends AbstractInternalModule {
 		new FunctionDef(MappingFunction.signature, MappingFunction.class)
 	};
 	
-	public ArchiveModule(Map<String, List<? extends Object>> parameters) {
+	public ArchiveModule(final Map<String, List<?>> parameters) {
 		super(functions, parameters);
 	}
 	

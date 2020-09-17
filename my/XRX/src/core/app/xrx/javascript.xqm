@@ -42,7 +42,7 @@ declare function javascript:compile($widget as element(xrx:widget), $jss as elem
             let $relative-path := $resource/xrx:relativepath/text()
             let $name := $resource/xrx:name/text()
             let $uri := concat($collection-name, '/', $relative-path, $name)
-            let $document := if(util:binary-doc-available($uri)) then minify:js(util:binary-to-string(util:binary-doc($uri))) else()
+            let $document := if(util:binary-doc-available($uri)) then util:binary-to-string(util:binary-doc($uri)) else()
             return
             $document
         default return ''   

@@ -28,7 +28,7 @@ import module namespace conf="http://www.monasterium.net/NS/conf"
     at "../conf/conf.xqm";
 
 import module "http://exist-db.org/xquery/util";
-
+declare namespace http="http://expath.org/ns/http-client";
 
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare namespace xrx="http://www.monasterium.net/NS/xrx";
@@ -151,7 +151,9 @@ let $height               := substring-before(substring-after($metadata, 'height
 let $pathToBinaryResource := replace(substring-before(substring-after($metadata, 'imgUrl='), '?!;'), " ", "%20")
 
 (: get image file :)
-let $img := httpclient:get(xs:anyURI($pathToBinaryResource), true(), <headers><header name="User-Agent" value="User-Agent: Mozilla/4.0"/></headers>)
+let $img := <http:request href="{xs:anyURI($pathToBinaryResource)}" method="GET"> 
+	 	 <http:header  name="UserAgent" value="User-Agent: Mozilla/4.0"/>
+            </http:request>
 (: crop image :)
 let $cropped-image := image:crop($img/*[2]/text(), (xs:integer($x), xs:integer($y), xs:integer($height), xs:integer($width)), 'image/jpeg')
 (: create file of cropped image :)

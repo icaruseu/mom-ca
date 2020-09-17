@@ -41,8 +41,8 @@ declare namespace constructor="http://www.monasterium.net/NS/constructor";
 #DECLARE_XRX_NAMESPACES
 
 import module namespace kwic="http://exist-db.org/xquery/kwic";
-import module namespace excel="http://exist-db.org/xquery/excel";
-import module namespace datetime="http://exist-db.org/xquery/datetime";
+(:import module namespace excel="http://exist-db.org/xquery/excel";
+import module namespace datetime="http://exist-db.org/xquery/datetime"; :)
 import module namespace json="http://www.json.org";
 
 

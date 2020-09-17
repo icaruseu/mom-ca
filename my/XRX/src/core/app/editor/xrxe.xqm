@@ -2717,7 +2717,7 @@ declare function xrxe:create-attribute($name, $value){
 	    	let $replace := replace(replace($serialize, '&amp;lt;', '&lt;'), '&amp;gt;', '&gt;')
 	    	let $replace := replace($replace, 'xmlns:NS1=""', '')
 	    	let $replace := replace($replace, 'NS1:', '')
-	    	let $parse:= util:parse($replace)
+	    	let $parse:= parse-xml($replace)
 	    	(:data is just a dummy element:)
 	    	let $data := <data>{$parse}</data>
 	    	return $data/element()
