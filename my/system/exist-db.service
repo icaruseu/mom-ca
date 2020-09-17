@@ -1,0 +1,14 @@
+[Unit]
+Description=eXist-db 5.2.0 Server
+Documentation=
+After=syslog.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/opt/mom.XRX/localhost/exist-distribution/target/exist-distribution-5.2.0-dir/bin/startup.sh
+ExecStop=/opt/mom.XRX/exist-distribution/target/exist-distribution-5.2.0/bin/shutdown.sh
+
+[Install]
+WantedBy=multi-user.target
