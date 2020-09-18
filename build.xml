@@ -87,6 +87,7 @@
     <property name="my-exist" value="my/eXist"/>
     <property name="my-exist-core" value="${my-exist}/exist-core"/>
     <property name="my-exist-distribution" value="${my-exist}/exist-distribution"/>
+    <property name="my-exist-extensions" value="${my-exist}/extensions"/>
     <property name="my-exist-extensions-src" value="${my-exist}/extensions/modules"/>
     <property name="my-exist-lib" value="${my-exist}/lib/user"/>
     <property name="my-exist-jetty" value="${my-exist}/tools/jetty"/>
@@ -472,10 +473,14 @@
              another build like ours: https://sourceforge.net/p/exist/mailman/message/36189586 -->
         <mkdir dir="${exist-build-workaround-webapp}"/>
         <mkdir dir="${exist-build-workaround-webapp}/WEB-INF/classes"/>
-        <touch file="${exist-build-workaround-webapp}/logo.jpg"/>
+	<touch file="${exist-build-workaround-webapp}/logo.jpg"/>
+	<copy todir="${exist-home}/extensions/textdiff" overwrite="true">
+            <fileset dir="${my-exist-extensions}/textdiff" />
+	</copy> 
 	<copy todir="${exist-home}/extensions/modules" overwrite="true">
-            <fileset dir="${my-exist-extensions-src}"/>
-	</copy>
+	    <fileset dir="${my-exist-extensions-src}"/>
+        </copy>
+	<copy file="${my-exist-extensions}/pom.xml" tofile="${exist-home}/extensions/pom.xml" />
 		
 		<!-- XQueryURLRewrite.java has to be patched because of rewrite of controller search -->
 		<copy todir="${exist-home}/exist-core" overwrite="true">

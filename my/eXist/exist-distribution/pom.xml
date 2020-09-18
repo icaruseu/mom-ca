@@ -134,7 +134,12 @@
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
-
+	<dependency>
+            <groupId>org.exist-db.xquery.extensions</groupId>
+	    <artifactId>itineranova-features</artifactId>
+	    <version>1.0</version>
+	    <scope>runtime</scope>
+        </dependency>
         <!-- extensions/modules/ -->
         <dependency>
             <groupId>${project.groupId}</groupId>
