@@ -57,7 +57,7 @@
 
   <xsl:template match="//db-connection/@files">
     <xsl:attribute name="files">
-      <xsl:text>../</xsl:text>
+	    <xsl:text>../../../../../../</xsl:text>
       <xsl:value-of select="$db-files"/>
     </xsl:attribute>
   </xsl:template>
