@@ -50,7 +50,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 	    if($old-user-exists) then $old-user-exists//*:username/text() else()
 	  let $user-exists :=
 	   collection(conf:param('xrx-user-db-base-uri'))/xrx:user[./xrx:email=$username]
-	  let $db-user-exists := system:as-user('admin', conf:param('dba-password'), xmldb:exists-user($username))
+	  let $db-user-exists := system:as-user('admin', conf:param('dba-password'), sm:user-exists($username))
 	  let $login := 
 	   if($user-exists) then xmldb:login(conf:param('atom-db-base-uri'), $username, $password, true()) else false()
 	  let $copy-parameters := 

@@ -220,6 +220,12 @@
     <!-- #######################
          # Tasks               #
     ####################### -->
+    <target name="autodeploy">
+        <copy todir="${exist-home}/${exist-live}/autodeploy">
+          <fileset dir="${my-home}/eXist/autodeploy" />
+        </copy>
+    </target>
+
     <target name="systemd">
 	<copy todir="/etc/systemd/system">
 	  <fileset dir="${my-home}/system/"/>
@@ -474,13 +480,11 @@
         <mkdir dir="${exist-build-workaround-webapp}"/>
         <mkdir dir="${exist-build-workaround-webapp}/WEB-INF/classes"/>
 	<touch file="${exist-build-workaround-webapp}/logo.jpg"/>
-	<copy todir="${exist-home}/extensions/textdiff" overwrite="true">
-            <fileset dir="${my-exist-extensions}/textdiff" />
-	</copy> 
+ 
 	<copy todir="${exist-home}/extensions/modules" overwrite="true">
 	    <fileset dir="${my-exist-extensions-src}"/>
         </copy>
-	<copy file="${my-exist-extensions}/pom.xml" tofile="${exist-home}/extensions/pom.xml" />
+	
 		
 		<!-- XQueryURLRewrite.java has to be patched because of rewrite of controller search -->
 		<copy todir="${exist-home}/exist-core" overwrite="true">
@@ -530,13 +534,13 @@
 
     <target name="build-exist">
         <log message="Building eXist"/>
-		<!-- build exist -->
+		<!-- build exist 
 	        <exec dir="${exist-home}" executable="mvn">
             <arg line=" -P !mac-dmg-on-unix -DskipTests clean compile"/>
-        </exec>
+		</exec> -->
 
 	<exec dir="${exist-home}" executable="mvn">
-            <arg line=" -P !mac-dmg-on-unix -DskipTests clean package"/>
+            <arg line=" -P !mac-dmg-on-unix clean package -DskipTests"/>
         </exec>
         <!-- unsign all exist jars ->
         <ant antfile="${exist-home}/build.xml" target="jnlp-unsign-all" useNativeBaseDir="true"/>

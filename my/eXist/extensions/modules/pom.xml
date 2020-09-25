@@ -41,7 +41,8 @@
         <module>process</module>
         <module>scheduler</module>
         <module>simpleql</module>
-        <module>sql</module>
+	<module>sql</module>
+	<module>text</module>
         <!-- module>sql-oracle</module -->  <!-- Requires registration with Oracle! -->
         <module>xmldiff</module>
         <module>xslfo</module>

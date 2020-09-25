@@ -98,7 +98,7 @@ declare function excelimport:row2cei($row as element(excel:row), $sheet-labels a
             let $value := $cell-elements[ $pos ]/text()
             return
             if(contains($value, '&lt;')) then
-                let $parse := try { util:parse(concat('<dummy>', $value, '</dummy>')) } catch * { <error label="{ $label }">{ $err:description }</error> }
+                let $parse := try { parse-xml(concat('<dummy>', $value, '</dummy>')) } catch * { <error label="{ $label }">{ $err:description }</error> }
                 let $clean := if($parse/self::error) then $parse else transform:transform($parse, $excelimport:xsl-add-namespace, ())/node()
                 let $log := util:log('error', $clean)
                 return

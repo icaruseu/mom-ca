@@ -8,7 +8,7 @@
   let $old-lastname := $old-user-exists//*:name/text()
 	let $user-exists :=
 	 collection($conf:user-db-base-uri)/xrx:user[./xrx:email=$username]
-	let $db-user-exists := xmldb:exists-user($username)
+	let $db-user-exists := sm:user-exists($username)
 	let $login := 
 	 if($user-exists) then xmldb:login($conf:atom-db-base-uri, $username, $password, true()) else false()
 	return

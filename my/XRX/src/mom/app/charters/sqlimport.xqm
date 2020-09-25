@@ -76,7 +76,7 @@ declare function sqlimport:do($driverclass,
         let $cache := cache:put($cacheid, $processid, $progress)
         (: query the remote database :)
         let $sql := replace($sql-script, '%i%', xs:string($rownum))
-        let $execute := sql:execute($sql-connection, $sql, true())
+        let $execute := $sql(:sql:execute($sql-connection, $sql, true()):)
         let $result := sqlimport:transform($execute)
         
         (: transform the queried XML result into CEI :)
@@ -154,7 +154,7 @@ declare function sqlimport:transform($result as element(sql:result)) {
             {
                 $child/@*,
                 if($child/@sql:type/string() = 'xml') then
-                    util:parse(util:parse-html($child/text()))
+                    parse-xml(util:parse-html($child/text()))
                 else
                     $child/text()
             }
