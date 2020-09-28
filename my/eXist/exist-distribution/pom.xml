@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.exist-db</groupId>
         <artifactId>exist-parent</artifactId>
-        <version>5.2.0</version>
+        <version>5.3.0-SNAPSHOT</version>
         <relativePath>../exist-parent</relativePath>
     </parent>
 
@@ -18,7 +18,7 @@
         <connection>scm:git:https://github.com/exist-db/exist.git</connection>
         <developerConnection>scm:git:https://github.com/exist-db/exist.git</developerConnection>
         <url>scm:git:https://github.com/exist-db/exist.git</url>
-      <tag>eXist-5.2.0</tag>
+      <tag>eXist-5.3.0-SNAPSHOT</tag>
   </scm>
 
     <properties>
@@ -136,11 +136,17 @@
         </dependency>
 	<dependency>
             <groupId>${project.groupId}</groupId>
-	    <artifactId>monasterium-text</artifactId>
+	    <artifactId>exist-text</artifactId>
 	    <version>${project.version}</version>
 	    <scope>runtime</scope>
         </dependency>
-	<!-- extensions/modules/ -->
+        <!-- extensions/modules/ -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>exist-cache</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
 	<dependency>
 	    <groupId>${project.groupId}</groupId>
             <artifactId>excel-import</artifactId>
@@ -165,7 +171,6 @@
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
-
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>exist-compression</artifactId>
@@ -1252,3 +1257,4 @@
     </profiles>
 
 </project>
+

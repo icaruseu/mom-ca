@@ -25,7 +25,7 @@
     <!-- Tool urls -->
     <!--    <property name="download-url-betterform" value="https://github.com/icaruseu/betterFORM.git"/> -->
     <property name="download-url-codemirror" value="https://github.com/codemirror/CodeMirror/archive/v2.zip"/>
-    <property name="download-url-exist" value="https://github.com/eXist-db/exist/archive/eXist-5.2.0.zip"/>
+    <property name="download-url-exist" value="https://github.com/eXist-db/exist/archive/develop.zip"/>
     <property name="download-url-jquery" value="https://github.com/jquery/jquery-ui/archive/1-9-stable.zip"/>
     <property name="download-url-leaflet" value="https://github.com/Leaflet/Leaflet/archive/v1.3.4.zip"/>
     <property name="download-url-leaflet-markercluster" value="https://github.com/Leaflet/Leaflet.markercluster/archive/v1.4.1.zip"/>
@@ -33,10 +33,10 @@
 
     <!-- System -->
     <property name="build-scripts-home" value="build"/>
-    <property name="data-home" value="/opt/${project-name}.XRX-data"/>
+    <property name="data-home" value="${project-name}.XRX-data"/>
     <property name="tmp-home" value="tmp"/>
     <property name="exist-extensions" value="extensions/betterform/main/lib" />
-    <property name="exist-live" value="exist-distribution/target/exist-distribution-5.2.0-dir" />
+    <property name="exist-live" value="exist-distribution/target/exist-distribution-5.3.0-SNAPSHOT-dir" />
     <!-- XRX -->
     <property name="db-uri" value="xmldb:exist://localhost:${jetty-port}"/>
     <property name="exist-build-workaround-webapp" value="webapp"/>

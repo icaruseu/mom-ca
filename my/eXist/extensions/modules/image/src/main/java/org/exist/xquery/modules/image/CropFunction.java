@@ -25,6 +25,7 @@ package org.exist.xquery.modules.image;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.apache.commons.codec.binary.Base64;
 
 import java.awt.Toolkit;
 import java.awt.Graphics2D;
@@ -41,7 +42,6 @@ import org.exist.xquery.Cardinality;
 import org.exist.xquery.FunctionSignature;
 import org.exist.xquery.XPathException;
 import org.exist.xquery.XQueryContext;
-import org.exist.util.Base64Decoder;
 import org.exist.xquery.value.Base64BinaryValueType;
 import org.exist.xquery.value.BinaryValue;
 import org.exist.xquery.value.BinaryValueFromInputStream;
@@ -53,6 +53,7 @@ import org.exist.xquery.value.SequenceType;
 import org.exist.xquery.value.StringValue;
 import org.exist.xquery.value.Type;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 /**
  * eXist Image Module Extension CropFunction 
  * 
@@ -140,9 +141,8 @@ public class CropFunction extends BasicFunction {
             //get the image data
 	    byte[] value;
 	    String text = args[0].itemAt(0).getStringValue();
-	    Base64Decoder dec = new Base64Decoder();
-	    dec.translate(text);
-            value = dec.getByteArray();
+	    final byte[] c = Base64.decodeBase64(text);
+            value = c;
 	    //image = Toolkit.getDefaultToolkit().getImage(value);
 	    image = ImageIO.read(new ByteArrayInputStream(value));
             //			image = ImageModule.getImage((Base64BinaryValueType)args[0].itemAt(0));
