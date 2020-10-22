@@ -360,14 +360,15 @@
             </xsl:when>
         </xsl:choose>
     </xsl:template>
-        <xsl:template match="xhtml:insert-geogName">
+    
+    <xsl:template match="xhtml:insert-geogName">
         <xsl:choose>
             <xsl:when test="count($cei//cei:geogName/node()) > 0">
                 <div id="geogName">
                     <b>
                         <xrx:i18n>
-                            <xrx:key>geographies</xrx:key>
-                            <xrx:default>Geographical Names</xrx:default>
+                            <xrx:key>cei_geogName</xrx:key>
+                            <xrx:default>geographical names</xrx:default>
                         </xrx:i18n>
                     </b>
                     <ul>
@@ -377,6 +378,7 @@
             </xsl:when>
         </xsl:choose>
     </xsl:template>
+    
     <xsl:template match="xhtml:insert-item">
         <xsl:choose>
             <xsl:when test="$cei//cei:index[@*] | $cei//cei:index[text()]">
@@ -1304,12 +1306,12 @@
         <xsl:variable name="i18n">
             <xrx:i18n>
                 <xrx:key>cei_geogName</xrx:key>
-                <xrx:default>Geographical Name</xrx:default>
+                <xrx:default>geographical name</xrx:default>
             </xrx:i18n>
         </xsl:variable>
-        <span class="cei-geogname" title="{$cei_geogName}">
+        <span class="cei-geogName" title="{$cei_geogName}">
             <xsl:apply-templates/>
-        </span>      
+        </span>
     </xsl:template>
     <xsl:template name="issued">
         <xsl:apply-templates select="$cei//cei:issued/cei:dateRange"/>
@@ -1958,6 +1960,7 @@
         </xsl:for-each>
     </xsl:template>
 
+
     <!-- index geogName -->
     <xsl:template name="geogName">
         <xsl:for-each select="$cei//cei:geogName">
@@ -1967,7 +1970,7 @@
                     <xsl:apply-templates/>
                 </li>
                 <ul class="inline">
-                    <xsl:call-template name="lang"/>
+                    <xsl:call-template name="language"/>
                     <xsl:call-template name="reg"/>
                     <xsl:call-template name="existent"/>
                     <xsl:call-template name="type"/>
