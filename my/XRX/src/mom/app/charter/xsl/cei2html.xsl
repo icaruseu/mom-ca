@@ -1285,7 +1285,7 @@
     <xsl:template name="issued">
         <xsl:apply-templates select="$cei//cei:issued/cei:dateRange"/>
         <xsl:apply-templates select="$cei//cei:issued/cei:date"/>
-        <xsl:if test="$cei//cei:issued/cei:placeName">
+        <xsl:if test="$cei//cei:issued/cei:placeName/text()/normalize-space() != '' ">
             <xsl:if test="$cei//cei:issued/cei:dateRange | $cei//cei:issued/cei:date">
                 <xsl:text>, </xsl:text>
             </xsl:if>
