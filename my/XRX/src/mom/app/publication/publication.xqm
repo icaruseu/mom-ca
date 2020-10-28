@@ -265,19 +265,7 @@ declare function publication:edit-trigger(
     ) {
     let $editmom3msg := <span>{i18n:value("editmom3", $xrx:lang, "Edit with EditMOM 3 beta")}</span>
     return
-    if($is-moderator and (matches($widget-key,'charters-to-publish'))) then
-    <div>
-        <img src="{ $request-root }resource/?atomid=tag:www.monasterium.net,2011:/mom/resource/image/button_edit"/>
-        <xf:trigger appearance="minimal">
-            <xf:label>{ $edit-charter-message }</xf:label>
-            <xf:action ev:event="DOMActivate">
-              <xf:load show="replace">
-                <xf:resource value="'{ $request-root }revise-charter?id={ $atomid }'"/>
-              </xf:load>
-            </xf:action>
-        </xf:trigger>
-    </div>
-    else if(matches($widget-key, '^(fond|collection|search|saved-charters|charter|charters-to-publish|bookmarks|mom-ca)$')) then
+if(matches($widget-key, '^(fond|collection|search|saved-charters|charter|charters-to-publish|bookmarks|mom-ca)$')) then
     <div>  <!--
        <div>
        <img src="{ $request-root }resource/?atomid=tag:www.monasterium.net,2011:/mom/resource/image/button_edit"/>
