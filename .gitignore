@@ -1,10 +1,14 @@
 *.iml
 .idea
 .vscode
-.vim
 .travis.yml
 .env
 *.override.yml
 test/
 full*.zip
 inc*.zip
+localhost
+.XRX.compiler.tmp
+xrx.conf.xml
+build.properties.xml
+
