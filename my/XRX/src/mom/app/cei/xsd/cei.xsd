@@ -595,7 +595,7 @@
                 <xs:element name="graphic"/>
                 <!--Erweiterung-->
                 <xs:element ref="class"/>
-                <xs:element ref="abstract"/>
+                <xs:element ref="abstract" maxOccurs="1"/>
                 <xs:element name="issued" minOccurs="1" maxOccurs="1">
                     <xs:annotation>
                         <xs:appinfo source="EditVDU">
