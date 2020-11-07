@@ -270,14 +270,12 @@
         <antcall target="sleep-until-started"/>
         <antcall target="set-admin-password"/>
         <antcall target="clean-xrx"/>
-	<antcall target="initialize-index-configuration" />
+        <antcall target="initialize-index-configuration" />
         <antcall target="deploy-tools"/>
         <antcall target="compile-xrx-project"/>
         <antcall target="stop"/>
         <antcall target="disable-betterform-debug"/>
         <antcall target="clean-up"/>
-        <antcall target="start"/>
-        <antcall target="sleep-until-started"/>
     </target>
 
     <target name="prepare-tools">

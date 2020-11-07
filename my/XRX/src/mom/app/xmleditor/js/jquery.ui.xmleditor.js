@@ -57,10 +57,13 @@ $.widget( "ui.xmleditor", {
 					return true;
 				}
 				else {
-					
-					$("#autoSaveStatus").text("Failed to save changes.");
-					
-					return false;
+					if($(response).find('result').attr("id") == "user") {
+						$("#autoSaveStatus").text("No longer logged in. Please relog and try again.");
+						return false;
+					} else {
+						$("#autoSaveStatus").text("Failed to save changes.");
+						return false;
+					}
 				}			
 			},
 			error: function(){				

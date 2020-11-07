@@ -91,7 +91,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
             let $base-collection-linked-charter := if(count($uri-tokens-linked-charter) gt 0) then metadata:base-collection('charter', $uri-tokens-linked-charter, 'public') else ()
             let $entry-linked-charter := if(count($base-collection-linked-charter) gt 0) then $base-collection-linked-charter//atom:id[.=$atomid-linked-charter]/parent::atom:entry else ()
             let $version-of-title := if(count($uri-tokens-linked-charter) gt 0) then string-join(($uri-tokens-linked-charter, $objectid-linked-charter), ' | ') else ''
-            let $version-of-link := concat(conf:param('request-root'), substring-after($atomid-linked-charter, '/charter/'), '/charter')
+            let $version-of-link := if($atomid-linked-charter) then concat(conf:param('request-root'), substring-after($atomid-linked-charter, '/charter/'), '/charter') else ()
             let $ownerid := xmldb:decode(tokenize(util:collection-name($entry), '/')[(last() - 2)])
             let $owner-label := concat(user:firstname-name($ownerid), ' (', $ownerid, ')')
             (: These is part of the function publication:build-url

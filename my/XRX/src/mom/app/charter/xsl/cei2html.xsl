@@ -35,6 +35,7 @@
 
     <xsl:param name="cei_persName"/>
     <xsl:param name="cei_placeName"/>
+    <xsl:param name="cei_geogName"/>
     <xsl:param name="cei_issuer"/>
     <xsl:param name="cei_recipient"/>
     <xsl:param name="cei_measure"/>
@@ -359,6 +360,25 @@
             </xsl:when>
         </xsl:choose>
     </xsl:template>
+    
+    <xsl:template match="xhtml:insert-geogName">
+        <xsl:choose>
+            <xsl:when test="count($cei//cei:geogName/node()) > 0">
+                <div id="geogName">
+                    <b>
+                        <xrx:i18n>
+                            <xrx:key>cei_geogName</xrx:key>
+                            <xrx:default>geographical names</xrx:default>
+                        </xrx:i18n>
+                    </b>
+                    <ul>
+                        <xsl:call-template name="geogName"/>
+                    </ul>
+                </div>
+            </xsl:when>
+        </xsl:choose>
+    </xsl:template>
+    
     <xsl:template match="xhtml:insert-item">
         <xsl:choose>
             <xsl:when test="$cei//cei:index[@*] | $cei//cei:index[text()]">
@@ -1282,10 +1302,21 @@
             <xsl:apply-templates/>
         </span>
     </xsl:template>
+    <xsl:template match="cei:geogName">
+        <xsl:variable name="i18n">
+            <xrx:i18n>
+                <xrx:key>cei_geogName</xrx:key>
+                <xrx:default>geographical name</xrx:default>
+            </xrx:i18n>
+        </xsl:variable>
+        <span class="cei-geogName" title="{$cei_geogName}">
+            <xsl:apply-templates/>
+        </span>
+    </xsl:template>
     <xsl:template name="issued">
         <xsl:apply-templates select="$cei//cei:issued/cei:dateRange"/>
         <xsl:apply-templates select="$cei//cei:issued/cei:date"/>
-        <xsl:if test="$cei//cei:issued/cei:placeName">
+        <xsl:if test="$cei//cei:issued/cei:placeName/text()/normalize-space() != '' ">
             <xsl:if test="$cei//cei:issued/cei:dateRange | $cei//cei:issued/cei:date">
                 <xsl:text>, </xsl:text>
             </xsl:if>
@@ -1929,6 +1960,25 @@
         </xsl:for-each>
     </xsl:template>
 
+
+    <!-- index geogName -->
+    <xsl:template name="geogName">
+        <xsl:for-each select="$cei//cei:geogName">
+            <xsl:sort select="."/>
+            <xsl:if test="./node()">
+                <li>
+                    <xsl:apply-templates/>
+                </li>
+                <ul class="inline">
+                    <xsl:call-template name="language"/>
+                    <xsl:call-template name="reg"/>
+                    <xsl:call-template name="existent"/>
+                    <xsl:call-template name="type"/>
+                </ul>
+            </xsl:if>
+        </xsl:for-each>
+    </xsl:template>
+    
     <!-- index -->
     <xsl:template name="item">
 
