@@ -1440,6 +1440,7 @@
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element ref="seal"/>
                 <xs:element ref="legend"/>
+                <xs:element ref="sigillant"/>
                 <xs:group ref="layout"/>
                 <xs:element ref="index"/>
             </xs:choice>
