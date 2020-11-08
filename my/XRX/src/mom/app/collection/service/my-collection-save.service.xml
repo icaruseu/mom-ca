@@ -102,7 +102,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       let $compared := compare($saved-data-content-hash, $data_hash)
       
       return if ($compared = 0) then <result>true</result>
-        else if ($loggedin = 0) then <result>false</result> else <result id="user">false</false>
+        else if ($loggedin = 0) then <result>false</result> else <result id="user">false</result>
     
     }
   </xrx:body>
