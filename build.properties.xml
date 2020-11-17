@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- @author: Jochen Graf -->
+<XRX>
+  <!-- ################################ XRX Project Settings ################################ -->
+  <project-name>mom</project-name>
+  <deploy>core/**,mom/**</deploy>
+  <password></password>
+
+
+  <!-- ################################ Java Settings ################################ -->
+  <java>
+    <initmemory>256</initmemory>
+    <maxmemory>6144</maxmemory>
+  </java>
+
+
+  <!-- ################################ eXist Settings ################################ -->
+  <exist>
+    <cache-size>256</cache-size>
+    <collection-cache>256</collection-cache>
+    <lucene-buffer>256</lucene-buffer>
+    <backup-cron-trigger>0 0 4 * * ?</backup-cron-trigger>
+    <revision></revision>
+  </exist>
+
+  <!-- ################################ Jetty Settings ################################ -->
+  <jetty>
+    <port>8080</port>
+    <port-ssl>8444</port-ssl>
+    <servername>localhost</servername>
+  </jetty>
+</XRX>
