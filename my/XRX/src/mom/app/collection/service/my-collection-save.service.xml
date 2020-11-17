@@ -86,8 +86,13 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   </xrx:init>
   <xrx:body>
     {
-      (: write changes in db :)
-      let $put := atom:PUT($feed, $entry-name, $data)
+      (: write changes in db after checking, if user is already logged in :)
+      let $loggedin := 0
+      let $put := if(xmldb:get-current-user() != "guest") then
+        atom:PUT($feed, $entry-name, $data)
+      else 
+        let $loggedin := 1
+        return $loggedin
       
       (: get saved atom:content and childs from the saved document and create hash-value:)
       let $saved-data-content := doc($doc-path)//atom:content/descendant-or-self::*
@@ -97,7 +102,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       let $compared := compare($saved-data-content-hash, $data_hash)
       
       return if ($compared = 0) then <result>true</result>
-      else <result>false</result>
+        else if ($loggedin = 0) then <result>false</result> else <result id="user">false</result>
     
     }
   </xrx:body>
