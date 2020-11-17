@@ -25,7 +25,7 @@
 
   <!-- ################################ Jetty Settings ################################ -->
   <jetty>
-    <port>8181</port>
+    <port>8080</port>
     <port-ssl>8444</port-ssl>
     <servername>localhost</servername>
   </jetty>
