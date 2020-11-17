@@ -1,17 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns="http://www.monasterium.net/NS/cei" xmlns:xerces="http://xerces.apache.org" xmlns:xrxe="http://www.monasterium.net/NS/xrxe" xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.monasterium.net/NS/cei" id="cei10">
+<xs:schema xmlns="http://www.monasterium.net/NS/cei" xmlns:xerces="http://xerces.apache.org"
+    xmlns:xrxe="http://www.monasterium.net/NS/xrxe" xmlns:xrx="http://www.monasterium.net/NS/xrx"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified"
+    elementFormDefault="qualified" targetNamespace="http://www.monasterium.net/NS/cei" id="cei10">
     <xs:element name="cei">
         <xs:annotation>
-            <xs:documentation xml:lang="deu"> Wurzelelement für alle Dokumente, die den Regeln der CEI (Charters Encoding Initiative, http://www.cei.lmu.de) folgen. CEI-Ableger mit Angaben zur EditMOM-Verarbeitung als appinfo und verringert auf ein Auszeichnungskonzept für Monasterium.net 2006-05-21 Änderungen: 2016-05-28: (lem|rdg)@wit eingeführt 2015-10-17: supplied hinzugefügt (GV) 2010-02-08: group:layout als Kind von abstract eingeführt 2009-11-20: listBibl wieder eingeführt 2009-09-04:
-                minOccurs="1" und maxOccurs="1" für Elemente "body/idno", "issued" und "date_sort" für Validierung beim Import eingeführt (JG) 2009-09-03: persName als Kind von persName eingeführt 2009-07-22: xs:group:Layout und Orignialbefund in dimensions, material, sealDesc, seal, legend, foreign, witness, arch eingefügt, um Siglen mit hochgestelleten Buchstaben aus Druckfassungen zuzulassen (GV) 2009-07-06: xs:attribute type in persName ergänzt 2008-05-28: xs:group ref=note in xs:element
-                ref=note korrigiert 2008-05-19: divNote für Fußnotenblock eingeführt 2008-01-18: region und country neben Settlement ergänzt 2006-09-05: archFond, idno, scope: complex-type mixed 2006-09-01: num als Subelement zu date und dateRange eingeführt 2006-08-11: sealMaterial und sealCondition eingeführt; ein paar Aufräumarbeiten, legend in sealDesc eingebaut als Übergangslösung für Import aus Augias GV 2006-08-10: Gruppen: Formularium, RelevantPersonal getilgt, Referenz in Sachliches
-                eingefügt; Standard-Attribute auf id und n reduziert, dafür rend nur noch bei hi, lang auf ausgewählte Elemente beschränkt (vgl. EditMOM), nota in "diplomaticAnalysis" eingefügt. measure mit num/index und Originalbefund versehen. GV 2006-08-09: seal, witness und alle Subelemente als globale Elemente definiert, den neuen globalen Elementen &lt;menu&gt; vergeben (GV) 2006-07-06: pict zu group:Originalbefund hinzugefügt, NotariusSub auch als Teil von group:Formular eingefügt;
-                issuer, recipient auch in der Transkription zulässig (GV) 2006-07-05: lang_MOM in mixed Type true umgewandelt (GV) 2006-06-27: verschiedene Attribut-Korrekturen (GV) 2006-06-26: lang_MOM eingeführt. (GV) 2006-06-21: teiHeader fakultativ, respStmt aus text/front herausgenommen (GV) 2006-06-16: date_sort korrigiert, Attribut b_name zu &lt;text&gt; eingeführt (GV) 2006-06-07: issuer &amp; recipient nur in abstract zugelassen; subelemente von bibl entfernt; a global definiert,
-                appinfo zu settlement, repository und scope global definiert. (GV) 2006-05-21: Captions geändert und ein paar Sicherheits &lt;present&gt;no eingefügt. (GV) 2006-05-18: sourceDescVolltext ergänzt und kleinere editMOM-Ergänzungen (GV) 2006-05-17: sourceDesc aufgeräumt; Versuch alle Elemente, die in die Maske kommen, global zu definieren; note aus den Fließtexten geworfen. (GV) 2006-05-16: expan statt abbr für Abkürzung, note/index als eigener Reiter, &lt;caption xml:lang="deu"&gt;
-                eingefügt; Attribute (z.B. id/n) mit &lt;present&gt;no&lt;/present&gt; versehen. Menü "Siegelbeschreibung" ergänzt. &lt;sup&gt; in p und abstract zugelassen, aber nicht in Menüs übernommen, denn diese Tags müssen noch nachbearbeitet werden. (GV) 2006-05-11 Einige Elemente, die in Fließtextfeldern auftauchen, global definiert (pTenor, a, legend), in einigen Fällen &lt;present&gt;no&lt;/present&gt; eingefügt (group etc.) (GV) 2006-05-09 Knoten, die selber nicht angezeigt werden und
-                keine anzuzeigenden Subknoten haben, sind mit dem Attribut &lt;present&gt;no&lt;/present&gt; in der EditMOM-appinfo versehen. Alle Elemente, die als Fließtext auftauchen können, sind global definiert. (GV) 2006-05-02 listBibl (listBiblEdition, listBiblRegest, listBiblFaksimile, listBiblErw), sourceDesc (sourceDescRegest), p (p, pTenor) typisiert, um in der Anzeige differenzieren zu können. EditMOM:Auswahlliste eingeführt. (GV) 2006-04-25 Weitere &lt;tab&gt;-hinzugefügt. (GV)
-                2006-04-06 Innerhalb von hi Formular zugelassen; issuer verzweigt wie persName, persName kann auch note enthalten. Weitere Attributlisten plausibler aufgereiht. (GV) 2006-04-05 Reihenfolge der Tenorelemente plausibler angeordnet, hi::target in hi::type korrigiert, ein paar Attributlisten plausibler aufgereiht. (GV) 2006-03-28 p aus dem Originalbefund direkt unterhalb von tenor verschoben, um sachlich fehlerhafte Rekursionen zu vermeiden (GV) 2006-03-19 (Ausgangsversion)
-            </xs:documentation>
+            <xs:documentation xml:lang="deu"> Wurzelelement für alle Dokumente, die den Regeln der
+                CEI (Charters Encoding Initiative, http://www.cei.lmu.de) folgen. CEI-Ableger mit
+                Angaben zur EditMOM-Verarbeitung als appinfo und verringert auf ein
+                Auszeichnungskonzept für Monasterium.net 2006-05-21 Änderungen: 2016-05-28:
+                (lem|rdg)@wit eingeführt 2015-10-17: supplied hinzugefügt (GV) 2010-02-08:
+                group:layout als Kind von abstract eingeführt 2009-11-20: listBibl wieder eingeführt
+                2009-09-04: minOccurs="1" und maxOccurs="1" für Elemente "body/idno", "issued" und
+                "date_sort" für Validierung beim Import eingeführt (JG) 2009-09-03: persName als
+                Kind von persName eingeführt 2009-07-22: xs:group:Layout und Orignialbefund in
+                dimensions, material, sealDesc, seal, legend, foreign, witness, arch eingefügt, um
+                Siglen mit hochgestelleten Buchstaben aus Druckfassungen zuzulassen (GV) 2009-07-06:
+                xs:attribute type in persName ergänzt 2008-05-28: xs:group ref=note in xs:element
+                ref=note korrigiert 2008-05-19: divNote für Fußnotenblock eingeführt 2008-01-18:
+                region und country neben Settlement ergänzt 2006-09-05: archFond, idno, scope:
+                complex-type mixed 2006-09-01: num als Subelement zu date und dateRange eingeführt
+                2006-08-11: sealMaterial und sealCondition eingeführt; ein paar Aufräumarbeiten,
+                legend in sealDesc eingebaut als Übergangslösung für Import aus Augias GV
+                2006-08-10: Gruppen: Formularium, RelevantPersonal getilgt, Referenz in Sachliches
+                eingefügt; Standard-Attribute auf id und n reduziert, dafür rend nur noch bei hi,
+                lang auf ausgewählte Elemente beschränkt (vgl. EditMOM), nota in
+                "diplomaticAnalysis" eingefügt. measure mit num/index und Originalbefund versehen.
+                GV 2006-08-09: seal, witness und alle Subelemente als globale Elemente definiert,
+                den neuen globalen Elementen &lt;menu&gt; vergeben (GV) 2006-07-06: pict zu
+                group:Originalbefund hinzugefügt, NotariusSub auch als Teil von group:Formular
+                eingefügt; issuer, recipient auch in der Transkription zulässig (GV) 2006-07-05:
+                lang_MOM in mixed Type true umgewandelt (GV) 2006-06-27: verschiedene
+                Attribut-Korrekturen (GV) 2006-06-26: lang_MOM eingeführt. (GV) 2006-06-21:
+                teiHeader fakultativ, respStmt aus text/front herausgenommen (GV) 2006-06-16:
+                date_sort korrigiert, Attribut b_name zu &lt;text&gt; eingeführt (GV) 2006-06-07:
+                issuer &amp; recipient nur in abstract zugelassen; subelemente von bibl entfernt; a
+                global definiert, appinfo zu settlement, repository und scope global definiert. (GV)
+                2006-05-21: Captions geändert und ein paar Sicherheits &lt;present&gt;no eingefügt.
+                (GV) 2006-05-18: sourceDescVolltext ergänzt und kleinere editMOM-Ergänzungen (GV)
+                2006-05-17: sourceDesc aufgeräumt; Versuch alle Elemente, die in die Maske kommen,
+                global zu definieren; note aus den Fließtexten geworfen. (GV) 2006-05-16: expan
+                statt abbr für Abkürzung, note/index als eigener Reiter, &lt;caption
+                xml:lang="deu"&gt; eingefügt; Attribute (z.B. id/n) mit
+                &lt;present&gt;no&lt;/present&gt; versehen. Menü "Siegelbeschreibung" ergänzt.
+                &lt;sup&gt; in p und abstract zugelassen, aber nicht in Menüs übernommen, denn diese
+                Tags müssen noch nachbearbeitet werden. (GV) 2006-05-11 Einige Elemente, die in
+                Fließtextfeldern auftauchen, global definiert (pTenor, a, legend), in einigen Fällen
+                &lt;present&gt;no&lt;/present&gt; eingefügt (group etc.) (GV) 2006-05-09 Knoten, die
+                selber nicht angezeigt werden und keine anzuzeigenden Subknoten haben, sind mit dem
+                Attribut &lt;present&gt;no&lt;/present&gt; in der EditMOM-appinfo versehen. Alle
+                Elemente, die als Fließtext auftauchen können, sind global definiert. (GV)
+                2006-05-02 listBibl (listBiblEdition, listBiblRegest, listBiblFaksimile,
+                listBiblErw), sourceDesc (sourceDescRegest), p (p, pTenor) typisiert, um in der
+                Anzeige differenzieren zu können. EditMOM:Auswahlliste eingeführt. (GV) 2006-04-25
+                Weitere &lt;tab&gt;-hinzugefügt. (GV) 2006-04-06 Innerhalb von hi Formular
+                zugelassen; issuer verzweigt wie persName, persName kann auch note enthalten.
+                Weitere Attributlisten plausibler aufgereiht. (GV) 2006-04-05 Reihenfolge der
+                Tenorelemente plausibler angeordnet, hi::target in hi::type korrigiert, ein paar
+                Attributlisten plausibler aufgereiht. (GV) 2006-03-28 p aus dem Originalbefund
+                direkt unterhalb von tenor verschoben, um sachlich fehlerhafte Rekursionen zu
+                vermeiden (GV) 2006-03-19 (Ausgangsversion) </xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:sequence>
@@ -21,7 +69,9 @@
                             <xrxe:label>teiHeader</xrxe:label>
                             <xrxe:relevant>false</xrxe:relevant>
                         </xs:appinfo>
-                        <xs:documentation xml:lang="deu"> Der Dateikopf beschreibt die Datei nach den Regeln der TEI (http://www.tei-c.org), Version P4 </xs:documentation>
+                        <xs:documentation xml:lang="deu"> Der Dateikopf beschreibt die Datei nach
+                            den Regeln der TEI (http://www.tei-c.org), Version P4
+                        </xs:documentation>
                     </xs:annotation>
                     <xs:complexType>
                         <xs:sequence>
@@ -42,32 +92,35 @@
                                         <xs:element name="titleStmt">
                                             <xs:annotation>
                                                 <xs:appinfo source="EditVDU">
-                                                    <xrxe:label>
-                                                        <xrx:i18n>
-                                                            <xrx:key>cei_titleStmt</xrx:key>
-                                                            <xrx:default>titleStmt</xrx:default>
-                                                        </xrx:i18n>
-                                                    </xrxe:label>
+                                                  <xrxe:label>
+                                                  <xrx:i18n>
+                                                  <xrx:key>cei_titleStmt</xrx:key>
+                                                  <xrx:default>titleStmt</xrx:default>
+                                                  </xrx:i18n>
+                                                  </xrxe:label>
                                                 </xs:appinfo>
-                                                <xs:documentation xml:lang="deu"> Den Regeln der TEI entsprechend müßten hier verschiedene Elemente verpflichtend sein: title z.B. [strict!] TODO </xs:documentation>
+                                                <xs:documentation xml:lang="deu"> Den Regeln der TEI
+                                                  entsprechend müßten hier verschiedene Elemente
+                                                  verpflichtend sein: title z.B. [strict!] TODO
+                                                </xs:documentation>
                                             </xs:annotation>
                                             <xs:complexType>
                                                 <xs:choice minOccurs="0" maxOccurs="unbounded">
-                                                    <xs:element ref="title"/>
-                                                    <xs:element name="author">
-                                                        <xs:annotation>
-                                                            <xs:appinfo source="EditVDU">
-                                                                <xrxe:label>
-                                                                    <xrx:i18n>
-                                                                        <xrx:key>cei_author</xrx:key>
-                                                                        <xrx:default>author</xrx:default>
-                                                                    </xrx:i18n>
-                                                                </xrxe:label>
-                                                                <xrxe:relevant>false</xrxe:relevant>
-                                                            </xs:appinfo>
-                                                        </xs:annotation>
-                                                    </xs:element>
-                                                    <xs:element ref="p"/>
+                                                  <xs:element ref="title"/>
+                                                  <xs:element name="author">
+                                                  <xs:annotation>
+                                                  <xs:appinfo source="EditVDU">
+                                                  <xrxe:label>
+                                                  <xrx:i18n>
+                                                  <xrx:key>cei_author</xrx:key>
+                                                  <xrx:default>author</xrx:default>
+                                                  </xrx:i18n>
+                                                  </xrxe:label>
+                                                  <xrxe:relevant>false</xrxe:relevant>
+                                                  </xs:appinfo>
+                                                  </xs:annotation>
+                                                  </xs:element>
+                                                  <xs:element ref="p"/>
                                                 </xs:choice>
                                                 <xs:attributeGroup ref="standard"/>
                                             </xs:complexType>
@@ -76,20 +129,25 @@
                                         <xs:element minOccurs="0" name="sourceDesc">
                                             <xs:annotation>
                                                 <xs:appinfo source="EditVDU">
-                                                    <xrxe:label>
-                                                        <xrx:i18n>
-                                                            <xrx:key>cei_sourceDesc</xrx:key>
-                                                            <xrx:default>sourceDesc</xrx:default>
-                                                        </xrx:i18n>
-                                                    </xrxe:label>
-                                                    <xrxe:relevant>false</xrxe:relevant>
+                                                  <xrxe:label>
+                                                  <xrx:i18n>
+                                                  <xrx:key>cei_sourceDesc</xrx:key>
+                                                  <xrx:default>sourceDesc</xrx:default>
+                                                  </xrx:i18n>
+                                                  </xrxe:label>
+                                                  <xrxe:relevant>false</xrxe:relevant>
                                                 </xs:appinfo>
-                                                <xs:documentation xml:lang="deu"> enthält die bibliographischen Angaben der Quellen, aus denen der elektronische Text stammt. </xs:documentation>
-                                                <xs:documentation xml:lang="eng"> supplies a bibliographic description of the copy text(s) from which an electronic text was derived or generated. </xs:documentation>
+                                                <xs:documentation xml:lang="deu"> enthält die
+                                                  bibliographischen Angaben der Quellen, aus denen
+                                                  der elektronische Text stammt. </xs:documentation>
+                                                <xs:documentation xml:lang="eng"> supplies a
+                                                  bibliographic description of the copy text(s) from
+                                                  which an electronic text was derived or generated.
+                                                </xs:documentation>
                                             </xs:annotation>
                                             <xs:complexType>
                                                 <xs:choice minOccurs="0">
-                                                    <xs:element ref="p"/>
+                                                  <xs:element ref="p"/>
                                                 </xs:choice>
                                                 <xs:attributeGroup ref="standard"/>
                                             </xs:complexType>
@@ -110,7 +168,8 @@
                                         </xrxe:label>
                                         <xrxe:relevant>false</xrxe:relevant>
                                     </xs:appinfo>
-                                    <xs:documentation xml:lang="deu"> Angaben zum Projekt </xs:documentation>
+                                    <xs:documentation xml:lang="deu"> Angaben zum Projekt
+                                    </xs:documentation>
                                 </xs:annotation>
                                 <xs:complexType>
                                     <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -141,7 +200,8 @@
                 </xrxe:label>
                 <xrxe:relevant>false</xrxe:relevant>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Formale Regeln, die bei der Codierung angewendet worden sind. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Formale Regeln, die bei der Codierung angewendet
+                worden sind. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:complexContent mixed="true">
@@ -162,7 +222,9 @@
                 </xrxe:label>
                 <xrxe:relevant>false</xrxe:relevant>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Angaben zur Veröffentlichung des Textes (Zeitpunkt, rechtsverbindlicher Ort, Beschränkungen, Verantwortlichkeiten ...) </xs:documentation>
+            <xs:documentation xml:lang="deu"> Angaben zur Veröffentlichung des Textes (Zeitpunkt,
+                rechtsverbindlicher Ort, Beschränkungen, Verantwortlichkeiten ...)
+            </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -218,7 +280,8 @@
                             </xrxe:label>
                             <xrxe:relevant>false</xrxe:relevant>
                         </xs:appinfo>
-                        <xs:documentation xml:lang="deu"> Verfügbarkeit und insbesondere ihre Einschränkungen ("restricted") </xs:documentation>
+                        <xs:documentation xml:lang="deu"> Verfügbarkeit und insbesondere ihre
+                            Einschränkungen ("restricted") </xs:documentation>
                     </xs:annotation>
                     <xs:complexType mixed="true">
                         <xs:sequence>
@@ -245,7 +308,8 @@
                 </xrxe:label>
                 <xrxe:relevant>false</xrxe:relevant>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Angaben über die inhaltliche, redaktionelle und verlegerische Verantwortung </xs:documentation>
+            <xs:documentation xml:lang="deu"> Angaben über die inhaltliche, redaktionelle und
+                verlegerische Verantwortung </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -261,8 +325,10 @@
                             </xrxe:label>
                             <xrxe:relevant>false</xrxe:relevant>
                         </xs:appinfo>
-                        <xs:documentation xml:lang="deu"> beschreibt die intellektuelle Verantwortlichkeit einer Person </xs:documentation>
-                        <xs:documentation xml:lang="eng"> contains a phrase describing the nature of a person's intellectual responsibility. </xs:documentation>
+                        <xs:documentation xml:lang="deu"> beschreibt die intellektuelle
+                            Verantwortlichkeit einer Person </xs:documentation>
+                        <xs:documentation xml:lang="eng"> contains a phrase describing the nature of
+                            a person's intellectual responsibility. </xs:documentation>
                     </xs:annotation>
                     <xs:complexType>
                         <xs:simpleContent>
@@ -289,7 +355,8 @@
                 </xrxe:label>
                 <xrxe:mixed>false</xrxe:mixed>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Mit type="charter" als Urkunde identifiziert; type="collection" faßt einen Bestand zusammen. Textelemente: </xs:documentation>
+            <xs:documentation xml:lang="deu"> Mit type="charter" als Urkunde identifiziert;
+                type="collection" faßt einen Bestand zusammen. Textelemente: </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice>
@@ -300,7 +367,9 @@
                                 <xrxe:label/>
                                 <xrxe:mixed>false</xrxe:mixed>
                             </xs:appinfo>
-                            <xs:documentation xml:lang="deu"> Der Vorspann zu einem Text (Titelblatt, Vorwort, Inhaltsverzeichnis, Danksagung etc.) </xs:documentation>
+                            <xs:documentation xml:lang="deu"> Der Vorspann zu einem Text
+                                (Titelblatt, Vorwort, Inhaltsverzeichnis, Danksagung etc.)
+                            </xs:documentation>
                         </xs:annotation>
                         <xs:complexType mixed="true">
                             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -309,8 +378,8 @@
                                         <xs:appinfo source="EditVDU">
                                             <xrxe:label>
                                                 <xrx:i18n>
-                                                    <xrx:key>cei_sourceDesc</xrx:key>
-                                                    <xrx:default>sourceDesc</xrx:default>
+                                                  <xrx:key>cei_sourceDesc</xrx:key>
+                                                  <xrx:default>sourceDesc</xrx:default>
                                                 </xrx:i18n>
                                             </xrxe:label>
                                         </xs:appinfo>
@@ -319,65 +388,77 @@
                                         <xs:choice minOccurs="0" maxOccurs="unbounded">
                                             <xs:element name="sourceDescRegest">
                                                 <xs:annotation>
-                                                    <xs:appinfo source="EditVDU">
-                                                        <xrxe:label>
-                                                            <xrx:i18n>
-                                                                <xrx:key>cei_sourceDescRegest</xrx:key>
-                                                                <xrx:default>sourceDescRegest</xrx:default>
-                                                            </xrx:i18n>
-                                                        </xrxe:label>
-                                                    </xs:appinfo>
-                                                    <xs:documentation xml:lang="deu"> CEI_MOM-spezifisch: Eigentlich eine SourceDesc, die über ein Schlüsselwort "Regest" auf die Quelle des Regests verweist. </xs:documentation>
+                                                  <xs:appinfo source="EditVDU">
+                                                  <xrxe:label>
+                                                  <xrx:i18n>
+                                                  <xrx:key>cei_sourceDescRegest</xrx:key>
+                                                  <xrx:default>sourceDescRegest</xrx:default>
+                                                  </xrx:i18n>
+                                                  </xrxe:label>
+                                                  </xs:appinfo>
+                                                  <xs:documentation xml:lang="deu">
+                                                  CEI_MOM-spezifisch: Eigentlich eine SourceDesc,
+                                                  die über ein Schlüsselwort "Regest" auf die Quelle
+                                                  des Regests verweist. </xs:documentation>
                                                 </xs:annotation>
                                                 <xs:complexType>
-                                                    <xs:sequence>
-                                                        <xs:element maxOccurs="unbounded" ref="bibl">
-                                                            <xs:annotation>
-                                                                <xs:documentation xml:lang="deu">Gibt die Quelle für das Regest an.</xs:documentation>
-                                                            </xs:annotation>
-                                                        </xs:element>
-                                                    </xs:sequence>
-                                                    <xs:attribute name="ref">
-                                                        <xs:annotation>
-                                                            <xs:documentation xml:lang="deu">Verweis auf eine Textpassage, zu der hier die Quelle angegeben wird.</xs:documentation>
-                                                        </xs:annotation>
-                                                    </xs:attribute>
-                                                    <xs:attributeGroup ref="standard"/>
+                                                  <xs:sequence>
+                                                  <xs:element maxOccurs="unbounded" ref="bibl">
+                                                  <xs:annotation>
+                                                  <xs:documentation xml:lang="deu">Gibt die Quelle
+                                                  für das Regest an.</xs:documentation>
+                                                  </xs:annotation>
+                                                  </xs:element>
+                                                  </xs:sequence>
+                                                  <xs:attribute name="ref">
+                                                  <xs:annotation>
+                                                  <xs:documentation xml:lang="deu">Verweis auf eine
+                                                  Textpassage, zu der hier die Quelle angegeben
+                                                  wird.</xs:documentation>
+                                                  </xs:annotation>
+                                                  </xs:attribute>
+                                                  <xs:attributeGroup ref="standard"/>
                                                 </xs:complexType>
                                             </xs:element>
                                             <xs:element name="sourceDescVolltext">
                                                 <xs:annotation>
-                                                    <xs:appinfo source="EditVDU">
-                                                        <xrxe:label>
-                                                            <xrx:i18n>
-                                                                <xrx:key>cei_sourceDescVolltext</xrx:key>
-                                                                <xrx:default>sourceDescVolltext</xrx:default>
-                                                            </xrx:i18n>
-                                                        </xrxe:label>
-                                                    </xs:appinfo>
-                                                    <xs:documentation xml:lang="deu"> CEI_MOM-spezifisch: Eigentlich eine SourceDesc, die über ein Schlüsselwort "Volltext" auf die Quelle des Regests verweist. </xs:documentation>
+                                                  <xs:appinfo source="EditVDU">
+                                                  <xrxe:label>
+                                                  <xrx:i18n>
+                                                  <xrx:key>cei_sourceDescVolltext</xrx:key>
+                                                  <xrx:default>sourceDescVolltext</xrx:default>
+                                                  </xrx:i18n>
+                                                  </xrxe:label>
+                                                  </xs:appinfo>
+                                                  <xs:documentation xml:lang="deu">
+                                                  CEI_MOM-spezifisch: Eigentlich eine SourceDesc,
+                                                  die über ein Schlüsselwort "Volltext" auf die
+                                                  Quelle des Regests verweist. </xs:documentation>
                                                 </xs:annotation>
                                                 <xs:complexType>
-                                                    <xs:sequence>
-                                                        <xs:element maxOccurs="unbounded" ref="bibl">
-                                                            <xs:annotation>
-                                                                <xs:documentation xml:lang="deu">Gibt die Quelle für den Volltext an. </xs:documentation>
-                                                            </xs:annotation>
-                                                        </xs:element>
-                                                    </xs:sequence>
-                                                    <xs:attribute name="ref">
-                                                        <xs:annotation>
-                                                            <xs:documentation xml:lang="deu"> Verweis auf eine Textpassage, zu der hier die Quelle angegeben wird. </xs:documentation>
-                                                        </xs:annotation>
-                                                    </xs:attribute>
-                                                    <xs:attributeGroup ref="standard"/>
+                                                  <xs:sequence>
+                                                  <xs:element maxOccurs="unbounded" ref="bibl">
+                                                  <xs:annotation>
+                                                  <xs:documentation xml:lang="deu">Gibt die Quelle
+                                                  für den Volltext an. </xs:documentation>
+                                                  </xs:annotation>
+                                                  </xs:element>
+                                                  </xs:sequence>
+                                                  <xs:attribute name="ref">
+                                                  <xs:annotation>
+                                                  <xs:documentation xml:lang="deu"> Verweis auf eine
+                                                  Textpassage, zu der hier die Quelle angegeben
+                                                  wird. </xs:documentation>
+                                                  </xs:annotation>
+                                                  </xs:attribute>
+                                                  <xs:attributeGroup ref="standard"/>
                                                 </xs:complexType>
                                             </xs:element>
                                             <xs:element ref="p">
                                                 <xs:annotation>
-                                                    <xs:appinfo source="EditVDU">
-                                                        <xrxe:relevant>false</xrxe:relevant>
-                                                    </xs:appinfo>
+                                                  <xs:appinfo source="EditVDU">
+                                                  <xrxe:relevant>false</xrxe:relevant>
+                                                  </xs:appinfo>
                                                 </xs:annotation>
                                             </xs:element>
                                         </xs:choice>
@@ -400,7 +481,6 @@
                                     </xs:annotation>
                                 </xs:element>
                                 <xs:element ref="encodingDesc"/>
-                                <!--Erweiterung-->
                             </xs:choice>
                         </xs:complexType>
                     </xs:element>
@@ -418,22 +498,24 @@
                                         <xs:element minOccurs="1" maxOccurs="1" name="idno">
                                             <xs:annotation>
                                                 <xs:appinfo source="EditVDU">
-                                                    <xrxe:label>
-                                                        <xrx:i18n>
-                                                            <xrx:key>cei_idno</xrx:key>
-                                                            <xrx:default>idno</xrx:default>
-                                                        </xrx:i18n>
-                                                    </xrxe:label>
-                                                    <xrxe:relevant>false</xrxe:relevant>
+                                                  <xrxe:label>
+                                                  <xrx:i18n>
+                                                  <xrx:key>cei_idno</xrx:key>
+                                                  <xrx:default>idno</xrx:default>
+                                                  </xrx:i18n>
+                                                  </xrxe:label>
+                                                  <xrxe:relevant>false</xrxe:relevant>
                                                 </xs:appinfo>
-                                                <xs:documentation xml:lang="deu"> Gibt die Identifikationsnummer der Urkunde im aktuellen Corpus an. </xs:documentation>
+                                                <xs:documentation xml:lang="deu"> Gibt die
+                                                  Identifikationsnummer der Urkunde im aktuellen
+                                                  Corpus an. </xs:documentation>
                                             </xs:annotation>
                                             <xs:complexType>
                                                 <xs:simpleContent>
-                                                    <xs:extension base="idnoValue">
-                                                        <xs:attributeGroup ref="standard"/>
-                                                        <xs:attribute name="old"/>
-                                                    </xs:extension>
+                                                  <xs:extension base="idnoValue">
+                                                  <xs:attributeGroup ref="standard"/>
+                                                  <xs:attribute name="old"/>
+                                                  </xs:extension>
                                                 </xs:simpleContent>
                                             </xs:complexType>
                                         </xs:element>
@@ -454,7 +536,8 @@
                                     </xrxe:label>
                                     <xrxe:relevant>false</xrxe:relevant>
                                 </xs:appinfo>
-                                <xs:documentation xml:lang="deu"> Eine Gruppe von eigenständigen Texten als Teil eines Corpus z.B. </xs:documentation>
+                                <xs:documentation xml:lang="deu"> Eine Gruppe von eigenständigen
+                                    Texten als Teil eines Corpus z.B. </xs:documentation>
                             </xs:annotation>
                             <xs:complexType>
                                 <xs:choice maxOccurs="unbounded">
@@ -470,7 +553,8 @@
                             <xs:appinfo source="EditVDU">
                                 <xrxe:label/>
                             </xs:appinfo>
-                            <xs:documentation xml:lang="deu"> Anhänge zu einem Text (z.B. Endnoten, Register, Verzeichnisse) </xs:documentation>
+                            <xs:documentation xml:lang="deu"> Anhänge zu einem Text (z.B. Endnoten,
+                                Register, Verzeichnisse) </xs:documentation>
                         </xs:annotation>
                         <xs:complexType>
                             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -534,13 +618,13 @@
                 </xs:sequence>
             </xs:choice>
             <xs:attribute name="type" fixed="charter"/>
-            <!--Erweiterung-->
             <xs:attributeGroup ref="picture"/>
             <xs:attributeGroup ref="certainty"/>
             <xs:attributeGroup ref="standard"/>
             <xs:attribute name="b_name" type="xs:anySimpleType">
                 <xs:annotation>
-                    <xs:documentation xml:lang="deu">MOM-spezifisch! Enthält noch mal den Bestandsname.</xs:documentation>
+                    <xs:documentation xml:lang="deu">MOM-spezifisch! Enthält noch mal den
+                        Bestandsname.</xs:documentation>
                 </xs:annotation>
             </xs:attribute>
         </xs:complexType>
@@ -556,7 +640,9 @@
                 </xrxe:label>
                 <xrxe:relevant>false</xrxe:relevant>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Die Identifikationsnummer eines Objektes innerhalb der aktuellen Struktur (z.B. Nummer in einem Urkundenbuch, Bestand in einem Archiv, Handschriftensignatur in einer Bibliothek. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Die Identifikationsnummer eines Objektes innerhalb der
+                aktuellen Struktur (z.B. Nummer in einem Urkundenbuch, Bestand in einem Archiv,
+                Handschriftensignatur in einer Bibliothek. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -577,13 +663,14 @@
                 </xrxe:label>
                 <xrxe:mixed>false</xrxe:mixed>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Faßt die Metadaten einer Urkunde zusammen. Metadatenelemente </xs:documentation>
-            <xs:documentation xml:lang="eng">contains the meta-data for the charter</xs:documentation>
+            <xs:documentation xml:lang="deu"> Faßt die Metadaten einer Urkunde zusammen.
+                Metadatenelemente </xs:documentation>
+            <xs:documentation xml:lang="eng">contains the meta-data for the
+                charter</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element name="graphic"/>
-                <!--Erweiterung-->
                 <xs:element ref="class"/>
                 <xs:element ref="abstract" maxOccurs="1"/>
                 <xs:element name="issued" minOccurs="1" maxOccurs="1">
@@ -597,7 +684,10 @@
                             </xrxe:label>
                             <xrxe:mixed>false</xrxe:mixed>
                         </xs:appinfo>
-                        <xs:documentation xml:lang="deu"> Diese Konstruktion kann allgemeine Elemente für die Beschreibung von Ausstellungsort und -zeit verwenden und ist deshalb den Konstrukten "issuePlace" und "date" bzw. "publicationStmt" vorzuziehen. [strict!] </xs:documentation>
+                        <xs:documentation xml:lang="deu"> Diese Konstruktion kann allgemeine
+                            Elemente für die Beschreibung von Ausstellungsort und -zeit verwenden
+                            und ist deshalb den Konstrukten "issuePlace" und "date" bzw.
+                            "publicationStmt" vorzuziehen. [strict!] </xs:documentation>
                     </xs:annotation>
                     <xs:complexType mixed="true">
                         <xs:annotation>
@@ -624,14 +714,17 @@
                                         <xs:documentation>
                                             <xrx:description>
                                                 <xrx:i18n>
-                                                    <xrx:key>cei_issued_date_description</xrx:key>
-                                                    <xrx:default>Datum, an dem die Urkunde ausgestellt ist. Die Daten werden im Format 'Jahr Monat (als Wort) Tag' angegeben.</xrx:default>
+                                                  <xrx:key>cei_issued_date_description</xrx:key>
+                                                  <xrx:default>Datum, an dem die Urkunde ausgestellt
+                                                  ist. Die Daten werden im Format 'Jahr Monat (als
+                                                  Wort) Tag' angegeben.</xrx:default>
                                                 </xrx:i18n>
                                             </xrx:description>
                                             <xrx:example>
                                                 <xrx:i18n>
-                                                    <xrx:key>cei_issued_date_example</xrx:key>
-                                                    <xrx:default>&lt;cei:date value="16091001"&gt;1609 Oktober 1&lt;/cei:date&gt;</xrx:default>
+                                                  <xrx:key>cei_issued_date_example</xrx:key>
+                                                  <xrx:default>&lt;cei:date value="16091001"&gt;1609
+                                                  Oktober 1&lt;/cei:date&gt;</xrx:default>
                                                 </xrx:i18n>
                                             </xrx:example>
                                         </xs:documentation>
@@ -652,7 +745,8 @@
                 </xs:element>
                 <xs:element name="witnessOrig">
                     <xs:annotation>
-                        <xs:documentation xml:lang="deu">Der einzelne Textzeuge (MOM)</xs:documentation>
+                        <xs:documentation xml:lang="deu">Der einzelne Textzeuge
+                            (MOM)</xs:documentation>
                         <xs:appinfo source="EditVDU">
                             <xrxe:label>
                                 <xrx:i18n>
@@ -688,17 +782,16 @@
                                 </xs:annotation>
                             </xs:element>
                             <xs:element ref="p"/>
-                            <!--Erweiterung-->
                             <xs:element ref="note"/>
-                            <!--Erweiterung-->
                             <xs:element ref="hi"/>
-                            <!--Erweiterung-->
                         </xs:choice>
                         <xs:attributeGroup ref="certainty"/>
                         <xs:attribute name="type" type="xs:anySimpleType" use="optional"/>
                         <xs:attribute name="sigil" type="xs:anySimpleType">
                             <xs:annotation>
-                                <xs:documentation xml:lang="deu"> P5 sieht dafür das Attribut id vor. Diese Lösung ist sowohl dem Element, als auch dem Attribut vorzuziehen. [strict!] </xs:documentation>
+                                <xs:documentation xml:lang="deu"> P5 sieht dafür das Attribut id
+                                    vor. Diese Lösung ist sowohl dem Element, als auch dem Attribut
+                                    vorzuziehen. [strict!] </xs:documentation>
                             </xs:annotation>
                         </xs:attribute>
                         <xs:attribute name="sameAs" type="xs:anySimpleType" use="optional"/>
@@ -717,8 +810,11 @@
                             </xrxe:label>
                             <xrxe:mixed>false</xrxe:mixed>
                         </xs:appinfo>
-                        <xs:documentation xml:lang="deu"> Enthält Bemerkungen zur diplomatischen Kritik der Urkunde, die formale Beobachtungen der inneren wie äußeren Merkmale ebenso wie inhaltliche Überlegungen enthalten kann. </xs:documentation>
-                        <xs:documentation xml:lang="eng"> contains a diplomatic analysis of the document, formal critics or critics by the content. </xs:documentation>
+                        <xs:documentation xml:lang="deu"> Enthält Bemerkungen zur diplomatischen
+                            Kritik der Urkunde, die formale Beobachtungen der inneren wie äußeren
+                            Merkmale ebenso wie inhaltliche Überlegungen enthalten kann. </xs:documentation>
+                        <xs:documentation xml:lang="eng"> contains a diplomatic analysis of the
+                            document, formal critics or critics by the content. </xs:documentation>
                     </xs:annotation>
                     <xs:complexType mixed="true">
                         <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -733,7 +829,9 @@
                                         </xrxe:label>
                                         <xrxe:mixed>false</xrxe:mixed>
                                     </xs:appinfo>
-                                    <xs:documentation xml:lang="deu"> undifferenzierte Bibliographische Auflistung von Titeln, die die Urkunde betreffen.. </xs:documentation>
+                                    <xs:documentation xml:lang="deu"> undifferenzierte
+                                        Bibliographische Auflistung von Titeln, die die Urkunde
+                                        betreffen.. </xs:documentation>
                                 </xs:annotation>
                                 <xs:complexType mixed="true">
                                     <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -742,8 +840,6 @@
                                             <xs:element ref="bibl"/>
                                         </xs:choice>
                                     </xs:choice>
-                                    <xs:attribute name="type"/>
-                                    <!--Erweiterung-->
                                     <xs:attributeGroup ref="standard"/>
                                 </xs:complexType>
                             </xs:element>
@@ -758,7 +854,8 @@
                                         </xrxe:label>
                                         <xrxe:mixed>false</xrxe:mixed>
                                     </xs:appinfo>
-                                    <xs:documentation xml:lang="deu"> Bibliographische Auflistung der Editionen = listBibl type="print". </xs:documentation>
+                                    <xs:documentation xml:lang="deu"> Bibliographische Auflistung
+                                        der Editionen = listBibl type="print". </xs:documentation>
                                 </xs:annotation>
                                 <xs:complexType mixed="true">
                                     <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -781,7 +878,8 @@
                                         </xrxe:label>
                                         <xrxe:mixed>false</xrxe:mixed>
                                     </xs:appinfo>
-                                    <xs:documentation xml:lang="deu"> Bibliographische Auflistungen = listBibl type="regesta". </xs:documentation>
+                                    <xs:documentation xml:lang="deu"> Bibliographische Auflistungen
+                                        = listBibl type="regesta". </xs:documentation>
                                 </xs:annotation>
                                 <xs:complexType mixed="true">
                                     <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -804,7 +902,9 @@
                                         </xrxe:label>
                                         <xrxe:mixed>false</xrxe:mixed>
                                     </xs:appinfo>
-                                    <xs:documentation xml:lang="deu"> Bibliographische Auflistung der Faksimiles = listBibl type="facsimilia" </xs:documentation>
+                                    <xs:documentation xml:lang="deu"> Bibliographische Auflistung
+                                        der Faksimiles = listBibl type="facsimilia"
+                                    </xs:documentation>
                                 </xs:annotation>
                                 <xs:complexType mixed="true">
                                     <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -827,7 +927,9 @@
                                         </xrxe:label>
                                         <xrxe:mixed>false</xrxe:mixed>
                                     </xs:appinfo>
-                                    <xs:documentation xml:lang="deu"> Bibliographische Auflistung der Erwähnungen = listBibl type="studies" </xs:documentation>
+                                    <xs:documentation xml:lang="deu"> Bibliographische Auflistung
+                                        der Erwähnungen = listBibl type="studies"
+                                    </xs:documentation>
                                 </xs:annotation>
                                 <xs:complexType mixed="true">
                                     <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -849,8 +951,8 @@
                             <xs:element ref="quoteOriginaldatierung"/>
                             <xs:element ref="nota"/>
                             <xs:element ref="rubrum"/>
-                            <xs:element ref="incipit"/>
                             <xs:element ref="divNotes"/>
+                            <xs:element ref="incipit"/>
                         </xs:choice>
                         <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
@@ -895,13 +997,21 @@
                 <xrx:description>
                     <xrx:i18n>
                         <xrx:key>cei_abstract_description</xrx:key>
-                        <xrx:default>Abstract which summarizes the legal contents of a charter document; either a short header in some editions or a more detailed long-abstract with verbatim citations. Note: All abstracts must name the author/sender of a document and should mention its receiver.</xrx:default>
+                        <xrx:default>Abstract which summarizes the legal contents of a charter
+                            document; either a short header in some editions or a more detailed
+                            long-abstract with verbatim citations. Note: All abstracts must name the
+                            author/sender of a document and should mention its
+                            receiver.</xrx:default>
                     </xrx:i18n>
                 </xrx:description>
                 <xrx:example>
                     <xrx:i18n>
                         <xrx:key>cei_abstract_example</xrx:key>
-                        <xrx:default>&lt;cei:abstract&gt;&lt;cei:issuer&gt;Rudolph III. Herzog von Österreich&lt;/cei:issuer&gt; bestätigt die Privilegien des &lt;cei:recipient&gt;Klosters Geras&lt;/cei:recipient&gt;, namentlich in gewissen Beziehungen, in denen Beeinträchtigungen eingetreten waren.&lt;/cei:abstract&gt;</xrx:default>
+                        <xrx:default>&lt;cei:abstract&gt;&lt;cei:issuer&gt;Rudolph III. Herzog von
+                            Österreich&lt;/cei:issuer&gt; bestätigt die Privilegien des
+                            &lt;cei:recipient&gt;Klosters Geras&lt;/cei:recipient&gt;, namentlich in
+                            gewissen Beziehungen, in denen Beeinträchtigungen eingetreten
+                            waren.&lt;/cei:abstract&gt;</xrx:default>
                     </xrx:i18n>
                 </xrx:example>
             </xs:documentation>
@@ -1039,7 +1149,8 @@
                     </xrx:i18n>
                 </xrxe:label>
             </xs:appinfo>
-            <xs:documentation xml:lang="en">add complex text to a tagged part of the document.</xs:documentation>
+            <xs:documentation xml:lang="en">add complex text to a tagged part of the
+                document.</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="lang"/>
@@ -1047,7 +1158,6 @@
             <xs:attributeGroup ref="resp"/>
         </xs:complexType>
     </xs:element>
-    <!--Erweiterung-Anfang-->
     <xs:element name="w">
         <xs:annotation>
             <xs:documentation xml:lang="deu">Wort-Element für Transkription.</xs:documentation>
@@ -1063,6 +1173,7 @@
                 <xs:element ref="seg"/>
                 <xs:element ref="space"/>
                 <xs:element ref="supplied"/>
+                <xs:element ref="figure"/>
             </xs:choice>
             <xs:attribute name="id"/>
             <xs:attribute name="note"/>
@@ -1070,7 +1181,8 @@
     </xs:element>
     <xs:element name="pc">
         <xs:annotation>
-            <xs:documentation xml:lang="deu">Satzzeichen-Element für Tranksription.</xs:documentation>
+            <xs:documentation xml:lang="deu">Satzzeichen-Element für
+                Tranksription.</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:attribute name="id"/>
@@ -1082,12 +1194,26 @@
                 <xs:element ref="c"/>
                 <xs:element ref="expan"/>
                 <xs:element ref="hi"/>
+                <xs:element ref="damage"/>
             </xs:choice>
             <xs:attribute name="type"/>
             <xs:attribute name="id"/>
+            <xs:attribute name="part"/>
         </xs:complexType>
     </xs:element>
-    <!--Erweiterung-Ende-->
+    <xs:element name="head">
+        <xs:annotation>
+            <xs:appinfo source="EditVDU">
+                <xrxe:relevant>false</xrxe:relevant>
+            </xs:appinfo>
+            <xs:documentation xml:lang="deu">Eine Überschrift </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="hi"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
     <xs:element name="witListPar">
         <xs:annotation>
             <xs:appinfo source="EditVDU">
@@ -1099,10 +1225,12 @@
                 </xrxe:label>
                 <xrxe:mixed>false</xrxe:mixed>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Textzeugen: kopiale Überlieferung (MOM) </xs:documentation>
+            <xs:documentation xml:lang="deu"> Textzeugen: kopiale Überlieferung (MOM)
+            </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="head"/>
                 <xs:element ref="witness"/>
             </xs:choice>
             <xs:attributeGroup ref="lang"/>
@@ -1173,7 +1301,9 @@
                 </xrxe:label>
                 <xrxe:min-occur>0</xrxe:min-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Überlieferungsform: Original, Kopial, Insert, Transsumpt, Vidimus, Konzept. Die verwendete Begrifflichkeit ist dem VID zu entnehmen oder in der profileDesc zu dokumentieren. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Überlieferungsform: Original, Kopial, Insert,
+                Transsumpt, Vidimus, Konzept. Die verwendete Begrifflichkeit ist dem VID zu
+                entnehmen oder in der profileDesc zu dokumentieren. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -1235,8 +1365,10 @@
                 </xrxe:label>
                 <xrxe:mixed>false</xrxe:mixed>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> beschreibt die Mittel zur Beglaubigung der Urkunde (Siegel, Notarsunterschriften etc.) </xs:documentation>
-            <xs:documentation xml:lang="eng">describes the authentification of the document. </xs:documentation>
+            <xs:documentation xml:lang="deu"> beschreibt die Mittel zur Beglaubigung der Urkunde
+                (Siegel, Notarsunterschriften etc.) </xs:documentation>
+            <xs:documentation xml:lang="eng">describes the authentification of the document.
+            </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -1262,12 +1394,14 @@
                 <xrxe:content-control>annotation</xrxe:content-control>
                 <xrxe:rows>5</xrxe:rows>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> eine differenzierte Siegelbeschreibung. </xs:documentation>
+            <xs:documentation xml:lang="deu"> eine differenzierte Siegelbeschreibung.
+            </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element ref="seal"/>
                 <xs:element ref="legend"/>
+                <xs:element ref="sigillant"/>
                 <xs:group ref="layout"/>
                 <xs:element ref="index"/>
             </xs:choice>
@@ -1293,7 +1427,8 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Ein einzelnes Siegel (CEI_MOM spezifisch!) </xs:documentation>
+            <xs:documentation xml:lang="deu"> Ein einzelnes Siegel (CEI_MOM spezifisch!)
+            </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -1327,7 +1462,8 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> gibt den Text, der auf einem Siegel angebracht ist, wieder. </xs:documentation>
+            <xs:documentation xml:lang="deu"> gibt den Text, der auf einem Siegel angebracht ist,
+                wieder. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -1379,7 +1515,8 @@
                 </xrxe:label>
                 <xrxe:content-control>annotation</xrxe:content-control>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu">Beschreibung einer notariellen Unterfertigung.</xs:documentation>
+            <xs:documentation xml:lang="deu">Beschreibung einer notariellen
+                Unterfertigung.</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -1422,7 +1559,9 @@
                 <xrxe:relevant>true</xrxe:relevant>
             </xs:appinfo>
             <xs:documentation xml:lang="de">Teilurkundenschnitt</xs:documentation>
-            <xs:documentation xml:lang="en">contains a description of the method how a chirograph/carta partita (cfr. VID 44, http://www.cei.lmu.de/VID/#VID_44) is executed, e.g. the text written in the place of cutting, and/or the form of the cutting.</xs:documentation>
+            <xs:documentation xml:lang="en">contains a description of the method how a chirograph
+                (cfr. VID 44, http://www.cei.lmu.de/VID/#VID_44) is executed, e.g. the text written
+                in the place of cutting, and/or the form of the cutting.</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:sequence minOccurs="0" maxOccurs="unbounded">
@@ -1446,8 +1585,10 @@
                 <xrxe:content-control>annotation</xrxe:content-control>
                 <xrxe:relevant>false</xrxe:relevant>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Enthält Vermerke des verwahrenden Archivs oder des Empfängers auf der Urkunde.</xs:documentation>
-            <xs:documentation xml:lang="eng">contains notes on the document applied by the preserving archives or the recipient. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Enthält Vermerke des verwahrenden Archivs oder des
+                Empfängers auf der Urkunde.</xs:documentation>
+            <xs:documentation xml:lang="eng">contains notes on the document applied by the
+                preserving archives or the recipient. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -1474,8 +1615,10 @@
                 <xrxe:content-control>annotation</xrxe:content-control>
                 <xrxe:relevant>false</xrxe:relevant>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu">Enthält die ersten Wörter des Textes. Im Attribute "type" wird angegeben, auf welchen Textteil es sich bezieht,</xs:documentation>
-            <xs:documentation xml:lang="eng">contains the first words of the text. The attribute "type" specifies if it refers to specific part of the text.</xs:documentation>
+            <xs:documentation xml:lang="deu">Enthält die ersten Wörter des Textes. Im Attribute
+                "type" wird angegeben, auf welchen Textteil es sich bezieht,</xs:documentation>
+            <xs:documentation xml:lang="eng">contains the first words of the text. The attribute
+                "type" specifies if it refers to specific part of the text.</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -1498,7 +1641,9 @@
                 </xrxe:label>
                 <xrxe:mixed>false</xrxe:mixed>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> beschreibt die physikalischen Merkmale des Textzeugen, als Freitext erfaßt werden können oder weitere Strukturen haben können wie Beschreibstoff (material), Maße (dimensions) etc. </xs:documentation>
+            <xs:documentation xml:lang="deu"> beschreibt die physikalischen Merkmale des Textzeugen,
+                als Freitext erfaßt werden können oder weitere Strukturen haben können wie
+                Beschreibstoff (material), Maße (dimensions) etc. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -1522,7 +1667,8 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:content-control>annotation</xrxe:content-control>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Platz für die Kunsthistorische Beschreibung</xs:documentation>
+            <xs:documentation xml:lang="deu"> Platz für die Kunsthistorische
+                Beschreibung</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -1543,7 +1689,8 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:content-control>annotation</xrxe:content-control>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Maße des Objekts (Höhe x Breite oder in eigenen Elementen) </xs:documentation>
+            <xs:documentation xml:lang="deu"> Maße des Objekts (Höhe x Breite oder in eigenen
+                Elementen) </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -1599,15 +1746,14 @@
                                 </xrx:i18n>
                             </xrxe:menu-item>
                         </xs:appinfo>
-                        <xs:documentation xml:lang="eng"> describes the depth of the fold used to secure the threads for the seal </xs:documentation>
+                        <xs:documentation xml:lang="eng"> describes the depth of the fold used to
+                            secure the threads for the seal </xs:documentation>
                     </xs:annotation>
                 </xs:element>
             </xs:choice>
             <xs:attributeGroup ref="standard"/>
             <xs:attribute name="type" type="xs:string"/>
-            <!--Erweiterung-->
             <xs:attribute name="unit" type="xs:string"/>
-            <!--Erweiterung-->
         </xs:complexType>
     </xs:element>
     <xs:element name="sealDimensions">
@@ -1628,7 +1774,8 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Maße des Objekts (Höhe x Breite oder in eigenen Elementen) </xs:documentation>
+            <xs:documentation xml:lang="deu"> Maße des Objekts (Höhe x Breite oder in eigenen
+                Elementen) </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="standard"/>
@@ -1646,8 +1793,10 @@
                 <xrxe:content-control>annotation</xrxe:content-control>
                 <xrxe:min-occur>0</xrxe:min-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Stoff des beschriebenen Objekts (Beschreibstoff, Siegelmaterial) </xs:documentation>
-            <xs:documentation xml:lang="eng"> describes the material on which the document is written </xs:documentation>
+            <xs:documentation xml:lang="deu"> Stoff des beschriebenen Objekts (Beschreibstoff,
+                Siegelmaterial) </xs:documentation>
+            <xs:documentation xml:lang="eng"> describes the material on which the document is
+                written </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -1676,8 +1825,10 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Stoff des beschriebenen Objekts (Beschreibstoff, Siegelmaterial) </xs:documentation>
-            <xs:documentation xml:lang="eng"> describes the material on which the document is written </xs:documentation>
+            <xs:documentation xml:lang="deu"> Stoff des beschriebenen Objekts (Beschreibstoff,
+                Siegelmaterial) </xs:documentation>
+            <xs:documentation xml:lang="eng"> describes the material on which the document is
+                written </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="lang"/>
@@ -1697,8 +1848,10 @@
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
                 <xrxe:content-control>annotation</xrxe:content-control>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Enthält Vermerke der ausstellenden Kanzlei auf der Urkunde. Für Archivvermerke beim Empfänger vgl. rubrum </xs:documentation>
-            <xs:documentation xml:lang="eng">contains the extra sigillum notes on the document. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Enthält Vermerke der ausstellenden Kanzlei auf der
+                Urkunde. Für Archivvermerke beim Empfänger vgl. rubrum </xs:documentation>
+            <xs:documentation xml:lang="eng">contains the extra sigillum notes on the document.
+            </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -1729,7 +1882,8 @@
                 <xrxe:content-control>annotation</xrxe:content-control>
                 <xrxe:rows>2</xrxe:rows>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> beschreibt die institutionelle Referenz auf eine Archivale (mit Lagerort, Signatur etc.) </xs:documentation>
+            <xs:documentation xml:lang="deu"> beschreibt die institutionelle Referenz auf eine
+                Archivale (mit Lagerort, Signatur etc.) </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -1760,7 +1914,8 @@
                     </xrx:i18n>
                 </xrxe:label>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Eine Angabe zu nicht mehr gültigen Fundort im Archiv </xs:documentation>
+            <xs:documentation xml:lang="deu"> Eine Angabe zu nicht mehr gültigen Fundort im Archiv
+            </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -1797,7 +1952,9 @@
                     </xrx:i18n>
                 </xrxe:menu-item>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Das Archiv als im Moment der Textentstehung existierende Institution, die Schriftgut aus der Vergangenheit verwahrt. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Das Archiv als im Moment der Textentstehung
+                existierende Institution, die Schriftgut aus der Vergangenheit verwahrt.
+            </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -1825,7 +1982,8 @@
                     </xrx:i18n>
                 </xrxe:menu-item>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Ein Bestand in einem Archiv, d.h. gewöhnlich eine Gruppe von Archivgut, das in einem Provenienzzusammenhang steht. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Ein Bestand in einem Archiv, d.h. gewöhnlich eine
+                Gruppe von Archivgut, das in einem Provenienzzusammenhang steht. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:simpleContent>
@@ -1848,7 +2006,9 @@
                     </xrx:i18n>
                 </xrxe:label>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Die archivische Provenienz, d.h. die Registratur oder das erste Archiv, das die Urkunde nach ihrem aktiven Gebrauch verwahrt hat. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Die archivische Provenienz, d.h. die Registratur oder
+                das erste Archiv, das die Urkunde nach ihrem aktiven Gebrauch verwahrt hat.
+            </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:group ref="biblArch"/>
@@ -1874,7 +2034,8 @@
                     </xrx:i18n>
                 </xrxe:menu-item>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Die Bezeichnung einer Handschrift mit Lagerort und Signatur/Bezeichnung innerhalb der lagernden Institution. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Die Bezeichnung einer Handschrift mit Lagerort und
+                Signatur/Bezeichnung innerhalb der lagernden Institution. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -1906,7 +2067,8 @@
                     </xrx:i18n>
                 </xrxe:menu-item>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu">Die Einrichtung, deren teil ein Archiv ist.</xs:documentation>
+            <xs:documentation xml:lang="deu">Die Einrichtung, deren teil ein Archiv
+                ist.</xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:simpleContent>
@@ -1933,7 +2095,8 @@
                     </xrx:i18n>
                 </xrxe:menu-item>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu">Die Einrichtung, in der ein Objekt gelagert ist.</xs:documentation>
+            <xs:documentation xml:lang="deu">Die Einrichtung, in der ein Objekt gelagert
+                ist.</xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:simpleContent>
@@ -1957,7 +2120,8 @@
                 <xrxe:type-type>simpleType</xrxe:type-type>
                 <xrxe:mixed>false</xrxe:mixed>
             </xs:appinfo>
-            <xs:documentation> Orginaldatierung in cei_MOM, eigentlich als quote type="Originaldatierung" </xs:documentation>
+            <xs:documentation> Orginaldatierung in cei_MOM, eigentlich als quote
+                type="Originaldatierung" </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -1981,7 +2145,8 @@
                 <xrxe:rows>20</xrxe:rows>
                 <xrxe:content-control>annotation</xrxe:content-control>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Der eigentliche Urkundentext. Transkriptionselemente</xs:documentation>
+            <xs:documentation xml:lang="deu"> Der eigentliche Urkundentext.
+                Transkriptionselemente</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -1990,7 +2155,7 @@
                 <xs:group ref="Formular"/>
                 <xs:element ref="pTenor"/>
                 <xs:element ref="witDetail"/>
-                <!--Erweiterung-->
+                <xs:element ref="head"/>
             </xs:choice>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -2026,13 +2191,12 @@
                 <xs:element ref="c"/>
                 <xs:element ref="sup"/>
                 <xs:element ref="scope"/>
-                <!--Erweiterung-->
             </xs:choice>
             <xs:attributeGroup ref="resp"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
             <xs:attribute name="type"/>
-            <!--Erweiterung-->
+            <xs:attribute name="witness"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="pTenor">
@@ -2063,20 +2227,12 @@
                 <xs:element ref="recipient"/>
                 <xs:element ref="issuer"/>
                 <xs:element ref="term"/>
-                <!--Erweiterung-->
                 <xs:element ref="witDetail"/>
-                <!--Erweiterung-->
-                <xs:element name="figure"/>
-                <!--Erweiterung-->
-                <xs:element name="surplus"/>
-                <!--Erweiterung-->
+                <xs:element ref="figure"/>
+                <xs:element ref="surplus"/>
                 <xs:element name="metamark"/>
-                <!--Erweiterung-->
                 <xs:element name="graphic"/>
-                <!--Erweiterung-->
             </xs:choice>
-            <xs:attribute name="type"/>
-            <!--Erweiterung-->
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
@@ -2120,7 +2276,8 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu">Eine (meist einleitende) Anrufung Gottes</xs:documentation>
+            <xs:documentation xml:lang="deu">Eine (meist einleitende) Anrufung
+                Gottes</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -2151,7 +2308,8 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu">Die Nennung des Ausstellers mit seinen Titeln</xs:documentation>
+            <xs:documentation xml:lang="deu">Die Nennung des Ausstellers mit seinen
+                Titeln</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -2244,7 +2402,8 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Eine allgemeine Einleitung, die die Ausstellung der Urkunde begründet </xs:documentation>
+            <xs:documentation xml:lang="deu"> Eine allgemeine Einleitung, die die Ausstellung der
+                Urkunde begründet </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -2275,7 +2434,8 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> erzählt die Ereignisse und Handlungen, die der Ausstellung der Urkunde vorangegangen sind </xs:documentation>
+            <xs:documentation xml:lang="deu"> erzählt die Ereignisse und Handlungen, die der
+                Ausstellung der Urkunde vorangegangen sind </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -2308,7 +2468,8 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="en">clause expressing the request for formal documentation (cf. VID n. 326 http://www.cei.lmu.de/VID/VID.php?326)</xs:documentation>
+            <xs:documentation xml:lang="en">clause expressing the request for formal documentation
+                (cf. VID n. 326 http://www.cei.lmu.de/VID/VID.php?326)</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -2323,7 +2484,8 @@
     </xs:element>
     <xs:element name="intercessio">
         <xs:annotation>
-            <xs:documentation xml:lang="en">part of the text describing the intervention of a third to support a petition (cf. VID n. 328)</xs:documentation>
+            <xs:documentation xml:lang="en">part of the text describing the intervention of a third
+                to support a petition (cf. VID n. 328)</xs:documentation>
             <xs:appinfo source="EditVDU">
                 <xrxe:label>
                     <xrx:i18n>
@@ -2370,7 +2532,8 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu">enthält die eigentlichen Rechtsverfügungen</xs:documentation>
+            <xs:documentation xml:lang="deu">enthält die eigentlichen
+                Rechtsverfügungen</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -2416,7 +2579,8 @@
     </xs:element>
     <xs:element name="sanctio">
         <xs:annotation>
-            <xs:documentation xml:lang="deu"> Die Textpassage, in der eine Strafe bei Brechen des Urkundeninhalts angedroht wird. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Die Textpassage, in der eine Strafe bei Brechen des
+                Urkundeninhalts angedroht wird. </xs:documentation>
             <xs:appinfo source="EditVDU">
                 <xrxe:label>
                     <xrx:i18n>
@@ -2446,7 +2610,8 @@
     </xs:element>
     <xs:element name="subscriptio">
         <xs:annotation>
-            <xs:documentation xml:lang="deu"> Unterschriftsbestandteile, wie echte Unterschriftszeilen, Signumzeilen, Gegenzeichnungen durch Kanzleimitarbeiter usw. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Unterschriftsbestandteile, wie echte
+                Unterschriftszeilen, Signumzeilen, Gegenzeichnungen durch Kanzleimitarbeiter usw. </xs:documentation>
             <xs:appinfo source="EditVDU">
                 <xrxe:label>
                     <xrx:i18n>
@@ -2473,7 +2638,10 @@
             </xs:choice>
             <xs:attributeGroup ref="type">
                 <xs:annotation>
-                    <xs:documentation xml:lang="deu"> Die Unterscheidung in "Signumzeile", "Rekognitionszeile", "Notarsunterschrift" (vgl. notariusSub: [strict!]) etc. Der verwendete Sprachgebrauch sollte sich an das VID anlehnen oder in der encodingDesc beschrieben werden. </xs:documentation>
+                    <xs:documentation xml:lang="deu"> Die Unterscheidung in "Signumzeile",
+                        "Rekognitionszeile", "Notarsunterschrift" (vgl. notariusSub: [strict!]) etc.
+                        Der verwendete Sprachgebrauch sollte sich an das VID anlehnen oder in der
+                        encodingDesc beschrieben werden. </xs:documentation>
                 </xs:annotation>
             </xs:attributeGroup>
             <xs:attributeGroup ref="lang"/>
@@ -2521,7 +2689,8 @@
                     </xrx:i18n>
                 </xrxe:label>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu">eine gebetsartige abschließende Floskel</xs:documentation>
+            <xs:documentation xml:lang="deu">eine gebetsartige abschließende
+                Floskel</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -2552,7 +2721,11 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> eine stark festgelegte Textpassage, die sich nur durch die individuellen Bedingungen (Zeit, Ort, Person, syntaktische Einbindung) verändert, die aber keine strukturierende Funktion im Sinne des Urkundenformulars hat. Soweit möglich sollte sich der Inhalt des Attributs "type" an der Terminologie des "Vocabulaire Internationale de Diplomatique" orientieren. </xs:documentation>
+            <xs:documentation xml:lang="deu"> eine stark festgelegte Textpassage, die sich nur durch
+                die individuellen Bedingungen (Zeit, Ort, Person, syntaktische Einbindung)
+                verändert, die aber keine strukturierende Funktion im Sinne des Urkundenformulars
+                hat. Soweit möglich sollte sich der Inhalt des Attributs "type" an der Terminologie
+                des "Vocabulaire Internationale de Diplomatique" orientieren. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -2644,9 +2817,7 @@
                 <xs:element ref="handShift"/>
                 <xs:element ref="unclear"/>
                 <xs:element ref="w"/>
-                <!--Erweiterung-->
                 <xs:element ref="pc"/>
-                <!--Erweiterung-->
             </xs:choice>
         </xs:sequence>
     </xs:group>
@@ -2668,7 +2839,11 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Ein signifikant großer unbeschriebener Raum in der Transkriptionsvorlage. Der Leerraum wird mit den Attributen "dim" (horizontal/vertical) und "extent" (Größe) beschrieben: Z.B. dim="vertical" extent="4 Zeilen". Ist die Lücke durch eine Rasur entstanden, ist ein leeres Element "del" vorzuziehen. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Ein signifikant großer unbeschriebener Raum in der
+                Transkriptionsvorlage. Der Leerraum wird mit den Attributen "dim"
+                (horizontal/vertical) und "extent" (Größe) beschrieben: Z.B. dim="vertical"
+                extent="4 Zeilen". Ist die Lücke durch eine Rasur entstanden, ist ein leeres Element
+                "del" vorzuziehen. </xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:attribute name="dim">
@@ -2707,7 +2882,9 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> enthält beschädigte Passagen, d.h. Stellen, in denen die physischen Eigenschaften des Textes ihn nur schwer oder gar nicht entzifferbar machen. </xs:documentation>
+            <xs:documentation xml:lang="deu"> enthält beschädigte Passagen, d.h. Stellen, in denen
+                die physischen Eigenschaften des Textes ihn nur schwer oder gar nicht entzifferbar
+                machen. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -2719,9 +2896,7 @@
                 <xs:element ref="handShift"/>
                 <xs:element ref="pict"/>
                 <xs:element ref="pc"/>
-                <!--Erweiterung-->
                 <xs:element ref="w"/>
-                <!--Erweiterung-->
                 <xs:group ref="Sachliches"/>
             </xs:choice>
             <xs:attribute name="extent" type="xs:anySimpleType"/>
@@ -2773,7 +2948,8 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> enthält Text, der nicht eindeutig lesbar sind. </xs:documentation>
+            <xs:documentation xml:lang="deu"> enthält Text, der nicht eindeutig lesbar sind.
+            </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -2784,9 +2960,7 @@
                 <xs:element ref="handShift"/>
                 <xs:element ref="pict"/>
                 <xs:element ref="placeName"/>
-                <!--Erweiterung-->
                 <xs:element ref="note"/>
-                <!--Erweiterung-->
             </xs:choice>
             <xs:attribute name="extent" type="xs:anySimpleType">
                 <xs:annotation>
@@ -2860,7 +3034,9 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> ein Handwechsel im Dokument. Das Attribut "hand" benennt die Hand des folgenden Textes, falls z.B. über eine Referenz auf eine Liste der Schreiber (Element handList) möglich. </xs:documentation>
+            <xs:documentation xml:lang="deu"> ein Handwechsel im Dokument. Das Attribut "hand"
+                benennt die Hand des folgenden Textes, falls z.B. über eine Referenz auf eine Liste
+                der Schreiber (Element handList) möglich. </xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:attributeGroup ref="hand"/>
@@ -2878,8 +3054,11 @@
                     </xrx:i18n>
                 </xrxe:label>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Varianten anderer kopialer Überlieferungen werden über das Referenzwort als Element "lem" und die Varianten als Elemente "rdg" mit dem Attribut "sigil" für die Sigle. </xs:documentation>
-            <xs:documentation xml:lang="eng">note in a critical apparatus listing variants</xs:documentation>
+            <xs:documentation xml:lang="deu"> Varianten anderer kopialer Überlieferungen werden über
+                das Referenzwort als Element "lem" und die Varianten als Elemente "rdg" mit dem
+                Attribut "sigil" für die Sigle. </xs:documentation>
+            <xs:documentation xml:lang="eng">note in a critical apparatus listing
+                variants</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="false">
             <xs:sequence>
@@ -2893,7 +3072,8 @@
                                 </xrx:i18n>
                             </xrxe:label>
                         </xs:appinfo>
-                        <xs:documentation xml:lang="deu">Die im Haupttext erscheinende Version.</xs:documentation>
+                        <xs:documentation xml:lang="deu">Die im Haupttext erscheinende
+                            Version.</xs:documentation>
                     </xs:annotation>
                     <xs:complexType mixed="true">
                         <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -2903,31 +3083,18 @@
                             <xs:group ref="reference"/>
                             <xs:group ref="textualElements"/>
                             <xs:element ref="w"/>
-                            <!--Erweiterung-->
                             <xs:element ref="pc"/>
-                            <!--Erweiterung-->
                             <xs:element ref="space"/>
-                            <!--Erweiterung-->
                             <xs:element ref="supplied"/>
-                            <!--Erweiterung-->
                             <xs:element ref="lacunaStart"/>
-                            <!--Erweiterung-->
                             <xs:element ref="lacunaEnd"/>
-                            <!--Erweiterung-->
                             <xs:element ref="witStart"/>
-                            <!--Erweiterung-->
                             <xs:element ref="witEnd"/>
-                            <!--Erweiterung-->
                             <xs:element ref="witDetail"/>
-                            <!--Erweiterung-->
                             <xs:element ref="sic"/>
-                            <!--Erweiterung-->
                             <xs:element ref="del"/>
-                            <!--Erweiterung-->
                             <xs:element ref="app"/>
-                            <!--Erweiterung-->
                             <xs:element ref="unclear"/>
-                            <!--Erweiterung-->
                         </xs:choice>
                         <xs:attributeGroup ref="wit"/>
                         <xs:attributeGroup ref="standard"/>
@@ -2948,50 +3115,33 @@
                     <xs:complexType mixed="true">
                         <xs:choice minOccurs="0" maxOccurs="unbounded">
                             <xs:element ref="w"/>
-                            <!--Erweiterung-->
                             <xs:element ref="add"/>
-                            <!--Erweiterung-->
                             <xs:element ref="app"/>
-                            <!--Erweiterung-->
                             <xs:element ref="foreign"/>
-                            <!--Erweiterung-->
                             <xs:element ref="num"/>
-                            <!--Erweiterung-->
                             <xs:element ref="sic"/>
-                            <!--Erweiterung-->
                             <xs:element ref="space"/>
-                            <!--Erweiterung-->
                             <xs:element ref="handShift"/>
-                            <!--Erweiterung-->
                             <xs:element ref="del"/>
-                            <!--Erweiterung-->
                             <xs:element ref="witStart"/>
-                            <!--Erweiterung-->
                             <xs:element ref="witEnd"/>
-                            <!--Erweiterung-->
                             <xs:element ref="witDetail"/>
-                            <!--Erweiterung-->
-                            <xs:element name="surplus"/>
-                            <!--Erweiterung-->
+                            <xs:element ref="surplus"/>
                             <xs:group ref="biblArch"/>
                             <xs:group ref="layout"/>
                             <xs:group ref="reference"/>
                         </xs:choice>
                         <xs:attribute name="type"/>
-                        <!--Erweiterung-->
                         <xs:attributeGroup ref="wit"/>
                         <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
                 </xs:element>
                 <xs:element minOccurs="0" ref="note"/>
-                <!--Erweiterung-->
                 <xs:element minOccurs="0" maxOccurs="unbounded" ref="witDetail"/>
-                <!--Erweiterung-->
             </xs:sequence>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
-    <!--Erweiterung-Anfang-->
     <xs:element name="lacunaStart">
         <xs:annotation>
             <xs:documentation>Anfang einer Lacuna.</xs:documentation>
@@ -3047,7 +3197,18 @@
             <xs:attribute name="type"/>
         </xs:complexType>
     </xs:element>
-    <!--Erweiterung-Ende-->
+    <xs:element name="surplus">
+        <xs:annotation>
+            <xs:documentation>Überflüssiger Text, entspricht dem TEI-Element des selben Namens.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="0">
+                <xs:element ref="w"/>
+                <xs:element ref="del"/>
+            </xs:choice>
+            <xs:attribute name="corresp"/>
+        </xs:complexType>
+    </xs:element>
     <xs:element name="expan">
         <xs:annotation>
             <xs:appinfo source="EditVDU">
@@ -3066,7 +3227,8 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu">Der ausgeschriebene Text einer Abkürzung.</xs:documentation>
+            <xs:documentation xml:lang="deu">Der ausgeschriebene Text einer
+                Abkürzung.</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -3107,7 +3269,9 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Ein Text, der augenfällige Fehler aufweist, aber in der Vorlage so steht. Aber auch für den Text, der vor einer Korrektur stand. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Ein Text, der augenfällige Fehler aufweist, aber in
+                der Vorlage so steht. Aber auch für den Text, der vor einer Korrektur stand.
+            </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -3117,9 +3281,8 @@
                 <xs:element ref="add"/>
                 <xs:element ref="supplied"/>
                 <xs:element ref="handShift"/>
-                <xs:group ref="Referenz"/>
                 <xs:element ref="w"/>
-                <!--Erweiterung-->
+                <xs:group ref="Referenz"/>
             </xs:choice>
             <xs:attribute name="corr">
                 <xs:annotation>
@@ -3149,7 +3312,8 @@
                     </xrx:i18n>
                 </xrxe:menu-item>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Eine Textpassage, die im Text zunächst anders lautete und dann mit dem Inhalt des Elements korrigiert worden ist. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Eine Textpassage, die im Text zunächst anders lautete
+                und dann mit dem Inhalt des Elements korrigiert worden ist. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -3187,7 +3351,8 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Ein noch lesbarer Text der im Original getilgt worden ist (z.B. durch Durchstreichen, Unterpunkten, Rasur). </xs:documentation>
+            <xs:documentation xml:lang="deu"> Ein noch lesbarer Text der im Original getilgt worden
+                ist (z.B. durch Durchstreichen, Unterpunkten, Rasur). </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -3199,8 +3364,7 @@
                 <xs:element ref="lb"/>
                 <xs:element ref="pb"/>
                 <xs:element ref="sic"/>
-                <xs:element name="surplus"/>
-                <!--Erweiterung-->
+                <xs:element ref="surplus"/>
                 <xs:group ref="Referenz"/>
             </xs:choice>
             <xs:attributeGroup ref="transcription"/>
@@ -3225,7 +3389,8 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Nachträgliche Hinzufügungen im Text, die nicht anderen Text ersetzen. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Nachträgliche Hinzufügungen im Text, die nicht anderen
+                Text ersetzen. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -3239,12 +3404,10 @@
                 <xs:element ref="damage"/>
                 <xs:element ref="handShift"/>
                 <xs:element ref="w"/>
-                <!--Erweiterung-->
                 <xs:group ref="Sachauszeichnung"/>
                 <xs:group ref="Referenz"/>
             </xs:choice>
             <xs:attribute name="status"/>
-            <!--Erweiterung-->
             <xs:attributeGroup ref="transcription"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -3268,7 +3431,8 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Hinzufügungen von Text, der in der Vorlage nicht dokumentiert ist, durch den Editor. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Hinzufügungen von Text, der in der Vorlage nicht
+                dokumentiert ist, durch den Editor. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -3278,11 +3442,8 @@
                 <xs:element ref="damage"/>
                 <xs:element ref="expan"/>
                 <xs:element ref="space"/>
-                <!--Erweiterung-->
                 <xs:element ref="hi"/>
-                <!--Erweiterung-->
                 <xs:element ref="figure"/>
-                <!--Erweiterung-->
                 <xs:group ref="Sachauszeichnung"/>
                 <xs:group ref="Referenz"/>
             </xs:choice>
@@ -3290,9 +3451,7 @@
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
             <xs:attribute name="source"/>
-            <!--Erweiterung-->
             <xs:attribute name="reason"/>
-            <!--Erweiterung-->
         </xs:complexType>
     </xs:element>
     <xs:element name="pict">
@@ -3312,7 +3471,9 @@
                     </xrx:i18n>
                 </xrxe:menu-item>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> graphische, zeichenartige Elemente im Text. Mit Hilfe des type-Attribut genauer zu bestimmen, mit entity oder URL auf eine externe Art der Darstellung zu verweisen. </xs:documentation>
+            <xs:documentation xml:lang="deu"> graphische, zeichenartige Elemente im Text. Mit Hilfe
+                des type-Attribut genauer zu bestimmen, mit entity oder URL auf eine externe Art der
+                Darstellung zu verweisen. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:group ref="transcription"/>
@@ -3331,7 +3492,9 @@
                     </xrx:i18n>
                 </xrxe:label>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Diese ganze Gruppe ist auf ihre Relevanz hin zu überprüfen, da sie graphische nicht semantische Informationen auszuzeichnen scheint. [strict!] </xs:documentation>
+            <xs:documentation xml:lang="deu"> Diese ganze Gruppe ist auf ihre Relevanz hin zu
+                überprüfen, da sie graphische nicht semantische Informationen auszuzeichnen scheint.
+                [strict!] </xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -3391,8 +3554,14 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Ein hochgestelltes Zeichen, dessen logische Funktion "hochgestellt" ist, macht das Sinn? Evtl. nur cei_MOM spezifisch! [strict!] Der in Urkunden relevante Fall sind die Ordinalzahlen, in denen das hochgestellte Zeichen nämlich nicht für eine Abkürzung steht, sondern den Bezug einer Zahlenangabe über die Endung markiert. Die TEI sähe für Ordinalzahlen das Element "num", das mit den Attributen type und value die Funktion als Ordinalzahl und den
-                eigentlichen Wert notiert. Es bleibt dabei jedoch unklar, wie zwischen dem Zahlzeichen und seiner Markierung als Ordinalzahl unterschieden werden kann. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Ein hochgestelltes Zeichen, dessen logische Funktion
+                "hochgestellt" ist, macht das Sinn? Evtl. nur cei_MOM spezifisch! [strict!] Der in
+                Urkunden relevante Fall sind die Ordinalzahlen, in denen das hochgestellte Zeichen
+                nämlich nicht für eine Abkürzung steht, sondern den Bezug einer Zahlenangabe über
+                die Endung markiert. Die TEI sähe für Ordinalzahlen das Element "num", das mit den
+                Attributen type und value die Funktion als Ordinalzahl und den eigentlichen Wert
+                notiert. Es bleibt dabei jedoch unklar, wie zwischen dem Zahlzeichen und seiner
+                Markierung als Ordinalzahl unterschieden werden kann. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="type"/>
@@ -3423,7 +3592,6 @@
         </xs:annotation>
         <xs:complexType>
             <xs:attribute name="break"/>
-            <!--Erweiterung-->
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
@@ -3469,16 +3637,19 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Ein einzelnes Zeichen in der Vorlage, das nicht mit dem gewählten Zeichensatz dargestellt werden kann. Die Art und Weise der Darstellung und Verarbeitung ist in der encodingDesc zu beschreiben. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Ein einzelnes Zeichen in der Vorlage, das nicht mit
+                dem gewählten Zeichensatz dargestellt werden kann. Die Art und Weise der Darstellung
+                und Verarbeitung ist in der encodingDesc zu beschreiben. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element ref="expan"/>
-                <!--Erweiterung-->
             </xs:choice>
             <xs:attributeGroup ref="type">
                 <xs:annotation>
-                    <xs:documentation xml:lang="deu"> Der Name des Zeichens, wie er in der encodingDesc/profileDesc auftaucht und mit einer Darstellungsform versehen wird. </xs:documentation>
+                    <xs:documentation xml:lang="deu"> Der Name des Zeichens, wie er in der
+                        encodingDesc/profileDesc auftaucht und mit einer Darstellungsform versehen
+                        wird. </xs:documentation>
                 </xs:annotation>
             </xs:attributeGroup>
             <xs:attributeGroup ref="standard"/>
@@ -3502,7 +3673,9 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> durch graphische Merkmale hervorgehobene Textpassagen, die keine rein inhaltliche Funktion haben, z.B. vergrößerte Initialen, gesperrte Texte, Texte zwischen Referenzpunkten, Elongata </xs:documentation>
+            <xs:documentation xml:lang="deu"> durch graphische Merkmale hervorgehobene Textpassagen,
+                die keine rein inhaltliche Funktion haben, z.B. vergrößerte Initialen, gesperrte
+                Texte, Texte zwischen Referenzpunkten, Elongata </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -3573,7 +3746,11 @@
                     </xrx:i18n>
                 </xrxe:label>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Ein leeres Element, das auf ein anderes Element im Text verweist, das ein id-Attribut besitzt. Die ID des Zieles wird im Attribut target notiert. Verweise auf Elemente außerhalb des aktuellen Dokuments sind mit dem Element xptr zu verwirklichen. Ist der Verweis als Textpassage im aktuellen Element ausformuliert, ist das Element "ref" zu verwenden. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Ein leeres Element, das auf ein anderes Element im
+                Text verweist, das ein id-Attribut besitzt. Die ID des Zieles wird im Attribut
+                target notiert. Verweise auf Elemente außerhalb des aktuellen Dokuments sind mit dem
+                Element xptr zu verwirklichen. Ist der Verweis als Textpassage im aktuellen Element
+                ausformuliert, ist das Element "ref" zu verwenden. </xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:simpleContent>
@@ -3602,7 +3779,12 @@
                     </xrx:i18n>
                 </xrxe:menu-item>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Das Element enthält eine Textpassage, die auf eine anderes Element im Text verweist, das ein id-Attribut besitzt. Die ID des Zieles wird im Attribut "target" angegeben. Verweise auf Elemente außerhalb des aktuellen Dokuments sind mit dem Element xref zu verwirklichen. Ersetzt das Tag einen textlichen Verweis bzw. wird der Verweistext automatisch erzeugt, ist das Element "ptr" zu verwenden. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Das Element enthält eine Textpassage, die auf eine
+                anderes Element im Text verweist, das ein id-Attribut besitzt. Die ID des Zieles
+                wird im Attribut "target" angegeben. Verweise auf Elemente außerhalb des aktuellen
+                Dokuments sind mit dem Element xref zu verwirklichen. Ersetzt das Tag einen
+                textlichen Verweis bzw. wird der Verweistext automatisch erzeugt, ist das Element
+                "ptr" zu verwenden. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:simpleContent>
@@ -3634,7 +3816,9 @@
                 <xrxe:content-control>annotation</xrxe:content-control>
                 <xrxe:rows>3</xrxe:rows>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Ein ergänzender Text zu einer bestimmten Textstelle, der im Druck gewöhnlich als Marginalie, Fuß- oder Endnote dargestellt wird. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Ein ergänzender Text zu einer bestimmten Textstelle,
+                der im Druck gewöhnlich als Marginalie, Fuß- oder Endnote dargestellt wird.
+            </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -3644,7 +3828,6 @@
                 <xs:element ref="archIdentifier"/>
                 <xs:element ref="msIdentifier"/>
                 <xs:element ref="p"/>
-                <!--Erweiterung-->
             </xs:choice>
             <xs:attribute name="place"/>
             <xs:attributeGroup ref="id"/>
@@ -3677,12 +3860,11 @@
         </xs:annotation>
         <xs:sequence>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element name="head" type="xs:string">
+                <xs:element ref="head">
                     <xs:annotation>
                         <xs:appinfo source="EditVDU">
                             <xrxe:relevant>false</xrxe:relevant>
                         </xs:appinfo>
-                        <xs:documentation xml:lang="deu">Eine Überschrift </xs:documentation>
                     </xs:annotation>
                 </xs:element>
                 <xs:element ref="h1">
@@ -3754,7 +3936,10 @@
                     </xrx:i18n>
                 </xrxe:label>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Jede beliebige Art von Textabschnitt, die einen inhaltlichen Sinnabschnitt von mindestens einem Absatz umschließt und nicht durch speziellere Elemente (z.B. Formularteile, abstract) beschrieben werden kann. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Jede beliebige Art von Textabschnitt, die einen
+                inhaltlichen Sinnabschnitt von mindestens einem Absatz umschließt und nicht durch
+                speziellere Elemente (z.B. Formularteile, abstract) beschrieben werden kann.
+            </xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -3802,7 +3987,10 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Eine Textpassage, die nicht in der in der übergeordnet definierten Sprache formuliert ist (z.B. deutsche Namen in lateinischen Urkunden, eingeflochtene lateinische Textpassagen im deutschen Vorspann etc.) </xs:documentation>
+            <xs:documentation xml:lang="deu"> Eine Textpassage, die nicht in der in der übergeordnet
+                definierten Sprache formuliert ist (z.B. deutsche Namen in lateinischen Urkunden,
+                eingeflochtene lateinische Textpassagen im deutschen Vorspann etc.)
+            </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -3831,7 +4019,10 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Ein wörtliches Zitat gemeinsam mit der Herkunftsangabe. Die Quelle dabei nicht auf explizit bibliographische Angaben beschränkt, sondern kann auch kanonische Referenzen (wie z.B. Bibelzitate) enthalten. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Ein wörtliches Zitat gemeinsam mit der
+                Herkunftsangabe. Die Quelle dabei nicht auf explizit bibliographische Angaben
+                beschränkt, sondern kann auch kanonische Referenzen (wie z.B. Bibelzitate)
+                enthalten. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="false">
             <xs:sequence>
@@ -3860,8 +4051,14 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> enthält ein wörtliches Zitat. Die TEI sieht das Element für intertextuelle Zitate vor. Alternativ und lauf Guidelines der TEI im Zweifelsfall vorzuziehen ist das Element "q" vor, das für intratextuelle Zitate zu verwenden ist. Da in Urkunden jedoch Zitate gewöhnlich aus einer externen Textquelle schöpfen und nicht einem anderen Sprecher im Text zugeordnet sind, ist in diesem Kontext das Element "quote" im Zweifelsfall vorzuziehen. [strict!] Zu
-                diskutieren ist nur der Fall eines angekündigten wörtlichen Zitats, z.B: wir bestätigen die Urkunde unseres Vaters die folgenden Wortlaut hat: .... </xs:documentation>
+            <xs:documentation xml:lang="deu"> enthält ein wörtliches Zitat. Die TEI sieht das
+                Element für intertextuelle Zitate vor. Alternativ und lauf Guidelines der TEI im
+                Zweifelsfall vorzuziehen ist das Element "q" vor, das für intratextuelle Zitate zu
+                verwenden ist. Da in Urkunden jedoch Zitate gewöhnlich aus einer externen Textquelle
+                schöpfen und nicht einem anderen Sprecher im Text zugeordnet sind, ist in diesem
+                Kontext das Element "quote" im Zweifelsfall vorzuziehen. [strict!] Zu diskutieren
+                ist nur der Fall eines angekündigten wörtlichen Zitats, z.B: wir bestätigen die
+                Urkunde unseres Vaters die folgenden Wortlaut hat: .... </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -3983,7 +4180,9 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Ein Maßangabe inkl. Maßeinheit. Das Attribut "value" enthält eine vereinheitliche Form der Angabe die aus einem numerischen Wert und einer Maßangabe besteht. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Ein Maßangabe inkl. Maßeinheit. Das Attribut "value"
+                enthält eine vereinheitliche Form der Angabe die aus einem numerischen Wert und
+                einer Maßangabe besteht. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -4018,14 +4217,13 @@
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:group ref="transcription"/>
-                <!--Erweiterung-->
+                <xs:element ref="w"/>
+                <xs:element ref="pc"/>
+                <xs:element ref="add"/>
+                <xs:element ref="space"/>
                 <xs:element ref="hi"/>
-                <!--Erweiterung-->
                 <xs:element ref="app"/>
-                <!--Erweiterung-->
                 <xs:element ref="lb"/>
-                <!--Erweiterung-->
             </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="value"/>
@@ -4042,7 +4240,7 @@
                 <xs:element ref="orgName"/>
                 <xs:choice>
                     <xs:annotation>
-                        <xs:documentation xml:lang="deu">Geographische Angaben </xs:documentation>
+                        <xs:documentation xml:lang="deu">Geographische Angaben</xs:documentation>
                     </xs:annotation>
                     <xs:element ref="placeName"/>
                     <xs:element ref="geogName"/>
@@ -4065,6 +4263,7 @@
         <xs:choice>
             <xs:element ref="date"/>
             <xs:element ref="dateRange"/>
+            <xs:element ref="w"/>
         </xs:choice>
     </xs:group>
     <xs:element name="index">
@@ -4086,7 +4285,8 @@
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
                 <xrxe:content-control>annotation</xrxe:content-control>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> ein Eintrag für eine erschließende Liste von Stichwörtern (Register, Index) </xs:documentation>
+            <xs:documentation xml:lang="deu"> ein Eintrag für eine erschließende Liste von
+                Stichwörtern (Register, Index) </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -4156,7 +4356,8 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Die Angabe eines spezifischen Tages in einem Kalender (=Datumsangabe). </xs:documentation>
+            <xs:documentation xml:lang="deu"> Die Angabe eines spezifischen Tages in einem Kalender
+                (=Datumsangabe). </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -4164,6 +4365,8 @@
                 <xs:element ref="num"/>
                 <xs:group ref="Originalbefund"/>
                 <xs:element ref="ref"/>
+                <xs:element ref="figure"/>
+                <xs:element ref="note"/>
             </xs:choice>
             <xs:attributeGroup ref="date"/>
             <xs:attributeGroup ref="lang"/>
@@ -4188,7 +4391,8 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Ein Zeitraum, die Werte des kleinsten und des größten zutreffenden Datums in den Attributen "from" und "to" </xs:documentation>
+            <xs:documentation xml:lang="deu"> Ein Zeitraum, die Werte des kleinsten und des größten
+                zutreffenden Datums in den Attributen "from" und "to" </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -4286,7 +4490,6 @@
                     <xs:element ref="placeName"/>
                     <xs:element ref="geogName"/>
                     <xs:element ref="orgName"/>
-                    <!--Erweiterung-->
                 </xs:choice>
                 <xs:element ref="foreign"/>
                 <xs:element ref="note"/>
@@ -4324,11 +4527,8 @@
                         <xs:documentation xml:lang="deu">Geographische Angaben </xs:documentation>
                     </xs:annotation>
                     <xs:element ref="name"/>
-                    <!--Erweiterung-->
                     <xs:element ref="witDetail"/>
-                    <!--Erweiterung-->
                     <xs:element ref="addName"/>
-                    <!--Erweiterung-->
                     <xs:element ref="persName"/>
                     <xs:element ref="orgName"/>
                     <xs:element ref="placeName"/>
@@ -4394,7 +4594,8 @@
                 </xrxe:menu-item>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu">ein Familienname oder anderer Beiname, der zur Unterscheidung einer Person z.B. durch Gruppenzuordnung dient.</xs:documentation>
+            <xs:documentation xml:lang="deu">ein Familienname oder anderer Beiname, der zur
+                Unterscheidung einer Person z.B. durch Gruppenzuordnung dient.</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -4408,6 +4609,7 @@
                 </xs:choice>
                 <xs:element ref="foreign"/>
                 <xs:element ref="note"/>
+                <xs:element ref="orgName"/>
                 <xs:group ref="Originalbefund"/>
             </xs:choice>
             <xs:attributeGroup ref="lang"/>
@@ -4432,7 +4634,8 @@
                 </xrxe:menu-item>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu">ein Rollennamen, z.B. Adelstitel, Anrede, Epitheton ...</xs:documentation>
+            <xs:documentation xml:lang="deu">ein Rollennamen, z.B. Adelstitel, Anrede, Epitheton
+                ...</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -4440,7 +4643,6 @@
                 <xs:element ref="note"/>
                 <xs:group ref="Originalbefund"/>
                 <xs:group ref="Sachauszeichnung"/>
-                <!--Erweiterung-->
             </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="type"/>
@@ -4472,7 +4674,6 @@
                 <xs:element ref="note"/>
                 <xs:group ref="Originalbefund"/>
                 <xs:group ref="Sachauszeichnung"/>
-                <!--Erweiterung-->
             </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="type"/>
@@ -4497,8 +4698,10 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Der Name der Person, die die Urkunde erhält (als Adressat oder als Begünstigter) </xs:documentation>
-            <xs:documentation xml:lang="eng"> The name of the person who is receives the document. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Der Name der Person, die die Urkunde erhält (als
+                Adressat oder als Begünstigter) </xs:documentation>
+            <xs:documentation xml:lang="eng"> The name of the person who is receives the document.
+            </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -4537,7 +4740,9 @@
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
             <xs:documentation xml:lang="deu">Der Aussteller der Urkunde.</xs:documentation>
-            <xs:documentation xml:lang="eng"> marks a person the CID describes as follows: L'auteur d'un acte écrit est la personne au nom de qui cet acte est intitulé. </xs:documentation>
+            <xs:documentation xml:lang="eng"> marks a person the CID describes as follows: L'auteur
+                d'un acte écrit est la personne au nom de qui cet acte est intitulé.
+            </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -4643,7 +4848,8 @@
                     </xrx:i18n>
                 </xrxe:label>
             </xs:appinfo>
-            <xs:documentation> der Name eines völkerrechtlich selbständigen Staates (z.B. Deutschland, Ungarn ...) </xs:documentation>
+            <xs:documentation> der Name eines völkerrechtlich selbständigen Staates (z.B.
+                Deutschland, Ungarn ...) </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="type"/>
@@ -4695,7 +4901,9 @@
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
                 <xrxe:content-control>annotation</xrxe:content-control>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Enthält geographische Angaben, die sich auf menschliche Siedlung oder politische Einheiten beziehen, d.h. Orte, Hofnamen, Klöster, Burgen, Bundesländer, Herrschaften, Staaten etc. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Enthält geographische Angaben, die sich auf
+                menschliche Siedlung oder politische Einheiten beziehen, d.h. Orte, Hofnamen,
+                Klöster, Burgen, Bundesländer, Herrschaften, Staaten etc. </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -4703,13 +4911,9 @@
                 <xs:element ref="foreign"/>
                 <xs:element ref="note"/>
                 <xs:element ref="placeName"/>
-                <!--Erweiterung-->
                 <xs:element ref="persName"/>
-                <!--Erweiterung-->
                 <xs:element ref="name"/>
-                <!--Erweiterung-->
                 <xs:element ref="orgName"/>
-                <!--Erweiterung-->
                 <xs:group ref="Originalbefund"/>
             </xs:choice>
             <xs:attributeGroup ref="key"/>
@@ -4737,14 +4941,18 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Enhält naturräumliche geographische Angaben wie Bergnamen, Flußnamen, Landstriche, die keine politische Einheit bilden. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Enhält naturräumliche geographische Angaben wie
+                Bergnamen, Flußnamen, Landstriche, die keine politische Einheit bilden.
+            </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element ref="foreign"/>
                 <xs:element ref="note"/>
                 <xs:element ref="placeName"/>
-                <!--Erweiterung-->
+                <xs:element ref="persName"/>
+                <xs:element ref="name"/>
+                <xs:element ref="orgName"/>
                 <xs:group ref="Originalbefund"/>
             </xs:choice>
             <xs:attributeGroup ref="geog"/>
@@ -4766,7 +4974,8 @@
                                 </xrx:i18n>
                             </xrxe:label>
                         </xs:appinfo>
-                        <xs:documentation xml:lang="deu"> Der Autor eines Textes. Insbesondere im Rahmen einer bibliographischen Angabe gebraucht. </xs:documentation>
+                        <xs:documentation xml:lang="deu"> Der Autor eines Textes. Insbesondere im
+                            Rahmen einer bibliographischen Angabe gebraucht. </xs:documentation>
                     </xs:annotation>
                     <xs:complexType mixed="true">
                         <xs:sequence>
@@ -4826,7 +5035,6 @@
             </xs:choice>
         </xs:sequence>
     </xs:group>
-    <!--Erweiterung-Anfang-->
     <xs:element name="name">
         <xs:annotation>
             <xs:appinfo source="EditVDU">
@@ -4852,7 +5060,6 @@
             <xs:attributeGroup ref="reference"/>
         </xs:complexType>
     </xs:element>
-    <!--Erweiterung-Ende-->
     <xs:group name="biblArch">
         <xs:sequence>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -4890,7 +5097,9 @@
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
                 <xrxe:content-control>input</xrxe:content-control>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Bibliographische Angaben. Es ist zu diskutieren, ob das Element auch für kanonische Angaben (wie z.B. Bibelzitate) verwendet werden kann, oder ob dafür ein eigenes Element notwendig ist. [strict!] </xs:documentation>
+            <xs:documentation xml:lang="deu"> Bibliographische Angaben. Es ist zu diskutieren, ob
+                das Element auch für kanonische Angaben (wie z.B. Bibelzitate) verwendet werden
+                kann, oder ob dafür ein eigenes Element notwendig ist. [strict!] </xs:documentation>
             <xs:documentation xml:lang="eng">Bibliographic informations</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
@@ -4898,21 +5107,15 @@
                 <xs:group ref="layout"/>
                 <xs:element ref="foreign"/>
                 <xs:element ref="note"/>
-                <!--Erweiterung-->
                 <xs:element ref="persName"/>
-                <!--Erweiterung-->
                 <xs:element ref="placeName"/>
-                <!--Erweiterung-->
                 <xs:element ref="orgName"/>
-                <!--Erweiterung-->
                 <xs:element ref="quote"/>
                 <xs:group ref="Referenz"/>
                 <xs:group ref="BibliographicInformation"/>
             </xs:choice>
             <xs:attribute name="status"/>
-            <!--Erweiterung-->
             <xs:attribute name="type"/>
-            <!--Erweiterung-->
             <xs:attributeGroup ref="key"/>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -4953,7 +5156,10 @@
                     </xrx:i18n>
                 </xrxe:menu-item>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Umfang einer bibliographischen Angabe, insbesondere in einem übergeordneten bibliographsichen Zusammenhang. Z.B. die Seitenzahlen eines Aufsatzes in einem Sammelband, die Fundstelle einer Urkunde in einem Kopialbuch. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Umfang einer bibliographischen Angabe, insbesondere in
+                einem übergeordneten bibliographsichen Zusammenhang. Z.B. die Seitenzahlen eines
+                Aufsatzes in einem Sammelband, die Fundstelle einer Urkunde in einem Kopialbuch.
+            </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:simpleContent>
@@ -4982,7 +5188,8 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
             </xs:appinfo>
-            <xs:documentation xml:lang="deu"> Leeres Element, das als Zielpunkt einer Referenz dient. </xs:documentation>
+            <xs:documentation xml:lang="deu"> Leeres Element, das als Zielpunkt einer Referenz
+                dient. </xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:simpleContent>
@@ -5002,7 +5209,8 @@
                     </xrx:i18n>
                 </xrxe:label>
             </xs:appinfo>
-            <xs:documentation> CEI_MOM: Nur für vorläufigen Gebrauch um Konversionen aus HTML zu erleichtern!!!! [strict!] </xs:documentation>
+            <xs:documentation> CEI_MOM: Nur für vorläufigen Gebrauch um Konversionen aus HTML zu
+                erleichtern!!!! [strict!] </xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:simpleContent>
@@ -5049,9 +5257,14 @@
                             <xrx:default>certainty</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant context="='persName' or $context='orgName' or $context='geogName' or $context='placeName' or $context='sic' or $context='del' or $context='expan' or $context='damage'"/>
+                    <xrxe:relevant
+                        context="='persName' or $context='orgName' or $context='geogName' or $context='placeName' or $context='sic' or $context='del' or $context='expan' or $context='damage'"
+                    />
                 </xs:appinfo>
-                <xs:documentation xml:lang="deu"> Für Genauigkeitsangaben z.B. bei Datierungen, werden mit Schlüsselwörtern (zu benennen in der encodingDesc) oder kurzen Beschreibungen charakterisiert werden. auch für Fälschungsmarkierungen? [strict!] </xs:documentation>
+                <xs:documentation xml:lang="deu"> Für Genauigkeitsangaben z.B. bei Datierungen,
+                    werden mit Schlüsselwörtern (zu benennen in der encodingDesc) oder kurzen
+                    Beschreibungen charakterisiert werden. auch für Fälschungsmarkierungen?
+                    [strict!] </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:attributeGroup>
@@ -5082,7 +5295,9 @@
                             <xrx:default>reg</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant context="='persName' or $context='orgName' or $context='geogName' or $context='placeName'"/>
+                    <xrxe:relevant
+                        context="='persName' or $context='orgName' or $context='geogName' or $context='placeName'"
+                    />
                 </xs:appinfo>
             </xs:annotation>
         </xs:attribute>
@@ -5098,7 +5313,8 @@
                         </xrx:i18n>
                     </xrxe:label>
                 </xs:appinfo>
-                <xs:documentation xml:lang="deu">Der verantwortliche Bearbeiter für die Kodierung, den Inhalt der Kodierung oder die vergebenen Attribute.</xs:documentation>
+                <xs:documentation xml:lang="deu">Der verantwortliche Bearbeiter für die Kodierung,
+                    den Inhalt der Kodierung oder die vergebenen Attribute.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:attributeGroup>
@@ -5112,7 +5328,9 @@
                             <xrx:default>type</xrx:default>
                         </xrx:i18n>
                     </xrxe:label>
-                    <xrxe:relevant context="='persName' or $context='orgName' or $context='geogName' or $context='placeName' or $context='c'"/>
+                    <xrxe:relevant
+                        context="='persName' or $context='orgName' or $context='geogName' or $context='placeName' or $context='c'"
+                    />
                 </xs:appinfo>
             </xs:annotation>
         </xs:attribute>
@@ -5197,7 +5415,8 @@
                         </xrx:i18n>
                     </xrxe:label>
                 </xs:appinfo>
-                <xs:documentation xml:lang="deu"> Funktion des Tags im besonderen Kontext: z.B. Datum als ... ist so eigentlich nicht richtig. </xs:documentation>
+                <xs:documentation xml:lang="deu"> Funktion des Tags im besonderen Kontext: z.B.
+                    Datum als ... ist so eigentlich nicht richtig. </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:attributeGroup>
@@ -5212,7 +5431,8 @@
                         </xrx:i18n>
                     </xrxe:label>
                 </xs:appinfo>
-                <xs:documentation xml:lang="deu"> Ein eindeutiger Bezeichner, der in einer externen Liste aufgelöst werden kann. </xs:documentation>
+                <xs:documentation xml:lang="deu"> Ein eindeutiger Bezeichner, der in einer externen
+                    Liste aufgelöst werden kann. </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:attributeGroup>
@@ -5288,7 +5508,6 @@
         <xs:attributeGroup ref="facs"/>
         <xs:attributeGroup ref="resp"/>
         <xs:attributeGroup ref="rend"/>
-        <!--Erweiterung-->
     </xs:attributeGroup>
     <xs:attributeGroup name="facs">
         <xs:attribute name="facs">
@@ -5301,7 +5520,8 @@
                         </xrx:i18n>
                     </xrxe:label>
                 </xs:appinfo>
-                <xs:documentation xml:lang="deu"> Eine eindeutige Verknüpfung des jeweiligen Markup- Tags als Annotation eines Bildes. </xs:documentation>
+                <xs:documentation xml:lang="deu"> Eine eindeutige Verknüpfung des jeweiligen Markup-
+                    Tags als Annotation eines Bildes. </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:attributeGroup>
@@ -5316,7 +5536,8 @@
                         </xrx:i18n>
                     </xrxe:label>
                 </xs:appinfo>
-                <xs:documentation xml:lang="deu"> Eine im gesamten Dokument eindeutige ID, die mit einem Buchstaben beginnt. </xs:documentation>
+                <xs:documentation xml:lang="deu"> Eine im gesamten Dokument eindeutige ID, die mit
+                    einem Buchstaben beginnt. </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:attributeGroup>
@@ -5331,7 +5552,8 @@
                         </xrx:i18n>
                     </xrxe:label>
                 </xs:appinfo>
-                <xs:documentation xml:lang="deu"> Eine lokale Identifikation, wie z.B. die Fußnotennummer. </xs:documentation>
+                <xs:documentation xml:lang="deu"> Eine lokale Identifikation, wie z.B. die
+                    Fußnotennummer. </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:attributeGroup>
@@ -5347,7 +5569,8 @@
                     </xrxe:label>
                     <xrxe:relevant context="='quote' or $context='foreign' or $context='cit'"/>
                 </xs:appinfo>
-                <xs:documentation xml:lang="deu"> Die Sprache des Elements und aller Unterelemente, solange nichts anderes angegeben ist. </xs:documentation>
+                <xs:documentation xml:lang="deu"> Die Sprache des Elements und aller Unterelemente,
+                    solange nichts anderes angegeben ist. </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:attributeGroup>
@@ -5363,7 +5586,8 @@
                     </xrxe:label>
                     <xrxe:relevant context="='hi'"/>
                 </xs:appinfo>
-                <xs:documentation xml:lang="deu"> Die Art der Darstellung des Elements, insbesondere Bezeichnung der Schriftart bei Hervorhebungen. </xs:documentation>
+                <xs:documentation xml:lang="deu"> Die Art der Darstellung des Elements, insbesondere
+                    Bezeichnung der Schriftart bei Hervorhebungen. </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:attributeGroup>
@@ -5412,7 +5636,8 @@
                         </xrx:i18n>
                     </xrxe:label>
                 </xs:appinfo>
-                <xs:documentation xml:lang="en">Reference to textual witness identified in charter description.</xs:documentation>
+                <xs:documentation xml:lang="en">Reference to textual witness identified in charter
+                    description.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:attributeGroup>
@@ -5427,8 +5652,10 @@
                         </xrx:i18n>
                     </xrxe:label>
                 </xs:appinfo>
-                <xs:documentation xml:lang="deu">Bezeichner der Ressource (bevorzugt eine URI), auf der Inhalt eines Textes verweist.</xs:documentation>
-                <xs:documentation xml:lang="en">Reference to a resource (preferable URI) wich is referenced by the content of a text.</xs:documentation>
+                <xs:documentation xml:lang="deu">Bezeichner der Ressource (bevorzugt eine URI), auf
+                    der Inhalt eines Textes verweist.</xs:documentation>
+                <xs:documentation xml:lang="en">Reference to a resource (preferable URI) wich is
+                    referenced by the content of a text.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:attributeGroup>
