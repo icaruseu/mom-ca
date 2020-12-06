@@ -4469,6 +4469,7 @@
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element ref="foreign"/>
                 <xs:element ref="num"/>
+                <xs:element ref="note"/>
                 <xs:group ref="Originalbefund"/>
             </xs:choice>
             <xs:attribute name="from" type="normalizedDateValue" use="required">
