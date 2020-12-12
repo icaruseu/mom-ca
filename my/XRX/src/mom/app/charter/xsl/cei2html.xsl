@@ -138,9 +138,10 @@
                 <xsl:copy-of select="."/>
             </xsl:for-each>
         </xsl:variable>
-        <xsl:choose>
+        <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af" id="witList">
+            <xsl:choose>
             <!--   <xsl:when test="$cei//cei:witnessOrig/* != ''">-->
-            <xsl:when test="                     $cei//cei:witnessOrig/cei:traditioForm != '' or                     $cei//cei:witnessOrig/cei:figure != '' or                     $cei//cei:witnessOrig/cei:archIdentifier != '' or                     $cei//cei:witnessOrig/cei:auth != '' or                     $cei//cei:witnessOrig/cei:nota != '' or                     $cei//cei:witnessOrig/cei:rubrum != ''">
+            <xsl:when test="$cei//cei:witnessOrig/cei:traditioForm != '' or                     $cei//cei:witnessOrig/cei:figure != '' or                     $cei//cei:witnessOrig/cei:archIdentifier != '' or                     $cei//cei:witnessOrig/cei:auth != '' or                     $cei//cei:witnessOrig/cei:nota != '' or                     $cei//cei:witnessOrig/cei:rubrum != ''">
                 <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af" id="witList">
                     <xsl:for-each select="$cei//cei:witnessOrig">
                         <!-- <xsl:value-of select="position()"/> -->
@@ -153,7 +154,7 @@
             </xsl:when>
             <xsl:when test="                     $cei//cei:witnessOrig/cei:physicalDesc/cei:material != '' or                     $cei//cei:witnessOrig/cei:physicalDesc/cei:dimensions != '' or                     $cei//cei:witnessOrig/cei:physicalDesc/cei:condition != ''">
 
-                <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af" id="witList">
+                <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af">
 
                     <!--<div class="p"> Material wurde 2mal angezeigt!! deshalb das weg
       <ul class="nostyle">
@@ -174,12 +175,12 @@
                 </div>
             </xsl:when>
             <xsl:when test="$cei//cei:witnessOrig/cei:physicalDesc/cei:decoDesc/cei:p != ''">
-                <div id="witList" style="display:none"/>
+                <div style="display:none"/>
             </xsl:when>
         </xsl:choose>
         <xsl:choose>
             <xsl:when test="$ordered-witListPar/cei:witness//text() != ''">
-                <div id="witList">
+                <div>
                     <xsl:for-each select="$ordered-witListPar/cei:witness">
                         <!-- <xsl:value-of select="position()"/> -->
                         <xsl:call-template name="witness">
@@ -189,9 +190,10 @@
                 </div>
             </xsl:when>
             <xsl:otherwise>
-                <div id="witList" style="display:none"/>
+                <div style="display:none"/>
             </xsl:otherwise>
         </xsl:choose>
+        </div>
     </xsl:template>
     <xsl:template match="xhtml:insert-issued">
         <xsl:choose>
