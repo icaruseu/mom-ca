@@ -714,12 +714,14 @@ ul.namelist {{
            {                   
          if ($vocabulary//skos:hasTopConcept) then                
                  for $top in $vocabulary//skos:hasTopConcept
-                 let $label1 := <a>{ $vocabulary//skos:Concept[@rdf:about= data($top/@rdf:resource)]//text()}</a>
+                 let $allPrefLabels := $vocabulary//skos:Concept[@rdf:about= data($top/@rdf:resource)]/skos:prefLabel
+                 let $prefLabel := if($allPrefLabels[@xml:lang=$sprache]) then ($allPrefLabels[@xml:lang=$sprache]) else ($allPrefLabels[1])
+                 let $label1 := <a>{ $prefLabel}</a>
                  let $rdfabout1 := data($top/@rdf:resource)
                  let $memo:= if($rdfabout1 != "") then session:set-attribute(replace($rdfabout1,'#', ''), $label1) else ()
                  return              
                  <div class="accordion">
-                 <h3>{ $vocabulary//skos:Concept[@rdf:about= data($top/@rdf:resource)]//text()}</h3>
+                 <h3>{ $prefLabel }</h3>
                  <div>{index:read-hierarchie($vocabulary, $rdfabout1, $label1, $voc)}</div>
                  </div>              
               
