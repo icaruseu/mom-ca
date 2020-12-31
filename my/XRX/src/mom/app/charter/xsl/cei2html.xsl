@@ -142,7 +142,7 @@
             <xsl:choose>
             <!--   <xsl:when test="$cei//cei:witnessOrig/* != ''">-->
             <xsl:when test="$cei//cei:witnessOrig/cei:traditioForm != '' or                     $cei//cei:witnessOrig/cei:figure != '' or                     $cei//cei:witnessOrig/cei:archIdentifier != '' or                     $cei//cei:witnessOrig/cei:auth != '' or                     $cei//cei:witnessOrig/cei:nota != '' or                     $cei//cei:witnessOrig/cei:rubrum != ''">
-                <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af" id="witList">
+                <div data-demoid="e3e02d49-4038-4de9-b9dc-65f1c420b1af">
                     <xsl:for-each select="$cei//cei:witnessOrig">
                         <!-- <xsl:value-of select="position()"/> -->
                         <xsl:call-template name="witness">
