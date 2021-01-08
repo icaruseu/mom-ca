@@ -334,7 +334,7 @@ max-height: 100px !important;
 								</xf:action>
 								<xf:submission id="s-get-translations"
 									ref="instance('i-entries')/atom:entry[xs:integer(instance('i-entry-metadata')/index/text())]"
-									resource="{ $xrx:localhost-request-base-url }service/get-translations"
+									resource="{ $xrx:jetty-request-base-url }service/get-translations"
 									method="post" replace="instance" instance="i-entry-metadata"
 									targetref="instance('i-entry-metadata')/translations" />
 								<xf:submission id="s-get-entries" ref="instance('i-selections')"
@@ -345,7 +345,7 @@ max-height: 100px !important;
 								</xf:submission>
 								<xf:submission id="s-save"
 									ref="instance('i-entries')/atom:entry[xs:integer(instance('i-entry-metadata')/index/text())]"
-									resource="{ $xrx:localhost-request-base-url }service/save-i18n-entry"
+									resource="{ $xrx:jetty-request-base-url }service/save-i18n-entry"
 									method="post" replace="instance" instance="i-saved">
 									<xf:action ev:event="xforms-submit-done">
 										<xf:message level="ephemeral">
@@ -365,7 +365,7 @@ max-height: 100px !important;
 									</xf:header>
 								</xf:submission>
 								<xf:submission id="s-update-i18n"
-									resource="{ $xrx:localhost-request-base-url }service/update-i18n-catalog"
+									resource="{ $xrx:jetty-request-base-url }service/update-i18n-catalog"
 									method="post" replace="instance" instance="i-updated">
 									<xf:action ev:event="xforms-submit" />
 									<xf:action ev:event="xforms-submit-done">

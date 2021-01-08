@@ -126,7 +126,10 @@ declare function catalog:update($catalog-name as xs:string, $messages as element
         let $feed := catalog:feed($lang-key, $catalog-name)
         let $entry-name := catalog:entry-name($message-key, $lang-key)
         let $new-entry := catalog:new-entry($lang-key, $message)
-        let $post := atom:POST($feed, $entry-name, $new-entry)
+        (: catch unclean data: StMa 2020 :)
+        let $post := try {
+            atom:POST($feed, $entry-name, $new-entry)
+        }   catch * {""}
         return
         <xrx:post>
           <xrx:feed>{ $feed }</xrx:feed>
