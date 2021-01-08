@@ -3289,6 +3289,7 @@
                 <xs:element ref="lb"/>
                 <xs:element ref="pb"/>
                 <xs:element ref="add"/>
+                <xs:element ref="supplied"/>
                 <xs:element ref="corr"/>
                 <xs:element ref="sic"/>
                 <xs:element ref="damage"/>
