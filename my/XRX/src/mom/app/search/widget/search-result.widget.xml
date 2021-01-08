@@ -371,6 +371,7 @@ it leaves the active development stage.
 	        if($wcharter:context = 'fond') then
 	        let $archid := charter:archid($wcharter:atom-id)
 	        let $fondid := charter:fondid($wcharter:atom-id)
+	        let $charterid := charter:charterid($wcharter:atom-id)
 	        return
 	        <div data-demoid="90a99a45-5ace-47b2-a71a-97fc6f6cd137">
 	          <b>
@@ -391,10 +392,11 @@ it leaves the active development stage.
 	          <span> &gt; </span>
 	          <a href="{ concat(conf:param('request-root'), $archid, '/', $fondid, '/fond') }">{ $fondid }</a>
 	          <span> &gt; </span>
-	          <a href="{ concat(conf:param('request-root'), $archid, '/', $fondid, '/', $wcharter:idno, '/charter' ) }">{ $wcharter:idno }</a>
+	          <a href="{ concat(conf:param('request-root'), $archid, '/', $fondid, '/', $charterid, '/charter' ) }">{ $wcharter:idno }</a>
 	        </div>
 	        else
 	        let $collectionid := charter:collectionid($wcharter:atom-id)
+	        let $charterid := charter:charterid($wcharter:atom-id)
 	        return
 	        <div data-demoid="01c788f1-450c-4ac2-82bc-4427d763fe21">
             <b>
@@ -413,7 +415,7 @@ it leaves the active development stage.
 	          <span> &gt; </span>
 	          <a href="{ concat(conf:param('request-root'), $collectionid, '/collection') }">{ $collectionid }</a>
 	          <span> &gt; </span>
-	          <a href="{ concat(conf:param('request-root'), $collectionid,'/', $wcharter:idno, '/charter') }">{ $wcharter:idno }</a>
+	          <a href="{ concat(conf:param('request-root'), $collectionid,'/', $charterid, '/charter') }">{ $wcharter:idno }</a>
 	        </div>
 	        }  
         </div>
