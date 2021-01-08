@@ -950,8 +950,8 @@
                             <xs:element ref="quoteOriginaldatierung"/>
                             <xs:element ref="nota"/>
                             <xs:element ref="rubrum"/>
-                            <xs:element ref="divNotes"/>
                             <xs:element ref="incipit"/>
+                            <xs:element ref="divNotes"/>
                         </xs:choice>
                         <xs:attributeGroup ref="standard"/>
                     </xs:complexType>
@@ -1582,7 +1582,7 @@
                 <xrxe:min-occur>0</xrxe:min-occur>
                 <xrxe:max-occur>unbounded</xrxe:max-occur>
                 <xrxe:content-control>annotation</xrxe:content-control>
-                <xrxe:relevant>false</xrxe:relevant>
+                <xrxe:relevant>true</xrxe:relevant>
             </xs:appinfo>
             <xs:documentation xml:lang="deu"> Enthält Vermerke des verwahrenden Archivs oder des
                 Empfängers auf der Urkunde.</xs:documentation>
@@ -2041,7 +2041,6 @@
                 <xs:element ref="settlement"/>
                 <xs:element ref="region"/>
                 <xs:element ref="country"/>
-                <xs:element ref="institution"/>
                 <xs:element ref="repository"/>
                 <xs:element ref="idno"/>
                 <xs:element ref="scope"/>
@@ -4289,6 +4288,7 @@
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element ref="foreign"/>
+                <xs:element ref="ref"/>
                 <xs:group ref="Originalbefund"/>
             </xs:choice>
             <xs:attribute name="indexName">
@@ -4949,9 +4949,6 @@
                 <xs:element ref="foreign"/>
                 <xs:element ref="note"/>
                 <xs:element ref="placeName"/>
-                <xs:element ref="persName"/>
-                <xs:element ref="name"/>
-                <xs:element ref="orgName"/>
                 <xs:group ref="Originalbefund"/>
             </xs:choice>
             <xs:attributeGroup ref="geog"/>
