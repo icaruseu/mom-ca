@@ -260,31 +260,6 @@ img#aus {{
   </xrx:jss>
   <xrx:divs>
     <xrx:div>
-      <xrx:key>augiasviewer-link</xrx:key>
-      <xrx:view>					
-        {
-				if($wcharter-image-viewer:has-image-flag) then
-				<div class="open-viewer-link" data-demoid="03c04010-b59d-4955-a9ab-10f13f2dedf6">
-          <a href="{ $wcharter-image-viewer:augiasviewer-link }" target="_blank">
-            <xrx:i18n>
-              <xrx:key>open-image-in-viewer</xrx:key>
-              <xrx:default>Open Images in Viewer</xrx:default>
-            </xrx:i18n>
-            <span> &gt;</span>
-          </a>
-        </div>
-				else
-				<div class="open-viewer-link light-grey" data-demoid="aa02b557-5669-4011-95ad-29e49371e537">
-          <xrx:i18n>
-            <xrx:key>open-image-in-viewer</xrx:key>
-            <xrx:default>Open Images in Viewer</xrx:default>
-          </xrx:i18n>
-          <span> &gt;</span>
-        </div>
-				}
-      </xrx:view>
-    </xrx:div>
-    <xrx:div>
       <xrx:key>image-tools-link</xrx:key>
         <xrx:view>
           {
