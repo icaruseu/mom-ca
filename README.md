@@ -81,7 +81,7 @@ It is possible to set various parameters that MOM-CA will use when building a do
 - Files can be copied into the container using `docker cp [SRC_PATH] [CONTAINER:DEST_PATH]` and from inside the container by using `docker cp [CONTAINER:SRC_PATH] [DEST_PATH]`. This can be used for backup purposes.
 - Ant targets defined in the MOM-CA code can be executed by using `docker exec -it momca ant [target]`
 - A backup can be restored by using `docker exec -it momca ant restore-backup -Dbackup=[BACKUP_PATH_IN_CONTAINER]`
-- The container can be stopped by using `docker-compose down` or `docker-compose down -v` **WARNING: the second version deletes the database content without further warnings**
+- The container can be stopped by using `docker-compose down` or, including all volumes, `docker-compose down -v` **WARNING: the `-v` flag deletes the database content without further warnings**
 
 ### Upgrading the database to new source code 
 

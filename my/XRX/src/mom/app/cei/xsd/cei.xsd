@@ -684,7 +684,6 @@
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element name="graphic"/>
                 <xs:element ref="class"/>
                 <xs:element ref="abstract" maxOccurs="1"/>
                 <xs:element name="issued" minOccurs="1" maxOccurs="1">
@@ -2286,7 +2285,6 @@
                 <xs:element ref="figure"/>
                 <xs:element ref="surplus"/>
                 <xs:element name="metamark"/>
-                <xs:element name="graphic"/>
             </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -3291,6 +3289,7 @@
                 <xs:element ref="lb"/>
                 <xs:element ref="pb"/>
                 <xs:element ref="add"/>
+                <xs:element ref="supplied"/>
                 <xs:element ref="corr"/>
                 <xs:element ref="sic"/>
                 <xs:element ref="damage"/>
