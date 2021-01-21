@@ -3180,6 +3180,7 @@
                             <xs:element ref="witEnd"/>
                             <xs:element ref="witDetail"/>
                             <xs:element ref="surplus"/>
+                            <xs:element ref="damage"/>
                             <xs:group ref="biblArch"/>
                             <xs:group ref="layout"/>
                             <xs:group ref="reference"/>
