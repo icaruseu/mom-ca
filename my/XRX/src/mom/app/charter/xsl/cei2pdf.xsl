@@ -110,7 +110,7 @@
                                 <xsl:call-template name="image"/>
                             </xsl:if>
                             <xsl:call-template name="diplAnal"/>
-                            <xsl:call-template name="tenor"/>
+                            <xsl:apply-templates select="//cei:tenor"/>
                             <xsl:call-template name="back"/>
                         </xsl:for-each>
                     </fo:block>
@@ -496,12 +496,11 @@
             </xsl:if>
         </fo:block>
     </xsl:template>
-    <xsl:template name="tenor">
-    		<xsl:variable name="tenor" select="//cei:tenor"/>
+    <xsl:template match="cei:tenor">
     		<xsl:variable name="sourceDescVolltext" select="//cei:sourceDescVolltext/cei:bibl"/>
-        <xsl:if test="$tenor/text()">
+        <xsl:if test="normalize-space(.)!=''">
             <fo:block font-size="10pt" font-family="DejaVuSans" margin-left="5pt" margin-top="10pt" text-indent="10mm" line-height="15pt" line-stacking-strategy="font-height">
-                <xsl:apply-templates select="$tenor"/>
+                <xsl:apply-templates/>
             </fo:block>
             <xsl:if test="$sourceDescVolltext/text()">
                 <fo:block font-size="8pt" font-family="DejaVuSans" margin-left="10pt">
