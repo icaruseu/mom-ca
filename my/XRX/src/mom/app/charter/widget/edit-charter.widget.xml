@@ -385,11 +385,11 @@
 						        {
 						        if(count($img-urls) gt 0) then
 						        if($charter-context='collection') then
-										<a href="{ $img-urls[1] }" hrref="/augias/viewer.xql?lang={ $xrx:lang }&amp;imagedata=/mom/service/augiasviewer&amp;collection-id={ $charter:rcollectionid }&amp;charter-id={ $charter:rcharterid }" id="img-link" target="_blank">
+										<a href="{ $img-urls[1] }" id="img-link" target="_blank">
                                 <img id="img" name="image" src="{ $img-urls[1] }" title="{ $img-urls[1] }"/>
                             </a>
 						        else
-						        <a href="{ $img-urls[1] }" hrref="/augias/viewer.xql?lang={ $xrx:lang }&amp;imagedata=/mom/service/augiasviewer&amp;archive-id={ $charter:rarchiveid }&amp;fond-id={ $charter:rfondid }&amp;charter-id={ $charter:rcharterid }" id="img-link" target="_blank">
+						        <a href="{ $img-urls[1] }" id="img-link" target="_blank">
                                 <img id="img" name="image" src="{ $img-urls[1] }" title="{ $img-urls[1] }"/>
                             </a>
 						        else

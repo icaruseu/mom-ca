@@ -144,13 +144,6 @@ it leaves the active development stage.
       <xrx:name>$wcharter-image-viewer:dummy-image-url</xrx:name>
       <xrx:expression>$constructor:preferences//xrx:param[@name='dummy-image-url']/text()</xrx:expression>
     </xrx:variable>
-    <!-- 
-  	  augias viewer 
-  	-->
-    <xrx:variable>
-      <xrx:name>$wcharter-image-viewer:augiasviewer-link</xrx:name>
-      <xrx:expression>augiasviewer:link($wcharter-image-viewer:atomid)</xrx:expression>
-    </xrx:variable>
   </xrx:variables>
   <xrx:csss>
     <xrx:css>tag:www.monasterium.net,2011:/mom/css/image-tools</xrx:css>
@@ -402,7 +395,6 @@ img#aus {{
           </div>
           <div data-demoid="d524da09-709a-4e43-b845-fa27910aa90e" id="zoomslider"/>
         </div>
-        <xrx:div>augiasviewer-link</xrx:div>
         <xrx:div>image-tools-link</xrx:div>
       </div>
 <!--   <script type="text/javascript">
