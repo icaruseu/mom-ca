@@ -36,11 +36,6 @@
       <xrx:prefix>mom</xrx:prefix>
       <xrx:uri>http://www.monasterium.net/NS/mom</xrx:uri>
     </xrx:module>
-    <xrx:module>
-      <xrx:resource>augiasviewer.xqm</xrx:resource>
-      <xrx:prefix>augiasviewer</xrx:prefix>
-      <xrx:uri>http://www.monasterium.net/NS/augiasviewer</xrx:uri>
-    </xrx:module>
   </xrx:modules>
   <xrx:resources>
     <!-- images -->
@@ -214,11 +209,6 @@
   </xrx:resources>
   <xrx:resolver>
     <!-- services -->
-    <xrx:map>
-      <xrx:uripattern>/service/augiasviewer$</xrx:uripattern>
-      <xrx:mode>service</xrx:mode>
-      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/augiasviewer</xrx:atomid>
-    </xrx:map>
     <xrx:map>
       <xrx:uripattern>/service/pdf-export$</xrx:uripattern>
       <xrx:mode>service</xrx:mode>
