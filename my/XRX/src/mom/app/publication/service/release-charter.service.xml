@@ -90,6 +90,10 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:name>$moderator</xrx:name>
       <xrx:expression>$user-xml/xrx:moderator/text()</xrx:expression>
     </xrx:variable>
+    <xrx:variables>
+        <xrx:name>$modmail</xrx:name>
+        <xrx:expression>conf:param("modmail")</xrx:expression>
+    </xrx:variables>
   </xrx:variables>
   <xrx:init>
    <xrx:processor>
@@ -103,7 +107,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
           <from>{ xs:string(conf:param('platform-browser-title')) }</from>
           <to>{ xs:string($moderator) }</to>
           <cc>{ xs:string($xrx:user-id) }</cc>
-          <bcc></bcc>
+          <bcc>{ xs:string($modmail) }</bcc>
           <subject>MOM-CA - Editorial Service</subject>
           <message>
               <text>

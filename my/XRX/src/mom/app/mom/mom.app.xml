@@ -285,5 +285,6 @@
   <xrx:conf>
     <xrx:param name="request-root">/mom/</xrx:param>
     <xrx:param name="platform-browser-title">Monasterium.net</xrx:param>
+    <xrx:param name="modmail">daniel.jeller@icar-us.eu</xrx:param>
   </xrx:conf>
 </xrx:app>
