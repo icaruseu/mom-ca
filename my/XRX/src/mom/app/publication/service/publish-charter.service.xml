@@ -94,6 +94,10 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     	<xrx:name>$charter-link</xrx:name>
     	<xrx:expression>if($charter-context = 'fond') then concat($xrx:http-request-root, $archid, '/', $fondid, '/', $charterid, '/charter') else concat($xrx:http-request-root, $collectionid, '/', $charterid, '/charter')</xrx:expression>
     </xrx:variable> 
+    <xrx:variables>
+        <xrx:name>$modmail</xrx:name>
+        <xrx:expression>conf:param("modmail")</xrx:expression>
+    </xrx:variables>
   </xrx:variables>
   <xrx:init>
    <xrx:processor>
@@ -107,7 +111,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
           <from>{ xs:string(conf:param('platform-browser-title')) }</from>
           <to>{ xs:string($author) }</to>
           <cc>{ xs:string($xrx:user-id) }</cc>
-          <bcc></bcc>
+          <bcc> xs:string{$modmail}</bcc>
           <subject>MOM-CA - Editorial Service</subject>
           <message>
               <text>
