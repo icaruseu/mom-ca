@@ -1336,6 +1336,12 @@
     <!--  <xsl:template match="cei:bibl">
     <xsl:apply-templates />
   </xsl:template>-->
+    <xsl:template match="cei:bibl[ancestor::cei:sourceDesc]">
+        <xsl:apply-templates/>
+        <xsl:if test="following-sibling::cei:bibl">
+            <br/>
+        </xsl:if>
+    </xsl:template>
     <xsl:template name="biblabstract">
         <xsl:apply-templates select="$cei//cei:sourceDesc/cei:sourceDescRegest/cei:bibl"/>
     </xsl:template>
