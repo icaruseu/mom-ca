@@ -1203,6 +1203,9 @@
     <xsl:template name="traditioForm">
         <xsl:apply-templates select="./cei:traditioForm"/>
         <br/>
+        <xsl:if test="./@n">
+            <xsl:value-of select="concat(./@n, ':')"/>
+        </xsl:if>
         <xsl:apply-templates select="./child::text()"/>
     </xsl:template>
     <xsl:template match="cei:material">
@@ -1336,12 +1339,6 @@
     <!--  <xsl:template match="cei:bibl">
     <xsl:apply-templates />
   </xsl:template>-->
-    <xsl:template match="cei:bibl[ancestor::cei:sourceDesc]">
-        <xsl:apply-templates/>
-        <xsl:if test="following-sibling::cei:bibl">
-            <br/>
-        </xsl:if>
-    </xsl:template>
     <xsl:template name="biblabstract">
         <xsl:apply-templates select="$cei//cei:sourceDesc/cei:sourceDescRegest/cei:bibl"/>
     </xsl:template>
