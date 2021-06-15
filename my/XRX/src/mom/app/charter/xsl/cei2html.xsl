@@ -1203,6 +1203,9 @@
     <xsl:template name="traditioForm">
         <xsl:apply-templates select="./cei:traditioForm"/>
         <br/>
+        <xsl:if test="./@n">
+            <xsl:value-of select="concat(./@n, ':')"/>
+        </xsl:if>
         <xsl:apply-templates select="./child::text()"/>
     </xsl:template>
     <xsl:template match="cei:material">
