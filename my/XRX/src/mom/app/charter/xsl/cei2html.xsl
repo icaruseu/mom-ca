@@ -966,6 +966,12 @@
             </xsl:attribute>
             <div class="witness-text" name="wit">
                 <br/>
+                <xsl:if test="./@n !=''">
+                    <b>
+                        <xsl:value-of select="concat(./@n, ':')"/>
+                    </b>
+                    <br/>
+                </xsl:if>
                 <xsl:call-template name="traditioForm"/>
                 <div class="p">
                     <xsl:if test="./cei:archIdentifier/node()">
@@ -1203,9 +1209,6 @@
     <xsl:template name="traditioForm">
         <xsl:apply-templates select="./cei:traditioForm"/>
         <br/>
-        <xsl:if test="./@n">
-            <xsl:value-of select="concat(./@n, ':')"/>
-        </xsl:if>
         <xsl:apply-templates select="./child::text()"/>
     </xsl:template>
     <xsl:template match="cei:material">
