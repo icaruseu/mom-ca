@@ -1201,11 +1201,14 @@
         <xsl:apply-templates select="*[not(name() = 'cei:decoDesc')]"/>
     </xsl:template>
     <xsl:template name="traditioForm">
+        <xsl:if test="./@n !=''">
+            <b>
+                <xsl:value-of select="concat(./@n, ':')"/>
+            </b>
+            <br/>
+        </xsl:if>
         <xsl:apply-templates select="./cei:traditioForm"/>
         <br/>
-        <xsl:if test="./@n">
-            <xsl:value-of select="concat(./@n, ':')"/>
-        </xsl:if>
         <xsl:apply-templates select="./child::text()"/>
     </xsl:template>
     <xsl:template match="cei:material">

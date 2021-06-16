@@ -150,9 +150,9 @@ declare function atom:PUT($collection, $resource, $data) {
     return
     if(atom:auth-by-group($atom:group-name)) then
         let $entry-to-update := atom:entry-to-update($data/root()/*)
-        let $store := xmldb:store($base-collection, $resource, $entry-to-update)
+        let $store := system:as-user('admin', conf:param('dba-password'), xmldb:store($base-collection, $resource, $entry-to-update))
         let $uri := concat($base-collection, '/', $resource)
-        let $set-permissions := atom:set-permissions($uri)
+        let $set-permissions := system:as-user('admin', conf:param('dba-password'), atom:set-permissions($uri) )
         return
         $entry-to-update
     else()
