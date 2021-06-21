@@ -968,7 +968,12 @@
                 <br/>
                 <xsl:if test="./@n !=''">
                     <b>
-                        <xsl:value-of select="concat(./@n, ':')"/>
+                        <xrx:i18n>
+                            <xrx:key>charter-view-witness</xrx:key>
+                            <xrx:default>Textual witness</xrx:default>
+                        </xrx:i18n>
+                        <span>:&#160;</span>
+                        <xsl:value-of select="./@n"/>
                     </b>
                     <br/>
                 </xsl:if>
