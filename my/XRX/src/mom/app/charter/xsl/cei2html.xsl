@@ -781,6 +781,19 @@
             <xsl:apply-templates/>
         </span>
     </xsl:template>
+    
+    <xsl:template match="cei:app">
+        <span class="cei-app" style="background-color:#ffcc99;" title="{cei:rdg}">
+            <xsl:attribute name="title">
+                <xsl:apply-templates select="cei:rdg"/>
+            </xsl:attribute>
+            <xsl:value-of select="./cei:lem"/>
+        </span>
+    </xsl:template>
+    
+    <xsl:template match="cei:rdg">
+        <xsl:value-of select="concat('[', ./@wit, ']: ', ., '&#10;')"/>
+    </xsl:template>
 
     <xsl:template match="cei:expan">
         <xsl:variable name="i18n">
