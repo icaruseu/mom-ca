@@ -966,6 +966,17 @@
             </xsl:attribute>
             <div class="witness-text" name="wit">
                 <br/>
+                <xsl:if test="./@n !=''">
+                    <b>
+                        <xrx:i18n>
+                            <xrx:key>charter-view-witness</xrx:key>
+                            <xrx:default>Textual witness</xrx:default>
+                        </xrx:i18n>
+                        <span>:&#160;</span>
+                        <xsl:value-of select="./@n"/>
+                    </b>
+                    <br/>
+                </xsl:if>
                 <xsl:call-template name="traditioForm"/>
                 <div class="p">
                     <xsl:if test="./cei:archIdentifier/node()">
