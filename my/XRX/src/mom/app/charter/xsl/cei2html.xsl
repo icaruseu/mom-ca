@@ -596,26 +596,23 @@
         </i>
     </xsl:template>
     <xsl:template match="cei:hi">
-        <xsl:choose>
-            <xsl:when test="@rend = 'sup'">
-                <sup>
-                    <xsl:apply-templates/>
-                </sup>
-            </xsl:when>
-            <xsl:when test="@rend = 'italics'">
-                <i>
-                    <xsl:apply-templates/>
-                </i>
-            </xsl:when>
-            <xsl:otherwise>
-                <span style="background-color:#E6E6E6">
-                    <xsl:attribute name="title">
-                        <xsl:value-of select="@rend"/>
-                    </xsl:attribute>
-                    <xsl:apply-templates/>
-                </span>
-            </xsl:otherwise>
-        </xsl:choose>
+        <span>
+            <xsl:attribute name="style">
+                <xsl:for-each select="tokenize(./@rend, '\s+')">
+                    <xsl:choose>
+                        <xsl:when test="contains(., 'italic')">font-style: italic;</xsl:when>
+                        <xsl:when test="contains(., 'bold')">font-weight: bold;</xsl:when>
+                        <xsl:when test="contains(., 'sup')">font-size: .83em;vertical-align: super;</xsl:when>
+                        <xsl:when test="contains(., 'sub')">font-size: .83em;vertical-align: sub;</xsl:when>
+                        <xsl:when test="contains(., 'smallcaps')">font-variant: small-caps;</xsl:when>
+                        <xsl:when test="contains(., 'underline')">text-decoration: underline;</xsl:when>
+                        <!--underline, sub-->
+                        <xsl:otherwise>background-color:#E6E6E6;</xsl:otherwise>
+                    </xsl:choose>
+                </xsl:for-each>
+            </xsl:attribute>
+            <xsl:apply-templates/>
+        </span>
     </xsl:template>
     <xsl:template match="cei:p">
         <xsl:choose>
