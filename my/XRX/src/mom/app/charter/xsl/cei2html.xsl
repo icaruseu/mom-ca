@@ -606,7 +606,9 @@
                         <xsl:when test="contains(., 'sub')">font-size: .83em;vertical-align: sub;</xsl:when>
                         <xsl:when test="contains(., 'smallcaps')">font-variant: small-caps;</xsl:when>
                         <xsl:when test="contains(., 'underline')">text-decoration: underline;</xsl:when>
-                        <!--underline, sub-->
+                        <xsl:when test="matches(., '^background(-color)?\(.+\)')">
+                            background-color:<xsl:value-of select="substring-before(substring-after(., '('), ')')"/>;
+                        </xsl:when>
                         <xsl:otherwise>background-color:#E6E6E6;</xsl:otherwise>
                     </xsl:choose>
                 </xsl:for-each>
