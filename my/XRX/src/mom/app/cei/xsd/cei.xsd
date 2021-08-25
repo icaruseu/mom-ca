@@ -1232,6 +1232,7 @@
             </xs:choice>
             <xs:attribute name="id"/>
             <xs:attribute name="note"/>
+            <xs:attribute name="facs"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="pc">
@@ -1241,6 +1242,7 @@
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:attribute name="id"/>
+            <xs:attribute name="facs"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="seg">
@@ -1254,6 +1256,7 @@
             <xs:attribute name="type"/>
             <xs:attribute name="id"/>
             <xs:attribute name="part"/>
+            <xs:attribute name="facs"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="head">
