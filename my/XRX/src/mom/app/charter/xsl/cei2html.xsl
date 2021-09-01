@@ -1213,7 +1213,7 @@
     <xsl:template name="traditioForm">
         <xsl:apply-templates select="./cei:traditioForm"/>
         <br/>
-        <xsl:apply-templates select="./child::text()"/>
+        <xsl:apply-templates select="./child::text()|./cei:hi/text()"/>
     </xsl:template>
     <xsl:template match="cei:material">
         <xsl:if test="./node()">
