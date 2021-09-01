@@ -596,7 +596,7 @@
         </i>
     </xsl:template>
     <xsl:template match="cei:hi">
-        <span>
+        <span title="{@rend}">
             <xsl:attribute name="style">
                 <xsl:for-each select="tokenize(./@rend, '\s+')">
                     <xsl:choose>
