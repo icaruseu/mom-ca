@@ -40,11 +40,11 @@
   <xrx:model>
     <xf:model id="defs">
       <xf:instance id="html-entry" src="/mom/atom/GET/xrx.htdoc/skos.xml"/>
-      <xf:instance id="definiton">
+<!--      <xf:instance id="definiton">
         <data>
           <keyword/>
         </data>
-      </xf:instance>
+      </xf:instance>-->
       <xf:submission id="ssave" ref="instance('html-entry')" action="/mom/atom/PUT/xrx.htdoc/skos.xml"
         method="post" replace="none">
         <xf:action ev:event="xforms-submit-done">
@@ -101,7 +101,7 @@
           {
           $save-trigger-div
           }
-          <xf:textarea ref="instance('html-entry')/atom:entry/atom:content" mediatype="text/html"/>
+          <xf:textarea ref="instance('html-entry')//test" mediatype="text/html"/>
         </xf:group>
         }
       </xrx:view>
