@@ -40,53 +40,54 @@
   <xrx:model>
     <xf:model id="defs">
       <xf:instance id="html-entry" src="/mom/atom/GET/xrx.htdoc/skos.xml"/>
-<!--      <xf:instance id="definiton">
-        <data>
-          <keyword/>
+      <xf:instance id="definition">
+        <data xmlns="">
+          <keyword>hello, world</keyword>
         </data>
-      </xf:instance>-->
-      <xf:submission id="ssave" ref="instance('html-entry')" action="/mom/atom/PUT/xrx.htdoc/skos.xml"
-        method="post" replace="none">
+      </xf:instance>
+      <xf:submission id="ssave" ref="instance('html-entry')"
+        action="/mom/atom/PUT/xrx.htdoc/skos.xml" method="post" replace="none">
         <xf:action ev:event="xforms-submit-done">
           <xf:message level="ephemeral">Your changes have been succesfully saved.</xf:message>
         </xf:action>
       </xf:submission>
     </xf:model>
+    <!--    <xf:model>
+      <xf:instance></xf:instance>
+      <xf:submission></xf:submission>
+    </xf:model>-->
   </xrx:model>
   <xrx:divs>
-  <!--  <xrx:div>
+    <xrx:div>
+      <xrx:key>title-div</xrx:key>
+      <xrx:view>
+        <div class="h2">
+          <span>SKOS-Editor</span>
+        </div>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
       <xrx:key>select-concept-div</xrx:key>
       <xrx:view>
-        <h1>SKOS-Editor</h1>
-        <p class="test">Bitte wählen Sie ein existierendes SKOS-Konzept, oder erstellen Sie mit der
-          unteren Maske ein neues.</p>
-        <xf:select1 ref="instance('definition')//keyword">
-          <xf:item>
-            <xf:label>-\- Bereits existierende Konzepte... -\-</xf:label>
-            <xf:value/>
-          </xf:item>
-          <xf:item>
-            <xf:label>Heraldische Begriffe</xf:label>
-            <xf:value>skos:heraldischeBegriffe</xf:value>
-          </xf:item>
-          <xf:item>
-            <xf:label>Bischofsammelindulgenzen</xf:label>
-            <xf:value>skos:bischofsammelindulgenzen</xf:value>
-          </xf:item>
-          <xf:item>
-            <xf:label>Französische Königsurkunden</xf:label>
-            <xf:value>skos:franzKoenigsUk</xf:value>
-          </xf:item>
-        </xf:select1>
+        <xf:group model="defs">
+          <p class="test">Bitte wählen Sie ein existierendes SKOS-Konzept, oder erstellen Sie mit
+            der unteren Maske ein neues:</p>
+          <xf:select1 appearance="minimal" ref="instance('definition')//keyword">
+            <xf:item>
+              <xf:label>Birds</xf:label>
+              <xf:value>#birds</xf:value>
+            </xf:item>
+            <xf:item>
+              <xf:label>Bees</xf:label>
+              <xf:value>#bees</xf:value>
+            </xf:item>
+          </xf:select1>
+        </xf:group>
       </xrx:view>
-    </xrx:div>-->
+    </xrx:div>
     <xrx:div>
       <xrx:key>textarea-div</xrx:key>
-      <xrx:view>
-        {
-        let $create-trigger-div :=
-        <div class="create-trigger"/>
-        let $save-trigger-div :=
+      <xrx:view> { let $create-trigger-div := <div class="create-trigger"/> let $save-trigger-div :=
           <div class="save-trigger">
           <xf:trigger>
             <xf:label>Save</xf:label>
@@ -94,33 +95,16 @@
               <xf:send submission="ssave"/>
             </xf:action>
           </xf:trigger>
-        </div>
-        let $concept := 'birds'
-        return
-        <xf:group model="defs">
-          {
-          $save-trigger-div
-          }
-          <xf:textarea ref="instance('html-entry')//test" mediatype="text/html"/>
-        </xf:group>
-        }
-      </xrx:view>
-    </xrx:div>
-    <xrx:div>
-      <xrx:key>rdftest-div</xrx:key>
-      <xrx:view>
-        {
-        if ($skostest/skos) then
-        <p>rdf detected!</p>
-        else ()
-        }
-      </xrx:view>
+        </div> let $concept := '#birds' return <xf:group model="defs"> { $save-trigger-div }
+            <xf:textarea ref="instance('html-entry')//*:Concept[@*:about='{$concept}']"
+            mediatype="text/html"/>
+        </xf:group> } </xrx:view>
     </xrx:div>
   </xrx:divs>
 
   <xrx:view>
-    <!--<xrx:div>select-concept-div</xrx:div>-->
+    <xrx:div>title-div</xrx:div>
+    <xrx:div>select-concept-div</xrx:div>
     <xrx:div>textarea-div</xrx:div>
-    <xrx:div>rdftest-div</xrx:div>
   </xrx:view>
 </xrx:widget>
