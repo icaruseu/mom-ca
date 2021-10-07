@@ -103,8 +103,28 @@
   </xrx:divs>
 
   <xrx:view>
-    <xrx:div>title-div</xrx:div>
-    <xrx:div>select-concept-div</xrx:div>
-    <xrx:div>textarea-div</xrx:div>
+    <xrx:auth>
+      <xrx:rules>
+        <xrx:rule>
+          <xrx:user/>
+          <xrx:role>html-author</xrx:role>
+        </xrx:rule>
+      </xrx:rules>
+      <xrx:true>
+        <xrx:view>
+          <xrx:div>title-div</xrx:div>
+          <xrx:div>select-concept-div</xrx:div>
+          <xrx:div>textarea-div</xrx:div>
+        </xrx:view>
+      </xrx:true>
+      <xrx:false>
+        <div>
+          <xrx:i18n>
+            <xrx:key>protected-page-message</xrx:key>
+            <xrx:default>Protected page. Please login first.</xrx:default>
+          </xrx:i18n>
+        </div>
+      </xrx:false>
+    </xrx:auth>
   </xrx:view>
 </xrx:widget>
