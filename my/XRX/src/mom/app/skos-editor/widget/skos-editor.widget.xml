@@ -26,7 +26,7 @@
     components into other systems, once it leaves the active development stage. </xrx:licence>
   <xrx:variables>
     <xrx:variable>
-      <xrx:name>$skostest</xrx:name>
+      <xrx:name>$skosfile</xrx:name>
       <xrx:expression>doc('/db/mom-data/xrx.htdoc/skos.xml')/atom:entry/atom:content</xrx:expression>
     </xrx:variable>
   </xrx:variables>
@@ -52,10 +52,6 @@
         </xf:action>
       </xf:submission>
     </xf:model>
-    <!--    <xf:model>
-      <xf:instance></xf:instance>
-      <xf:submission></xf:submission>
-    </xf:model>-->
   </xrx:model>
   <xrx:divs>
     <xrx:div>
@@ -72,33 +68,44 @@
         <xf:group model="defs">
           <p class="test">Bitte wählen Sie ein existierendes SKOS-Konzept, oder erstellen Sie mit
             der unteren Maske ein neues:</p>
-          <xf:select1 appearance="minimal" ref="instance('definition')//keyword">
+          <xf:select1 appearance="minimal">
+            {
+            for $concept in $skosfile//skos:Concept/@rdf:about/data()
+            let $conceptlabel := substring($concept, 2)
+            return
             <xf:item>
-              <xf:label>Birds</xf:label>
-              <xf:value>#birds</xf:value>
+              <xf:label>{ $conceptlabel }</xf:label>
+              <xf:value>{ $concept }</xf:value>
             </xf:item>
-            <xf:item>
-              <xf:label>Bees</xf:label>
-              <xf:value>#bees</xf:value>
-            </xf:item>
+            }
           </xf:select1>
         </xf:group>
       </xrx:view>
     </xrx:div>
     <xrx:div>
       <xrx:key>textarea-div</xrx:key>
-      <xrx:view> { let $create-trigger-div := <div class="create-trigger"/> let $save-trigger-div :=
-          <div class="save-trigger">
+      <xrx:view>
+        {
+        let $create-trigger-div :=
+        <div class="create-trigger"/>
+        let $save-trigger-div :=
+        <div class="save-trigger">
           <xf:trigger>
             <xf:label>Save</xf:label>
             <xf:action ev:event="DOMActivate">
               <xf:send submission="ssave"/>
             </xf:action>
           </xf:trigger>
-        </div> let $concept := '#birds' return <xf:group model="defs"> { $save-trigger-div }
+        </div>
+        let $concept := '#birds'
+        return
+        <xf:group model="defs">
+          { $save-trigger-div }
             <xf:textarea ref="instance('html-entry')//*:Concept[@*:about='{$concept}']"
             mediatype="text/html"/>
-        </xf:group> } </xrx:view>
+        </xf:group>
+        }
+      </xrx:view>
     </xrx:div>
   </xrx:divs>
 
