@@ -24,12 +24,6 @@
     General Public License along with VdU/VRET. If not, see http://www.gnu.org/licenses. We expect
     VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of
     components into other systems, once it leaves the active development stage. </xrx:licence>
-  <xrx:variables>
-    <xrx:variable>
-      <xrx:name>$skosfile</xrx:name>
-      <xrx:expression>doc('/db/mom-data/xrx.htdoc/skos.xml')/atom:entry/atom:content</xrx:expression>
-    </xrx:variable>
-  </xrx:variables>
   <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
   <xrx:init>
     <xrx:processor>
@@ -37,101 +31,11 @@
       <xrx:jqueryflag>true</xrx:jqueryflag>
     </xrx:processor>
   </xrx:init>
-  <xrx:model>
-    <xf:model id="defs">
-      <xf:instance id="html-entry" src="/mom/atom/GET/xrx.htdoc/skos.xml"/>
-      <xf:instance id="definition">
-        <data xmlns="">
-          <keyword>hello, world</keyword>
-        </data>
-      </xf:instance>
-      <xf:submission id="ssave" ref="instance('html-entry')"
-        action="/mom/atom/PUT/xrx.htdoc/skos.xml" method="post" replace="none">
-        <xf:action ev:event="xforms-submit-done">
-          <xf:message level="ephemeral">Your changes have been succesfully saved.</xf:message>
-        </xf:action>
-      </xf:submission>
-    </xf:model>
-  </xrx:model>
-  <xrx:divs>
-    <xrx:div>
-      <xrx:key>title-div</xrx:key>
-      <xrx:view>
-        <div class="h2">
-          <span>SKOS-Editor</span>
-        </div>
-      </xrx:view>
-    </xrx:div>
-    <xrx:div>
-      <xrx:key>select-concept-div</xrx:key>
-      <xrx:view>
-        <xf:group model="defs">
-          <p class="test">Bitte wählen Sie ein existierendes SKOS-Konzept, oder erstellen Sie mit
-            der unteren Maske ein neues:</p>
-          <xf:select1 appearance="minimal">
-            {
-            for $concept in $skosfile//skos:Concept/@rdf:about/data()
-            let $conceptlabel := substring($concept, 2)
-            return
-            <xf:item>
-              <xf:label>{ $conceptlabel }</xf:label>
-              <xf:value>{ $concept }</xf:value>
-            </xf:item>
-            }
-          </xf:select1>
-        </xf:group>
-      </xrx:view>
-    </xrx:div>
-    <xrx:div>
-      <xrx:key>textarea-div</xrx:key>
-      <xrx:view>
-        {
-        let $create-trigger-div :=
-        <div class="create-trigger"/>
-        let $save-trigger-div :=
-        <div class="save-trigger">
-          <xf:trigger>
-            <xf:label>Save</xf:label>
-            <xf:action ev:event="DOMActivate">
-              <xf:send submission="ssave"/>
-            </xf:action>
-          </xf:trigger>
-        </div>
-        let $concept := '#birds'
-        return
-        <xf:group model="defs">
-          { $save-trigger-div }
-            <xf:textarea ref="instance('html-entry')//*:Concept[@*:about='{$concept}']"
-            mediatype="text/html"/>
-        </xf:group>
-        }
-      </xrx:view>
-    </xrx:div>
-  </xrx:divs>
-
+  <xrx:jss>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/skos-js</xrx:resource>
+  </xrx:jss>
   <xrx:view>
-    <xrx:auth>
-      <xrx:rules>
-        <xrx:rule>
-          <xrx:user/>
-          <xrx:role>html-author</xrx:role>
-        </xrx:rule>
-      </xrx:rules>
-      <xrx:true>
-        <xrx:view>
-          <xrx:div>title-div</xrx:div>
-          <xrx:div>select-concept-div</xrx:div>
-          <xrx:div>textarea-div</xrx:div>
-        </xrx:view>
-      </xrx:true>
-      <xrx:false>
-        <div>
-          <xrx:i18n>
-            <xrx:key>protected-page-message</xrx:key>
-            <xrx:default>Protected page. Please login first.</xrx:default>
-          </xrx:i18n>
-        </div>
-      </xrx:false>
-    </xrx:auth>
+    <p>test</p>
   </xrx:view>
 </xrx:widget>

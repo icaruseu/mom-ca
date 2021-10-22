@@ -29,13 +29,15 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   </xrx:licence>
-     <xrx:modules>
-    <xrx:module>
-      <xrx:resource>skos-editor.xqm</xrx:resource>
-      <xrx:prefix>skos-editor</xrx:prefix>
-      <xrx:uri>http://www.monasterium.net/NS/skos-editor</xrx:uri>
-    </xrx:module>
-   </xrx:modules>
+  
+  <xrx:resources> 
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/js/skos-js</xrx:atomid>
+      <xrx:relativepath>js/</xrx:relativepath>
+      <xrx:name>skos-js.js</xrx:name>
+    </xrx:resource>
+  </xrx:resources>
+  
   <xrx:resolver>   
     <!-- main widget -->
    <xrx:map>
@@ -43,11 +45,6 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:mode>mainwidget</xrx:mode>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/skos-editor</xrx:atomid>
    </xrx:map>
-    <xrx:map>
-      <xrx:uripattern>/skos-subwidget$</xrx:uripattern>
-      <xrx:mode>mainwidget</xrx:mode>
-      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/skos-subwidget</xrx:atomid>
-    </xrx:map>
   </xrx:resolver>
 </xrx:app>
 
