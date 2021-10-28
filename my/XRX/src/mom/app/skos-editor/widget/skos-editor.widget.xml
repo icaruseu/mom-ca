@@ -31,11 +31,29 @@
       <xrx:jqueryflag>true</xrx:jqueryflag>
     </xrx:processor>
   </xrx:init>
+  <xrx:csss>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/css/codemirror/lib/codemirror</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/css/codemirror/theme/cobalt</xrx:resource>
+    <style type="text/css">
+      #editor {{
+      color: red;
+      }}
+    </style>
+  </xrx:csss>
   <xrx:jss>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/skos-js</xrx:resource>
+    <!--<xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/skos-js</xrx:resource>-->
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/lib/codemirror</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/mode/xml</xrx:resource>
   </xrx:jss>
   <xrx:view>
-    <p>test</p>
+    <textarea id="editor">
+      <p>hello, world</p>
+    </textarea>
+<!--    <script type="text/javascript">
+      var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {{
+      mode: 'xml',
+      theme: 'cobalt'
+      }});
+    </script>-->
   </xrx:view>
 </xrx:widget>
