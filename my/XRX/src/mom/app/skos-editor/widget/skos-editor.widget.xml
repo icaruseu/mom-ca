@@ -34,26 +34,59 @@
   <xrx:csss>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/css/codemirror/lib/codemirror</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/css/codemirror/theme/cobalt</xrx:resource>
-    <style type="text/css">
-      #editor {{
-      color: red;
-      }}
-    </style>
+    <style type="text/css"> #editor {{ color:red; }} </style>
   </xrx:csss>
   <xrx:jss>
     <!--<xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/skos-js</xrx:resource>-->
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/lib/codemirror</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/mode/xml</xrx:resource>
   </xrx:jss>
+  <xrx:model>
+    <xf:model id="defs">
+      <xf:instance id="html-entry"
+        src="/mom/atom/GET/metadata.controlledVocabulary.public/IllUrkGlossar.xml"/>
+    </xf:model>
+  </xrx:model>
   <xrx:view>
+    <!--### CodeMirror ###-->
+    
     <textarea id="editor">
       <p>hello, world</p>
     </textarea>
-<!--    <script type="text/javascript">
+    <script type="text/javascript">
       var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {{
       mode: 'xml',
-      theme: 'cobalt'
+      theme: 'cobalt',
+      lineNumbers: true
       }});
-    </script>-->
+      editor.setSize("250", "150");
+    </script>
+
+    <!--### XForms ###-->
+<!--    
+    {
+    <xf:group model="defs">
+      <xf:output ref="instance('html-entry')//*:ConceptScheme[@*:about='#IllUrkGlossar']/*:prefLabel[1]"/>
+    </xf:group>
+    }
+-->
+    <!--### Fore ###-->
+<!--
+    <fx-fore>
+      <fx-model>
+        <fx-instance>
+          <data>
+            <greeting>Hello Universe</greeting>
+          </data>
+        </fx-instance>
+        <fx-instance id="html-entry" src="/mom/atom/GET/metadata.controlledVocabulary.public/IllUrkGlossar.xml"/>
+      </fx-model>
+      <fx-output ref="greeting"/>
+      <fx-group ref="html-entry">
+        <fx-output ref="instance('html-entry')//*:ConceptScheme[@*:about='#IllUrkGlossar']/*:prefLabel[1]"/>
+      </fx-group>
+    </fx-fore>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@jinntec/fore@latest/dist/fore-all.js"/>
+-->
   </xrx:view>
 </xrx:widget>
