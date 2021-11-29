@@ -33,10 +33,6 @@
       <xrx:name>$skosfile</xrx:name>
       <xrx:expression>doc('/db/mom-data/xrx.htdoc/skos.xml')/atom:entry/atom:content/rdf:RDF</xrx:expression>
     </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$skos-edit</xrx:name>
-      <xrx:expression>concat(conf:param('request-root'), 'service/skos-edit$')</xrx:expression>
-    </xrx:variable>
   </xrx:variables>
   <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
   <xrx:init>
@@ -117,17 +113,28 @@
           editor.setSize("350", "250");
           
           $('input#submit-content').click(function() {{
-          var text = editor.getValue();
+          //var parser = new DOMParser();
+          //var file = parser.parseFromString( `
+          //{$full-file}
+          //`,"text/xml");
+          //console.log(file)
+          var editorContent = editor.getValue();
+          console.log(editorContent)
           
             $.ajax({{
-            url: "{ $skos-edit }", // hier den Service angeben
-            type: "POST",
+            url: "/mom/service/skos-edit", // hier den Service angeben
+            type: "PUT",
             contentType: "application/xml",
-            data: text,     // Editor-Inhalt wird an AJAX übergeben
+            data: editorContent,     // Editor-Inhalt wird an AJAX übergeben
             dataType: "xml",
             }})
           }});
         </script>
+          <div>
+            <a href="/mom/service/skos-edit">
+              test
+            </a>
+          </div>
         </xf:group>
         }
       </xrx:view>

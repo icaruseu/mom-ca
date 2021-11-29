@@ -28,16 +28,10 @@
         along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     </xrx:licence>
     <!--übernimmt data und eine XPath-Angabe aus dem AJAX in skos-editor.widget-->
-    <xrx:variables>
-        <xrx:variable>
-            <xrx:name></xrx:name>
-            <xrx:expression></xrx:expression>
-        </xrx:variable>
-    </xrx:variables>
     <xrx:body>
         { 
         let $skosfile := doc('/db/mom-data/xrx.htdoc/skos.xml')
-        let $update := update replace $skosfile/atom:entry/atom:content/rdf:RDF/skos:Concept[@rdf:about='#birds'] with <test>1, 2, 3</test>
+        let $update := update replace $skosfile/atom:entry/atom:content/rdf:RDF/skos:Concept[@rdf:about='#birds'] with $data
         return $update
         }
     </xrx:body>
