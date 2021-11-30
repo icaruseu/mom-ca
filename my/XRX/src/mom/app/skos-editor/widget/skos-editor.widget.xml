@@ -25,7 +25,7 @@
     VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of
     components into other systems, once it leaves the active development stage. </xrx:licence>
   <xrx:variables>
-<!--    <xrx:variable>
+    <!--    <xrx:variable>
       <xrx:name>$skosfile</xrx:name>
       <xrx:expression>doc('/db/mom-data/metadata.controlledVocabulary.public/IllUrkGlossar.xml')/atom:entry/atom:content/rdf:RDF</xrx:expression>
     </xrx:variable>-->
@@ -105,31 +105,25 @@
             }
           </textarea>
           <input id="submit-content" type="submit" value="Submit!"/>
-        <script type="text/javascript">
-          var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {{
-          mode: 'xml',
-          lineNumbers: true
-          }});
-          editor.setSize("350", "250");
-          
-          $('input#submit-content').click(function() {{
-          //var parser = new DOMParser();
-          //var file = parser.parseFromString( `
-          //{$full-file}
-          //`,"text/xml");
-          //console.log(file)
-          var editorContent = editor.getValue();
-          console.log(editorContent)
-          
-            $.ajax({{
-            url: "/mom/service/skos-edit", // hier den Service angeben
-            type: "PUT",
-            contentType: "application/xml",
-            data: editorContent,     // Editor-Inhalt wird an AJAX übergeben
-            dataType: "xml",
-            }})
-          }});
-        </script>
+          <script type="text/javascript">
+            var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {{
+              mode: 'xml',
+              lineNumbers: true
+            }});
+            editor.setSize("350", "250");
+            
+            $('input#submit-content').click(function() {{
+              var editorContent = editor.getValue();
+              
+              $.ajax({{
+                url: "/mom/service/skos-edit", // hier den Service angeben
+                type: "PUT",
+                contentType: "application/xml",
+                data: editorContent,     // Editor-Inhalt wird an AJAX übergeben
+                dataType: "xml",
+              }})
+            }});
+          </script>
           <div>
             <a href="/mom/service/skos-edit">
               test

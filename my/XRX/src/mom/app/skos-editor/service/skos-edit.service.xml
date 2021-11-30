@@ -27,11 +27,15 @@
         You should have received a copy of the GNU General Public License
         along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     </xrx:licence>
-    <!--übernimmt data und eine XPath-Angabe aus dem AJAX in skos-editor.widget-->
+    <xrx:variables>
+        <xrx:variable>
+            <xrx:name>$skosfile</xrx:name>
+            <xrx:expression>doc('/db/mom-data/xrx.htdoc/skos.xml')/atom:entry/atom:content/rdf:RDF</xrx:expression>
+        </xrx:variable>
+    </xrx:variables>
     <xrx:body>
         { 
-        let $skosfile := doc('/db/mom-data/xrx.htdoc/skos.xml')
-        let $update := update replace $skosfile/atom:entry/atom:content/rdf:RDF/skos:Concept[@rdf:about='#birds'] with $data
+        let $update := update replace $skosfile/skos:Concept[@rdf:about='#birds'] with $data
         return $update
         }
     </xrx:body>
