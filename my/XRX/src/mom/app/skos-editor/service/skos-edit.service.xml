@@ -32,10 +32,15 @@
             <xrx:name>$skosfile</xrx:name>
             <xrx:expression>doc('/db/mom-data/xrx.htdoc/skos.xml')/atom:entry/atom:content/rdf:RDF</xrx:expression>
         </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$concept</xrx:name>
+            <xrx:expression>concat('#', request:get-parameter("c", ""))</xrx:expression>
+        </xrx:variable>
+        
     </xrx:variables>
     <xrx:body>
         { 
-        let $update := update replace $skosfile/skos:Concept[@rdf:about='#birds'] with $data
+        let $update := update replace $skosfile/skos:Concept[@rdf:about=$concept] with $data
         return $update
         }
     </xrx:body>

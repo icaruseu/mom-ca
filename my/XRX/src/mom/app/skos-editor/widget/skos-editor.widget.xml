@@ -100,7 +100,7 @@
           <textarea id="editor">
             {
             (: let $concept := $skosfile/*:Concept[@*:about='#birds'] hier mit util:eval XPath mit selektiertem Konzept bauen:)
-            let $concept := $full-file//*:Concept[@*:about='#birds']
+            let $concept := $full-file//*:Concept[@*:about='#bees']
             return $concept
             }
           </textarea>
@@ -116,7 +116,7 @@
               var editorContent = editor.getValue();
               
               $.ajax({{
-                url: "/mom/service/skos-edit", // hier den Service angeben
+                url: "/mom/service/skos-edit?c=bees", // hier den Service angeben
                 type: "PUT",
                 contentType: "application/xml",
                 data: editorContent,     // Editor-Inhalt wird an AJAX übergeben
@@ -125,7 +125,7 @@
             }});
           </script>
           <div>
-            <a href="/mom/service/skos-edit">
+            <a href="/mom/service/skos-edit?c=bees">
               test
             </a>
           </div>
