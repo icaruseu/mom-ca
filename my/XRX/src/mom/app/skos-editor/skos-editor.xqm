@@ -33,12 +33,6 @@ declare function skosedit:load-file(){
     return $skosfile
 };
     
-declare function skosedit:edit-file(){
-    let $skosfile := doc('/db/mom-data/xrx.htdoc/skos.xml')
-    let $update := update replace $skosfile/atom:entry/atom:content/rdf:RDF/skos:Concept[@rdf:about='#birds'] with <test>1, 2, 3</test>
-    return $update
-};
-
 declare function skosedit:edit-file($data){
     let $skosfile := doc('/db/mom-data/xrx.htdoc/skos.xml')
     let $update := update replace $skosfile/atom:entry/atom:content/rdf:RDF/skos:Concept[@rdf:about='#birds'] with $data

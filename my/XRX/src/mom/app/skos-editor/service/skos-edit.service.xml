@@ -6,7 +6,8 @@
             <xrx:default>Skos-Edit</xrx:default>
         </xrx:i18n>
     </xrx:title>
-    <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+    <xrx:description>This service receives the editor contents and selected concept from the main widget, and overwrites the current contents of said concept in the SKOS file.</xrx:description>
+    <xrx:author>niklas.tscherne@uni-graz.at</xrx:author>
     <xrx:licence>
         This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
         

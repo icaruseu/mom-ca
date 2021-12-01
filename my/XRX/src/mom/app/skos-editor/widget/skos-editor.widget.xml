@@ -25,10 +25,6 @@
     VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of
     components into other systems, once it leaves the active development stage. </xrx:licence>
   <xrx:variables>
-    <!--    <xrx:variable>
-      <xrx:name>$skosfile</xrx:name>
-      <xrx:expression>doc('/db/mom-data/metadata.controlledVocabulary.public/IllUrkGlossar.xml')/atom:entry/atom:content/rdf:RDF</xrx:expression>
-    </xrx:variable>-->
     <xrx:variable>
       <xrx:name>$skosfile</xrx:name>
       <xrx:expression>doc('/db/mom-data/xrx.htdoc/skos.xml')/atom:entry/atom:content/rdf:RDF</xrx:expression>
@@ -43,7 +39,7 @@
   </xrx:init>
   <xrx:csss>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/css/codemirror/lib/codemirror</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/css/codemirror/theme/cobalt</xrx:resource>
+    <!--<xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/css/codemirror/theme/cobalt</xrx:resource>-->
   </xrx:csss>
   <xrx:jss>
     <!--<xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/skos-js</xrx:resource>-->
@@ -52,8 +48,6 @@
   </xrx:jss>
   <xrx:model>
     <xf:model id="defs">
-      <!--<xf:instance id="html-entry" src="/mom/atom/GET/metadata.controlledVocabulary.public/IllUrkGlossar.xml"/>-->
-      <xf:instance id="html-entry" src="/mom/atom/GET/xrx.htdoc/skos.xml"/>
       <xf:instance id="definition">
         <data xmlns="">
           <keyword>#birds</keyword>
@@ -91,16 +85,13 @@
       </xrx:view>
     </xrx:div>
     <xrx:div>
-      <xrx:key>textarea-div</xrx:key>
+      <xrx:key>editor-div</xrx:key>
       <xrx:view>
         {
-        let $full-file := skosedit:load-file()
-        return
         <xf:group model="defs">
           <textarea id="editor">
             {
-            (: let $concept := $skosfile/*:Concept[@*:about='#birds'] hier mit util:eval XPath mit selektiertem Konzept bauen:)
-            let $concept := $full-file//*:Concept[@*:about='#bees']
+            let $concept := $skosfile/skos:Concept[@rdf:about='#birds'] (: hier mit util:eval XPath mit selektiertem Konzept bauen:)
             return $concept
             }
           </textarea>
@@ -116,7 +107,7 @@
               var editorContent = editor.getValue();
               
               $.ajax({{
-                url: "/mom/service/skos-edit?c=bees", // hier den Service angeben
+                url: "/mom/service/skos-edit?c=birds", // hier den Service angeben
                 type: "PUT",
                 contentType: "application/xml",
                 data: editorContent,     // Editor-Inhalt wird an AJAX übergeben
@@ -124,11 +115,11 @@
               }})
             }});
           </script>
-          <div>
-            <a href="/mom/service/skos-edit?c=bees">
+<!--          <div>
+            <a href="/mom/service/skos-edit?c=birds">
               test
             </a>
-          </div>
+          </div>-->
         </xf:group>
         }
       </xrx:view>
@@ -147,7 +138,7 @@
         <xrx:view>
           <xrx:div>title-div</xrx:div>
           <xrx:div>select-concept-div</xrx:div>
-          <xrx:div>textarea-div</xrx:div>
+          <xrx:div>editor-div</xrx:div>
         </xrx:view>
       </xrx:true>
       <xrx:false>
