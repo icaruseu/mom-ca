@@ -29,6 +29,10 @@
       <xrx:name>$skosfile</xrx:name>
       <xrx:expression>doc('/db/mom-data/xrx.htdoc/skos.xml')/atom:entry/atom:content/rdf:RDF</xrx:expression>
     </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$concept</xrx:name>
+      <xrx:expression>concat('#', request:get-parameter("c", ""))</xrx:expression>
+    </xrx:variable>
   </xrx:variables>
   <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
   <xrx:init>
@@ -91,7 +95,7 @@
         <xf:group model="defs">
           <textarea id="editor">
             {
-            let $concept := $skosfile/skos:Concept[@rdf:about='#birds'] (: hier mit util:eval XPath mit selektiertem Konzept bauen:)
+            let $concept := $skosfile/skos:Concept[@rdf:about=$concept]
             return $concept
             }
           </textarea>
@@ -102,12 +106,14 @@
               lineNumbers: true
             }});
             editor.setSize("350", "250");
+            const urlParams = new URLSearchParams(window.location.search);
+            const concept = urlParams.get('c');
             
             $('input#submit-content').click(function() {{
               var editorContent = editor.getValue();
               
               $.ajax({{
-                url: "/mom/service/skos-edit?c=birds", // hier den Service angeben
+                url: "/mom/service/skos-edit?c=" + concept, // hier den Service angeben
                 type: "PUT",
                 contentType: "application/xml",
                 data: editorContent,     // Editor-Inhalt wird an AJAX übergeben
