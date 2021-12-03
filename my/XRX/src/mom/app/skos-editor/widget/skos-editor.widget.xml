@@ -50,15 +50,6 @@
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/lib/codemirror</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/mode/xml</xrx:resource>
   </xrx:jss>
-  <xrx:model>
-    <xf:model id="defs">
-      <xf:instance id="definition">
-        <data xmlns="">
-          <keyword>#birds</keyword>
-        </data>
-      </xf:instance>
-    </xf:model>
-  </xrx:model>
   <xrx:divs>
     <xrx:div>
       <xrx:key>title-div</xrx:key>
@@ -71,63 +62,61 @@
     <xrx:div>
       <xrx:key>select-concept-div</xrx:key>
       <xrx:view>
-        <xf:group model="defs">
-          <p class="test">Bitte wählen Sie ein existierendes SKOS-Konzept, oder erstellen Sie mit
-            der unteren Maske ein neues:</p>
-          <xf:select1 ref="instance('definition')/keyword" appearance="minimal">
-            {
-            for $concept in $skosfile//skos:Concept/@rdf:about/data()
-            let $conceptlabel := substring($concept, 2)
-            return
-            <xf:item>
-              <xf:label>{ $conceptlabel }</xf:label>
-              <xf:value>{ $concept }</xf:value>
-            </xf:item>
-            }
-          </xf:select1>
-        </xf:group>
+        <p class="test">Bitte wählen Sie ein existierendes SKOS-Konzept, oder erstellen Sie mit
+          der unteren Maske ein neues:</p>
+        <select id="concept-select">
+          {
+          for $tag in $skosfile//skos:Concept/@rdf:about/data()
+          let $concept := substring($tag, 2)
+          return
+          <option value="{$concept}">{$concept}</option>
+          }
+          <option selected="selected"/>
+        </select>
+        <script>
+          $(function(){{
+            $('#concept-select').on('change', function () {{
+              var url = "http://localhost:8080/mom/skos-editor?c=" + $(this).val();
+              if (url) {{
+              window.location = url;
+            }}
+            return false;
+            }});
+          }});
+        </script>
       </xrx:view>
     </xrx:div>
     <xrx:div>
       <xrx:key>editor-div</xrx:key>
       <xrx:view>
-        {
-        <xf:group model="defs">
-          <textarea id="editor">
-            {
-            let $concept := $skosfile/skos:Concept[@rdf:about=$concept]
-            return $concept
-            }
-          </textarea>
-          <input id="submit-content" type="submit" value="Submit!"/>
-          <script type="text/javascript">
-            var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {{
-              mode: 'xml',
-              lineNumbers: true
-            }});
-            editor.setSize("350", "250");
-            const urlParams = new URLSearchParams(window.location.search);
-            const concept = urlParams.get('c');
+        <textarea id="editor">
+          {
+          let $concept := $skosfile/skos:Concept[@rdf:about=$concept]
+          return $concept
+          }
+        </textarea>
+        <input id="submit-content" type="submit" value="Submit!"/>
+        <script type="text/javascript">
+          var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {{
+            mode: 'xml',
+            lineNumbers: true
+          }});
+          editor.setSize("350", "250");
+          const urlParams = new URLSearchParams(window.location.search);
+          const concept = urlParams.get('c');
+          
+          $('input#submit-content').click(function() {{
+            var editorContent = editor.getValue();
             
-            $('input#submit-content').click(function() {{
-              var editorContent = editor.getValue();
-              
-              $.ajax({{
-                url: "/mom/service/skos-edit?c=" + concept, // hier den Service angeben
-                type: "PUT",
-                contentType: "application/xml",
-                data: editorContent,     // Editor-Inhalt wird an AJAX übergeben
-                dataType: "xml",
-              }})
-            }});
-          </script>
-<!--          <div>
-            <a href="/mom/service/skos-edit?c=birds">
-              test
-            </a>
-          </div>-->
-        </xf:group>
-        }
+            $.ajax({{
+              url: "/mom/service/skos-edit?c=" + concept, // hier den Service angeben
+              type: "PUT",
+              contentType: "application/xml",
+              data: editorContent,     // Editor-Inhalt wird an AJAX übergeben
+              dataType: "xml",
+            }})
+          }});
+        </script>
       </xrx:view>
     </xrx:div>
   </xrx:divs>
