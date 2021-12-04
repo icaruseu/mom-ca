@@ -38,7 +38,6 @@
   <xrx:init>
     <xrx:processor>
       <xrx:xformsflag>true</xrx:xformsflag>
-      <xrx:jqueryflag>true</xrx:jqueryflag>
     </xrx:processor>
   </xrx:init>
   <xrx:csss>
@@ -76,9 +75,12 @@
         <script>
           $(function(){{
             $('#concept-select').on('change', function () {{
-              var url = "http://localhost:8080/mom/skos-editor?c=" + $(this).val();
-              if (url) {{
-              window.location = url;
+              var url = window.location.href;
+              var baseUrl = url.split("?")[0];
+              console.log(baseUrl);
+              var redirectUrl = baseUrl + "?c=" + $(this).val();
+              if (redirectUrl) {{
+              window.location = redirectUrl;
             }}
             return false;
             }});
