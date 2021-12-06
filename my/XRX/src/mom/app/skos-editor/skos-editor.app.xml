@@ -7,7 +7,7 @@
     </xrx:i18n>
   </xrx:title>
   <xrx:subtitle></xrx:subtitle>
-  <xrx:description></xrx:description>
+  <xrx:description>This app allows users to edit the glossary SKOS-file.</xrx:description>
   <xrx:author>niklas.tscherne@uni-graz.at</xrx:author>
   <xrx:licence>
 This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.

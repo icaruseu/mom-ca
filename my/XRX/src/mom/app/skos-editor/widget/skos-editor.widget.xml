@@ -27,7 +27,7 @@
   <xrx:variables>
     <xrx:variable>
       <xrx:name>$skosfile</xrx:name>
-      <xrx:expression>doc('/db/mom-data/xrx.htdoc/skos.xml')/atom:entry/atom:content/rdf:RDF</xrx:expression>
+      <xrx:expression>doc('/db/mom-data/metadata.controlledVocabulary.public/skos.xml')/atom:entry/atom:content/rdf:RDF</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$concept</xrx:name>
