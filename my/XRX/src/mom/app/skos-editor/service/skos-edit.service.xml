@@ -37,12 +37,18 @@
             <xrx:name>$concept</xrx:name>
             <xrx:expression>concat('#', request:get-parameter("c", ""))</xrx:expression>
         </xrx:variable>
-        
+        <xrx:variable>
+            <xrx:name>$session-username</xrx:name>
+            <xrx:expression>xmldb:get-current-user()</xrx:expression>
+        </xrx:variable>
     </xrx:variables>
     <xrx:body>
-        { 
+        {
+        if ($session-username != 'guest') then (
         let $update := update replace $skosfile/skos:Concept[@rdf:about=$concept] with $data
         return $update
+        )
+        else ()
         }
     </xrx:body>
 </xrx:service>
