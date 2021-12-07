@@ -45,7 +45,7 @@
     <xrx:body>
         {
         if ($session-username != 'guest') then (
-        let $update := update replace $skosfile/skos:Concept[@rdf:about=$concept] with $data
+        let $update := update replace $skosfile/skos:Concept[@rdf:about=$concept]/skos:definition/* with $data
         return $update
         )
         else ()

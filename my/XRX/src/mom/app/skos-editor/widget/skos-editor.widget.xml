@@ -93,7 +93,7 @@
       <xrx:view>
         <textarea id="editor">
           {
-          let $concept := $skosfile/skos:Concept[@rdf:about=$concept]
+          let $concept := $skosfile/skos:Concept[@rdf:about=$concept]/skos:definition/*
           return $concept
           }
         </textarea>
@@ -101,9 +101,10 @@
         <script type="text/javascript">
           var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {{
             mode: 'xml',
+            htmlMode: true,
             lineNumbers: true
           }});
-          editor.setSize("350", "250");
+          editor.setSize("500", "250");
           const urlParams = new URLSearchParams(window.location.search);
           const concept = urlParams.get('c');
           
