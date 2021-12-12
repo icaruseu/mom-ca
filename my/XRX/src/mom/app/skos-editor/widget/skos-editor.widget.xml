@@ -30,8 +30,12 @@
       <xrx:expression>doc('/db/mom-data/metadata.controlledVocabulary.public/skos.xml')/atom:entry/atom:content/rdf:RDF</xrx:expression>
     </xrx:variable>
     <xrx:variable>
+      <xrx:name>$conceptname</xrx:name>
+      <xrx:expression>request:get-parameter("c", "")</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
       <xrx:name>$concept</xrx:name>
-      <xrx:expression>concat('#', request:get-parameter("c", ""))</xrx:expression>
+      <xrx:expression>concat('#', $conceptname)</xrx:expression>
     </xrx:variable>
   </xrx:variables>
   <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
@@ -61,7 +65,7 @@
     <xrx:div>
       <xrx:key>select-concept-div</xrx:key>
       <xrx:view>
-        <p class="test">Bitte wählen Sie ein existierendes SKOS-Konzept, oder erstellen Sie mit
+        <p>Wählen Sie ein existierendes SKOS-Konzept, oder erstellen Sie mit
           der unteren Maske ein neues:</p>
         <select id="concept-select">
           {
@@ -89,8 +93,54 @@
       </xrx:view>
     </xrx:div>
     <xrx:div>
-      <xrx:key>editor-div</xrx:key>
+      <xrx:key>preflabel-div</xrx:key>
       <xrx:view>
+        <hr/>
+        <h3>skos:prefLabel</h3>
+        <p>Geben Sie für das Konzept einen bevorzugten Namen (<i>skos:prefLabel</i>) in der gewünschten Sprache ein:</p>
+        <input type="text" id="preflabel-input"/>
+        <select id="lang-select">
+          <option value="deu">deu</option>
+          <option value="eng">eng</option>
+          <option value="est">est</option>
+          <option value="fra">fra</option>
+          <option value="hrv">hrv</option>
+          <option value="hun">hun</option>
+          <option value="ita">ita</option>
+          <option value="slk">slk</option>
+          <option value="slv">slv</option>
+        </select>
+        <p>Folgende bevorzugte Namen für dieses Konzept existieren bereits:</p>
+        <table>
+          <tr>
+            <th>skos:prefLabel</th>
+            <th>Sprache</th>
+            <th>Entfernen</th>
+          </tr>
+          {
+          for $plabel in $skosfile/skos:Concept[@rdf:about=$concept]//skos:prefLabel
+          return
+          <tr>
+            <td>{$plabel/text()}</td>
+            <td>{$plabel/@xml:lang/data()}</td>
+            <td><input type="submit" value="X"/></td>
+          </tr>
+          }
+        </table>
+        <!--
+          [X] entfernt das preflabel
+        -->
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>broader-div</xrx:key>
+      <xrx:view>broader</xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>description-div</xrx:key>
+      <xrx:view>
+        <hr/>
+        <h3>skos:description</h3>
         <textarea id="editor">
           {
           let $concept := $skosfile/skos:Concept[@rdf:about=$concept]/skos:definition/*
@@ -136,7 +186,9 @@
         <xrx:view>
           <xrx:div>title-div</xrx:div>
           <xrx:div>select-concept-div</xrx:div>
-          <xrx:div>editor-div</xrx:div>
+          <xrx:div>preflabel-div</xrx:div>
+          <!--<xrx:div>broader-div</xrx:div>-->
+          <xrx:div>description-div</xrx:div>
         </xrx:view>
       </xrx:true>
       <xrx:false>
