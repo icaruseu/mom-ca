@@ -123,12 +123,37 @@
           <tr>
             <td>{$plabel/text()}</td>
             <td>{$plabel/@xml:lang/data()}</td>
-            <td><input type="submit" value="X"/></td>
+            <td>
+              <input type="submit" class="remove-label" value="X"/>
+            </td>
           </tr>
           }
         </table>
+        <script type="text/javascript">
+          function htmlDecode(input) {{
+            var doc = new DOMParser().parseFromString(input, "text/html");
+            return doc.documentElement.textContent;
+          }};
+          
+          $('input.remove-label').click(function() {{
+            const concept = urlParams.get('c');
+            var labelLang = $(this).closest('td').prev().html();
+            
+            var labelUrl = htmlDecode("/mom/service/remove-label?c=" + concept + "&amp;lang=" + labelLang);
+          
+            $.ajax({{
+            url: labelUrl,
+            }})
+          }});
+        </script>
         <!--
-          [X] entfernt das preflabel
+          service editlabel bekommt labeltype (pref oder broader), concept & lang als parameter
+          Sprache & Inhalt werden in xforms instance gespeichert
+          ...
+          
+          delete-button
+          remove-label service
+          gets labeltype, name and lang from neighboring fields
         -->
       </xrx:view>
     </xrx:div>
