@@ -49,12 +49,12 @@
     <xrx:body>
         {
         if ($session-username != 'guest') then (
-            if(exists($skosfile/skos:Concept[@rdf:about=$concept]/skos:definition/skos:prefLabel[@xml:lang=$labellang])) then (
-                let $update := update replace $skosfile/skos:Concept[@rdf:about=$concept]/skos:definition/skos:prefLabel[@xml:lang=$labellang]/text() with $data
+            if(exists($skosfile/skos:Concept[@rdf:about=$concept]/skos:prefLabel[@xml:lang=$labellang])) then (
+                let $update := update replace $skosfile/skos:Concept[@rdf:about=$concept]/skos:prefLabel[@xml:lang=$labellang]/text() with $data
                 return $update
             )
             else (
-                let $update := update insert <skos:prefLabel xml:lang='{$labellang}'>{$data}</skos:prefLabel> into $skosfile/skos:Concept[@rdf:about=$concept]/skos:definition
+                let $update := update insert <skos:prefLabel xml:lang='{$labellang}'>{$data}</skos:prefLabel> into $skosfile/skos:Concept[@rdf:about=$concept]
                 return $update
             )
         )

@@ -1,9 +1,9 @@
 <xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx">
-    <xrx:id>tag:www.monasterium.net,2011:/mom/service/skos-edit</xrx:id>
+    <xrx:id>tag:www.monasterium.net,2011:/mom/service/edit-definition</xrx:id>
     <xrx:title>
         <xrx:i18n>
-            <xrx:key>skos-edit</xrx:key>
-            <xrx:default>Skos-Edit</xrx:default>
+            <xrx:key>edit-definition</xrx:key>
+            <xrx:default>edit-definition</xrx:default>
         </xrx:i18n>
     </xrx:title>
     <xrx:description>This service receives the editor contents and selected concept from the main widget, and overwrites the current contents of said concept in the SKOS file.</xrx:description>
@@ -45,7 +45,7 @@
     <xrx:body>
         {
         if ($session-username != 'guest') then (
-        let $update := update replace $skosfile/skos:Concept[@rdf:about=$concept]/skos:definition/* with $data
+        let $update := update replace $skosfile/skos:Concept[@rdf:about=$concept]/skos:definition//* with $data
         return $update
         )
         else ()

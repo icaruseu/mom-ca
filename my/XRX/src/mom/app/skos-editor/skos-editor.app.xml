@@ -37,9 +37,9 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/skos-editor</xrx:atomid>
    </xrx:map>
     <xrx:map>
-      <xrx:uripattern>/service/skos-edit$</xrx:uripattern>
+      <xrx:uripattern>/service/edit-definition$</xrx:uripattern>
       <xrx:mode>service</xrx:mode>
-      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/skos-edit</xrx:atomid>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/edit-definition</xrx:atomid>
     </xrx:map>
     <xrx:map>
       <xrx:uripattern>/service/remove-label$</xrx:uripattern>

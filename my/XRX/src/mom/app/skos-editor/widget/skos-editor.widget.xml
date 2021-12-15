@@ -183,7 +183,7 @@
       <xrx:key>description-div</xrx:key>
       <xrx:view>
         <hr/>
-        <h3>skos:description</h3>
+        <h3>skos:definition</h3>
         <textarea id="editor">
           {
           let $concept := $skosfile/skos:Concept[@rdf:about=$concept]/skos:definition/*
@@ -205,10 +205,10 @@
             var editorContent = editor.getValue();
             
             $.ajax({{
-              url: "/mom/service/skos-edit?c=" + concept, // hier den Service angeben
+              url: "/mom/service/edit-definition?c=" + concept,
               type: "PUT",
               contentType: "application/xml",
-              data: editorContent,     // Editor-Inhalt wird an AJAX übergeben
+              data: editorContent,
               dataType: "xml"
             }})
           }});
