@@ -97,7 +97,8 @@
       <xrx:view>
         <hr/>
         <h3>skos:prefLabel</h3>
-        <p>Geben Sie für das Konzept einen bevorzugten Namen (<i>skos:prefLabel</i>) in der gewünschten Sprache ein:</p>
+        <p>Geben Sie für das Konzept einen bevorzugten Namen (<i>skos:prefLabel</i>) in der gewünschten Sprache ein
+          (beachten Sie, dass nur ein bevorzugter Name pro Sprache erlaubt ist - der bestehende Name wird überschrieben):</p>
         <input type="text" id="preflabel-input"/>
         <select id="lang-select">
           <option value="deu">deu</option>
@@ -110,6 +111,7 @@
           <option value="slk">slk</option>
           <option value="slv">slv</option>
         </select>
+        <input type="submit" id="add-label" value="Submit"/>
         <p>Folgende bevorzugte Namen für dieses Konzept existieren bereits:</p>
         <table>
           <tr>
@@ -135,25 +137,41 @@
             return doc.documentElement.textContent;
           }};
           
+          $('input#add-label').click(function() {{
+            const urlParams = new URLSearchParams(window.location.search);
+            const concept = urlParams.get('c');
+            var labelLang = document.getElementById("lang-select").value;
+            var labelName = document.getElementById("preflabel-input").value;
+            
+            var addLabelUrl = htmlDecode("/mom/service/add-preflabel?c=" + concept + "&amp;lang=" + labelLang);
+            
+              $.ajax({{
+              url: addLabelUrl,
+              type: "POST",
+              data: labelName,
+              contentType: "application/xml",
+              dataType: "text"
+              }})
+          }});
+          
           $('input.remove-label').click(function() {{
             const concept = urlParams.get('c');
             var labelLang = $(this).closest('td').prev().html();
             
-            var labelUrl = htmlDecode("/mom/service/remove-label?c=" + concept + "&amp;lang=" + labelLang);
+            var removeLabelUrl = htmlDecode("/mom/service/remove-label?c=" + concept + "&amp;lang=" + labelLang);
           
-            $.ajax({{
-            url: labelUrl,
-            }})
+              $.ajax({{
+              url: removeLabelUrl
+              }})
           }});
         </script>
         <!--
-          service editlabel bekommt labeltype (pref oder broader), concept & lang als parameter
-          Sprache & Inhalt werden in xforms instance gespeichert
-          ...
+          remove-label -> remove-preflabel?
           
-          delete-button
-          remove-label service
-          gets labeltype, name and lang from neighboring fields
+          add-label
+          + add-label service
+          + concept & lang an add-label übergeben
+          + update insert oder replace
         -->
       </xrx:view>
     </xrx:div>
@@ -191,7 +209,7 @@
               type: "PUT",
               contentType: "application/xml",
               data: editorContent,     // Editor-Inhalt wird an AJAX übergeben
-              dataType: "xml",
+              dataType: "xml"
             }})
           }});
         </script>

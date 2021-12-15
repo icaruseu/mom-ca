@@ -1,0 +1,64 @@
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns:skos="http://www.w3.org/2004/02/skos/core#">
+    <xrx:id>tag:www.monasterium.net,2011:/mom/service/add-preflabel</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key>add-preflabel</xrx:key>
+            <xrx:default>Add-prefLabel</xrx:default>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:description>This service either updates an existing prefLabel with new content, or adds a new prefLabel, if none exists.</xrx:description>
+    <xrx:author>niklas.tscherne@uni-graz.at</xrx:author>
+    <xrx:licence>
+        This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+        
+        As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+        
+        This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+        
+        The VdU/VRET is free software: you can redistribute it and/or modify
+        it under the terms of the GNU General Public License as published by
+        the Free Software Foundation, either version 3 of the License, or
+        (at your option) any later version.
+        
+        VdU/VRET is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        GNU General Public License for more details.
+        
+        You should have received a copy of the GNU General Public License
+        along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+    </xrx:licence>
+    <xrx:variables>
+        <xrx:variable>
+            <xrx:name>$skosfile</xrx:name>
+            <xrx:expression>doc('/db/mom-data/metadata.controlledVocabulary.public/skos.xml')/atom:entry/atom:content/rdf:RDF</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$concept</xrx:name>
+            <xrx:expression>concat('#', request:get-parameter("c", ""))</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$labellang</xrx:name>
+            <xrx:expression>request:get-parameter("lang", "")</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$session-username</xrx:name>
+            <xrx:expression>xmldb:get-current-user()</xrx:expression>
+        </xrx:variable>
+    </xrx:variables>
+    <xrx:body>
+        {
+        if ($session-username != 'guest') then (
+            if(exists($skosfile/skos:Concept[@rdf:about=$concept]/skos:definition/skos:prefLabel[@xml:lang=$labellang])) then (
+                let $update := update replace $skosfile/skos:Concept[@rdf:about=$concept]/skos:definition/skos:prefLabel[@xml:lang=$labellang]/text() with $data
+                return $update
+            )
+            else (
+                let $update := update insert <skos:prefLabel xml:lang='{$labellang}'>{$data}</skos:prefLabel> into $skosfile/skos:Concept[@rdf:about=$concept]/skos:definition
+                return $update
+            )
+        )
+        else ()
+        }
+    </xrx:body>
+</xrx:service>
