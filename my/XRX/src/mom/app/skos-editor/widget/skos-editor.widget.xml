@@ -74,7 +74,7 @@
           return
           <option value="{$concept}">{$concept}</option>
           }
-          <option selected="selected"/>
+          <option selected="selected" disabled="disabled" hidden="hidden">Konzept auswählen</option>
         </select>
         <script>
           $(function(){{
@@ -152,6 +152,8 @@
               contentType: "application/xml",
               dataType: "text"
               }})
+              
+            window.location.reload();
           }});
           
           $('input.remove-label').click(function() {{
@@ -163,6 +165,8 @@
               $.ajax({{
               url: removeLabelUrl
               }})
+              
+            window.location.reload();
           }});
         </script>
         <!--
