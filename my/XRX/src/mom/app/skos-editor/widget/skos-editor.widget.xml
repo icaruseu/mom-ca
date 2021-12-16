@@ -99,7 +99,7 @@
         <h3>skos:prefLabel</h3>
         <p>Geben Sie für das Konzept einen bevorzugten Namen (<i>skos:prefLabel</i>) in der gewünschten Sprache ein
           (beachten Sie, dass nur ein bevorzugter Name pro Sprache erlaubt ist - der bestehende Name wird überschrieben):</p>
-        <input type="text" id="preflabel-input"/>
+        <input type="text" id="preflabel-input" placeholder="{$skosfile/skos:Concept[@rdf:about=$concept]//skos:prefLabel}"/>
         <select id="lang-select">
           <option value="deu">deu</option>
           <option value="eng">eng</option>
@@ -136,6 +136,8 @@
             var doc = new DOMParser().parseFromString(input, "text/html");
             return doc.documentElement.textContent;
           }};
+          
+          document.getElementById("preflabel-input").placeholder = "Type name here..";
           
           $('input#add-label').click(function() {{
             const urlParams = new URLSearchParams(window.location.search);
@@ -190,7 +192,7 @@
         <h3>skos:definition</h3>
         <textarea id="editor">
           {
-          let $concept := $skosfile/skos:Concept[@rdf:about=$concept]/skos:definition/*
+          let $concept := $skosfile/skos:Concept[@rdf:about=$concept]/skos:definition
           return $concept
           }
         </textarea>
