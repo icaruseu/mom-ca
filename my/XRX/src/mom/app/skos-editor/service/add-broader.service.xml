@@ -1,9 +1,9 @@
-<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx">
-    <xrx:id>tag:www.monasterium.net,2011:/mom/service/remove-label</xrx:id>
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+    <xrx:id>tag:www.monasterium.net,2011:/mom/service/add-broader</xrx:id>
     <xrx:title>
         <xrx:i18n>
-            <xrx:key>remove-label</xrx:key>
-            <xrx:default>Remove-Label</xrx:default>
+            <xrx:key>add-broader</xrx:key>
+            <xrx:default>Add-Broader</xrx:default>
         </xrx:i18n>
     </xrx:title>
     <xrx:description>This service deletes the specified label from a SKOS concept.</xrx:description>
@@ -38,14 +38,6 @@
             <xrx:expression>concat('#', request:get-parameter("concept", ""))</xrx:expression>
         </xrx:variable>
         <xrx:variable>
-            <xrx:name>$labellang</xrx:name>
-            <xrx:expression>request:get-parameter("lang", "")</xrx:expression>
-        </xrx:variable>
-        <xrx:variable>
-            <xrx:name>$broader</xrx:name>
-            <xrx:expression>concat('#', request:get-parameter("broader", ""))</xrx:expression>
-        </xrx:variable>
-        <xrx:variable>
             <xrx:name>$session-username</xrx:name>
             <xrx:expression>xmldb:get-current-user()</xrx:expression>
         </xrx:variable>
@@ -53,15 +45,8 @@
     <xrx:body>
         {
         if ($session-username != 'guest') then (
-            if ($labellang != '') then (
-                let $update := update delete $skosfile/skos:Concept[@rdf:about=$concept]/skos:prefLabel[@xml:lang=$labellang]
+            let $update := update insert <skos:broader rdf:resource="{concat('#', $data)}"/> into $skosfile/skos:Concept[@rdf:about=$concept]
                 return $update
-            )
-            else if ($broader != '') then (
-                let $update := update delete $skosfile/skos:Concept[@rdf:about=$concept]/skos:broader[@rdf:resource=$broader]
-                return $update
-            )
-            else ()            
         )
         else ()
         }

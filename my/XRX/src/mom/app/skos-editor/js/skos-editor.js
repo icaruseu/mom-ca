@@ -3,6 +3,8 @@ var baseUrl = url.split("?")[0];
 var urlParams = new URLSearchParams(window.location.search);
 var concept = urlParams. get ('c');
 
+//c auf concept umändern!
+
 /*var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
     mode: 'xml',
     htmlMode: true,

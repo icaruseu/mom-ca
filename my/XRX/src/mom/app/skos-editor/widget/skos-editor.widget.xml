@@ -77,7 +77,7 @@
         </select>
         <br/>
         <br/>
-        <input type="text" id="concept-input" placeholder="Name des Neuen Konzepts"/>
+        <input type="text" id="concept-input" placeholder="Name des neuen Konzepts"/>
         <input type="submit" id="add-concept" value="Konzept anlegen"/>
         <script type="text/javascript">
           var url = window.location.href;
@@ -86,6 +86,20 @@
           $('#concept-select').on('change', function () {{
             var redirectUrl = baseUrl + "?concept=" + $(this).val();
             return (redirectUrl ? window.location = redirectUrl : console.log("Invalid URL!"));
+          }});
+          
+          $('input#add-concept').click(function() {{
+            var conceptName = document.getElementById("concept-input").value;
+            
+            $.ajax({{
+            url: "/mom/service/add-concept",
+            type: "POST",
+            data: conceptName,
+            contentType: "application/xml",
+            dataType: "text"
+            }})
+            
+            window.location.reload();
           }});
         </script>
       </xrx:view>
@@ -124,7 +138,7 @@
             <td>{$plabel/text()}</td>
             <td>{$plabel/@xml:lang/data()}</td>
             <td>
-              <input type="submit" class="remove-label" value="X"/>
+              <input type="submit" class="remove-preflabel" value="X"/>
             </td>
           </tr>
           }
@@ -155,7 +169,7 @@
             window.location.reload();
           }});
           
-          $('input.remove-label').click(function() {{
+          $('input.remove-preflabel').click(function() {{
             var labelLang = $(this).closest('td').prev().html();
             
             var removeLabelUrl = htmlDecode("/mom/service/remove-label?concept=" + concept + "&amp;lang=" + labelLang);
@@ -184,6 +198,7 @@
           }
           <option selected="selected" disabled="disabled" hidden="hidden">Konzept auswählen</option>
         </select>
+        <input type="submit" id="add-broader" value="Submit"/>
         <p>Folgende Oberbegriffe für dieses Konzept existieren bereits:</p>
         <table>
           <tr>
@@ -194,13 +209,42 @@
           for $broader in $skosfile/skos:Concept[@rdf:about=$concept]//skos:broader
           return
           <tr>
-            <td>{$broader/text()}</td>
+            <td>{$broader/@rdf:resource/data()}</td>
             <td>
               <input type="submit" class="remove-broader" value="X"/>
             </td>
           </tr>
           }
         </table>
+        <script>
+          $('input#add-broader').click(function() {{
+            var broaderName = document.getElementById("broader-select").value;
+          
+            var addBroaderUrl = htmlDecode("/mom/service/add-broader?concept=" + concept);
+          
+            $.ajax({{
+            url: addBroaderUrl,
+            type: "POST",
+            data: broaderName,
+            contentType: "application/xml",
+            dataType: "text"
+            }})
+          
+            window.location.reload();
+          }});
+          
+          $('input.remove-broader').click(function() {{
+            var broaderName = $(this).closest('td').prev().html().substring(1);
+          
+            var removeLabelUrl = htmlDecode("/mom/service/remove-label?concept=" + concept + "&amp;broader=" + broaderName);
+                      
+            $.ajax({{
+              url: removeLabelUrl
+            }})
+          
+            window.location.reload();
+          }});
+        </script>
       </xrx:view>
     </xrx:div>
     <xrx:div>
