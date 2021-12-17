@@ -49,7 +49,7 @@
     <!--<xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/css/codemirror/theme/cobalt</xrx:resource>-->
   </xrx:csss>
   <xrx:jss>
-    <!--<xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/skos-js</xrx:resource>-->
+    <!--<xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/skos-editor</xrx:resource>-->
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/lib/codemirror</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/mode/xml</xrx:resource>
   </xrx:jss>
@@ -65,8 +65,7 @@
     <xrx:div>
       <xrx:key>select-concept-div</xrx:key>
       <xrx:view>
-        <p>Wählen Sie ein existierendes SKOS-Konzept, oder erstellen Sie mit
-          der unteren Maske ein neues:</p>
+        <p>Wählen Sie ein existierendes SKOS-Konzept, oder erstellen ein neues:</p>
         <select id="concept-select">
           {
           for $tag in $skosfile//skos:Concept/@rdf:about/data()
@@ -76,18 +75,17 @@
           }
           <option selected="selected" disabled="disabled" hidden="hidden">Konzept auswählen</option>
         </select>
-        <script>
-          $(function(){{
-            $('#concept-select').on('change', function () {{
-              var url = window.location.href;
-              var baseUrl = url.split("?")[0];
-              console.log(baseUrl);
-              var redirectUrl = baseUrl + "?c=" + $(this).val();
-              if (redirectUrl) {{
-              window.location = redirectUrl;
-            }}
-            return false;
-            }});
+        <br/>
+        <br/>
+        <input type="text" id="concept-input" placeholder="Name des Neuen Konzepts"/>
+        <input type="submit" id="add-concept" value="Konzept anlegen"/>
+        <script type="text/javascript">
+          var url = window.location.href;
+          var baseUrl = url.split("?")[0];
+          
+          $('#concept-select').on('change', function () {{
+            var redirectUrl = baseUrl + "?c=" + $(this).val();
+            return (redirectUrl ? window.location = redirectUrl : console.log("Invalid URL!"));
           }});
         </script>
       </xrx:view>
@@ -97,7 +95,7 @@
       <xrx:view>
         <hr/>
         <h3>skos:prefLabel</h3>
-        <p>Geben Sie für das Konzept einen bevorzugten Namen (<i>skos:prefLabel</i>) in der gewünschten Sprache ein
+        <p>Geben Sie optional für das Konzept einen bevorzugten Namen (<i>skos:prefLabel</i>) in der gewünschten Sprache ein
           (beachten Sie, dass nur ein bevorzugter Name pro Sprache erlaubt ist - der bestehende Name wird überschrieben):</p>
         <input type="text" id="preflabel-input" placeholder="{$skosfile/skos:Concept[@rdf:about=$concept]//skos:prefLabel}"/>
         <select id="lang-select">
@@ -132,16 +130,15 @@
           }
         </table>
         <script type="text/javascript">
+          var urlParams = new URLSearchParams(window.location.search);
+          var concept = urlParams.get('c');
+          
           function htmlDecode(input) {{
             var doc = new DOMParser().parseFromString(input, "text/html");
             return doc.documentElement.textContent;
           }};
           
-          document.getElementById("preflabel-input").placeholder = "Type name here..";
-          
           $('input#add-label').click(function() {{
-            const urlParams = new URLSearchParams(window.location.search);
-            const concept = urlParams.get('c');
             var labelLang = document.getElementById("lang-select").value;
             var labelName = document.getElementById("preflabel-input").value;
             
@@ -159,7 +156,6 @@
           }});
           
           $('input.remove-label').click(function() {{
-            const concept = urlParams.get('c');
             var labelLang = $(this).closest('td').prev().html();
             
             var removeLabelUrl = htmlDecode("/mom/service/remove-label?c=" + concept + "&amp;lang=" + labelLang);
@@ -171,25 +167,48 @@
             window.location.reload();
           }});
         </script>
-        <!--
-          remove-label -> remove-preflabel?
-          
-          add-label
-          + add-label service
-          + concept & lang an add-label übergeben
-          + update insert oder replace
-        -->
       </xrx:view>
     </xrx:div>
     <xrx:div>
       <xrx:key>broader-div</xrx:key>
-      <xrx:view>broader</xrx:view>
+      <xrx:view>
+        <hr/>
+        <h3>skos:broader</h3>
+        <p>Weisen Sie dem Konzept optional einen Oberbegriff (<i>skos:broader</i>) zu:</p>
+        <select id="broader-select">
+          {
+          for $tag in $skosfile//skos:Concept/@rdf:about/data()
+          let $concept := substring($tag, 2)
+          return
+          <option value="{$concept}">{$concept}</option>
+          }
+          <option selected="selected" disabled="disabled" hidden="hidden">Konzept auswählen</option>
+        </select>
+        <p>Folgende Oberbegriffe für dieses Konzept existieren bereits:</p>
+        <table>
+          <tr>
+            <th>skos:broader</th>
+            <th>Entfernen</th>
+          </tr>
+          {
+          for $broader in $skosfile/skos:Concept[@rdf:about=$concept]//skos:broader
+          return
+          <tr>
+            <td>{$broader/text()}</td>
+            <td>
+              <input type="submit" class="remove-broader" value="X"/>
+            </td>
+          </tr>
+          }
+        </table>
+      </xrx:view>
     </xrx:div>
     <xrx:div>
       <xrx:key>description-div</xrx:key>
       <xrx:view>
         <hr/>
         <h3>skos:definition</h3>
+        <p>Geben Sie innerhalb der <i>skos:definition</i>-Tags die HTML-codierte Beschreibung für das Konzept ein:</p>
         <textarea id="editor">
           {
           let $concept := $skosfile/skos:Concept[@rdf:about=$concept]/skos:definition
@@ -204,8 +223,6 @@
             lineNumbers: true
           }});
           editor.setSize("500", "250");
-          const urlParams = new URLSearchParams(window.location.search);
-          const concept = urlParams.get('c');
           
           $('input#submit-content').click(function() {{
             var editorContent = editor.getValue();
@@ -236,7 +253,7 @@
           <xrx:div>title-div</xrx:div>
           <xrx:div>select-concept-div</xrx:div>
           <xrx:div>preflabel-div</xrx:div>
-          <!--<xrx:div>broader-div</xrx:div>-->
+          <xrx:div>broader-div</xrx:div>
           <xrx:div>description-div</xrx:div>
         </xrx:view>
       </xrx:true>

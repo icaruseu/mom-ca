@@ -29,6 +29,15 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   </xrx:licence>
+  
+  <xrx:resources> 
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/js/skos-editor</xrx:atomid>
+      <xrx:relativepath>js/</xrx:relativepath>
+      <xrx:name>skos-editor.js</xrx:name>
+    </xrx:resource>
+  </xrx:resources>
+  
   <xrx:resolver>   
     <!-- main widget -->
    <xrx:map>
