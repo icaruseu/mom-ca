@@ -31,7 +31,7 @@
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$conceptname</xrx:name>
-      <xrx:expression>request:get-parameter("c", "")</xrx:expression>
+      <xrx:expression>request:get-parameter("concept", "")</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$concept</xrx:name>
@@ -84,7 +84,7 @@
           var baseUrl = url.split("?")[0];
           
           $('#concept-select').on('change', function () {{
-            var redirectUrl = baseUrl + "?c=" + $(this).val();
+            var redirectUrl = baseUrl + "?concept=" + $(this).val();
             return (redirectUrl ? window.location = redirectUrl : console.log("Invalid URL!"));
           }});
         </script>
@@ -131,7 +131,7 @@
         </table>
         <script type="text/javascript">
           var urlParams = new URLSearchParams(window.location.search);
-          var concept = urlParams.get('c');
+          var concept = urlParams.get('concept');
           
           function htmlDecode(input) {{
             var doc = new DOMParser().parseFromString(input, "text/html");
@@ -142,7 +142,7 @@
             var labelLang = document.getElementById("lang-select").value;
             var labelName = document.getElementById("preflabel-input").value;
             
-            var addLabelUrl = htmlDecode("/mom/service/add-preflabel?c=" + concept + "&amp;lang=" + labelLang);
+            var addLabelUrl = htmlDecode("/mom/service/add-preflabel?concept=" + concept + "&amp;lang=" + labelLang);
             
               $.ajax({{
               url: addLabelUrl,
@@ -158,7 +158,7 @@
           $('input.remove-label').click(function() {{
             var labelLang = $(this).closest('td').prev().html();
             
-            var removeLabelUrl = htmlDecode("/mom/service/remove-label?c=" + concept + "&amp;lang=" + labelLang);
+            var removeLabelUrl = htmlDecode("/mom/service/remove-label?concept=" + concept + "&amp;lang=" + labelLang);
           
               $.ajax({{
               url: removeLabelUrl
@@ -228,7 +228,7 @@
             var editorContent = editor.getValue();
             
             $.ajax({{
-              url: "/mom/service/edit-definition?c=" + concept,
+              url: "/mom/service/edit-definition?concept=" + concept,
               type: "PUT",
               contentType: "application/xml",
               data: editorContent,

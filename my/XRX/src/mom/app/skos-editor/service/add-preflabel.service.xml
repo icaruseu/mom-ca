@@ -35,7 +35,7 @@
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$concept</xrx:name>
-            <xrx:expression>concat('#', request:get-parameter("c", ""))</xrx:expression>
+            <xrx:expression>concat('#', request:get-parameter("concept", ""))</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$labellang</xrx:name>
