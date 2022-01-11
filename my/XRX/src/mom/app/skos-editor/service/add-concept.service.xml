@@ -41,8 +41,8 @@
     <xrx:body>
         {
         if ($session-username != 'guest') then (
-            let $update := update insert <skos:Concept rdf:about="{concat('#', $data)}"/> into $skosfile
-            return $update
+            let $update := update insert <skos:Concept rdf:about="{concat('#', $data)}"><skos:definition rdf:datatype="rdf:XMLLiteral" rdf:parseType="Literal"/></skos:Concept> into $skosfile/.
+                return $update
         )
         else ()
         }
