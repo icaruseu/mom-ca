@@ -65,7 +65,7 @@
     <xrx:div>
       <xrx:key>select-concept-div</xrx:key>
       <xrx:view>
-        <p>Wählen Sie ein existierendes SKOS-Konzept, oder erstellen ein neues:</p>
+        <p>Wählen Sie ein existierendes SKOS-Konzept, oder legen sie im unteren Feld ein neues an:</p>
         <select id="concept-select">
           {
           for $tag in $skosfile//skos:Concept/@rdf:about/data()
@@ -77,7 +77,8 @@
         </select>
         <br/>
         <br/>
-        <input type="text" id="concept-input" placeholder="Name des neuen Konzepts"/>
+        <p>Vermeiden Sie im Namen für das neue Konzept Leerzeichen, Sonderzeichen und Umlaute:</p>
+        <input type="text" id="concept-input" placeholder="FranzoesischeKoenigsurkunden" style="width: 350px;"/>
         <input type="submit" id="add-concept" value="Konzept anlegen"/>
         <script type="text/javascript">
           var url = window.location.href;
@@ -111,7 +112,7 @@
         <h3>skos:prefLabel</h3>
         <p>Geben Sie optional für das Konzept einen bevorzugten Namen (<i>skos:prefLabel</i>) in der gewünschten Sprache ein
           (beachten Sie, dass nur ein bevorzugter Name pro Sprache erlaubt ist - der bestehende Name wird überschrieben):</p>
-        <input type="text" id="preflabel-input" placeholder="{$skosfile/skos:Concept[@rdf:about=$concept]//skos:prefLabel}"/>
+        <input type="text" id="preflabel-input" placeholder="acte écrit"/>
         <select id="lang-select">
           <option value="deu">deu</option>
           <option value="eng">eng</option>
@@ -123,7 +124,7 @@
           <option value="slk">slk</option>
           <option value="slv">slv</option>
         </select>
-        <input type="submit" id="add-label" value="Submit"/>
+        <input type="submit" id="add-label" value="Hinzufügen"/>
         <p>Folgende bevorzugte Namen für dieses Konzept existieren bereits:</p>
         <table>
           <tr>
@@ -198,7 +199,7 @@
           }
           <option selected="selected" disabled="disabled" hidden="hidden">Konzept auswählen</option>
         </select>
-        <input type="submit" id="add-broader" value="Submit"/>
+        <input type="submit" id="add-broader" value="Hinzufügen"/>
         <p>Folgende Oberbegriffe für dieses Konzept existieren bereits:</p>
         <table>
           <tr>
@@ -266,7 +267,7 @@
             htmlMode: true,
             lineNumbers: true
           }});
-          editor.setSize("500", "250");
+          editor.setSize("750", "250");
           
           $('input#submit-content').click(function() {{
             var editorContent = editor.getValue();
