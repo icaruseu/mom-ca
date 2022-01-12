@@ -6,7 +6,7 @@
             <xrx:default>edit-definition</xrx:default>
         </xrx:i18n>
     </xrx:title>
-    <xrx:description>This service receives the editor contents and selected concept from the main widget, and overwrites the current contents of said concept in the SKOS file.</xrx:description>
+    <xrx:description>This service receives the editor contents and selected concept from the main widget, and overwrites the current definition for that concept in the SKOS file.</xrx:description>
     <xrx:author>niklas.tscherne@uni-graz.at</xrx:author>
     <xrx:licence>
         This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
@@ -45,8 +45,8 @@
     <xrx:body>
         {
         if ($session-username != 'guest') then (
-        let $update := update replace $skosfile/skos:Concept[@rdf:about=$concept]/skos:definition with $data
-        return $update
+            let $update := update replace $skosfile/skos:Concept[@rdf:about=$concept]/skos:definition with $data
+            return $update
         )
         else ()
         }

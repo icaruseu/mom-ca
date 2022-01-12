@@ -9,7 +9,7 @@
     </xrx:i18n>
   </xrx:title>
   <xrx:subtitle/>
-  <xrx:description>An application for editing the Monasterium glossary SKOS-file.</xrx:description>
+  <xrx:description>This application provides an interface for editing the Monasterium glossary SKOS-file.</xrx:description>
   <xrx:author>niklas.tscherne@uni-graz.at</xrx:author>
   <xrx:licence> This is a component file of the VdU Software for a Virtual Research Environment for
     the handling of Medieval charters. As the source code is available here, it is somewhere between
@@ -66,10 +66,11 @@
       <xrx:key>select-concept-div</xrx:key>
       <xrx:view>
         <p>Wählen Sie ein existierendes SKOS-Konzept, oder legen sie im unteren Feld ein neues an:</p>
+        <!--makes list out of all skos:Concept/@rdf:about entries, without the #-->
         <select id="concept-select">
           {
-          for $tag in $skosfile//skos:Concept/@rdf:about/data()
-          let $concept := substring($tag, 2)
+          for $subject in $skosfile//skos:Concept/@rdf:about/data()
+          let $concept := substring($subject, 2)
           return
           <option value="{$concept}">{$concept}</option>
           }
@@ -81,14 +82,17 @@
         <input type="text" id="concept-input" placeholder="FranzoesischeKoenigsurkunden" style="width: 350px;"/>
         <input type="submit" id="add-concept" value="Konzept anlegen"/>
         <script type="text/javascript">
+          // extracts monasterium.net/mom/skos-editor as base-URL
           var url = window.location.href;
           var baseUrl = url.split("?")[0];
           
+          // adds concept name as query string to base-URL and goes to result
           $('#concept-select').on('change', function () {{
             var redirectUrl = baseUrl + "?concept=" + $(this).val();
             return (redirectUrl ? window.location = redirectUrl : console.log("Invalid URL!"));
           }});
           
+          // gets new concept name from input field and hands it to add-concept service
           $('input#add-concept').click(function() {{
             var conceptName = document.getElementById("concept-input").value;
             
@@ -100,6 +104,7 @@
             dataType: "text"
             }})
             
+            // reload after running service
             window.location.reload();
           }});
         </script>
@@ -132,6 +137,7 @@
             <th>Sprache</th>
             <th>Entfernen</th>
           </tr>
+          <!--extract all prefLabels for the current concept and enter their content, language & remove-button into the table-->
           {
           for $plabel in $skosfile/skos:Concept[@rdf:about=$concept]//skos:prefLabel
           return
@@ -145,6 +151,7 @@
           }
         </table>
         <script type="text/javascript">
+          // extracts monasterium.net/mom/skos-editor as base-URL
           var urlParams = new URLSearchParams(window.location.search);
           var concept = urlParams.get('concept');
           
@@ -153,6 +160,7 @@
             return doc.documentElement.textContent;
           }};
           
+          // get selected name and language for the preflabel, hand both the add-preflabel service, reload page 
           $('input#add-label').click(function() {{
             var labelLang = document.getElementById("lang-select").value;
             var labelName = document.getElementById("preflabel-input").value;
@@ -170,6 +178,7 @@
             window.location.reload();
           }});
           
+          // get selected name and language for the preflabel, hand both the remove-label service, reload page
           $('input.remove-preflabel').click(function() {{
             var labelLang = $(this).closest('td').prev().html();
             
@@ -190,15 +199,17 @@
         <hr/>
         <h3>skos:broader</h3>
         <p>Weisen Sie dem Konzept optional einen Oberbegriff (<i>skos:broader</i>) zu:</p>
+        <!--makes list out of all skos:Concept/@rdf:about entries, without the #-->
         <select id="broader-select">
           {
-          for $tag in $skosfile//skos:Concept/@rdf:about/data()
-          let $concept := substring($tag, 2)
+          for $subject in $skosfile//skos:Concept/@rdf:about/data()
+          let $concept := substring($subject, 2)
           return
           <option value="{$concept}">{$concept}</option>
           }
           <option selected="selected" disabled="disabled" hidden="hidden">Konzept auswählen</option>
         </select>
+        <!--extract all broader-labels for the current concept and enter their content & remove-button into the table-->
         <input type="submit" id="add-broader" value="Hinzufügen"/>
         <p>Folgende Oberbegriffe für dieses Konzept existieren bereits:</p>
         <table>
@@ -218,6 +229,7 @@
           }
         </table>
         <script>
+          // get input for broader and hand it to add-broader service, then reload
           $('input#add-broader').click(function() {{
             var broaderName = document.getElementById("broader-select").value;
           
@@ -234,6 +246,7 @@
             window.location.reload();
           }});
           
+          // delete given broader with remove-label service, reload
           $('input.remove-broader').click(function() {{
             var broaderName = $(this).closest('td').prev().html().substring(1);
           
@@ -254,6 +267,7 @@
         <hr/>
         <h3>skos:definition</h3>
         <p>Geben Sie innerhalb der <i>skos:definition</i>-Tags die HTML-codierte Beschreibung für das Konzept ein:</p>
+        <!--fills textarea with the contents of the current concept's definition-->
         <textarea id="editor">
           {
           let $concept := $skosfile/skos:Concept[@rdf:about=$concept]/skos:definition
@@ -262,6 +276,7 @@
         </textarea>
         <input id="submit-content" type="submit" value="Submit!"/>
         <script type="text/javascript">
+          // link codemirror to textarea
           var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {{
             mode: 'xml',
             htmlMode: true,
@@ -269,6 +284,7 @@
           }});
           editor.setSize("750", "250");
           
+          // submits contents of the textarea to the edit-definition service
           $('input#submit-content').click(function() {{
             var editorContent = editor.getValue();
             

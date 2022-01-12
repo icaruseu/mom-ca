@@ -6,7 +6,7 @@
             <xrx:default>Add-Broader</xrx:default>
         </xrx:i18n>
     </xrx:title>
-    <xrx:description>This service deletes the specified label from a SKOS concept.</xrx:description>
+    <xrx:description>This service adds a skos:broader label to a SKOS concept.</xrx:description>
     <xrx:author>niklas.tscherne@uni-graz.at</xrx:author>
     <xrx:licence>
         This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
