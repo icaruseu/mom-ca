@@ -130,27 +130,35 @@
           <option value="slv">slv</option>
         </select>
         <input type="submit" id="add-label" value="Hinzufügen"/>
-        <p>Folgende bevorzugte Namen für dieses Konzept existieren bereits:</p>
-        <table>
-          <tr>
-            <th>skos:prefLabel</th>
-            <th>Sprache</th>
-            <th>Entfernen</th>
-          </tr>
-          <!--extract all prefLabels for the current concept and enter their content, language & remove-button into the table-->
-          {
-          for $plabel in $skosfile/skos:Concept[@rdf:about=$concept]//skos:prefLabel
-          return
-          <tr>
-            <td>{$plabel/text()}</td>
-            <td>{$plabel/@xml:lang/data()}</td>
-            <td>
-              <input type="submit" class="remove-preflabel" value="X"/>
-            </td>
-          </tr>
-          }
-        </table>
+        <div id="existing-entries-pref">
+          <p>Folgende bevorzugte Namen für dieses Konzept existieren bereits:</p>
+          <table id="table-pref">
+            <tr>
+              <th>skos:prefLabel</th>
+              <th>Sprache</th>
+              <th>Entfernen</th>
+            </tr>
+            <!--extract all prefLabels for the current concept and enter their content, language & remove-button into the table-->
+            {
+            for $plabel in $skosfile/skos:Concept[@rdf:about=$concept]//skos:prefLabel
+            return
+            <tr>
+              <td>{$plabel/text()}</td>
+              <td>{$plabel/@xml:lang/data()}</td>
+              <td>
+                <input type="submit" class="remove-preflabel" value="X"/>
+              </td>
+            </tr>
+            }
+          </table>
+        </div>
         <script type="text/javascript">
+          // don't display div with other entries if no other entries exist
+          var tbl = document.getElementById('table-pref');
+          if (tbl.rows.length == 1) {{
+            document.getElementById('existing-entries-pref').style.display = "none";
+          }}
+          
           // extracts monasterium.net/mom/skos-editor as base-URL
           var urlParams = new URLSearchParams(window.location.search);
           var concept = urlParams.get('concept');
@@ -211,24 +219,32 @@
         </select>
         <!--extract all broader-labels for the current concept and enter their content & remove-button into the table-->
         <input type="submit" id="add-broader" value="Hinzufügen"/>
-        <p>Folgende Oberbegriffe für dieses Konzept existieren bereits:</p>
-        <table>
-          <tr>
-            <th>skos:broader</th>
-            <th>Entfernen</th>
-          </tr>
-          {
-          for $broader in $skosfile/skos:Concept[@rdf:about=$concept]//skos:broader
-          return
-          <tr>
-            <td>{$broader/@rdf:resource/data()}</td>
-            <td>
-              <input type="submit" class="remove-broader" value="X"/>
-            </td>
-          </tr>
-          }
-        </table>
+        <div id="existing-entries-broader">
+          <p>Folgende Oberbegriffe für dieses Konzept existieren bereits:</p>
+          <table id="table-broader">
+            <tr>
+              <th>skos:broader</th>
+              <th>Entfernen</th>
+            </tr>
+            {
+            for $broader in $skosfile/skos:Concept[@rdf:about=$concept]//skos:broader
+            return
+            <tr>
+              <td>{$broader/@rdf:resource/data()}</td>
+              <td>
+                <input type="submit" class="remove-broader" value="X"/>
+              </td>
+            </tr>
+            }
+          </table>
+        </div>
         <script>
+          // don't display div with other entries if no other entries exist
+          var tbl = document.getElementById('table-broader');
+          if (tbl.rows.length == 1) {{
+            document.getElementById('existing-entries-broader').style.display = "none";
+          }}
+          
           // get input for broader and hand it to add-broader service, then reload
           $('input#add-broader').click(function() {{
             var broaderName = document.getElementById("broader-select").value;
@@ -284,7 +300,7 @@
           }});
           editor.setSize("750", "250");
           
-          // submits contents of the textarea to the edit-definition service
+          // submits contents of the textarea to the edit-definition service, reload
           $('input#submit-content').click(function() {{
             var editorContent = editor.getValue();
             
@@ -295,6 +311,8 @@
               data: editorContent,
               dataType: "xml"
             }})
+            
+            window.location.reload();
           }});
         </script>
       </xrx:view>
