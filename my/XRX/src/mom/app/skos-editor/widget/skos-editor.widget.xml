@@ -82,6 +82,15 @@
         <input type="text" id="concept-input" placeholder="FranzoesischeKoenigsurkunden" style="width: 350px;"/>
         <input type="submit" id="add-concept" value="Konzept anlegen"/>
         <script type="text/javascript">
+          
+          // disable submit button unless text has been added to the input field
+          $(':input[id="add-concept"]').prop('disabled', true);
+          $('input[id="concept-input"]').keyup(function() {{
+            if($(this).val() != '') {{
+              $(':input[id="add-concept"]').prop('disabled', false);
+            }}
+          }});
+          
           // extracts monasterium.net/mom/skos-editor as base-URL
           var url = window.location.href;
           var baseUrl = url.split("?")[0];
@@ -159,10 +168,11 @@
             document.getElementById('existing-entries-pref').style.display = "none";
           }}
           
-          // extracts monasterium.net/mom/skos-editor as base-URL
+          // gets content of the 'concept' query parameter, i.e. the name of the current concept
           var urlParams = new URLSearchParams(window.location.search);
           var concept = urlParams.get('concept');
           
+          // function to properly process ampersand
           function htmlDecode(input) {{
             var doc = new DOMParser().parseFromString(input, "text/html");
             return doc.documentElement.textContent;
@@ -245,6 +255,12 @@
             document.getElementById('existing-entries-broader').style.display = "none";
           }}
           
+          // disable submit button unless a selection has been made
+          $(':input[id="add-broader"]').prop('disabled', true);
+          $( "#broader-select" ).change(function() {{
+            $(':input[id="add-broader"]').prop('disabled', false);
+          }});
+          
           // get input for broader and hand it to add-broader service, then reload
           $('input#add-broader').click(function() {{
             var broaderName = document.getElementById("broader-select").value;
@@ -290,7 +306,7 @@
           return $concept
           }
         </textarea>
-        <input id="submit-content" type="submit" value="Submit!"/>
+        <input id="submit-content" type="submit" value="Speichern"/>
         <script type="text/javascript">
           // link codemirror to textarea
           var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {{
