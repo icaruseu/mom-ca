@@ -65,7 +65,12 @@
     <xrx:div>
       <xrx:key>select-concept-div</xrx:key>
       <xrx:view>
-        <p>Wählen Sie ein existierendes SKOS-Konzept, oder legen sie im unteren Feld ein neues an:</p>
+        <p>
+          <xrx:i18n>
+            <xrx:key>skos-select-concept</xrx:key>
+            <xrx:default>Choose an existing SKOS concept, or create a new one in the field below:</xrx:default>
+          </xrx:i18n>
+        </p>
         <!--makes list out of all skos:Concept/@rdf:about entries, without the #-->
         <select id="concept-select">
           {
@@ -74,13 +79,28 @@
           return
           <option value="{$concept}">{$concept}</option>
           }
-          <option selected="selected" disabled="disabled" hidden="hidden">Konzept auswählen</option>
+          <option selected="selected" disabled="disabled" hidden="hidden">
+            <xrx:i18n>
+              <xrx:key>select-concept</xrx:key>
+              <xrx:default>Select Concept</xrx:default>
+            </xrx:i18n>
+          </option>
         </select>
         <br/>
         <br/>
-        <p>Vermeiden Sie im Namen für das neue Konzept Leerzeichen, Sonderzeichen und Umlaute:</p>
+        <p>
+          <xrx:i18n>
+            <xrx:key>skos-name-concept</xrx:key>
+            <xrx:default>In naming the concept, avoid spaces and special characters:</xrx:default>
+          </xrx:i18n>
+        </p>
         <input type="text" id="concept-input" placeholder="FranzoesischeKoenigsurkunden" style="width: 350px;"/>
-        <input type="submit" id="add-concept" value="Konzept anlegen"/>
+        <button type="submit" id="add-concept">
+          <xrx:i18n>
+            <xrx:key>submit</xrx:key>
+            <xrx:default>Submit</xrx:default>
+          </xrx:i18n>
+        </button>
         <script type="text/javascript">
           
           // disable submit button unless text has been added to the input field
@@ -102,7 +122,7 @@
           }});
           
           // gets new concept name from input field and hands it to add-concept service
-          $('input#add-concept').click(function() {{
+          $('button#add-concept').click(function() {{
             var conceptName = document.getElementById("concept-input").value;
             
             $.ajax({{
@@ -124,21 +144,30 @@
       <xrx:view>
         <hr/>
         <h3>skos:prefLabel</h3>
-        <p>Geben Sie optional für das Konzept einen bevorzugten Namen (<i>skos:prefLabel</i>) in der gewünschten Sprache ein
-          (beachten Sie, dass nur ein bevorzugter Name pro Sprache erlaubt ist - der bestehende Name wird überschrieben):</p>
-        <input type="text" id="preflabel-input" placeholder="acte écrit"/>
+        <p>
+          <xrx:i18n>
+            <xrx:key>skos-add-preflabel</xrx:key>
+            <xrx:default>Add an optional preferred label (skos:prefLabel) for a selected language to
+              the current concept (note that only one preferred label is allowed per
+              language - an existing prefLabel will be overwritten):</xrx:default>
+          </xrx:i18n>
+        </p>
         <select id="lang-select">
-          <option value="deu">deu</option>
-          <option value="eng">eng</option>
-          <option value="est">est</option>
-          <option value="fra">fra</option>
-          <option value="hrv">hrv</option>
-          <option value="hun">hun</option>
-          <option value="ita">ita</option>
-          <option value="slk">slk</option>
-          <option value="slv">slv</option>
+          <option value="de">de</option>
+          <option value="en">en</option>
+          <option value="es">es</option>
+          <option value="fr">fr</option>
+          <option value="hr">hr</option>
+          <option value="hu">hu</option>
+          <option value="it">it</option>
         </select>
-        <input type="submit" id="add-label" value="Hinzufügen"/>
+        <input type="text" id="preflabel-input"/>
+        <button type="submit" id="add-label">
+          <xrx:i18n>
+            <xrx:key>submit</xrx:key>
+            <xrx:default>Submit</xrx:default>
+          </xrx:i18n>
+        </button>
         <div id="existing-entries-pref">
           <p>Folgende bevorzugte Namen für dieses Konzept existieren bereits:</p>
           <table id="table-pref">
@@ -153,7 +182,7 @@
             return
             <tr>
               <td>{$plabel/text()}</td>
-              <td>{$plabel/@xml:lang/data()}</td>
+              <td class='lang'>{$plabel/@xml:lang/data()}</td>
               <td>
                 <input type="submit" class="remove-preflabel" value="X"/>
               </td>
@@ -162,7 +191,17 @@
           </table>
         </div>
         <script type="text/javascript">
-          // don't display div with other entries if no other entries exist
+          // set the preflabel of the selected language as default content of the input field
+          var labelLang = document.getElementById("lang-select").value;
+          var currentLangPref = $("#table-pref").find("td:contains(" + labelLang + ")").prev();
+          $("#preflabel-input").val(currentLangPref.html());
+          $( "#lang-select" ).change(function() {{
+            var labelLang = document.getElementById("lang-select").value;
+            var currentLangPref = $("#table-pref").find("td:contains(" + labelLang + ")").prev();
+            $("#preflabel-input").val(currentLangPref.html());
+          }});
+          
+          // don't display table with other entries if no other entries exist
           var tbl = document.getElementById('table-pref');
           if (tbl.rows.length == 1) {{
             document.getElementById('existing-entries-pref').style.display = "none";
@@ -179,7 +218,7 @@
           }};
           
           // get selected name and language for the preflabel, hand both the add-preflabel service, reload page 
-          $('input#add-label').click(function() {{
+          $('button#add-label').click(function() {{
             var labelLang = document.getElementById("lang-select").value;
             var labelName = document.getElementById("preflabel-input").value;
             
@@ -216,7 +255,12 @@
       <xrx:view>
         <hr/>
         <h3>skos:broader</h3>
-        <p>Weisen Sie dem Konzept optional einen Oberbegriff (<i>skos:broader</i>) zu:</p>
+        <p>
+          <xrx:i18n>
+            <xrx:key>skos-add-broader</xrx:key>
+            <xrx:default>Add an optional umbrella term (skos:broader) for the concept:</xrx:default>
+          </xrx:i18n>
+        </p>
         <!--makes list out of all skos:Concept/@rdf:about entries, without the #-->
         <select id="broader-select">
           {
@@ -225,10 +269,20 @@
           return
           <option value="{$concept}">{$concept}</option>
           }
-          <option selected="selected" disabled="disabled" hidden="hidden">Konzept auswählen</option>
+          <option selected="selected" disabled="disabled" hidden="hidden">
+            <xrx:i18n>
+              <xrx:key>select-concept</xrx:key>
+              <xrx:default>Select Concept</xrx:default>
+            </xrx:i18n>
+          </option>
         </select>
         <!--extract all broader-labels for the current concept and enter their content & remove-button into the table-->
-        <input type="submit" id="add-broader" value="Hinzufügen"/>
+        <button type="submit" id="add-broader">
+          <xrx:i18n>
+            <xrx:key>submit</xrx:key>
+            <xrx:default>Submit</xrx:default>
+          </xrx:i18n>
+        </button>
         <div id="existing-entries-broader">
           <p>Folgende Oberbegriffe für dieses Konzept existieren bereits:</p>
           <table id="table-broader">
@@ -262,7 +316,7 @@
           }});
           
           // get input for broader and hand it to add-broader service, then reload
-          $('input#add-broader').click(function() {{
+          $('button#add-broader').click(function() {{
             var broaderName = document.getElementById("broader-select").value;
           
             var addBroaderUrl = htmlDecode("/mom/service/add-broader?concept=" + concept);
@@ -298,7 +352,12 @@
       <xrx:view>
         <hr/>
         <h3>skos:definition</h3>
-        <p>Geben Sie innerhalb der <i>skos:definition</i>-Tags die HTML-codierte Beschreibung für das Konzept ein:</p>
+        <p>
+          <xrx:i18n>
+            <xrx:key>skos-modify-definition</xrx:key>
+            <xrx:default>Enter the description of the concept between the skos:definition tags:</xrx:default>
+          </xrx:i18n>
+        </p>
         <!--fills textarea with the contents of the current concept's definition-->
         <textarea id="editor">
           {
@@ -306,7 +365,12 @@
           return $concept
           }
         </textarea>
-        <input id="submit-content" type="submit" value="Speichern"/>
+        <button id="submit-content" type="submit">
+          <xrx:i18n>
+            <xrx:key>save</xrx:key>
+            <xrx:default>Save</xrx:default>
+          </xrx:i18n>
+        </button>
         <script type="text/javascript">
           // link codemirror to textarea
           var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {{
@@ -317,7 +381,7 @@
           editor.setSize("750", "250");
           
           // submits contents of the textarea to the edit-definition service, reload
-          $('input#submit-content').click(function() {{
+          $('button#submit-content').click(function() {{
             var editorContent = editor.getValue();
             
             $.ajax({{
