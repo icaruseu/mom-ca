@@ -192,13 +192,21 @@
         </div>
         <script type="text/javascript">
           // set the preflabel of the selected language as default content of the input field
-          var labelLang = document.getElementById("lang-select").value;
-          var currentLangPref = $("#table-pref").find("td:contains(" + labelLang + ")").prev();
-          $("#preflabel-input").val(currentLangPref.html());
-          $( "#lang-select" ).change(function() {{
+          $("#lang-select").change(function() {{
             var labelLang = document.getElementById("lang-select").value;
             var currentLangPref = $("#table-pref").find("td:contains(" + labelLang + ")").prev();
             $("#preflabel-input").val(currentLangPref.html());
+          }});
+          
+          // trigger initial display of the above
+          $("#lang-select").change();
+          
+          // disable submit button unless text has been added to the input field
+          $(':input[id="add-label"]').prop('disabled', true);
+          $('input[id="preflabel-input"]').keyup(function() {{
+            if($(this).val() != '') {{
+              $(':input[id="add-label"]').prop('disabled', false);
+            }}
           }});
           
           // don't display table with other entries if no other entries exist
