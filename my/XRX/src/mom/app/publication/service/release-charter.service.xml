@@ -47,6 +47,10 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:expression>if($charter-context = 'fond') then charter:archid($atomid, $atom-tag-name) else ''</xrx:expression>
     </xrx:variable>
     <xrx:variable>
+      <xrx:name>$archtag</xrx:name>
+      <xrx:expression>if(string-length($archid) >0) then concat("tag:www.monasterium.net,2011:/archive/",$archid) else ()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
       <xrx:name>$fondid</xrx:name>
       <xrx:expression>if($charter-context = 'fond') then charter:fondid($atomid, $atom-tag-name) else ''</xrx:expression>
     </xrx:variable>
@@ -90,10 +94,14 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:name>$moderator</xrx:name>
       <xrx:expression>$user-xml/xrx:moderator/text()</xrx:expression>
     </xrx:variable>
-    <xrx:variables>
+    <xrx:variable>
         <xrx:name>$modmail</xrx:name>
         <xrx:expression>conf:param("modmail")</xrx:expression>
-    </xrx:variables>
+    </xrx:variable>
+<xrx:variable>
+   <xrx:name>$archivist</xrx:name>
+    <xrx:expression>if ($archtag) then string-join(community:emails($archtag)) else ()</xrx:expression>
+    </xrx:variable>	  
   </xrx:variables>
   <xrx:init>
    <xrx:processor>
@@ -105,7 +113,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:key>release-charter-email</xrx:key>
       <mail xmlns="">
           <from>{ xs:string(conf:param('platform-browser-title')) }</from>
-          <to>{ xs:string($moderator) }</to>
+          <to>{ xs:string($moderator) {if ($archivist) then concat(",", $archivist) else ()}</to>
           <cc>{ xs:string($xrx:user-id) }</cc>
           <bcc>{ xs:string($modmail) }</bcc>
           <subject>MOM-CA - Editorial Service</subject>
