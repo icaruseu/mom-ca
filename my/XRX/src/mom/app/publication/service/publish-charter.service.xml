@@ -47,6 +47,10 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:expression>if($charter-context = 'fond') then charter:archid($atomid, $atom-tag-name) else ''</xrx:expression>
     </xrx:variable>
     <xrx:variable>
+      <xrx:name>$archtag</xrx:name>
+      <xrx:expression>concat("tag:www.monasterium.net,2011:/archive/", $archid)</xrx:expression>
+    <xrx:variable>
+    <xrx:variable>
       <xrx:name>$fondid</xrx:name>
       <xrx:expression>if($charter-context = 'fond') then charter:fondid($atomid, $atom-tag-name) else ''</xrx:expression>
     </xrx:variable>
@@ -94,10 +98,14 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     	<xrx:name>$charter-link</xrx:name>
     	<xrx:expression>if($charter-context = 'fond') then concat($xrx:http-request-root, $archid, '/', $fondid, '/', $charterid, '/charter') else concat($xrx:http-request-root, $collectionid, '/', $charterid, '/charter')</xrx:expression>
     </xrx:variable> 
-    <xrx:variables>
+    <xrx:variable>
         <xrx:name>$modmail</xrx:name>
         <xrx:expression>conf:param("modmail")</xrx:expression>
-    </xrx:variables>
+    </xrx:variable>
+   <xrx:variable>
+        <xrx:name>$archivist</xrx:name>
+        <xrx:expression>if ($archtag) then string-join(community:emails($archtag)) else ()</xrx:expression>
+   </xrx:variable>
   </xrx:variables>
   <xrx:init>
    <xrx:processor>
@@ -111,7 +119,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
           <from>{ xs:string(conf:param('platform-browser-title')) }</from>
           <to>{ xs:string($author) }</to>
           <cc>{ xs:string($xrx:user-id) }</cc>
-          <bcc> xs:string{$modmail}</bcc>
+          <bcc> xs:string{$modmail} {if ($archivist) then concat(",", $archivist) else ()}</bcc>
           <subject>MOM-CA - Editorial Service</subject>
           <message>
               <text>
