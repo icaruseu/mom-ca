@@ -68,8 +68,15 @@
         <p>
           <xrx:i18n>
             <xrx:key>skos-select-concept</xrx:key>
-            <xrx:default>Choose an existing SKOS concept, or create a new one in the field below:</xrx:default>
+            <xrx:default>Choose an existing SKOS concept, or create a new one in the field below</xrx:default>
           </xrx:i18n>
+          <div id="selected-concept">
+            <xrx:i18n>
+              <xrx:key>skos-current-concept</xrx:key>
+              <xrx:default>The currently selected concept is </xrx:default>
+            </xrx:i18n>
+            <span><b>{$conceptname}</b>.</span>
+          </div>
         </p>
         <!--makes list out of all skos:Concept/@rdf:about entries, without the #-->
         <select id="concept-select">
@@ -102,6 +109,11 @@
           </xrx:i18n>
         </button>
         <script type="text/javascript">
+          
+          // display current concept only if one is selected
+          var urlParams = new URLSearchParams(window.location.search);
+          var concept = urlParams.get('concept');
+          if (concept === null) document.getElementById("selected-concept").style.display = "none";
           
           // disable submit button unless text has been added to the input field
           $(':input[id="add-concept"]').prop('disabled', true);
@@ -169,7 +181,12 @@
           </xrx:i18n>
         </button>
         <div id="existing-entries-pref">
-          <p>Folgende bevorzugte Namen für dieses Konzept existieren bereits:</p>
+          <p>
+            <xrx:i18n>
+              <xrx:key>skos-existing-pref</xrx:key>
+              <xrx:default>The following preferred labels for this concept already exist:</xrx:default>
+            </xrx:i18n>
+          </p>
           <table id="table-pref">
             <tr>
               <th>skos:prefLabel</th>
@@ -292,7 +309,12 @@
           </xrx:i18n>
         </button>
         <div id="existing-entries-broader">
-          <p>Folgende Oberbegriffe für dieses Konzept existieren bereits:</p>
+          <p>
+            <xrx:i18n>
+              <xrx:key>skos-existing-broader</xrx:key>
+              <xrx:default>The following umbrella term for this concept already exist:</xrx:default>
+            </xrx:i18n>
+          </p>
           <table id="table-broader">
             <tr>
               <th>skos:broader</th>
