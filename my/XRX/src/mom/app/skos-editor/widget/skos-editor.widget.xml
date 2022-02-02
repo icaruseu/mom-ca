@@ -46,10 +46,8 @@
   </xrx:init>
   <xrx:csss>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/css/codemirror/lib/codemirror</xrx:resource>
-    <!--<xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/css/codemirror/theme/cobalt</xrx:resource>-->
   </xrx:csss>
   <xrx:jss>
-    <!--<xrx:resource>tag:www.monasterium.net,2011:/mom/resource/js/skos-editor</xrx:resource>-->
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/lib/codemirror</xrx:resource>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/mode/xml</xrx:resource>
   </xrx:jss>
@@ -109,7 +107,6 @@
           </xrx:i18n>
         </button>
         <script type="text/javascript">
-          
           // display current concept only if one is selected
           var urlParams = new URLSearchParams(window.location.search);
           var concept = urlParams.get('concept');
