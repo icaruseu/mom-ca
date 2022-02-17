@@ -30,6 +30,10 @@
     </xrx:licence>
     <xrx:variables>
         <xrx:variable>
+            <xrx:name>$userfolder</xrx:name>
+            <xrx:expression>concat(conf:param('xrx-user-atom-base-uri'), xmldb:encode($xrx:user-id))</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
             <xrx:name>$skosfile</xrx:name>
             <xrx:expression>doc('/db/mom-data/metadata.controlledVocabulary.public/skos.xml')</xrx:expression>
         </xrx:variable>
@@ -37,11 +41,6 @@
             <xrx:name>$session-username</xrx:name>
             <xrx:expression>xmldb:get-current-user()</xrx:expression>
         </xrx:variable>
-        <xrx:variable>
-            <xrx:name>$userfolder</xrx:name>
-            <xrx:expression>concat(conf:param('xrx-user-atom-base-uri'), xmldb:encode($xrx:user-id))</xrx:expression>
-        </xrx:variable>
-        <!--this evaluates to something like /xrx.user/niklas.tscherne%40gmail.com-->
         <xrx:variable>
             <xrx:name>$new-entry-name</xrx:name>
             <xrx:expression>'skos_privat.xml'</xrx:expression>

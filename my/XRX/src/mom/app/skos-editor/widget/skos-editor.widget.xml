@@ -26,8 +26,17 @@
     components into other systems, once it leaves the active development stage. </xrx:licence>
   <xrx:variables>
     <xrx:variable>
+      <xrx:name>$userfolder</xrx:name>
+      <xrx:expression>concat(conf:param('xrx-user-atom-base-uri'), xmldb:encode($xrx:user-id))</xrx:expression>
+    </xrx:variable>
+    <!--this evaluates to something like /xrx.user/niklas.tscherne%40gmail.com-->
+    <xrx:variable>
       <xrx:name>$skosfile</xrx:name>
-      <xrx:expression>doc('/db/mom-data/metadata.controlledVocabulary.public/skos.xml')/atom:entry/atom:content/rdf:RDF</xrx:expression>
+      <xrx:expression>doc(concat('/db/mom-data', $userfolder, '/skos_privat.xml'))</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$skoscontent</xrx:name>
+      <xrx:expression>$skosfile/atom:entry/atom:content/rdf:RDF</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$conceptname</xrx:name>
@@ -58,6 +67,7 @@
         <div class="h2">
           <span>SKOS-Editor</span>
         </div>
+        <p>{$userfolder}</p><!--remove-->
       </xrx:view>
     </xrx:div>
     <xrx:div>
@@ -79,7 +89,7 @@
         <!--makes list out of all skos:Concept/@rdf:about entries, without the #-->
         <select id="concept-select">
           {
-          for $subject in $skosfile//skos:Concept/@rdf:about/data()
+          for $subject in $skoscontent//skos:Concept/@rdf:about/data()
           let $concept := substring($subject, 2)
           return
           <option value="{$concept}">{$concept}</option>
@@ -192,7 +202,7 @@
             </tr>
             <!--extract all prefLabels for the current concept and enter their content, language & remove-button into the table-->
             {
-            for $plabel in $skosfile/skos:Concept[@rdf:about=$concept]//skos:prefLabel
+            for $plabel in $skoscontent/skos:Concept[@rdf:about=$concept]//skos:prefLabel
             return
             <tr>
               <td>{$plabel/text()}</td>
@@ -286,7 +296,7 @@
         <!--makes list out of all skos:Concept/@rdf:about entries, without the #-->
         <select id="broader-select">
           {
-          for $subject in $skosfile//skos:Concept/@rdf:about/data()
+          for $subject in $skoscontent//skos:Concept/@rdf:about/data()
           let $concept := substring($subject, 2)
           return
           <option value="{$concept}">{$concept}</option>
@@ -318,7 +328,7 @@
               <th>Entfernen</th>
             </tr>
             {
-            for $broader in $skosfile/skos:Concept[@rdf:about=$concept]//skos:broader
+            for $broader in $skoscontent/skos:Concept[@rdf:about=$concept]//skos:broader
             return
             <tr>
               <td>{$broader/@rdf:resource/data()}</td>
@@ -388,7 +398,7 @@
         <!--fills textarea with the contents of the current concept's definition-->
         <textarea id="editor">
           {
-          let $concept := $skosfile/skos:Concept[@rdf:about=$concept]/skos:definition
+          let $concept := $skoscontent/skos:Concept[@rdf:about=$concept]/skos:definition
           return $concept
           }
         </textarea>

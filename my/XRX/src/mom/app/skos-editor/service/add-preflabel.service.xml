@@ -30,8 +30,16 @@
     </xrx:licence>
     <xrx:variables>
         <xrx:variable>
+            <xrx:name>$userfolder</xrx:name>
+            <xrx:expression>concat(conf:param('xrx-user-atom-base-uri'), xmldb:encode($xrx:user-id))</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
             <xrx:name>$skosfile</xrx:name>
-            <xrx:expression>doc('/db/mom-data/metadata.controlledVocabulary.public/skos.xml')/atom:entry/atom:content/rdf:RDF</xrx:expression>
+            <xrx:expression>doc(concat('/db/mom-data', $userfolder, '/skos_privat.xml'))</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$skoscontent</xrx:name>
+            <xrx:expression>$skosfile/atom:entry/atom:content/rdf:RDF</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$concept</xrx:name>
@@ -49,12 +57,12 @@
     <xrx:body>
         {
         if ($session-username != 'guest') then (
-            if(exists($skosfile/skos:Concept[@rdf:about=$concept]/skos:prefLabel[@xml:lang=$labellang])) then (
-                let $update := update replace $skosfile/skos:Concept[@rdf:about=$concept]/skos:prefLabel[@xml:lang=$labellang]/text() with $data
+            if(exists($skoscontent/skos:Concept[@rdf:about=$concept]/skos:prefLabel[@xml:lang=$labellang])) then (
+                let $update := update replace $skoscontent/skos:Concept[@rdf:about=$concept]/skos:prefLabel[@xml:lang=$labellang]/text() with $data
                 return $update
             )
             else (
-                let $update := update insert <skos:prefLabel xml:lang='{$labellang}'>{$data}</skos:prefLabel> into $skosfile/skos:Concept[@rdf:about=$concept]
+                let $update := update insert <skos:prefLabel xml:lang='{$labellang}'>{$data}</skos:prefLabel> into $skoscontent/skos:Concept[@rdf:about=$concept]
                 return $update
             )
         )
