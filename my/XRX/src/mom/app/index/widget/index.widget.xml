@@ -697,9 +697,26 @@ ul.namelist {{
             <li><a href="{concat(conf:param('request-root'),'index')}"><xrx:i18n>
               <xrx:key>back-to-index-overview</xrx:key>
               <xrx:default>Back to index overview</xrx:default>
-            </xrx:i18n></a></li>       
+            </xrx:i18n></a></li>
+           <li>
+             <button id="copy-to-user" type="submit">
+              <xrx:i18n>
+                <xrx:key>copy-to-user</xrx:key><!--add to i18n-->
+                <xrx:default>Copy to Userspace</xrx:default>
+              </xrx:i18n>
+            </button>
+           </li>
        </ul>  
-       </div>        
+       </div>
+        <script type="text/javascript">
+          $(document).ready(function(){{
+            $("#copy-to-user").click(function(){{
+              $.ajax({{
+              url: "/mom/service/my-collection-copy-skos",
+              }})
+            }});
+          }});
+        </script>        
         <div id="result-options" class="this-widget">           
           <div class="filterbox">
           <!-- the index app provides prosopografic data and other vocs

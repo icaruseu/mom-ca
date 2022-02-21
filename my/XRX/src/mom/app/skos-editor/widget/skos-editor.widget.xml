@@ -408,17 +408,6 @@
             <xrx:default>Save</xrx:default>
           </xrx:i18n>
         </button>
-        <button id="copy-user" type="submit">
-          <xrx:i18n>
-            <xrx:key>copy-user</xrx:key><!--add to i18n-->
-            <xrx:default>Copy to Userspace</xrx:default>
-          </xrx:i18n>
-        </button>
-        <script type="text/javascript">$(document).ready(function(){{$("#copy-user").click(function(){{
-          $.ajax({{
-          url: "/mom/service/my-collection-copy-skos",
-          }})
-          }});}});</script>
         
         <script type="text/javascript">
           // link codemirror to textarea
