@@ -408,6 +408,21 @@
             <xrx:default>Save</xrx:default>
           </xrx:i18n>
         </button>
+        <button id="release-skos" type="submit">
+          <xrx:i18n>
+            <xrx:key>release-skos</xrx:key><!--add to i18n-->
+            <xrx:default>Publish Glossary</xrx:default>
+          </xrx:i18n>
+        </button>
+        <script type="text/javascript">
+          $(document).ready(function(){{
+            $("#release-skos").click(function(){{
+              $.ajax({{
+              url: "/mom/service/my-collection-release-skos",
+              }})
+            }});
+          }});
+        </script>
         
         <script type="text/javascript">
           // link codemirror to textarea

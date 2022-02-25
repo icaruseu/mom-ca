@@ -1,4 +1,4 @@
-<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx">
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
     <xrx:id>tag:www.monasterium.net,2011:/mom/service/my-collection-copy-skos</xrx:id>
     <xrx:title>
         <xrx:i18n>
@@ -35,22 +35,38 @@
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$skosfile</xrx:name>
-            <xrx:expression>doc('/db/mom-data/metadata.controlledVocabulary.public/skos.xml')</xrx:expression>
+            <xrx:expression>doc('/db/mom-data/metadata.controlledVocabulary.public/IllUrkGlossar.xml')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$atomid</xrx:name>
+            <xrx:expression>xs:string($skosfile/atom:entry/atom:id/text())</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$session-username</xrx:name>
             <xrx:expression>xmldb:get-current-user()</xrx:expression>
         </xrx:variable>
-        <xrx:variable>
-            <xrx:name>$new-entry-name</xrx:name>
-            <xrx:expression>'skos_privat.xml'</xrx:expression>
-        </xrx:variable>
     </xrx:variables>
+    <xrx:init>
+        <xrx:processor>
+            <xrx:translateflag>false</xrx:translateflag>
+        </xrx:processor>
+    </xrx:init>
     <xrx:body>
         {
         if ($session-username != 'guest') then (
-        let $copy := atom:POST($userfolder, $new-entry-name, $skosfile)
-            return $copy
+            let $copy := atom:POST($userfolder, 'glossar_privat.xml', $skosfile)
+                
+            let $saved :=
+            <xrx:saved xmlns:xrx="http://www.monasterium.net/NS/xrx">
+                <xrx:id>{ $atomid }</xrx:id>
+                <xrx:start_time>{ current-dateTime() }</xrx:start_time>
+                <xrx:freigabe>no</xrx:freigabe>
+            </xrx:saved>
+                   
+            let $user-xml := user:document(xmldb:get-current-user())
+            let $tester := update insert $saved into $user-xml//xrx:saved_list
+        
+            return ()
         )
         else ()
         }
