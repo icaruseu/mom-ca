@@ -32,7 +32,7 @@
     <!--this evaluates to something like /xrx.user/niklas.tscherne%40gmail.com-->
     <xrx:variable>
       <xrx:name>$skosfile</xrx:name>
-      <xrx:expression>doc(concat('/db/mom-data', $userfolder, '/skos_privat.xml'))</xrx:expression>
+      <xrx:expression>doc(concat('/db/mom-data', $userfolder, '/glossar_privat.xml'))</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$skoscontent</xrx:name>

@@ -1,0 +1,115 @@
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx">
+    <xrx:id>tag:www.monasterium.net,2011:/mom/service/my-collection-release-skos</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key>my-collection-release-skos</xrx:key>
+            <xrx:default>my-collection-release-skos</xrx:default>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:description>This service creates a release request for the user's private glossary file to the moderator.</xrx:description>
+    <xrx:author>niklas.tscherne@uni-graz.at</xrx:author>
+    <xrx:licence>
+        This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+        
+        As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+        
+        This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+        
+        The VdU/VRET is free software: you can redistribute it and/or modify
+        it under the terms of the GNU General Public License as published by
+        the Free Software Foundation, either version 3 of the License, or
+        (at your option) any later version.
+        
+        VdU/VRET is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        GNU General Public License for more details.
+        
+        You should have received a copy of the GNU General Public License
+        along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+    </xrx:licence>
+    <xrx:variables>
+        <xrx:variable>
+            <xrx:name>$userfolder</xrx:name>
+            <xrx:expression>concat(conf:param('xrx-user-atom-base-uri'), xmldb:encode($xrx:user-id))</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$skosfile</xrx:name>
+            <xrx:expression>doc('/db/mom-data/metadata.controlledVocabulary.public/IllUrkGlossar.xml')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$session-username</xrx:name>
+            <xrx:expression>xmldb:get-current-user()</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$atomid</xrx:name>
+            <xrx:expression>'tag:www.monasterium.net,2011:/controlledVocabulary/IllUrkGlossar'</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$user-xml</xrx:name>
+            <xrx:expression>$user:db-base-collection/xrx:user[.//xrx:saved/xrx:id=$atomid]</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$moderator</xrx:name>
+            <xrx:expression>$user-xml/xrx:moderator/text()</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$glossary-to-release</xrx:name>
+            <xrx:expression>$xrx:user-xml//xrx:saved[xrx:id=$atomid]/xrx:freigabe</xrx:expression>
+        </xrx:variable>
+<!--        <xrx:variable>
+            <xrx:name>$updated</xrx:name>
+            <xrx:expression>upd:replace-element-content($glossary-to-release, text { 'yes' })</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$updated-released</xrx:name>
+            <xrx:expression>upd:insert-after($updated//xrx:saved[xrx:id=$atomid]/xrx:freigabe, <xrx:released>{current-dateTime()}</xrx:released>)</xrx:expression>
+        </xrx:variable>-->
+    </xrx:variables>
+    <xrx:emails>
+        <xrx:email>
+            <xrx:key>release-glossary-email</xrx:key>
+            <mail xmlns="">
+                <from>{ xs:string(conf:param('platform-browser-title')) }</from>
+                <to>{ xs:string($moderator) }</to>
+                <cc>{ xs:string($xrx:user-id) }</cc>
+                <bcc></bcc>
+                <subject>MOM-CA - Editorial Service</subject>
+                <message>
+                    <text>
+                        
+                        MOM-CA - Editorial Service. A modification to the glossary has been suggested for publication.
+                        
+                        To moderate the change please login here: { concat($xrx:http-request-root, 'charters-to-publish') }
+                        
+                        User: { user:firstname-name($xrx:user-id) } ({ $xrx:user-id })
+                        <!--Charter: { concat($archid, ' | ', $fondid, $collectionid, ' | ', $charterid) }-->
+                        
+                        You are receiving this email because you are a user of 
+                        MOM-CA with the following role: moderator
+                        
+                    </text>
+                </message>
+            </mail>
+        </xrx:email>
+    </xrx:emails>
+    <xrx:body>
+        {
+        if ($session-username != 'guest') then (
+            let $updated := update replace $glossary-to-release with <xrx:freigabe>yes</xrx:freigabe>
+            let $updated-released := update insert <xrx:released>{current-dateTime()}</xrx:released> following $glossary-to-release
+            (: let $store := if($glossary-to-release) then atom:PUT(conf:param('xrx-user-atom-base-uri'), concat(xmldb:encode($xrx:user-id), '.xml'), $updated-released)
+                          else () :)
+            
+            (: send email if document was stored :)
+            let $sendmail :=
+            <xrx:sendmail>
+                <xrx:key>release-glossary-email</xrx:key>
+            </xrx:sendmail>
+            
+            return ()
+        )
+        else ()
+        }
+    </xrx:body>
+</xrx:service>
