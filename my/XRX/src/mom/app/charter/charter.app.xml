@@ -69,6 +69,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:relativepath>xsl/</xrx:relativepath>
       <xrx:name>cei2versiondiff.xsl</xrx:name>
     </xrx:resource>
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/xsl/skos2versiondiff</xrx:atomid>
+      <xrx:relativepath>xsl/</xrx:relativepath>
+      <xrx:name>skos2versiondiff.xsl</xrx:name>
+    </xrx:resource>
  <!-- images -->
    <xrx:resource>
      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/path_down</xrx:atomid>

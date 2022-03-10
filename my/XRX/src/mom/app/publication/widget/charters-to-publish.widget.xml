@@ -263,7 +263,7 @@ right:220px;
 		        {
 		        if($charter-context = 'glossary') then (
 		        <div data-demoid="26e2ceaa-50d7-4148-82fc-a60b50f164gg">
-		          <b>A modified copy of the glossary has been released.</b>
+		          <b>A modified copy of the glossary ({$tokens[3]}) has been released.</b>
 		        </div>,
 		        <br/>,
 		        <div data-demoid="aa4daa50-90cc-4395-8baa-8307763002d5">

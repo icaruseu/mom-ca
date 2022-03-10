@@ -70,36 +70,47 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
   <xrx:view>
   {
   	(: request parameter :)
-    let $charter-atomid := request:get-parameter('id', '')
+    let $entry-atomid := request:get-parameter('id', '')
     let $backlink := request:get-parameter('backlink', '')
     let $other-id := request:get-parameter('other-id','')
     let $rev-id := request:get-parameter('rev', '')
 
     (: public charter :)
     let $atom-tag-name := conf:param('atom-tag-name')
-    let $fond-or-collection := charter:context($charter-atomid, $atom-tag-name)
-    let $archive-id := charter:archid($charter-atomid, $atom-tag-name)
-    let $fond-id := charter:fondid($charter-atomid, $atom-tag-name)
-    let $collection-id := charter:collectionid($charter-atomid, $atom-tag-name)
+    (: let $entry-type := charter:context($entry-atomid, $atom-tag-name) :)
+    let $tokens := charter:object-uri-tokens($entry-atomid, $atom-tag-name)
+    let $entry-type := 
+      if($tokens[1] = 'IllUrkGlossar') then
+        'vocab'
+      else if(count($tokens) = 3) then 'fond'
+      else 'collection'
+      (: candidate for skos.xqm? :)
     let $public-base-collection :=
-    	if($fond-or-collection = 'fond') then
-    		metadata:base-collection('charter', ($archive-id, $fond-id), 'public')
-    	else
-        metadata:base-collection('charter', $collection-id, 'public')
+      if($entry-type = 'vocab') then metadata:base-collection('controlledVocabulary', 'public')
+      else if($entry-type = 'fond') then
+        let $archive-id := charter:archid($entry-atomid, $atom-tag-name)
+        let $fond-id := charter:fondid($entry-atomid, $atom-tag-name)
+        return metadata:base-collection('charter', ($archive-id, $fond-id), 'public')
+      else
+      let $collection-id := charter:collectionid($entry-atomid, $atom-tag-name)
+      return metadata:base-collection('charter', $collection-id, 'public')
+      
 
     (: If Revision-id is submitted: Use Versioning-Object as saved Charter :)
-    let $public-entry := $public-base-collection//atom:id[.=$charter-atomid]/parent::atom:entry
+    let $public-entry := $public-base-collection//atom:id[.=$entry-atomid]/parent::atom:entry
     let $public-doc := doc(base-uri($public-entry))
 
     (: saved charter :)
     let $saved-base-collection := metadata:base-collection('charter', 'saved')
-    let $published-base-collection := metadata:base-collection('charter', 'public')
+    let $published-base-collection := 
+      if($entry-type = 'vocab') then metadata:base-collection('controlledVocabulary', 'public')
+      else metadata:base-collection('charter', 'public')
 
     let $saved-entry :=
       if($rev-id = "" ) then
 
         if( $other-id = "" ) then
-          $saved-base-collection//atom:id[.=$charter-atomid]/parent::atom:entry
+          $saved-base-collection//atom:id[.=$entry-atomid]/parent::atom:entry
         else
           $published-base-collection//atom:id[.=$other-id]/parent::atom:entry
 
@@ -109,9 +120,16 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 
 
     (: version difference :)
-    let $xslt := i18n:translate-xml($xrx:db-base-collection/xsl:stylesheet[@id='cei2versiondiff'])
-    let $saved-as-text := transform:transform($saved-entry/atom:content/cei:text, $xslt, ())
-    let $public-as-text := transform:transform($public-entry/atom:content/cei:text, $xslt, ())
+    let $xslt :=
+      if($entry-type = 'vocab') then i18n:translate-xml($xrx:db-base-collection/xsl:stylesheet[@id='skos2versiondiff'])
+      else i18n:translate-xml($xrx:db-base-collection/xsl:stylesheet[@id='cei2versiondiff'])
+    
+    let $saved-as-text := 
+      if($entry-type = 'vocab') then transform:transform($saved-entry/atom:content/rdf:RDF, $xslt, ())
+      else transform:transform($saved-entry/atom:content/cei:text, $xslt, ())
+    let $public-as-text :=
+      if($entry-type = 'vocab') then transform:transform($public-entry/atom:content/rdf:RDF, $xslt, ())
+      else transform:transform($public-entry/atom:content/cei:text, $xslt, ())
     let $diff := textdiff:diff($public-as-text, $saved-as-text)
 
     return
