@@ -27,12 +27,12 @@
   <xrx:variables>
     <xrx:variable>
       <xrx:name>$userfolder</xrx:name>
-      <xrx:expression>concat(conf:param('xrx-user-atom-base-uri'), xmldb:encode($xrx:user-id))</xrx:expression>
+      <xrx:expression>user:home-collection-path($xrx:user-id)</xrx:expression>
     </xrx:variable>
-    <!--this evaluates to something like /xrx.user/niklas.tscherne%40gmail.com-->
+    <!--this evaluates to something like /db/mom-data/xrx.user/niklas.tscherne%40gmail.com-->
     <xrx:variable>
       <xrx:name>$skosfile</xrx:name>
-      <xrx:expression>doc(concat('/db/mom-data', $userfolder, '/glossar_privat.xml'))</xrx:expression>
+      <xrx:expression>doc(concat($userfolder, '/glossar_privat.xml'))</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$skoscontent</xrx:name>
@@ -67,12 +67,16 @@
         <div class="h2">
           <span>SKOS-Editor</span>
         </div>
-        <p>{$userfolder}</p><!--remove-->
+        {let $userfolder := collection(concat(conf:param('data-db-base-uri'), 'xrx.user/', xmldb:encode('illuminierteurkunden@gmail.com')))
+        let $atomid := 'tag:www.monasterium.net,2011:/controlledVocabulary/IllUrkGlossar'
+        let $saved-skos := $userfolder//atom:id[.=$atomid]/parent::atom:entry
+        return exists(doc(concat(metadata:base-collection-path('controlledVocabulary', 'public'), 'IllUrkGlossar.xml')))}
       </xrx:view>
     </xrx:div>
     <xrx:div>
       <xrx:key>select-concept-div</xrx:key>
       <xrx:view>
+        <script type="text/javascript">console.log("{$userfolder}")</script>
         <p>
           <xrx:i18n>
             <xrx:key>skos-select-concept</xrx:key>

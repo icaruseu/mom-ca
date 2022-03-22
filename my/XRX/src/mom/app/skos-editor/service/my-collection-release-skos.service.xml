@@ -31,11 +31,7 @@
     <xrx:variables>
         <xrx:variable>
             <xrx:name>$userfolder</xrx:name>
-            <xrx:expression>concat(conf:param('xrx-user-atom-base-uri'), xmldb:encode($xrx:user-id))</xrx:expression>
-        </xrx:variable>
-        <xrx:variable>
-            <xrx:name>$skosfile</xrx:name>
-            <xrx:expression>doc('/db/mom-data/metadata.controlledVocabulary.public/IllUrkGlossar.xml')</xrx:expression>
+            <xrx:expression>user:home-collection-path($xrx:user-id)</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$session-username</xrx:name>

@@ -31,11 +31,11 @@
     <xrx:variables>
         <xrx:variable>
             <xrx:name>$userfolder</xrx:name>
-            <xrx:expression>concat(conf:param('xrx-user-atom-base-uri'), xmldb:encode($xrx:user-id))</xrx:expression>
+            <xrx:expression>user:home-collection-path($xrx:user-id)</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$skosfile</xrx:name>
-            <xrx:expression>doc(concat('/db/mom-data', $userfolder, '/skos_privat.xml'))</xrx:expression>
+            <xrx:expression>doc(concat($userfolder, '/skos_privat.xml'))</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$skoscontent</xrx:name>

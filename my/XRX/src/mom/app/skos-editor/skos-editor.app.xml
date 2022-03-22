@@ -29,7 +29,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   </xrx:licence>
-  
+  <xrx:modules>
+    <xrx:module>
+      <xrx:resource>skos-edit.xqm</xrx:resource>
+      <xrx:prefix>skos-edit</xrx:prefix>
+      <xrx:uri>http://www.monasterium.net/NS/skos-edit</xrx:uri>
+    </xrx:module>
+  </xrx:modules>
   <xrx:resolver>   
     <!-- main widget -->
    <xrx:map>
@@ -71,6 +77,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:uripattern>/service/my-collection-release-skos$</xrx:uripattern>
       <xrx:mode>service</xrx:mode>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/my-collection-release-skos</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/service/my-collection-publish-skos$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/my-collection-publish-skos</xrx:atomid>
     </xrx:map>
   </xrx:resolver>
 </xrx:app>

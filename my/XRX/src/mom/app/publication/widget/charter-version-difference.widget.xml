@@ -77,14 +77,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 
     (: public charter :)
     let $atom-tag-name := conf:param('atom-tag-name')
-    (: let $entry-type := charter:context($entry-atomid, $atom-tag-name) :)
-    let $tokens := charter:object-uri-tokens($entry-atomid, $atom-tag-name)
-    let $entry-type := 
-      if($tokens[1] = 'IllUrkGlossar') then
-        'vocab'
-      else if(count($tokens) = 3) then 'fond'
-      else 'collection'
-      (: candidate for skos.xqm? :)
+    let $entry-type := skos-edit:context($entry-atomid, $atom-tag-name)
     let $public-base-collection :=
       if($entry-type = 'vocab') then metadata:base-collection('controlledVocabulary', 'public')
       else if($entry-type = 'fond') then

@@ -31,15 +31,15 @@
     <xrx:variables>
         <xrx:variable>
             <xrx:name>$userfolder</xrx:name>
-            <xrx:expression>concat(conf:param('xrx-user-atom-base-uri'), xmldb:encode($xrx:user-id))</xrx:expression>
+            <xrx:expression>user:home-collection-path($xrx:user-id)</xrx:expression>
         </xrx:variable>
         <xrx:variable>
-            <xrx:name>$skosfile</xrx:name>
-            <xrx:expression>doc('/db/mom-data/metadata.controlledVocabulary.public/IllUrkGlossar.xml')</xrx:expression>
+            <xrx:name>$public-skos-file</xrx:name>
+            <xrx:expression>doc(concat(metadata:base-collection-path('controlledVocabulary', 'public'), 'IllUrkGlossar.xml'))</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$atomid</xrx:name>
-            <xrx:expression>xs:string($skosfile/atom:entry/atom:id/text())</xrx:expression>
+            <xrx:expression>xs:string($public-skos-file/atom:entry/atom:id/text())</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$session-username</xrx:name>
@@ -54,7 +54,7 @@
     <xrx:body>
         {
         if ($session-username != 'guest') then (
-            let $copy := atom:POST($userfolder, 'glossar_privat.xml', $skosfile)
+            let $copy := atom:POST($userfolder, $atomid, $public-skos-file)
                 
             let $saved :=
             <xrx:saved xmlns:xrx="http://www.monasterium.net/NS/xrx">
