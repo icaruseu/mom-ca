@@ -67,16 +67,12 @@
         <div class="h2">
           <span>SKOS-Editor</span>
         </div>
-        {let $userfolder := collection(concat(conf:param('data-db-base-uri'), 'xrx.user/', xmldb:encode('illuminierteurkunden@gmail.com')))
-        let $atomid := 'tag:www.monasterium.net,2011:/controlledVocabulary/IllUrkGlossar'
-        let $saved-skos := $userfolder//atom:id[.=$atomid]/parent::atom:entry
-        return exists(doc(concat(metadata:base-collection-path('controlledVocabulary', 'public'), 'IllUrkGlossar.xml')))}
+        {concat(conf:param('xrx-user-atom-base-uri'), xmldb:encode($xrx:user-id))}
       </xrx:view>
     </xrx:div>
     <xrx:div>
       <xrx:key>select-concept-div</xrx:key>
       <xrx:view>
-        <script type="text/javascript">console.log("{$userfolder}")</script>
         <p>
           <xrx:i18n>
             <xrx:key>skos-select-concept</xrx:key>

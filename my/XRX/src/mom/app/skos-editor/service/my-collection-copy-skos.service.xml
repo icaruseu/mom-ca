@@ -31,7 +31,7 @@
     <xrx:variables>
         <xrx:variable>
             <xrx:name>$userfolder</xrx:name>
-            <xrx:expression>user:home-collection-path($xrx:user-id)</xrx:expression>
+            <xrx:expression>concat(conf:param('xrx-user-atom-base-uri'), xmldb:encode($xrx:user-id))</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$public-skos-file</xrx:name>
@@ -53,22 +53,31 @@
     </xrx:init>
     <xrx:body>
         {
+        let $site :=
         if ($session-username != 'guest') then (
-            let $copy := atom:POST($userfolder, $atomid, $public-skos-file)
-                
-            let $saved :=
-            <xrx:saved xmlns:xrx="http://www.monasterium.net/NS/xrx">
-                <xrx:id>{ $atomid }</xrx:id>
-                <xrx:start_time>{ current-dateTime() }</xrx:start_time>
-                <xrx:freigabe>no</xrx:freigabe>
-            </xrx:saved>
-                   
-            let $user-xml := user:document(xmldb:get-current-user())
-            let $tester := update insert $saved into $user-xml//xrx:saved_list
-        
-            return ()
+            (: make a copy of the charter if it isn't in use already :)
+            let $file-in-use := publication:is-saved($user:db-base-collection/xrx:user, $atomid)
+            
+            let $copy := 
+            if(not($file-in-use)) then
+            (
+            let $copy := atom:POST($userfolder, skos-edit:translate-filename($atomid), $public-skos-file)
+                    
+                let $saved :=
+                <xrx:saved xmlns:xrx="http://www.monasterium.net/NS/xrx">
+                    <xrx:id>{ $atomid }</xrx:id>
+                    <xrx:start_time>{ current-dateTime() }</xrx:start_time>
+                    <xrx:freigabe>no</xrx:freigabe>
+                </xrx:saved>
+                       
+                let $user-xml := user:document(xmldb:get-current-user())
+                return update insert $saved into $user-xml//xrx:saved_list
+             )
+            else()
+            return()
         )
         else ()
+        return ()
         }
     </xrx:body>
 </xrx:service>

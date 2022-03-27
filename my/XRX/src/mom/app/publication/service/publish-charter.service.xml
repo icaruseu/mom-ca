@@ -72,7 +72,7 @@
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$metadata-db-base-collection</xrx:name>
-      <xrx:expression>util:log('error', exists(if($charter-context = 'fond') then metadata:base-collection('charter', ($archid, $fondid), 'public') else metadata:base-collection('charter', $collectionid, 'public')))</xrx:expression>
+      <xrx:expression>if($charter-context = 'fond') then metadata:base-collection('charter', ($archid, $fondid), 'public') else metadata:base-collection('charter', $collectionid, 'public')</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$published-charter</xrx:name>
@@ -127,26 +127,25 @@
   </xrx:emails>
   <xrx:body>
     {
-    let $log := util:log('error', 'test123')
-    
     let $published-skos := doc(concat(metadata:base-collection-path('controlledVocabulary', 'public'), 'IllUrkGlossar.xml'))
-    let $userfolder := collection(concat(conf:param('data-db-base-uri'), 'xrx.user/', xmldb:encode('illuminierteurkunden@gmail.com')))
-    let $saved-skos := $userfolder//atom:id[.=$atomid]/parent::atom:entry
+    let $userfolder := concat('/xrx.user/', xmldb:encode('illuminierteurkunden@gmail.com'))
+    let $saved-skos := collection(concat('/db/mom-data', $userfolder))//atom:id[.=$atomid]/parent::atom:entry
     (: let $saved-skos := metadata:base-collection('charter', 'saved')//atom:id[.=$atomid]/parent::atom:entry :)
-        
+     
     (: move saved charter to public area :)
     let $store-charter :=
       if($charter-context = 'vocab') then
         system:as-user('admin', conf:param('dba-password'), atom:PUTSILENT($feed, util:document-name($published-skos), $saved-skos))
       else
         system:as-user('admin', conf:param('dba-password'), atom:PUTSILENT($feed, util:document-name($published-charter), $saved-charter))
+        
     (: remove saved charter :)
     let $remove-saved-charter :=
       if($charter-context = 'vocab') then
         atom:DELETE($userfolder, util:document-name($saved-skos))
       else  
         atom:DELETE(metadata:feed('charter', (), 'saved'), util:document-name($saved-charter))
-    
+            
     (: save user xml :)
     let $store-user-xml :=
       atom:PUT(conf:param('xrx-user-atom-base-uri'), util:document-name($user-xml), $update-user-xml)
