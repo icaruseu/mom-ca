@@ -1,0 +1,156 @@
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx">
+    <xrx:id>tag:www.monasterium.net,2011:/mom/service/my-collection-publish-skos</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key></xrx:key>
+            <xrx:default></xrx:default>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:subtitle></xrx:subtitle>
+    <xrx:description></xrx:description>
+    <xrx:author>niklas.tscherne@uni-graz.at</xrx:author>
+    <xrx:licence>
+        This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+        
+        As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+        
+        This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+        
+        The VdU/VRET is free software: you can redistribute it and/or modify
+        it under the terms of the GNU General Public License as published by
+        the Free Software Foundation, either version 3 of the License, or
+        (at your option) any later version.
+        
+        VdU/VRET is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        GNU General Public License for more details.
+        
+        You should have received a copy of the GNU General Public License
+        along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+    </xrx:licence>
+    <xrx:variables>
+        <xrx:variable>
+            <xrx:name>$atomid</xrx:name>
+            <xrx:expression>'tag:www.monasterium.net,2011:/controlledVocabulary/IllUrkGlossar'</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$atom-tag-name</xrx:name>
+            <xrx:expression>conf:param('atom-tag-name')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$charter-context</xrx:name>
+            <xrx:expression>charter:context($atomid, $atom-tag-name)</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$archid</xrx:name>
+            <xrx:expression>if($charter-context = 'fond') then charter:archid($atomid, $atom-tag-name) else ''</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$fondid</xrx:name>
+            <xrx:expression>if($charter-context = 'fond') then charter:fondid($atomid, $atom-tag-name) else ''</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$collectionid</xrx:name>
+            <xrx:expression>if($charter-context = 'collection') then charter:collectionid($atomid, $atom-tag-name) else ''</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$charterid</xrx:name>
+            <xrx:expression>charter:charterid($atomid, conf:param('atom-tag-name'))</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$userfolder</xrx:name>
+            <xrx:expression>user:home-collection-path($xrx:user-id)</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$saved-skos</xrx:name>
+            <!--<xrx:expression>metadata:base-collection('controlledVocabulary', 'private')//atom:id[.=$atomid]/parent::atom:entry</xrx:expression>-->
+            <xrx:expression>$userfolder//atom:id[.=$atomid]/parent::atom:entry</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$user-xml</xrx:name>
+            <xrx:expression>$user:db-base-collection/xrx:user[.//xrx:saved/xrx:id=$atomid]</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$update-user-xml</xrx:name>
+            <xrx:expression>upd:delete($user-xml//xrx:saved[xrx:id=$atomid])</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$metadata-db-base-collection</xrx:name>
+            <xrx:expression>metadata:base-collection('controlledVocabulary','public')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$published-skos</xrx:name>
+            <xrx:expression>doc(concat(metadata:base-collection-path('controlledVocabulary', 'public'), 'IllUrkGlossar.xml'))</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$object-uri-tokens</xrx:name>
+            <xrx:expression>charter:object-uri-tokens($atomid, conf:param('atom-tag-name'))</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$feed</xrx:name>
+            <xrx:expression>metadata:feed('controlledVocabulary', 'public')</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$author</xrx:name>
+            <xrx:expression>$saved-skos//atom:email/text()</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$charter-link</xrx:name>
+            <xrx:expression>if($charter-context = 'fond') then concat($xrx:http-request-root, $archid, '/', $fondid, '/', $charterid, '/charter') else concat($xrx:http-request-root, $collectionid, '/', $charterid, '/charter')</xrx:expression>
+        </xrx:variable> 
+    </xrx:variables>
+    <xrx:init>
+        <xrx:processor>
+            <xrx:translateflag>false</xrx:translateflag>
+        </xrx:processor>
+    </xrx:init>
+    <xrx:emails>
+        <xrx:email>
+            <xrx:key>publish-glossary-email</xrx:key>
+            <mail xmlns="">
+                <from>{ xs:string(conf:param('platform-browser-title')) }</from>
+                <to>{ xs:string($author) }</to>
+                <cc>{ xs:string($xrx:user-id) }</cc>
+                <bcc></bcc>
+                <subject>MOM-CA - Editorial Service</subject>
+                <message>
+                    <text>
+                        
+                        MOM-CA - Editorial Service. Your glossary was published.
+                        
+                        Link: { $charter-link }
+                        Moderator: { user:firstname-name($xrx:user-id) } ({ $xrx:user-id })
+                        
+                        You are receiving this email because you are a user of 
+                        MOM-CA with the following role: user
+                        
+                    </text>
+                </message>
+            </mail>
+        </xrx:email>
+    </xrx:emails>
+    <xrx:body>
+        {
+        (: move saved charter to public area :)
+        let $store-charter := 
+        system:as-user('admin', conf:param('dba-password'), atom:PUTSILENT($feed, util:document-name($published-skos), $saved-skos))
+        
+        (: remove saved charter :)
+        let $remove-saved-charter :=
+        atom:DELETE($userfolder, util:document-name($saved-skos))
+        
+        (: save user xml :)
+        let $store-user-xml :=
+        atom:PUT(conf:param('xrx-user-atom-base-uri'), util:document-name($user-xml), $update-user-xml)
+        
+        let $sendmail :=
+        <xrx:sendmail>
+            <xrx:key>publish-glossary-email</xrx:key>
+        </xrx:sendmail>
+        
+        return
+        $update-user-xml
+        }
+    </xrx:body>
+</xrx:service>
