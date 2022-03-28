@@ -94,9 +94,7 @@
         if ($session-username != 'guest') then (
             let $updated := update replace $glossary-to-release with <xrx:freigabe>yes</xrx:freigabe>
             let $updated-released := update insert <xrx:released>{current-dateTime()}</xrx:released> following $glossary-to-release
-            (: let $store := if($glossary-to-release) then atom:PUT(conf:param('xrx-user-atom-base-uri'), concat(xmldb:encode($xrx:user-id), '.xml'), $updated-released)
-                          else () :)
-            
+        
             (: send email if document was stored :)
             let $sendmail :=
             <xrx:sendmail>
