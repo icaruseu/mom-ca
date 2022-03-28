@@ -57,6 +57,7 @@
         if ($session-username != 'guest') then (
             (: make a copy of the charter if it isn't in use already :)
             let $file-in-use := publication:is-saved($user:db-base-collection/xrx:user, $atomid)
+            let $log := util:log('error', $file-in-use)
             
             let $copy := 
             if(not($file-in-use)) then

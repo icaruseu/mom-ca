@@ -9,7 +9,7 @@
     </xrx:i18n>
   </xrx:title>
   <xrx:subtitle/>
-  <xrx:description>This application provides an interface for editing the Monasterium glossary SKOS-file.</xrx:description>
+  <xrx:description>This widget provides an interface for editing the Monasterium glossary SKOS-files.</xrx:description>
   <xrx:author>niklas.tscherne@uni-graz.at</xrx:author>
   <xrx:licence> This is a component file of the VdU Software for a Virtual Research Environment for
     the handling of Medieval charters. As the source code is available here, it is somewhere between
@@ -26,13 +26,8 @@
     components into other systems, once it leaves the active development stage. </xrx:licence>
   <xrx:variables>
     <xrx:variable>
-      <xrx:name>$userfolder</xrx:name>
-      <xrx:expression>user:home-collection-path($xrx:user-id)</xrx:expression>
-    </xrx:variable>
-    <!--this evaluates to something like /db/mom-data/xrx.user/niklas.tscherne%40gmail.com-->
-    <xrx:variable>
       <xrx:name>$skosfile</xrx:name>
-      <xrx:expression>doc(concat($userfolder, '/glossar_privat.xml'))</xrx:expression>
+      <xrx:expression>doc(concat(user:home-collection-path($xrx:user-id), '/IllUrkGlossar.xml'))</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$skoscontent</xrx:name>
@@ -67,7 +62,6 @@
         <div class="h2">
           <span>SKOS-Editor</span>
         </div>
-        {concat(conf:param('xrx-user-atom-base-uri'), xmldb:encode($xrx:user-id))}
       </xrx:view>
     </xrx:div>
     <xrx:div>

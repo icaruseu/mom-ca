@@ -128,8 +128,8 @@
   <xrx:body>
     {
     let $published-skos := doc(concat(metadata:base-collection-path('controlledVocabulary', 'public'), 'IllUrkGlossar.xml'))
-    let $userfolder := concat('/xrx.user/', xmldb:encode('illuminierteurkunden@gmail.com'))
-    let $saved-skos := collection(concat('/db/mom-data', $userfolder))//atom:id[.=$atomid]/parent::atom:entry
+    let $saved-skos := collection('/db/mom-data/xrx.user/')//atom:id[.=$atomid]/parent::atom:entry
+    let $userfolder := concat(conf:param('xrx-user-atom-base-uri'), xmldb:encode($saved-skos/atom:author/atom:email/text()))
     (: let $saved-skos := metadata:base-collection('charter', 'saved')//atom:id[.=$atomid]/parent::atom:entry :)
      
     (: move saved charter to public area :)
