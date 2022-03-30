@@ -6,7 +6,7 @@
             <xrx:default>my-collection-release-skos</xrx:default>
         </xrx:i18n>
     </xrx:title>
-    <xrx:description>This service creates a release request for the user's private glossary file to the moderator.</xrx:description>
+    <xrx:description>This service creates a release request for the user's private skos file to the moderator.</xrx:description>
     <xrx:author>niklas.tscherne@uni-graz.at</xrx:author>
     <xrx:licence>
         This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
@@ -50,12 +50,12 @@
             <xrx:expression>$user-xml/xrx:moderator/text()</xrx:expression>
         </xrx:variable>
         <xrx:variable>
-            <xrx:name>$glossary-to-release</xrx:name>
+            <xrx:name>$skos-to-release</xrx:name>
             <xrx:expression>$xrx:user-xml//xrx:saved[xrx:id=$atomid]/xrx:freigabe</xrx:expression>
         </xrx:variable>
 <!--        <xrx:variable>
             <xrx:name>$updated</xrx:name>
-            <xrx:expression>upd:replace-element-content($glossary-to-release, text { 'yes' })</xrx:expression>
+            <xrx:expression>upd:replace-element-content($skos-to-release, text { 'yes' })</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$updated-released</xrx:name>
@@ -64,7 +64,7 @@
     </xrx:variables>
     <xrx:emails>
         <xrx:email>
-            <xrx:key>release-glossary-email</xrx:key>
+            <xrx:key>release-skos-email</xrx:key>
             <mail xmlns="">
                 <from>{ xs:string(conf:param('platform-browser-title')) }</from>
                 <to>{ xs:string($moderator) }</to>
@@ -74,7 +74,7 @@
                 <message>
                     <text>
                         
-                        MOM-CA - Editorial Service. A modification to the glossary has been suggested for publication.
+                        MOM-CA - Editorial Service. A modification to the SKOS file has been suggested for publication.
                         
                         To moderate the change please login here: { concat($xrx:http-request-root, 'charters-to-publish') }
                         
@@ -92,13 +92,13 @@
     <xrx:body>
         {
         if ($session-username != 'guest') then (
-            let $updated := update replace $glossary-to-release with <xrx:freigabe>yes</xrx:freigabe>
-            let $updated-released := update insert <xrx:released>{current-dateTime()}</xrx:released> following $glossary-to-release
+            let $updated := update replace $skos-to-release with <xrx:freigabe>yes</xrx:freigabe>
+            let $updated-released := update insert <xrx:released>{current-dateTime()}</xrx:released> following $skos-to-release
         
             (: send email if document was stored :)
             let $sendmail :=
             <xrx:sendmail>
-                <xrx:key>release-glossary-email</xrx:key>
+                <xrx:key>release-skos-email</xrx:key>
             </xrx:sendmail>
             
             return ()

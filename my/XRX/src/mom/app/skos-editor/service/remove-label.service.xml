@@ -35,7 +35,7 @@
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$skosfile</xrx:name>
-            <xrx:expression>doc(concat($userfolder, '/skos_privat.xml'))</xrx:expression>
+            <xrx:expression>doc(concat($userfolder, '/IllUrkGlossar.xml'))</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$skoscontent</xrx:name>

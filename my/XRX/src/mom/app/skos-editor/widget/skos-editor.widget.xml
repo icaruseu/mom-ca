@@ -97,10 +97,11 @@
         </select>
         <br/>
         <br/>
+        <b>Create concept:</b>
         <p>
           <xrx:i18n>
             <xrx:key>skos-name-concept</xrx:key>
-            <xrx:default>In naming the concept, avoid spaces and special characters:</xrx:default>
+            <xrx:default>When naming the concept, avoid spaces and special characters.</xrx:default>
           </xrx:i18n>
         </p>
         <input type="text" id="concept-input" placeholder="FranzoesischeKoenigsurkunden" style="width: 350px;"/>
@@ -396,17 +397,19 @@
           return $concept
           }
         </textarea>
-        <button id="submit-content" type="submit">
+        <button style="margin:5px;" id="submit-content" type="submit">
           <xrx:i18n>
             <xrx:key>save</xrx:key>
-            <xrx:default>Save</xrx:default>
+            <xrx:default>Save definition</xrx:default>
           </xrx:i18n>
         </button>
-        <button id="release-skos" type="submit">
-          <xrx:i18n>
-            <xrx:key>release-skos</xrx:key><!--add to i18n-->
-            <xrx:default>Publish Glossary</xrx:default>
-          </xrx:i18n>
+        <button style="margin:5px;float:right" id="release-skos" type="submit">
+          <b>
+            <xrx:i18n>
+              <xrx:key>release-skos</xrx:key><!--add to i18n-->
+              <xrx:default>Publish file</xrx:default>
+            </xrx:i18n>
+          </b>
         </button>
         <script type="text/javascript">
           $(document).ready(function(){{
@@ -425,7 +428,7 @@
             htmlMode: true,
             lineNumbers: true
           }});
-          editor.setSize("750", "250");
+          editor.setSize("850", "250");
           
           // submits contents of the textarea to the edit-definition service, reload
           $('button#submit-content').click(function() {{
