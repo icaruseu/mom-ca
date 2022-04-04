@@ -84,6 +84,7 @@
         <select id="concept-select">
           {
           for $subject in $skoscontent//skos:Concept/@rdf:about/data()
+          order by $subject
           let $concept := substring($subject, 2)
           return
           <option value="{$concept}">{$concept}</option>

@@ -197,6 +197,20 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             </div>
             <h3>
               <xrx:i18n>
+                <xrx:key>indices</xrx:key>
+                <xrx:default>Indices</xrx:default>
+              </xrx:i18n>
+            </h3>
+            <div class="sub-menu-item">
+              <a href="{ conf:param('request-root') }skos-editor">
+                <xrx:i18n>
+                  <xrx:key>skos-editor</xrx:key>
+                  <xrx:default>SKOS-Editor</xrx:default>
+                </xrx:i18n>
+              </a>
+            </div>
+            <h3>
+              <xrx:i18n>
                 <xrx:key>image</xrx:key>
                 <xrx:default>Image</xrx:default>
               </xrx:i18n>
