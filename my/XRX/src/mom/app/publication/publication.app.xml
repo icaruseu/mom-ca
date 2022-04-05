@@ -65,6 +65,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/saved-charters</xrx:atomid>
     </xrx:map>
     <xrx:map>
+      <xrx:uripattern>/saved-vocabularies$</xrx:uripattern>
+      <xrx:mode>mainwidget</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/saved-vocabularies</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
     	<xrx:uripattern>/charter-version-difference$</xrx:uripattern>
     	<xrx:mode>mainwidget</xrx:mode>
     	<xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/charter-version-difference</xrx:atomid>
