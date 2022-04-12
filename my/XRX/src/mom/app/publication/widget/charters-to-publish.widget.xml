@@ -309,6 +309,7 @@ right:220px;
 	          		<xrx:default>Released</xrx:default>
 	          	</xrx:i18n>
 	          	<span>: {$releaseddate}</span>
+	            {matches($xrx:tokenized-uri[last()], '^(fond|collection|search|saved-charters|charter|bookmarks|mom-ca)$')}
 	          </div>
 	          <br/>
 		      </div>

@@ -40,7 +40,7 @@
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$charter-context</xrx:name>
-      <xrx:expression>skos-edit:context($atomid, $atom-tag-name)</xrx:expression>
+      <xrx:expression>charter:context($atomid, $atom-tag-name)</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$archid</xrx:name>
@@ -84,7 +84,7 @@
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$feed</xrx:name>
-      <xrx:expression>if($charter-context != 'vocab') then metadata:feed('charter', subsequence($object-uri-tokens, 1, count($object-uri-tokens) - 1), 'public') else metadata:feed('controlledVocabulary', 'public')</xrx:expression>
+      <xrx:expression>metadata:feed('charter', subsequence($object-uri-tokens, 1, count($object-uri-tokens) - 1), 'public')</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$author</xrx:name>
@@ -127,28 +127,19 @@
   </xrx:emails>
   <xrx:body>
     {
-    let $published-skos := doc(concat(metadata:base-collection-path('controlledVocabulary', 'public'), 'IllUrkGlossar.xml'))
-    let $saved-skos := collection('/db/mom-data/xrx.user/')//atom:id[.=$atomid]/parent::atom:entry
-    let $userfolder := concat(conf:param('xrx-user-atom-base-uri'), xmldb:encode($saved-skos/atom:author/atom:email/text()))
-    (: let $saved-skos := metadata:base-collection('charter', 'saved')//atom:id[.=$atomid]/parent::atom:entry :)
-     
+    let $x := ''
+    
     (: move saved charter to public area :)
-    let $store-charter :=
-      if($charter-context = 'vocab') then
-        system:as-user('admin', conf:param('dba-password'), atom:PUTSILENT($feed, util:document-name($published-skos), $saved-skos))
-      else
-        system:as-user('admin', conf:param('dba-password'), atom:PUTSILENT($feed, util:document-name($published-charter), $saved-charter))
-        
+    let $store-charter := 
+    system:as-user('admin', conf:param('dba-password'), atom:PUTSILENT($feed, util:document-name($published-charter), $saved-charter))
+    
     (: remove saved charter :)
     let $remove-saved-charter :=
-      if($charter-context = 'vocab') then
-        atom:DELETE($userfolder, util:document-name($saved-skos))
-      else  
-        atom:DELETE(metadata:feed('charter', (), 'saved'), util:document-name($saved-charter))
-            
+    atom:DELETE(metadata:feed('charter', (), 'saved'), util:document-name($saved-charter))
+    
     (: save user xml :)
     let $store-user-xml :=
-      atom:PUT(conf:param('xrx-user-atom-base-uri'), util:document-name($user-xml), $update-user-xml)
+    atom:PUT(conf:param('xrx-user-atom-base-uri'), util:document-name($user-xml), $update-user-xml)
     
     let $sendmail :=
     <xrx:sendmail>

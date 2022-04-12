@@ -177,6 +177,17 @@ declare function publication:model($request-root as xs:string) as element() {
               <xf:value>{ xmldb:get-current-user() }</xf:value>
             </xf:header>
         </xf:submission>
+        
+        <xf:submission id="spublish-vocabulary" 
+            action="{ $request-root }service/publish-vocabulary" 
+            method="post" 
+            replace="instance"
+            instance="itest">
+            <xf:header>
+              <xf:name>userid</xf:name>
+              <xf:value>{ xmldb:get-current-user() }</xf:value>
+            </xf:header>
+        </xf:submission>
                            
     </xf:model>
 
@@ -265,7 +276,7 @@ declare function publication:edit-trigger(
     ) {
     let $editmom3msg := <span>{i18n:value("editmom3", $xrx:lang, "Edit with EditMOM 3 beta")}</span>
     return
-if(matches($widget-key, '^(fond|collection|search|saved-charters|charter|charters-to-publish|bookmarks|mom-ca)$')) then
+if(matches($widget-key, '^(fond|collection|search|saved-charters|charter|charters-to-publish|vocabularies-to-publish|bookmarks|mom-ca)$')) then
     <div>  <!--
        <div>
        <img src="{ $request-root }resource/?atomid=tag:www.monasterium.net,2011:/mom/resource/image/button_edit"/>
@@ -313,7 +324,7 @@ declare function publication:publish-trigger(
     $widget-key as xs:string,
     $publish-charter-message as element(xhtml:span)) {
 
-    if(matches($widget-key, '(saved-charters|charters-to-publish)')) then
+    if(matches($widget-key, '(saved-charters|charters-to-publish|vocabularies-to-publish)')) then
     <div>
         <img src="{ $request-root }resource/?atomid=tag:www.monasterium.net,2011:/mom/resource/image/export"/>
         <xf:trigger appearance="minimal">
@@ -337,7 +348,12 @@ declare function publication:publish-trigger(
                                 <xf:action ev:event="DOMActivate">
                                     <xf:setvalue ref="//atomid" value="'{ $atomid }'"/>
                                     <xf:recalculate/>
+                                    {
+                                    if(matches($widget-key, 'vocabularies-to-publish')) then
+                                    <xf:send submission="spublish-vocabulary"/>
+                                    else
                                     <xf:send submission="spublish-charter"/>
+                                    }
                                     <script type="text/javascript">dojo.style('ch{ $num }', 'display', 'none')</script>
                                     <xf:message level="ephemeral">OK</xf:message>
                                 </xf:action>
@@ -407,7 +423,7 @@ declare function publication:remove-trigger(
     $widget-key as xs:string,
     $remove-charter-message as element(xhtml:span)) {
 
-    if($widget-key = 'saved-charters' or $widget-key = 'charters-to-publish') then    
+    if($widget-key = 'saved-charters' or $widget-key = 'charters-to-publish' or $widget-key = 'vocabularies-to-publish') then    
     <div>
         <img src="{ $request-root }resource/?atomid=tag:www.monasterium.net,2011:/mom/resource/image/remove"/>
         <xf:trigger appearance="minimal">
@@ -573,7 +589,7 @@ declare function publication:user-actions(
     <xf:group model="msaved">
         <xf:switch>
             {
-            if($widget-key = 'charters-to-publish') then ($case-edit-charter)
+            if($widget-key = 'charters-to-publish' or $widget-key = 'vocabularies-to-publish') then ($case-edit-charter)
             else if($saved-by-current-user) then ($case-edit-charter, $case-save-charter)
             else if($saved-by-any-user) then $case-charter-in-use
             else if($widget-key = "mom-ca") then ($case-momathon-charter) 

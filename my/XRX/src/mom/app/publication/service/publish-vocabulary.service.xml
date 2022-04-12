@@ -1,5 +1,5 @@
 <xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx">
-    <xrx:id>tag:www.monasterium.net,2011:/mom/service/my-collection-publish-skos</xrx:id>
+    <xrx:id>tag:www.monasterium.net,2011:/mom/service/publish-vocabulary</xrx:id>
     <xrx:title>
         <xrx:i18n>
             <xrx:key></xrx:key>
@@ -35,37 +35,12 @@
             <xrx:expression>'tag:www.monasterium.net,2011:/controlledVocabulary/IllUrkGlossar'</xrx:expression>
         </xrx:variable>
         <xrx:variable>
-            <xrx:name>$atom-tag-name</xrx:name>
-            <xrx:expression>conf:param('atom-tag-name')</xrx:expression>
-        </xrx:variable>
-        <xrx:variable>
-            <xrx:name>$charter-context</xrx:name>
-            <xrx:expression>charter:context($atomid, $atom-tag-name)</xrx:expression>
-        </xrx:variable>
-        <xrx:variable>
-            <xrx:name>$archid</xrx:name>
-            <xrx:expression>if($charter-context = 'fond') then charter:archid($atomid, $atom-tag-name) else ''</xrx:expression>
-        </xrx:variable>
-        <xrx:variable>
-            <xrx:name>$fondid</xrx:name>
-            <xrx:expression>if($charter-context = 'fond') then charter:fondid($atomid, $atom-tag-name) else ''</xrx:expression>
-        </xrx:variable>
-        <xrx:variable>
-            <xrx:name>$collectionid</xrx:name>
-            <xrx:expression>if($charter-context = 'collection') then charter:collectionid($atomid, $atom-tag-name) else ''</xrx:expression>
-        </xrx:variable>
-        <xrx:variable>
-            <xrx:name>$charterid</xrx:name>
-            <xrx:expression>charter:charterid($atomid, conf:param('atom-tag-name'))</xrx:expression>
-        </xrx:variable>
-        <xrx:variable>
             <xrx:name>$userfolder</xrx:name>
-            <xrx:expression>user:home-collection-path($xrx:user-id)</xrx:expression>
+            <xrx:expression>concat(conf:param('xrx-user-atom-base-uri'), xmldb:encode($saved-skos/atom:author/atom:email/text()))</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$saved-skos</xrx:name>
-            <!--<xrx:expression>metadata:base-collection('controlledVocabulary', 'private')//atom:id[.=$atomid]/parent::atom:entry</xrx:expression>-->
-            <xrx:expression>$userfolder//atom:id[.=$atomid]/parent::atom:entry</xrx:expression>
+            <xrx:expression>collection('/db/mom-data/xrx.user/')//atom:id[.=$atomid]/parent::atom:entry</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$user-xml</xrx:name>
@@ -76,16 +51,8 @@
             <xrx:expression>upd:delete($user-xml//xrx:saved[xrx:id=$atomid])</xrx:expression>
         </xrx:variable>
         <xrx:variable>
-            <xrx:name>$metadata-db-base-collection</xrx:name>
-            <xrx:expression>metadata:base-collection('controlledVocabulary','public')</xrx:expression>
-        </xrx:variable>
-        <xrx:variable>
             <xrx:name>$published-skos</xrx:name>
             <xrx:expression>doc(concat(metadata:base-collection-path('controlledVocabulary', 'public'), 'IllUrkGlossar.xml'))</xrx:expression>
-        </xrx:variable>
-        <xrx:variable>
-            <xrx:name>$object-uri-tokens</xrx:name>
-            <xrx:expression>charter:object-uri-tokens($atomid, conf:param('atom-tag-name'))</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$feed</xrx:name>
@@ -96,8 +63,12 @@
             <xrx:expression>$saved-skos//atom:email/text()</xrx:expression>
         </xrx:variable>
         <xrx:variable>
-            <xrx:name>$charter-link</xrx:name>
-            <xrx:expression>if($charter-context = 'fond') then concat($xrx:http-request-root, $archid, '/', $fondid, '/', $charterid, '/charter') else concat($xrx:http-request-root, $collectionid, '/', $charterid, '/charter')</xrx:expression>
+            <xrx:name>$vocab-id</xrx:name>
+            <xrx:expression>'IllUrkGlossar'</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$vocab-link</xrx:name>
+            <xrx:expression>concat($xrx:http-request-root, 'index/', $vocab-id)</xrx:expression>
         </xrx:variable> 
     </xrx:variables>
     <xrx:init>
@@ -107,7 +78,7 @@
     </xrx:init>
     <xrx:emails>
         <xrx:email>
-            <xrx:key>publish-glossary-email</xrx:key>
+            <xrx:key>publish-charter-email</xrx:key>
             <mail xmlns="">
                 <from>{ xs:string(conf:param('platform-browser-title')) }</from>
                 <to>{ xs:string($author) }</to>
@@ -119,7 +90,7 @@
                         
                         MOM-CA - Editorial Service. Your glossary was published.
                         
-                        Link: { $charter-link }
+                        Link: { $vocab-link }
                         Moderator: { user:firstname-name($xrx:user-id) } ({ $xrx:user-id })
                         
                         You are receiving this email because you are a user of 
@@ -133,20 +104,21 @@
     <xrx:body>
         {
         (: move saved charter to public area :)
-        let $store-charter := 
-        system:as-user('admin', conf:param('dba-password'), atom:PUTSILENT($feed, util:document-name($published-skos), $saved-skos))
+        let $store-charter :=
+            system:as-user('admin', conf:param('dba-password'), atom:PUTSILENT($feed, util:document-name($published-skos), $saved-skos))
         
         (: remove saved charter :)
         let $remove-saved-charter :=
-        atom:DELETE($userfolder, util:document-name($saved-skos))
+            system:as-user('admin', conf:param('dba-password'), atom:DELETE(concat($userfolder, '/metadata.controlledVocabulary'), util:document-name($saved-skos)))
         
         (: save user xml :)
         let $store-user-xml :=
-        atom:PUT(conf:param('xrx-user-atom-base-uri'), util:document-name($user-xml), $update-user-xml)
+            atom:PUT(conf:param('xrx-user-atom-base-uri'), util:document-name($user-xml), $update-user-xml)
+        
         
         let $sendmail :=
         <xrx:sendmail>
-            <xrx:key>publish-glossary-email</xrx:key>
+            <xrx:key>publish-charter-email</xrx:key>
         </xrx:sendmail>
         
         return

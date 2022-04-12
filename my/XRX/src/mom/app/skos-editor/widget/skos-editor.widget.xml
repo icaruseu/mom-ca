@@ -27,7 +27,7 @@
   <xrx:variables>
     <xrx:variable>
       <xrx:name>$skosfile</xrx:name>
-      <xrx:expression>doc(concat(user:home-collection-path($xrx:user-id), '/IllUrkGlossar.xml'))</xrx:expression>
+      <xrx:expression>doc(concat(metadata:base-collection-path('controlledVocabulary', 'private'), '/IllUrkGlossar.xml'))</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$skoscontent</xrx:name>
@@ -62,6 +62,7 @@
         <div class="h2">
           <span>SKOS-Editor</span>
         </div>
+        {$xrx:tokenized-uri[last()]}
       </xrx:view>
     </xrx:div>
     <xrx:div>
