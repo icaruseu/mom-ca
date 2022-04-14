@@ -45,7 +45,7 @@
   <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
   <xrx:init>
     <xrx:processor>
-      <xrx:xformsflag>true</xrx:xformsflag>
+      <xrx:xformsflag>false</xrx:xformsflag>
     </xrx:processor>
   </xrx:init>
   <xrx:csss>
@@ -62,7 +62,6 @@
         <div class="h2">
           <span>SKOS-Editor</span>
         </div>
-        {$xrx:tokenized-uri[last()]}
       </xrx:view>
     </xrx:div>
     <xrx:div>
