@@ -7,7 +7,7 @@
         </xrx:i18n>
     </xrx:title>
     <xrx:subtitle></xrx:subtitle>
-    <xrx:description></xrx:description>
+    <xrx:description>Publishes vocabulary files by moving the document to public space, deleting the private copy, removing the corresponding entry in the User-XML, and notifying the user.</xrx:description>
     <xrx:author>niklas.tscherne@uni-graz.at</xrx:author>
     <xrx:licence>
         This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
