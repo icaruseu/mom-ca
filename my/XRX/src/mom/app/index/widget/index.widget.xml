@@ -701,8 +701,8 @@ ul.namelist {{
            <li>
              <button id="copy-to-user" type="submit">
               <xrx:i18n>
-                <xrx:key>copy-to-user</xrx:key><!--add to i18n-->
-                <xrx:default>Copy to Userspace</xrx:default>
+                <xrx:key>copy-to-user</xrx:key>
+                <xrx:default>Create personal copy</xrx:default>
               </xrx:i18n>
             </button>
            </li>

@@ -99,7 +99,12 @@
           </div>
         </p>
         <br/>
-        <b>Delete concept:</b>
+        <b>
+          <xrx:i18n>
+            <xrx:key>delete-concept</xrx:key>
+            <xrx:default>Delete concept:</xrx:default>
+          </xrx:i18n>
+        </b>
         <p>
           <xrx:i18n>
             <xrx:key>skos-delete-concept</xrx:key>
@@ -108,8 +113,8 @@
         </p>
         <button id="delete-concept" type="submit">
           <xrx:i18n>
-            <xrx:key>delete-concept</xrx:key>
-            <xrx:default>Delete concept</xrx:default>
+            <xrx:key>delete</xrx:key>
+            <xrx:default>Delete</xrx:default>
           </xrx:i18n>
         </button>
         <script type="text/javascript">
@@ -130,7 +135,12 @@
         </script>
         <br/>
         <br/>
-        <b>Create concept:</b>
+        <b>
+          <xrx:i18n>
+            <xrx:key>create-concept</xrx:key>
+            <xrx:default>Create concept:</xrx:default>
+          </xrx:i18n>
+        </b>
         <p>
           <xrx:i18n>
             <xrx:key>skos-name-concept</xrx:key>
