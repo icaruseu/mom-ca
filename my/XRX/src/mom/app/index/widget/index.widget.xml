@@ -694,25 +694,53 @@ ul.namelist {{
       <div id="leftframe">
         <div id="links">
          <ul class="zur">         
-            <li><a href="{concat(conf:param('request-root'),'index')}"><xrx:i18n>
-              <xrx:key>back-to-index-overview</xrx:key>
-              <xrx:default>Back to index overview</xrx:default>
-            </xrx:i18n></a></li>
+           <li>
+             <a href="{concat(conf:param('request-root'),'index')}">
+               <xrx:i18n>
+                 <xrx:key>back-to-index-overview</xrx:key>
+                 <xrx:default>Back to index overview</xrx:default>
+               </xrx:i18n>
+             </a>
+           </li>
            <li>
              <button id="copy-to-user" type="submit">
-              <xrx:i18n>
-                <xrx:key>copy-to-user</xrx:key>
-                <xrx:default>Create personal copy</xrx:default>
-              </xrx:i18n>
-            </button>
+               <xrx:i18n>
+                 <xrx:key>copy-to-user</xrx:key>
+                 <xrx:default>Create personal copy</xrx:default>
+               </xrx:i18n>
+             </button>
            </li>
-       </ul>  
+        </ul>
+      <div id="msg-suc" style="color:green;display:none">
+        <b>
+          <xrx:i18n>
+            <xrx:key>success</xrx:key>
+            <xrx:default>Success</xrx:default>
+          </xrx:i18n>
+        </b>
+      </div>
+      <div id="msg-err" style="color:red;display:none">
+        <b>
+          <xrx:i18n>
+            <xrx:key>error</xrx:key>
+            <xrx:default>Error</xrx:default>
+          </xrx:i18n>
+        </b>
+      </div>
        </div>
         <script type="text/javascript">
           $(document).ready(function(){{
             $("#copy-to-user").click(function(){{
               $.ajax({{
-              url: "/mom/service/my-collection-copy-skos",
+                url: "/mom/service/my-collection-copy-skos",
+                success: function(data) {{
+                  $('#msg-suc').css({{opacity: 0, display: "block"}}).animate({{opacity: 1}}, 'slow');
+                  $('#msg-suc').delay(5000).fadeOut('slow');
+                }},
+                error: function(data) {{
+                  $('#msg-err').css({{opacity: 0, display: "block"}}).animate({{opacity: 1}}, 'slow');
+                  $('#msg-err').delay(5000).fadeOut('slow');
+                }}
               }})
             }});
           }});

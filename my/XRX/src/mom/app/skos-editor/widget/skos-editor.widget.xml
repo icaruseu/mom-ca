@@ -440,25 +440,33 @@
           return $concept
           }
         </textarea>
-        <button style="margin:5px;" id="submit-content" type="submit">
-          <xrx:i18n>
-            <xrx:key>save</xrx:key>
-            <xrx:default>Save definition</xrx:default>
-          </xrx:i18n>
-        </button>
-        <button style="margin:5px;float:right" id="release-skos" type="submit">
-          <b>
+          <button style="margin:10px;" id="submit-content" type="submit">
             <xrx:i18n>
-              <xrx:key>release-skos</xrx:key><!--add to i18n-->
-              <xrx:default>Publish file</xrx:default>
+              <xrx:key>save</xrx:key>
+              <xrx:default>Save definition</xrx:default>
             </xrx:i18n>
-          </b>
-        </button>
+          </button>
+          <button style="margin:10px;float:right" id="release-skos" type="submit">
+            <b>
+              <xrx:i18n>
+                <xrx:key>release-skos</xrx:key>
+                <xrx:default>Publish file</xrx:default>
+              </xrx:i18n>
+            </b>
+          </button>
         <script type="text/javascript">
           $(document).ready(function(){{
             $("#release-skos").click(function(){{
               $.ajax({{
-              url: "/mom/service/my-collection-release-skos",
+                url: "/mom/service/my-collection-release-skos",
+                success: function(data) {{
+                  $('#release-msg-suc').css({{opacity: 0, display: "block"}}).animate({{opacity: 1}}, 'slow');
+                  $('#release-msg-suc').delay(5000).fadeOut('slow');
+                }},
+                error: function(data) {{
+                  $('#release-msg-err').css({{opacity: 0, display: "block"}}).animate({{opacity: 1}}, 'slow');
+                  $('#release-msg-err').delay(5000).fadeOut('slow');
+                }}
               }})
             }});
           }});
@@ -482,12 +490,54 @@
               type: "PUT",
               contentType: "application/xml",
               data: editorContent,
-              dataType: "xml"
+              dataType: "xml",
+              success: function(data) {{
+                $('#submit-msg-suc').css({{opacity: 0, display: "inline"}}).animate({{opacity: 1}}, 'slow');
+                $('#submit-msg-suc').delay(5000).fadeOut('slow');
+              }},
+              error: function(data) {{
+                $('#submit-msg-err').css({{opacity: 0, display: "inline"}}).animate({{opacity: 1}}, 'slow');
+                $('#submit-msg-err').delay(5000).fadeOut('slow');
+              }}
             }})
-            
-            window.location.reload();
           }});
         </script>
+        <div id="submit-messages">
+          <div id="submit-msg-suc" style="color:green;display:none;margin:10px">
+            <b>
+              <xrx:i18n>
+                <xrx:key>success</xrx:key>
+                <xrx:default>Success</xrx:default>
+              </xrx:i18n>
+            </b>
+          </div>
+          <div id="submit-msg-err" style="color:red;display:none;margin:10px">
+            <b>
+              <xrx:i18n>
+                <xrx:key>error</xrx:key>
+                <xrx:default>Error</xrx:default>
+              </xrx:i18n>
+            </b>
+          </div>
+        </div>
+        <div id="release-messages" style="float:right">
+          <div id="release-msg-suc" style="color:green;display:none;margin:10px">
+            <b>
+              <xrx:i18n>
+                <xrx:key>success</xrx:key>
+                <xrx:default>Success</xrx:default>
+              </xrx:i18n>
+            </b>
+          </div>
+          <div id="release-msg-err" style="color:red;display:none;margin:10px">
+            <b>
+              <xrx:i18n>
+                <xrx:key>error</xrx:key>
+                <xrx:default>Error</xrx:default>
+              </xrx:i18n>
+            </b>
+          </div>
+        </div>
       </xrx:view>
     </xrx:div>
   </xrx:divs>
