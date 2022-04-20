@@ -276,7 +276,7 @@ declare function publication:edit-trigger(
     ) {
     let $editmom3msg := <span>{i18n:value("editmom3", $xrx:lang, "Edit with EditMOM 3 beta")}</span>
     return
-if(matches($widget-key, '^(fond|collection|search|saved-charters|charter|charters-to-publish|vocabularies-to-publish|bookmarks|mom-ca)$')) then
+if(matches($widget-key, '^(fond|collection|search|saved-charters|charter|charters-to-publish|bookmarks|mom-ca)$')) then
     <div>  <!--
        <div>
        <img src="{ $request-root }resource/?atomid=tag:www.monasterium.net,2011:/mom/resource/image/button_edit"/>
