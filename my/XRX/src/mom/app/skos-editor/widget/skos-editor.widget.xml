@@ -51,10 +51,6 @@
   <xrx:csss>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/css/codemirror/lib/codemirror</xrx:resource>
   </xrx:csss>
-  <xrx:jss>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/lib/codemirror</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/mode/xml</xrx:resource>
-  </xrx:jss>
   <xrx:divs>
     <xrx:div>
       <xrx:key>title-div</xrx:key>
@@ -302,7 +298,7 @@
               dataType: "text"
               }})
               
-            window.location.reload();
+            window.location.reload(); 
           }});
           
           // get selected name and language for the preflabel, hand both the remove-label service, reload page
@@ -430,30 +426,36 @@
         <p>
           <xrx:i18n>
             <xrx:key>skos-modify-definition</xrx:key>
-            <xrx:default>Enter the description of the concept between the skos:definition tags:</xrx:default>
+            <xrx:default>Enter a description for the concept:</xrx:default>
           </xrx:i18n>
         </p>
+        
+        <script type="text/javascript" src="/bfResources/scripts/ckeditor/ckeditor.js"></script>
         <!--fills textarea with the contents of the current concept's definition-->
-        <textarea id="editor">
+        <textarea id="editor" name="editor">
           {
-          let $concept := $skoscontent/skos:Concept[@rdf:about=$concept]/skos:definition
-          return $concept
+          let $concept-def := $skoscontent/skos:Concept[@rdf:about=$concept]/skos:definition/node()
+          return $concept-def
           }
         </textarea>
-          <button style="margin:10px;" id="submit-content" type="submit">
+        
+        <script type="text/javascript">
+          CKEDITOR.replace( 'editor' );
+        </script>
+        <button style="margin:10px;" id="submit-content" type="submit">
+          <xrx:i18n>
+            <xrx:key>save</xrx:key>
+            <xrx:default>Save definition</xrx:default>
+          </xrx:i18n>
+        </button>
+        <button style="margin:10px;float:right" id="release-skos" type="submit">
+          <b>
             <xrx:i18n>
-              <xrx:key>save</xrx:key>
-              <xrx:default>Save definition</xrx:default>
+              <xrx:key>release-skos</xrx:key>
+              <xrx:default>Publish file</xrx:default>
             </xrx:i18n>
-          </button>
-          <button style="margin:10px;float:right" id="release-skos" type="submit">
-            <b>
-              <xrx:i18n>
-                <xrx:key>release-skos</xrx:key>
-                <xrx:default>Publish file</xrx:default>
-              </xrx:i18n>
-            </b>
-          </button>
+          </b>
+        </button>
         <script type="text/javascript">
           $(document).ready(function(){{
             $("#release-skos").click(function(){{
@@ -473,17 +475,10 @@
         </script>
         
         <script type="text/javascript">
-          // link codemirror to textarea
-          var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {{
-            mode: 'xml',
-            htmlMode: true,
-            lineNumbers: true
-          }});
-          editor.setSize("850", "250");
           
           // submits contents of the textarea to the edit-definition service, reload
           $('button#submit-content').click(function() {{
-            var editorContent = editor.getValue();
+            var editorContent = CKEDITOR.instances.editor.document.getBody().getHtml();
             
             $.ajax({{
               url: "/mom/service/edit-definition?concept=" + concept,
@@ -502,6 +497,7 @@
             }})
           }});
         </script>
+        
         <div id="submit-messages">
           <div id="submit-msg-suc" style="color:green;display:none;margin:10px">
             <b>

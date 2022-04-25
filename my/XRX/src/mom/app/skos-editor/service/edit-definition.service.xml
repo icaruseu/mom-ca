@@ -1,4 +1,4 @@
-<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx">
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
     <xrx:id>tag:www.monasterium.net,2011:/mom/service/edit-definition</xrx:id>
     <xrx:title>
         <xrx:i18n>
@@ -49,7 +49,8 @@
     <xrx:body>
         {
         if ($session-username != 'guest') then (
-            let $update := update replace $skoscontent/skos:Concept[@rdf:about=$concept]/skos:definition with $data
+        let $html-content := util:parse-html($data)
+        let $update := update replace $skoscontent/skos:Concept[@rdf:about=$concept]/skos:definition with <skos:definition rdf:datatype="rdf:XMLLiteral" rdf:parseType="Literal">{$html-content//BODY/*}</skos:definition>
             return $update
         )
         else ()
