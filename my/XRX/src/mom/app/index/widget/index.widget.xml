@@ -702,6 +702,7 @@ ul.namelist {{
                </xrx:i18n>
              </a>
            </li>
+           {if (xmldb:get-current-user() != 'guest') then (
            <li>
              <button id="copy-to-user" type="submit">
                <xrx:i18n>
@@ -710,6 +711,8 @@ ul.namelist {{
                </xrx:i18n>
              </button>
            </li>
+           )
+           else ()}
         </ul>
       <div id="msg-suc" style="color:green;display:none">
         <b>
