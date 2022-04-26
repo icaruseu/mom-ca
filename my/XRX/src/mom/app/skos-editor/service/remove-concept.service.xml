@@ -46,8 +46,7 @@
         {
         if ($session-username != 'guest') then (
             for $entry in $skoscontent//skos:Concept[@rdf:about=concat('#', $data)]
-            return
-                update delete $entry
+            return update delete $entry
         )
         else ()
         }

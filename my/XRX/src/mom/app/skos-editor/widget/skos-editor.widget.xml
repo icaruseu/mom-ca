@@ -51,6 +51,10 @@
   <xrx:csss>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/css/codemirror/lib/codemirror</xrx:resource>
   </xrx:csss>
+  <xrx:jss>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/lib/codemirror</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/mode/xml</xrx:resource>
+  </xrx:jss>
   <xrx:divs>
     <xrx:div>
       <xrx:key>title-div</xrx:key>
@@ -119,12 +123,17 @@
           
           $(document).ready(function(){{
            $('button#delete-concept').click(function(){{
+            console.log(concept);
             $.ajax({{
               url: "/mom/service/remove-concept",
               type: "POST",
               data: concept,
               contentType: "application/xml",
-              dataType: "text"
+              dataType: "text",
+              success: function(data) {{
+                url = $(location).attr("href");
+                window.location.href = url.substr(0, url.indexOf("?"));
+              }}
             }})
            }});
           }});
@@ -183,11 +192,12 @@
             type: "POST",
             data: conceptName,
             contentType: "application/xml",
-            dataType: "text"
+            dataType: "text",
+            success: function(data) {{
+              $('#concept-select').load(location.href + ' #concept-select');
+              //window.location.reload();
+              }}
             }})
-            
-            // reload after running service
-            window.location.reload();
           }});
         </script>
       </xrx:view>
@@ -291,14 +301,17 @@
             var addLabelUrl = htmlDecode("/mom/service/add-preflabel?concept=" + concept + "&amp;lang=" + labelLang);
             
               $.ajax({{
-              url: addLabelUrl,
-              type: "POST",
-              data: labelName,
-              contentType: "application/xml",
-              dataType: "text"
+                url: addLabelUrl,
+                type: "POST",
+                data: labelName,
+                contentType: "application/xml",
+                dataType: "text",
+                success: function(data) {{
+                  //load only existing-entries-pref
+                  $('#existing-entries-pref').load(location.href + ' #existing-entries-pref');
+                  //window.location.reload();
+                }}
               }})
-              
-            window.location.reload(); 
           }});
           
           // get selected name and language for the preflabel, hand both the remove-label service, reload page
@@ -308,10 +321,13 @@
             var removeLabelUrl = htmlDecode("/mom/service/remove-label?concept=" + concept + "&amp;lang=" + labelLang);
           
               $.ajax({{
-              url: removeLabelUrl
+                url: removeLabelUrl,
+                success: function(data) {{
+                  //load only existing-entries-pref
+                  $('#existing-entries-pref').load(location.href + ' #existing-entries-pref');
+                  //window.location.reload();
+                }}
               }})
-              
-            window.location.reload();
           }});
         </script>
       </xrx:view>
@@ -397,10 +413,12 @@
             type: "POST",
             data: broaderName,
             contentType: "application/xml",
-            dataType: "text"
+            dataType: "text",
+            success: function(data) {{
+              $('#concept-select').load(location.href + ' existing-entries-broader');
+              //window.location.reload();
+              }}
             }})
-          
-            window.location.reload();
           }});
           
           // delete given broader with remove-label service, reload
@@ -410,10 +428,12 @@
             var removeLabelUrl = htmlDecode("/mom/service/remove-label?concept=" + concept + "&amp;broader=" + broaderName);
                       
             $.ajax({{
-              url: removeLabelUrl
+              url: removeLabelUrl,
+              success: function(data) {{
+                $('#concept-select').load(location.href + ' existing-entries-broader');
+                //window.location.reload();
+                }}
             }})
-          
-            window.location.reload();
           }});
         </script>
       </xrx:view>
