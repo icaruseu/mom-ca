@@ -48,12 +48,13 @@
       <xrx:xformsflag>false</xrx:xformsflag>
     </xrx:processor>
   </xrx:init>
-  <xrx:csss>
+<!--  <xrx:csss>
     <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/css/codemirror/lib/codemirror</xrx:resource>
-  </xrx:csss>
+  </xrx:csss>-->
   <xrx:jss>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/lib/codemirror</xrx:resource>
-    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/mode/xml</xrx:resource>
+    <!--<xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/lib/codemirror</xrx:resource>
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/js/codemirror/mode/xml</xrx:resource>-->
+    <xrx:resource>tag:www.monasterium.net,2011:/xrx/resource/jquery/jquery</xrx:resource>
   </xrx:jss>
   <xrx:divs>
     <xrx:div>
@@ -131,61 +132,6 @@
             </xrx:i18n>
           </button>
         </p>
-        <script type="text/javascript">
-          // display current concept only if one is selected
-          var urlParams = new URLSearchParams(window.location.search);
-          var concept = urlParams.get('concept');
-          if (concept === null) document.getElementById("selected-concept").style.display = "none";
-          
-          // disable submit button unless text has been added to the input field
-          $(':input[id="add-concept"]').prop('disabled', true);
-          $('input[id="concept-input"]').keyup(function() {{
-            if($(this).val() != '') {{
-              $(':input[id="add-concept"]').prop('disabled', false);
-            }}
-          }});
-          
-          // extracts monasterium.net/mom/skos-editor as base-URL
-          var url = window.location.href;
-          var baseUrl = url.split("?")[0];
-          
-          // adds concept name as query string to base-URL and goes to result
-          $('#concept-select').on('change', function () {{
-            var redirectUrl = baseUrl + "?concept=" + $(this).val();
-            return (redirectUrl ? window.location = redirectUrl : console.log("Invalid URL!"));
-          }});
-          
-          // gets new concept name from input field and hands it to add-concept service
-          $('button#add-concept').click(function() {{
-            var conceptName = document.getElementById("concept-input").value;
-            
-            $.ajax({{
-              url: "/mom/service/add-concept",
-              type: "POST",
-              data: conceptName,
-              contentType: "application/xml",
-              dataType: "text",
-              success: function(data) {{
-                url = $(location).attr("href");
-                window.location.href = url.substr(0, url.indexOf("?")) + '?concept=' + conceptName;
-                }}
-              }})
-          }});
-          
-          $('button#delete-concept').click(function(){{
-            $.ajax({{
-              url: "/mom/service/remove-concept",
-              type: "POST",
-              data: concept,
-              contentType: "application/xml",
-              dataType: "text",
-              success: function(data) {{
-                url = $(location).attr("href");
-                window.location.href = url.substr(0, url.indexOf("?"));
-              }}
-            }})
-          }});
-        </script>
       </xrx:view>
     </xrx:div>
     <xrx:div>
@@ -224,7 +170,7 @@
               <xrx:default>The following preferred labels for this concept already exist:</xrx:default>
             </xrx:i18n>
           </p>
-          <table id="table-pref">
+          <table id="pref-table">
             <tr>
               <th>skos:prefLabel</th>
               <th>Sprache</th>
@@ -244,78 +190,6 @@
             }
           </table>
         </div>
-        <script type="text/javascript">
-          // set the preflabel of the selected language as default content of the input field
-          $("#lang-select").change(function() {{
-            var labelLang = document.getElementById("lang-select").value;
-            var currentLangPref = $("#table-pref").find("td:contains(" + labelLang + ")").prev();
-            $("#preflabel-input").val(currentLangPref.html());
-          }});
-          
-          // trigger initial display of the above
-          $("#lang-select").change();
-          
-          // disable submit button unless text has been added to the input field
-          $(':input[id="add-label"]').prop('disabled', true);
-          $('input[id="preflabel-input"]').keyup(function() {{
-            if($(this).val() != '') {{
-              $(':input[id="add-label"]').prop('disabled', false);
-            }}
-          }});
-          
-          // don't display table with other entries if no other entries exist
-          var tbl = document.getElementById('table-pref');
-          if (tbl.rows.length == 1) {{
-            document.getElementById('existing-entries-pref').style.display = "none";
-          }}
-          
-          // gets content of the 'concept' query parameter, i.e. the name of the current concept
-          var urlParams = new URLSearchParams(window.location.search);
-          var concept = urlParams.get('concept');
-          
-          // function to properly process ampersand
-          function htmlDecode(input) {{
-            var doc = new DOMParser().parseFromString(input, "text/html");
-            return doc.documentElement.textContent;
-          }};
-          
-          // get selected name and language for the preflabel, hand both the add-preflabel service, reload page 
-          $('button#add-label').click(function() {{
-            var labelLang = document.getElementById("lang-select").value;
-            var labelName = document.getElementById("preflabel-input").value;
-            
-            var addLabelUrl = htmlDecode("/mom/service/add-preflabel?concept=" + concept + "&amp;lang=" + labelLang);
-            
-              $.ajax({{
-                url: addLabelUrl,
-                type: "POST",
-                data: labelName,
-                contentType: "application/xml",
-                dataType: "text",
-                success: function(data) {{
-                  //load only existing-entries-pref
-                  $('#existing-entries-pref').load(location.href + ' #existing-entries-pref');
-                  //window.location.reload();
-                }}
-              }})
-          }});
-          
-          // get selected name and language for the preflabel, hand both the remove-label service, reload page
-          $('input.remove-preflabel').click(function() {{
-            var labelLang = $(this).closest('td').prev().html();
-            
-            var removeLabelUrl = htmlDecode("/mom/service/remove-label?concept=" + concept + "&amp;lang=" + labelLang);
-          
-              $.ajax({{
-                url: removeLabelUrl,
-                success: function(data) {{
-                  //load only existing-entries-pref
-                  $('#existing-entries-pref').load(location.href + ' #existing-entries-pref');
-                  //window.location.reload();
-                }}
-              }})
-          }});
-        </script>
       </xrx:view>
     </xrx:div>
     <xrx:div>
@@ -358,7 +232,7 @@
               <xrx:default>The following umbrella term for this concept already exist:</xrx:default>
             </xrx:i18n>
           </p>
-          <table id="table-broader">
+          <table id="broader-table">
             <tr>
               <th>skos:broader</th>
               <th>Entfernen</th>
@@ -375,53 +249,6 @@
             }
           </table>
         </div>
-        <script>
-          // don't display div with other entries if no other entries exist
-          var tbl = document.getElementById('table-broader');
-          if (tbl.rows.length == 1) {{
-            document.getElementById('existing-entries-broader').style.display = "none";
-          }}
-          
-          // disable submit button unless a selection has been made
-          $(':input[id="add-broader"]').prop('disabled', true);
-          $( "#broader-select" ).change(function() {{
-            $(':input[id="add-broader"]').prop('disabled', false);
-          }});
-          
-          // get input for broader and hand it to add-broader service, then reload
-          $('button#add-broader').click(function() {{
-            var broaderName = document.getElementById("broader-select").value;
-          
-            var addBroaderUrl = htmlDecode("/mom/service/add-broader?concept=" + concept);
-          
-            $.ajax({{
-            url: addBroaderUrl,
-            type: "POST",
-            data: broaderName,
-            contentType: "application/xml",
-            dataType: "text",
-            success: function(data) {{
-              $('#concept-select').load(location.href + ' existing-entries-broader');
-              //window.location.reload();
-              }}
-            }})
-          }});
-          
-          // delete given broader with remove-label service, reload
-          $('input.remove-broader').click(function() {{
-            var broaderName = $(this).closest('td').prev().html().substring(1);
-          
-            var removeLabelUrl = htmlDecode("/mom/service/remove-label?concept=" + concept + "&amp;broader=" + broaderName);
-                      
-            $.ajax({{
-              url: removeLabelUrl,
-              success: function(data) {{
-                $('#concept-select').load(location.href + ' existing-entries-broader');
-                //window.location.reload();
-                }}
-            }})
-          }});
-        </script>
       </xrx:view>
     </xrx:div>
     <xrx:div>
@@ -436,7 +263,6 @@
           </xrx:i18n>
         </p>
         
-        <script type="text/javascript" src="/bfResources/scripts/ckeditor/ckeditor.js"></script>
         <!--fills textarea with the contents of the current concept's definition-->
         <textarea id="editor" name="editor">
           {
@@ -445,9 +271,6 @@
           }
         </textarea>
         
-        <script type="text/javascript">
-          CKEDITOR.replace( 'editor' );
-        </script>
         <button style="margin:10px;" id="submit-content" type="submit">
           <xrx:i18n>
             <xrx:key>save</xrx:key>
@@ -462,48 +285,6 @@
             </xrx:i18n>
           </b>
         </button>
-        <script type="text/javascript">
-          $(document).ready(function(){{
-            $("#release-skos").click(function(){{
-              $.ajax({{
-                url: "/mom/service/my-collection-release-skos",
-                success: function(data) {{
-                  $('#release-msg-suc').css({{opacity: 0, display: "block"}}).animate({{opacity: 1}}, 'slow');
-                  $('#release-msg-suc').delay(5000).fadeOut('slow');
-                }},
-                error: function(data) {{
-                  $('#release-msg-err').css({{opacity: 0, display: "block"}}).animate({{opacity: 1}}, 'slow');
-                  $('#release-msg-err').delay(5000).fadeOut('slow');
-                }}
-              }})
-            }});
-          }});
-        </script>
-        
-        <script type="text/javascript">
-          
-          // submits contents of the textarea to the edit-definition service, reload
-          $('button#submit-content').click(function() {{
-            var editorContent = CKEDITOR.instances.editor.document.getBody().getHtml();
-            
-            $.ajax({{
-              url: "/mom/service/edit-definition?concept=" + concept,
-              type: "PUT",
-              contentType: "application/xml",
-              data: editorContent,
-              dataType: "xml",
-              success: function(data) {{
-                $('#submit-msg-suc').css({{opacity: 0, display: "inline"}}).animate({{opacity: 1}}, 'slow');
-                $('#submit-msg-suc').delay(5000).fadeOut('slow');
-              }},
-              error: function(data) {{
-                $('#submit-msg-err').css({{opacity: 0, display: "inline"}}).animate({{opacity: 1}}, 'slow');
-                $('#submit-msg-err').delay(5000).fadeOut('slow');
-              }}
-            }})
-          }});
-        </script>
-        
         <div id="submit-messages">
           <div id="submit-msg-suc" style="color:green;display:none;margin:10px">
             <b>
@@ -540,6 +321,226 @@
             </b>
           </div>
         </div>
+        <script type="text/javascript" src="/bfResources/scripts/ckeditor/ckeditor.js"/>
+        <script type="text/javascript">
+          
+        var url = window.location.href;
+        var baseUrl = url.split("?")[0];
+        var urlParams = new URLSearchParams(window.location.search);
+        var concept = urlParams. get ('concept');
+          
+        // display current concept only if one is selected
+        if (concept === null) $('#selected-concept').hide();
+        
+        // disable submit button unless text has been added to the input field
+        $(':input[id="add-concept"]').prop('disabled', true);
+        $('input[id="concept-input"]').keyup(function () {{
+            if ($(this).val() != '') {{
+                $(':input[id="add-concept"]').prop('disabled', false);
+            }}
+        }});
+        
+        // adds concept name as query string to base-URL and goes to result
+        $('#concept-select').on('change', function () {{
+            var redirectUrl = baseUrl + "?concept=" + $(this).val();
+            return (redirectUrl ? window.location = redirectUrl: console.log("Invalid URL!"));
+        }});
+        
+        // gets new concept name from input field and hands it to add-concept service
+        $('button#add-concept').click(function () {{
+            var conceptName = $('#concept-input').val();
+            
+            $.ajax({{
+                url: "/mom/service/add-concept",
+                type: "POST",
+                data: conceptName,
+                contentType: "application/xml",
+                dataType: "text",
+                success: function (data) {{
+                    url = $(location).attr("href");
+                    window.location.href = baseUrl + '?concept=' + conceptName;
+                }}
+            }})
+        }});
+        
+        $('button#delete-concept').click(function () {{
+            $.ajax({{
+                url: "/mom/service/remove-concept",
+                type: "POST",
+                data: concept,
+                contentType: "application/xml",
+                dataType: "text",
+                success: function (data) {{
+                    url = $(location).attr("href");
+                    window.location.href = baseUrl;
+                }}
+            }})
+        }});
+        
+        // set the preflabel of the selected language as default content of the input field
+        $('#lang-select').change(function () {{
+            var labelLang = $('#lang-select').val();
+            var currentLangPref = $('#pref-table').find("td:contains(" + labelLang + ")").prev();
+            $('#preflabel-input').val(currentLangPref.html());
+        }});
+        
+        // trigger initial display of the above
+        $('#lang-select').change();
+        
+        // disable submit button unless text has been added to the input field
+        $(':input[id="add-label"]').prop('disabled', true);
+        $('input[id="preflabel-input"]').keyup(function () {{
+            if ($(this).val() != '') {{
+                $(':input[id="add-label"]').prop('disabled', false);
+            }}
+        }});
+        
+        // don't display table with other entries if no other entries exist
+        var tbl = $('#pref-table tr');
+        if (tbl.length == 1) {{
+            $('#existing-entries-pref').hide();
+        }}
+        
+        // function to properly process ampersand
+        function htmlDecode(input) {{
+            var doc = new DOMParser().parseFromString(input, "text/html");
+            return doc.documentElement.textContent;
+        }};
+        
+        // get selected name and language for the preflabel, hand both the add-preflabel service, reload page
+        $('button#add-label').click(function () {{
+            var labelLang = $('#lang-select').val();
+            var labelName = $('#preflabel-input').val();
+            var addLabelUrl = htmlDecode("/mom/service/add-preflabel?concept=" + concept + "&amp;lang=" + labelLang);
+            
+            $.ajax({{
+                url: addLabelUrl,
+                type: "POST",
+                data: labelName,
+                contentType: "application/xml",
+                dataType: "text",
+                success: function (data) {{
+                    //$('#existing-entries-pref').load(location.href + ' #existing-entries-pref');
+                    window.location.reload();
+                }}
+            }})
+        }});
+        
+        // get selected name and language for the preflabel, hand both the remove-label service, reload page
+        $('input.remove-preflabel').click(function () {{
+            var labelLang = $(this).closest('td').prev().html();
+            var removeLabelUrl = htmlDecode("/mom/service/remove-label?concept=" + concept + "&amp;lang=" + labelLang);
+            
+            $.ajax({{
+                url: removeLabelUrl,
+                success: function (data) {{
+                    //$('#existing-entries-pref').load(location.href + ' #existing-entries-pref');
+                    window.location.reload();
+                }}
+            }})
+        }});
+        
+        // don't display div with other entries if no other entries exist
+        var tbl = $('#broader-table tr');
+        if (tbl.length == 1) {{
+            $('#existing-entries-broader').hide();
+        }}
+        
+        // disable submit button unless a selection has been made
+        $(':input[id="add-broader"]').prop('disabled', true);
+        $('#broader-select').change(function () {{
+            $(':input[id="add-broader"]').prop('disabled', false);
+        }});
+        
+        // get input for broader and hand it to add-broader service, then reload
+        $('button#add-broader').click(function () {{
+            var selectBroaderName = $('#broader-select').val();
+            var addBroaderUrl = htmlDecode("/mom/service/add-broader?concept=" + concept);
+            
+            $.ajax({{
+                url: addBroaderUrl,
+                type: "POST",
+                data: selectBroaderName,
+                contentType: "application/xml",
+                dataType: "text",
+                success: function (data) {{
+                    //$('#concept-select').load(location.href + ' existing-entries-broader');
+                    window.location.reload();
+                }}
+            }})
+        }});
+        
+        // delete given broader with remove-label service, reload
+        $('input.remove-broader').click(function () {{
+            var currentBroaderName = $(this).closest('td').prev().html().substring(1);
+            var removeLabelUrl = htmlDecode("/mom/service/remove-label?concept=" + concept + "&amp;broader=" + currentBroaderName);
+            
+            $.ajax({{
+                url: removeLabelUrl,
+                success: function (data) {{
+                    //$('#concept-select').load(location.href + ' existing-entries-broader');
+                    window.location.reload();
+                }}
+            }})
+        }});
+        
+        CKEDITOR.replace('editor');
+        
+        $('#release-skos').click(function () {{
+            $.ajax({{
+                url: "/mom/service/my-collection-release-skos",
+                success: function (data) {{
+                    $('#release-msg-suc').css({{
+                        opacity: 0, display: "block"
+                    }}).animate({{
+                        opacity: 1
+                    }},
+                    'slow');
+                    $('#release-msg-suc').delay(5000).fadeOut('slow');
+                }},
+                error: function (data) {{
+                    $('#release-msg-err').css({{
+                        opacity: 0, display: "block"
+                    }}).animate({{
+                        opacity: 1
+                    }},
+                    'slow');
+                    $('#release-msg-err').delay(5000).fadeOut('slow');
+                }}
+            }})
+        }});
+        
+        // submits contents of the textarea to the edit-definition service, reload
+        $('button#submit-content').click(function () {{
+            var editorContent = CKEDITOR.instances.editor.document.getBody().getHtml();
+            
+            $.ajax({{
+                url: "/mom/service/edit-definition?concept=" + concept,
+                type: "PUT",
+                contentType: "application/xml",
+                data: editorContent,
+                dataType: "xml",
+                success: function (data) {{
+                    $('#submit-msg-suc').css({{
+                        opacity: 0, display: "inline"
+                    }}).animate({{
+                        opacity: 1
+                    }},
+                    'slow');
+                    $('#submit-msg-suc').delay(5000).fadeOut('slow');
+                }},
+                error: function (data) {{
+                    $('#submit-msg-err').css({{
+                        opacity: 0, display: "inline"
+                    }}).animate({{
+                        opacity: 1
+                    }},
+                    'slow');
+                    $('#submit-msg-err').delay(5000).fadeOut('slow');
+                }}
+            }})
+        }});
+        </script>
       </xrx:view>
     </xrx:div>
   </xrx:divs>
