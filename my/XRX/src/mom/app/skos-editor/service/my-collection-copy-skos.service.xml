@@ -57,8 +57,6 @@
         
             (: make a copy of the vocabulary if it isn't in use already :)
             let $file-in-use := publication:is-saved($user:db-base-collection/xrx:user, $atomid)
-            let $log1 := util:log('error', $file-in-use)
-            let $log5 := util:log('error', exists(collection(concat($userfolder, '/metadata.controlledVocabulary'))))
             
             let $voc-dir :=
             if(not(exists(collection(concat($userfolder, '/metadata.controlledVocabulary'))))) then
