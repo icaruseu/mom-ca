@@ -166,8 +166,8 @@
               contentType: "application/xml",
               dataType: "text",
               success: function(data) {{
-                $('#concept-select').load(location.href + ' #concept-select');
-                //window.location.reload();
+                url = $(location).attr("href");
+                window.location.href = url.substr(0, url.indexOf("?")) + '?concept=' + conceptName;
                 }}
               }})
           }});
