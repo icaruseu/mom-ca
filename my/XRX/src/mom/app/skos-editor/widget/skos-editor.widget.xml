@@ -101,55 +101,14 @@
         <br/>
         <b>
           <xrx:i18n>
-            <xrx:key>delete-concept</xrx:key>
-            <xrx:default>Delete concept:</xrx:default>
-          </xrx:i18n>
-        </b>
-        <p>
-          <xrx:i18n>
-            <xrx:key>skos-delete-concept</xrx:key>
-            <xrx:default>To delete the currently selected concept, click here: </xrx:default>
-          </xrx:i18n>
-        </p>
-        <button id="delete-concept" type="submit">
-          <xrx:i18n>
-            <xrx:key>delete</xrx:key>
-            <xrx:default>Delete</xrx:default>
-          </xrx:i18n>
-        </button>
-        <script type="text/javascript">
-          var urlParams = new URLSearchParams(window.location.search);
-          var concept = urlParams.get('concept');
-          
-          $(document).ready(function(){{
-           $('button#delete-concept').click(function(){{
-            console.log(concept);
-            $.ajax({{
-              url: "/mom/service/remove-concept",
-              type: "POST",
-              data: concept,
-              contentType: "application/xml",
-              dataType: "text",
-              success: function(data) {{
-                url = $(location).attr("href");
-                window.location.href = url.substr(0, url.indexOf("?"));
-              }}
-            }})
-           }});
-          }});
-        </script>
-        <br/>
-        <br/>
-        <b>
-          <xrx:i18n>
             <xrx:key>create-concept</xrx:key>
-            <xrx:default>Create concept:</xrx:default>
+            <xrx:default>Create or delete concept:</xrx:default>
           </xrx:i18n>
         </b>
         <p>
           <xrx:i18n>
             <xrx:key>skos-name-concept</xrx:key>
-            <xrx:default>When naming the concept, avoid spaces and special characters.</xrx:default>
+            <xrx:default>To create a new concept, enter a name for it below (avoid spaces and special characters):</xrx:default>
           </xrx:i18n>
         </p>
         <input type="text" id="concept-input" placeholder="FranzoesischeKoenigsurkunden" style="width: 350px;"/>
@@ -159,6 +118,19 @@
             <xrx:default>Submit</xrx:default>
           </xrx:i18n>
         </button>
+        <br/>
+        <p>
+          <xrx:i18n>
+            <xrx:key>skos-delete-concept</xrx:key>
+            <xrx:default>To delete the currently selected concept, click here: </xrx:default>
+          </xrx:i18n>
+          <button id="delete-concept" type="submit">
+            <xrx:i18n>
+              <xrx:key>delete</xrx:key>
+              <xrx:default>Delete</xrx:default>
+            </xrx:i18n>
+          </button>
+        </p>
         <script type="text/javascript">
           // display current concept only if one is selected
           var urlParams = new URLSearchParams(window.location.search);
@@ -188,14 +160,28 @@
             var conceptName = document.getElementById("concept-input").value;
             
             $.ajax({{
-            url: "/mom/service/add-concept",
-            type: "POST",
-            data: conceptName,
-            contentType: "application/xml",
-            dataType: "text",
-            success: function(data) {{
-              $('#concept-select').load(location.href + ' #concept-select');
-              //window.location.reload();
+              url: "/mom/service/add-concept",
+              type: "POST",
+              data: conceptName,
+              contentType: "application/xml",
+              dataType: "text",
+              success: function(data) {{
+                $('#concept-select').load(location.href + ' #concept-select');
+                //window.location.reload();
+                }}
+              }})
+          }});
+          
+          $('button#delete-concept').click(function(){{
+            $.ajax({{
+              url: "/mom/service/remove-concept",
+              type: "POST",
+              data: concept,
+              contentType: "application/xml",
+              dataType: "text",
+              success: function(data) {{
+                url = $(location).attr("href");
+                window.location.href = url.substr(0, url.indexOf("?"));
               }}
             }})
           }});
