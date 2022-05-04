@@ -75,7 +75,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     let $other-id := request:get-parameter('other-id','')
     let $rev-id := request:get-parameter('rev', '')
 
-    (: public charter :)
+    (: public entry :)
     let $atom-tag-name := conf:param('atom-tag-name')
     let $entry-type := skos-edit:context($entry-atomid, $atom-tag-name)
     let $public-base-collection :=
@@ -88,12 +88,11 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       let $collection-id := charter:collectionid($entry-atomid, $atom-tag-name)
       return metadata:base-collection('charter', $collection-id, 'public')
       
-
     (: If Revision-id is submitted: Use Versioning-Object as saved Charter :)
     let $public-entry := $public-base-collection//atom:id[.=$entry-atomid]/parent::atom:entry
     let $public-doc := doc(base-uri($public-entry))
 
-    (: saved charter :)
+    (: saved entry :)
     let $saved-skos := collection('/db/mom-data/xrx.user/')//atom:id[.=$entry-atomid]/parent::atom:entry
     let $userfolder := concat($user:db-base-collection-path, xmldb:encode($saved-skos/atom:author/atom:email/text()))
     let $saved-base-collection := 
@@ -113,8 +112,6 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 
       else
         root(v:doc($public-doc, xs:int($rev-id)))//atom:entry
-
-
 
     (: version difference :)
     let $xslt :=
