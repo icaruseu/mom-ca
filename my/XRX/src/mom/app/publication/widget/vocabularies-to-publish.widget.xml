@@ -235,7 +235,7 @@ right:220px;
 		          <b>
 		            <xrx:i18n>
 		              <xrx:key>vocab-released</xrx:key>
-		              <xrx:default>A modified copy of a vocabulary has been released.</xrx:default>
+		              <xrx:default>A modified version of a vocabulary has been released.</xrx:default>
 		            </xrx:i18n>
 		          </b>
 		        </div>,
@@ -245,7 +245,12 @@ right:220px;
 		            <xrx:key>vocabulary</xrx:key>
 		            <xrx:default>Vocabulary</xrx:default>
 		          </xrx:i18n>
-		          <span>: {metadata:base-collection('controlledVocabulary', 'public')/atom:entry[atom:id/text()=$atom-id]/atom:content/rdf:RDF/skos:ConceptScheme/skos:prefLabel[@xml:lang=substring($page-lang, 1, 2)]}</span>
+		          <span>: {
+		            if ($page-lang != '') then
+		            metadata:base-collection('controlledVocabulary', 'public')/atom:entry[atom:id/text()=$atom-id]/atom:content/rdf:RDF/skos:ConceptScheme/skos:prefLabel[@xml:lang=substring($page-lang, 1, 2)]
+		            else
+		            metadata:base-collection('controlledVocabulary', 'public')/atom:entry[atom:id/text()=$atom-id]/atom:content/rdf:RDF/skos:ConceptScheme/skos:prefLabel[@xml:lang='de']
+		            }</span>
 		        </div>,
 		        <div data-demoid="aa4daa50-90cc-4395-8baa-8307763002d5">
 		          <xrx:i18n>

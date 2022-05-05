@@ -35,12 +35,12 @@
             <xrx:expression>'tag:www.monasterium.net,2011:/controlledVocabulary/IllUrkGlossar'</xrx:expression>
         </xrx:variable>
         <xrx:variable>
-            <xrx:name>$userfolder</xrx:name>
-            <xrx:expression>concat(conf:param('xrx-user-atom-base-uri'), xmldb:encode($saved-skos/atom:author/atom:email/text()))</xrx:expression>
-        </xrx:variable>
-        <xrx:variable>
             <xrx:name>$saved-skos</xrx:name>
             <xrx:expression>collection('/db/mom-data/xrx.user/')//atom:id[.=$atomid]/parent::atom:entry</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$userfolder</xrx:name>
+            <xrx:expression>concat(conf:param('xrx-user-atom-base-uri'), xmldb:encode($saved-skos/atom:author/atom:email/text()))</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$user-xml</xrx:name>
@@ -64,7 +64,7 @@
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$vocab-id</xrx:name>
-            <xrx:expression>'IllUrkGlossar'</xrx:expression>
+            <xrx:expression>tokenize($atomid, '/')[last()]</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$vocab-link</xrx:name>
@@ -78,7 +78,7 @@
     </xrx:init>
     <xrx:emails>
         <xrx:email>
-            <xrx:key>publish-charter-email</xrx:key>
+            <xrx:key>publish-vocab-email</xrx:key>
             <mail xmlns="">
                 <from>{ xs:string(conf:param('platform-browser-title')) }</from>
                 <to>{ xs:string($author) }</to>
@@ -103,22 +103,21 @@
     </xrx:emails>
     <xrx:body>
         {
-        (: move saved charter to public area :)
-        let $store-charter :=
+        (: move saved vocabulary to public area :)
+        let $store-vocab :=
             system:as-user('admin', conf:param('dba-password'), atom:PUTSILENT($feed, util:document-name($published-skos), $saved-skos))
         
-        (: remove saved charter :)
-        let $remove-saved-charter :=
+        (: remove saved vocabulary :)
+        let $remove-saved-vocab :=
             system:as-user('admin', conf:param('dba-password'), atom:DELETE(concat($userfolder, '/metadata.controlledVocabulary'), util:document-name($saved-skos)))
         
         (: save user xml :)
         let $store-user-xml :=
             atom:PUT(conf:param('xrx-user-atom-base-uri'), util:document-name($user-xml), $update-user-xml)
         
-        
         let $sendmail :=
         <xrx:sendmail>
-            <xrx:key>publish-charter-email</xrx:key>
+            <xrx:key>publish-vocab-email</xrx:key>
         </xrx:sendmail>
         
         return
