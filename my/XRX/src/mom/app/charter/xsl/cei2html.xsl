@@ -990,74 +990,10 @@
                     </xsl:if>
                 </div>
                 <br/>
-
-                <xsl:choose>
-                    <xsl:when test="./cei:auth/cei:sealDesc/cei:seal/cei:sigillant/text() != ''">
-                        <li>
-                            <b>
-                                <xrx:i18n>
-                                    <xrx:key>sigillant</xrx:key>
-                                    <xrx:default>Sigillant</xrx:default>
-                                </xrx:i18n>
-                                <span>:&#160;</span>
-                            </b>
-                            <xsl:for-each select="./cei:auth/cei:sealDesc/cei:seal/cei:sigillant">
-                                <xsl:apply-templates select="."/>
-                                <xsl:if test="position() != last()">
-                                    <xsl:text>,</xsl:text>
-                                </xsl:if>
-                            </xsl:for-each>
-                        </li>
-                    </xsl:when>
-                </xsl:choose>
-                <xsl:choose>
-                    <xsl:when test="./cei:auth/cei:sealDesc/cei:seal/text() != ''">
-                        <li>
-                            <b>
-                                <xrx:i18n>
-                                    <xrx:key>seal</xrx:key>
-                                    <xrx:default>Seal</xrx:default>
-                                </xrx:i18n>
-                                <span>:&#160;</span>
-                            </b>
-                            <xsl:for-each select="./cei:auth/cei:sealDesc/cei:seal">
-                                <xsl:apply-templates select="."/>
-                                <xsl:if test="position() != last()">
-                                    <xsl:text>,</xsl:text>
-                                </xsl:if>
-                            </xsl:for-each>
-                        </li>
-                    </xsl:when>
-                </xsl:choose>
-                <xsl:choose>
-                    <xsl:when test="./cei:auth/cei:sealDesc/text() != ''">
-                        <li>
-                            <b>
-                                <xrx:i18n>
-                                    <xrx:key>sealDescription</xrx:key>
-                                    <xrx:default>Seal</xrx:default>
-                                </xrx:i18n>
-                                <span>:&#160;</span>
-                            </b>
-                            <xsl:apply-templates select="./cei:auth/cei:sealDesc"/>
-                            <xsl:apply-templates select="./cei:auth/cei:sealDesc/cei:dimensions"/>
-                        </li>
-                    </xsl:when>
-                </xsl:choose>
-                <xsl:choose>
-                    <xsl:when test="count(./cei:auth/cei:notariusDesc/node()) > 0">
-                        <li>
-                            <b>
-                                <xrx:i18n>
-                                    <xrx:key>notarius-description</xrx:key>
-                                    <xrx:default>Notarius Description</xrx:default>
-                                </xrx:i18n>
-                                <span>:&#160;</span>
-                            </b>
-                            <xsl:apply-templates select="./cei:auth/cei:notariusDesc"/>
-                        </li>
-                    </xsl:when>
-                </xsl:choose>
+                <xsl:apply-templates select="./cei:auth/cei:sealDesc"/>
+                <xsl:if test="./cei:auth/cei:notariusDesc//text()">
+                    <xsl:apply-templates select="./cei:auth/cei:notariusDesc"/>
+                </xsl:if>
                 <xsl:apply-templates select="./cei:physicalDesc"/>
                 <ul>
                     <xsl:if test="./cei:nota//text()/normalize-space() != ''">
@@ -1133,6 +1069,51 @@
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:element>
+    </xsl:template>
+    
+    <xsl:template match="cei:sealDesc">
+        <xsl:apply-templates/>
+    </xsl:template>
+    
+    <xsl:template match="cei:seal">
+        <xsl:if test="local-name(preceding-sibling::node()[1]) != 'seal'">
+            <br/>
+        </xsl:if>
+            <b>
+                <xrx:i18n>
+                    <xrx:key>seal</xrx:key>
+                    <xrx:default>Seal</xrx:default>
+                </xrx:i18n>
+                <span>:&#160;</span>
+            </b>
+        <xsl:apply-templates/>
+        <br/>
+    </xsl:template>
+    
+    <xsl:template match="cei:sigillant">
+        <xsl:if test="local-name(preceding-sibling::node()[1]) != 'sigillant'">
+            <br/>
+        </xsl:if>
+            <b>
+                <xrx:i18n>
+                    <xrx:key>sigillant</xrx:key>
+                    <xrx:default>Sigillant</xrx:default>
+                </xrx:i18n>
+                <span>:&#160;</span>
+            </b>
+            <xsl:apply-templates/>
+        <br/>
+    </xsl:template>
+    
+    <xsl:template match="cei:notariusDesc">
+        <b>
+            <xrx:i18n>
+                <xrx:key>notarius-description</xrx:key>
+                <xrx:default>Notarius Description</xrx:default>
+            </xrx:i18n>
+            <span>:&#160;</span>
+        </b>
+        <xsl:apply-templates/>
     </xsl:template>
 
     <xsl:template match="cei:rubrum|cei:nota">
