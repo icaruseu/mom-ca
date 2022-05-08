@@ -1076,7 +1076,7 @@
     </xsl:template>
     
     <xsl:template match="cei:seal">
-        <xsl:if test="local-name(preceding-sibling::node()[1]) != 'seal'">
+        <xsl:if test="preceding-sibling::node()[1] instance of text()">
             <br/>
         </xsl:if>
             <b>
@@ -1091,7 +1091,7 @@
     </xsl:template>
     
     <xsl:template match="cei:sigillant">
-        <xsl:if test="local-name(preceding-sibling::node()[1]) != 'sigillant'">
+        <xsl:if test="preceding-sibling::node()[1] instance of text()">
             <br/>
         </xsl:if>
             <b>
