@@ -1094,7 +1094,7 @@
         <xsl:value-of select="."/>
     </xsl:template>
     
-    <xsl:template match="cei:sigillant">
+    <xsl:template match="cei:sigillant[text()]">
         <xsl:if test="preceding-sibling::node()[1] instance of text()">
             <br/>
         </xsl:if>
@@ -1211,6 +1211,7 @@
             </b>
             <xsl:apply-templates/>
         </xsl:if>
+        <br/>
     </xsl:template>
     <xsl:template match="cei:condition">
         <xsl:if test="./node()">
