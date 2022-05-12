@@ -1079,15 +1079,19 @@
         <xsl:if test="preceding-sibling::node()[1] instance of text()">
             <br/>
         </xsl:if>
-            <b>
-                <xrx:i18n>
-                    <xrx:key>seal</xrx:key>
-                    <xrx:default>Seal</xrx:default>
-                </xrx:i18n>
-                <span>:&#160;</span>
-            </b>
         <xsl:apply-templates/>
         <br/>
+    </xsl:template>
+    
+    <xsl:template match="text()[parent::cei:seal][matches(., '\w')][1]">
+        <b>
+            <xrx:i18n>
+                <xrx:key>seal</xrx:key>
+                <xrx:default>Seal</xrx:default>
+            </xrx:i18n>
+            <span>:&#160;</span>
+        </b>
+        <xsl:value-of select="."/>
     </xsl:template>
     
     <xsl:template match="cei:sigillant">
