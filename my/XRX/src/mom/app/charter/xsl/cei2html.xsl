@@ -990,74 +990,10 @@
                     </xsl:if>
                 </div>
                 <br/>
-
-                <xsl:choose>
-                    <xsl:when test="./cei:auth/cei:sealDesc/cei:seal/cei:sigillant/text() != ''">
-                        <li>
-                            <b>
-                                <xrx:i18n>
-                                    <xrx:key>sigillant</xrx:key>
-                                    <xrx:default>Sigillant</xrx:default>
-                                </xrx:i18n>
-                                <span>:&#160;</span>
-                            </b>
-                            <xsl:for-each select="./cei:auth/cei:sealDesc/cei:seal/cei:sigillant">
-                                <xsl:apply-templates select="."/>
-                                <xsl:if test="position() != last()">
-                                    <xsl:text>,</xsl:text>
-                                </xsl:if>
-                            </xsl:for-each>
-                        </li>
-                    </xsl:when>
-                </xsl:choose>
-                <xsl:choose>
-                    <xsl:when test="./cei:auth/cei:sealDesc/cei:seal/text() != ''">
-                        <li>
-                            <b>
-                                <xrx:i18n>
-                                    <xrx:key>seal</xrx:key>
-                                    <xrx:default>Seal</xrx:default>
-                                </xrx:i18n>
-                                <span>:&#160;</span>
-                            </b>
-                            <xsl:for-each select="./cei:auth/cei:sealDesc/cei:seal">
-                                <xsl:apply-templates select="."/>
-                                <xsl:if test="position() != last()">
-                                    <xsl:text>,</xsl:text>
-                                </xsl:if>
-                            </xsl:for-each>
-                        </li>
-                    </xsl:when>
-                </xsl:choose>
-                <xsl:choose>
-                    <xsl:when test="./cei:auth/cei:sealDesc/text() != ''">
-                        <li>
-                            <b>
-                                <xrx:i18n>
-                                    <xrx:key>sealDescription</xrx:key>
-                                    <xrx:default>Seal</xrx:default>
-                                </xrx:i18n>
-                                <span>:&#160;</span>
-                            </b>
-                            <xsl:apply-templates select="./cei:auth/cei:sealDesc"/>
-                            <xsl:apply-templates select="./cei:auth/cei:sealDesc/cei:dimensions"/>
-                        </li>
-                    </xsl:when>
-                </xsl:choose>
-                <xsl:choose>
-                    <xsl:when test="count(./cei:auth/cei:notariusDesc/node()) > 0">
-                        <li>
-                            <b>
-                                <xrx:i18n>
-                                    <xrx:key>notarius-description</xrx:key>
-                                    <xrx:default>Notarius Description</xrx:default>
-                                </xrx:i18n>
-                                <span>:&#160;</span>
-                            </b>
-                            <xsl:apply-templates select="./cei:auth/cei:notariusDesc"/>
-                        </li>
-                    </xsl:when>
-                </xsl:choose>
+                <xsl:apply-templates select="./cei:auth/cei:sealDesc"/>
+                <xsl:if test="./cei:auth/cei:notariusDesc//text()">
+                    <xsl:apply-templates select="./cei:auth/cei:notariusDesc"/>
+                </xsl:if>
                 <xsl:apply-templates select="./cei:physicalDesc"/>
                 <ul>
                     <xsl:if test="./cei:nota//text()/normalize-space() != ''">
@@ -1133,6 +1069,55 @@
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:element>
+    </xsl:template>
+    
+    <xsl:template match="cei:sealDesc">
+        <xsl:apply-templates/>
+    </xsl:template>
+    
+    <xsl:template match="cei:seal">
+        <xsl:if test="preceding-sibling::node()[1] instance of text()">
+            <br/>
+        </xsl:if>
+        <xsl:apply-templates/>
+        <br/>
+    </xsl:template>
+    
+    <xsl:template match="text()[parent::cei:seal][matches(., '\w')][1]">
+        <b>
+            <xrx:i18n>
+                <xrx:key>seal</xrx:key>
+                <xrx:default>Seal</xrx:default>
+            </xrx:i18n>
+            <xsl:text>:&#160;</xsl:text>
+        </b>
+        <xsl:value-of select="."/>
+    </xsl:template>
+    
+    <xsl:template match="cei:sigillant[text()]">
+        <xsl:if test="preceding-sibling::node()[1] instance of text()">
+            <br/>
+        </xsl:if>
+            <b>
+                <xrx:i18n>
+                    <xrx:key>sigillant</xrx:key>
+                    <xrx:default>Sigillant</xrx:default>
+                </xrx:i18n>
+                <xsl:text>:&#160;</xsl:text>
+            </b>
+            <xsl:apply-templates/>
+        <br/>
+    </xsl:template>
+    
+    <xsl:template match="cei:notariusDesc">
+        <b>
+            <xrx:i18n>
+                <xrx:key>notarius-description</xrx:key>
+                <xrx:default>Notarius Description</xrx:default>
+            </xrx:i18n>
+            <xsl:text>:&#160;</xsl:text>
+        </b>
+        <xsl:apply-templates/>
     </xsl:template>
 
     <xsl:template match="cei:rubrum|cei:nota">
@@ -1217,52 +1202,49 @@
     </xsl:template>
     <xsl:template match="cei:material">
         <xsl:if test="./node()">
-            <li>
-                <b>
-                    <xrx:i18n>
-                        <xrx:key>material</xrx:key>
-                        <xrx:default>Material</xrx:default>
-                    </xrx:i18n>
-                    <xsl:text>:&#160;</xsl:text>
-                </b>
-                <xsl:apply-templates/>
-            </li>
+            <b>
+                <xrx:i18n>
+                    <xrx:key>material</xrx:key>
+                    <xrx:default>Material</xrx:default>
+                </xrx:i18n>
+                <xsl:text>:&#160;</xsl:text>
+            </b>
+            <xsl:apply-templates/>
         </xsl:if>
+        <br/>
     </xsl:template>
     <xsl:template match="cei:condition">
         <xsl:if test="./node()">
-            <li>
-                <b>
-                    <xrx:i18n>
-                        <xrx:key>condition</xrx:key>
-                        <xrx:default>Condition</xrx:default>
-                    </xrx:i18n>
-                    <xsl:text>:&#160;</xsl:text>
-                </b>
-                <xsl:apply-templates/>
-            </li>
+            <b>
+                <xrx:i18n>
+                    <xrx:key>condition</xrx:key>
+                    <xrx:default>Condition</xrx:default>
+                </xrx:i18n>
+                <xsl:text>:&#160;</xsl:text>
+            </b>
+            <xsl:apply-templates/>
         </xsl:if>
+        <br/>
     </xsl:template>
     <xsl:template match="cei:dimensions">
         <xsl:choose>
             <xsl:when test="./ancestor::cei:physicalDesc">
                 <xsl:if test="./node()">
-                    <li>
-                        <b>
-                            <xrx:i18n>
-                                <xrx:key>dimensions</xrx:key>
-                                <xrx:default>Dimensions</xrx:default>
-                            </xrx:i18n>
-                            <xsl:text>:&#160;</xsl:text>
-                        </b>
-                        <xsl:apply-templates/>
-                    </li>
+                    <b>
+                        <xrx:i18n>
+                            <xrx:key>dimensions</xrx:key>
+                            <xrx:default>Dimensions</xrx:default>
+                        </xrx:i18n>
+                        <xsl:text>:&#160;</xsl:text>
+                    </b>
+                    <xsl:apply-templates/>
                 </xsl:if>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:apply-templates/>
             </xsl:otherwise>
         </xsl:choose>
+        <br/>
     </xsl:template>
     <xsl:template match="cei:arch | cei:institution">
         <xsl:value-of select="normalize-space(replace(., ',', ''))"/>
