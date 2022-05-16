@@ -124,15 +124,15 @@
                             <xsl:when test=".//cei:issued/cei:date/@value != 99999999">
                                 <xsl:variable name="date" select=".//cei:issued/cei:date/@value"/>
                                 <xsl:variable name="mm">
-                                   <xsl:value-of select="substring($date,1,2)"/>
+                                   <xsl:value-of select="substring($date,5,2)"/>
                                 </xsl:variable>
                              
                                 <xsl:variable name="dd">
-                                   <xsl:value-of select="substring($date,3,2)"/>
+                                   <xsl:value-of select="substring($date,7,2)"/>
                                 </xsl:variable>
                              
                                 <xsl:variable name="yyyy">
-                                   <xsl:value-of select="substring($date,5,4)"/>
+                                   <xsl:value-of select="substring($date,1,4)"/>
                                 </xsl:variable>
                              
                                 <xsl:value-of select="$yyyy"/>
