@@ -172,7 +172,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                 <div class="sub-menu-item" data-demoid="88987a53-4dd3-4094-8ddd-a352a068ea5d">
                   <a href="{ conf:param('request-root') }released-charters">
                     <xrx:i18n>
-                      <xrx:key>released-cherters</xrx:key>
+                      <xrx:key>released-charters</xrx:key>
                       <xrx:default>Released Charters</xrx:default>
                     </xrx:i18n>
                   </a>
