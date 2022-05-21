@@ -49,9 +49,9 @@
     <xrx:body>
         {
         if ($session-username != 'guest') then (
-        let $html-content := util:parse-html($data)
-        let $update := update replace $skoscontent/skos:Concept[@rdf:about=$concept]/skos:definition with <skos:definition rdf:datatype="rdf:XMLLiteral" rdf:parseType="Literal">{$html-content//BODY/*}</skos:definition>
-            return $update
+            let $html-content := util:parse-html($data)
+            let $update := update replace $skoscontent/skos:Concept[@rdf:about=$concept]/skos:definition with <skos:definition rdf:datatype="rdf:XMLLiteral" rdf:parseType="Literal">{$html-content//BODY/*}</skos:definition>
+                return $update
         )
         else ()
         }
