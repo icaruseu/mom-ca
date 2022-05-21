@@ -66,6 +66,14 @@
       </xrx:view>
     </xrx:div>
     <xrx:div>
+      <xrx:key>no-file-div</xrx:key>
+      <xrx:view>
+        <p style="color:red;">
+          <b>There is no glossary file available for this account. Please begin by selecting and copying one from the index search.</b>
+        </p>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
       <xrx:key>select-concept-div</xrx:key>
       <xrx:view>
         <p>
@@ -274,7 +282,7 @@
         <button style="margin:10px;" id="submit-content" type="submit">
           <xrx:i18n>
             <xrx:key>save</xrx:key>
-            <xrx:default>Save definition</xrx:default>
+            <xrx:default>Save definition to file</xrx:default>
           </xrx:i18n>
         </button>
         <button style="margin:10px;float:right" id="release-skos" type="submit">
@@ -556,6 +564,11 @@
       <xrx:true>
         <xrx:view>
           <xrx:div>title-div</xrx:div>
+          {
+          if (not(exists($skosfile))) then
+            <xrx:div>no-file-div</xrx:div>
+          else()
+          }
           <xrx:div>select-concept-div</xrx:div>
           <xrx:div>preflabel-div</xrx:div>
           <xrx:div>broader-div</xrx:div>
