@@ -30,7 +30,7 @@
     </xrx:licence>
     <xrx:variables>
         <xrx:variable>
-            <xrx:name>$userfolder</xrx:name>
+            <xrx:name>$userdir</xrx:name>
             <xrx:expression>concat(conf:param('xrx-user-db-base-uri'), xmldb:encode($xrx:user-id))</xrx:expression>
         </xrx:variable>
         <xrx:variable>
@@ -53,36 +53,39 @@
     </xrx:init>
     <xrx:body>
         {
-        if ($session-username != 'guest') then (
+        let $result := if ($session-username != 'guest') then (
         
-            (: make a copy of the vocabulary if it isn't in use already :)
+            (: check if the vocab is in use by another user :)
             let $file-in-use := publication:is-saved($user:db-base-collection/xrx:user, $atomid)
             
-            let $voc-dir :=
-            if(not(exists(collection(concat($userfolder, '/metadata.controlledVocabulary'))))) then
-                let $create-dir := xmldb:create-collection($userfolder, 'metadata.controlledVocabulary')
-                return $create-dir
-            else()
+            (: create metadata.controlledVocabulary directory in user directory if it doesn't already exist :) 
+            let $create-vocab-dir :=
+                if(not(exists(collection(concat($userdir, '/metadata.controlledVocabulary'))))) then
+                    let $create-dir := xmldb:create-collection($userdir, 'metadata.controlledVocabulary')
+                    return $create-dir
+                else()
             
-            let $copy := 
-            if(not($file-in-use)) then
-            (
-            let $copy := atom:POST(metadata:feed('controlledVocabulary', 'private'), skos-edit:translate-filename($atomid), $public-skos-file)
-                    
-                let $saved :=
-                <xrx:saved xmlns:xrx="http://www.monasterium.net/NS/xrx">
-                    <xrx:id>{ $atomid }</xrx:id>
-                    <xrx:start_time>{ current-dateTime() }</xrx:start_time>
-                    <xrx:freigabe>no</xrx:freigabe>
-                </xrx:saved>
-                       
-                let $user-xml := user:document(xmldb:get-current-user())
-                return update insert $saved into $user-xml//xrx:saved_list
-             )
-            else()
-            return()
+            (: copy vocab to personal vocab directory and insert xrx:saved-entry into user XML :)
+            let $copy-vocab-to-user := 
+                if(not($file-in-use)) then (
+                    let $post := atom:POST(metadata:feed('controlledVocabulary', 'private'), skos-edit:translate-filename($atomid), $public-skos-file)
+                            
+                    let $saved :=
+                        <xrx:saved xmlns:xrx="http://www.monasterium.net/NS/xrx">
+                            <xrx:id>{ $atomid }</xrx:id>
+                            <xrx:start_time>{ current-dateTime() }</xrx:start_time>
+                            <xrx:freigabe>no</xrx:freigabe>
+                        </xrx:saved>
+                           
+                    let $user-xml := user:document($session-username)
+                    let $update := update insert $saved into $user-xml//xrx:saved_list
+                    return (true())
+                )
+                else (false())
+            return $copy-vocab-to-user
         )
-        else ()
+        else (false())
+        return <result>{$result}</result>
         }
     </xrx:body>
 </xrx:service>

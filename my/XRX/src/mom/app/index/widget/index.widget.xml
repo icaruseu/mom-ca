@@ -736,14 +736,16 @@ ul.namelist {{
             $("#copy-to-user").click(function(){{
               $.ajax({{
                 url: "/mom/service/my-collection-copy-skos",
-                success: function(data) {{
-                  $('#msg-suc').css({{opacity: 0, display: "block"}}).animate({{opacity: 1}}, 'slow');
-                  $('#msg-suc').delay(5000).fadeOut('slow');
-                }},
-                error: function(data) {{
-                  $('#msg-err').css({{opacity: 0, display: "block"}}).animate({{opacity: 1}}, 'slow');
-                  $('#msg-err').delay(5000).fadeOut('slow');
-                }}
+                success: function(response) {{				
+             			if(response.includes('true')){{
+               			$('#msg-suc').css({{opacity: 0, display: "block"}}).animate({{opacity: 1}}, 'slow');
+                     $('#msg-suc').delay(5000).fadeOut('slow');
+             			}}
+             			else{{
+             				$('#msg-err').css({{opacity: 0, display: "block"}}).animate({{opacity: 1}}, 'slow');
+                     $('#msg-err').delay(5000).fadeOut('slow');
+             			}}
+             		}},
               }})
             }});
           }});
