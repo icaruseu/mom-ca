@@ -528,23 +528,15 @@
                 contentType: "application/xml",
                 data: editorContent,
                 dataType: "xml",
-                success: function (data) {{
-                    $('#submit-msg-suc').css({{
-                        opacity: 0, display: "inline"
-                    }}).animate({{
-                        opacity: 1
-                    }},
-                    'slow');
+                success: function(response) {{
+                  if($(response).find("result").text()=='true'){{
+                    $('#submit-msg-suc').css({{opacity: 0, display: "inline"}}).animate({{opacity: 1}},'slow');
                     $('#submit-msg-suc').delay(5000).fadeOut('slow');
-                }},
-                error: function (data) {{
-                    $('#submit-msg-err').css({{
-                        opacity: 0, display: "inline"
-                    }}).animate({{
-                        opacity: 1
-                    }},
-                    'slow');
+                  }}
+                  else{{
+                    $('#submit-msg-err').css({{opacity: 0, display: "inline"}}).animate({{opacity: 1}},'slow');
                     $('#submit-msg-err').delay(5000).fadeOut('slow');
+                  }}
                 }}
             }})
         }});

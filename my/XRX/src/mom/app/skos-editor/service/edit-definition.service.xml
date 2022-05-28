@@ -48,12 +48,19 @@
     </xrx:variables>
     <xrx:body>
         {
-        if ($session-username != 'guest') then (
+        let $log1 := util:log('error', concat('username: ', $session-username))
+        let $log2 := util:log('error', concat('$concept: ', $concept))
+        let $log3 := util:log('error', concat('exists private skosfile?: ', exists($skosfile)))
+        let $log4 := util:log('error', concat('exists skos:definition?: ', exists($skoscontent/skos:Concept[@rdf:about=$concept]/skos:definition)))
+        let $log5 := util:log('error', concat('exists $data?: ', exists($data)))
+        
+        let $result := if ($session-username != 'guest') then (
             let $html-content := util:parse-html($data)
             let $update := update replace $skoscontent/skos:Concept[@rdf:about=$concept]/skos:definition with <skos:definition rdf:datatype="rdf:XMLLiteral" rdf:parseType="Literal">{$html-content//BODY/*}</skos:definition>
-                return $update
+            return true()
         )
-        else ()
+        else false()
+        return <result>{$result}</result>
         }
     </xrx:body>
 </xrx:service>
