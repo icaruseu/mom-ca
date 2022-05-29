@@ -42,6 +42,10 @@
             <xrx:expression>concat('#', request:get-parameter("concept", ""))</xrx:expression>
         </xrx:variable>
         <xrx:variable>
+            <xrx:name>$target-definition</xrx:name>
+            <xrx:expression>$skoscontent/skos:Concept[@rdf:about=$concept]/skos:definition</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
             <xrx:name>$session-username</xrx:name>
             <xrx:expression>xmldb:get-current-user()</xrx:expression>
         </xrx:variable>
@@ -55,9 +59,21 @@
         let $log5 := util:log('error', concat('exists $data?: ', exists($data)))
         
         let $result := if ($session-username != 'guest') then (
+            (: make hash before update :)
+            let $definition-content-hash := util:hash(util:serialize($target-definition, ()),'md5')
+            (: insert editor content into element :)
             let $html-content := util:parse-html($data)
-            let $update := update replace $skoscontent/skos:Concept[@rdf:about=$concept]/skos:definition with <skos:definition rdf:datatype="rdf:XMLLiteral" rdf:parseType="Literal">{$html-content//BODY/*}</skos:definition>
-            return true()
+            let $update := update replace $target-definition with <skos:definition rdf:datatype="rdf:XMLLiteral" rdf:parseType="Literal">{$html-content//BODY/*}</skos:definition>
+            (: make hash after update :)
+            let $update-content-hash := util:hash(util:serialize($target-definition, ()),'md5')
+            (: compare hash values :)
+            let $check-update-difference := compare($definition-content-hash, $update-content-hash)
+            let $log6 := util:log('error', concat('$definition-content-hash: ', $definition-content-hash))
+            let $log7 := util:log('error', concat('$update-content-hash: ', $update-content-hash))
+            let $log8 := util:log('error', concat('$check-update-difference: ', $check-update-difference))
+            (: give success message if values are different :)
+            return if ($check-update-difference = 0) then false()
+                else true()
         )
         else false()
         return <result>{$result}</result>
