@@ -197,8 +197,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             </div>
             <h3>
               <xrx:i18n>
-                <xrx:key>vocabularies</xrx:key>
-                <xrx:default>Vocabularies</xrx:default>
+                <xrx:key>vocabulary</xrx:key>
+                <xrx:default>Vocabulary</xrx:default>
               </xrx:i18n>
             </h3>
             <xrx:auth>
