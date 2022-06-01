@@ -90,13 +90,13 @@
                     let $user-xml := user:document($session-username)
                     let $update := update insert $saved into $user-xml//xrx:saved_list
                     let $log7 := util:log('error', concat('exists $user-xml?: ', exists($user-xml)))
-                    return (true())
+                    return true()
                 )
-                else (false())
+                else false()
             let $log8 := util:log('error', concat('$copy-vocab-to-user: ', $copy-vocab-to-user))
             return $copy-vocab-to-user
         )
-        else (false())
+        else false()
         return <result>{$result}</result>
         }
     </xrx:body>
