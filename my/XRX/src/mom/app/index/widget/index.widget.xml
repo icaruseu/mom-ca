@@ -730,6 +730,14 @@ ul.namelist {{
           </xrx:i18n>
         </b>
       </div>
+      <div id="msg-fiu" style="color:red;display:none">
+        <b>
+          <xrx:i18n>
+            <xrx:key>file-in-use</xrx:key>
+            <xrx:default>This vocabulary is currently being edited by a user.</xrx:default>
+          </xrx:i18n>
+        </b>
+      </div>
        </div>
         <script type="text/javascript">
           $(document).ready(function(){{
@@ -737,9 +745,13 @@ ul.namelist {{
               $.ajax({{
                 url: "/mom/service/my-collection-copy-skos",
                 success: function(response) {{				
-             			if(response.includes('true')){{
+             			if(response.includes('success')){{
                			$('#msg-suc').css({{opacity: 0, display: "block"}}).animate({{opacity: 1}}, 'slow');
                      $('#msg-suc').delay(5000).fadeOut('slow');
+             			}}
+             			else if(response.includes('file-in-use')){{
+               			$('#msg-fiu').css({{opacity: 0, display: "block"}}).animate({{opacity: 1}}, 'slow');
+                     $('#msg-fiu').delay(5000).fadeOut('slow');
              			}}
              			else{{
              				$('#msg-err').css({{opacity: 0, display: "block"}}).animate({{opacity: 1}}, 'slow');
