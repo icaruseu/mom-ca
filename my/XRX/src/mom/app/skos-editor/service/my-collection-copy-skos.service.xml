@@ -53,25 +53,29 @@
     </xrx:init>
     <xrx:body>
         {
+        (:
         let $log1 := util:log('error', concat('$userdir: ', $userdir))
         let $log2 := util:log('error', concat('exists($public-skos-file): ', exists($public-skos-file)))
         let $log3 := util:log('error', concat('$atomid: ', $atomid))
         let $log4 := util:log('error', concat('$session-username: ', $session-username))
+        :)
             
         let $result := if ($session-username != 'guest') then (
         
             (: check if the vocab is in use by another user :)
             let $file-in-use := publication:is-saved($user:db-base-collection/xrx:user, $atomid)
             
+            (:
             let $log5 := util:log('error', concat('$file-in-use: ', $file-in-use))
             let $log55 := util:log('error', concat('$voc-dir: ', $userdir, '/metadata.controlledVocabulary'))
-            let $log6 := util:log('error', concat('exists $voc-dir?: ', exists(collection(concat($userdir, '/metadata.controlledVocabulary')))))            
+            let $log6 := util:log('error', concat('exists $voc-dir?: ', exists(collection(concat($userdir, '/metadata.controlledVocabulary')))))
+            :)
             
             (: create metadata.controlledVocabulary directory in user directory if it doesn't already exist :) 
             let $create-vocab-dir :=
                 if(not(exists(collection(concat($userdir, '/metadata.controlledVocabulary'))))) then
                     let $create-dir := xmldb:create-collection($userdir, 'metadata.controlledVocabulary')
-                    let $log6 := util:log('error', concat('$create-dir: ', $create-dir))
+                    (: let $log6 := util:log('error', concat('$create-dir: ', $create-dir)) :)
                     return $create-dir
                 else()
             
@@ -90,10 +94,10 @@
                            
                     let $user-xml := user:document($session-username)
                     let $update := update insert $saved into $user-xml//xrx:saved_list
-                    let $log7 := util:log('error', concat('exists $user-xml?: ', exists($user-xml)))
+                    (: let $log7 := util:log('error', concat('exists $user-xml?: ', exists($user-xml))) :)
                     return 'success'
                 )
-            let $log8 := util:log('error', concat('$copy-vocab-to-user: ', $copy-vocab-to-user))
+            (: let $log8 := util:log('error', concat('$copy-vocab-to-user: ', $copy-vocab-to-user)) :)
             return $copy-vocab-to-user
         )
         else 'error'

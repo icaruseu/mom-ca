@@ -29,7 +29,7 @@ at "../xrx/conf.xqm";
 
 declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
-
+(: splits up the given atom:id and returns those parts after the atom-tag :)
 declare function skos-edit:object-uri-tokens($atomid as xs:string, $atom-tag-name as xs:string) as xs:string* {
     
     let $object-uri := substring-after($atomid, $atom-tag-name)
@@ -38,13 +38,14 @@ declare function skos-edit:object-uri-tokens($atomid as xs:string, $atom-tag-nam
         subsequence($object-uri-tokens, 2)
 };
 
-
+(: single argument version of the above function :)
 declare function skos-edit:object-uri-tokens($atomid as xs:string) as xs:string* {
     
     skos-edit:object-uri-tokens($atomid, conf:param('atom-tag-name'))
 };
 
 
+(: returns the type of file of the given atom:id - fond charter, collection charter, or vocabulary file :)
 declare function skos-edit:context($atomid as xs:string, $atom-tag-name as xs:string) as xs:string {
     
     let $tokens := skos-edit:object-uri-tokens($atomid, $atom-tag-name)
@@ -58,6 +59,7 @@ declare function skos-edit:context($atomid as xs:string, $atom-tag-name as xs:st
                 'collection'
 };
 
+(: creates the file name of the vocabulary file based on the atom:id :)
 declare function skos-edit:translate-filename($atomid as xs:string) as xs:string {
     
     let $shorten := substring-after($atomid, 'controlledVocabulary/')
