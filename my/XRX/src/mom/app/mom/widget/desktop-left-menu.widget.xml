@@ -225,8 +225,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             <div class="sub-menu-item" data-demoid="910559c1-f715-4b70-92e7-0ea0125480f4">
               <a href="{ conf:param('request-root') }saved-vocabularies">
                 <xrx:i18n>
-                  <xrx:key>saved-charters</xrx:key>
-                  <xrx:default>Saved Charters</xrx:default>
+                  <xrx:key>saved-vocabularies</xrx:key>
+                  <xrx:default>Saved Vocabularies</xrx:default>
                 </xrx:i18n>
               </a>
             </div>
