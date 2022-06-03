@@ -780,29 +780,6 @@
             <xsl:apply-templates/>
         </span>
     </xsl:template>
-    
-    <xsl:template match="cei:app">
-        <span class="cei-app">
-            <xsl:attribute name="title">
-                <xsl:apply-templates select="cei:rdg"/>
-            </xsl:attribute>
-            <xsl:attribute name="style">
-                <xsl:choose>
-                    <xsl:when test="count(ancestor::cei:app) mod 2">background-color:#e3e8c9;</xsl:when>
-                    <xsl:otherwise>background-color:#ffd9b3;</xsl:otherwise>
-                </xsl:choose>
-            </xsl:attribute>
-            <xsl:apply-templates select="*[not(self::cei:rdg)]"/>
-        </span>
-    </xsl:template>
-    
-    <xsl:template match="cei:rdg">
-        <xsl:value-of select="concat('[', ./@wit, ']: ', ., '&#10;')"/>
-    </xsl:template>
-    
-    <xsl:template match="cei:lem">
-        <xsl:apply-templates/>
-    </xsl:template>
 
     <xsl:template match="cei:expan">
         <xsl:variable name="i18n">
@@ -1234,12 +1211,6 @@
         <xsl:apply-templates select="*[not(name() = 'cei:decoDesc')]"/>
     </xsl:template>
     <xsl:template name="traditioForm">
-        <xsl:if test="./@n !=''">
-            <b>
-                <xsl:value-of select="concat(./@n, ':')"/>
-            </b>
-            <br/>
-        </xsl:if>
         <xsl:apply-templates select="./cei:traditioForm"/>
         <br/>
         <xsl:apply-templates select="./child::text()|./cei:hi/text()"/>
