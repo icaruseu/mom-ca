@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
-  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/charters-to-publish</xrx:id>
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/vocabularies-to-publish</xrx:id>
   <xrx:title>
     <xrx:i18n>
       <xrx:key>charters-to-publish</xrx:key>
@@ -8,7 +8,7 @@
   </xrx:title>
   <xrx:subtitle/>
   <xrx:description/>
-  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+  <xrx:author>niklas.tscherne@uni-graz.at</xrx:author>
   <xrx:licence>
 This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
 
@@ -31,6 +31,12 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 
 We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
   </xrx:licence>
+  <xrx:variables>
+    <xrx:variable>
+      <xrx:name>$page-lang</xrx:name>
+      <xrx:expression>request:get-parameter("_lang", "")</xrx:expression>
+    </xrx:variable>
+  </xrx:variables>
   <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/desktop</xrx:portal>
   <xrx:init>
    <xrx:processor>
@@ -143,14 +149,14 @@ right:220px;
   <xrx:view>
   {
 	let $community-member-charters := publication:checkForArchivist($xrx:user-id)
-    let $charters-to-publish := 
-    (
-      for $moderators-user in $user:db-base-collection//xrx:moderator[.=$xrx:user-id]
-      return 
-      root($moderators-user)//xrx:saved[xrx:freigabe='yes']/xrx:id[not(contains(./text(), 'controlledVocabulary'))],
-      $user:db-base-collection//xrx:email[.=$xrx:user-id]//xrx:saved[xrx:freigabe='yes']/xrx:id,
+  let $charters-to-publish := 
+  (
+    for $moderators-user in $user:db-base-collection//xrx:moderator[.=$xrx:user-id]
+    return 
+    root($moderators-user)//xrx:saved[xrx:freigabe='yes']/xrx:id[contains(./text(), 'controlledVocabulary')],
+    $user:db-base-collection//xrx:email[.=$xrx:user-id]//xrx:saved[xrx:freigabe='yes']/xrx:id,
 	  $community-member-charters
-    )
+  )
 
     (: pagination :)
     let $numentries := count($charters-to-publish)
@@ -198,58 +204,23 @@ right:220px;
 	    	</div>
 	      {
 	      
-	      
 	      for $id-element at $num in $charters-to-publish
-		  let $releasedate-time := root($id-element)//xrx:saved[xrx:id=$id-element]/xrx:released
-		  let $releaseddate := tokenize($releasedate-time,'T')[1]
+		    let $releasedate-time := root($id-element)//xrx:saved[xrx:id=$id-element]/xrx:released
+		    let $releaseddate := tokenize($releasedate-time,'T')[1]
 	      let $atom-id := $id-element/text()
 	      let $email := root($id-element)//xrx:email/text()
 	      	      
 	      (: initialize metadata collections :)
 	      let $tokens := tokenize(substring-after($atom-id, conf:param('atom-tag-name')), '/')
 	
-	      let $charter-context := 
+	      let $entry-is-vocab := 
 	        let $probably-collection-id := $tokens[3]
 	        let $probably-collection-atom-id := metadata:atomid('collection', $probably-collection-id)
 	        return
-	        if(exists(metadata:base-collection('collection', 'public')//atom:id[.=$probably-collection-atom-id])) then 'collection' else 'fond'      
+	        if($probably-collection-id = 'IllUrkGlossar') then true() (: TODO: generalize for all entries in users' vocab directories :)
+	        else()     
 	      
-	      let $charter-id := $tokens[last()]
-	      let $fond-id := if($charter-context = 'fond') then $tokens[last() - 1] else 'null'
-	      let $archive-id := if($charter-context = 'fond') then $tokens[last() - 2] else 'null'
-	      let $collection-id := if($charter-context = 'collection') then $tokens[last() - 1] else 'null'
-	          
-	      let $metadata-charter-collection := 
-	        if($charter-context = 'fond') then
-	          metadata:base-collection('charter', ($archive-id, $fond-id), 'public')
-	        else
-	          metadata:base-collection('charter', $collection-id, 'public')
-	      let $metadata-fond-collection := 
-	        metadata:base-collection('fond', ($archive-id, $fond-id), 'public')
-	      let $metadata-archive-collection := 
-	        metadata:base-collection('archive', $archive-id, 'public')
-	      let $metadata-collection-collection := 
-	        metadata:base-collection('collection', $collection-id, 'public')
-	      
-	      let $published-charter := root($metadata-charter-collection//atom:id[.=$atom-id])/atom:entry
-	      let $saved-charter := root(metadata:base-collection('charter', 'saved')//atom:id[.=$atom-id])/atom:entry
-	      
-	      (: fond information :)
-	      let $meta := 
-	        if($charter-context = 'fond') then $metadata-fond-collection//ead:ead//ead:c[@level='fonds']/ead:did else $metadata-collection-collection//cei:cei
-	      let $fond-name := 
-	        if($charter-context = 'fond') then $meta/ead:unittitle/text() else normalize-space($meta//cei:provenance/child::text())
-	
-	      (: get archive information :)
-	      let $arch-name := $metadata-archive-collection//eag:autform/text()    
-	        
-	      (: get info for published charter :)
-	      let $id := data($published-charter//cei:body/cei:idno/@id)
-	      let $idno := $published-charter//cei:body/cei:idno/text()
-	      let $date := ($published-charter//cei:date/text(), $published-charter//cei:dateRange/text(), $published-charter//cei:date_sort/text())[1]
-	      let $abstract := $published-charter//cei:abstract//text()
-	
-	      (: status of the charter :)
+	      (: status of the vocabulary :)
 	      let $is-bookmarked := bookmark:is-bookmarked($xrx:user-xml, $atom-id)
 	      let $saved-by-current-user := false()
 	      let $saved-by-any-user := true()
@@ -258,60 +229,46 @@ right:220px;
 	      return
 	      <div class="charter" data-demoid="0fde065e-714f-4af1-8ff9-f8c4119536f3" id="ch{ $num }"><div class="charter-preview" data-demoid="2e40613c-06cb-4210-9573-395381393cde"><div class="inner-charter-preview" data-demoid="dbc33628-24db-40ce-83f5-6b2ac12545b7">
 		      <div class="container" data-demoid="11ab7309-0446-4bd3-afa5-a0444d2dcb87">
-	          <div data-demoid="c32b0676-bfe9-438e-8811-945477b42c93">
-	            {
-	            if($charter-context = 'fond') then
-	            <div data-demoid="26e2ceaa-50d7-4148-82fc-a60b50f164be">{ $arch-name }, { $fond-name }</div>
-	            else
-	            <div data-demoid="cf9e8388-e267-4427-a7c9-68a21959ad82">{ $fond-name }</div>
-	            }
-	            <b>
-	              <xrx:i18n>
-	                <xrx:key>charter</xrx:key>
-	                <xrx:default>Charter</xrx:default>
-	              </xrx:i18n>
-	              <span>: </span>
-	            </b>
-	            <span>{ $idno }</span>
-	          </div>
-	          <div data-demoid="ccc44ab5-1a5c-4c5e-93a2-4077ba6c036a">
-	            <b>
-	              <xrx:i18n>
-	                <xrx:key>date</xrx:key>
-	                <xrx:default>Date</xrx:default>
-	              </xrx:i18n>
-	              <span>: </span>
-	            </b>
-	            <span>{ ($saved-charter//cei:date/text(), $saved-charter//cei:dateRange/text())[1] }</span>
-	          </div>
-		        <div data-demoid="465ad092-da11-4188-a290-e54c1999c918">
+		        {
+		        if($entry-is-vocab) then (
+		        <div data-demoid="26e2ceaa-50d7-4148-82fc-a60b50f164gg">
 		          <b>
 		            <xrx:i18n>
-		              <xrx:key>abstract</xrx:key>
-		              <xrx:default>Abstract</xrx:default>
+		              <xrx:key>vocab-released</xrx:key>
+		              <xrx:default>A modified version of a vocabulary has been released.</xrx:default>
 		            </xrx:i18n>
-		            <span>: </span>
 		          </b>
-		          <span>{ $saved-charter//cei:abstract//text() }</span>
-		        </div>
+		        </div>,
+		        <br/>,
+		        <div data-demoid="vocab-name">
+		          <xrx:i18n>
+		            <xrx:key>vocabulary</xrx:key>
+		            <xrx:default>Vocabulary</xrx:default>
+		          </xrx:i18n>
+		          <span>: {
+		            if ($page-lang != '') then
+		            metadata:base-collection('controlledVocabulary', 'public')/atom:entry[atom:id/text()=$atom-id]/atom:content/rdf:RDF/skos:ConceptScheme/skos:prefLabel[@xml:lang=substring($page-lang, 1, 2)]
+		            else
+		            metadata:base-collection('controlledVocabulary', 'public')/atom:entry[atom:id/text()=$atom-id]/atom:content/rdf:RDF/skos:ConceptScheme/skos:prefLabel[@xml:lang='de']
+		            }</span>
+		        </div>,
+		        <div data-demoid="aa4daa50-90cc-4395-8baa-8307763002d5">
+		          <xrx:i18n>
+		            <xrx:key>edited-by</xrx:key>
+		            <xrx:default>Edited by</xrx:default>
+		          </xrx:i18n>
+		          <span>: { user:firstname-name($email) }</span>
+		        </div>,
+		        <div>
+		          <xrx:i18n>
+		            <xrx:key>released-at</xrx:key>
+		            <xrx:default>Released</xrx:default>
+		          </xrx:i18n>
+		          <span>: {$releaseddate}</span>
+		        </div>,
 		        <br/>
-	          <br/>
-	          <div data-demoid="aa4daa50-90cc-4395-8baa-8307763002d5">
-	            <xrx:i18n>
-	              <xrx:key>edited-by</xrx:key>
-	              <xrx:default>Edited by</xrx:default>
-	            </xrx:i18n>
-	            <span>: { user:firstname-name($email) }</span>
-	          </div>
-	          <div>
-	          	<xrx:i18n>
-	          		<xrx:key>released-at</xrx:key>
-	          		<xrx:default>Released</xrx:default>
-	          	</xrx:i18n>
-	          	<span>: {$releaseddate}</span>
-	            {matches($xrx:tokenized-uri[last()], '^(fond|collection|search|saved-charters|charter|bookmarks|mom-ca)$')}
-	          </div>
-	          <br/>
+		        )
+		        else ()}
 		      </div>
 		      <div class="charter-info-and-actions" data-demoid="84b9711f-cc67-4524-a514-695c36ca0776">
 		        <a href="{ conf:param('request-root') }charter-to-publish?id={ $atom-id }">

@@ -172,7 +172,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                 <div class="sub-menu-item" data-demoid="88987a53-4dd3-4094-8ddd-a352a068ea5d">
                   <a href="{ conf:param('request-root') }released-charters">
                     <xrx:i18n>
-                      <xrx:key>released-cherters</xrx:key>
+                      <xrx:key>released-charters</xrx:key>
                       <xrx:default>Released Charters</xrx:default>
                     </xrx:i18n>
                   </a>
@@ -192,6 +192,49 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                 <xrx:i18n>
                   <xrx:key>my-collections</xrx:key>
                   <xrx:default>MyCollections</xrx:default>
+                </xrx:i18n>
+              </a>
+            </div>
+            <h3>
+              <xrx:i18n>
+                <xrx:key>vocabulary</xrx:key>
+                <xrx:default>Vocabulary</xrx:default>
+              </xrx:i18n>
+            </h3>
+            <xrx:auth>
+              <xrx:rules>
+                <xrx:rule>
+                  <xrx:user/>
+                  <xrx:role>moderator</xrx:role>
+                </xrx:rule>
+              </xrx:rules>
+              <xrx:true>
+                <div class="sub-menu-item" data-demoid="8c0975c0-2102-4da7-912f-1a0c1f509c19">
+                  <a href="{ conf:param('request-root') }vocabularies-to-publish">
+                    <xrx:i18n>
+                      <xrx:key>charters-to-publish</xrx:key>
+                      <xrx:default>Charters to publish</xrx:default>
+                    </xrx:i18n>
+                  </a>
+                </div>
+              </xrx:true>
+              <xrx:false>
+                <span/>
+              </xrx:false>
+            </xrx:auth>
+            <div class="sub-menu-item" data-demoid="910559c1-f715-4b70-92e7-0ea0125480f4">
+              <a href="{ conf:param('request-root') }saved-vocabularies">
+                <xrx:i18n>
+                  <xrx:key>saved-vocabularies</xrx:key>
+                  <xrx:default>Saved Vocabularies</xrx:default>
+                </xrx:i18n>
+              </a>
+            </div>
+            <div class="sub-menu-item">
+              <a href="{ conf:param('request-root') }skos-editor">
+                <xrx:i18n>
+                  <xrx:key>skos-editor</xrx:key>
+                  <xrx:default>SKOS-Editor</xrx:default>
                 </xrx:i18n>
               </a>
             </div>

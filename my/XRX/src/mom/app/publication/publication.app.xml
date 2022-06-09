@@ -65,6 +65,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/saved-charters</xrx:atomid>
     </xrx:map>
     <xrx:map>
+      <xrx:uripattern>/saved-vocabularies$</xrx:uripattern>
+      <xrx:mode>mainwidget</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/saved-vocabularies</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
     	<xrx:uripattern>/charter-version-difference$</xrx:uripattern>
     	<xrx:mode>mainwidget</xrx:mode>
     	<xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/charter-version-difference</xrx:atomid>
@@ -73,6 +78,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:uripattern>/charters-to-publish$</xrx:uripattern>
       <xrx:mode>mainwidget</xrx:mode>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/charters-to-publish</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/vocabularies-to-publish$</xrx:uripattern>
+      <xrx:mode>mainwidget</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/widget/vocabularies-to-publish</xrx:atomid>
     </xrx:map>
     <xrx:map>
       <xrx:uripattern>/released-charters$</xrx:uripattern>
@@ -88,6 +98,11 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:uripattern>/service/publish-charter$</xrx:uripattern>
       <xrx:mode>service</xrx:mode>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/publish-charter</xrx:atomid>
+    </xrx:map>
+    <xrx:map>
+      <xrx:uripattern>/service/publish-vocabulary$</xrx:uripattern>
+      <xrx:mode>service</xrx:mode>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/service/publish-vocabulary</xrx:atomid>
     </xrx:map>
     <xrx:map>
       <xrx:uripattern>/service/release-charter$</xrx:uripattern>

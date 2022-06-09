@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xf="http://www.w3.org/2002/xforms">
-    <xrx:id>tag:www.monasterium.net,2011:/mom/widget/saved-charters</xrx:id>
+    <xrx:id>tag:www.monasterium.net,2011:/mom/widget/saved-vocabularies</xrx:id>
     <xrx:title>
         <xrx:i18n>
             <xrx:key>saved-charters</xrx:key>
@@ -8,7 +8,7 @@
     </xrx:title>
     <xrx:subtitle/>
     <xrx:description/>
-    <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+    <xrx:author>niklas.tscherne@uni-graz.at</xrx:author>
     <xrx:licence>
 This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
 
@@ -147,10 +147,10 @@ right:220px;
     <xrx:view>
   {
     (: saved charters :)
-    let $saved-charters := $xrx:user-xml//xrx:saved[xrx:freigabe='no']/xrx:id/text()[contains(., '/charter/')]
+    let $saved-vocabs := $xrx:user-xml//xrx:saved[xrx:freigabe='no']/xrx:id/text()[contains(., 'controlledVocabulary')]
 
     (: pagination :)
-    let $numentries := count($saved-charters)
+    let $numentries := count($saved-vocabs)
     let $startstop := pagination:startstop($numentries)
     let $navigation := pagination:navi($numentries)
     
@@ -166,76 +166,40 @@ right:220px;
             <xf:group>
                 <div data-demoid="5a92598b-dcbf-4cf7-8449-d55a272d614e" id="dcharter-preview-main">
           {
-          for $charter at $num in $saved-charters[position() = $startstop]
+          for $vocab at $num in $saved-vocabs[position() = $startstop]
           
           (: init metadata database collections :)
-          let $tokens := tokenize(substring-after($charter, conf:param('atom-tag-name')), '/')
+          let $tokens := tokenize(substring-after($vocab, conf:param('atom-tag-name')), '/')
 
           let $charter-context := 
             let $probably-collection-id := $tokens[3]
-            let $probably-collection-atom-id := concat(conf:param('atom-tag-name'), '/collection/', $probably-collection-id)
+            let $probably-collection-atom-id := metadata:atomid('collection', $probably-collection-id)
             return
-            if(exists(metadata:base-collection('collection', 'public')//atom:id[.=$probably-collection-atom-id])) then 'collection' else 'fond'
+            if($probably-collection-id = 'IllUrkGlossar') then 'vocab' (: TODO: generalize for all entries in users' vocab directories :)
+            else() 
           
-          let $charter-id := $tokens[last()]
-          let $fond-id := if($charter-context = 'fond') then $tokens[last() - 1] else 'null'
-          let $archive-id := if($charter-context = 'fond') then $tokens[last() - 2] else 'null'
-          let $collection-id := if($charter-context = 'collection') then $tokens[last() - 1] else 'null'
-          
-          let $metadata-charter-collection := 
-            if($charter-context = 'fond') then
-              metadata:base-collection('charter', ($archive-id, $fond-id), 'public')
-            else
-              metadata:base-collection('charter', $collection-id, 'public')
-          let $metadata-fond-collection := 
-            metadata:base-collection('fond', ($archive-id, $fond-id), 'public')
-          let $metadata-archive-collection := 
-            metadata:base-collection('archive', $archive-id, 'public')
-          let $metadata-collection-collection := 
-            metadata:base-collection('collection', $collection-id, 'public')
+          let $vocab-id := $tokens[last()] (: 'IllUrkGlossar' :)
                   
           (: get charter from public area :)
-          let $published-charter := root($metadata-charter-collection//atom:id[.=$charter])//cei:text
+          let $published-vocab := doc(concat(metadata:base-collection-path('controlledVocabulary', 'public'), 'IllUrkGlossar.xml'))
           
           (: is charter bookmarked? :)
-          let $is-bookmarked := bookmark:is-bookmarked($xrx:user-xml, $charter)
-          
-          (: get fond information :)
-          let $eaddid := $metadata-fond-collection//ead:ead//ead:c[@level='fonds']/ead:did
-          let $fond-name := normalize-space($eaddid//ead:unittitle/text())
-          
-          (: get archive information :)
-          let $country-id := data($metadata-archive-collection//eag:repositorid/@countrycode)
-          let $arch-name := $metadata-archive-collection//eag:autform/text()
+          let $is-bookmarked := bookmark:is-bookmarked($xrx:user-xml, $vocab)
           
           (: get info for published charter :)
-          let $idno := $published-charter//cei:body/cei:idno/text()
-          let $date := ($published-charter//cei:date/text(), $published-charter//cei:dateRange/text(), $published-charter//cei:date_sort/text())[1]
-          let $abstract := $published-charter//cei:abstract//text()
-
-          (: get collection infromation :)
-          let $collection-entry := $metadata-collection-collection//cei:cei
-          let $collection-name := $collection-entry//cei:provenance/child::text()
+          let $vocab-name := $published-vocab//atom:entry/atom:content/rdf:RDF/skos:ConceptScheme/skos:prefLabel[1] (: TODO: generalize and make language-dynamic :)
           
-          let $saved-charter := root(metadata:base-collection('charter', 'saved')//atom:id[.=$charter])//cei:text
-
           (: status of the charter :)
-          let $is-bookmarked := bookmark:is-bookmarked($xrx:user-xml, $charter)
-          let $saved-by-current-user := publication:is-saved($xrx:user-xml, $charter)
-          let $saved-by-any-user := publication:is-saved($user:db-base-collection/xrx:user, $charter)
-          let $saved-by-user := publication:saved-by-user($user:db-base-collection/xrx:user, $saved-charter)
-          let $saved-by-user-label :=
-            concat(user:firstname-name($saved-by-user), ' (', $saved-by-user, ')')
+          let $is-bookmarked := bookmark:is-bookmarked($xrx:user-xml, $vocab)
+          let $saved-by-current-user := publication:is-saved($xrx:user-xml, $vocab)
+          let $saved-by-any-user := publication:is-saved($user:db-base-collection/xrx:user, $vocab)
+          let $saved-by-user := publication:saved-by-user($user:db-base-collection/xrx:user, $vocab)
           
           (: status of the user :)
           let $is-moderator := auth:matches(<xrx:rule>
                         <xrx:user/>
                         <xrx:role>moderator</xrx:role>
                     </xrx:rule>)
-          
-          let $charter-url := 
-            if($charter-context = 'fond') then concat(conf:param('request-root'),$archive-id,'/',$fond-id,'/',$charter-id,'/charter')
-            else concat(conf:param('request-root'),$collection-id,'/',$charter-id,'/charter')
                   
           return
           <div class="charter" data-demoid="b32e2701-abf4-4310-8526-8b6f0ee44153" id="ch{ $num }">
@@ -244,47 +208,19 @@ right:220px;
 
             <!-- ################## Common Info ################# -->
                                 <div data-demoid="eaa667ea-0054-4d24-9164-a9a8ce5b7bc9">
-              {
-              if($charter-context = 'fond') then
-              <div data-demoid="640c2c1e-c141-4841-a632-01ff76bc59f9">{ $arch-name }, { $fond-name }<span class="light-grey">
-                                            <span> (<xrx:i18n>
-                                                    <xrx:key>fond</xrx:key>
-                                                    <xrx:default>Fond</xrx:default>
-                                                </xrx:i18n>)</span>
-                                        </span>
-                                    </div>
-              else
-              <div data-demoid="ab3322af-394d-4c36-b5c9-b12d9a51931a">{ $collection-name }<span class="light-grey">
-                                            <span> (<xrx:i18n>
-                                                    <xrx:key>collection</xrx:key>
-                                                    <xrx:default>Collection</xrx:default>
-                                                </xrx:i18n>)</span>
-                                        </span>
-                                    </div>
-              }
               <b>
                                         <xrx:i18n>
-                                            <xrx:key>charter</xrx:key>
-                                            <xrx:default>Charter</xrx:default>
+                                            <xrx:key>vocabulary</xrx:key>
+                                            <xrx:default>Vocabulary</xrx:default>
                                         </xrx:i18n>
                                         <span>: </span>
                                     </b>
-                                    <span>{ $idno }</span>
-                                </div>
-                                <div data-demoid="f58e98f7-89db-42bf-8b4c-f2283c900cfd">
-                                    <b>
-                                        <xrx:i18n>
-                                            <xrx:key>date</xrx:key>
-                                            <xrx:default>Date</xrx:default>
-                                        </xrx:i18n>
-                                        <span>: </span>
-                                    </b>
-                                    <span>{ $date }</span>
+                                    <span>{ $vocab-name }</span>
                                 </div>
                                 <br/>
                                 <br/>
             
-            <!-- ############### Published Charter ################# -->
+<!--            <!-\- ############### Published Charter ################# -\->
                                 <div class="container" data-demoid="86686e29-b9a4-44df-ae11-4cecb09070d4">
                                     <div data-demoid="d749430d-03bf-4f8c-9840-8ee19cf86f26">
                                         <b>
@@ -308,7 +244,7 @@ right:220px;
                                 </div>
 
 
-            <!-- ############## Saved Charter ################ -->
+            <!-\- ############## Saved Charter ################ -\->
                                 <div class="container" data-demoid="fb5b7d09-4770-4431-9e38-8c4f2f2f7dba">
                                     <div data-demoid="96c343bf-1e6f-4e6e-a2a4-9e9be5e41f80">
                                         <b>
@@ -321,18 +257,18 @@ right:220px;
                                         <span>{ $saved-charter//*:abstract//text() }</span>
                                     </div>
                                     <br/>
-                                </div>
+                                </div>-->
                                 <div class="charter-info-and-actions" data-demoid="a66d8ee9-a351-4489-a0e5-0a4b0cd9299e">
-                                    <div data-demoid="f15a5174-9bad-44ef-8b3d-48a8d2c120a5">
-                                        <a href="{ conf:param('request-root') }saved-charter?id={ $charter }">
+                                    <!--<div data-demoid="f15a5174-9bad-44ef-8b3d-48a8d2c120a5">
+                                        <a href="{ conf:param('request-root') }saved-charter?id={ $vocab }">
                                             <xrx:i18n>
                                                 <xrx:key>view-charter</xrx:key>
                                                 <xrx:default>View Charter</xrx:default>
                                             </xrx:i18n>
                                         </a>
-                                    </div>
+                                    </div>-->
                                     <div data-demoid="ccf5e927-6e78-4b54-9647-f4f03aeef9a0">
-                                        <a href="{ conf:param('request-root') }charter-version-difference?id={ $charter }&amp;backlink=saved-charters">
+                                        <a href="{ conf:param('request-root') }charter-version-difference?id={ $vocab }&amp;backlink=saved-charters">
                                             <xrx:i18n>
                                                 <xrx:key>version-difference</xrx:key>
                                                 <xrx:default>Version Difference</xrx:default>
@@ -342,7 +278,7 @@ right:220px;
                 { 
                 bookmark:trigger(
                   $is-bookmarked,
-                  $charter,
+                  $vocab,
                   $num,
                   conf:param('request-root'),
                   <span>
@@ -359,16 +295,13 @@ right:220px;
                                     </span>
                 ) 
                 }
-                                	<div class="note-field" data-demoid="7c5ccba8-f7d4-4c18-8be6-cd26c2098671" id="note-field-{$num}" style="display:{if($is-bookmarked)then 'block' else 'none'};">
+                                	<!--<div class="note-field" data-demoid="7c5ccba8-f7d4-4c18-8be6-cd26c2098671" id="note-field-{$num}" style="display:{if($is-bookmarked)then 'block' else 'none'};">
                                 		{
-                                		let $encoded-id := xmldb:encode($charter-id)
+                                		let $encoded-id := xmldb:encode($vocab-id)
                                 		let $note := 
-                                		if($charter-context = 'fond') then
-                                		doc(concat(conf:param('xrx-user-db-base-uri'), xmldb:encode($xrx:user-id), '/metadata.bookmark-notes/', xmldb:decode($archive-id), '/', xmldb:decode($fond-id), '/', xmldb:decode($encoded-id), '.xml'))//xrx:bookmark_note
-                                		else
                                 		doc(concat(conf:param('xrx-user-db-base-uri'), xmldb:encode($xrx:user-id), '/metadata.bookmark-notes/', xmldb:decode($collection-id), '/', xmldb:decode($encoded-id), '.xml'))//xrx:bookmark_note
                                 		let $note-text := 
-                                		if($note//xrx:bookmark/text() = xmldb:encode($charter))then
+                                		if($note//xrx:bookmark/text() = xmldb:encode($vocab))then
                                 		$note//xrx:note/text()
                                 		else()
                                 		return
@@ -403,7 +336,7 @@ right:220px;
                                 						}
                                 					</xf:label>
                                 					<xf:action ev:event="DOMActivate">
-                                						<xf:setvalue ref="//xrx:bookmark" value="'{ $charter }'"/>
+                                						<xf:setvalue ref="//xrx:bookmark" value="'{ $vocab }'"/>
                                 						<script type="text/javascript">document.getElementById('noteBobble-{$num}').style.display = 'block';document.getElementById('note-textarea-{$num}-value').value = document.getElementById('note-output-{$num}').innerHTML;document.getElementById('note-edit-{$num}-value').innerHTML = 'Edit note';</script>
                                 					</xf:action>
                                 				</xf:trigger>
@@ -432,7 +365,7 @@ right:220px;
                                 							</xrx:i18n>
                                 						</xf:label>
                                 						<xf:action ev:event="DOMActivate">
-                                							<xf:setvalue ref="//xrx:bookmark" value="'{ $charter }'"/>
+                                							<xf:setvalue ref="//xrx:bookmark" value="'{ $vocab }'"/>
                                 							<xf:send submission="ssave-note"/>
                                 							<script type="text/javascript">document.getElementById('note-field-{$num}').style.display = 'block';document.getElementById('noteBobble-{$num}').style.display = 'none';document.getElementById('note-output-{$num}').innerHTML = document.getElementById('note-textarea-{$num}-value').value;document.getElementById('note-edit-{$num}-value').innerHTML = 'Edit note';</script>
                                 						</xf:action>
@@ -440,12 +373,12 @@ right:220px;
                                 				</div>
                                 			</xf:group>
                                 		</div>
-                                	</div>
+                                	</div>-->
                 {
                 publication:user-actions(
                   $saved-by-current-user,
                   $saved-by-any-user,
-                  $charter,
+                  $vocab,
                   $num,
                   conf:param('request-root'),
                   $is-moderator,

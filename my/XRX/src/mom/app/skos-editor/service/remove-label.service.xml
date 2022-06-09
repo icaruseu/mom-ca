@@ -1,0 +1,73 @@
+<xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx">
+    <xrx:id>tag:www.monasterium.net,2011:/mom/service/remove-label</xrx:id>
+    <xrx:title>
+        <xrx:i18n>
+            <xrx:key>remove-label</xrx:key>
+            <xrx:default>Remove-Label</xrx:default>
+        </xrx:i18n>
+    </xrx:title>
+    <xrx:description>This service deletes the specified label from a SKOS concept.</xrx:description>
+    <xrx:author>niklas.tscherne@uni-graz.at</xrx:author>
+    <xrx:licence>
+        This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+        
+        As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+        
+        This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+        
+        The VdU/VRET is free software: you can redistribute it and/or modify
+        it under the terms of the GNU General Public License as published by
+        the Free Software Foundation, either version 3 of the License, or
+        (at your option) any later version.
+        
+        VdU/VRET is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        GNU General Public License for more details.
+        
+        You should have received a copy of the GNU General Public License
+        along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+    </xrx:licence>
+    <xrx:variables>
+        <xrx:variable>
+            <xrx:name>$skosfile</xrx:name>
+            <xrx:expression>doc(concat(metadata:base-collection-path('controlledVocabulary', 'private'), '/IllUrkGlossar.xml'))</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$skoscontent</xrx:name>
+            <xrx:expression>$skosfile/atom:entry/atom:content/rdf:RDF</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$concept</xrx:name>
+            <xrx:expression>concat('#', request:get-parameter("concept", ""))</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$labellang</xrx:name>
+            <xrx:expression>request:get-parameter("lang", "")</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$broader</xrx:name>
+            <xrx:expression>concat('#', request:get-parameter("broader", ""))</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$session-username</xrx:name>
+            <xrx:expression>xmldb:get-current-user()</xrx:expression>
+        </xrx:variable>
+    </xrx:variables>
+    <xrx:body>
+        {
+        if ($session-username != 'guest') then (
+            if ($labellang != '') then (
+                let $update := update delete $skoscontent/skos:Concept[@rdf:about=$concept]/skos:prefLabel[@xml:lang=$labellang]
+                return $update
+            )
+            else if ($broader != '') then (
+                let $update := update delete $skoscontent/skos:Concept[@rdf:about=$concept]/skos:broader[@rdf:resource=$broader]
+                return $update
+            )
+            else ()            
+        )
+        else ()
+        }
+    </xrx:body>
+</xrx:service>
