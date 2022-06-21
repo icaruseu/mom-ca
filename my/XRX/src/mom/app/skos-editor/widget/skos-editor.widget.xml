@@ -550,7 +550,7 @@
       <xrx:rules>
         <xrx:rule>
           <xrx:user/>
-          <xrx:role>html-author</xrx:role>
+          <xrx:dbgroup>atom</xrx:dbgroup>
         </xrx:rule>
       </xrx:rules>
       <xrx:true>
@@ -573,6 +573,7 @@
             <xrx:key>protected-page-message</xrx:key>
             <xrx:default>Protected page. Please login first.</xrx:default>
           </xrx:i18n>
+          <xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/login2</xrx:subwidget>
         </div>
       </xrx:false>
     </xrx:auth>
