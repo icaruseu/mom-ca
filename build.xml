@@ -291,7 +291,7 @@
         <antcall target="download-jsxmlsaxparser"/>
         <antcall target="download-jquery"/>
         <antcall target="download-leaflet"/>
-        <antcall target="download-codemirror"/>
+        <antcall target="copy-codemirror"/>
         <antcall target="download-betterform"/>
     </target>
 
@@ -361,11 +361,10 @@
         </unzip>
     </target>
 
-    <target name="download-codemirror">
+    <target name="copy-codemirror">
         <log message="Downloading CodeMirror"/>
         <delete dir="${codemirror-home}" failonerror="false"/>
-        <download src="${download-url-codemirror}" destdir="${tmp-home}" destname="CodeMirror.zip"/>
-        <unzip src="${tmp-home}/CodeMirror.zip" dest="${codemirror-home}">
+        <unzip src="vendor/CodeMirror-2.zip" dest="${codemirror-home}">
             <patternset>
                 <include name="**/CodeMirror-2/**"/>
             </patternset>
@@ -817,9 +816,7 @@
             <fileset dir="${my-xrx-system}/config"/>
         </exist-store>
         <log message="Reindexing database"/>
-        <exist-query>
-            xmldb:reindex('/db')
-        </exist-query>
+       
     </target>
 
     <target name="restore-backup" depends="exist-classpath" description='Restores a backup. Path either with a parameter or as a commandline argument -Dbackup=path_to_backup'>
