@@ -361,11 +361,10 @@
         </unzip>
     </target>
 
-    <target name="download-codemirror">
-        <log message="Downloading CodeMirror"/>
+    <target name="copy-codemirror">
+        <log message="Copying CodeMirror"/>
         <delete dir="${codemirror-home}" failonerror="false"/>
-        <download src="${download-url-codemirror}" destdir="${tmp-home}" destname="CodeMirror.zip"/>
-        <unzip src="${tmp-home}/CodeMirror.zip" dest="${codemirror-home}">
+        <unzip src="vendor/CodeMirror-2.zip" dest="${codemirror-home}">
             <patternset>
                 <include name="**/CodeMirror-2/**"/>
             </patternset>
