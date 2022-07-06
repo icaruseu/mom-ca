@@ -291,7 +291,7 @@
         <antcall target="download-jsxmlsaxparser"/>
         <antcall target="download-jquery"/>
         <antcall target="download-leaflet"/>
-        <antcall target="download-codemirror"/>
+        <antcall target="copy-codemirror"/>
         <antcall target="download-betterform"/>
     </target>
 
