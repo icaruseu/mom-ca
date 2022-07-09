@@ -149,7 +149,7 @@ right:220px;
   <xrx:view>
   {
 	let $community-member-charters := publication:checkForArchivist($xrx:user-id)
-  let $charters-to-publish := 
+  let $vocabularies-to-publish := 
   (
     for $moderators-user in $user:db-base-collection//xrx:moderator[.=$xrx:user-id]
     return 
@@ -159,7 +159,7 @@ right:220px;
   )
 
     (: pagination :)
-    let $numentries := count($charters-to-publish)
+    let $numentries := count($vocabularies-to-publish)
     let $startstop := pagination:startstop($numentries)
     let $navigation := pagination:navi($numentries)
     
@@ -204,7 +204,7 @@ right:220px;
 	    	</div>
 	      {
 	      
-	      for $id-element at $num in $charters-to-publish
+	      for $id-element at $num in $vocabularies-to-publish
 		    let $releasedate-time := root($id-element)//xrx:saved[xrx:id=$id-element]/xrx:released
 		    let $releaseddate := tokenize($releasedate-time,'T')[1]
 	      let $atom-id := $id-element/text()

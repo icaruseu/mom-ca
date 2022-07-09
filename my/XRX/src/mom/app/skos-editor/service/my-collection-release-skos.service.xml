@@ -76,7 +76,7 @@
                         
                         MOM-CA - Editorial Service. A modification to the SKOS file has been suggested for publication.
                         
-                        To moderate the change please login here: { concat($xrx:http-request-root, 'charters-to-publish') }
+                        To moderate the change please login here: { concat($xrx:http-request-root, 'vocabularies-to-publish') }
                         
                         User: { user:firstname-name($xrx:user-id) } ({ $xrx:user-id })
                         <!--Charter: { concat($archid, ' | ', $fondid, $collectionid, ' | ', $charterid) }-->
