@@ -70,13 +70,13 @@
                 <to>{ xs:string($moderator) }</to>
                 <cc>{ xs:string($xrx:user-id) }</cc>
                 <bcc></bcc>
-                <subject>MOM-CA - Editorial Service</subject>
+                <subject>MOM-CA Review request: Publication of SKOS file</subject>
                 <message>
                     <text>
                         
-                        MOM-CA - Editorial Service. A modification to the SKOS file has been suggested for publication.
+                        MOM-CA - Editorial Service. A modification to a SKOS file has been suggested for publication.
                         
-                        To moderate the change please login here: { concat($xrx:http-request-root, 'vocabularies-to-publish') }
+                        To review the changes, log into MOM-CA and check your reviewing requests at: { concat($xrx:http-request-root, 'vocabularies-to-publish') }
                         
                         User: { user:firstname-name($xrx:user-id) } ({ $xrx:user-id })
                         <!--Charter: { concat($archid, ' | ', $fondid, $collectionid, ' | ', $charterid) }-->
