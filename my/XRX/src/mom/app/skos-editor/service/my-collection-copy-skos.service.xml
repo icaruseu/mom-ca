@@ -81,8 +81,7 @@
             
             (: copy vocab to personal vocab directory and insert xrx:saved-entry into user XML :)
             let $copy-vocab-to-user :=
-                if($file-in-use) then 'file-in-use'
-                else (
+                if(not($file-in-use)) then (
                     let $post := atom:POST(metadata:feed('controlledVocabulary', 'private'), skos-edit:translate-filename($atomid), $public-skos-file)
                             
                     let $saved :=
@@ -96,7 +95,8 @@
                     let $update := update insert $saved into $user-xml//xrx:saved_list
                     (: let $log7 := util:log('error', concat('exists $user-xml?: ', exists($user-xml))) :)
                     return 'success'
-                )
+                    )
+                else ()
             (: let $log8 := util:log('error', concat('$copy-vocab-to-user: ', $copy-vocab-to-user)) :)
             return $copy-vocab-to-user
         )
