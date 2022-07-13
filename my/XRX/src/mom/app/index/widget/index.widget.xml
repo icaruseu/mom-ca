@@ -702,7 +702,7 @@ ul.namelist {{
                </xrx:i18n>
              </a>
            </li>
-           {if (xmldb:get-current-user() != 'guest') then (
+           {if (xmldb:get-current-user() != 'guest' and $coll = 'controlledVocabulary') then (
            <li>
              <button id="copy-to-user" type="submit">
                <xrx:i18n>
