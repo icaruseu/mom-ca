@@ -267,6 +267,14 @@ right:220px;
                                             </xrx:i18n>
                                         </a>
                                     </div>-->
+                                    <div data-demoid="go-to-vocab">
+                     		        	<a href="{ conf:param('request-root') }skos-editor?vocab={ skos-edit:get-vocab-filename($vocab) }">
+                     		        		<xrx:i18n>
+                     		        			<xrx:key>open-in-skosedit</xrx:key>
+                     		        			<xrx:default>Open Vocabulary in SKOS-Editor</xrx:default>
+                     		        	  </xrx:i18n>
+                     		        	</a>
+                     		        </div> 
                                     <div data-demoid="ccf5e927-6e78-4b54-9647-f4f03aeef9a0">
                                         <a href="{ conf:param('request-root') }charter-version-difference?id={ $vocab }&amp;backlink=saved-charters">
                                             <xrx:i18n>
