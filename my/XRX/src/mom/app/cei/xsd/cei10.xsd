@@ -1268,6 +1268,7 @@
                     <xs:element ref="msIdentifier"/>
                 </xs:choice>
                 <xs:element ref="auth"/>
+                <xs:element ref="bibl"/>
                 <xs:element ref="physicalDesc"/>
                 <xs:element ref="nota"/>
                 <xs:element ref="rubrum"/>
