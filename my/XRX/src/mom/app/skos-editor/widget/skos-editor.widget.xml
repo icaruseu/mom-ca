@@ -331,7 +331,8 @@
         var url = window.location.href;
         var baseUrl = url.split("&amp;")[0];
         var urlParams = new URLSearchParams(window.location.search);
-        var concept = urlParams. get ('concept');
+        var concept = urlParams.get('concept');
+        var vocab = urlParams.get('vocab');
           
         // display current concept only if one is selected
         if (concept === null) $('#selected-concept').hide();
@@ -355,7 +356,7 @@
             var conceptName = $('#concept-input').val();
             
             $.ajax({{
-                url: "/mom/service/add-concept",
+                url: "/mom/service/add-concept?vocab=" + vocab,
                 type: "POST",
                 data: conceptName,
                 contentType: "application/xml",
@@ -369,7 +370,7 @@
         
         $('button#delete-concept').click(function () {{
             $.ajax({{
-                url: "/mom/service/remove-concept",
+                url: "/mom/service/remove-concept?vocab=" + vocab,
                 type: "POST",
                 data: concept,
                 contentType: "application/xml",
@@ -418,7 +419,7 @@
             var addLabelUrl = htmlDecode("/mom/service/add-preflabel?concept=" + concept + "&amp;lang=" + labelLang);
             
             $.ajax({{
-                url: addLabelUrl,
+                url: addLabelUrl + "&amp;vocab=" + vocab,
                 type: "POST",
                 data: labelName,
                 contentType: "application/xml",
@@ -436,7 +437,7 @@
             var removeLabelUrl = htmlDecode("/mom/service/remove-label?concept=" + concept + "&amp;lang=" + labelLang);
             
             $.ajax({{
-                url: removeLabelUrl,
+                url: removeLabelUrl + "&amp;vocab=" + vocab,
                 success: function (data) {{
                     //$('#existing-entries-pref').load(location.href + ' #existing-entries-pref');
                     window.location.reload();
@@ -462,7 +463,7 @@
             var addBroaderUrl = htmlDecode("/mom/service/add-broader?concept=" + concept);
             
             $.ajax({{
-                url: addBroaderUrl,
+                url: addBroaderUrl + "&amp;vocab=" + vocab,
                 type: "POST",
                 data: selectBroaderName,
                 contentType: "application/xml",
@@ -480,7 +481,7 @@
             var removeLabelUrl = htmlDecode("/mom/service/remove-label?concept=" + concept + "&amp;broader=" + currentBroaderName);
             
             $.ajax({{
-                url: removeLabelUrl,
+                url: removeLabelUrl + "&amp;vocab=" + vocab,
                 success: function (data) {{
                     //$('#concept-select').load(location.href + ' existing-entries-broader');
                     window.location.reload();
@@ -492,7 +493,7 @@
         
         $('#release-skos').click(function () {{
             $.ajax({{
-                url: "/mom/service/my-collection-release-skos",
+                url: "/mom/service/my-collection-release-skos?vocab=" + vocab,
                 success: function (data) {{
                     $('#release-msg-suc').css({{
                         opacity: 0, display: "block"
@@ -517,9 +518,10 @@
         // submits contents of the textarea to the edit-definition service, reload
         $('button#submit-content').click(function () {{
             var editorContent = CKEDITOR.instances.editor.document.getBody().getHtml();
+            var editDefinitionUrl = "/mom/service/edit-definition?concept=" + concept;
             
             $.ajax({{
-                url: "/mom/service/edit-definition?concept=" + concept,
+                url: editDefinitionUrl + "&amp;vocab=" + vocab,
                 type: "PUT",
                 contentType: "application/xml",
                 data: editorContent,

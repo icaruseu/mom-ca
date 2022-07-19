@@ -38,8 +38,16 @@
             <xrx:expression>xmldb:get-current-user()</xrx:expression>
         </xrx:variable>
         <xrx:variable>
+            <xrx:name>$vocab-name</xrx:name>
+            <xrx:expression>request:get-parameter("vocab", "")</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$skosfile</xrx:name>
+            <xrx:expression>doc(concat(metadata:base-collection-path('controlledVocabulary', 'private'), $vocab-name, '.xml'))</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
             <xrx:name>$atomid</xrx:name>
-            <xrx:expression>'tag:www.monasterium.net,2011:/controlledVocabulary/IllUrkGlossar'</xrx:expression>
+            <xrx:expression>$skosfile//atom:id/text()</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$user-xml</xrx:name>
