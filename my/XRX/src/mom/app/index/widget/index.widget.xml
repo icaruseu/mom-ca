@@ -747,9 +747,11 @@ ul.namelist {{
        </div>
         <script type="text/javascript">
           $(document).ready(function(){{
+            var url = window.location.href;
+            var pageName = url.split('/').pop();
             $("#copy-to-user").click(function(){{
               $.ajax({{
-                url: "/mom/service/my-collection-copy-skos",
+                url: "/mom/service/my-collection-copy-skos?vocab=" + pageName,
                 success: function(response) {{				
              			if(response.includes('success')){{
                			$('#msg-suc').css({{opacity: 0, display: "block"}}).animate({{opacity: 1}}, 'slow');

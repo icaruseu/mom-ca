@@ -34,8 +34,20 @@
             <xrx:expression>concat(conf:param('xrx-user-db-base-uri'), xmldb:encode($xrx:user-id))</xrx:expression>
         </xrx:variable>
         <xrx:variable>
+            <xrx:name>$vocab-name</xrx:name>
+            <xrx:expression>request:get-parameter("vocab", "")</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$vocab-id</xrx:name>
+            <xrx:expression>concat('tag:www.monasterium.net,2011:/controlledVocabulary/', $vocab-name)</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$vocab</xrx:name>
+            <xrx:expression>skos-edit:get-vocab-filename($vocab-id)</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
             <xrx:name>$public-skos-file</xrx:name>
-            <xrx:expression>doc(concat(metadata:base-collection-path('controlledVocabulary', 'public'), 'IllUrkGlossar.xml'))</xrx:expression>
+            <xrx:expression>doc(concat(metadata:base-collection-path('controlledVocabulary', 'public'), $vocab, '.xml'))</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$atomid</xrx:name>
@@ -55,6 +67,9 @@
         {
         (:
         let $log1 := util:log('error', concat('$userdir: ', $userdir))
+        let $log5 := util:log('error', concat('$vocab-id: ', $vocab-id))
+        let $log6 := util:log('error', concat('$vocab: ', $vocab))
+        let $log6 := util:log('error', concat('$public-skos-file: ', $public-skos-file))
         let $log2 := util:log('error', concat('exists($public-skos-file): ', exists($public-skos-file)))
         let $log3 := util:log('error', concat('$atomid: ', $atomid))
         let $log4 := util:log('error', concat('$session-username: ', $session-username))
