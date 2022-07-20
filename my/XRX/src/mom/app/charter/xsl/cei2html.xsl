@@ -996,6 +996,11 @@
                 </xsl:if>
                 <xsl:apply-templates select="./cei:physicalDesc"/>
                 <ul>
+                    <xsl:for-each select="./cei:bibl">
+                        <xsl:call-template name="bibl"/>
+                    </xsl:for-each>
+                </ul>
+                <ul>
                     <xsl:if test="./cei:nota//text()/normalize-space() != ''">
                         <li>
                             <b>
