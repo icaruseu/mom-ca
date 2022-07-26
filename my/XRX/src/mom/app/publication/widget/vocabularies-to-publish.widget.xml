@@ -215,10 +215,9 @@ right:220px;
 	
 	      let $entry-is-vocab := 
 	        let $probably-collection-id := $tokens[3]
-	        let $probably-collection-atom-id := metadata:atomid('collection', $probably-collection-id)
-	        return
-	        if($probably-collection-id = 'IllUrkGlossar') then true() (: TODO: generalize for all entries in users' vocab directories :)
-	        else()     
+          let $probably-collection-atom-id := metadata:atomid('controlledVocabulary', $probably-collection-id)
+          return
+          if(exists(metadata:base-collection('controlledVocabulary', 'public')//atom:id[.=$probably-collection-atom-id])) then true() else false()
 	      
 	      (: status of the vocabulary :)
 	      let $is-bookmarked := bookmark:is-bookmarked($xrx:user-xml, $atom-id)
