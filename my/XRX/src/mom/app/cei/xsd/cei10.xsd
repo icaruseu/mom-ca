@@ -5000,6 +5000,7 @@
                         <xs:simpleContent>
                             <xs:extension base="xs:string">
                                 <xs:attributeGroup ref="standard"/>
+                                <xs:attribute name="type"/>
                             </xs:extension>
                         </xs:simpleContent>
                     </xs:complexType>
