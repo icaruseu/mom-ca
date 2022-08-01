@@ -5027,6 +5027,8 @@
                                     </xs:simpleContent>
                                 </xs:complexType>
                             </xs:element>
+                            <xs:element name="publisher"/>
+                            <xs:element ref="note"/>
                             <xs:group ref="date"/>
                         </xs:choice>
                         <xs:attributeGroup ref="standard"/>
