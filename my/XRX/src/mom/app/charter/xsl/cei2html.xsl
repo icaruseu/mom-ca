@@ -1445,7 +1445,7 @@
                     </xrx:i18n>
                 </b>
                 <xsl:text>:&#160;</xsl:text>
-                <xsl:apply-templates select="$cei//cei:note[not(ancestor::cei:witness)]" mode="content"/>
+                <xsl:apply-templates select="$cei//cei:note" mode="content"/>
             </xsl:if>
         </div>
     </xsl:template>
@@ -1453,7 +1453,7 @@
     <xsl:template match="cei:note[not(ancestor::cei:back)]">
         <!-- inline-note: display the reference to a note  -->
         <a id="backlink_{generate-id()}" class="fn-link" href="#{generate-id()}">
-            <xsl:value-of select="count(preceding::cei:note[not(ancestor::cei:back)][not(ancestor::cei:witness)])+1"/>
+            <xsl:value-of select="count(preceding::cei:note[not(ancestor::cei:back)])+1"/>
         </a>
     </xsl:template>
     <xsl:template match="cei:note" priority="-1" mode="content">
@@ -1463,7 +1463,7 @@
                 <xsl:value-of select="generate-id()"/>
             </xsl:attribute>
             <a class="fn-link" href="#backlink_{generate-id()}">
-                <xsl:value-of select="count(preceding::cei:note[not(ancestor::cei:back)][not(ancestor::cei:witness)])+1"/>
+                <xsl:value-of select="count(preceding::cei:note[not(ancestor::cei:back)])+1"/>
             </a>
             <xsl:text/>
             <xsl:apply-templates/>
@@ -1635,12 +1635,6 @@
                 </p>
             </xsl:when>
         </xsl:choose>
-    </xsl:template>
-    <xsl:template match="cei:bibl[parent::cei:witness]">
-        <xsl:apply-templates mode="witness"/>
-    </xsl:template>
-    <xsl:template match="cei:note" mode="witness">
-        <xsl:apply-templates/>
     </xsl:template>
     <xsl:template name="bibl">
         <li>
