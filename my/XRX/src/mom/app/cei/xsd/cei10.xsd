@@ -5000,6 +5000,7 @@
                         <xs:simpleContent>
                             <xs:extension base="xs:string">
                                 <xs:attributeGroup ref="standard"/>
+                                <xs:attribute name="type"/>
                             </xs:extension>
                         </xs:simpleContent>
                     </xs:complexType>
@@ -5027,6 +5028,8 @@
                                     </xs:simpleContent>
                                 </xs:complexType>
                             </xs:element>
+                            <xs:element name="publisher"/>
+                            <xs:element ref="note"/>
                             <xs:group ref="date"/>
                         </xs:choice>
                         <xs:attributeGroup ref="standard"/>

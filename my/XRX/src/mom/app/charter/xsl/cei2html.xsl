@@ -995,6 +995,7 @@
                     <xsl:apply-templates select="./cei:auth/cei:notariusDesc"/>
                 </xsl:if>
                 <xsl:apply-templates select="./cei:physicalDesc"/>
+                <xsl:apply-templates select="cei:bibl"/>
                 <ul>
                     <xsl:if test="./cei:nota//text()/normalize-space() != ''">
                         <li>
@@ -2008,6 +2009,12 @@
             <xsl:value-of select="."/>
         </a>
 
+    </xsl:template>
+    
+    <xsl:template match="cei:title">
+        <span title="{@*/local-name()}: {@*}">
+            <xsl:apply-templates/>
+        </span>
     </xsl:template>
 
     <!-- how to cite -->
