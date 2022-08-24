@@ -32,7 +32,11 @@
     <xrx:variables>
         <xrx:variable>
             <xrx:name>$atomid</xrx:name>
-            <xrx:expression>'tag:www.monasterium.net,2011:/controlledVocabulary/IllUrkGlossar'</xrx:expression>
+            <xrx:expression>$data//*:atomid/text()</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$vocab-name</xrx:name>
+            <xrx:expression>tokenize($atomid, '/')[last()]</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$saved-skos</xrx:name>
@@ -52,7 +56,7 @@
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$published-skos</xrx:name>
-            <xrx:expression>doc(concat(metadata:base-collection-path('controlledVocabulary', 'public'), 'IllUrkGlossar.xml'))</xrx:expression>
+            <xrx:expression>doc(concat(metadata:base-collection-path('controlledVocabulary', 'public'), $vocab-name, '.xml'))</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$feed</xrx:name>
@@ -103,6 +107,12 @@
     </xrx:emails>
     <xrx:body>
         {
+        (:
+        let $log := util:log('error', concat('atomid: ', $atomid))
+        let $log := util:log('error', concat('published-skos/base-uri(): ', $published-skos/base-uri()))
+        let $log := util:log('error', concat('saved-skos/base-uri(): ', $saved-skos/base-uri()))
+        :)
+        
         (: move saved vocabulary to public area :)
         let $store-vocab :=
             system:as-user('admin', conf:param('dba-password'), atom:PUTSILENT($feed, util:document-name($published-skos), $saved-skos))
