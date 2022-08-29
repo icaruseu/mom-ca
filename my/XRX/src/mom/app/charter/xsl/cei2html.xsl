@@ -1724,7 +1724,9 @@
 
     <!-- index persName -->
     <xsl:template name="persName">
-        <xsl:for-each select="$cei//cei:persName">
+        <xsl:for-each-group 
+            select="$cei//cei:persName"
+            group-by="normalize-space(translate(., ',', ''))">
             <xsl:sort select="."/>
             <xsl:if test="./node()">
                 <li id="{./@key}">
@@ -1737,7 +1739,7 @@
                     <xsl:call-template name="type"/>
                 </ul>
             </xsl:if>
-        </xsl:for-each>
+        </xsl:for-each-group>
     </xsl:template>
     <xsl:template match="cei:persName[starts-with(@key,'http://')]" mode="index">
         <xsl:apply-templates/>
@@ -1939,7 +1941,9 @@
 
     <!-- index placeName -->
     <xsl:template name="placeName">
-        <xsl:for-each select="$cei//cei:placeName">
+        <xsl:for-each-group
+            select="$cei//cei:placeName"
+            group-by="normalize-space(translate(., ',', ''))">
             <xsl:sort select="."/>
             <xsl:if test="./node()">
                 <li>
@@ -1952,13 +1956,15 @@
                     <xsl:call-template name="type"/>
                 </ul>
             </xsl:if>
-        </xsl:for-each>
+        </xsl:for-each-group>
     </xsl:template>
 
 
     <!-- index geogName -->
     <xsl:template name="geogName">
-        <xsl:for-each select="$cei//cei:geogName">
+        <xsl:for-each-group
+            select="$cei//cei:geogName"
+            group-by="normalize-space(translate(., ',', ''))">
             <xsl:sort select="."/>
             <xsl:if test="./node()">
                 <li>
@@ -1971,7 +1977,7 @@
                     <xsl:call-template name="type"/>
                 </ul>
             </xsl:if>
-        </xsl:for-each>
+        </xsl:for-each-group>
     </xsl:template>
     
     <!-- index -->
