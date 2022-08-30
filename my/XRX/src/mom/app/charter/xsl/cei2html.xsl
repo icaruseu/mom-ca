@@ -798,7 +798,10 @@
     </xsl:template>
     
     <xsl:template match="cei:rdg">
-        <xsl:value-of select="concat('[', ./@wit, ']: ', ., '&#10;')"/>
+        <xsl:if test="@wit">
+            <xsl:value-of select="concat('[', ./@wit, ']: ')"/>
+        </xsl:if>
+        <xsl:value-of select="concat(., '&#10;')"/>
     </xsl:template>
     
     <xsl:template match="cei:lem">
