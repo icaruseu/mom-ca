@@ -2,8 +2,8 @@
     <xrx:id>tag:www.monasterium.net,2011:/mom/widget/saved-vocabularies</xrx:id>
     <xrx:title>
         <xrx:i18n>
-            <xrx:key>saved-charters</xrx:key>
-            <xrx:default>Saved charters</xrx:default>
+            <xrx:key>saved-vocabularies</xrx:key>
+            <xrx:default>Saved vocabularies</xrx:default>
         </xrx:i18n>
     </xrx:title>
     <xrx:subtitle/>
@@ -146,7 +146,7 @@ right:220px;
   </xrx:model>
     <xrx:view>
   {
-    (: saved charters :)
+    (: saved vocabularies :)
     let $saved-vocabs := $xrx:user-xml//xrx:saved[xrx:freigabe='no']/xrx:id/text()[contains(., 'controlledVocabulary')]
 
     (: pagination :)
@@ -155,11 +155,11 @@ right:220px;
     let $navigation := pagination:navi($numentries)
     
     return
-    <div data-demoid="bbbeea5c-99a4-47e8-abc2-5aa82a49a5f0" id="dsaved-charters">
+    <div data-demoid="bbbeea5c-99a4-47e8-abc2-5aa82a49a5f0" id="dsaved-vocabs">
             <div class="h2" data-demoid="c6e9af97-9a53-4451-9a88-2ffee4f871a5">
                 <xrx:i18n>
-                    <xrx:key>saved-charters</xrx:key>
-                    <xrx:default>Saved Charters</xrx:default>
+                    <xrx:key>saved-vocabularies</xrx:key>
+                    <xrx:default>Saved Vocabularies</xrx:default>
                 </xrx:i18n>
             </div>
       { $navigation }
@@ -168,27 +168,16 @@ right:220px;
           {
           for $vocab at $num in $saved-vocabs[position() = $startstop]
           
-          (: init metadata database collections :)
-          let $tokens := tokenize(substring-after($vocab, conf:param('atom-tag-name')), '/')
-
-          let $charter-context := 
-            let $probably-collection-id := $tokens[3]
-            let $probably-collection-atom-id := metadata:atomid('controlledVocabulary', $probably-collection-id)
-            return
-            if(exists(metadata:base-collection('controlledVocabulary', 'public')//atom:id[.=$probably-collection-atom-id])) then 'vocab' else 'charter'
-          
-          let $vocab-id := $tokens[last()]
-                  
           (: get vocab from public area :)
           let $published-vocab := root(metadata:base-collection('controlledVocabulary', 'public')//atom:id[.=$vocab])
           
-          (: is charter bookmarked? :)
+          (: is vocabulary bookmarked? :)
           let $is-bookmarked := bookmark:is-bookmarked($xrx:user-xml, $vocab)
           
-          (: get info for published charter :)
+          (: get info for published vocabulary :)
           let $vocab-name := $published-vocab//atom:content/rdf:RDF/skos:ConceptScheme/skos:prefLabel[1] (: TODO: generalize and make language-dynamic :)
           
-          (: status of the charter :)
+          (: status of the vocabulary :)
           let $is-bookmarked := bookmark:is-bookmarked($xrx:user-xml, $vocab)
           let $saved-by-current-user := publication:is-saved($xrx:user-xml, $vocab)
           let $saved-by-any-user := publication:is-saved($user:db-base-collection/xrx:user, $vocab)
@@ -218,54 +207,7 @@ right:220px;
                                 </div>
                                 <br/>
                                 <br/>
-            
-<!--            <!-\- ############### Published Charter ################# -\->
-                                <div class="container" data-demoid="86686e29-b9a4-44df-ae11-4cecb09070d4">
-                                    <div data-demoid="d749430d-03bf-4f8c-9840-8ee19cf86f26">
-                                        <b>
-                                            <xrx:i18n>
-                                                <xrx:key>actual-live-version</xrx:key>
-                                                <xrx:default>Current live version</xrx:default>
-                                            </xrx:i18n>
-                                            <span>: </span>
-                                        </b>
-                                        <span>{ $abstract }</span>
-                                    </div>
-                                    <br/>
-                                </div>
-                                <div class="charter-info-and-actions" data-demoid="405c65fc-c72c-4bdd-b998-374c775d9c9f">
-                                    <a href="{ $charter-url }">
-                                        <xrx:i18n>
-                                            <xrx:key>view-charter</xrx:key>
-                                            <xrx:default>View Charter</xrx:default>
-                                        </xrx:i18n>
-                                    </a>
-                                </div>
-
-
-            <!-\- ############## Saved Charter ################ -\->
-                                <div class="container" data-demoid="fb5b7d09-4770-4431-9e38-8c4f2f2f7dba">
-                                    <div data-demoid="96c343bf-1e6f-4e6e-a2a4-9e9be5e41f80">
-                                        <b>
-                                            <xrx:i18n>
-                                                <xrx:key>my-local-copy</xrx:key>
-                                                <xrx:default>My local copy</xrx:default>
-                                            </xrx:i18n>
-                                            <span>: </span>
-                                        </b>
-                                        <span>{ $saved-charter//*:abstract//text() }</span>
-                                    </div>
-                                    <br/>
-                                </div>-->
                                 <div class="charter-info-and-actions" data-demoid="a66d8ee9-a351-4489-a0e5-0a4b0cd9299e">
-                                    <!--<div data-demoid="f15a5174-9bad-44ef-8b3d-48a8d2c120a5">
-                                        <a href="{ conf:param('request-root') }saved-charter?id={ $vocab }">
-                                            <xrx:i18n>
-                                                <xrx:key>view-charter</xrx:key>
-                                                <xrx:default>View Charter</xrx:default>
-                                            </xrx:i18n>
-                                        </a>
-                                    </div>-->
                                     <div data-demoid="go-to-vocab">
                      		        	<a href="{ conf:param('request-root') }skos-editor?vocab={ skos-edit:get-vocab-filename($vocab) }">
                      		        		<xrx:i18n>
@@ -302,86 +244,7 @@ right:220px;
                                     </span>
                 ) 
                 }
-                                	<!--<div class="note-field" data-demoid="7c5ccba8-f7d4-4c18-8be6-cd26c2098671" id="note-field-{$num}" style="display:{if($is-bookmarked)then 'block' else 'none'};">
-                                		{
-                                		let $encoded-id := xmldb:encode($vocab-id)
-                                		let $note := 
-                                		doc(concat(conf:param('xrx-user-db-base-uri'), xmldb:encode($xrx:user-id), '/metadata.bookmark-notes/', xmldb:decode($collection-id), '/', xmldb:decode($encoded-id), '.xml'))//xrx:bookmark_note
-                                		let $note-text := 
-                                		if($note//xrx:bookmark/text() = xmldb:encode($vocab))then
-                                		$note//xrx:note/text()
-                                		else()
-                                		return
-                                		<div data-demoid="86e00a1f-755f-41a3-b1a5-3f249ea138d2">
-                                			<b>
-                                				<xrx:i18n>
-                                					<xrx:key>bookmark-note</xrx:key>
-                                					<xrx:default>Bookmark note</xrx:default>
-                                				</xrx:i18n>
-                                				<span>: </span>
-                                			</b>
-                                			<br/>
-                                			<span id="note-output-{$num}">{ $note-text } </span>
-                                			<div class="edit-box" data-demoid="c497f729-0755-4d46-8390-be10d57f20b0">
-                                				<xf:trigger appearance="minimal" id="note-edit-{$num}">
-                                					<xf:label>
-                                						{
-                                						if(string-length($note-text) gt 0)then
-                                						<span>
-                                							<xrx:i18n>
-                                								<xrx:key>edit-note</xrx:key>
-                                								<xrx:default>Edit note</xrx:default>
-                                							</xrx:i18n>
-                                						</span>
-                                						else
-                                						<span>
-                                							<xrx:i18n>
-                                								<xrx:key>create-note</xrx:key>
-                                								<xrx:default>Create note</xrx:default>
-                                							</xrx:i18n>
-                                						</span>
-                                						}
-                                					</xf:label>
-                                					<xf:action ev:event="DOMActivate">
-                                						<xf:setvalue ref="//xrx:bookmark" value="'{ $vocab }'"/>
-                                						<script type="text/javascript">document.getElementById('noteBobble-{$num}').style.display = 'block';document.getElementById('note-textarea-{$num}-value').value = document.getElementById('note-output-{$num}').innerHTML;document.getElementById('note-edit-{$num}-value').innerHTML = 'Edit note';</script>
-                                					</xf:action>
-                                				</xf:trigger>
-                                			</div>
-                                		</div>
-                                		}
-                                	</div>
-                                	<div class="noteBobble" data-demoid="fb2c23eb-04ad-4071-a445-0abdafd3a15a" id="noteBobble-{$num}">
-                                		<xrx:resource onClick="document.getElementById('noteBobble-{$num}').style.display = 'none';" style="position:absolute;left:417px;top:8px;width:14px;" title="Close note input" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/button_close</xrx:resource>
-                                		<div data-demoid="af4aa901-9654-4127-a48f-9608d0ef76d6">
-                                			<xf:group model="mbookmark">
-                                				<xf:textarea id="note-textarea-{$num}" ref="//xrx:bookmarkNote">
-                                					<xf:label>
-                                						<xrx:i18n>
-                                							<xrx:key>bookmark-note</xrx:key>
-                                							<xrx:default>Bookmark note</xrx:default>
-                                						</xrx:i18n>:
-                                					</xf:label>
-                                				</xf:textarea>
-                                				<div class="note-save-trigger" data-demoid="1ce3cca4-857a-472c-b434-79d4f13994b9">
-                                					<xf:trigger>
-                                						<xf:label>
-                                							<xrx:i18n>
-                                								<xrx:key>save</xrx:key>
-                                								<xrx:default>save</xrx:default>
-                                							</xrx:i18n>
-                                						</xf:label>
-                                						<xf:action ev:event="DOMActivate">
-                                							<xf:setvalue ref="//xrx:bookmark" value="'{ $vocab }'"/>
-                                							<xf:send submission="ssave-note"/>
-                                							<script type="text/javascript">document.getElementById('note-field-{$num}').style.display = 'block';document.getElementById('noteBobble-{$num}').style.display = 'none';document.getElementById('note-output-{$num}').innerHTML = document.getElementById('note-textarea-{$num}-value').value;document.getElementById('note-edit-{$num}-value').innerHTML = 'Edit note';</script>
-                                						</xf:action>
-                                					</xf:trigger>
-                                				</div>
-                                			</xf:group>
-                                		</div>
-                                	</div>-->
-                {
+<!--                {
                 publication:user-actions(
                   $saved-by-current-user,
                   $saved-by-any-user,
@@ -428,7 +291,7 @@ right:220px;
                                         </xrx:i18n>
                                     </span>   
                 )
-                }
+                }-->
             </div>
                             </div>
                         </div>
