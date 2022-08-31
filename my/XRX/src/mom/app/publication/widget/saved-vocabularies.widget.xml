@@ -191,116 +191,68 @@ right:220px;
                   
           return
           <div class="charter" data-demoid="b32e2701-abf4-4310-8526-8b6f0ee44153" id="ch{ $num }">
-                        <div class="charter-preview" data-demoid="4e02e647-178f-45e4-b62b-7077f305237e">
-                            <div class="inner-charter-preview" data-demoid="77a34be6-a077-4229-8d0c-333834dfbb57">
-
-            <!-- ################## Common Info ################# -->
-                                <div data-demoid="eaa667ea-0054-4d24-9164-a9a8ce5b7bc9">
-              <b>
-                                        <xrx:i18n>
-                                            <xrx:key>vocabulary</xrx:key>
-                                            <xrx:default>Vocabulary</xrx:default>
-                                        </xrx:i18n>
-                                        <span>: </span>
-                                    </b>
-                                    <span>{ $vocab-name }</span>
-                                </div>
-                                <br/>
-                                <br/>
-                                <div class="charter-info-and-actions" data-demoid="a66d8ee9-a351-4489-a0e5-0a4b0cd9299e">
-                                    <div data-demoid="go-to-vocab">
-                     		        	<a href="{ conf:param('request-root') }skos-editor?vocab={ skos-edit:get-vocab-filename($vocab) }">
-                     		        		<xrx:i18n>
-                     		        			<xrx:key>open-in-skosedit</xrx:key>
-                     		        			<xrx:default>Open Vocabulary in SKOS-Editor</xrx:default>
-                     		        	  </xrx:i18n>
-                     		        	</a>
-                     		        </div> 
-                                    <div data-demoid="ccf5e927-6e78-4b54-9647-f4f03aeef9a0">
-                                        <a href="{ conf:param('request-root') }charter-version-difference?id={ $vocab }&amp;backlink=saved-charters">
-                                            <xrx:i18n>
-                                                <xrx:key>version-difference</xrx:key>
-                                                <xrx:default>Version Difference</xrx:default>
-                                            </xrx:i18n>
-                                        </a>
-                                    </div> 
-                { 
-                bookmark:trigger(
-                  $is-bookmarked,
-                  $vocab,
-                  $num,
-                  conf:param('request-root'),
-                  <span>
-                                        <xrx:i18n>
-                                            <xrx:key>add-bookmark</xrx:key>
-                                            <xrx:default>Add bookmark</xrx:default>
-                                        </xrx:i18n>
-                                    </span>,
-                  <span>
-                                        <xrx:i18n>
-                                            <xrx:key>remove-bookmark</xrx:key>
-                                            <xrx:default>Remove bookmark</xrx:default>
-                                        </xrx:i18n>
-                                    </span>
-                ) 
-                }
-<!--                {
-                publication:user-actions(
-                  $saved-by-current-user,
-                  $saved-by-any-user,
-                  $vocab,
-                  $num,
-                  conf:param('request-root'),
-                  $is-moderator,
-                  $xrx:tokenized-uri[last()],
-                  <span>
-                                        <xrx:i18n>
-                                            <xrx:key>save-and-edit-charter</xrx:key>
-                                            <xrx:default>Save and edit charter</xrx:default>
-                                        </xrx:i18n>
-                                    </span>,
-                  <span>
-                                        <xrx:i18n>
-                                            <xrx:key>edit-charter</xrx:key>
-                                            <xrx:default>Edit charter</xrx:default>
-                                        </xrx:i18n>
-                                    </span>,
-                  <span>
-                                        <xrx:i18n>
-                                            <xrx:key>charter-in-use-by</xrx:key>
-                                            <xrx:default>Charter in use by</xrx:default>
-                                        </xrx:i18n>
-                                        <i> { $saved-by-user }</i>
-                                    </span>,
-                  <span>
-                                        <xrx:i18n>
-                                            <xrx:key>release-charter</xrx:key>
-                                            <xrx:default>Release Charter</xrx:default>
-                                        </xrx:i18n>
-                                    </span>,
-                  <span>
-                                        <xrx:i18n>
-                                            <xrx:key>remove-charter</xrx:key>
-                                            <xrx:default>Remove Charter</xrx:default>
-                                        </xrx:i18n>
-                                    </span>,
-                  <span>
-                                        <xrx:i18n>
-                                            <xrx:key>publish-charter</xrx:key>
-                                            <xrx:default>Publish Charter</xrx:default>
-                                        </xrx:i18n>
-                                    </span>   
-                )
-                }-->
-            </div>
-                            </div>
-                        </div>
-                    </div>
-          }
-          { $navigation }
-        </div>
+              <div class="charter-preview" data-demoid="4e02e647-178f-45e4-b62b-7077f305237e">
+                  <div class="inner-charter-preview" data-demoid="77a34be6-a077-4229-8d0c-333834dfbb57">
+                      
+                      <!-- ################## Common Info ################# -->
+                      <div data-demoid="eaa667ea-0054-4d24-9164-a9a8ce5b7bc9">
+                          <b>
+                              <xrx:i18n>
+                                  <xrx:key>vocabulary</xrx:key>
+                                  <xrx:default>Vocabulary</xrx:default>
+                              </xrx:i18n>
+                              <span>: </span>
+                          </b>
+                          <span>{ $vocab-name }</span>
+                      </div>
+                      <br/>
+                      <br/>
+                      <div class="charter-info-and-actions" data-demoid="a66d8ee9-a351-4489-a0e5-0a4b0cd9299e">
+                          <div data-demoid="go-to-vocab">
+                              <a href="{ conf:param('request-root') }skos-editor?vocab={ skos-edit:get-vocab-filename($vocab) }">
+                                  <xrx:i18n>
+                                      <xrx:key>open-in-skosedit</xrx:key>
+                                      <xrx:default>Open Vocabulary in SKOS-Editor</xrx:default>
+                                  </xrx:i18n>
+                              </a>
+                          </div> 
+                          <div data-demoid="ccf5e927-6e78-4b54-9647-f4f03aeef9a0">
+                              <a href="{ conf:param('request-root') }charter-version-difference?id={ $vocab }&amp;backlink=saved-charters">
+                                  <xrx:i18n>
+                                      <xrx:key>version-difference</xrx:key>
+                                      <xrx:default>Version Difference</xrx:default>
+                                  </xrx:i18n>
+                              </a>
+                          </div> 
+                          { 
+                          bookmark:trigger(
+                          $is-bookmarked,
+                          $vocab,
+                          $num,
+                          conf:param('request-root'),
+                          <span>
+                              <xrx:i18n>
+                                  <xrx:key>add-bookmark</xrx:key>
+                                  <xrx:default>Add bookmark</xrx:default>
+                              </xrx:i18n>
+                          </span>,
+                          <span>
+                              <xrx:i18n>
+                                  <xrx:key>remove-bookmark</xrx:key>
+                                  <xrx:default>Remove bookmark</xrx:default>
+                              </xrx:i18n>
+                          </span>
+                          ) 
+                          }
+                      </div>
+                  </div>
+              </div>
+          </div>
+                    }
+                    { $navigation }
+                </div>
             </xf:group>
-        </div>
-  }
-  </xrx:view>
+    </div>
+        }
+    </xrx:view>
 </xrx:widget>
