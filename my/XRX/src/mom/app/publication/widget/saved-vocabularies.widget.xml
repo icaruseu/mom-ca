@@ -223,6 +223,14 @@ right:220px;
                                       <xrx:default>Version Difference</xrx:default>
                                   </xrx:i18n>
                               </a>
+                          </div>
+                          <div data-demoid="delete-local-copy">
+                              <a href="{ conf:param('request-root') }remove-vocabulary?vocab={ $vocab }">
+                                  <xrx:i18n>
+                                      <xrx:key>version-difference</xrx:key>
+                                      <xrx:default>Version Difference</xrx:default>
+                                  </xrx:i18n>
+                              </a>
                           </div> 
                           { 
                           bookmark:trigger(
