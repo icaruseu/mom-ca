@@ -2,8 +2,8 @@
   <xrx:id>tag:www.monasterium.net,2011:/mom/widget/vocabularies-to-publish</xrx:id>
   <xrx:title>
     <xrx:i18n>
-      <xrx:key>charters-to-publish</xrx:key>
-      <xrx:default>Charters to publish</xrx:default>
+      <xrx:key>vocabularies-to-publish</xrx:key>
+      <xrx:default>Vocabularies to publish</xrx:default>
     </xrx:i18n>
   </xrx:title>
   <xrx:subtitle/>
@@ -168,8 +168,8 @@ right:220px;
 	    <div data-demoid="94e9fa85-3165-4719-8b48-df68dd917f4a" id="dcharter-preview-main">
 	      <div class="h2" data-demoid="22533c51-aae5-4e8b-90ab-70cac0bd6c48">
 	        <xrx:i18n>
-	          <xrx:key>charters-to-publish</xrx:key>
-	          <xrx:default>Charters to publish</xrx:default>
+	          <xrx:key>vocabularies-to-publish</xrx:key>
+	          <xrx:default>Vocabularies to publish</xrx:default>
 	        </xrx:i18n>
 	      </div>
 	      { $navigation }
