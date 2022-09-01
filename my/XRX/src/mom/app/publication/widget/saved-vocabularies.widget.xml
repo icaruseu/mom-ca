@@ -225,13 +225,14 @@ right:220px;
                               </a>
                           </div>
                           <div data-demoid="delete-local-copy">
-                              <a href="{ conf:param('request-root') }remove-vocabulary?vocab={ $vocab }">
+                              <a id="delete-local-copy" href="{$vocab}" onclick="return false;">
                                   <xrx:i18n>
-                                      <xrx:key>version-difference</xrx:key>
-                                      <xrx:default>Version Difference</xrx:default>
+                                      <xrx:key>remove-vocabulary</xrx:key>
+                                      <xrx:default>Remove Vocabulary</xrx:default>
                                   </xrx:i18n>
                               </a>
-                          </div> 
+                          </div>
+
                           { 
                           bookmark:trigger(
                           $is-bookmarked,
@@ -257,6 +258,22 @@ right:220px;
               </div>
           </div>
                     }
+                    <script type="text/javascript">
+                        $('#delete-local-copy').click(function () {{
+                        var vocabID = $(this).attr("href");
+                        
+                        $.ajax({{
+                            url: "/mom/service/remove-vocabulary?vocab=" + vocabID,
+                            type: "POST",
+                            contentType: "application/xml",
+                            success: function (data) {{
+                                window.location.reload();
+                            }}
+                        }})
+                        
+                        //window.location.reload();
+                        }});
+                    </script>
                     { $navigation }
                 </div>
             </xf:group>

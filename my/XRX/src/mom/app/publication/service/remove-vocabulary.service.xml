@@ -31,16 +31,12 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   </xrx:licence>
   <xrx:variables>
     <xrx:variable>
-      <xrx:name>$vocab</xrx:name>
+      <xrx:name>$atomid</xrx:name>
       <xrx:expression>request:get-parameter("vocab", "")</xrx:expression>
     </xrx:variable>
     <xrx:variable>
-      <xrx:name>$user-xml</xrx:name>
-      <xrx:expression>$user:db-base-collection/xrx:user[.//xrx:saved/xrx:id=$atomid]</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
       <xrx:name>$saved-element</xrx:name>
-      <xrx:expression>$user-xml//xrx:saved[xrx:id=$atomid]</xrx:expression>
+      <xrx:expression>$xrx:user-xml//xrx:saved[xrx:id=$atomid]</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$update</xrx:name>
@@ -48,15 +44,19 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$collection</xrx:name>
-      <xrx:expression>substring-after(util:collection-name($user-xml), conf:param('atom-db-base-uri'))</xrx:expression>
+      <xrx:expression>substring-after(util:collection-name($xrx:user-xml), conf:param('atom-db-base-uri'))</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$resource</xrx:name>
-      <xrx:expression>util:document-name($user-xml)</xrx:expression>
+      <xrx:expression>util:document-name($xrx:user-xml)</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$document-name</xrx:name>
       <xrx:expression>util:document-name(metadata:base-collection('controlledVocabulary', 'private')//atom:id[.=$atomid])</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$session-username</xrx:name>
+      <xrx:expression>xmldb:get-current-user()</xrx:expression>
     </xrx:variable>
   </xrx:variables>
   <xrx:init>
@@ -68,7 +68,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 	  {
 	  if ($session-username != 'guest') then (
 	  
-	  (: delete the xrx:id entry of the vocabulary from the user-XML :)
+	  (: delete the xrx:saved entry of the vocabulary from the user-XML :)
 	  let $update-user-xml := atom:PUT($collection, $resource, $update)
 	  
 	  (: remove saved charter :)
