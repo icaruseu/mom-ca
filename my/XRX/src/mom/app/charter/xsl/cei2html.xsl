@@ -780,6 +780,32 @@
             <xsl:apply-templates/>
         </span>
     </xsl:template>
+    
+    <xsl:template match="cei:app">
+        <span class="cei-app">
+            <xsl:attribute name="title">
+                <xsl:apply-templates select="cei:rdg"/>
+            </xsl:attribute>
+            <xsl:attribute name="style">
+                <xsl:choose>
+                    <xsl:when test="count(ancestor::cei:app) mod 2">background-color:#e3e8c9;</xsl:when>
+                    <xsl:otherwise>background-color:#ffd9b3;</xsl:otherwise>
+                </xsl:choose>
+            </xsl:attribute>
+            <xsl:apply-templates select="*[not(self::cei:rdg)]"/>
+        </span>
+    </xsl:template>
+    
+    <xsl:template match="cei:rdg">
+        <xsl:if test="@wit">
+            <xsl:value-of select="concat('[', ./@wit, ']: ')"/>
+        </xsl:if>
+        <xsl:value-of select="concat(., '&#10;')"/>
+    </xsl:template>
+    
+    <xsl:template match="cei:lem">
+        <xsl:apply-templates/>
+    </xsl:template>
 
     <xsl:template match="cei:expan">
         <xsl:variable name="i18n">
