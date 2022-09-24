@@ -318,7 +318,14 @@
                         </xrx:i18n>
                     </b>
                     <ul>
-                        <xsl:call-template name="persName"/>
+                        <xsl:choose>
+                            <xsl:when test="$cei//cei:persName[@reg]">
+                                <xsl:call-template name="persNameReg"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:call-template name="persName"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
                     </ul>
                 </div>
             </xsl:when>
@@ -356,7 +363,14 @@
                         </xrx:i18n>
                     </b>
                     <ul>
-                        <xsl:call-template name="placeName"/>
+                        <xsl:choose>
+                            <xsl:when test="$cei//cei:placeName[@reg]">
+                                <xsl:call-template name="placeNameReg"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:call-template name="placeName"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
                     </ul>
                 </div>
             </xsl:when>
@@ -1767,6 +1781,16 @@
             </xsl:if>
         </xsl:for-each-group>
     </xsl:template>
+    <xsl:template name="persNameReg">
+        <xsl:for-each-group 
+            select="$cei//cei:persName/@reg"
+            group-by="normalize-space(.)">
+            <xsl:sort select="."/>
+            <li>
+                <xsl:value-of select="."/>
+            </li>
+        </xsl:for-each-group>
+    </xsl:template>
     <xsl:template match="cei:persName[starts-with(@key,'http://')]" mode="index">
         <xsl:apply-templates/>
         <a href=".">
@@ -1984,7 +2008,16 @@
             </xsl:if>
         </xsl:for-each-group>
     </xsl:template>
-
+    <xsl:template name="placeNameReg">
+        <xsl:for-each-group 
+            select="$cei//cei:placeName/@reg"
+            group-by="normalize-space(.)">
+            <xsl:sort select="."/>
+            <li>
+                <xsl:value-of select="."/>
+            </li>
+        </xsl:for-each-group>
+    </xsl:template>
 
     <!-- index geogName -->
     <xsl:template name="geogName">
