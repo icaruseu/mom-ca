@@ -1188,7 +1188,7 @@
     </xsl:template>
     <xsl:template match="cei:idno">
       <span>
-        <xsl:value-of select="normalize-space(replace(., ',', ''))"/>
+        <xsl:value-of select="normalize-space(.)"/>
         <xsl:if test="parent::cei:altIdentifier|parent::ceiarchIdentifier">
           <xsl:text>.</xsl:text>
         </xsl:if>
