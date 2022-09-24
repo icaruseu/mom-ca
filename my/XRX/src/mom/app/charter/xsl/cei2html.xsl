@@ -1013,6 +1013,7 @@
                                 <span>:&#160;</span>
                             </b>
                         <xsl:apply-templates select="cei:archIdentifier"/>
+                        <xsl:apply-templates select="cei:p"/>
                     </xsl:if>
                 </div>
                 <br/>
