@@ -1263,6 +1263,17 @@
                             <xrx:key>dimensions</xrx:key>
                             <xrx:default>Dimensions</xrx:default>
                         </xrx:i18n>
+                        <xsl:if test="@*">
+                            <xsl:text>&#160;</xsl:text>
+                            <xsl:text>(</xsl:text>
+                            <xsl:for-each select="@*">
+                                <xsl:value-of select="."/>
+                                <xsl:if test="not(position() = last())">
+                                    <xsl:text>, </xsl:text>
+                                </xsl:if>
+                            </xsl:for-each>
+                            <xsl:text>)</xsl:text>
+                        </xsl:if>
                         <xsl:text>:&#160;</xsl:text>
                     </b>
                     <xsl:apply-templates/>
@@ -1273,6 +1284,24 @@
             </xsl:otherwise>
         </xsl:choose>
         <br/>
+    </xsl:template>
+    <xsl:template match="cei:height">
+        <xsl:apply-templates/>
+        <xsl:text> (</xsl:text>
+            <xrx:i18n>
+                <xrx:key>height</xrx:key>
+                <xrx:default>height</xrx:default>
+            </xrx:i18n>
+            <xsl:text>) </xsl:text>
+    </xsl:template>
+    <xsl:template match="cei:width">
+        <xsl:apply-templates/>
+        <xsl:text> (</xsl:text>
+            <xrx:i18n>
+                <xrx:key>width</xrx:key>
+                <xrx:default>width</xrx:default>
+            </xrx:i18n>
+            <xsl:text>) </xsl:text>
     </xsl:template>
     <xsl:template match="cei:arch | cei:institution">
         <xsl:value-of select="normalize-space(replace(., ',', ''))"/>
