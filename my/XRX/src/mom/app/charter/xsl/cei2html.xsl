@@ -1263,7 +1263,7 @@
                             <xrx:key>dimensions</xrx:key>
                             <xrx:default>Dimensions</xrx:default>
                         </xrx:i18n>
-                        <xsl:if test="@*">
+<!--                        <xsl:if test="@*">
                             <xsl:text>&#160;</xsl:text>
                             <xsl:text>(</xsl:text>
                             <xsl:for-each select="@*">
@@ -1272,6 +1272,12 @@
                                     <xsl:text>, </xsl:text>
                                 </xsl:if>
                             </xsl:for-each>
+                            <xsl:text>)</xsl:text>
+                        </xsl:if>
+                        <xsl:text>:&#160;</xsl:text>-->
+                        <xsl:if test="@type">
+                            <xsl:text>&#160;(</xsl:text>
+                            <xsl:value-of select="@type"/>                            
                             <xsl:text>)</xsl:text>
                         </xsl:if>
                         <xsl:text>:&#160;</xsl:text>
@@ -1292,7 +1298,11 @@
                 <xrx:key>height</xrx:key>
                 <xrx:default>height</xrx:default>
             </xrx:i18n>
-            <xsl:text>) </xsl:text>
+        <xsl:if test="parent::cei:dimensions/@unit">
+            <xsl:text>, </xsl:text>
+            <xsl:value-of select="parent::cei:dimensions/@unit"/>
+        </xsl:if>
+        <xsl:text>) </xsl:text>
     </xsl:template>
     <xsl:template match="cei:width">
         <xsl:apply-templates/>
@@ -1301,6 +1311,10 @@
                 <xrx:key>width</xrx:key>
                 <xrx:default>width</xrx:default>
             </xrx:i18n>
+        <xsl:if test="parent::cei:dimensions/@unit">
+            <xsl:text>, </xsl:text>
+            <xsl:value-of select="parent::cei:dimensions/@unit"/>
+        </xsl:if>
             <xsl:text>) </xsl:text>
     </xsl:template>
     <xsl:template match="cei:arch | cei:institution">
