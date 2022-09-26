@@ -565,9 +565,6 @@ span.info_i {{
 }}
 
 /* css angaben für search-result aus search app*/
-span {{
-      padding:5px;
-}}
 span.back {{
       margin-left:3em;
 }}
