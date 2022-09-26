@@ -134,7 +134,8 @@
         <xsl:param name="count" select="count($cei//cei:witList/cei:witness)"/>
         <xsl:variable name="ordered-witListPar">
             <xsl:for-each select="$cei//cei:witListPar/cei:witness">
-                <xsl:sort select="cei:archIdentifier"/>
+                <!--preserve order of witnesses from source file-->
+                <xsl:sort select="position()"/>
                 <xsl:copy-of select="."/>
             </xsl:for-each>
         </xsl:variable>
