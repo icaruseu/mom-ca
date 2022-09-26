@@ -799,6 +799,7 @@
     <xsl:template match="cei:app">
         <span class="cei-app">
             <xsl:attribute name="title">
+                <xsl:apply-templates select="cei:lem" mode="tooltip"/>
                 <xsl:apply-templates select="cei:rdg"/>
             </xsl:attribute>
             <xsl:attribute name="style">
@@ -812,14 +813,27 @@
     </xsl:template>
     
     <xsl:template match="cei:rdg">
-        <xsl:if test="@wit">
-            <xsl:value-of select="concat('[', ./@wit, ']: ')"/>
+        <xsl:apply-templates/>
+        <xsl:if test="not(node())">
+            <xsl:text>om.</xsl:text>
         </xsl:if>
-        <xsl:value-of select="concat(., '&#10;')"/>
+        <xsl:if test="@wit">
+            <xsl:value-of select="concat(' ', translate(translate(./@wit, ' ', '&#160;'), '#', ''))"/>
+        </xsl:if>
+        <xsl:if test="following-sibling::cei:rdg">
+            <xsl:text>] </xsl:text>
+        </xsl:if>
     </xsl:template>
     
     <xsl:template match="cei:lem">
         <xsl:apply-templates/>
+    </xsl:template>
+    
+    <xsl:template match="cei:lem" mode="tooltip">
+        <xsl:apply-templates/>
+        <xsl:if test="@wit">
+            <xsl:value-of select="concat(' ', translate(translate(./@wit, ' ', '&#160;'), '#', ''), '] ')"/>
+        </xsl:if>
     </xsl:template>
 
     <xsl:template match="cei:expan">
