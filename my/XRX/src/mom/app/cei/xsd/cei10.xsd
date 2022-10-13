@@ -5443,6 +5443,8 @@
     <xs:attributeGroup name="date">
         <xs:attributeGroup ref="value"/>
         <xs:attributeGroup ref="certainty"/>
+        <xs:attribute name="notBefore"/>
+        <xs:attribute name="notAfter"/>
     </xs:attributeGroup>
     <xs:attributeGroup name="value">
         <xs:attribute name="value" type="normalizedDateValue" use="required">
