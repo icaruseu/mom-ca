@@ -799,12 +799,13 @@
     <xsl:template match="cei:app">
         <span class="cei-app">
             <xsl:attribute name="title">
+                <xsl:apply-templates select="cei:lem" mode="tooltip"/>
                 <xsl:apply-templates select="cei:rdg"/>
             </xsl:attribute>
             <xsl:attribute name="style">
                 <xsl:choose>
-                    <xsl:when test="count(ancestor::cei:app) mod 2">background-color:#e3e8c9;</xsl:when>
-                    <xsl:otherwise>background-color:#ffd9b3;</xsl:otherwise>
+                    <xsl:when test="count(ancestor::cei:app) mod 2">background-color:#f6f7ed;</xsl:when>
+                    <xsl:otherwise>background-color:#e6f2ff;</xsl:otherwise>
                 </xsl:choose>
             </xsl:attribute>
             <xsl:apply-templates select="*[not(self::cei:rdg)]"/>
@@ -812,14 +813,28 @@
     </xsl:template>
     
     <xsl:template match="cei:rdg">
-        <xsl:if test="@wit">
-            <xsl:value-of select="concat('[', ./@wit, ']: ')"/>
+        <xsl:apply-templates/>
+        <xsl:if test="not(node())">
+            <xsl:text>om.</xsl:text>
         </xsl:if>
-        <xsl:value-of select="concat(., '&#10;')"/>
+        <xsl:if test="@wit">
+            <xsl:value-of select="concat(' ', translate(translate(./@wit, ' ', '&#160;'), '#', ''))"/>
+        </xsl:if>
+        <xsl:if test="following-sibling::cei:rdg">
+            <xsl:text>, </xsl:text>
+        </xsl:if>
     </xsl:template>
     
     <xsl:template match="cei:lem">
         <xsl:apply-templates/>
+    </xsl:template>
+    
+    <xsl:template match="cei:lem" mode="tooltip">
+        <xsl:apply-templates/>
+        <xsl:if test="@wit">
+            <xsl:value-of select="concat(' ', translate(translate(./@wit, ' ', '&#160;'), '#', ''))"/>
+        </xsl:if>
+        <xsl:text>] </xsl:text>
     </xsl:template>
 
     <xsl:template match="cei:expan">
