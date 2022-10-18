@@ -838,7 +838,8 @@
     </xsl:template>
     
     <xsl:template match="text()" mode="tooltip">
-        <xsl:value-of select="translate(replace(.,'\s+', ' '), '&#10;&#13;', '')"/>
+        <xsl:value-of select="replace(.,'\s+', ' ')"/>
+        <!--removes extra whitespace while preserving leading and trailing space in tooltip text-->
     </xsl:template>
     
     <xsl:template match="cei:expan">
