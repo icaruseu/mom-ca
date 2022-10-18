@@ -813,7 +813,7 @@
     </xsl:template>
     
     <xsl:template match="cei:rdg">
-        <xsl:apply-templates/>
+        <xsl:apply-templates mode="tooltip"/>
         <xsl:if test="not(node())">
             <xsl:text>om.</xsl:text>
         </xsl:if>
@@ -830,13 +830,18 @@
     </xsl:template>
     
     <xsl:template match="cei:lem" mode="tooltip">
-        <xsl:apply-templates/>
+        <xsl:apply-templates mode="tooltip"/>
         <xsl:if test="@wit">
             <xsl:value-of select="concat(' ', translate(translate(./@wit, ' ', '&#160;'), '#', ''))"/>
         </xsl:if>
         <xsl:text>] </xsl:text>
     </xsl:template>
-
+    
+    <xsl:template match="text()" mode="tooltip">
+        <xsl:value-of select="replace(.,'\s+', ' ')"/>
+        <!--removes extra whitespace while preserving leading and trailing space in tooltip text-->
+    </xsl:template>
+    
     <xsl:template match="cei:expan">
         <xsl:variable name="i18n">
             <xrx:i18n>
