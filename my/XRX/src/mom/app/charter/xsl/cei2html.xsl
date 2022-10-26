@@ -838,8 +838,8 @@
     </xsl:template>
     
     <xsl:template match="text()" mode="tooltip">
-        <xsl:value-of select="replace(.,'\s+', ' ')"/>
-        <!--removes extra whitespace while preserving leading and trailing space in tooltip text-->
+        <xsl:value-of select="normalize-space(.)"/>
+        <!--normalize whitespace in the cei:app tooltips-->
     </xsl:template>
     
     <xsl:template match="cei:expan">
