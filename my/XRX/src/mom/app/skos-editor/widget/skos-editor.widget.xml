@@ -26,12 +26,8 @@
     components into other systems, once it leaves the active development stage. </xrx:licence>
   <xrx:variables>
     <xrx:variable>
-      <xrx:name>$vocab</xrx:name>
-      <xrx:expression>request:get-parameter("vocab", "")</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
       <xrx:name>$skosfile</xrx:name>
-      <xrx:expression>doc(concat(metadata:base-collection-path('controlledVocabulary', 'private'), '/', $vocab, '.xml'))</xrx:expression>
+      <xrx:expression>doc(concat(metadata:base-collection-path('controlledVocabulary', 'private'), '/IllUrkGlossar.xml'))</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$skoscontent</xrx:name>
@@ -67,6 +63,14 @@
         <div class="h2">
           <span>SKOS-Editor</span>
         </div>
+      </xrx:view>
+    </xrx:div>
+    <xrx:div>
+      <xrx:key>no-file-div</xrx:key>
+      <xrx:view>
+        <p style="color:red;">
+          <b>There is no glossary file available for this account. Please begin by selecting and copying one from the index search.</b>
+        </p>
       </xrx:view>
     </xrx:div>
     <xrx:div>
@@ -329,10 +333,9 @@
         <script type="text/javascript">
           
         var url = window.location.href;
-        var baseUrl = url.split("&amp;")[0];
+        var baseUrl = url.split("?")[0];
         var urlParams = new URLSearchParams(window.location.search);
-        var concept = urlParams.get('concept');
-        var vocab = urlParams.get('vocab');
+        var concept = urlParams. get ('concept');
           
         // display current concept only if one is selected
         if (concept === null) $('#selected-concept').hide();
@@ -347,7 +350,7 @@
         
         // adds concept name as query string to base-URL and goes to result
         $('#concept-select').on('change', function () {{
-            var redirectUrl = baseUrl + "&amp;concept=" + $(this).val();
+            var redirectUrl = baseUrl + "?concept=" + $(this).val();
             return (redirectUrl ? window.location = redirectUrl: console.log("Invalid URL!"));
         }});
         
@@ -356,21 +359,21 @@
             var conceptName = $('#concept-input').val();
             
             $.ajax({{
-                url: "/mom/service/add-concept?vocab=" + vocab,
+                url: "/mom/service/add-concept",
                 type: "POST",
                 data: conceptName,
                 contentType: "application/xml",
                 dataType: "text",
                 success: function (data) {{
                     url = $(location).attr("href");
-                    window.location.href = baseUrl + '&amp;concept=' + conceptName;
+                    window.location.href = baseUrl + '?concept=' + conceptName;
                 }}
             }})
         }});
         
         $('button#delete-concept').click(function () {{
             $.ajax({{
-                url: "/mom/service/remove-concept?vocab=" + vocab,
+                url: "/mom/service/remove-concept",
                 type: "POST",
                 data: concept,
                 contentType: "application/xml",
@@ -419,7 +422,7 @@
             var addLabelUrl = htmlDecode("/mom/service/add-preflabel?concept=" + concept + "&amp;lang=" + labelLang);
             
             $.ajax({{
-                url: addLabelUrl + "&amp;vocab=" + vocab,
+                url: addLabelUrl,
                 type: "POST",
                 data: labelName,
                 contentType: "application/xml",
@@ -437,7 +440,7 @@
             var removeLabelUrl = htmlDecode("/mom/service/remove-label?concept=" + concept + "&amp;lang=" + labelLang);
             
             $.ajax({{
-                url: removeLabelUrl + "&amp;vocab=" + vocab,
+                url: removeLabelUrl,
                 success: function (data) {{
                     //$('#existing-entries-pref').load(location.href + ' #existing-entries-pref');
                     window.location.reload();
@@ -463,7 +466,7 @@
             var addBroaderUrl = htmlDecode("/mom/service/add-broader?concept=" + concept);
             
             $.ajax({{
-                url: addBroaderUrl + "&amp;vocab=" + vocab,
+                url: addBroaderUrl,
                 type: "POST",
                 data: selectBroaderName,
                 contentType: "application/xml",
@@ -481,7 +484,7 @@
             var removeLabelUrl = htmlDecode("/mom/service/remove-label?concept=" + concept + "&amp;broader=" + currentBroaderName);
             
             $.ajax({{
-                url: removeLabelUrl + "&amp;vocab=" + vocab,
+                url: removeLabelUrl,
                 success: function (data) {{
                     //$('#concept-select').load(location.href + ' existing-entries-broader');
                     window.location.reload();
@@ -493,7 +496,7 @@
         
         $('#release-skos').click(function () {{
             $.ajax({{
-                url: "/mom/service/my-collection-release-skos?vocab=" + vocab,
+                url: "/mom/service/my-collection-release-skos",
                 success: function (data) {{
                     $('#release-msg-suc').css({{
                         opacity: 0, display: "block"
@@ -518,10 +521,9 @@
         // submits contents of the textarea to the edit-definition service, reload
         $('button#submit-content').click(function () {{
             var editorContent = CKEDITOR.instances.editor.document.getBody().getHtml();
-            var editDefinitionUrl = "/mom/service/edit-definition?concept=" + concept;
             
             $.ajax({{
-                url: editDefinitionUrl + "&amp;vocab=" + vocab,
+                url: "/mom/service/edit-definition?concept=" + concept,
                 type: "PUT",
                 contentType: "application/xml",
                 data: editorContent,
@@ -554,6 +556,11 @@
       <xrx:true>
         <xrx:view>
           <xrx:div>title-div</xrx:div>
+          {
+          if (not(exists($skosfile))) then
+            <xrx:div>no-file-div</xrx:div>
+          else()
+          }
           <xrx:div>select-concept-div</xrx:div>
           <xrx:div>preflabel-div</xrx:div>
           <xrx:div>broader-div</xrx:div>

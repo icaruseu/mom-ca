@@ -149,7 +149,7 @@ right:220px;
   <xrx:view>
   {
 	let $community-member-charters := publication:checkForArchivist($xrx:user-id)
-  let $vocabularies-to-publish := 
+  let $charters-to-publish := 
   (
     for $moderators-user in $user:db-base-collection//xrx:moderator[.=$xrx:user-id]
     return 
@@ -159,7 +159,7 @@ right:220px;
   )
 
     (: pagination :)
-    let $numentries := count($vocabularies-to-publish)
+    let $numentries := count($charters-to-publish)
     let $startstop := pagination:startstop($numentries)
     let $navigation := pagination:navi($numentries)
     
@@ -204,7 +204,7 @@ right:220px;
 	    	</div>
 	      {
 	      
-	      for $id-element at $num in $vocabularies-to-publish
+	      for $id-element at $num in $charters-to-publish
 		    let $releasedate-time := root($id-element)//xrx:saved[xrx:id=$id-element]/xrx:released
 		    let $releaseddate := tokenize($releasedate-time,'T')[1]
 	      let $atom-id := $id-element/text()
@@ -215,9 +215,10 @@ right:220px;
 	
 	      let $entry-is-vocab := 
 	        let $probably-collection-id := $tokens[3]
-          let $probably-collection-atom-id := metadata:atomid('controlledVocabulary', $probably-collection-id)
-          return
-          if(exists(metadata:base-collection('controlledVocabulary', 'public')//atom:id[.=$probably-collection-atom-id])) then true() else false()
+	        let $probably-collection-atom-id := metadata:atomid('collection', $probably-collection-id)
+	        return
+	        if($probably-collection-id = 'IllUrkGlossar') then true() (: TODO: generalize for all entries in users' vocab directories :)
+	        else()     
 	      
 	      (: status of the vocabulary :)
 	      let $is-bookmarked := bookmark:is-bookmarked($xrx:user-xml, $atom-id)
