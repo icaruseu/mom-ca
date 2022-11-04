@@ -26,11 +26,8 @@ module namespace skos-edit = "http://www.monasterium.net/NS/skos-edit";
 
 import module namespace conf = "http://www.monasterium.net/NS/conf"
 at "../xrx/conf.xqm";
-import module namespace metadata = "http://www.monasterium.net/NS/metadata"
-at "../metadata/metadata.xqm";
 
 declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
-declare namespace atom = "http://www.w3.org/2005/Atom";
 
 (: splits up the given atom:id and returns those parts after the atom-tag :)
 declare function skos-edit:object-uri-tokens($atomid as xs:string, $atom-tag-name as xs:string) as xs:string* {
@@ -69,15 +66,4 @@ declare function skos-edit:translate-filename($atomid as xs:string) as xs:string
     let $add-ending := concat($shorten, '.xml')
     return
         xmldb:encode($add-ending)
-};
-
-(: find the name (without extension) of an existing public vocabulary file from its atom:id :)
-declare function skos-edit:get-vocab-filename($atomid as xs:string) as xs:string* {
-    
-    let $vocab-collection := metadata:base-collection('controlledVocabulary', 'public')
-    let $vocab-entry := $vocab-collection//atom:id[. = $atomid]/ancestor::atom:entry
-    let $vocab-uri := base-uri($vocab-entry)
-    let $vocab-name := substring-before(substring-after($vocab-uri, 'metadata.controlledVocabulary.public/'), '.xml')
-    return
-        $vocab-name
 };

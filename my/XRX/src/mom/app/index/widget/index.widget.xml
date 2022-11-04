@@ -145,18 +145,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
                             else($vocabulary//skos:ConceptScheme/skos:prefLabel[1]/text()))
     </xrx:expression>
    </xrx:variable>
-   <xrx:variable>
+    <xrx:variable>
    <xrx:name>$teile</xrx:name>
    <xrx:expression>count($xrx:tokenized-uri)</xrx:expression>
-   </xrx:variable>
-   <xrx:variable>
-   <xrx:name>$file-in-use</xrx:name>
-   <xrx:expression>publication:is-saved($user:db-base-collection/xrx:user, $atomid)</xrx:expression>
-   </xrx:variable>
-   <xrx:variable>
-   <xrx:name>$file-saved-by</xrx:name>
-   <xrx:expression>publication:saved-by-user($user:db-base-collection/xrx:user, $atomid)</xrx:expression>
-   </xrx:variable>
+   </xrx:variable>   
    </xrx:variables>
    
   <xrx:portal>tag:www.monasterium.net,2011:/mom/portal/default</xrx:portal>
@@ -710,22 +702,16 @@ ul.namelist {{
                </xrx:i18n>
              </a>
            </li>
-           {
-           if (xmldb:get-current-user() != 'guest' and $coll = 'controlledVocabulary') then (
-               if ($file-in-use) then (
-               <span><b>File currently in use by user</b><br/>{$file-saved-by}</span>
-               )
-               else (
-                <li>
-                  <button id="copy-to-user" type="submit">
-                    <xrx:i18n>
-                      <xrx:key>copy-to-user</xrx:key>
-                      <xrx:default>Create personal copy</xrx:default>
-                    </xrx:i18n>
-                  </button>
-                </li>
-              )
-             )
+           {if (xmldb:get-current-user() != 'guest') then (
+           <li>
+             <button id="copy-to-user" type="submit">
+               <xrx:i18n>
+                 <xrx:key>copy-to-user</xrx:key>
+                 <xrx:default>Create personal copy</xrx:default>
+               </xrx:i18n>
+             </button>
+           </li>
+           )
            else ()}
         </ul>
       <div id="msg-suc" style="color:green;display:none">
@@ -744,18 +730,28 @@ ul.namelist {{
           </xrx:i18n>
         </b>
       </div>
+      <div id="msg-fiu" style="color:red;display:none">
+        <b>
+          <xrx:i18n>
+            <xrx:key>file-in-use</xrx:key>
+            <xrx:default>This vocabulary is currently being edited by a user.</xrx:default>
+          </xrx:i18n>
+        </b>
+      </div>
        </div>
         <script type="text/javascript">
           $(document).ready(function(){{
-            var url = window.location.href;
-            var pageName = url.split('/').pop();
             $("#copy-to-user").click(function(){{
               $.ajax({{
-                url: "/mom/service/my-collection-copy-skos?vocab=" + pageName,
+                url: "/mom/service/my-collection-copy-skos",
                 success: function(response) {{				
              			if(response.includes('success')){{
                			$('#msg-suc').css({{opacity: 0, display: "block"}}).animate({{opacity: 1}}, 'slow');
                      $('#msg-suc').delay(5000).fadeOut('slow');
+             			}}
+             			else if(response.includes('file-in-use')){{
+               			$('#msg-fiu').css({{opacity: 0, display: "block"}}).animate({{opacity: 1}}, 'slow');
+                     $('#msg-fiu').delay(5000).fadeOut('slow');
              			}}
              			else{{
              				$('#msg-err').css({{opacity: 0, display: "block"}}).animate({{opacity: 1}}, 'slow');
