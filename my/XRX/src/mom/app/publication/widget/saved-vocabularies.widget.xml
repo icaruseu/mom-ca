@@ -173,21 +173,20 @@ right:220px;
 
           let $charter-context := 
             let $probably-collection-id := $tokens[3]
-            let $probably-collection-atom-id := metadata:atomid('collection', $probably-collection-id)
+            let $probably-collection-atom-id := metadata:atomid('controlledVocabulary', $probably-collection-id)
             return
-            if($probably-collection-id = 'IllUrkGlossar') then 'vocab' (: TODO: generalize for all entries in users' vocab directories :)
-            else() 
+            if(exists(metadata:base-collection('controlledVocabulary', 'public')//atom:id[.=$probably-collection-atom-id])) then 'vocab' else 'charter'
           
-          let $vocab-id := $tokens[last()] (: 'IllUrkGlossar' :)
+          let $vocab-id := $tokens[last()]
                   
-          (: get charter from public area :)
-          let $published-vocab := doc(concat(metadata:base-collection-path('controlledVocabulary', 'public'), 'IllUrkGlossar.xml'))
+          (: get vocab from public area :)
+          let $published-vocab := root(metadata:base-collection('controlledVocabulary', 'public')//atom:id[.=$vocab])
           
           (: is charter bookmarked? :)
           let $is-bookmarked := bookmark:is-bookmarked($xrx:user-xml, $vocab)
           
           (: get info for published charter :)
-          let $vocab-name := $published-vocab//atom:entry/atom:content/rdf:RDF/skos:ConceptScheme/skos:prefLabel[1] (: TODO: generalize and make language-dynamic :)
+          let $vocab-name := $published-vocab//atom:content/rdf:RDF/skos:ConceptScheme/skos:prefLabel[1] (: TODO: generalize and make language-dynamic :)
           
           (: status of the charter :)
           let $is-bookmarked := bookmark:is-bookmarked($xrx:user-xml, $vocab)
@@ -267,6 +266,14 @@ right:220px;
                                             </xrx:i18n>
                                         </a>
                                     </div>-->
+                                    <div data-demoid="go-to-vocab">
+                     		        	<a href="{ conf:param('request-root') }skos-editor?vocab={ skos-edit:get-vocab-filename($vocab) }">
+                     		        		<xrx:i18n>
+                     		        			<xrx:key>open-in-skosedit</xrx:key>
+                     		        			<xrx:default>Open Vocabulary in SKOS-Editor</xrx:default>
+                     		        	  </xrx:i18n>
+                     		        	</a>
+                     		        </div> 
                                     <div data-demoid="ccf5e927-6e78-4b54-9647-f4f03aeef9a0">
                                         <a href="{ conf:param('request-root') }charter-version-difference?id={ $vocab }&amp;backlink=saved-charters">
                                             <xrx:i18n>

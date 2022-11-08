@@ -34,8 +34,20 @@
             <xrx:expression>concat(conf:param('xrx-user-db-base-uri'), xmldb:encode($xrx:user-id))</xrx:expression>
         </xrx:variable>
         <xrx:variable>
+            <xrx:name>$vocab-name</xrx:name>
+            <xrx:expression>request:get-parameter("vocab", "")</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$vocab-id</xrx:name>
+            <xrx:expression>concat('tag:www.monasterium.net,2011:/controlledVocabulary/', $vocab-name)</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$vocab</xrx:name>
+            <xrx:expression>skos-edit:get-vocab-filename($vocab-id)</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
             <xrx:name>$public-skos-file</xrx:name>
-            <xrx:expression>doc(concat(metadata:base-collection-path('controlledVocabulary', 'public'), 'IllUrkGlossar.xml'))</xrx:expression>
+            <xrx:expression>doc(concat(metadata:base-collection-path('controlledVocabulary', 'public'), $vocab, '.xml'))</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$atomid</xrx:name>
@@ -55,6 +67,9 @@
         {
         (:
         let $log1 := util:log('error', concat('$userdir: ', $userdir))
+        let $log5 := util:log('error', concat('$vocab-id: ', $vocab-id))
+        let $log6 := util:log('error', concat('$vocab: ', $vocab))
+        let $log6 := util:log('error', concat('$public-skos-file: ', $public-skos-file))
         let $log2 := util:log('error', concat('exists($public-skos-file): ', exists($public-skos-file)))
         let $log3 := util:log('error', concat('$atomid: ', $atomid))
         let $log4 := util:log('error', concat('$session-username: ', $session-username))
@@ -81,8 +96,7 @@
             
             (: copy vocab to personal vocab directory and insert xrx:saved-entry into user XML :)
             let $copy-vocab-to-user :=
-                if($file-in-use) then 'file-in-use'
-                else (
+                if(not($file-in-use)) then (
                     let $post := atom:POST(metadata:feed('controlledVocabulary', 'private'), skos-edit:translate-filename($atomid), $public-skos-file)
                             
                     let $saved :=
@@ -96,7 +110,8 @@
                     let $update := update insert $saved into $user-xml//xrx:saved_list
                     (: let $log7 := util:log('error', concat('exists $user-xml?: ', exists($user-xml))) :)
                     return 'success'
-                )
+                    )
+                else ()
             (: let $log8 := util:log('error', concat('$copy-vocab-to-user: ', $copy-vocab-to-user)) :)
             return $copy-vocab-to-user
         )
