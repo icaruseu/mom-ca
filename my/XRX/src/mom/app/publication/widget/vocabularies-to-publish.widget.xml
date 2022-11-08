@@ -270,12 +270,12 @@ right:220px;
 		        else ()}
 		      </div>
 		      <div class="charter-info-and-actions" data-demoid="84b9711f-cc67-4524-a514-695c36ca0776">
-		        <a href="{ conf:param('request-root') }charter-to-publish?id={ $atom-id }">
+		        <!--<a href="{ conf:param('request-root') }charter-to-publish?id={ $atom-id }">
 		          <xrx:i18n>
 		            <xrx:key>view-editions</xrx:key>
 		            <xrx:default>View Editions</xrx:default>
 		          </xrx:i18n>
-		        </a>
+		        </a>-->
 		        <div data-demoid="a2723793-71dd-4bef-ab7b-1ba2eca19430">
 		        	<a href="{ conf:param('request-root') }charter-version-difference?id={ $atom-id }&amp;backlink=charters-to-publish">
 		        		<xrx:i18n>
