@@ -1,6 +1,6 @@
 # Monasterium - Collaborative Archive
 
-This repository contains the code for MOM-CA, the software that powers [Monasterium.net](https://www.monsterium.net/mom/home). The _readme_ file you are currently reading gives some basic information about how to run the software but for more information please consult the [wiki](https://github.com/icaruseu/mom-ca/wiki).
+This repository contains the code for MOM-CA, the software that powers [Monasterium.net](https://www.monasterium.net/mom/home). The _readme_ file you are currently reading gives some basic information about how to run the software but for more information please consult the [wiki](https://github.com/icaruseu/mom-ca/wiki).
 
 ## Basics
 
