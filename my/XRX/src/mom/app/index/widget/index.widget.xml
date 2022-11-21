@@ -839,7 +839,7 @@ ul.namelist {{
                 let $place := if ($name/following-sibling::tei:occupation/tei:placeName[1]/text()) then $name/following-sibling::tei:occupation/tei:placeName[1]/text() 
                 else()
                 let $aufbereitung := if($place) then substring-before(serialize($place), ' ') else(concat(' (', substring-after($personid, 'P_'), ')'))
-                let $inhalt := concat($name/text(), ' ',$aufbereitung)
+                let $inhalt := concat(string-join($name//text()), ' ',$aufbereitung)
                 let $memo := if($personid != "") then session:set-attribute($personid, $inhalt) else ()
                 for $n in  $name                
                 return                                      
