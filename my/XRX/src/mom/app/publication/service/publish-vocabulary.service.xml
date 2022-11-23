@@ -106,13 +106,7 @@
         </xrx:email>
     </xrx:emails>
     <xrx:body>
-        {
-        (:
-        let $log := util:log('error', concat('atomid: ', $atomid))
-        let $log := util:log('error', concat('published-skos/base-uri(): ', $published-skos/base-uri()))
-        let $log := util:log('error', concat('saved-skos/base-uri(): ', $saved-skos/base-uri()))
-        :)
-        
+        {        
         (: move saved vocabulary to public area :)
         let $store-vocab :=
             system:as-user('admin', conf:param('dba-password'), atom:PUTSILENT($feed, util:document-name($published-skos), $saved-skos))

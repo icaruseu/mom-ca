@@ -44,7 +44,7 @@
                             <xsl:when test="$plattformID = 'mom'">
                                 <xrx:i18n>
                                     <xrx:key>data-from-monasterium</xrx:key>
-                                    <xrx:default>Data from monasterium.net</xrx:default>
+                                    <xrx:default>Data from Monasterium.net</xrx:default>
                                 </xrx:i18n>
                             </xsl:when>
                             <xsl:otherwise>

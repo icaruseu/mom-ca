@@ -1268,6 +1268,7 @@
                     <xs:element ref="msIdentifier"/>
                 </xs:choice>
                 <xs:element ref="auth"/>
+                <xs:element ref="bibl"/>
                 <xs:element ref="physicalDesc"/>
                 <xs:element ref="nota"/>
                 <xs:element ref="rubrum"/>
@@ -4999,6 +5000,7 @@
                         <xs:simpleContent>
                             <xs:extension base="xs:string">
                                 <xs:attributeGroup ref="standard"/>
+                                <xs:attribute name="type"/>
                             </xs:extension>
                         </xs:simpleContent>
                     </xs:complexType>
@@ -5026,6 +5028,8 @@
                                     </xs:simpleContent>
                                 </xs:complexType>
                             </xs:element>
+                            <xs:element name="publisher"/>
+                            <xs:element ref="note"/>
                             <xs:group ref="date"/>
                         </xs:choice>
                         <xs:attributeGroup ref="standard"/>
@@ -5439,6 +5443,8 @@
     <xs:attributeGroup name="date">
         <xs:attributeGroup ref="value"/>
         <xs:attributeGroup ref="certainty"/>
+        <xs:attribute name="notBefore"/>
+        <xs:attribute name="notAfter"/>
     </xs:attributeGroup>
     <xs:attributeGroup name="value">
         <xs:attribute name="value" type="normalizedDateValue" use="required">

@@ -57,7 +57,7 @@ declare variable $oaiinterface:resumption-token-prefix := if (fn:compare($conf:p
                                                         else
                                                             "oai:VdU:";
 (: platform specific variables for verb "Identify":)                                                            
-declare variable $oaiinterface:admin-email := "andre.streicher@uni-koeln.de";
+declare variable $oaiinterface:admin-email := "technik@monasterium.net";
 declare variable $oaiinterface:repository-name := if (fn:compare($conf:project-name, "mom")=0)then
                                                     "Monasterium.net"
                                                  else
