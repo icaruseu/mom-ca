@@ -225,7 +225,7 @@ right:220px;
                               </a>
                           </div>
                           <div data-demoid="delete-local-copy">
-                              <a id="delete-local-copy" href="{$vocab}" onclick="return false;">
+                              <a class="delete-local-copy" href="{$vocab}" onclick="return false;">
                                   <xrx:i18n>
                                       <xrx:key>remove-vocabulary</xrx:key>
                                       <xrx:default>Remove Vocabulary</xrx:default>
@@ -259,7 +259,7 @@ right:220px;
           </div>
                     }
                     <script type="text/javascript">
-                        $('#delete-local-copy').click(function () {{
+                        $('.delete-local-copy').click(function () {{
                         var vocabID = $(this).attr("href");
                         
                         $.ajax({{
