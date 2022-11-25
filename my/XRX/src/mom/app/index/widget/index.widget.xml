@@ -748,7 +748,8 @@ ul.namelist {{
         <script type="text/javascript">
           $(document).ready(function(){{
             var url = window.location.href;
-            var pageName = url.split('/').pop();
+            var urlNoQ = url.replace(/\?\s*$/, '');
+            var pageName = urlNoQ.split('/').pop();
             $("#copy-to-user").click(function(){{
               $.ajax({{
                 url: "/mom/service/my-collection-copy-skos?vocab=" + pageName,
