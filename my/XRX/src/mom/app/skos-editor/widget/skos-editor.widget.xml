@@ -325,6 +325,9 @@
             </b>
           </div>
         </div>
+        <button style="margin:10px;" id="validate-content" type="submit">
+          Validate
+        </button>
         <script type="text/javascript" src="/bfResources/scripts/ckeditor/ckeditor.js"/>
         <script type="text/javascript">
           
@@ -336,6 +339,16 @@
           
         // display current concept only if one is selected
         if (concept === null) $('#selected-concept').hide();
+        
+        // validate SKOS file
+        $('button#validate-content').click(function () {{
+            $.ajax({{
+                url: "/mom/service/validate-skos?vocab=" + vocab,
+                success: function(response) {{
+                  console.log($(response)[0].innerHTML)
+                  }}
+                }})
+            }});
         
         // disable submit button unless text has been added to the input field
         $(':input[id="add-concept"]').prop('disabled', true);
