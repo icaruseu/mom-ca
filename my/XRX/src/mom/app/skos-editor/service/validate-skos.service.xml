@@ -62,6 +62,10 @@
             <xrx:expression>if($is-wellformed) then data:validate($data-as-xml, $rdf-schema) else ()</xrx:expression>
         </xrx:variable>
         <xrx:variable>
+            <xrx:name>$is-valid</xrx:name>
+            <xrx:expression>if($validation-report//status[.='valid']) then true() else false()</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
             <xrx:name>$session-username</xrx:name>
             <xrx:expression>xmldb:get-current-user()</xrx:expression>
         </xrx:variable>
@@ -69,7 +73,8 @@
     <xrx:body>
         {
         if ($session-username != 'guest') then (
-            let $result := $validation-report
+            (: let $log_valreport := util:log('error', $validation-report) :)
+            let $result := $is-valid
             return <output>{$result}</output>
         )
         else ()

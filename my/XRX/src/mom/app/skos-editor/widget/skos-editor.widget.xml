@@ -325,9 +325,6 @@
             </b>
           </div>
         </div>
-        <button style="margin:10px;" id="validate-content" type="submit">
-          Validate
-        </button>
         <script type="text/javascript" src="/bfResources/scripts/ckeditor/ckeditor.js"/>
         <script type="text/javascript">
           
@@ -339,16 +336,6 @@
           
         // display current concept only if one is selected
         if (concept === null) $('#selected-concept').hide();
-        
-        // validate SKOS file
-        $('button#validate-content').click(function () {{
-            $.ajax({{
-                url: "/mom/service/validate-skos?vocab=" + vocab,
-                success: function(response) {{
-                  console.log($(response)[0].innerHTML)
-                  }}
-                }})
-            }});
         
         // disable submit button unless text has been added to the input field
         $(':input[id="add-concept"]').prop('disabled', true);
@@ -504,7 +491,9 @@
         
         CKEDITOR.replace('editor');
         
-        $('#release-skos').click(function () {{
+        // release SKOS file
+        function release_skos(vocab){{
+        /*
             $.ajax({{
                 url: "/mom/service/my-collection-release-skos?vocab=" + vocab,
                 success: function (data) {{
@@ -526,6 +515,32 @@
                     $('#release-msg-err').delay(5000).fadeOut('slow');
                 }}
             }})
+            */
+            console.log('publishing!')
+          }};
+          
+        // validate and SKOS file, release if valid
+        function validate_release_skos(vocab){{
+            $.ajax({{
+                url: "/mom/service/validate-skos?vocab=" + vocab,
+                success: function(response) {{
+                  if ($(response)[0].innerHTML == 'true'){{
+                    release_skos(vocab)}}
+                  else
+                  console.log('SKOS is invalid!');
+                  $('#release-msg-err').css({{
+                        opacity: 0, display: "block"
+                    }}).animate({{
+                        opacity: 1
+                    }},
+                    'slow');
+                    $('#release-msg-err').delay(5000).fadeOut('slow');
+                  }}
+                }})
+            }};
+        
+        $('#release-skos').click(function () {{
+          validate_release_skos(vocab);
         }});
         
         // submits contents of the textarea to the edit-definition service, reload
