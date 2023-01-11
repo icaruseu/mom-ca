@@ -43,7 +43,7 @@
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$skoscontent</xrx:name>
-            <xrx:expression>$skosfile/atom:entry/atom:content/rdf:RDF</xrx:expression>
+            <xrx:expression>$skosfile/atom:entry/atom:content</xrx:expression>
         </xrx:variable>
         <xrx:variable>
             <xrx:name>$data-as-xml</xrx:name>
@@ -54,6 +54,14 @@
             <xrx:expression>if(exists($data-as-xml/self::*:error)) then false() else true()</xrx:expression>
         </xrx:variable>
         <xrx:variable>
+            <xrx:name>$rdf-schema</xrx:name>
+        	  <xrx:expression>$xrx:db-base-collection/xs:schema[@id = 'rdf']</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
+            <xrx:name>$validation-report</xrx:name>
+            <xrx:expression>if($is-wellformed) then data:validate($data-as-xml, $rdf-schema) else ()</xrx:expression>
+        </xrx:variable>
+        <xrx:variable>
             <xrx:name>$session-username</xrx:name>
             <xrx:expression>xmldb:get-current-user()</xrx:expression>
         </xrx:variable>
@@ -61,7 +69,7 @@
     <xrx:body>
         {
         if ($session-username != 'guest') then (
-            let $result := $is-wellformed
+            let $result := $validation-report
             return <output>{$result}</output>
         )
         else ()

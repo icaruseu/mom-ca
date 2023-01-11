@@ -36,6 +36,23 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:uri>http://www.monasterium.net/NS/skos-edit</xrx:uri>
     </xrx:module>
   </xrx:modules>
+  <xrx:resources>
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/xsd/rdf</xrx:atomid>
+      <xrx:relativepath>xsd/</xrx:relativepath>
+      <xrx:name>rdf.xsd</xrx:name>
+    </xrx:resource>
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/xsd/skos</xrx:atomid>
+      <xrx:relativepath>xsd/</xrx:relativepath>
+      <xrx:name>skos.xsd</xrx:name>
+    </xrx:resource>
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/xsd/xml</xrx:atomid>
+      <xrx:relativepath>xsd/</xrx:relativepath>
+      <xrx:name>xml.xsd</xrx:name>
+    </xrx:resource>
+  </xrx:resources>
   <xrx:resolver>   
     <!-- main widget -->
    <xrx:map>
