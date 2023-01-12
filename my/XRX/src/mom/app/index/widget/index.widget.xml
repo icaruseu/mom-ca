@@ -974,7 +974,7 @@ ul.namelist {{
       let $breadcrumb1 := if($vocabulary//tei:titleStmt/tei:title/@xml:lang = $sprache) then $vocabulary//tei:titleStmt/tei:title[@xml:lang = $sprache]/text() 
                           else($vocabulary//tei:titleStmt/tei:title[1]/text())    
       let $glossar := data($vocabulary//tei:person[@xml:id = $term]) 
-      let $persname := replace($vocabulary//tei:person[@xml:id = $term]/tei:persName/text(), ',', '')      
+      let $persname := replace(string-join($vocabulary//tei:person[@xml:id = $term]/tei:persName//text()), ',', '')      
       let $from := ('([0-9])([A-Z])', '([a-z])([A-Z])', '([a-z])(\()', '(.)([A-Z])', '(,)([a-z][A-Z])', '(\))([0-9a-zA-Z])', '(\()(\s)' )
       let $to := ('$1 $2', '$1 $2', '$1 $2', '$1 $2', '. $2', '$1 $2', '$1')      
       let $ausgabe := <div>{index:replace-multi($glossar, $from, $to)}</div>
