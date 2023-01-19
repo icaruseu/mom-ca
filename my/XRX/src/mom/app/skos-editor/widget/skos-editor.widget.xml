@@ -324,6 +324,14 @@
               </xrx:i18n>
             </b>
           </div>
+          <div id="release-msg-invalid" style="color:red;display:none;margin:10px">
+            <b>
+              <xrx:i18n>
+                <xrx:key>SKOS is invalid!</xrx:key>
+                <xrx:default>SKOS is invalid!</xrx:default>
+              </xrx:i18n>
+            </b>
+          </div>
         </div>
         <script type="text/javascript" src="/bfResources/scripts/ckeditor/ckeditor.js"/>
         <script type="text/javascript">
@@ -493,7 +501,6 @@
         
         // release SKOS file
         function release_skos(vocab){{
-        /*
             $.ajax({{
                 url: "/mom/service/my-collection-release-skos?vocab=" + vocab,
                 success: function (data) {{
@@ -515,32 +522,31 @@
                     $('#release-msg-err').delay(5000).fadeOut('slow');
                 }}
             }})
-            */
-            console.log('publishing!')
           }};
           
-        // validate and SKOS file, release if valid
+        // validate SKOS file, release if valid
         function validate_release_skos(vocab){{
             $.ajax({{
                 url: "/mom/service/validate-skos?vocab=" + vocab,
                 success: function(response) {{
                   if ($(response)[0].innerHTML == 'true'){{
-                    release_skos(vocab)}}
-                  else
-                  console.log('SKOS is invalid!');
-                  $('#release-msg-err').css({{
+                    release_skos(vocab);
+                    }}
+                  else {{
+                  $('#release-msg-invalid').css({{
                         opacity: 0, display: "block"
                     }}).animate({{
                         opacity: 1
                     }},
                     'slow');
-                    $('#release-msg-err').delay(5000).fadeOut('slow');
+                    $('#release-msg-invalid').delay(5000).fadeOut('slow');
+                    }}
                   }}
                 }})
             }};
         
         $('#release-skos').click(function () {{
-          validate_release_skos(vocab);
+          validate_release_skos(vocab)
         }});
         
         // submits contents of the textarea to the edit-definition service, reload
