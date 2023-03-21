@@ -4430,6 +4430,7 @@
             <xs:element ref="ref"/>
             <xs:element ref="figure"/>
             <xs:element ref="note"/>
+            <xs:element ref="placeName"/>
         </xs:choice>
         <xs:attributeGroup ref="lang"/>
         <xs:attributeGroup ref="standard"/>
