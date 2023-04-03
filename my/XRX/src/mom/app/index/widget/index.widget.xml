@@ -840,7 +840,7 @@ ul.namelist {{
                 let $place := if ($name/following-sibling::tei:occupation/tei:placeName[1]/text()) then $name/following-sibling::tei:occupation/tei:placeName[1]/text() 
                 else()
                 let $aufbereitung := if($place) then substring-before(serialize($place), ' ') else(concat(' (', substring-after($personid, 'P_'), ')'))
-                let $inhalt := concat(string-join($name//text()), ' ',$aufbereitung)
+                let $inhalt := concat(string-join($name//text()/normalize-space(), ' '), ' ', $aufbereitung)
                 let $memo := if($personid != "") then session:set-attribute($personid, $inhalt) else ()
                 for $n in  $name                
                 return                                      
@@ -973,8 +973,9 @@ ul.namelist {{
       let $term := $xrx:tokenized-uri[3]
       let $breadcrumb1 := if($vocabulary//tei:titleStmt/tei:title/@xml:lang = $sprache) then $vocabulary//tei:titleStmt/tei:title[@xml:lang = $sprache]/text() 
                           else($vocabulary//tei:titleStmt/tei:title[1]/text())    
-      let $glossar := data($vocabulary//tei:person[@xml:id = $term]) 
-      let $persname := replace(string-join($vocabulary//tei:person[@xml:id = $term]/tei:persName//text()), ',', '')      
+      let $glossar := string-join($vocabulary//tei:person[@xml:id = $term]//text()/normalize-space(), ' ') 
+      let $persname := replace(string-join($vocabulary//tei:person[@xml:id = $term]/tei:persName//text()/normalize-space(), ' '), ',', '')
+      let $persname := if (string-length($persname) gt 15) then concat(substring($persname, 0, 15), '...') else $persname
       let $from := ('([0-9])([A-Z])', '([a-z])([A-Z])', '([a-z])(\()', '(.)([A-Z])', '(,)([a-z][A-Z])', '(\))([0-9a-zA-Z])', '(\()(\s)' )
       let $to := ('$1 $2', '$1 $2', '$1 $2', '$1 $2', '. $2', '$1 $2', '$1')      
       let $ausgabe := <div>{index:replace-multi($glossar, $from, $to)}</div>
