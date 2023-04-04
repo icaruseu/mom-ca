@@ -30,10 +30,6 @@
     </xrx:licence>
     <xrx:variables>
         <xrx:variable>
-            <xrx:name>$clear-grammar-cache</xrx:name>
-            <xrx:expression>validation:clear-grammar-cache()</xrx:expression>
-        </xrx:variable>
-        <xrx:variable>
             <xrx:name>$vocab-name</xrx:name>
             <xrx:expression>request:get-parameter("vocab", "")</xrx:expression>
         </xrx:variable>
@@ -62,10 +58,6 @@
             <xrx:expression>if($is-wellformed) then data:validate($data-as-xml, $rdf-schema) else ()</xrx:expression>
         </xrx:variable>
         <xrx:variable>
-            <xrx:name>$is-valid</xrx:name>
-            <xrx:expression>if($validation-report//status[.='valid']) then true() else false()</xrx:expression>
-        </xrx:variable>
-        <xrx:variable>
             <xrx:name>$session-username</xrx:name>
             <xrx:expression>xmldb:get-current-user()</xrx:expression>
         </xrx:variable>
@@ -74,8 +66,8 @@
         {
         if ($session-username != 'guest') then (
             (: let $log_valreport := util:log('error', $validation-report) :)
-            let $result := $is-valid
-            return <output>{$result}</output>
+            let $clear-grammar-cache := validation:clear-grammar-cache()
+            return <output>{$validation-report}</output>
         )
         else ()
         }
