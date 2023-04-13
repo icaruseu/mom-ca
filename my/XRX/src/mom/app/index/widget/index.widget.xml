@@ -823,7 +823,7 @@ ul.namelist {{
               return
               if ($parameter != '') then
               let $personenliste := $index:personcollection/atom:entry[contains(atom:id, $voc)]//tei:text
-              let $eintrag := if($parameter != '' and $parameter != 'A-Z') then $personenliste//tei:person[starts-with(substring-after(@xml:id, 'P_'), $parameter)] 
+              let $eintrag := if($parameter != '' and $parameter != 'A-Z') then $personenliste//tei:person[starts-with(descendant::text()[normalize-space()][1], $parameter)] 
                               else if($parameter = 'A-Z') then $personenliste//tei:person
                               else()
 
@@ -833,7 +833,7 @@ ul.namelist {{
                (: das trifft dann zu, wenn ein Buchstabe keine Namenseinträge hat:)
                 else(
                 for $person in $eintrag
-                order by $person/tei:persName
+                order by $person/descendant::text()[normalize-space()][1]
                 return
                 let $personid := data($person/@xml:id)
                 let $name := $person/tei:persName (: [starts-with(., $parameter)] :)
