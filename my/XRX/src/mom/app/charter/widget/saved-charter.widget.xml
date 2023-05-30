@@ -44,13 +44,7 @@ it leaves the active development stage.
       <xrx:name>$wcharter:just-linked</xrx:name>
       <xrx:expression>false()</xrx:expression>
     </xrx:variable>
-    <!--
-    	charter context: collection or fond?
-    -->
-    <xrx:variable>
-      <xrx:name>$wcharter:context</xrx:name>
-      <xrx:expression>if(count($xrx:tokenized-uri) = 3) then 'collection' else 'fond'</xrx:expression>
-    </xrx:variable>
+
     <!--
       atom ID
     -->
@@ -71,6 +65,13 @@ it leaves the active development stage.
     <xrx:variable>
       <xrx:name>$wcharter:tokens</xrx:name>
       <xrx:expression>tokenize(substring-after($wcharter:atom-id, conf:param('atom-tag-name')), '/')</xrx:expression>
+    </xrx:variable>
+    <!--
+    	charter context: collection or fond?
+    -->
+    <xrx:variable>
+      <xrx:name>$wcharter:context</xrx:name>
+      <xrx:expression>if(count($wcharter:tokens) = 4) then 'collection' else 'fond'</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$wcharter:metadata-charter-collection</xrx:name>
