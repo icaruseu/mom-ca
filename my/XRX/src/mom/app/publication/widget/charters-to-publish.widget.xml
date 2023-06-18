@@ -143,7 +143,16 @@ right:220px;
   <xrx:view>
   {
 	let $community-member-charters := publication:checkForArchivist($xrx:user-id)
-    let $charters-to-publish := 
+	
+	  (: get current page from URL :)
+	let $page := xs:integer(if(request:get-parameter('page', '') != '') then request:get-parameter('page', '-1') else '1')
+	  (: get current perPage from URL:)
+	  let $perPage := xs:integer(if(request:get-parameter('perpage', '') != '') then request:get-parameter('perpage', '-1') else '15')
+	  
+	  (: Build start and stop :)
+  let $pagestart := $page * $perPage - $perPage
+  let $pagestop := $page * $perPage
+    let $charters-to-publish_ALL := 
     (
       for $moderators-user in $user:db-base-collection//xrx:moderator[.=$xrx:user-id]
       return 
@@ -153,9 +162,12 @@ right:220px;
     )
 
     (: pagination :)
-    let $numentries := count($charters-to-publish)
+    let $numentries := count($charters-to-publish_ALL)
     let $startstop := pagination:startstop($numentries)
     let $navigation := pagination:navi($numentries)
+   
+    (: Make chunks from positions :)
+    let $charters-to-publish := $charters-to-publish_ALL[ position() = $pagestart to $pagestop ] 
     
     return
     <xf:group model="msaved">
