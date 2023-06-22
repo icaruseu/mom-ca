@@ -53,6 +53,15 @@ html, body, .xrx-widget, #main{{
 }}    
     </style>
   </xrx:csss>  
+    <xrx:jss>
+    <script async="true" src="https://www.googletagmanager.com/gtag/js?id=G-1GDQBEQZH4"></script>
+    <script type="text/javascript">
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){{dataLayer.push(arguments);}}
+      gtag('js', new Date());
+      gtag('config', 'G-1GDQBEQZH4');
+    </script>
+  </xrx:jss>
   <xrx:view>
     <div>
       <xrx:mainwidget/>
