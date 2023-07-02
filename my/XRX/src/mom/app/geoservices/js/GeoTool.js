@@ -30,7 +30,7 @@ $.widget("ui.GeoTool",{
 	_createMap: function(){
 	    var self = this;
 
-		this.mainMapLayer = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		this.mainMapLayer = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicHJvZG9tbyIsImEiOiJjbGpsYzN5eGkwbTdqM2ZzZDB1cXh2Njd3In0.ZFi87vLXYG4SazcRISET4w', {
 		    tileSize: 512,
             zoomOffset: -1,
             id: 'mapbox/streets-v11',
