@@ -23,6 +23,15 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 
 We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
   </xrx:licence>
+    <xrx:jss>
+    <script async="true" src="https://www.googletagmanager.com/gtag/js?id=G-1GDQBEQZH4"></script>
+    <script type="text/javascript">
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){{dataLayer.push(arguments);}}
+      gtag('js', new Date());
+      gtag('config', 'G-1GDQBEQZH4');
+    </script>
+  </xrx:jss>
   <xrx:view>
     <div>
       <xrx:mainwidget/>
