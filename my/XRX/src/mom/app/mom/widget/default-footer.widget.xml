@@ -123,6 +123,11 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 							<xrx:resource alt="Wissenschaft Forschung Niederösterreich Logo" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/logo-wissenschaft-forschung-niederoesterreich</xrx:resource>
 						</a>
 					</div>
+					<div class="dlogo" data-demoid="bmkoes-logo">
+						<a href="https://www.bmkoes.gv.at/" target="_blank">
+							<xrx:resource alt="Bundesministerium für Kunst, Kultur, öffentlichen Dienst und Sport (BMKÖS) Logo" type="image/png">tag:www.monasterium.net,2011:/mom/resource/image/bmkoes_logo</xrx:resource>
+						</a>
+					</div>
 				</div>
 				<div data-demoid="6306bd46-c431-43c0-b386-121a4961d39e" style="text-align:right">
 					<a href="{ conf:param('request-root') }terms-of-use">
