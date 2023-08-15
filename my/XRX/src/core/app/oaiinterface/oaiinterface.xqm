@@ -86,7 +86,7 @@ declare variable $oaiinterface:tag-to-compare-date := "atom:updated";
 (: Tag of the document to compare the identifier parameter :)
 declare variable $oaiinterface:tag-to-compare-id := "atom:id";
 (: Maximum number of documents before resumptionToken is returned :)
-declare variable $oaiinterface:number-to-export := 100;
+declare variable $oaiinterface:number-to-export := let $return := request:get-parameter("max",100) return xs:int($return);
 (: URIs for DB - platform-base-uri is only used for headerXSL and contentXSL :)
 declare variable $oaiinterface:db-base-uri := conf:param('data-db-base-uri');
 (: ---------------------------------------- :)
@@ -224,26 +224,27 @@ return
 };
 
 (: transform digital objects to metadata prefix format :)
-declare function local:oai-transform($oai-from as xs:string, $oai-until as xs:string, $oai-collections as xs:string*, $function-pointer  ) as node()*{
+declare function local:oai-transform($oai-from as xs:string, $oai-until as xs:string, $oai-collections as xs:string*, $function-pointer, $cache-name as xs:string  ) as node()*{
 (: index for resumptionToken :)
 let $index := 
               if(fn:compare($oaiinterface:resumption-token,"0")=0)then
                     0
-              else local:search-res-point($oai-collections)
+              else local:search-res-point($oai-collections,  $cache-name)
 (: collect all digital objects :)
-let $all-documents := 
-                    for $oai-collection in $oai-collections
-                    return
-                        collection(concat($oaiinterface:db-base-uri, $oai-collection))
+
+let $all-documents := local:all-documents($oai-collections,  $cache-name)
 return
     (: validate index of resumptionToken :)
-    if(empty($index))then <error code="badResumptionToken">Resumption Token is not valid</error>
+    if (empty($index)) then <error code="badResumptionToken">Resumption Token is not valid</error>
     else
         for $document at $number in $all-documents
+        
         return
+             try {
                 (: export only defined number of documents :)
-                if($number >= $index and $number < $index+$oaiinterface:number-to-export)
+                if($number >= $index and $number < xs:int($index)+$oaiinterface:number-to-export)
                 then
+                    let $remove := cache:remove($cache-name, $document//atom:id/text())
                     let $date-string := $document//*[xs:string(fn:node-name(.)) = $oaiinterface:tag-to-compare-date]/text()  cast as xs:dateTime
                     return
                         (: compare date variables :)
@@ -281,22 +282,43 @@ return
               else if($number = ($index+$oaiinterface:number-to-export)) then
                    <oai:resumptionToken>{$oaiinterface:resumption-token-prefix}\{$oaiinterface:metadata-prefix}\{$document//*[xs:string(fn:node-name(.)) = $oaiinterface:tag-to-compare-id]/xmldb:encode(./text())}\{$oaiinterface:from}\{$oaiinterface:until}</oai:resumptionToken>
               else()            
+             }
+            catch * {
+        util:log("ERROR",'Sonstiger Fehler (' || $err:code || '): ' || $err:description)
+      }
+};
+
+declare function local:all-documents($oai-collections as xs:string*, $cache-name as xs:string) {
+    if(count(cache:keys($cache-name)) != 0) then 
+        let $keys := cache:keys($cache-name)
+        let $charters := for $key in $keys
+            let $charter := cache:get($cache-name, $key)
+            return $charter
+        return $charters
+    else
+        for $oai-collection in $oai-collections
+        return
+            collection(concat($oaiinterface:db-base-uri, $oai-collection))
 };
 
 (: Search for identfier of the resumption token in the list of records:)
-declare function local:search-res-point($oai-collections as xs:string*) as xs:integer*{
+declare function local:search-res-point($oai-collections as xs:string*, $cache-name as xs:string) as xs:integer*{
     (: extract the identifier :)
     let $res-identity := substring-before(substring-after(substring-after($oaiinterface:resumption-token, "\"), "\"), "\")
     (: collect all digital objects :)
-    let $all-documents := 
-                    for $oai-collection in $oai-collections
-                    return
-                        collection(concat($oaiinterface:db-base-uri, $oai-collection))
+    let $all-documents := local:all-documents($oai-collections, $cache-name)
     (: search for identifier :)
-    for $document at $number in util:eval(concat('$all-documents//', $oaiinterface:tag-to-compare-id))
+    
     return
-       if ($document[. = $res-identity]) then $number
-       else() 
+       if (count(cache:keys($cache-name)) != 0) then 
+           0 
+        else
+            for $document at $number in util:eval(concat('$all-documents//', $oaiinterface:tag-to-compare-id))
+            return
+               if ($document[. = $res-identity]) then 
+                   $number
+               else
+                   () 
 };
 
 (: handle parameters to produce a response:)
@@ -332,16 +354,17 @@ declare function local:response($oai-collections as xs:string*, $base-url as xs:
 
     else if($oaiinterface:verb  = "ListRecords" or $oaiinterface:verb  = "ListIdentifiers")
     then 
+            let $cache-name := concat("oaipmh", $base-url)
             (: List records (in addiction to the until/ from parameter) :)
             let $hits := 
                     if(fn:compare($oaiinterface:resumption-token,"0")=0) then
-                        local:oai-transform($oaiinterface:from, $oaiinterface:until, $oai-collections, $function-pointer)
+                        ( local:prepareCache($cache-name, $oai-collections), local:oai-transform($oaiinterface:from, $oaiinterface:until, $oai-collections, $function-pointer, $cache-name ) )
                     else 
                          let $oaiinterface:metadata-prefix := substring-before(substring-after($oaiinterface:resumption-token, "\"), "\")
                          let $res-from := substring-before(substring-after(substring-after(substring-after($oaiinterface:resumption-token, "\"), "\"), "\"), "\")
                          let $res-until := substring-after(substring-after(substring-after(substring-after($oaiinterface:resumption-token, "\"), "\"), "\"), "\")
                          return
-                         local:oai-transform($res-from, $res-until, $oai-collections, $function-pointer)
+                         local:oai-transform($res-from, $res-until, $oai-collections, $function-pointer, $cache-name)
              return
                   if(empty($hits/child::*))then 
                         if(fn:compare($oaiinterface:resumption-token,"0")=0) then
@@ -380,6 +403,27 @@ return
     $record
 };
 
+declare function local:prepareCache($name as xs:string, $oai-collections as xs:string*) {
+    (:  Entferne vorherigen Cache :)
+    let $delete := cache:destroy($name)
+    
+    (: Alle Urkunden laden :)
+    let $all-documents := 
+                    for $oai-collection in $oai-collections
+                    return
+                        collection(concat($oaiinterface:db-base-uri, $oai-collection))
+                        
+    (: Erstelle Cache neu mit max Einträgen aus der Collection:)
+    let $option := map { "maximumSize": count($all-documents) + 1}
+    let $cache := cache:create($name, $option)
+    
+    let $items :=
+    for $charter in $all-documents
+        let $entry := cache:put($name, $charter//atom:id/text(), root($charter))
+        return ()
+    return ()
+};
+
 (: main function as starting point of the response- process :)
 (: Param $oai-collection as specific path to recources in DB/ Param $base-url as baseURL of the OAI- Interface:)
 declare function oaiinterface:main($oai-collections as xs:string*, $base-url as xs:string, $function-pointer  ){
@@ -399,3 +443,4 @@ declare function oaiinterface:main($oai-collections as xs:string*, $base-url as 
     }
      </OAI-PMH>
 };
+
