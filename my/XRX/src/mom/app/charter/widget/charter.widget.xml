@@ -1272,7 +1272,7 @@ p#first {{
             } 
             <span>, </span>
             <span>{ request:get-url() }</span>  --> 
-            <span>{ for $archive in $wcharter:archive return concat($archive, '&#160;') }{ $wcharter:fond }&#160;{ $wcharter:idno }, in: Monasterium.net, URL &lt;{ $wcharter:default-url }/charter&gt;, accessed at { current-date() }</span>
+            <span>{ for $archive in $wcharter:archive return concat($archive, ',&#160;') }{ $wcharter:fond }&#160;{ $wcharter:idno }, in: Monasterium.net, URL &lt;{ $wcharter:default-url }/charter&gt;, accessed at { current-date() }</span>
           
            </p>
            
