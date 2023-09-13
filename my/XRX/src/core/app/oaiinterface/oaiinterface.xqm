@@ -80,6 +80,11 @@ declare variable $oaiinterface:metadata-formats :=
                     <oai:schema>http://www.europeana.eu/schemas/ese/ESE-V3.2.xsd</oai:schema>
                     <oai:metadataNamespace>http://www.europeana.eu/schemas/ese/</oai:metadataNamespace>
                 </oai:metadataFormat>
+                <oai:metadataFormat>
+                    <oai:metadataPrefix>edm</oai:metadataPrefix>
+                    <oai:schema>https://www.europeana.eu/schemas/edm/EDM.xsd</oai:schema>
+                    <oai:metadataNamespace>http://www.europeana.eu/schemas/edm/</oai:metadataNamespace>
+                </oai:metadataFormat>
             </oai:ListMetadataFormats>;
 (: Tag of the document to compare the from/until parameters :)            
 declare variable $oaiinterface:tag-to-compare-date := "atom:updated";

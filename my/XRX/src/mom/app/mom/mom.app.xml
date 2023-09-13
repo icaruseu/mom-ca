@@ -197,6 +197,11 @@
       <xrx:name>cei2ese.xsl</xrx:name>
     </xrx:resource>
     <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/xsl/cei2edm</xrx:atomid>
+      <xrx:relativepath>xsl/</xrx:relativepath>
+      <xrx:name>cei2edm.xsl</xrx:name>
+    </xrx:resource>
+    <xrx:resource>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/xsl/cei2oaidc</xrx:atomid>
       <xrx:relativepath>xsl/</xrx:relativepath>
       <xrx:name>cei2oaidc.xsl</xrx:name>

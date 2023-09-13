@@ -31,6 +31,8 @@ declare function platform-oai:transform($verb as xs:string, $document as node()*
                             collection($platform-oai:platform-base-uri)//xsl:stylesheet[@id ='cei2oaidc']
                         else if(fn:compare($metadata-prefix,"ese")=0)then
                             collection($platform-oai:platform-base-uri)//xsl:stylesheet[@id ='cei2ese']
+                        else if(fn:compare($metadata-prefix,"edm")=0)then
+                            collection($platform-oai:platform-base-uri)//xsl:stylesheet[@id ='cei2edm']
                         else collection($platform-oai:platform-base-uri)//xsl:stylesheet[@id ='cei2oaidc']
     (: XSLT for header transformation :)
     let $header-xsl := collection($platform-oai:platform-base-uri)//xsl:stylesheet[@id ='cei2oaiheader']
