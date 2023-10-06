@@ -367,17 +367,16 @@ declare function platform-oai:create-file($object-id as xs:string, $context as x
 declare function platform-oai:error-message($base-url as xs:string) {
     let $message :=
                 (: OAI- PMH informations - have to be defined:)
-                <OAI_PMH xmlns="http://www.openarchives.org/OAI/2.0/" 
+                <oai:OAI_PMH xmlns:oai="http://www.openarchives.org/OAI/2.0/" 
                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                     xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/
-                     http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
-                <responseDate>{current-dateTime()}</responseDate>
-                <request> {(for $parameter in request:get-parameter-names()
+                     xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+                <oai:responseDate>{current-dateTime()}</oai:responseDate>
+                <oai:request> {(for $parameter in request:get-parameter-names()
                             return
                                 attribute {$parameter}{request:get-parameter(string($parameter),0)})
-                            ,$base-url}</request>
-                 <error code="noRecordsMatch">Base- URL has not been released yet! Please check your URL or contact the metadata manager of the archive!</error>
-                 </OAI_PMH> 
+                            ,$base-url}</oai:request>
+                 <oai:error code="noRecordsMatch">Base- URL has not been released yet! Please check your URL or contact the metadata manager of the archive!</oai:error>
+                 </oai:OAI_PMH> 
         return
             $message
 };
