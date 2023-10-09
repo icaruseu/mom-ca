@@ -13,7 +13,7 @@
     </xsl:variable>
     <xsl:variable name="image-ids">
       <xsl:for-each select="//cei:graphic">
-        <id base="{concat($base-image-url, @url)}" iiif="{concat($base-image-url, @url, '/full/512,/0/default.jpg')}" />
+        <id base="{concat($base-image-url, @url)}" name="{substring-before(@url, '.')}" iiif="{concat($base-image-url, @url, '/full/512,/0/default.jpg')}" />
       </xsl:for-each>
     </xsl:variable>
     <!-- Start OAI output -->
@@ -25,10 +25,18 @@
           <edm:aggregatedCHO rdf:resource="{$provided-cho-id}" />
           <!-- Connected WebResources -->
           <xsl:for-each select="$image-ids/id">
-            <edm:isShownBy rdf:resource="{@iiif}" />
+            <xsl:sort select="@name" data-type="text" order="ascending" />
+            <xsl:choose>
+              <xsl:when test="position() = 1">
+                <edm:isShownBy rdf:resource="{@iiif}" />
+              </xsl:when>
+              <xsl:otherwise>
+                <edm:hasView rdf:resource="{@iiif}" />
+              </xsl:otherwise>
+            </xsl:choose>
           </xsl:for-each>
           <!-- License -->
-          <edm:rights rdf:resource="https://creativecommons.org/licenses/by-nc/3.0/" />
+          <edm:rights rdf:resource="http://creativecommons.org/licenses/by-nc/3.0/" />
           <!-- Data provider -->
           <edm:dataProvider>Monasterium.net</edm:dataProvider>
         </ore:Aggregation>
