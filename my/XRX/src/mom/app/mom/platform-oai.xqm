@@ -117,24 +117,44 @@ let $image-url :=
                 $tokens[2]))))/xrx:preferences/xrx:param[@name='image-server-base-url']/text(), 
                 '/')
     else
+
+       let $availablecol := xmldb:collection-available(
+            xmldb:encode-uri(
+              xmldb:decode(
+                concat(
+                "/db/mom-data",
+                '/metadata.collection.public/',
+                $tokens[1]))))
+
+        let $avaiablemycol := xmldb:collection-available(
+            xmldb:encode-uri(
+              xmldb:decode(
+                concat(
+                "/db/mom-data",
+                '/metadata.mycollection.public/',
+                $tokens[1])))) 
+
+        let $collection := 
+            if($availablecol) then "/metadata.collection.public/" else if($avaiablemycol) then "/metadata.mycollection.public/" else ()
+       return
        concat(collection(xmldb:encode-uri(
               xmldb:decode(
                 concat(
                 conf:param('atom-db-base-uri'),
-                '/metadata.collection.public/',
+                $collection,
                 $tokens[1]))))//cei:text/cei:front/cei:image_server_address,
                 '/',
               collection(xmldb:encode-uri(
               xmldb:decode(
                 concat(
                 conf:param('atom-db-base-uri'),
-                '/metadata.collection.public/',
+                $collection,
                 $tokens[1]))))//cei:text/cei:front/cei:image_server_folder,
                 '/')
 
 (: Für Europeana alle images.monasterium.net Images über IIIF schleifen:)
 
-let $image-url := if(contains($image-url, "http://images.monasterium.net")) then
+let $image-url-wrapped := if(contains($image-url, "http://images.monasterium.net")) then
     let $rest := substring-after($image-url,"http://images.monasterium.net/")
     let $encoded := encode-for-uri($rest)
     return concat("http://images.icar-us.eu/iiif/2/", $encoded)
@@ -142,7 +162,7 @@ else $image-url
 
 
 return
-    $image-url
+    $image-url-wrapped
 };
 
 (: Helper- function to analyze atomID - ToDo in eXist 2.0: use charter:- functions directly!  :)
@@ -317,7 +337,12 @@ declare function platform-oai:get-context($object-id as xs:string) as xs:string 
                   xs:string('collection')
                  else
                   xs:string('noMatch')
-            else    
+            else  if(exists(doc(concat(conf:param('data-db-base-uri'), 'metadata.mycollection.public/', $object-id, '/oai.xml'))//oei:collection))then
+                if(exists(doc(concat(conf:param('data-db-base-uri'), 'metadata.mycollection.public/', $object-id, '/oai.xml'))//oei:collection[xmldb:encode(string(./@id)) = $object-id][./@status = 'enable']))then
+                  xs:string('collection')
+                 else
+                  xs:string('noMatch')
+            else   
                 xs:string('noMatch')
     return
         $archive-or-collection

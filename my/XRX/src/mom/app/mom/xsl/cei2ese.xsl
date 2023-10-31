@@ -117,7 +117,7 @@
                         <xsl:value-of select="concat(.//cei:issued/cei:dateRange/text(), .//cei:issued/cei:date/text())"/>
                         <xsl:if test=".//cei:quoteOriginaldatierung/text()[1]">
                             <xsl:text>, "</xsl:text>
-                            <xsl:value-of select=".//cei:quoteOriginaldatierung/text()[1]"/>
+                        <xsl:value-of select=".//cei:quoteOriginaldatierung/text()[1]/">
                         </xsl:if>
                         <xsl:text>)</xsl:text> -->
                         <xsl:choose>
@@ -241,9 +241,23 @@
                     <europeana:isShownBy>
                         <xsl:variable name="option" select="'/full/1200,/0/default.jpg'"/>
                         <xsl:variable name="charter-image-url" select=".//cei:graphic[string-length(@url)&gt;0]/@url"/>
-                        <xsl:value-of select="$base-image-url"/>
+                        <xsl:variable name="image-name" select="tokenize($charter-image-url, '/')[last()]"/>
+                        <xsl:variable name="image-path">
+                            <xsl:if test="contains($charter-image-url, 'http') and string-length($base-image-url) > 0">
+                                <xsl:value-of select="concat($base-image-url,$image-name)"/>
+                            </xsl:if>
+                        </xsl:variable>
 
-                        <xsl:value-of select="$charter-image-url"/>
+                        <xsl:choose>
+                            <xsl:when test="string-length($image-path) > 0">
+                                <xsl:value-of select="$image-path"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="$base-image-url"/>
+
+                                <xsl:value-of select="$charter-image-url"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
                         <xsl:value-of select="$option"/>
 
                     </europeana:isShownBy>
