@@ -153,7 +153,7 @@ let $image-url :=
                 '/')
 
 (: Für Europeana alle images.monasterium.net Images über IIIF schleifen:)
-let $log := util:log("ERROR", $image-url)
+
 let $image-url-wrapped := if(contains($image-url, "http://images.monasterium.net")) then
     let $rest := substring-after($image-url,"http://images.monasterium.net/")
     let $encoded := encode-for-uri($rest)
