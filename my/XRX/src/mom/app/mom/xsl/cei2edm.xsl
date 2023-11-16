@@ -24,6 +24,7 @@
           <!-- Connected CHO -->
           <edm:aggregatedCHO rdf:resource="{$provided-cho-id}" />
           <!-- Connected WebResources -->
+          <edm:isShownAt rdf:resource="{$aggregation-id}" />
           <xsl:for-each select="$image-ids/id">
             <xsl:sort select="@name" data-type="text" order="ascending" />
             <xsl:choose>
@@ -105,17 +106,17 @@
           <!-- Associated place names -->
           <xsl:if test=".//cei:placeName/text()">
             <xsl:for-each select=".//cei:abstract/cei:placeName">
-              <dc:spatial>
+              <dcterms:spatial>
                 <xsl:value-of select="./text()" />
-              </dc:spatial>
+              </dcterms:spatial>
             </xsl:for-each>
           </xsl:if>
           <!-- Associated geography names -->
           <xsl:if test=".//cei:geogName/text()">
             <xsl:for-each select=".//cei:geogName">
-              <dc:spatial>
+              <dcterms:spatial>
                 <xsl:value-of select="./text()" />
-              </dc:spatial>
+              </dcterms:spatial>
             </xsl:for-each>
           </xsl:if>
           <!-- Keywords -->
