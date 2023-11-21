@@ -150,6 +150,16 @@
       <xrx:name>logo-wissenschaft-forschung-niederoesterreich.png</xrx:name>
     </xrx:resource>
     <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/bmkoes_logo</xrx:atomid>
+      <xrx:relativepath>image/</xrx:relativepath>
+      <xrx:name>bmkoes_logo.png</xrx:name>
+    </xrx:resource>
+    <xrx:resource>
+      <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/erc_logo</xrx:atomid>
+      <xrx:relativepath>image/</xrx:relativepath>
+      <xrx:name>erc_logo.jpg</xrx:name>
+    </xrx:resource>
+    <xrx:resource>
       <xrx:atomid>tag:www.monasterium.net,2011:/mom/resource/image/maskBG</xrx:atomid>
       <xrx:relativepath>image/</xrx:relativepath>
       <xrx:name>maskBG.png</xrx:name>
