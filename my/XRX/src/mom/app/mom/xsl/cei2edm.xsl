@@ -59,8 +59,6 @@
             <xsl:value-of select="concat('Charter: ', $fond-id, ' ', .//cei:idno/@id)" />
           </dc:title>
           <!-- Types -->
-          <dc:type rdf:resource="http://purl.org/dc/dcmitype/PhysicalObject" />
-          <dc:type rdf:resource="http://purl.org/dc/dcmitype/Text" />
           <dc:type>Charter</dc:type>
           <edm:type>TEXT</edm:type>
           <!-- Identifier -->
