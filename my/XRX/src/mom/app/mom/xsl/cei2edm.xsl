@@ -22,14 +22,17 @@
       <xsl:variable name="cei-decoDesc" select="normalize-space(.//cei:decoDesc)" />
       <xsl:if test="$cei-abstract or $cei-decoDesc">
         <dc:description>
-          <xsl:if test="$cei-decoDesc">
-            <xsl:text>Abstract: </xsl:text>
-          </xsl:if>
           <xsl:if test="$cei-abstract">
+            <xsl:if test="$cei-decoDesc">
+              <xsl:text>Abstract: </xsl:text>
+            </xsl:if>
             <xsl:value-of select="$cei-abstract" />
           </xsl:if>
           <xsl:if test="$cei-decoDesc">
-            <xsl:text>; Art-historical description: </xsl:text>
+            <xsl:if test="$cei-abstract">
+              <xsl:text> — </xsl:text>
+            </xsl:if>
+            <xsl:text>Art-historical description: </xsl:text>
             <xsl:value-of select="$cei-decoDesc" />
           </xsl:if>
         </dc:description>
