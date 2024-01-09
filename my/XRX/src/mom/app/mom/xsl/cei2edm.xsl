@@ -16,6 +16,25 @@
         <id base="{concat($base-image-url, @url)}" name="{substring-before(@url, '.')}" iiif="{concat($base-image-url, @url, '/full/512,/0/default.jpg')}" />
       </xsl:for-each>
     </xsl:variable>
+    <!-- Create description from abstract and art-historical description -->
+    <xsl:variable name="dc-description">
+      <xsl:variable name="cei-abstract" select="normalize-space(.//cei:abstract)" />
+      <xsl:variable name="cei-decoDesc" select="normalize-space(.//cei:decoDesc)" />
+      <xsl:if test="$cei-abstract or $cei-decoDesc">
+        <dc:description>
+          <xsl:if test="$cei-decoDesc">
+            <xsl:text>Abstract: </xsl:text>
+          </xsl:if>
+          <xsl:if test="$cei-abstract">
+            <xsl:value-of select="$cei-abstract" />
+          </xsl:if>
+          <xsl:if test="$cei-decoDesc">
+            <xsl:text>; Art-historical description: </xsl:text>
+            <xsl:value-of select="$cei-decoDesc" />
+          </xsl:if>
+        </dc:description>
+      </xsl:if>
+    </xsl:variable>
     <!-- Start OAI output -->
     <oai:metadata>
       <rdf:RDF>
@@ -65,12 +84,8 @@
           <dc:identifier>
             <xsl:value-of select=".//cei:idno" />
           </dc:identifier>
-          <!-- Abstract -->
-          <xsl:if test=".//cei:abstract/text()">
-            <dc:description>
-              <xsl:value-of select="normalize-space(.//cei:abstract)" />
-            </dc:description>
-          </xsl:if>
+          <!-- Description -->
+          <xsl:copy-of select="$dc-description" />
           <!-- Language -->
           <xsl:if test=".//cei:lang_MOM/text()">
             <dc:language>
