@@ -16,6 +16,30 @@
         <id base="{concat($base-image-url, @url)}" name="{substring-before(@url, '.')}" iiif="{concat($base-image-url, @url, '/full/512,/0/default.jpg')}" />
       </xsl:for-each>
     </xsl:variable>
+    <!-- Create dc:rights and edm:rights statements -->
+    <xsl:variable name="dc-edm-rights">
+      <xsl:variable name="license-target" select=".//cei:license/@target" />
+      <xsl:variable name="license-text" select="normalize-space(.//cei:license)" />
+      <xsl:variable name="archive" select="normalize-space(//cei:witnessOrig/cei:archIdentifier/cei:arch)" />
+      <xsl:choose>
+        <xsl:when test="$license-target and $license-text">
+          <edm:rights rdf:resource="{$license-target}" />
+          <dc:rights>
+            <xsl:value-of select="$license-text" />
+          </dc:rights>
+        </xsl:when>
+        <xsl:when test="$archive">
+          <edm:rights rdf:resource="http://creativecommons.org/licenses/by-nc/4.0/" />
+          <dc:rights>
+            <xsl:value-of select="$archive" />
+          </dc:rights>
+        </xsl:when>
+        <xsl:otherwise>
+          <edm:rights rdf:resource="http://creativecommons.org/licenses/by-nc/4.0/" />
+          <dc:rights>Monasterium.net</dc:rights>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
     <!-- Create description from abstract and art-historical description -->
     <xsl:variable name="dc-description">
       <xsl:variable name="cei-abstract" select="normalize-space(.//cei:abstract)" />
@@ -58,8 +82,8 @@
               </xsl:otherwise>
             </xsl:choose>
           </xsl:for-each>
-          <!-- License -->
-          <edm:rights rdf:resource="http://creativecommons.org/licenses/by-nc/3.0/" />
+          <!-- License information -->
+          <xsl:copy-of select="$dc-edm-rights/*" />
           <!-- Data provider -->
           <edm:dataProvider>Monasterium.net</edm:dataProvider>
         </ore:Aggregation>
@@ -67,6 +91,7 @@
         <xsl:for-each select="$image-ids/id">
           <!-- Image webresource -->
           <edm:WebResource rdf:about="{@iiif}">
+            <!-- Image service -->
             <svcs:has_service rdf:resource="{@base}" />
           </edm:WebResource>
           <!-- Service for IIIF-->

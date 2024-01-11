@@ -286,6 +286,33 @@
                     <xs:complexType mixed="true">
                         <xs:sequence>
                             <xs:element ref="p" minOccurs="0"/>
+                            <xs:element name="license" minOccurs="0">
+                                <xs:annotation>
+                                    <xs:appinfo source="EditVDU">
+                                        <xrxe:label>
+                                            <xrx:i18n>
+                                                <xrx:key>cei_license</xrx:key>
+                                                <xrx:default>license</xrx:default>
+                                            </xrx:i18n>
+                                        </xrxe:label>
+                                        <xrxe:relevant>false</xrxe:relevant>
+                                    </xs:appinfo>
+                                    <xs:documentation xml:lang="deu"> Lizenzinformationen: Das Attribut @target enthält die URI der ausgewählten Lizenz. Der Elementtext bietet ergänzende Informationen, wie die korrekte Zuschreibung und relevante Anmerkungen. </xs:documentation>
+                                    <xs:documentation xml:lang="eng"> License Information: The @target attribute includes the URI of the selected license. The text of the element provides additional information, such as the correct attribution and relevant notes. </xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:extension base="NonEmptyText">
+                                            <xs:attribute name="target" type="LicenseType" use="required">
+                                                <xs:annotation>
+                                                    <xs:documentation xml:lang="eng">The URI of the selected license.</xs:documentation>
+                                                    <xs:documentation xml:lang="deu">Die URI der ausgewählten Lizenz.</xs:documentation>
+                                                </xs:annotation>
+                                            </xs:attribute>
+                                        </xs:extension>
+                                    </xs:simpleContent>
+                                </xs:complexType>
+                            </xs:element>
                         </xs:sequence>
                         <xs:attribute name="status" type="xs:anySimpleType"/>
                         <xs:attributeGroup ref="standard"/>
@@ -5674,6 +5701,38 @@
     <xs:simpleType name="idnoValue">
         <xs:restriction base="xs:string">
             <xs:minLength value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- Non-empty text restriction -->
+    <xs:simpleType name="NonEmptyText">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\S+"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- Definition of LicenseType with enumeration of allowed URLs -->
+    <xs:simpleType name="LicenseType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">LicenseType is a simple type which restricts the allowed values to a set of URLs. The URLs are taken from the following sources: <a href="https://europeana.atlassian.net/wiki/spaces/EF/pages/1503756289/Providing+copyright+metadata+to+Europeana#Available-values">Europeana documentation</a>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:anyURI">
+            <!-- Creative Commons Licenses -->
+            <xs:enumeration value="http://creativecommons.org/licenses/by/4.0/"/>
+            <xs:enumeration value="http://creativecommons.org/licenses/by-sa/4.0/"/>
+            <xs:enumeration value="http://creativecommons.org/licenses/by-nd/4.0/"/>
+            <xs:enumeration value="http://creativecommons.org/licenses/by-nc/4.0/"/>
+            <xs:enumeration value="http://creativecommons.org/licenses/by-nc-sa/4.0/"/>
+            <xs:enumeration value="http://creativecommons.org/licenses/by-nc-nd/4.0/"/>
+            <!-- Rights Statements -->
+            <xs:enumeration value="http://rightsstatements.org/vocab/NoC-NC/1.0/"/>
+            <xs:enumeration value="http://rightsstatements.org/vocab/NoC-OKLR/1.0/"/>
+            <xs:enumeration value="http://rightsstatements.org/vocab/InC/1.0/"/>
+            <xs:enumeration value="http://rightsstatements.org/vocab/InC-EDU/1.0/"/>
+            <xs:enumeration value="http://rightsstatements.org/vocab/InC-EU-OW/1.0/"/>
+            <xs:enumeration value="http://rightsstatements.org/vocab/CNE/1.0/"/>
+            <!-- Public Domain Tools -->
+            <xs:enumeration value="http://creativecommons.org/publicdomain/mark/1.0/"/>
+            <xs:enumeration value="http://creativecommons.org/publicdomain/zero/1.0/"/>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>
