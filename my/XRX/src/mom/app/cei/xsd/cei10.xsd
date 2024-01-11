@@ -5706,7 +5706,7 @@
     <!-- Non-empty text restriction -->
     <xs:simpleType name="NonEmptyText">
         <xs:restriction base="xs:string">
-            <xs:pattern value="\S+"/>
+            <xs:minLength value="1"/>
         </xs:restriction>
     </xs:simpleType>
     <!-- Definition of LicenseType with enumeration of allowed URLs -->
