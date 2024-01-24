@@ -1,4 +1,4 @@
-<xsl:stylesheet id="cei2edm" version="1.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:cei="http://www.monasterium.net/NS/cei" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:edm="http://www.europeana.eu/schemas/edm/" xmlns:ese="http://www.europeana.eu/schemas/ese/" xmlns:oai="http://www.openarchives.org/OAI/2.0/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:ore="http://www.openarchives.org/ore/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svcs="http://rdfs.org/sioc/services#" xmlns:xrx="http://www.mom-ca.uni-koeln.de/NS/xrx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xsi:schemaLocation="http://www.w3.org/1999/XSL/Transform https://www.w3.org/2007/schema-for-xslt20.xsd">
+<xsl:stylesheet id="cei2edm" version="1.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:cei="http://www.monasterium.net/NS/cei" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:doap="http://usefulinc.com/ns/doap#" xmlns:edm="http://www.europeana.eu/schemas/edm/" xmlns:ese="http://www.europeana.eu/schemas/ese/" xmlns:oai="http://www.openarchives.org/OAI/2.0/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:ore="http://www.openarchives.org/ore/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svcs="http://rdfs.org/sioc/services#" xmlns:xrx="http://www.mom-ca.uni-koeln.de/NS/xrx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xsi:schemaLocation="http://www.w3.org/1999/XSL/Transform https://www.w3.org/2007/schema-for-xslt20.xsd">
   <xsl:param name="platform-id" />
   <xsl:param name="data-provider" />
   <xsl:param name="base-image-url" />
@@ -97,6 +97,7 @@
           <!-- Service for IIIF-->
           <svcs:Service rdf:about="{@base}">
             <dcterms:conformsTo rdf:resource="http://iiif.io/api/image" />
+            <doap:implements rdf:resource="http://iiif.io/api/image/2/level2.json" />
           </svcs:Service>
         </xsl:for-each>
         <!-- CHO -->
