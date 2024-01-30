@@ -3,6 +3,7 @@
   <xsl:param name="data-provider" />
   <xsl:param name="base-image-url" />
   <xsl:param name="fond-id" />
+  <xsl:param name="opt-collection-title" />
   <xsl:template match="/">
     <!-- Create the ids that the elements will use -->
     <xsl:variable name="provided-cho-id" select="concat('#', .//atom:id)" />
@@ -28,15 +29,19 @@
             <xsl:value-of select="$license-text" />
           </dc:rights>
         </xsl:when>
-        <xsl:when test="$archive">
-          <edm:rights rdf:resource="http://creativecommons.org/licenses/by-nc/4.0/" />
-          <dc:rights>
-            <xsl:value-of select="$archive" />
-          </dc:rights>
-        </xsl:when>
         <xsl:otherwise>
           <edm:rights rdf:resource="http://creativecommons.org/licenses/by-nc/4.0/" />
-          <dc:rights>Monasterium.net</dc:rights>
+          <dc:rights>
+            <xsl:choose>
+              <xsl:when test="$opt-collection-title">
+                <xsl:value-of select="$opt-collection-title" />
+              </xsl:when>
+              <xsl:when test="$archive">
+                <xsl:value-of select="$archive" />
+              </xsl:when>
+              <xsl:otherwise><xsl:text>Monasterium.net</xsl:text></xsl:otherwise>
+            </xsl:choose>
+          </dc:rights>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
