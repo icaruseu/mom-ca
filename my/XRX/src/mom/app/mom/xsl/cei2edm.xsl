@@ -48,21 +48,24 @@
     <!-- Create description from abstract and art-historical description -->
     <xsl:variable name="dc-description">
       <xsl:variable name="cei-abstract" select="normalize-space(.//cei:abstract)" />
-      <xsl:variable name="cei-decoDesc" select="normalize-space(.//cei:decoDesc)" />
-      <xsl:if test="$cei-abstract or $cei-decoDesc">
+      <xsl:variable name="cei-decoDesc-ekphrasis" select="normalize-space(.//cei:decoDesc/cei:p[@n='Ekphrasis'])" />
+      <xsl:variable name="cei-decoDesc-style" select="normalize-space(.//cei:decoDesc/cei:p[@n='Stil und Einordnung'])" />
+      <xsl:variable name="cei-decoDesc-author" select="normalize-space(.//cei:decoDesc/cei:p[@n='Autorensigle'])" />
+      <xsl:variable name="has-cei-decoDesc" select="$cei-decoDesc-ekphrasis or $cei-decoDesc-style or $cei-decoDesc-author" />
+      <xsl:if test="$cei-abstract or $has-cei-decoDesc">
         <dc:description>
           <xsl:if test="$cei-abstract">
-            <xsl:if test="$cei-decoDesc">
+            <xsl:if test="$has-cei-decoDesc">
               <xsl:text>Abstract: </xsl:text>
             </xsl:if>
             <xsl:value-of select="$cei-abstract" />
           </xsl:if>
-          <xsl:if test="$cei-decoDesc">
+          <xsl:if test="$has-cei-decoDesc">
             <xsl:if test="$cei-abstract">
               <xsl:text> — </xsl:text>
             </xsl:if>
             <xsl:text>Art-historical description: </xsl:text>
-            <xsl:value-of select="$cei-decoDesc" />
+            <xsl:value-of select="string-join(($cei-decoDesc-ekphrasis, $cei-decoDesc-style, $cei-decoDesc-author), ' — ') " />
           </xsl:if>
         </dc:description>
       </xsl:if>
