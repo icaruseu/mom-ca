@@ -26,17 +26,30 @@ declare option exist:serialize "method=xml media-type=text/xml omit-xml-declarat
 (: produce the headers and content of oai record:)
 declare function platform-oai:transform($verb as xs:string, $document as node()*, $metadata-prefix as xs:string) as node()*{
     (: XSLT for content transformation :)
-    let $content-xsl := 
-                        if(fn:compare($metadata-prefix,"oai_dc")=0)then
-                            collection($platform-oai:platform-base-uri)//xsl:stylesheet[@id ='cei2oaidc']
-                        else if(fn:compare($metadata-prefix,"ese")=0)then
-                            collection($platform-oai:platform-base-uri)//xsl:stylesheet[@id ='cei2ese']
-                        else collection($platform-oai:platform-base-uri)//xsl:stylesheet[@id ='cei2oaidc']
+    let $script-id := switch ($metadata-prefix)
+        case "oai_dc" return "cei2oaidc"
+        case "ese" return "cei2ese"
+        case "edm" return "cei2edm"
+        default return "cei2oaidc"
+    let $content-xsl := collection($platform-oai:platform-base-uri)//xsl:stylesheet[@id =$script-id]
     (: XSLT for header transformation :)
     let $header-xsl := collection($platform-oai:platform-base-uri)//xsl:stylesheet[@id ='cei2oaiheader']
     (: define data provider and image URL (in addiction to archive/ collection/ fonds) :)
     let $data-provider := local:search-for-data-provider($document//atom:entry/atom:id/text())
-    let $fondid := local:object-uri-tokens($document//atom:entry/atom:id/text())[2]
+    let $tokens := local:object-uri-tokens($document//atom:entry/atom:id/text())
+    let $fondid := $tokens[2]
+    (: Value is needed for the EDM transformation as the XSLT doesn’t seem to be able to query the values itself; only query if a collection charter and for EDM transformations :)
+    let $opt-collection-title := if(count($tokens) != 2 or $metadata-prefix != "edm") then
+            ()
+        else
+            let $collection-id := $tokens[1]
+            let $mycollection := collection("/db/mom-data/metadata.mycollection.public")//atom:entry[./atom:id = "tag:www.monasterium.net,2011:/mycollection/" || $collection-id]
+            let $coll-document := if (exists($mycollection)) then 
+                    $mycollection
+                else
+                    collection("/db/mom-data/metadata.collection.public")//atom:entry[./atom:id = "tag:www.monasterium.net,2011:/collection/" || $collection-id]
+            return
+                normalize-space($coll-document//cei:title)
     let $base-image-url := local:search-for-image-url($document//atom:entry/atom:id/text())
     (: specific params for XSLT Transformation :)
     let $xsl-content-params := <parameters>
@@ -44,6 +57,7 @@ declare function platform-oai:transform($verb as xs:string, $document as node()*
                                       <param name="data-provider" value="{ $data-provider }"/>
                                       <param name="base-image-url" value="{ $base-image-url}"/>
                                       <param name="fond-id" value="{ $fondid }"/>
+                                      <param name="opt-collection-title" value="{ $opt-collection-title }"/>
                                </parameters> 
     let $xsl-header-params := <parameters>
                                       <param name="platform-id" value="{ $conf:project-name }"/>
@@ -390,17 +404,16 @@ declare function platform-oai:create-file($object-id as xs:string, $context as x
 declare function platform-oai:error-message($base-url as xs:string) {
     let $message :=
                 (: OAI- PMH informations - have to be defined:)
-                <OAI_PMH xmlns="http://www.openarchives.org/OAI/2.0/" 
+                <oai:OAI_PMH xmlns:oai="http://www.openarchives.org/OAI/2.0/" 
                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                     xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/
-                     http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
-                <responseDate>{current-dateTime()}</responseDate>
-                <request> {(for $parameter in request:get-parameter-names()
+                     xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+                <oai:responseDate>{current-dateTime()}</oai:responseDate>
+                <oai:request> {(for $parameter in request:get-parameter-names()
                             return
                                 attribute {$parameter}{request:get-parameter(string($parameter),0)})
-                            ,$base-url}</request>
-                 <error code="noRecordsMatch">Base- URL has not been released yet! Please check your URL or contact the metadata manager of the archive!</error>
-                 </OAI_PMH> 
+                            ,$base-url}</oai:request>
+                 <oai:error code="noRecordsMatch">Base- URL has not been released yet! Please check your URL or contact the metadata manager of the archive!</oai:error>
+                 </oai:OAI_PMH> 
         return
             $message
 };

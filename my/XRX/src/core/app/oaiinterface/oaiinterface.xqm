@@ -80,6 +80,11 @@ declare variable $oaiinterface:metadata-formats :=
                     <oai:schema>http://www.europeana.eu/schemas/ese/ESE-V3.2.xsd</oai:schema>
                     <oai:metadataNamespace>http://www.europeana.eu/schemas/ese/</oai:metadataNamespace>
                 </oai:metadataFormat>
+                <oai:metadataFormat>
+                    <oai:metadataPrefix>edm</oai:metadataPrefix>
+                    <oai:schema>https://www.europeana.eu/schemas/edm/EDM.xsd</oai:schema>
+                    <oai:metadataNamespace>http://www.europeana.eu/schemas/edm/</oai:metadataNamespace>
+                </oai:metadataFormat>
             </oai:ListMetadataFormats>;
 (: Tag of the document to compare the from/until parameters :)            
 declare variable $oaiinterface:tag-to-compare-date := "atom:updated";
@@ -428,19 +433,18 @@ declare function local:prepareCache($name as xs:string, $oai-collections as xs:s
 (: Param $oai-collection as specific path to recources in DB/ Param $base-url as baseURL of the OAI- Interface:)
 declare function oaiinterface:main($oai-collections as xs:string*, $base-url as xs:string, $function-pointer  ){
     (: OAI- PMH informations - have to be defined:)
-    <OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" 
+    <oai:OAI-PMH xmlns:oai="http://www.openarchives.org/OAI/2.0/" 
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/
-         http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
-    <responseDate>{current-dateTime()}</responseDate>
-    <request> {(for $parameter in $oaiinterface:parameters
+         xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+    <oai:responseDate>{current-dateTime()}</oai:responseDate>
+    <oai:request> {(for $parameter in $oaiinterface:parameters
                 return
                     attribute {$parameter}{request:get-parameter(string($parameter),0)})
-                ,$base-url}</request>
+                ,$base-url}</oai:request>
     {
     (: check parameters and produce a response:)
     local:validate-params($oai-collections, $base-url, $function-pointer)
     }
-     </OAI-PMH>
+     </oai:OAI-PMH>
 };
 
