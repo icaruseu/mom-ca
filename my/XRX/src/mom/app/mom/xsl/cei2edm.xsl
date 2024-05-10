@@ -13,9 +13,9 @@
       <xsl:text>/charter</xsl:text>
     </xsl:variable>
     <xsl:variable name="image-ids">
-      <xsl:for-each select="//cei:graphic">
-        <xsl:variable name="base" select="concat($base-image-url, @url)" />
-        <id base="{$base}" name="{substring-before(@url, '.')}">
+      <xsl:for-each select="distinct-values(//cei:graphic/@url)">
+        <xsl:variable name="base" select="concat($base-image-url, .)" />
+        <id base="{$base}" name="{substring-before(., '.')}">
           <xsl:if test="contains($base, 'images.monasterium.net')">
             <xsl:attribute name="iiif" select="concat('http://images.icar-us.eu/iiif/2/', encode-for-uri(substring-after($base, 'images.monasterium.net/')), '/full/512,/0/default.jpg')" />
           </xsl:if>
