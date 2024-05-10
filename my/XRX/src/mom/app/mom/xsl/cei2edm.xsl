@@ -14,7 +14,12 @@
     </xsl:variable>
     <xsl:variable name="image-ids">
       <xsl:for-each select="//cei:graphic">
-        <id base="{concat($base-image-url, @url)}" name="{substring-before(@url, '.')}" iiif="{concat($base-image-url, @url, '/full/512,/0/default.jpg')}" />
+        <xsl:variable name="base" select="concat($base-image-url, @url)" />
+        <id base="{$base}" name="{substring-before(@url, '.')}">
+          <xsl:if test="contains($base, 'images.monasterium.net')">
+            <xsl:attribute name="iiif" select="concat('http://images.icar-us.eu/iiif/2/', encode-for-uri(substring-after($base, 'images.monasterium.net/')), '/full/512,/0/default.jpg')" />
+          </xsl:if>
+        </id>
       </xsl:for-each>
     </xsl:variable>
     <!-- Create dc:rights and edm:rights statements -->
@@ -83,10 +88,10 @@
             <xsl:sort select="@name" data-type="text" order="ascending" />
             <xsl:choose>
               <xsl:when test="position() = 1">
-                <edm:isShownBy rdf:resource="{@iiif}" />
+                <edm:isShownBy rdf:resource="{if(exists(@iiif)) then @iiif else @base}" />
               </xsl:when>
               <xsl:otherwise>
-                <edm:hasView rdf:resource="{@iiif}" />
+                <edm:hasView rdf:resource="{if(exists(@iiif)) then @iiif else @base}" />
               </xsl:otherwise>
             </xsl:choose>
           </xsl:for-each>
@@ -98,15 +103,19 @@
         <!-- Image related elements -->
         <xsl:for-each select="$image-ids/id">
           <!-- Image webresource -->
-          <edm:WebResource rdf:about="{@iiif}">
+          <edm:WebResource rdf:about="{if(exists(@iiif)) then @iiif else @base}">
             <!-- Image service -->
-            <svcs:has_service rdf:resource="{@base}" />
+            <xsl:if test="exists(@iiif)">
+              <svcs:has_service rdf:resource="{@iiif}" />
+            </xsl:if>
           </edm:WebResource>
           <!-- Service for IIIF-->
-          <svcs:Service rdf:about="{@base}">
-            <dcterms:conformsTo rdf:resource="http://iiif.io/api/image" />
-            <doap:implements rdf:resource="http://iiif.io/api/image/2/level2.json" />
-          </svcs:Service>
+          <xsl:if test="exists(@iiif)">
+            <svcs:Service rdf:about="{@iiif}">
+              <dcterms:conformsTo rdf:resource="http://iiif.io/api/image" />
+              <doap:implements rdf:resource="http://iiif.io/api/image/2/level2.json" />
+            </svcs:Service>
+          </xsl:if>
         </xsl:for-each>
         <!-- CHO -->
         <edm:ProvidedCHO rdf:about="{$provided-cho-id}">

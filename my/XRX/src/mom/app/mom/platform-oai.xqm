@@ -50,7 +50,7 @@ declare function platform-oai:transform($verb as xs:string, $document as node()*
                     collection("/db/mom-data/metadata.collection.public")//atom:entry[./atom:id = "tag:www.monasterium.net,2011:/collection/" || $collection-id]
             return
                 normalize-space($coll-document//cei:title)
-    let $base-image-url := local:search-for-image-url($document//atom:entry/atom:id/text())
+    let $base-image-url := local:get-image-base-url($document//atom:entry/atom:id)
     (: specific params for XSLT Transformation :)
     let $xsl-content-params := <parameters>
                                       <param name="platform-id" value="{ $conf:project-name }"/>
@@ -73,6 +73,21 @@ declare function platform-oai:transform($verb as xs:string, $document as node()*
                              transform:transform($document, $header-xsl, $xsl-header-params)
     return     
          $transformed-object   
+};
+
+(: Converts the provided input sequence to a path by joining its items with separating slashes. Returned paths start with 'http' or '/' always end in a '/' :)
+declare function local:to-path($parts as xs:string*) as xs:string? {
+    if (not(exists($parts))) then
+        ()
+    else
+        let $normalized-parts := for $part at $pos in $parts
+            return replace(normalize-space($part), '^/*|/*$', '')
+        let $path := xmldb:decode(fn:string-join($normalized-parts, '/'))
+        return
+            concat(
+                if (starts-with($path, 'http')) then $path else concat('/', $path),
+                '/'
+            )
 };
 
 (: search for DataProvider because of the atom- ID:)
@@ -115,68 +130,28 @@ return
     $data-provider
 };
 
-(: search for ImageUrl because of atom- ID :)
-declare function local:search-for-image-url($atom-id as xs:string){
-let $tokens := local:object-uri-tokens($atom-id)
-(: distinguish between fond and collection :)
-let $image-url := 
-    if(count($tokens) = 3) then
-       concat(collection(xmldb:encode-uri(
-            xmldb:decode(
-                concat(
-                conf:param('atom-db-base-uri'),
-                '/metadata.fond.public/',
-                $tokens[1],
-                '/',
-                $tokens[2]))))/xrx:preferences/xrx:param[@name='image-server-base-url']/text(), 
-                '/')
-    else
-
-       let $availablecol := xmldb:collection-available(
-            xmldb:encode-uri(
-              xmldb:decode(
-                concat(
-                "/db/mom-data",
-                '/metadata.collection.public/',
-                $tokens[1]))))
-
-        let $avaiablemycol := xmldb:collection-available(
-            xmldb:encode-uri(
-              xmldb:decode(
-                concat(
-                "/db/mom-data",
-                '/metadata.mycollection.public/',
-                $tokens[1])))) 
-
-        let $collection := 
-            if($availablecol) then "/metadata.collection.public/" else if($avaiablemycol) then "/metadata.mycollection.public/" else ()
-       return
-       concat(collection(xmldb:encode-uri(
-              xmldb:decode(
-                concat(
-                conf:param('atom-db-base-uri'),
-                $collection,
-                $tokens[1]))))//cei:text/cei:front/cei:image_server_address,
-                '/',
-              collection(xmldb:encode-uri(
-              xmldb:decode(
-                concat(
-                conf:param('atom-db-base-uri'),
-                $collection,
-                $tokens[1]))))//cei:text/cei:front/cei:image_server_folder,
-                '/')
-
-(: Für Europeana alle images.monasterium.net Images über IIIF schleifen:)
-
-let $image-url-wrapped := if(contains($image-url, "http://images.monasterium.net")) then
-    let $rest := substring-after($image-url,"http://images.monasterium.net/")
-    let $encoded := encode-for-uri($rest)
-    return concat("http://images.icar-us.eu/iiif/2/", $encoded)
-else $image-url
-
-
-return
-    $image-url-wrapped
+(: Get the base url for image links based on their atom:id. Base urls end with a '/' :)
+declare function local:get-image-base-url($atom-id as xs:string) {
+    let $tokens := local:object-uri-tokens($atom-id)
+    (: Distinguish between fond and collection :)
+    let $image-url := if(count($tokens) = 3)
+        (: Fond :)
+        then
+            let $fond-path := local:to-path((conf:param('atom-db-base-uri'), 'metadata.fond.public', $tokens[1], $tokens[2]))
+            return
+                (: Get the defined image-server-base-url as a path with a trailing slash :)
+                local:to-path(collection($fond-path)/xrx:preferences/xrx:param[@name='image-server-base-url'])
+        (: Collection :)
+        else
+            let $col-path := local:to-path((conf:param('atom-db-base-uri'), 'metadata.collection.public', $tokens[1]))
+            let $mycol-path := local:to-path((conf:param('atom-db-base-uri'), 'metadata.mycollection.public', $tokens[1]))
+            let $xml-collection := collection(if(xmldb:collection-available($col-path)) then $col-path else $mycol-path)
+            let $server-url := $xml-collection//cei:text/cei:front/cei:image_server_address
+            let $image-folder-url := $xml-collection//cei:text/cei:front/cei:image_server_folder
+            return
+                (: Get the combination of the server URL and the image folder URL as a path with a trailing slash :)
+                local:to-path(($server-url, $image-folder-url))
+    return $image-url
 };
 
 (: Helper- function to analyze atomID - ToDo in eXist 2.0: use charter:- functions directly!  :)
