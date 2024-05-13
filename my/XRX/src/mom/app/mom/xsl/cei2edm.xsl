@@ -14,10 +14,12 @@
     </xsl:variable>
     <xsl:variable name="image-ids">
       <xsl:for-each select="distinct-values(//cei:graphic/@url)">
-        <xsl:variable name="base" select="concat($base-image-url, .)" />
-        <id base="{$base}" name="{substring-before(., '.')}">
-          <xsl:if test="contains($base, 'images.monasterium.net')">
-            <xsl:attribute name="iiif" select="concat('http://images.icar-us.eu/iiif/2/', encode-for-uri(substring-after($base, 'images.monasterium.net/')), '/full/512,/0/default.jpg')" />
+        <xsl:variable name="full-image-url" select="concat($base-image-url, .)" />
+        <id raw-image-url="{$full-image-url}" name="{substring-before(., '.')}">
+          <xsl:if test="contains($full-image-url, 'images.monasterium.net')">
+            <xsl:variable name="iiif-base-url" select="concat('http://images.icar-us.eu/iiif/2/', encode-for-uri(substring-after($full-image-url, 'images.monasterium.net/')))" />
+            <xsl:attribute name="iiif-json-url" select="$iiif-base-url" />
+            <xsl:attribute name="iiif-image-url" select="concat($iiif-base-url, '/full/full/0/default.jpg')" />
           </xsl:if>
         </id>
       </xsl:for-each>
@@ -88,10 +90,10 @@
             <xsl:sort select="@name" data-type="text" order="ascending" />
             <xsl:choose>
               <xsl:when test="position() = 1">
-                <edm:isShownBy rdf:resource="{if(exists(@iiif)) then @iiif else @base}" />
+                <edm:isShownBy rdf:resource="{if(exists(@iiif-image-url)) then @iiif-image-url else @raw-image-url}" />
               </xsl:when>
               <xsl:otherwise>
-                <edm:hasView rdf:resource="{if(exists(@iiif)) then @iiif else @base}" />
+                <edm:hasView rdf:resource="{if(exists(@iiif-image-url)) then @iiif-image-url else @raw-image-url}" />
               </xsl:otherwise>
             </xsl:choose>
           </xsl:for-each>
@@ -103,15 +105,15 @@
         <!-- Image related elements -->
         <xsl:for-each select="$image-ids/id">
           <!-- Image webresource -->
-          <edm:WebResource rdf:about="{if(exists(@iiif)) then @iiif else @base}">
+          <edm:WebResource rdf:about="{if(exists(@iiif-image-url)) then @iiif-image-url else @raw-image-url}">
             <!-- Image service -->
-            <xsl:if test="exists(@iiif)">
-              <svcs:has_service rdf:resource="{@iiif}" />
+            <xsl:if test="exists(@iiif-json-url)">
+              <svcs:has_service rdf:resource="{@iiif-json-url}" />
             </xsl:if>
           </edm:WebResource>
           <!-- Service for IIIF-->
-          <xsl:if test="exists(@iiif)">
-            <svcs:Service rdf:about="{@iiif}">
+          <xsl:if test="exists(@iiif-json-url)">
+            <svcs:Service rdf:about="{@iiif-json-url}">
               <dcterms:conformsTo rdf:resource="http://iiif.io/api/image" />
               <doap:implements rdf:resource="http://iiif.io/api/image/2/level2.json" />
             </svcs:Service>
