@@ -17,7 +17,9 @@
         <xsl:variable name="base" select="concat($base-image-url, .)" />
         <id base="{$base}" name="{substring-before(., '.')}">
           <xsl:if test="contains($base, 'images.monasterium.net')">
-            <xsl:attribute name="iiif" select="concat('http://images.icar-us.eu/iiif/2/', encode-for-uri(substring-after($base, 'images.monasterium.net/')), '/full/512,/0/default.jpg')" />
+            <xsl:variable name="iiif-base" select="concat('http://images.icar-us.eu/iiif/2/', encode-for-uri(substring-after($base, 'images.monasterium.net/')))" />
+            <xsl:attribute name="iiif-base" select="$iiif-base" />
+            <xsl:attribute name="iiif" select="concat($iiif-base, '/full/full/0/default.jpg')" />
           </xsl:if>
         </id>
       </xsl:for-each>
@@ -105,13 +107,13 @@
           <!-- Image webresource -->
           <edm:WebResource rdf:about="{if(exists(@iiif)) then @iiif else @base}">
             <!-- Image service -->
-            <xsl:if test="exists(@iiif)">
-              <svcs:has_service rdf:resource="{@iiif}" />
+            <xsl:if test="exists(@iiif-base)">
+              <svcs:has_service rdf:resource="{@iiif-base}" />
             </xsl:if>
           </edm:WebResource>
           <!-- Service for IIIF-->
-          <xsl:if test="exists(@iiif)">
-            <svcs:Service rdf:about="{@iiif}">
+          <xsl:if test="exists(@iiif-base)">
+            <svcs:Service rdf:about="{@iiif-base}">
               <dcterms:conformsTo rdf:resource="http://iiif.io/api/image" />
               <doap:implements rdf:resource="http://iiif.io/api/image/2/level2.json" />
             </svcs:Service>
