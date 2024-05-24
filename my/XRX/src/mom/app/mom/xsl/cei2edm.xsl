@@ -3,7 +3,7 @@
   <xsl:param name="data-provider" />
   <xsl:param name="base-image-url" />
   <xsl:param name="fond-id" />
-  <xsl:param name="opt-collection-title" />
+  <xsl:param name="parent-title" />
   <xsl:template match="/">
     <!-- Create the ids that the elements will use -->
     <xsl:variable name="provided-cho-id" select="concat('#', .//atom:id)" />
@@ -28,7 +28,6 @@
     <xsl:variable name="dc-edm-rights">
       <xsl:variable name="license-target" select=".//cei:license/@target" />
       <xsl:variable name="license-text" select="normalize-space(.//cei:license)" />
-      <xsl:variable name="archive" select="normalize-space(//cei:witnessOrig/cei:archIdentifier/cei:arch)" />
       <xsl:choose>
         <xsl:when test="$license-target and $license-text">
           <edm:rights rdf:resource="{$license-target}" />
@@ -39,15 +38,7 @@
         <xsl:otherwise>
           <edm:rights rdf:resource="http://creativecommons.org/licenses/by-nc/4.0/" />
           <dc:rights>
-            <xsl:choose>
-              <xsl:when test="$opt-collection-title">
-                <xsl:value-of select="$opt-collection-title" />
-              </xsl:when>
-              <xsl:when test="$archive">
-                <xsl:value-of select="$archive" />
-              </xsl:when>
-              <xsl:otherwise><xsl:text>Monasterium.net</xsl:text></xsl:otherwise>
-            </xsl:choose>
+            <xsl:value-of select="$parent-title" />
           </dc:rights>
         </xsl:otherwise>
       </xsl:choose>
@@ -130,8 +121,11 @@
           <edm:type>TEXT</edm:type>
           <!-- Identifier -->
           <dc:identifier>
-            <xsl:value-of select=".//cei:idno" />
+            <xsl:value-of select=".//atom:id" />
           </dc:identifier>
+          <dcterms:isPartOf>
+            <xsl:value-of select="$parent-title" />
+          </dcterms:isPartOf>
           <!-- Description -->
           <xsl:copy-of select="$dc-description" />
           <!-- Language -->
