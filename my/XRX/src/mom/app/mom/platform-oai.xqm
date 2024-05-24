@@ -38,10 +38,18 @@ declare function platform-oai:transform($verb as xs:string, $document as node()*
     let $data-provider := local:search-for-data-provider($document//atom:entry/atom:id/text())
     let $tokens := local:object-uri-tokens($document//atom:entry/atom:id/text())
     let $fondid := $tokens[2]
-    (: Value is needed for the EDM transformation as the XSLT doesn’t seem to be able to query the values itself; only query if a collection charter and for EDM transformations :)
-    let $opt-collection-title := if(count($tokens) != 2 or $metadata-prefix != "edm") then
-            ()
+    (: The name of the parent object for archival and collection charters to be used in EDM :)
+    let $parent-title := if ($metadata-prefix != "edm") then
+        ()
+    else
+        if(count($tokens) = 3) then
+            (: Archival charter :)
+            let $archive := collection("/db/mom-data/metadata.archive.public")//atom:entry[./atom:id = "tag:www.monasterium.net,2011:/archive/" || $tokens[1]]//eag:autform
+            let $fond := collection("/db/mom-data/metadata.fond.public")//atom:entry[./atom:id = "tag:www.monasterium.net,2011:/fond/" || $tokens[1] || "/" || $tokens[2]]//ead:unittitle
+            return
+                concat(normalize-space($archive), '; ', normalize-space($fond))
         else
+            (: Collection charter :)
             let $collection-id := $tokens[1]
             let $mycollection := collection("/db/mom-data/metadata.mycollection.public")//atom:entry[./atom:id = "tag:www.monasterium.net,2011:/mycollection/" || $collection-id]
             let $coll-document := if (exists($mycollection)) then 
@@ -57,7 +65,7 @@ declare function platform-oai:transform($verb as xs:string, $document as node()*
                                       <param name="data-provider" value="{ $data-provider }"/>
                                       <param name="base-image-url" value="{ $base-image-url}"/>
                                       <param name="fond-id" value="{ $fondid }"/>
-                                      <param name="opt-collection-title" value="{ $opt-collection-title }"/>
+                                      <param name="parent-title" value="{ $parent-title }"/>
                                </parameters> 
     let $xsl-header-params := <parameters>
                                       <param name="platform-id" value="{ $conf:project-name }"/>
