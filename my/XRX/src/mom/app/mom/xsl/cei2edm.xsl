@@ -63,7 +63,7 @@
               <xsl:text> — </xsl:text>
             </xsl:if>
             <xsl:text>Art-historical description: </xsl:text>
-            <xsl:value-of select="string-join(($cei-decoDesc-ekphrasis, $cei-decoDesc-style, $cei-decoDesc-author), ' — ') " />
+            <xsl:value-of select="string-join(($cei-decoDesc-ekphrasis, $cei-decoDesc-style, $cei-decoDesc-author), ' – ') " />
           </xsl:if>
         </dc:description>
       </xsl:if>
@@ -114,7 +114,7 @@
         <edm:ProvidedCHO rdf:about="{$provided-cho-id}">
           <!-- Title -->
           <dc:title>
-            <xsl:value-of select="concat('Charter: ', $fond-id, ' ', .//cei:idno/@id)" />
+            <xsl:value-of select="concat('Charter: ', $parent-title, ' – ', .//cei:idno/@id)" />
           </dc:title>
           <!-- Types -->
           <dc:type>Charter</dc:type>
