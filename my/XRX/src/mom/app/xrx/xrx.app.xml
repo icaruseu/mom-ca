@@ -60,6 +60,6 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     <xrx:param name="xrx-user-db-base-uri">/db/mom-data/xrx.user/</xrx:param>
     <xrx:param name="data-db-base-uri">/db/mom-data/</xrx:param>
     <xrx:param name="saved-data-atom-base-uri">/metadata.charter.saved/</xrx:param>
-    <xrx:param name="timeout-in-ms">180000</xrx:param>
+    <xrx:param name="timeout-in-ms">720000</xrx:param>
   </xrx:conf>
 </xrx:app>
