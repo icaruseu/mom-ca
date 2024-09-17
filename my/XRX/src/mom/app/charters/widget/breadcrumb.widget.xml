@@ -66,9 +66,9 @@ it leaves the active development stage.
             </xrx:i18n>
           </a>
           <span> &gt; </span>
-          <a href="archive">{ $wbreadcrumb:charter-context-short-name }</a>
-          <span> &gt;</span>
-          <a href="fonds">{ $wbreadcrumb:shortname-fond }</a>        
+          <a href="{ conf:param('request-root') }{ $charter:rarchiveid }/archive">{ $wbreadcrumb:charter-context-short-name }</a>
+          <span> &gt; </span>
+          <a href="fond">{ $wbreadcrumb:shortname-fond }</a>       
           </div>
         else(
         <div>
