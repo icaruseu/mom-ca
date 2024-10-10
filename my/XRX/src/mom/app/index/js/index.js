@@ -33,16 +33,7 @@
 		    })
    } ;
    
-  
-   
-    var parameter = window.location.href;
-    if(parameter.includes('?pm=charter')){
-    $("span.moreless").toggle();
-    $("div.entry").toggle();
-    $(spanless).toggle();
-   
- 
-    }    
+     
     $("span.moreless").click(function(){
     $("span.moreless").toggle();
     $("div.entry").toggle();
