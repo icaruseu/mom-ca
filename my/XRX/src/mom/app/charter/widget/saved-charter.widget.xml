@@ -319,21 +319,7 @@ it leaves the active development stage.
     <xrx:div>
       <xrx:key>how-to-cite</xrx:key>
       <xrx:view>
-        <div class="inlinehead">
-          <a href="javascript:showHideDiv_neu('howToCite', '')">
-            <xrx:i18n>
-              <xrx:key>how-to-cite</xrx:key>
-              <xrx:default>How to cite</xrx:default>
-            </xrx:i18n>
-          </a>
-        </div>
-        <div id="howToCite" style="display:none">
-          <div class="p">
-            <p>
-              <span>{ for $archive in $wcharter:archive return concat($archive, ',&#160;') }{ $wcharter:fond }&#160;{ $wcharter:idno }, in: Monasterium.net, URL &lt;{ $wcharter:default-url }/charter&gt;, accessed at { current-date() }</span>
-            </p>
-          </div>
-        </div>
+        <xrx:subwidget>tag:www.monasterium.net,2011:/mom/widget/how-to-cite</xrx:subwidget>
       </xrx:view>
     </xrx:div>
   </xrx:divs>
