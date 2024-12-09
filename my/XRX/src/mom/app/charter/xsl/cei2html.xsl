@@ -234,6 +234,7 @@
                         <xrx:default>Source Regest</xrx:default>
                     </xrx:i18n>
                     <xsl:text>:&#160;</xsl:text>
+                    <br/>
                     <xsl:call-template name="biblabstract"/>
                 </div>
             </xsl:when>
@@ -1136,6 +1137,7 @@
     
     <xsl:template match="cei:sealDesc">
         <xsl:apply-templates/>
+        <br/>
     </xsl:template>
     
     <xsl:template match="cei:seal">
@@ -1435,7 +1437,13 @@
     <xsl:apply-templates />
   </xsl:template>-->
     <xsl:template name="biblabstract">
-        <xsl:apply-templates select="$cei//cei:sourceDesc/cei:sourceDescRegest/cei:bibl"/>
+        <xsl:for-each select="$cei//cei:sourceDesc/cei:sourceDescRegest/cei:bibl">
+            <xsl:if test='@type'>
+                <xsl:value-of select="concat(@type, ': ')"/>
+            </xsl:if>
+            <xsl:apply-templates/>
+            <br/>
+        </xsl:for-each>
     </xsl:template>
     <xsl:template name="abstractnotes">
         <xsl:call-template name="hi">
