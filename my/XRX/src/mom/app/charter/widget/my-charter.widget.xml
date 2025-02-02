@@ -159,6 +159,10 @@ it leaves the active development stage.
       <xrx:name>$wcharter:pos</xrx:name>
       <xrx:expression>charter:position($wcharter:charters, $wcharter:private-charter, $xrx:user-xml, $wcharter:atom-id, $xrx:tokenized-uri[last()])</xrx:expression>
     </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:volltext-bibl</xrx:name>
+      <xrx:expression>$wcharter:charter//cei:front/cei:sourceDesc/cei:sourceDescVolltext</xrx:expression>
+    </xrx:variable>
     <!-- 
       back link to fond or collection 
     -->
@@ -511,7 +515,7 @@ $("#zoomsliderlabel").hide();
         <div id="howToCite" style="display:none">
           <div class="p">
             <p>
-              <span>{ for $archive in $wcharter:archive return concat($archive, ',&#160;') }{ $wcharter:fond }&#160;{ $wcharter:idno }, in: Monasterium.net, URL &lt;{ $wcharter:default-url }/charter&gt;, accessed at { current-date() }</span>
+              <span>{ for $archive in $wcharter:archive return concat($archive, ',&#160;') }{ $wcharter:fond }&#160;{ $wcharter:idno }, { if ($wcharter:volltext-bibl) then concat('description/edition based on:', '&#160;') else () }{ for $bibl in $wcharter:volltext-bibl/cei:bibl where normalize-space(string-join($bibl//text())) != '' return concat(normalize-space(string-join($bibl//text())), ', ') } in: Monasterium.net, URL &lt;{ $wcharter:default-url }/charter&gt;, accessed at { current-date() }</span>
             </p>
           </div>
         </div>
