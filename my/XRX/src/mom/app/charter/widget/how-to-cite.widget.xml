@@ -1,0 +1,55 @@
+<xrx:widget xmlns:xrx="http://www.monasterium.net/NS/xrx"
+	xmlns="http://www.w3.org/1999/xhtml">
+  <xrx:id>tag:www.monasterium.net,2011:/mom/widget/how-to-cite</xrx:id>
+  <xrx:title>
+	  <xrx:i18n>
+	    <xrx:key>how-to-cite</xrx:key>
+	    <xrx:default>How-to-cite</xrx:default>
+	  </xrx:i18n>
+  </xrx:title>
+  <xrx:subtitle></xrx:subtitle>
+  <xrx:description></xrx:description>
+  <xrx:author>niklas.tscherne@uni-graz.at</xrx:author>
+  <xrx:licence>
+This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
+
+As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
+
+This file is part of the VdU Virtual Research Environment Toolkit (VdU/VRET).
+
+The VdU/VRET is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VdU/VRET is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
+  </xrx:licence>
+  <xrx:init>
+   <xrx:processor>
+     <xrx:xformsflag>false</xrx:xformsflag>
+   </xrx:processor>
+  </xrx:init>
+	<xrx:view>
+	  <div class="inlinehead cat">
+	    <a href="javascript:showHideDiv_neu('howToCite', '')">
+	      <xrx:i18n>
+	        <xrx:key>how-to-cite</xrx:key>
+	        <xrx:default>How to cite</xrx:default>
+	      </xrx:i18n>
+	    </a>
+	  </div>
+	  <div id="howToCite" style="display:none">
+	    <div class="p">
+	      <p>
+	        <span>{ for $archive in $wcharter:archive return concat($archive, ',&#160;') }{ $wcharter:fond }&#160;{ $wcharter:idno }, in: Monasterium.net, URL &lt;https://www.monasterium.net{ $wcharter:default-url }/charter&gt;, accessed { current-date() }</span>
+	      </p>
+	    </div>
+	  </div>
+	</xrx:view>
+</xrx:widget>
