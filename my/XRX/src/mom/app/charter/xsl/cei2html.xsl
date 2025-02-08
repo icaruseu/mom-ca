@@ -311,7 +311,7 @@
 
     <xsl:template match="xhtml:insert-persName">
         <xsl:choose>
-            <xsl:when test="count($cei//cei:persName/node()) > 0">
+            <xsl:when test="count($cei//cei:persName[not(ancestor::cei:bibl)]/node()) > 0">
                 <div id="persName">
                     <b>
                         <xrx:i18n>
@@ -321,7 +321,7 @@
                     </b>
                     <ul>
                         <xsl:choose>
-                            <xsl:when test="$cei//cei:persName[@reg]">
+                            <xsl:when test="$cei//cei:persName[not(ancestor::cei:bibl)][@reg]">
                                 <xsl:call-template name="persNameReg"/>
                             </xsl:when>
                             <xsl:otherwise>
@@ -1838,7 +1838,7 @@
     <!-- index persName -->
     <xsl:template name="persName">
         <xsl:for-each-group 
-            select="$cei//cei:persName"
+            select="$cei//cei:persName[not(ancestor::cei:bibl)]"
             group-by="normalize-space(translate(., ',', ''))">
             <xsl:sort select="."/>
             <xsl:if test="./node()">
@@ -1856,7 +1856,7 @@
     </xsl:template>
     <xsl:template name="persNameReg">
         <xsl:for-each-group 
-            select="$cei//cei:persName/@reg"
+            select="$cei//cei:persName[not(ancestor::cei:bibl)]/@reg"
             group-by="normalize-space(.)">
             <xsl:sort select="."/>
             <li>
