@@ -1659,7 +1659,7 @@
                         <b>
                             <xrx:i18n>
                                 <xrx:key>cei_listBibl</xrx:key>
-                                <xrx:default>Bibliography</xrx:default>
+                                <xrx:default>Mentions</xrx:default>
                             </xrx:i18n>
                             <span>:&#160;</span>
                         </b>
