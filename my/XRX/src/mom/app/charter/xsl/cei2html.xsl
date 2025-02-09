@@ -650,7 +650,19 @@
             <xsl:apply-templates/>
         </sup>
     </xsl:template>
-    <xsl:template match="cei:lb[ancestor::cei:tenor]">
+    <xsl:template match="cei:lb[ancestor::cei:tenor and (@n or @break)]">
+        <span style="color:grey">
+            <xsl:choose>
+                <xsl:when test="@break = 'no'">
+                    <xsl:value-of select="concat('-|', @n, '|-')"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="concat('|', @n, '|')"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </span>
+    </xsl:template>
+    <xsl:template match="cei:lb[ancestor::cei:tenor and not(@n) and not(@break)]">
         <span class="cei-lb">||</span>
         <br/>
     </xsl:template>
