@@ -47,12 +47,14 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 	  <div id="howToCite" style="display:none">
 	    <div class="p">
 	      <p>
+
 	        <span>
 	          { for $archive in $wcharter:archive return concat($archive, ',&#160;') }
 	          { $wcharter:fond }&#160;{ $wcharter:idno },
 	          { if ($wcharter:volltext-bibl) then concat('description/edition based on:', '&#160;', string-join(for $bibl in $wcharter:volltext-bibl/cei:bibl return normalize-space(string-join($bibl//text())), ', ')) else () }
 	          in: Monasterium.net, URL &lt;https://www.monasterium.net{ $wcharter:default-url }/charter&gt;, accessed { current-date() }
 	        </span>
+
 	      </p>
 	    </div>
 	  </div>

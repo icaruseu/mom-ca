@@ -311,7 +311,7 @@
 
     <xsl:template match="xhtml:insert-persName">
         <xsl:choose>
-            <xsl:when test="count($cei//cei:persName/node()) > 0">
+            <xsl:when test="count($cei//cei:persName[not(ancestor::cei:bibl)]/node()) > 0">
                 <div id="persName">
                     <b>
                         <xrx:i18n>
@@ -321,7 +321,7 @@
                     </b>
                     <ul>
                         <xsl:choose>
-                            <xsl:when test="$cei//cei:persName[@reg]">
+                            <xsl:when test="$cei//cei:persName[not(ancestor::cei:bibl)][@reg]">
                                 <xsl:call-template name="persNameReg"/>
                             </xsl:when>
                             <xsl:otherwise>
@@ -650,7 +650,19 @@
             <xsl:apply-templates/>
         </sup>
     </xsl:template>
-    <xsl:template match="cei:lb[ancestor::cei:tenor]">
+    <xsl:template match="cei:lb[ancestor::cei:tenor and (@n or @break)]">
+        <span style="color:grey">
+            <xsl:choose>
+                <xsl:when test="@break = 'no'">
+                    <xsl:value-of select="concat('-|', @n, '|-')"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="concat('|', @n, '|')"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </span>
+    </xsl:template>
+    <xsl:template match="cei:lb[ancestor::cei:tenor and not(@n) and not(@break)]">
         <span class="cei-lb">||</span>
         <br/>
     </xsl:template>
@@ -1659,7 +1671,7 @@
                         <b>
                             <xrx:i18n>
                                 <xrx:key>cei_listBibl</xrx:key>
-                                <xrx:default>Bibliography</xrx:default>
+                                <xrx:default>Mentions</xrx:default>
                             </xrx:i18n>
                             <span>:&#160;</span>
                         </b>
@@ -1838,7 +1850,7 @@
     <!-- index persName -->
     <xsl:template name="persName">
         <xsl:for-each-group 
-            select="$cei//cei:persName"
+            select="$cei//cei:persName[not(ancestor::cei:bibl)]"
             group-by="normalize-space(translate(., ',', ''))">
             <xsl:sort select="."/>
             <xsl:if test="./node()">
@@ -1856,7 +1868,7 @@
     </xsl:template>
     <xsl:template name="persNameReg">
         <xsl:for-each-group 
-            select="$cei//cei:persName/@reg"
+            select="$cei//cei:persName[not(ancestor::cei:bibl)]/@reg"
             group-by="normalize-space(.)">
             <xsl:sort select="."/>
             <li>
