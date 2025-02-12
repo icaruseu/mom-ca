@@ -1,5 +1,6 @@
 mom="http://www.monasterium.net/NS/mom"
 atom="http://www.w3.org/2005/Atom"
+cei="http://www.monasterium.net/NS/cei"
 conf="http://www.monasterium.net/NS/conf"
 i18n="http://www.monasterium.net/NS/i18n"
 eag="http://www.archivgut-online.de/eag"
