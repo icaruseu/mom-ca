@@ -62,7 +62,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       let $metadata-collection-db-base-collection :=
         metadata:base-collection('collection', $collectionid, 'public')      
       let $cei := $metadata-collection-db-base-collection//cei:cei
-      let $collection-name := normalize-space($cei//cei:provenance/text())
+      let $collection-name := normalize-space(string-join($cei//cei:provenance//text()))
       
       (: user info :)
       let $user-name := user:firstname-name($userid)
