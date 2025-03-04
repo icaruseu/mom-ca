@@ -2312,7 +2312,11 @@
                 <xs:element ref="recipient"/>
                 <xs:element ref="issuer"/>
                 <xs:element ref="term"/>
+                <xs:element ref="witStart"/>
+                <xs:element ref="witEnd"/>
                 <xs:element ref="witDetail"/>
+                <xs:element ref="lacunaStart"/>
+                <xs:element ref="lacunaEnd"/>
                 <xs:element ref="figure"/>
                 <xs:element ref="surplus"/>
                 <xs:element name="metamark"/>
@@ -4631,7 +4635,6 @@
                         <xs:documentation xml:lang="deu">Geographische Angaben </xs:documentation>
                     </xs:annotation>
                     <xs:element ref="name"/>
-                    <xs:element ref="witDetail"/>
                     <xs:element ref="addName"/>
                     <xs:element ref="persName"/>
                     <xs:element ref="orgName"/>
@@ -4640,6 +4643,11 @@
                     <xs:element ref="forename"/>
                     <xs:element ref="surname"/>
                     <xs:element ref="rolename"/>
+                    <xs:element ref="witStart"/>
+                    <xs:element ref="witEnd"/>
+                    <xs:element ref="witDetail"/>
+                    <xs:element ref="lacunaStart"/>
+                    <xs:element ref="lacunaEnd"/>
                 </xs:choice>
                 <xs:element ref="foreign"/>
                 <xs:element ref="note"/>
@@ -5018,6 +5026,11 @@
                 <xs:element ref="persName"/>
                 <xs:element ref="name"/>
                 <xs:element ref="orgName"/>
+                <xs:element ref="witStart"/>
+                <xs:element ref="witEnd"/>
+                <xs:element ref="witDetail"/>
+                <xs:element ref="lacunaStart"/>
+                <xs:element ref="lacunaEnd"/>
                 <xs:group ref="Originalbefund"/>
             </xs:choice>
             <xs:attributeGroup ref="key"/>
