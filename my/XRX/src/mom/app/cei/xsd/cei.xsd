@@ -1256,6 +1256,7 @@
                 <xs:element ref="space"/>
                 <xs:element ref="supplied"/>
                 <xs:element ref="figure"/>
+                <xs:element ref="pict"/>
             </xs:choice>
             <xs:attribute name="id"/>
             <xs:attribute name="note"/>
@@ -3526,6 +3527,8 @@
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element ref="c"/>
+                <xs:element ref="w"/>
+                <xs:element ref="pc"/>
                 <xs:element ref="lb"/>
                 <xs:element ref="pb"/>
                 <xs:element ref="damage"/>
@@ -3916,6 +3919,7 @@
                 <xs:element ref="bibl"/>
                 <xs:element ref="archIdentifier"/>
                 <xs:element ref="msIdentifier"/>
+                <xs:element ref="scope"/>
                 <xs:element ref="p"/>
             </xs:choice>
             <xs:attribute name="place"/>
