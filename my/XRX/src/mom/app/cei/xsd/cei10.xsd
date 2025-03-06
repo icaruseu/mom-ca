@@ -4033,6 +4033,7 @@
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:group ref="Originalbefund"/>
                 <xs:group ref="Sachauszeichnung"/>
+                <xs:element ref="note"/>
             </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -4261,6 +4262,7 @@
                 <xs:element ref="hi"/>
                 <xs:element ref="app"/>
                 <xs:element ref="lb"/>
+                <xs:element ref="note"/>
             </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attributeGroup ref="value"/>
