@@ -1256,6 +1256,7 @@
                 <xs:element ref="space"/>
                 <xs:element ref="supplied"/>
                 <xs:element ref="figure"/>
+                <xs:element ref="pict"/>
             </xs:choice>
             <xs:attribute name="id"/>
             <xs:attribute name="note"/>
@@ -2312,7 +2313,11 @@
                 <xs:element ref="recipient"/>
                 <xs:element ref="issuer"/>
                 <xs:element ref="term"/>
+                <xs:element ref="witStart"/>
+                <xs:element ref="witEnd"/>
                 <xs:element ref="witDetail"/>
+                <xs:element ref="lacunaStart"/>
+                <xs:element ref="lacunaEnd"/>
                 <xs:element ref="figure"/>
                 <xs:element ref="surplus"/>
                 <xs:element name="metamark"/>
@@ -3522,6 +3527,8 @@
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element ref="c"/>
+                <xs:element ref="w"/>
+                <xs:element ref="pc"/>
                 <xs:element ref="lb"/>
                 <xs:element ref="pb"/>
                 <xs:element ref="damage"/>
@@ -3912,6 +3919,7 @@
                 <xs:element ref="bibl"/>
                 <xs:element ref="archIdentifier"/>
                 <xs:element ref="msIdentifier"/>
+                <xs:element ref="scope"/>
                 <xs:element ref="p"/>
             </xs:choice>
             <xs:attribute name="place"/>
@@ -4081,6 +4089,7 @@
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:group ref="Originalbefund"/>
                 <xs:group ref="Sachauszeichnung"/>
+                <xs:element ref="note"/>
             </xs:choice>
             <xs:attributeGroup ref="lang"/>
             <xs:attributeGroup ref="standard"/>
@@ -4309,6 +4318,7 @@
                 <xs:element ref="hi"/>
                 <xs:element ref="app"/>
                 <xs:element ref="lb"/>
+                <xs:element ref="note"/>
             </xs:choice>
             <xs:attributeGroup ref="type"/>
             <xs:attribute name="value" type="xs:double"/>
@@ -4631,7 +4641,6 @@
                         <xs:documentation xml:lang="deu">Geographische Angaben </xs:documentation>
                     </xs:annotation>
                     <xs:element ref="name"/>
-                    <xs:element ref="witDetail"/>
                     <xs:element ref="addName"/>
                     <xs:element ref="persName"/>
                     <xs:element ref="orgName"/>
@@ -4640,6 +4649,11 @@
                     <xs:element ref="forename"/>
                     <xs:element ref="surname"/>
                     <xs:element ref="rolename"/>
+                    <xs:element ref="witStart"/>
+                    <xs:element ref="witEnd"/>
+                    <xs:element ref="witDetail"/>
+                    <xs:element ref="lacunaStart"/>
+                    <xs:element ref="lacunaEnd"/>
                 </xs:choice>
                 <xs:element ref="foreign"/>
                 <xs:element ref="note"/>
@@ -5018,6 +5032,11 @@
                 <xs:element ref="persName"/>
                 <xs:element ref="name"/>
                 <xs:element ref="orgName"/>
+                <xs:element ref="witStart"/>
+                <xs:element ref="witEnd"/>
+                <xs:element ref="witDetail"/>
+                <xs:element ref="lacunaStart"/>
+                <xs:element ref="lacunaEnd"/>
                 <xs:group ref="Originalbefund"/>
             </xs:choice>
             <xs:attributeGroup ref="key"/>
