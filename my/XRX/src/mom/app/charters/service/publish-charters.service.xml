@@ -74,6 +74,10 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:name>$charters-import-base-collection</xrx:name>
       <xrx:expression>metadata:base-collection('charter', $uri-tokens, 'import')</xrx:expression>
     </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$metadata-public-base-collection</xrx:name>
+      <xrx:expression>metadata:base-collection($context, $uri-tokens, 'public')</xrx:expression>
+    </xrx:variable>
   </xrx:variables>
   <xrx:init>
    <xrx:processor>
@@ -88,8 +92,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       return
       atom:POST($charters-public-feed, $resource-name, $charter)
     let $remove-imported-charters := xmldb:remove($charters-import-collection-path)
-    return
-    ()
+    return (update replace $metadata-public-base-collection//atom:published/text() with current-dateTime(), update replace $metadata-public-base-collection//atom:updated/text() with current-dateTime())
     }
   </xrx:body>
 </xrx:service>
