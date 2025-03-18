@@ -86,13 +86,17 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   </xrx:init>
   <xrx:body>
     {
+    let $update-published :=
+      if (not(exists(metadata:base-collection('charter', $uri-tokens, 'public')))) then
+        update replace $metadata-public-base-collection//atom:published/text() with current-dateTime()
+      else ()
     let $move-charters :=
       for $charter in $charters-import-base-collection/atom:entry
       let $resource-name := util:document-name($charter)
       return
       atom:POST($charters-public-feed, $resource-name, $charter)
     let $remove-imported-charters := xmldb:remove($charters-import-collection-path)
-    return (update replace $metadata-public-base-collection//atom:published/text() with current-dateTime(), update replace $metadata-public-base-collection//atom:updated/text() with current-dateTime())
+    return ()
     }
   </xrx:body>
 </xrx:service>
