@@ -4001,34 +4001,50 @@
             <xs:documentation xml:lang="deu">Enthält Beschreibung der Schrift und des Schreibers.</xs:documentation>
         </xs:annotation>
         <xs:complexType>
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element name="script">
-                    <xs:annotation>
-                        <xs:appinfo source="EditVDU">
-                            <xrxe:label>
-                                <xrx:i18n>
-                                    <xrx:key>cei_script</xrx:key>
-                                    <xrx:default>script</xrx:default>
-                                </xrx:i18n>
-                            </xrxe:label>
-                            <xrxe:relevant>false</xrxe:relevant>
-                        </xs:appinfo>
-                  </xs:annotation>
-                </xs:element>
-                <xs:element name="scribe">
-                    <xs:annotation>
-                        <xs:appinfo source="EditVDU">
-                            <xrxe:label>
-                                <xrx:i18n>
-                                    <xrx:key>cei_scribe</xrx:key>
-                                    <xrx:default>scribe</xrx:default>
-                                </xrx:i18n>
-                            </xrxe:label>
-                            <xrxe:relevant>false</xrxe:relevant>
-                        </xs:appinfo>
-                  </xs:annotation>
-                </xs:element>
-            </xs:choice>
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="script">
+                        <xs:annotation>
+                            <xs:appinfo source="EditVDU">
+                                <xrxe:label>
+                                    <xrx:i18n>
+                                        <xrx:key>cei_script</xrx:key>
+                                        <xrx:default>script</xrx:default>
+                                    </xrx:i18n>
+                                </xrxe:label>
+                                <xrxe:relevant>false</xrxe:relevant>
+                            </xs:appinfo>
+                        </xs:annotation>
+                        <xs:complexType>
+                            <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                    <xs:attributeGroup ref="standard"/>
+                                    <xs:attributeGroup ref="lang"/>
+                                </xs:extension>
+                            </xs:simpleContent>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="scribe">
+                        <xs:annotation>
+                            <xs:appinfo source="EditVDU">
+                                <xrxe:label>
+                                    <xrx:i18n>
+                                        <xrx:key>cei_scribe</xrx:key>
+                                        <xrx:default>scribe</xrx:default>
+                                    </xrx:i18n>
+                                </xrxe:label>
+                                <xrxe:relevant>false</xrxe:relevant>
+                            </xs:appinfo>
+                        </xs:annotation>
+                        <xs:complexType mixed="true">
+                            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                <xs:element ref="persName"/>
+                            </xs:choice>
+                            <xs:attributeGroup ref="standard"/>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:choice>
+            </xs:sequence>
             <xs:attributeGroup ref="standard"/>
         </xs:complexType>
     </xs:element>
