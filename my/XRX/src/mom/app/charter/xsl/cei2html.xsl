@@ -34,6 +34,7 @@
       -->
 
     <xsl:param name="cei_persName"/>
+    <xsl:param name="cei_orgName"/>
     <xsl:param name="cei_placeName"/>
     <xsl:param name="cei_geogName"/>
     <xsl:param name="cei_issuer"/>
@@ -706,7 +707,30 @@
                 <xrx:default>person name</xrx:default>
             </xrx:i18n>
         </xsl:variable>
-        <span class="cei-persname" title="{$cei_persName}">
+        <span class="cei-persname">
+            <xsl:attribute name="title">
+                <xsl:value-of select="$cei_persName"/>
+                <xsl:if test="@reg">
+                    <xsl:value-of select="concat(' (normalized: ', @reg, ')')"/>
+                </xsl:if>
+            </xsl:attribute>
+            <xsl:apply-templates/>
+        </span>
+    </xsl:template>
+    <xsl:template match="cei:orgName">
+        <xsl:variable name="i18n">
+            <xrx:i18n>
+                <xrx:key>cei_orgName</xrx:key>
+                <xrx:default>organization name</xrx:default>
+            </xrx:i18n>
+        </xsl:variable>
+        <span class="cei-orgname">
+            <xsl:attribute name="title">
+                <xsl:value-of select="$cei_orgName"/>
+                <xsl:if test="@reg">
+                    <xsl:value-of select="concat(' (normalized: ', @reg, ')')"/>
+                </xsl:if>
+            </xsl:attribute>
             <xsl:apply-templates/>
         </span>
     </xsl:template>
@@ -1412,7 +1436,13 @@
                 <xrx:default>place name</xrx:default>
             </xrx:i18n>
         </xsl:variable>
-        <span class="cei-placename" title="{$cei_placeName}">
+        <span class="cei-placename">
+            <xsl:attribute name="title">
+                <xsl:value-of select="$cei_placeName"/>
+                <xsl:if test="@reg">
+                    <xsl:value-of select="concat(' (normalized: ', @reg, ')')"/>
+                </xsl:if>
+            </xsl:attribute>
             <xsl:apply-templates/>
         </span>
     </xsl:template>
@@ -1423,7 +1453,13 @@
                 <xrx:default>geographical name</xrx:default>
             </xrx:i18n>
         </xsl:variable>
-        <span class="cei-geogName" title="{$cei_geogName}">
+        <span class="cei-geogName">
+            <xsl:attribute name="title">
+                <xsl:value-of select="$cei_geogName"/>
+                <xsl:if test="@reg">
+                    <xsl:value-of select="concat(' (normalized: ', @reg, ')')"/>
+                </xsl:if>
+            </xsl:attribute>
             <xsl:apply-templates/>
         </span>
     </xsl:template>
