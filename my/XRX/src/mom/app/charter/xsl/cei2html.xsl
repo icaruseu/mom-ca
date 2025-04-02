@@ -1453,7 +1453,7 @@
                 <xrx:default>geographical name</xrx:default>
             </xrx:i18n>
         </xsl:variable>
-        <span class="cei-geogname">
+        <span class="cei-geogName">
             <xsl:attribute name="title">
                 <xsl:value-of select="$cei_geogName"/>
                 <xsl:if test="@reg">
