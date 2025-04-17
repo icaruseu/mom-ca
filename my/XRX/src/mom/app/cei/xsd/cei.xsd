@@ -1679,6 +1679,7 @@
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="p"/>
                 <xs:group ref="Originalbefund"/>
                 <xs:group ref="Sachliches"/>
             </xs:choice>
