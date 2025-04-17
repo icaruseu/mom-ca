@@ -600,6 +600,20 @@
         </groups>
       </editor_field>
       <editor_field>
+        <id>cei:scriptDesc</id>
+        <parent>cei:diplomaticAnalysis</parent>
+        <mult_occurence>false</mult_occurence>
+        <target_field></target_field>
+        <tab_page>6</tab_page>
+        <active>true</active>
+        <message>self</message>
+        <groups>
+          <group>full</group>
+          <group>diplomaticEditor</group>
+          <group>max</group>
+        </groups>
+      </editor_field>
+      <editor_field>
         <id>cei:nota</id>
         <parent>cei:diplomaticAnalysis</parent>
         <mult_occurence>true</mult_occurence>
