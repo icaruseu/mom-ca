@@ -147,6 +147,10 @@ it leaves the active development stage.
       <xrx:name>$wcharter:pos</xrx:name>
       <xrx:expression>charter:position($wcharter:charters, $wcharter:charter, $xrx:user-xml, $wcharter:atom-id, $xrx:tokenized-uri[last()])</xrx:expression>
     </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:volltext-bibl</xrx:name>
+      <xrx:expression>$wcharter:charter//cei:front/cei:sourceDesc/cei:sourceDescVolltext[cei:bibl//normalize-space() != '']</xrx:expression>
+    </xrx:variable>
         <!--
 		  back link to fond or collection
 		-->
