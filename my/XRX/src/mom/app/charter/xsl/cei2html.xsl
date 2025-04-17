@@ -1062,8 +1062,8 @@
                 <xsl:value-of select="concat('wit', $num)"/>
             </xsl:attribute>
             <div class="witness-text" name="wit">
-                <br/>
                 <xsl:if test="./@n !=''">
+                    <br/>
                     <b>
                         <xrx:i18n>
                             <xrx:key>charter-view-witness</xrx:key>
@@ -1075,19 +1075,30 @@
                     <br/>
                 </xsl:if>
                 <xsl:call-template name="traditioForm"/>
-                <div class="p">
-                    <xsl:if test="./cei:archIdentifier/node()">
-                            <b>
-                                <xrx:i18n>
-                                    <xrx:key>actual-repository</xrx:key>
-                                    <xrx:default>Current repository</xrx:default>
-                                </xrx:i18n>
-                                <span>:&#160;</span>
-                            </b>
-                        <xsl:apply-templates select="cei:archIdentifier"/>
-                        <xsl:apply-templates select="cei:p"/>
-                    </xsl:if>
-                </div>
+                <xsl:if test="./cei:archIdentifier/node()">
+                    <br/>
+                    <b>
+                        <xrx:i18n>
+                            <xrx:key>actual-repository</xrx:key>
+                            <xrx:default>Current repository</xrx:default>
+                        </xrx:i18n>
+                        <span>: </span>
+                    </b>
+                    <xsl:apply-templates select="cei:archIdentifier"/>
+                    <br/>
+                </xsl:if>
+                <xsl:if test="$cei//cei:body/cei:idno/@old">
+                    <br/>
+                    <b>
+                        <xrx:i18n>
+                            <xrx:key>old-signature</xrx:key>
+                            <xrx:default>Old signature</xrx:default>
+                        </xrx:i18n>
+                        <span>: </span>
+                    </b>
+                    <xsl:value-of select="$cei//cei:body/cei:idno/@old"/>
+                    <br/>
+                </xsl:if>
                 <br/>
                 <xsl:apply-templates select="./cei:auth/cei:sealDesc"/>
                 <xsl:if test="./cei:auth/cei:notariusDesc//text()">
@@ -1297,9 +1308,12 @@
         <xsl:apply-templates select="*[not(name() = 'cei:decoDesc')]"/>
     </xsl:template>
     <xsl:template name="traditioForm">
-        <xsl:apply-templates select="./cei:traditioForm"/>
-        <br/>
-        <xsl:apply-templates select="./child::text()|./cei:hi/text()"/>
+        <xsl:if test="./cei:traditioForm">
+            <br/>
+            <xsl:apply-templates select="./cei:traditioForm"/>
+            <br/>
+            <xsl:apply-templates select="./child::text()|./cei:hi/text()"/>
+        </xsl:if>
     </xsl:template>
     <xsl:template match="cei:material">
         <xsl:if test="./node()">
