@@ -49,7 +49,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     <xrx:variable>
       <xrx:name>$archtag</xrx:name>
       <xrx:expression>concat("tag:www.monasterium.net,2011:/archive/", $archid)</xrx:expression>
-    <xrx:variable>
+    </xrx:variable>
     <xrx:variable>
       <xrx:name>$fondid</xrx:name>
       <xrx:expression>if($charter-context = 'fond') then charter:fondid($atomid, $atom-tag-name) else ''</xrx:expression>
