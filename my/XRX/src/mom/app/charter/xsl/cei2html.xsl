@@ -1087,18 +1087,6 @@
                     <xsl:apply-templates select="cei:archIdentifier"/>
                     <br/>
                 </xsl:if>
-                <xsl:if test="$cei//cei:body/cei:idno/@old">
-                    <br/>
-                    <b>
-                        <xrx:i18n>
-                            <xrx:key>old-signature</xrx:key>
-                            <xrx:default>Old signature</xrx:default>
-                        </xrx:i18n>
-                        <span>: </span>
-                    </b>
-                    <xsl:value-of select="$cei//cei:body/cei:idno/@old"/>
-                    <br/>
-                </xsl:if>
                 <br/>
                 <xsl:apply-templates select="./cei:auth/cei:sealDesc"/>
                 <xsl:if test="./cei:auth/cei:notariusDesc//text()">
