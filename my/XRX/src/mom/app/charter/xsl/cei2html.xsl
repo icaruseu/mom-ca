@@ -1218,6 +1218,7 @@
             <xsl:text>:&#160;</xsl:text>
         </b>
         <xsl:apply-templates/>
+        <br/>
     </xsl:template>
 
     <xsl:template match="cei:rubrum|cei:nota">
