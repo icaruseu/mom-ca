@@ -113,7 +113,7 @@
         <p>
           <xrx:i18n>
             <xrx:key>skos-name-concept</xrx:key>
-            <xrx:default>To create a new concept, enter a name for it below (avoid spaces and special characters):</xrx:default>
+            <xrx:default>To create a new concept, enter a name for it below (avoid spaces, special characters, and umlauts):</xrx:default>
           </xrx:i18n>
         </p>
         <input type="text" id="concept-input" placeholder="FranzoesischeKoenigsurkunden" style="width: 350px;"/>
@@ -285,7 +285,7 @@
           <b>
             <xrx:i18n>
               <xrx:key>release-skos</xrx:key>
-              <xrx:default>Publish file</xrx:default>
+              <xrx:default>Release file for review</xrx:default>
             </xrx:i18n>
           </b>
         </button>
