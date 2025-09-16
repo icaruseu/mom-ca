@@ -69,9 +69,9 @@ In the person index a specific value in the @key is searched
 in other index a specific value in the @lemma is searched in the public collection
 :)
 
-declare function index:index-abfrage($term){
+declare function index:index-abfrage($term, $mode){
       let $treffergesamt := 
-          if (starts-with($term, 'P_')) then $index:chartercollection//cei:text[.//@key = $term] 
+          if ($mode = 'person') then $index:chartercollection//cei:text[.//@key = $term] 
           else( let $mehr :=  for $jeweils in index:narrower($term)
                               let $st := if(starts-with($jeweils, '#') ) then substring-after($jeweils, '#') else($jeweils)
                               return $index:chartercollection//cei:text[.//@lemma = $st]                   
