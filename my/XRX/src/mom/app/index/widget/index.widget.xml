@@ -822,7 +822,7 @@ ul.namelist {{
               else (substring($xrx:tokenized-uri[3],3,1)) 
               return
               if ($parameter != '') then
-              let $personenliste := $index:personcollection/atom:entry[contains(atom:id, $voc)]//tei:text
+              let $personenliste := $index:personcollection/atom:entry[contains(atom:id, $voc)]//tei:listPerson
               let $eintrag := if($parameter != '' and $parameter != 'A-Z') then $personenliste//tei:person[starts-with(descendant::text()[normalize-space()][1], $parameter)] 
                               else if($parameter = 'A-Z') then $personenliste//tei:person
                               else()
