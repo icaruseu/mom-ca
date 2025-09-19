@@ -70,10 +70,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:name>$indexterm</xrx:name>
       <xrx:expression>if(not(exists($xrx:tokenized-uri[3]))) then '' else if($coll = 'person') then concat($voc, ':', $xrx:tokenized-uri[3]) else (concat('#', $xrx:tokenized-uri[3]))</xrx:expression>
     </xrx:variable>        
-    <xrx:variable>    
-      <xrx:name>$windex:index</xrx:name>
-      <xrx:expression>if($xrx:tokenized-uri[3]!= '#') then index:index-abfrage($indexterm, 'person') else()</xrx:expression>
-    </xrx:variable>
+   <xrx:variable>
+     <xrx:name>$windex:index</xrx:name>
+     <xrx:expression>if($coll = 'person') then index:index-abfrage($indexterm, 'person') else if($xrx:tokenized-uri[3]!= '#') then index:index-abfrage($indexterm, 'default') else()</xrx:expression>
+   </xrx:variable>
     <xrx:variable>
     <xrx:name>$windex:hits</xrx:name>
     <xrx:expression>count($windex:index)</xrx:expression>
