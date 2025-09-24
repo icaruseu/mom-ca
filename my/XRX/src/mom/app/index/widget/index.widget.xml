@@ -72,7 +72,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     </xrx:variable>        
    <xrx:variable>
      <xrx:name>$windex:index</xrx:name>
-     <xrx:expression>if($coll = 'person') then index:index-abfrage($indexterm, 'person') else if($xrx:tokenized-uri[3]!= '#') then index:index-abfrage($indexterm, 'default') else()</xrx:expression>
+     <xrx:expression>if($coll = 'person') then index:index-abfrage($indexterm, 'person') else if($xrx:tokenized-uri[3]!= '#') then index:index-abfrage($indexterm, 'controlledVocabulary') else()</xrx:expression>
    </xrx:variable>
     <xrx:variable>
     <xrx:name>$windex:hits</xrx:name>
