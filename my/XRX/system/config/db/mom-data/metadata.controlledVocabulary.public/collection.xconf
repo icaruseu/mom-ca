@@ -12,6 +12,7 @@
             <create qname="@id" type="xs:string"/>
             <create qname="@resource" type="xs:string"/>
             <create qname="@lang" type="xs:string"/>
+            <create qname="@about" type="xs:string"/>
         </range>
     </index>
 </collection>
