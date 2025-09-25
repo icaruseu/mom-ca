@@ -59,13 +59,21 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     </xrx:variable>
      <!-- suchergebnisse -->
      <xrx:variable>
+       <xrx:name>$voc</xrx:name>
+       <xrx:expression>$xrx:tokenized-uri[2]</xrx:expression>
+     </xrx:variable>   
+     <xrx:variable>
+       <xrx:name>$coll</xrx:name>
+       <xrx:expression>if(index:index-check($voc))then ('person') else('controlledVocabulary')</xrx:expression>
+     </xrx:variable>
+     <xrx:variable>
       <xrx:name>$indexterm</xrx:name>
-      <xrx:expression>if(not(exists($xrx:tokenized-uri[3]))) then '' else if(starts-with($xrx:tokenized-uri[3], 'P_')) then $xrx:tokenized-uri[3] else (concat('#', $xrx:tokenized-uri[3]))</xrx:expression>
+      <xrx:expression>if(not(exists($xrx:tokenized-uri[3]))) then '' else if($coll = 'person') then concat($voc, ':', $xrx:tokenized-uri[3]) else (concat('#', $xrx:tokenized-uri[3]))</xrx:expression>
     </xrx:variable>        
-    <xrx:variable>    
-      <xrx:name>$windex:index</xrx:name>
-      <xrx:expression>if($xrx:tokenized-uri[3]!= '#') then index:index-abfrage($indexterm) else()</xrx:expression>
-    </xrx:variable>
+   <xrx:variable>
+     <xrx:name>$windex:index</xrx:name>
+     <xrx:expression>if($coll = 'person') then index:index-abfrage($indexterm, 'person') else if($xrx:tokenized-uri[3]!= '#') then index:index-abfrage($indexterm, 'controlledVocabulary') else()</xrx:expression>
+   </xrx:variable>
     <xrx:variable>
     <xrx:name>$windex:hits</xrx:name>
     <xrx:expression>count($windex:index)</xrx:expression>
@@ -115,15 +123,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
    <xrx:name>$alphabet</xrx:name>
    <xrx:expression>('A', 'B','C','D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y','Z', 'A-Z')</xrx:expression>
    </xrx:variable>
-   <xrx:variable>
-   <xrx:name>$voc</xrx:name>
-   <xrx:expression>$xrx:tokenized-uri[2]</xrx:expression>
-   </xrx:variable>   
-      <xrx:variable>
-   <xrx:name>$coll</xrx:name>
-   <xrx:expression>if(index:index-check($voc))then ('person') else('controlledVocabulary')</xrx:expression>
-   </xrx:variable>
-      <xrx:variable>
+    <xrx:variable>
    <xrx:name>$atomid</xrx:name>
    <xrx:expression>concat('tag:www.monasterium.net,2011:/',$coll,'/', $voc)</xrx:expression>
    </xrx:variable>
@@ -839,7 +839,7 @@ ul.namelist {{
                 let $name := $person/tei:persName (: [starts-with(., $parameter)] :)
                 let $place := if ($name/following-sibling::tei:occupation/tei:placeName[1]/text()) then $name/following-sibling::tei:occupation/tei:placeName[1]/text() 
                 else()
-                let $aufbereitung := if($place) then substring-before(serialize($place), ' ') else(concat(' (', substring-after($personid, 'P_'), ')'))
+                let $aufbereitung := if($place) then substring-before(serialize($place), ' ') else(concat(' (', $personid, ')'))
                 let $inhalt := concat(string-join($name//text()/normalize-space(), ' '), ' ', $aufbereitung)
                 let $memo := if($personid != "") then session:set-attribute($personid, $inhalt) else ()
                 for $n in  $name                
