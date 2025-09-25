@@ -1,0 +1,16 @@
+<xs:schema targetNamespace="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified"
+    id="rdf">
+    <xs:import namespace="http://www.w3.org/2004/02/skos/core#" schemaLocation="skos.xsd"/>
+    <xs:element name="RDF">
+        <xs:complexType mixed="false">
+            <xs:sequence>
+                <xs:element ref="skos:ConceptScheme"/>
+                <xs:element maxOccurs="unbounded" ref="skos:Concept"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:attribute name="about"/>
+    <xs:attribute name="resource"/>
+</xs:schema>
