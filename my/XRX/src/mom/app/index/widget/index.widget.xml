@@ -836,13 +836,12 @@ ul.namelist {{
                 order by $person/descendant::text()[normalize-space()][1]
                 return
                 let $personid := data($person/@xml:id)
-                let $name := $person/tei:persName (: [starts-with(., $parameter)] :)
+                let $name := $person/tei:persName[1] (: show only first persName, [starts-with(., $parameter)] :)
                 let $place := if ($name/following-sibling::tei:occupation/tei:placeName[1]/text()) then $name/following-sibling::tei:occupation/tei:placeName[1]/text() 
                 else()
                 let $aufbereitung := if($place) then substring-before(serialize($place), ' ') else(concat(' (', $personid, ')'))
                 let $inhalt := concat(string-join($name//text()/normalize-space(), ' '), ' ', $aufbereitung)
                 let $memo := if($personid != "") then session:set-attribute($personid, $inhalt) else ()
-                for $n in  $name                
                 return                                      
                 <li class="list">                
                 <a href="{concat(conf:param('request-root'),'index/', $voc, '/', $personid)}">{$inhalt}</a>
