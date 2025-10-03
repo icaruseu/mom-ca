@@ -326,14 +326,15 @@
                         </xrx:i18n>
                     </b>
                     <ul>
-                        <xsl:choose>
+                        <!--<xsl:choose>
                             <xsl:when test="$cei//cei:persName[not(ancestor::cei:bibl)][@reg]">
                                 <xsl:call-template name="persNameReg"/>
                             </xsl:when>
                             <xsl:otherwise>
                                 <xsl:call-template name="persName"/>
                             </xsl:otherwise>
-                        </xsl:choose>
+                        </xsl:choose>-->
+                        <xsl:call-template name="persName"/>
                     </ul>
                 </div>
             </xsl:when>
@@ -1912,16 +1913,17 @@
             </xsl:if>
         </xsl:for-each-group>
     </xsl:template>
-    <xsl:template name="persNameReg">
+    <!--<xsl:template name="persNameReg">
         <xsl:for-each-group 
-            select="$cei//cei:persName[not(ancestor::cei:bibl)]/@reg"
+            select="$cei//cei:persName[not(ancestor::cei:bibl) and @reg]"
             group-by="normalize-space(.)">
-            <xsl:sort select="."/>
-            <li>
-                <xsl:value-of select="."/>
+            <xsl:sort select="@reg"/>
+            <li about="reg" id="{./@key}">
+                <xsl:value-of select="@reg"/>
+                <xsl:text>testpersNameReg</xsl:text>
             </li>
         </xsl:for-each-group>
-    </xsl:template>
+    </xsl:template>-->
     <xsl:template match="cei:persName[starts-with(@key,'http://')]" mode="index">
         <xsl:apply-templates/>
         <a href=".">
@@ -1931,8 +1933,40 @@
             </xrx:i18n>
         </a>
     </xsl:template>
+    <!--<xsl:template match="cei:persName[@key]" priority="-1" mode="index">
+        <!-\-
+            ToDo: add service-call to getPersonInfo (when this is finished)
+        <a href=".">
+            <xrx:i18n>
+                <xrx:key>key-internal-information</xrx:key>
+                <xrx:default>[Additional information]</xrx:default>
+            </xrx:i18n>
+        </a>-\->
+    </xsl:template>-->
     <xsl:template match="cei:persName[@key]" priority="-1" mode="index">
-        <xsl:apply-templates/>
+        <xsl:choose>
+            <xsl:when test="contains(@key, ':')">
+                <xsl:variable name="pers-tokens" select="tokenize(@key, ':')"/>
+                <xsl:variable name="index-url">
+                    <xsl:value-of select="concat('/mom/index/', $pers-tokens[1], '/', $pers-tokens[2])"/>
+                </xsl:variable>
+                <a href="{$index-url}">
+                    <!--<xsl:choose>
+                        <xsl:when test="@reg">
+                            <xsl:value-of select="@reg"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:apply-templates/>
+                        </xsl:otherwise>
+                    </xsl:choose>-->
+                    <xsl:apply-templates/>
+                </a>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:apply-templates/>
+            </xsl:otherwise>
+        </xsl:choose>
+        
         <!--
             ToDo: add service-call to getPersonInfo (when this is finished)
         <a href=".">
