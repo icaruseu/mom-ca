@@ -39,6 +39,15 @@ lenient towards the inclusion of components into other systems, once
 it leaves the active development stage.
   </xrx:licence>
   <xrx:variables>
+    <!-- config for using exist caches -->
+    <xrx:variable>
+		  <xrx:name>$options</xrx:name>
+		  <xrx:expression>map { "maximumSize": "800000"}</xrx:expression>
+	  </xrx:variable>
+    <xrx:variable>
+        <xrx:name>$cache</xrx:name>
+        <xrx:expression>cache:create("liveview", $options)</xrx:expression>
+    </xrx:variable>
     <!-- charter context: collection or fond? -->
     <xrx:variable>
       <xrx:name>$wcharter:context</xrx:name>
@@ -1359,8 +1368,18 @@ p#first {{
               { template:get('tag:www.monasterium.net,2011:/mom/template/charter-view', false()) }
               { util:expand($wcharter:charter) }
             </page>
+        (: Check for cached content; if available, use this. Otherwise to transformation and store to cache :)
+          let $cachedContent := cache:get("liveview", $wcharter:atom-id)
+          let $transform := 
+            if($cachedContent) then
+                $cachedContent
+            else
+                let $view := transform:transform($page, $wcharter:xsl, $wcharter:params)
+                let $stored := cache:put("liveview", $wcharter:atom-id, $view)
+                return $view
+          
           return
-          i18n:translate-xml(transform:transform($page, $wcharter:xsl, $wcharter:params))
+          i18n:translate-xml($transform)
            
         }      
         <xrx:div>how-to-cite</xrx:div> 
