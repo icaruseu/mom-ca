@@ -150,6 +150,10 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
    <xrx:expression>count($xrx:tokenized-uri)</xrx:expression>
    </xrx:variable>
    <xrx:variable>
+     <xrx:name>$foreword-xsl</xrx:name>
+     <xrx:expression>$xrx:db-base-collection/xsl:stylesheet[@id='foreword2html']</xrx:expression>
+   </xrx:variable>
+   <xrx:variable>
    <xrx:name>$file-in-use</xrx:name>
    <xrx:expression>publication:is-saved($user:db-base-collection/xrx:user, $atomid)</xrx:expression>
    </xrx:variable>
@@ -907,7 +911,7 @@ ul.namelist {{
     
     
     else if($teile = 2) then 
-    let $note := if($coll = 'person') then $vocabulary//tei:sourceDesc/node()
+    let $note := if($coll = 'person') then transform:transform($vocabulary//tei:sourceDesc, $foreword-xsl, ())
                  else(if ($vocabulary//skos:ConceptScheme/skos:note[@xml:lang=$sprache]/node()) 
                       then $vocabulary//skos:ConceptScheme/skos:note[@xml:lang=$sprache]/node()
                       else($vocabulary//skos:ConceptScheme/skos:note[1]/node())   
