@@ -65,41 +65,45 @@
                   - with @indexName without controlled vocabulary name
   -->
     <xsl:function name="xrx:getvocabularies">
-        
-        <!-- returns either the prefLabel corresponding to this lemma in the current language from the given glossary, 
-            or, if it doesn't exist, the prefLabel with the name of the given glossary in the current language-->
-        
         <xsl:param name="indexname"/>
         <xsl:param name="lemma"/>
         <xsl:param name="sprache"/>
-
+        
+        <xsl:variable name="url"
+            select="concat('/db/mom-data/metadata.controlledVocabulary.public/', $indexname, '.xml')"/>
+        <xsl:variable name="doc-rdf"
+            select="doc($url)/atom:entry/atom:content/rdf:RDF"/>
+        
         <xsl:choose>
+            <!-- no lemma present -->
             <xsl:when test="$lemma = '' and contains($controlledvocabularies, $indexname)">
-                <xsl:variable name="url" select="concat('/db/mom-data/metadata.controlledVocabulary.public/', $indexname, '.xml')"/>
+                <xsl:variable name="labels" select="$doc-rdf/skos:ConceptScheme/skos:prefLabel"/>
                 <xsl:choose>
-                    <xsl:when test="document($url)//atom:entry/atom:content//skos:ConceptScheme/skos:prefLabel/@xml:lang= $sprache">
-                        <xsl:value-of select="document($url)//atom:entry/atom:content//skos:ConceptScheme/skos:prefLabel[@xml:lang= $sprache]"/>
+                    <xsl:when test="$labels[@xml:lang=$sprache]">
+                        <xsl:value-of select="$labels[@xml:lang=$sprache][1]"/>
                     </xsl:when>
                     <xsl:otherwise>
-                        <xsl:value-of select="document($url)//atom:entry/atom:content//skos:ConceptScheme/skos:prefLabel[1]"/>
+                        <xsl:value-of select="$labels[1]"/>
                     </xsl:otherwise>
                 </xsl:choose>
-
             </xsl:when>
+            
+            <!-- lemma present -->
             <xsl:when test="contains($controlledvocabularies, $indexname)">
-                <xsl:variable name="url" select="concat('/db/mom-data/metadata.controlledVocabulary.public/', $indexname, '.xml')"/>
-
+                <xsl:variable name="labels"
+                    select="$doc-rdf/skos:Concept/skos:prefLabel[upper-case(../@rdf:about) = $lemma]"/>
                 <xsl:choose>
-                    <xsl:when test="document($url)//skos:prefLabel[upper-case(parent::*/@*) = $lemma]/@xml:lang = $sprache">
-                        <xsl:value-of select="document($url)//skos:prefLabel[upper-case(parent::*/@*) = $lemma][@xml:lang = $sprache]"/>
+                    <xsl:when test="$labels[@xml:lang=$sprache]">
+                        <xsl:value-of select="$labels[@xml:lang=$sprache][1]"/>
                     </xsl:when>
                     <xsl:otherwise>
-                        <xsl:value-of select="document($url)//skos:prefLabel[upper-case(parent::*/@*) = $lemma][1]"/>
+                        <xsl:value-of select="$labels[1]"/>
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:when>
         </xsl:choose>
     </xsl:function>
+    
     <!-- calling main templates to insert CEI content into the sitemap -->
     <xsl:template match="xhtml:insert-idno">
         <span>
