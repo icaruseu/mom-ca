@@ -65,6 +65,10 @@
                   - with @indexName without controlled vocabulary name
   -->
     <xsl:function name="xrx:getvocabularies">
+        
+        <!-- returns either the prefLabel corresponding to this lemma in the current language from the given glossary, 
+            or, if it doesn't exist, the prefLabel with the name of the given glossary in the current language-->
+        
         <xsl:param name="indexname"/>
         <xsl:param name="lemma"/>
         <xsl:param name="sprache"/>
@@ -413,11 +417,11 @@
                             <xsl:for-each-group select="//cei:index[@indexName != 'general'][@indexName !='']" group-by="@indexName">
                                 <xsl:sort select="@indexName" order="descending"/>
                                 <xsl:variable name="indexname" select="@indexName"/>
+                                <xsl:variable name="vocabentry" select="xrx:getvocabularies($indexname, '', $sprache)"/>
                                 <li class="indexname">
                                     <xsl:choose>
-                                        <xsl:when test="xrx:getvocabularies($indexname, '', $sprache)">
-                                            <xsl:value-of select="xrx:getvocabularies($indexname, '', $sprache)"/>
-
+                                        <xsl:when test="$vocabentry">
+                                            <xsl:value-of select="$vocabentry"/>
                                             <xsl:text>: </xsl:text>
                                         </xsl:when>
                                         <xsl:otherwise>
@@ -426,7 +430,10 @@
                                         </xsl:otherwise>
                                     </xsl:choose>
                                 </li>
-                                <xsl:call-template name="item"/>
+                                <xsl:call-template name="item">
+                                    <xsl:with-param name="vocabentry" select="$vocabentry"/>
+                                </xsl:call-template>
+                                <!--if only indexName, no lemma-->
                                 <xsl:if test="((count(./@*) = 1) and @indexName)">
                                     <ul class="indexname">
 
@@ -2031,10 +2038,11 @@
     </xsl:template>
 
     <xsl:template name="lemma">
+        <xsl:param name="vocabentry"/>
         <xsl:param name="lm"/>
         <xsl:choose>
             <xsl:when test="./@lemma">
-                <xsl:variable name="cv">
+                <!--<xsl:variable name="cv">
                     <xsl:choose>
                         <xsl:when test="xrx:getvocabularies(@indexName, '', $sprache)">
 
@@ -2044,7 +2052,7 @@
                             <xsl:text>false</xsl:text>
                         </xsl:otherwise>
                     </xsl:choose>
-                </xsl:variable>
+                </xsl:variable>-->
                 <li>
                     <xsl:attribute name="class">
                         <xsl:value-of select="@indexName"/>
@@ -2054,8 +2062,7 @@
                     </xsl:attribute>
                     <xsl:attribute name="value">
                         <xsl:choose>
-                            <xsl:when test="xrx:getvocabularies(@indexName, '', $sprache)">
-
+                            <xsl:when test="$vocabentry">
                                 <xsl:text>true</xsl:text>
                             </xsl:when>
                             <xsl:otherwise>
@@ -2079,7 +2086,7 @@
                             </xsl:variable>
                             <xsl:choose>
 
-                                <xsl:when test="xrx:getvocabularies(@indexName, '', $sprache)">
+                                <xsl:when test="$vocabentry">
                                     <!-- der übersetzte Lemma wert kommt hier hin -->
                                     <xsl:value-of select="xrx:getvocabularies(@indexName, $norm, $sprache)"/>
                                 </xsl:when>
@@ -2164,6 +2171,8 @@
     
     <!-- index -->
     <xsl:template name="item">
+        
+        <xsl:param name="vocabentry"/>
 
         <xsl:for-each-group select="current-group()" group-by="@lemma">
             <ul class="inline glossary">
@@ -2174,6 +2183,7 @@
                 <xsl:call-template name="type"/>
                 <xsl:call-template name="lemma">
                     <xsl:with-param name="lm" select="current-grouping-key()"/>
+                    <xsl:with-param name="vocabentry" select="$vocabentry"/>
                 </xsl:call-template>
 
             </ul>
