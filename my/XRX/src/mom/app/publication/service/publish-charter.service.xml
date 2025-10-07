@@ -144,7 +144,10 @@ MOM-CA with the following role: user
 	  (: move saved charter to public area :)
 	  let $store-charter := 
 	    system:as-user('admin', conf:param('dba-password'), atom:PUTSILENT($feed, util:document-name($published-charter), $saved-charter))
-		
+
+	  	(: remove old cached pageview:) 
+	  	let $cache: cache:remove("liveview", $atomid)
+	  
 		(: remove saved charter :)
 		let $remove-saved-charter :=
 		  atom:DELETE(metadata:feed('charter', (), 'saved'), util:document-name($saved-charter))
