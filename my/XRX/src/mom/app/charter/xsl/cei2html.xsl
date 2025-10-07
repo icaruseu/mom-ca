@@ -69,18 +69,16 @@
         <xsl:param name="lemma"/>
         <xsl:param name="sprache"/>
         
-        <xsl:variable name="url"
-            select="concat('/db/mom-data/metadata.controlledVocabulary.public/', $indexname, '.xml')"/>
-        <xsl:variable name="doc-rdf"
-            select="doc($url)/atom:entry/atom:content/rdf:RDF"/>
+        <xsl:variable name="url" select="concat('/db/mom-data/metadata.controlledVocabulary.public/', $indexname, '.xml')"/>
+        <xsl:variable name="doc-rdf" select="doc($url)/atom:entry/atom:content/rdf:RDF"/>
         
         <xsl:choose>
             <!-- no lemma present -->
             <xsl:when test="$lemma = '' and contains($controlledvocabularies, $indexname)">
                 <xsl:variable name="labels" select="$doc-rdf/skos:ConceptScheme/skos:prefLabel"/>
                 <xsl:choose>
-                    <xsl:when test="$labels[@xml:lang=$sprache]">
-                        <xsl:value-of select="$labels[@xml:lang=$sprache][1]"/>
+                    <xsl:when test="$labels[@xml:lang = $sprache]">
+                        <xsl:value-of select="$labels[@xml:lang = $sprache]"/>
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:value-of select="$labels[1]"/>
@@ -90,11 +88,10 @@
             
             <!-- lemma present -->
             <xsl:when test="contains($controlledvocabularies, $indexname)">
-                <xsl:variable name="labels"
-                    select="$doc-rdf/skos:Concept/skos:prefLabel[upper-case(../@rdf:about) = $lemma]"/>
+                <xsl:variable name="labels" select="$doc-rdf/skos:Concept/skos:prefLabel[upper-case(../@rdf:about) = $lemma]"/>
                 <xsl:choose>
-                    <xsl:when test="$labels[@xml:lang=$sprache]">
-                        <xsl:value-of select="$labels[@xml:lang=$sprache][1]"/>
+                    <xsl:when test="$labels[@xml:lang = $sprache]">
+                        <xsl:value-of select="$labels[@xml:lang = $sprache]"/>
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:value-of select="$labels[1]"/>
@@ -2043,71 +2040,50 @@
 
     <xsl:template name="lemma">
         <xsl:param name="vocabentry"/>
-        <xsl:param name="lm"/>
-        <xsl:choose>
-            <xsl:when test="./@lemma">
-                <!--<xsl:variable name="cv">
+        <xsl:if test="./@lemma">
+            <li>
+                <xsl:attribute name="class">
+                    <xsl:value-of select="@indexName"/>
+                </xsl:attribute>
+                <xsl:attribute name="lemma">
+                    <xsl:value-of select="./@lemma"/>
+                </xsl:attribute>
+                <xsl:attribute name="value">
                     <xsl:choose>
-                        <xsl:when test="xrx:getvocabularies(@indexName, '', $sprache)">
-
+                        <xsl:when test="$vocabentry">
                             <xsl:text>true</xsl:text>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:text>false</xsl:text>
                         </xsl:otherwise>
                     </xsl:choose>
-                </xsl:variable>-->
-                <li>
-                    <xsl:attribute name="class">
-                        <xsl:value-of select="@indexName"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="lemma">
-                        <xsl:value-of select="replace(./@lemma, '#', '')"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="value">
+                </xsl:attribute>
+                <xsl:value-of select="./@type"/>
+                <xsl:choose>
+                    <xsl:when test="./@sublemma">
+                        <xsl:for-each-group select="current-group()" group-by="@sublemma">
+                            <xsl:call-template name="sublemma">
+                                <xsl:with-param name="sub" select="current-grouping-key()"/>
+                            </xsl:call-template>
+                        </xsl:for-each-group>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:variable name="norm">
+                            <xsl:value-of select="concat('#', upper-case(@lemma))"/>
+                        </xsl:variable>
                         <xsl:choose>
                             <xsl:when test="$vocabentry">
-                                <xsl:text>true</xsl:text>
+                                <!-- der übersetzte Lemma wert kommt hier hin -->
+                                <xsl:value-of select="xrx:getvocabularies(@indexName, $norm, $sprache)"/>
                             </xsl:when>
                             <xsl:otherwise>
-                                <xsl:text>false</xsl:text>
+                                <xsl:value-of select="@lemma"/>
                             </xsl:otherwise>
                         </xsl:choose>
-                    </xsl:attribute>
-                    <xsl:value-of select="./@type"/>
-                    <xsl:choose>
-                        <xsl:when test="./@sublemma">
-                            <xsl:for-each-group select="current-group()" group-by="@sublemma">
-                                <xsl:call-template name="sublemma">
-                                    <xsl:with-param name="sub" select="current-grouping-key()"/>
-                                </xsl:call-template>
-                            </xsl:for-each-group>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:variable name="lem" select="@lemma"/>
-                            <xsl:variable name="norm">
-                                <xsl:value-of select="concat('#',upper-case($lem))"/>
-                            </xsl:variable>
-                            <xsl:choose>
-
-                                <xsl:when test="$vocabentry">
-                                    <!-- der übersetzte Lemma wert kommt hier hin -->
-                                    <xsl:value-of select="xrx:getvocabularies(@indexName, $norm, $sprache)"/>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:value-of select="@lemma"/>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                            <!--  Das verwirrt nur den user <xsl:if test="(compare(xrx:getvocabularies(@indexName, $norm, $sprache), .) = -1)">
-                                <xsl:text>  </xsl:text>
-
-                                <xsl:value-of select="."/>
-                            </xsl:if> -->
-                        </xsl:otherwise>
-                    </xsl:choose>
-                </li>
-            </xsl:when>
-        </xsl:choose>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </li>
+        </xsl:if>
     </xsl:template>
 
     <xsl:template name="sublemma">
@@ -2181,12 +2157,13 @@
         <xsl:for-each-group select="current-group()" group-by="@lemma">
             <ul class="inline glossary">
 
-                <!--  <xsl:call-template name="language" />
-          <xsl:call-template name="reg" />
-          <xsl:call-template name="existent" /> -->
+                <!--  
+                <xsl:call-template name="language" />
+                <xsl:call-template name="reg" />
+                <xsl:call-template name="existent" /> 
+                -->
                 <xsl:call-template name="type"/>
                 <xsl:call-template name="lemma">
-                    <xsl:with-param name="lm" select="current-grouping-key()"/>
                     <xsl:with-param name="vocabentry" select="$vocabentry"/>
                 </xsl:call-template>
 
