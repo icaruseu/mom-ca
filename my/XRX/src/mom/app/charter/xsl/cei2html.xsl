@@ -325,17 +325,30 @@
                             <xrx:default>Persons</xrx:default>
                         </xrx:i18n>
                     </b>
-                    <ul>
-                        <!--<xsl:choose>
-                            <xsl:when test="$cei//cei:persName[not(ancestor::cei:bibl)][@reg]">
-                                <xsl:call-template name="persNameReg"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:call-template name="persName"/>
-                            </xsl:otherwise>
-                        </xsl:choose>-->
-                        <xsl:call-template name="persName"/>
-                    </ul>
+                    <br/>
+                    <br/>
+                    <xsl:if test="$cei//cei:persName[not(ancestor::cei:bibl) and @reg]">
+                        <i>
+                        <xrx:i18n>
+                            <xrx:key>reg_persons</xrx:key>
+                            <xrx:default>Regularized entries:</xrx:default>
+                        </xrx:i18n>
+                        </i>
+                        <ul>
+                            <xsl:call-template name="persNameReg"/>
+                        </ul>
+                    </xsl:if>
+                    <xsl:if test="$cei//cei:persName[not(ancestor::cei:bibl) and not(@reg)]">
+                        <i>
+                        <xrx:i18n>
+                            <xrx:key>unreg_persons</xrx:key>
+                            <xrx:default>Unregularized entries:</xrx:default>
+                        </xrx:i18n>
+                        </i>
+                        <ul>
+                            <xsl:call-template name="persName"/>
+                        </ul>
+                    </xsl:if>
                 </div>
             </xsl:when>
             <xsl:otherwise>
@@ -1897,7 +1910,7 @@
     <!-- index persName -->
     <xsl:template name="persName">
         <xsl:for-each-group 
-            select="$cei//cei:persName[not(ancestor::cei:bibl)]"
+            select="$cei//cei:persName[not(ancestor::cei:bibl) and not(@reg)]"
             group-by="normalize-space(translate(., ',', ''))">
             <xsl:sort select="."/>
             <xsl:if test="./node()">
@@ -1906,24 +1919,27 @@
                 </li>
                 <ul class="inline">
                     <xsl:call-template name="language"/>
-                    <xsl:call-template name="reg"/>
                     <xsl:call-template name="existent"/>
                     <xsl:call-template name="type"/>
                 </ul>
             </xsl:if>
         </xsl:for-each-group>
     </xsl:template>
-    <!--<xsl:template name="persNameReg">
+    <xsl:template name="persNameReg">
         <xsl:for-each-group 
             select="$cei//cei:persName[not(ancestor::cei:bibl) and @reg]"
-            group-by="normalize-space(.)">
+            group-by="@reg">
             <xsl:sort select="@reg"/>
-            <li about="reg" id="{./@key}">
-                <xsl:value-of select="@reg"/>
-                <xsl:text>testpersNameReg</xsl:text>
-            </li>
+            <xsl:if test="./node()">
+                <li about="reg" id="{./@key}">
+                    <xsl:apply-templates select="." mode="index"/>
+                </li>
+                <ul class="inline">
+                    <xsl:call-template name="reg"/>
+                </ul>
+            </xsl:if>
         </xsl:for-each-group>
-    </xsl:template>-->
+    </xsl:template>
     <xsl:template match="cei:persName[starts-with(@key,'http://')]" mode="index">
         <xsl:apply-templates/>
         <a href=".">
@@ -1933,49 +1949,31 @@
             </xrx:i18n>
         </a>
     </xsl:template>
-    <!--<xsl:template match="cei:persName[@key]" priority="-1" mode="index">
-        <!-\-
-            ToDo: add service-call to getPersonInfo (when this is finished)
-        <a href=".">
-            <xrx:i18n>
-                <xrx:key>key-internal-information</xrx:key>
-                <xrx:default>[Additional information]</xrx:default>
-            </xrx:i18n>
-        </a>-\->
-    </xsl:template>-->
-    <xsl:template match="cei:persName[@key]" priority="-1" mode="index">
+    <xsl:template match="cei:persName" priority="-1" mode="index">
+        <!--use regularized name and link to person index if available-->
+        <xsl:variable name="has-pers-prefix" select="contains(@key, ':')"/>
+        <xsl:variable name="index-url" select="if ($has-pers-prefix)
+            then concat('/mom/index/', tokenize(@key, ':')[1], '/', tokenize(@key, ':')[2])
+            else ''"/>
+        <xsl:variable name="name" select="if (@reg) then @reg else string(.)"/>
         <xsl:choose>
-            <xsl:when test="contains(@key, ':')">
-                <xsl:variable name="pers-tokens" select="tokenize(@key, ':')"/>
-                <xsl:variable name="index-url">
-                    <xsl:value-of select="concat('/mom/index/', $pers-tokens[1], '/', $pers-tokens[2])"/>
-                </xsl:variable>
+            <xsl:when test="$has-pers-prefix">
                 <a href="{$index-url}">
-                    <!--<xsl:choose>
-                        <xsl:when test="@reg">
-                            <xsl:value-of select="@reg"/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:apply-templates/>
-                        </xsl:otherwise>
-                    </xsl:choose>-->
-                    <xsl:apply-templates/>
+                    <xsl:value-of select="$name"/>
                 </a>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:apply-templates/>
+                <xsl:value-of select="$name"/>
             </xsl:otherwise>
         </xsl:choose>
-        
-        <!--
-            ToDo: add service-call to getPersonInfo (when this is finished)
-        <a href=".">
-            <xrx:i18n>
-                <xrx:key>key-internal-information</xrx:key>
-                <xrx:default>[Additional information]</xrx:default>
-            </xrx:i18n>
-        </a>-->
     </xsl:template>
+    <xsl:template match="cei:persName" mode="non-reg-li">
+        <!--lists items of non-regularized names beneath the regularized name-->
+        <li>
+            <xsl:apply-templates/>
+        </li>
+    </xsl:template>
+    
     <xsl:template name="sucheperson">
         <xsl:param name="len"/>
         <xsl:param name="key"/>
@@ -2030,18 +2028,8 @@
         </xsl:choose>
     </xsl:template>
     <xsl:template name="reg">
-        <xsl:choose>
-            <xsl:when test="./@reg">
-                <li>
-                    <xrx:i18n>
-                        <xrx:key>regular-form</xrx:key>
-                        <xrx:default>Regular Form</xrx:default>
-                    </xrx:i18n>
-                    <xsl:text>:&#160;</xsl:text>
-                    <xsl:value-of select="./@reg"/>
-                </li>
-            </xsl:when>
-        </xsl:choose>
+        <xsl:variable name="current-reg-name" select="@reg"/>
+        <xsl:apply-templates select="$cei//cei:persName[@reg = $current-reg-name]" mode="non-reg-li"/>
     </xsl:template>
     <xsl:template name="type">
         <xsl:choose>
@@ -2190,17 +2178,15 @@
 
         <xsl:for-each-group select="current-group()" group-by="@lemma">
             <ul class="inline glossary">
-
-                <!--  
+                <!--
                 <xsl:call-template name="language" />
-                <xsl:call-template name="reg" />
-                <xsl:call-template name="existent" /> 
+                <xsl:call-template name="existent" />
                 -->
+                <xsl:call-template name="reg" />
                 <xsl:call-template name="type"/>
                 <xsl:call-template name="lemma">
                     <xsl:with-param name="vocabentry" select="$vocabentry"/>
                 </xsl:call-template>
-
             </ul>
         </xsl:for-each-group>
     </xsl:template>
