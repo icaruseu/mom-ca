@@ -70,28 +70,27 @@ in other index a specific value in the @lemma is searched in the public collecti
 :)
 
 declare function index:index-abfrage($term, $coll){
-      let $treffergesamt := 
-          if ($coll = 'person') then $index:chartercollection//cei:text[.//@key = $term] 
-          else( let $mehr :=  for $jeweils in index:narrower($term)
-                              let $st := if(starts-with($jeweils, '#') ) then substring-after($jeweils, '#') else($jeweils)
-                              return $index:chartercollection//cei:text[.//@lemma = $st]                   
-                let $treffer := $index:chartercollection//cei:text[.//@lemma = substring-after($term, '#')]
-                return $treffer union $mehr
+      let $charters := $index:chartercollection//cei:text
+      let $all-hits := 
+          if ($coll = 'person') then $charters[.//@key = $term] 
+          else (
+            let $lemma-hits := $charters[.//@lemma = substring-after($term, '#')]
+            let $narrower-hits := for $n in index:narrower($term)
+                return if (starts-with($n, '#')) then substring-after($n, '#') else $n                  
+            return $lemma-hits union $narrower-hits
                 )            
-      for $treffer in $treffergesamt
-        let $date := charters:date-selector($treffer//cei:issued, 'from')
-        order by number($date) ascending
-        return 
-          $treffer/ancestor::atom:entry 
+      for $hit in $all-hits
+        let $date := charters:date-selector($hit//cei:issued, 'from')
+        order by number($date)
+        return $hit/ancestor::atom:entry 
 };
 
- 
- declare function index:narrower($term as xs:string) {
-           let $suchterm := if(starts-with($term, '#')) then  $term else (concat('#', $term))
-           let $voc := if( $index:vocabularycollection//skos:Concept[@rdf:about= $suchterm]/skos:narrower) then $index:vocabularycollection//skos:Concept[@rdf:about= $suchterm]/skos:narrower else ()
-           let $narrow := data($voc/@rdf:resource)          
-           return $narrow
- }; (: $narrow ist eine Sequenz an Strings, die auch gesucht werden sollen :)
+declare function index:narrower($term as xs:string) as xs:string* {
+  let $concepts := $index:vocabularycollection//skos:Concept
+  let $uri := if (starts-with($term, '#')) then $term else concat('#', $term)
+  let $voc := $concepts[@rdf:about = $uri]/skos:narrower
+  return data($voc/@rdf:resource)
+}; (: $narrow ist eine Sequenz an Strings, die auch gesucht werden sollen :)
  
 
 (: the following two functions are needed to cut TEI data in order to get a userfriendly representation of the text in the UI :)

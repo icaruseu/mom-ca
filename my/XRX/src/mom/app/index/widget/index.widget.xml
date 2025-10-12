@@ -25,33 +25,6 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 We expect VdU/VRET to be distributed in the future with a license more lenient towards the inclusion of components into other systems, once it leaves the active development stage.
    </xrx:licence>
    <xrx:variables>
-      <!-- charter context information -->
-    <xrx:variable>
-      <xrx:name>$wcharters:metadata-charter-context-collection</xrx:name>
-      <xrx:expression>(metadata:base-collection('collection', $charter:rcollectionid, 'public')|metadata:base-collection('mycollection', $charter:rcollectionid, 'public'))</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$wcharters:metadata-charter-context-entry</xrx:name>
-      <xrx:expression>$wcharters:metadata-charter-context-collection//cei:cei/ancestor::atom:entry</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$wcharters:charter-context-name</xrx:name>
-      <xrx:expression>($wcharters:metadata-charter-context-entry//cei:provenance/text(),$wcharters:metadata-charter-context-entry//cei:titleStmt/cei:title/text())</xrx:expression>
-    </xrx:variable>
-    <xrx:variable>
-      <xrx:name>$wcharters:charter-context-short-name</xrx:name>
-      <xrx:expression>($wcharters:metadata-charter-context-entry//cei:provenance/@abbr/string(),$wcharters:charter-context-name)[1]</xrx:expression>
-    </xrx:variable>
-    <!-- linked archival fonds -->
-    <xrx:variable>
-      <xrx:name>$wcharters:linked-fond-charter-base-collection</xrx:name>
-      <xrx:expression>mycollection:linked-fond-charter-base-collection($wcharters:metadata-charter-context-collection)</xrx:expression>
-    </xrx:variable>
-    <!-- charter base collection -->
-    <xrx:variable>
-      <xrx:name>$wcharters:metadata-charter-collection</xrx:name>
-      <xrx:expression>(metadata:base-collection('charter', $charter:rcollectionid, 'public'), $wcharters:linked-fond-charter-base-collection)</xrx:expression>
-    </xrx:variable>
     <!-- block-wise navigation -->
     <xrx:variable>
       <xrx:name>$windex:block</xrx:name><!-- schon angepasst -->
@@ -104,13 +77,8 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
       <xrx:expression>if($windex:block = $windex:hits div 30) then 1 else $windex:block + 1</xrx:expression>
     </xrx:variable> 
     
-    <!-- var $setresults speichert die suchergebnisse (ganze atom:entrys),
-    Sortierung der Suchergebnisse passiert in index.xqm,
+    <!-- Sortierung der Suchergebnisse passiert in index.xqm,
      dann kann in der korrekten Reihefolge geblättert werden (browse search results)-->
-    <xrx:variable>
-    <xrx:name>$setresults</xrx:name>
-    <xrx:expression>if ($search:RESULT) then session:set-attribute($search:RESULT, $windex:index) else () </xrx:expression>
-    </xrx:variable> 
     <xrx:variable>
       <xrx:name>$index-use-text</xrx:name>
       <xrx:expression>htdoc:process(htdoc:get('tag:www.monasterium.net,2011:/mom/htdoc/index-use'))</xrx:expression>
@@ -133,16 +101,16 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
    </xrx:variable>
        <xrx:variable>
    <xrx:name>$vocabulary</xrx:name>
-   <xrx:expression>collection($momcollpath)/atom:entry[atom:id/text()= $atomid]</xrx:expression>
+   <xrx:expression>collection($momcollpath)/atom:entry[atom:id/text()= $atomid]/atom:content</xrx:expression>
    </xrx:variable>
    <xrx:variable>
    <xrx:name>$breadcrumb1</xrx:name>
-   <xrx:expression> if($coll = 'person') then if($vocabulary//tei:titleStmt/tei:title/@xml:lang = $sprache) 
-                                                  then $vocabulary//tei:titleStmt/tei:title[@xml:lang = $sprache]/text() 
-                                                  else($vocabulary//tei:titleStmt/tei:title[1]/text())
-                        else ( if($vocabulary//skos:ConceptScheme/skos:prefLabel/@xml:lang = $sprache)then 
-                             $vocabulary//skos:ConceptScheme/skos:prefLabel[@xml:lang= $sprache]/text()
-                            else($vocabulary//skos:ConceptScheme/skos:prefLabel[1]/text()))
+   <xrx:expression> if($coll = 'person') then if($vocabulary/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title/@xml:lang = $sprache) 
+                                                  then $vocabulary/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@xml:lang = $sprache]/text() 
+                                                  else($vocabulary/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[1]/text())
+                        else ( if($vocabulary/rdf:RDF/skos:ConceptScheme/skos:prefLabel/@xml:lang = $sprache)then 
+                             $vocabulary/rdf:RDF/skos:ConceptScheme/skos:prefLabel[@xml:lang= $sprache]/text()
+                            else($vocabulary/rdf:RDF/skos:ConceptScheme/skos:prefLabel[1]/text()))
     </xrx:expression>
    </xrx:variable>
    <xrx:variable>
@@ -783,9 +751,9 @@ ul.namelist {{
               <xrx:default>Choose a lemma</xrx:default>
             </xrx:i18n>:</h2>         
            {                   
-         if ($vocabulary//skos:hasTopConcept) then                
-                 for $top in $vocabulary//skos:hasTopConcept
-                 let $allPrefLabels := $vocabulary//skos:Concept[@rdf:about= data($top/@rdf:resource)]/skos:prefLabel
+              if ($vocabulary/rdf:RDF/skos:ConceptScheme/skos:hasTopConcept) then                
+                 for $top in $vocabulary/rdf:RDF/skos:ConceptScheme/skos:hasTopConcept
+                 let $allPrefLabels := $vocabulary/rdf:RDF/skos:Concept[@rdf:about= data($top/@rdf:resource)]/skos:prefLabel
                  let $prefLabel := if($allPrefLabels[@xml:lang=$sprache]) then ($allPrefLabels[@xml:lang=$sprache]) else ($allPrefLabels[1])
                  let $label1 := <a>{ $prefLabel}</a>
                  let $rdfabout1 := data($top/@rdf:resource)
@@ -800,8 +768,8 @@ ul.namelist {{
           else if($coll != 'person') then
           <ul>
           {
-              if ($vocabulary//skos:Concept) then               
-              for $g in $vocabulary//skos:Concept
+              if ($vocabulary/rdf:RDF/skos:Concept) then               
+              for $g in $vocabulary/rdf:RDF/skos:Concept
               let $rdfabout := substring-after(data($g/@rdf:about), '#')
 
               let $label:= if ($g/prefLabel/@xml:lang= $sprache) then $g/prefLabel[@xml:lang= $sprache]/text() else($g/skos:prefLabel[1]/text())
@@ -910,11 +878,10 @@ ul.namelist {{
     
     
     else if($teile = 2) then 
-    let $note := if($coll = 'person') then transform:transform($vocabulary//tei:sourceDesc, $foreword-xsl, ())
-                 else(if ($vocabulary//skos:ConceptScheme/skos:note[@xml:lang=$sprache]/node()) 
-                      then $vocabulary//skos:ConceptScheme/skos:note[@xml:lang=$sprache]/node()
-                      else($vocabulary//skos:ConceptScheme/skos:note[1]/node())   
-                      )
+    let $note := if($coll = 'person') then transform:transform($vocabulary/tei:TEI/tei:teiHeader/tei:fileDesc/tei:sourceDesc/node(), $foreword-xsl, ())
+                 else(if ($vocabulary/rdf:RDF/skos:ConceptScheme/skos:note[@xml:lang=$sprache]/node()) 
+                      then $vocabulary/rdf:RDF/skos:ConceptScheme/skos:note[@xml:lang=$sprache]/node()
+                      else($vocabulary/rdf:RDF/skos:ConceptScheme/skos:note[1]/node()))
 
     return
 
@@ -929,16 +896,16 @@ ul.namelist {{
     <div id="rightframe">
       {  
       
-      if ($teile = 3 and $vocabulary//skos:Concept) then
-       (: let $breadcrumb1:= if ($vocabulary//skos:ConceptScheme/skos:prefLabel/@xml:lang = $sprache)then 
-                             $vocabulary//skos:ConceptScheme/skos:prefLabel[@xml:lang= $sprache]/text()
-                            else($vocabulary//skos:ConceptScheme/skos:prefLabel[1]/text()) 
+      if ($teile = 3 and $vocabulary/rdf:RDF/skos:Concept) then
+       (: let $breadcrumb1:= if ($vocabulary/rdf:RDF/skos:ConceptScheme/skos:prefLabel/@xml:lang = $sprache)then 
+                             $vocabulary/rdf:RDF/skos:ConceptScheme/skos:prefLabel[@xml:lang= $sprache]/text()
+                            else($vocabulary/rdf:RDF/skos:ConceptScheme/skos:prefLabel[1]/text()) 
                             :)
         let $term := concat('#', $xrx:tokenized-uri[3])
-        let $breadcrumb2 := if ($vocabulary//skos:Concept[@rdf:about = $term]/skos:prefLabel/@xml:lang = $sprache)then 
-                             $vocabulary//skos:Concept[@rdf:about = $term]/skos:prefLabel[@xml:lang= $sprache]/text()
-                            else($vocabulary//skos:Concept[@rdf:about = $term]/skos:prefLabel[1]/text())
-        let $beschreibung:= $vocabulary//skos:Concept[@rdf:about = $term]/skos:definition/node()
+        let $breadcrumb2 := if ($vocabulary/rdf:RDF/skos:Concept[@rdf:about = $term]/skos:prefLabel/@xml:lang = $sprache)then 
+                             $vocabulary/rdf:RDF/skos:Concept[@rdf:about = $term]/skos:prefLabel[@xml:lang= $sprache]/text()
+                            else($vocabulary/rdf:RDF/skos:Concept[@rdf:about = $term]/skos:prefLabel[1]/text())
+        let $beschreibung:= $vocabulary/rdf:RDF/skos:Concept[@rdf:about = $term]/skos:definition/node()
         let $anzahlknoten := count($beschreibung)
         let $glossar := <div class="entry">{$beschreibung}</div>
        (: wenn die Beschreibung länger ist, soll ein Pfeil gesetzt werden, der anzeigt, dass noch mehr Info da ist :)
@@ -976,10 +943,10 @@ ul.namelist {{
       
       else(
       let $term := $xrx:tokenized-uri[3]
-      let $breadcrumb1 := if($vocabulary//tei:titleStmt/tei:title/@xml:lang = $sprache) then $vocabulary//tei:titleStmt/tei:title[@xml:lang = $sprache]/text() 
-                          else($vocabulary//tei:titleStmt/tei:title[1]/text())    
-      let $glossar := string-join($vocabulary//tei:person[@xml:id = $term]//text()/normalize-space(), ' ') 
-      let $persname := replace(string-join($vocabulary//tei:person[@xml:id = $term]/tei:persName//text()/normalize-space(), ' '), ',', '')
+      let $breadcrumb1 := if($vocabulary/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title/@xml:lang = $sprache) then $vocabulary/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@xml:lang = $sprache]/text() 
+                          else($vocabulary/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[1]/text())    
+      let $glossar := string-join($vocabulary/tei:TEI/tei:text/tei:body/tei:listPerson/tei:person[@xml:id = $term]//text()/normalize-space(), ' ') 
+      let $persname := replace(string-join($vocabulary/tei:TEI/tei:text/tei:body/tei:listPerson/tei:person[@xml:id = $term]/tei:persName//text()/normalize-space(), ' '), ',', '')
       let $persname := if (string-length($persname) gt 15) then concat(substring($persname, 0, 15), '...') else $persname
       let $from := ('([0-9])([A-Z])', '([a-z])([A-Z])', '([a-z])(\()', '(.)([A-Z])', '(,)([a-z][A-Z])', '(\))([0-9a-zA-Z])', '(\()(\s)' )
       let $to := ('$1 $2', '$1 $2', '$1 $2', '$1 $2', '. $2', '$1 $2', '$1')      
