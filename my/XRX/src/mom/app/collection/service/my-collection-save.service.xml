@@ -89,6 +89,10 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       (: write changes in db after checking, if user is already logged in :)
       let $loggedin := 0
       let $put := if(xmldb:get-current-user() != "guest") then
+        (: if available, remove cached view for this atomid :)
+        (: Just ignore previous view :)
+        let $cache := cache:remove("liveview", $atomid)
+        return
         atom:PUT($feed, $entry-name, $data)
       else 
         let $loggedin := 1
