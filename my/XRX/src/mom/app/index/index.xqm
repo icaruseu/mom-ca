@@ -72,15 +72,18 @@ in other index a specific value in the @lemma is searched in the public collecti
 declare function index:index-abfrage($term, $coll){
       let $charters := $index:chartercollection//cei:text
       let $all-hits := 
-          if ($coll = 'person') then $charters[.//@key = $term] 
+          if ($coll = 'person') then $charters[.//cei:persName/@key = $term] 
           else (
-            let $lemma-hits := $charters[.//@lemma = substring-after($term, '#')]
-            let $narrower-hits := for $n in index:narrower($term)
+            let $lemma-hits := $charters[.//cei:index/@lemma = substring-after($term, '#')]
+            let $narrower-terms := 
+                for $n in index:narrower($term)
                 return if (starts-with($n, '#')) then substring-after($n, '#') else $n                  
-            return $lemma-hits union $narrower-hits
+            let $lemma-values := ($term, $narrower-terms)
+            for $dlv in distinct-values($lemma-values)
+            return $charters[.//@lemma = $dlv]
                 )            
       for $hit in $all-hits
-        let $date := charters:date-selector($hit//cei:issued, 'from')
+        let $date := charters:date-selector($hit/cei:body/cei:chDesc/cei:issued, 'from')
         order by number($date)
         return $hit/ancestor::atom:entry 
 };
