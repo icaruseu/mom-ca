@@ -261,6 +261,10 @@ it leaves the active development stage.
       <xrx:name>$wcharter:anchor</xrx:name>
       <xrx:expression>if($xrx:tokenized-uri[last()] = 'charter') then charter:anchor(xs:integer($wcharter:pos)) else 1</xrx:expression>
     </xrx:variable>
+    <xrx:variable>
+      <xrx:name>$wcharter:volltext-bibl</xrx:name>
+      <xrx:expression>$wcharter:charter//cei:front/cei:sourceDesc/cei:sourceDescVolltext[cei:bibl//normalize-space() != '']</xrx:expression>
+    </xrx:variable>
     <!-- fond or collection information -->
     <xrx:variable>
       <xrx:name>$wcharter:linked-fond-base-collection</xrx:name>
