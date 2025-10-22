@@ -32,7 +32,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   <xrx:variables>
     <xrx:variable>
       <xrx:name>$atomid</xrx:name>
-      <xrx:expression>request:get-parameter("atomid", "")</xrx:expression>
+      <xrx:expression>$data//*:atomid/text()</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$atom-tag-name</xrx:name>
