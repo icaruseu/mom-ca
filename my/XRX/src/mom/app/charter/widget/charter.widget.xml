@@ -42,7 +42,7 @@ it leaves the active development stage.
     <!-- config for using exist caches -->
     <xrx:variable>
 		  <xrx:name>$options</xrx:name>
-		  <xrx:expression>map { "maximumSize": "800000"}</xrx:expression>
+		  <xrx:expression>map { "maximumSize": "1000"}</xrx:expression>
 	  </xrx:variable>
     <xrx:variable>
         <xrx:name>$cache</xrx:name>

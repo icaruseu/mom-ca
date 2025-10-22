@@ -48,7 +48,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$archtag</xrx:name>
-      <xrx:expression>if(string-length($archid) >0) then concat("tag:www.monasterium.net,2011:/archive/",$archid) else ()</xrx:expression>
+      <xrx:expression>if(string-length($archid) gt 0) then concat("tag:www.monasterium.net,2011:/archive/",$archid) else ()</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$fondid</xrx:name>
@@ -94,14 +94,18 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:name>$moderator</xrx:name>
       <xrx:expression>$user-xml/xrx:moderator/text()</xrx:expression>
     </xrx:variable>
-    <xrx:variable>
-        <xrx:name>$modmail</xrx:name>
-        <xrx:expression>conf:param("modmail")</xrx:expression>
-    </xrx:variable>
 <xrx:variable>
    <xrx:name>$archivist</xrx:name>
     <xrx:expression>if ($archtag) then string-join(community:emails($archtag)) else ()</xrx:expression>
     </xrx:variable>	  
+    <xrx:variable>
+	    <xrx:name>$mailadresses</xrx:name>
+	    <xrx:expression>if($archivist) then concat($moderator, ",", $archivist) else ()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+        <xrx:name>$modmail</xrx:name>
+        <xrx:expression>conf:param("modmail")</xrx:expression>
+    </xrx:variable>
   </xrx:variables>
   <xrx:init>
    <xrx:processor>
@@ -113,7 +117,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:key>release-charter-email</xrx:key>
       <mail xmlns="">
           <from>{ xs:string(conf:param('platform-browser-title')) }</from>
-          <to>{ xs:string($moderator) {if ($archivist) then concat(",", $archivist) else ()}</to>
+	  <to>{ xs:string($mailadresses) }</to>
           <cc>{ xs:string($xrx:user-id) }</cc>
           <bcc>{ xs:string($modmail) }</bcc>
           <subject>MOM-CA - Editorial Service</subject>
