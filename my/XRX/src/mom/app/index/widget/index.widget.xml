@@ -959,9 +959,11 @@ ul.namelist {{
           </h2>    
       return 
       <div>
-          <div id="breadcrumb"><h2>            
-           <span class="breadcrumb">{$breadcrumb1} &gt; {$breadcrumb2}</span></h2>             
-           </div> 
+          <div id="breadcrumb">
+            <h2>            
+              <span class="breadcrumb"><a href="{concat('/mom/index/', $voc)}">{$breadcrumb1}</a> &gt; {$breadcrumb2}</span>
+            </h2>             
+          </div> 
       <div class="glossary-entry">
       {($glossartitel, $glossar)}
       </div>     
@@ -981,9 +983,11 @@ ul.namelist {{
       let $vorname := <h2>{$persname}</h2>        
       return 
          <div>
-          <div id="breadcrumb"><h2>            
-           <span class="breadcrumb">{$breadcrumb1} &gt; {$persname}</span></h2>             
-           </div> 
+          <div id="breadcrumb">
+            <h2>            
+              <span class="breadcrumb"><a href="{concat('/mom/index/', $voc)}">{$breadcrumb1}</a> &gt; {$persname}</span>
+            </h2>             
+          </div> 
       <div class="glossary-entry">
       {($vorname,$ausgabe)}
       </div>     
