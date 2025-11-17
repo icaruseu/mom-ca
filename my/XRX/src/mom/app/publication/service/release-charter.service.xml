@@ -1,15 +1,15 @@
 <xrx:service xmlns:xrx="http://www.monasterium.net/NS/xrx">
-  <xrx:id>tag:www.monasterium.net,2011:/mom/service/release-charter</xrx:id>
-  <xrx:title>
+    <xrx:id>tag:www.monasterium.net,2011:/mom/service/release-charter</xrx:id>
+    <xrx:title>
     <xrx:i18n>
-      <xrx:key></xrx:key>
-      <xrx:default></xrx:default>
+      <xrx:key/>
+      <xrx:default/>
     </xrx:i18n>
   </xrx:title>
-  <xrx:subtitle></xrx:subtitle>
-  <xrx:description></xrx:description>
-  <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
-  <xrx:licence>
+    <xrx:subtitle/>
+    <xrx:description/>
+    <xrx:author>jochen.graf@uni-koeln.de</xrx:author>
+    <xrx:licence>
 This is a component file of the VdU Software for a Virtual Research Environment for the handling of Medieval charters.
 
 As the source code is available here, it is somewhere between an alpha- and a beta-release, may be changed without any consideration of backward compatibility of other parts of the system, therefore, without any notice.
@@ -29,7 +29,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
   </xrx:licence>
-  <xrx:variables>
+    <xrx:variables>
     <xrx:variable>
       <xrx:name>$atomid</xrx:name>
       <xrx:expression>$data//*:atomid/text()</xrx:expression>
@@ -48,7 +48,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$archtag</xrx:name>
-      <xrx:expression>if(string-length($archid) >0) then concat("tag:www.monasterium.net,2011:/archive/",$archid) else ()</xrx:expression>
+      <xrx:expression>if(string-length($archid) gt 0) then concat("tag:www.monasterium.net,2011:/archive/",$archid) else ()</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$fondid</xrx:name>
@@ -94,26 +94,30 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:name>$moderator</xrx:name>
       <xrx:expression>$user-xml/xrx:moderator/text()</xrx:expression>
     </xrx:variable>
-    <xrx:variable>
-        <xrx:name>$modmail</xrx:name>
-        <xrx:expression>conf:param("modmail")</xrx:expression>
-    </xrx:variable>
 <xrx:variable>
    <xrx:name>$archivist</xrx:name>
     <xrx:expression>if ($archtag) then string-join(community:emails($archtag)) else ()</xrx:expression>
     </xrx:variable>	  
+    <xrx:variable>
+	    <xrx:name>$mailadresses</xrx:name>
+	    <xrx:expression>if($archivist) then concat($moderator, ",", $archivist) else ()</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
+        <xrx:name>$modmail</xrx:name>
+        <xrx:expression>conf:param("modmail")</xrx:expression>
+    </xrx:variable>
   </xrx:variables>
-  <xrx:init>
+    <xrx:init>
    <xrx:processor>
      <xrx:translateflag>false</xrx:translateflag>
    </xrx:processor>
   </xrx:init>
-  <xrx:emails>
+    <xrx:emails>
     <xrx:email>
       <xrx:key>release-charter-email</xrx:key>
-      <mail xmlns="">
+      <mail>
           <from>{ xs:string(conf:param('platform-browser-title')) }</from>
-          <to>{ xs:string($moderator) {if ($archivist) then concat(",", $archivist) else ()}</to>
+	  <to>{ xs:string($mailadresses) }</to>
           <cc>{ xs:string($xrx:user-id) }</cc>
           <bcc>{ xs:string($modmail) }</bcc>
           <subject>MOM-CA - Editorial Service</subject>
@@ -135,7 +139,7 @@ MOM-CA with the following role: moderator
       </mail>
     </xrx:email>
   </xrx:emails>
-  <xrx:body>
+    <xrx:body>
 		{ (: atom:put returns document if successfully stored :)
 		let $store := 
 		 if($charter-to-release) then atom:PUT(conf:param('xrx-user-atom-base-uri'), concat(xmldb:encode($xrx:user-id), '.xml'), $updated-released)
