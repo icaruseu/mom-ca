@@ -530,6 +530,10 @@ div.witness-graphic{{
     padding-top:10px;
 }}
 
+#md5-button {{
+margin-left:5px;
+}}
+
 <!-- #placeName, #item, #persName{{
   /*position:relative;*/
   width:285px; /*vorher 385 */
@@ -1058,6 +1062,7 @@ p#first {{
               <xrx:default>PDF- Export</xrx:default>
             </xrx:i18n>
           </a>
+          <button id="md5-button" title="Get the MD5 hash for this charter" onclick="getmd5hash()" value="{ util:hash($wcharter:atom-id, 'MD5') }">#</button>
         </div>
       </xrx:view>
     </xrx:div>

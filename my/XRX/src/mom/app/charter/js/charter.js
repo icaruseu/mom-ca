@@ -321,3 +321,9 @@ function addInfo(){
 	
 	}
 
+function getmd5hash() {
+    // get hash of atom:id
+    var hash = $('#md5-button').val();
+    navigator.clipboard.writeText(hash);
+    alert("Copied MD5 hash for this charter to clipboard: " + hash);
+}
