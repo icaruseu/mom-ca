@@ -123,7 +123,7 @@ declare function index:replace-multi
  declare function index:read-hierarchie($glossarlabel,$rdf, $label, $voc){       
              for $g in $glossarlabel//skos:Concept[skos:broader/@rdf:resource = $rdf]
                   let $newrdf := data($g/@rdf:about)
-                  let $display-name := if($g/skos:prefLabel/@xml:lang= $index:sprache) then string-join($g/skos:prefLabel[@xml:lang= $index:sprache]/text(), ', ') else($g/skos:prefLabel[1]/text())
+                  let $display-name := if($g/skos:prefLabel/@xml:lang= $index:sprache) then $g/skos:prefLabel[@xml:lang= $index:sprache]/text() else($g/skos:prefLabel[1]/text())
                   order by $display-name
                   let $newlabel := <a class="filter" href="{concat(conf:param('request-root'),'index/',$voc, '/',  replace($newrdf, '#', ''))}">{$display-name}</a>
                
