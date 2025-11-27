@@ -132,12 +132,12 @@ it leaves the active development stage.
       </xrx:expression>
     </xrx:variable>
     <xrx:variable>
-      <xrx:name>$wcharter:is-html-editor</xrx:name>
+      <xrx:name>$wcharter:is-html-author</xrx:name>
       <xrx:expression>
         auth:matches(
         <xrx:rule>
           <xrx:user/>
-          <xrx:role>html-editor</xrx:role>
+          <xrx:role>html-author</xrx:role>
         </xrx:rule>
         )
       </xrx:expression>
@@ -1074,7 +1074,7 @@ p#first {{
             </xrx:i18n>
           </a>
           {
-          if ($wcharter:is-html-editor) then(
+          if ($wcharter:is-html-author) then(
           <button id="md5-button" title="Get the MD5 hash for this charter" onclick="getmd5hash()" value="{ util:hash($wcharter:atom-id, 'MD5') }">#</button>
           )
           else()
