@@ -387,14 +387,14 @@ it leaves the active development stage.
 			</div>
 		</div>
 		<div id="divSearchType">
-			<div id="contentTab" class="typeTab active">Content</div>
+			<div id="contentTab" class="typeTab inactive">Content</div>
 			<div id="keyTab" class="typeTab inactive">Key</div>
-			<div id="regTab" class="typeTab inactive">Normalized</div>
+			<div id="regTab" class="typeTab active">Normalized</div>
 		</div>
 		<div id="termResults">
-			<ul id="contentResultsList" class="list active"></ul>
+			<ul id="contentResultsList" class="list inactive"></ul>
 			<ul id="keyResultList" class="list inactive"></ul>
-			<ul id="regResultList" class="list inactive"></ul>
+			<ul id="regResultList" class="list active"></ul>
 		</div>
 	  </div>
 	  <div id="rightFrame">

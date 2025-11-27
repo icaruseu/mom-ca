@@ -1414,29 +1414,14 @@
         </xsl:if>
             <xsl:text>) </xsl:text>
     </xsl:template>
-    <xsl:template match="cei:arch | cei:institution">
-        <xsl:value-of select="normalize-space(replace(., ',', ''))"/>
-        <xsl:if test="following-sibling::*[1][. != '']">
-            <xsl:text>, </xsl:text>
-        </xsl:if>
-        <!--<xsl:apply-templates />
-    <br /> -->
-    </xsl:template>
     <xsl:template match="cei:archFonds">
         <xsl:apply-templates/>
         <br/>
     </xsl:template>
-    <xsl:template match="cei:settlement">
-        <span>
-            <xsl:value-of select="normalize-space(replace(., ',', ''))"/>
-            <xsl:if test="following-sibling::*">
-                <xsl:text>, </xsl:text>
-            </xsl:if>
-        </span>
-    </xsl:template>
-    <xsl:template match="cei:archFond">
-        <xsl:value-of select="normalize-space(replace(., ',', ''))"/>
-        <xsl:if test="following-sibling::*">
+    <xsl:template match="cei:arch | cei:institution | cei:settlement | cei:region | cei:country | cei:archFond">
+        <!--ignore existing final comma in element, add one if more elements follow-->
+        <xsl:value-of select="normalize-space(replace(., ',$', ''))"/>
+        <xsl:if test="following-sibling::*[1][. != '']">
             <xsl:text>, </xsl:text>
         </xsl:if>
     </xsl:template>
@@ -1932,7 +1917,7 @@
             <xsl:sort select="@reg"/>
             <xsl:if test="./node()">
                 <li about="reg" id="{./@key}">
-                    <xsl:apply-templates select="." mode="index"/>
+                    <xsl:apply-templates mode="in-name"/>
                 </li>
                 <ul class="inline">
                     <xsl:call-template name="reg"/>
@@ -1955,23 +1940,32 @@
         <xsl:variable name="index-url" select="if ($has-pers-prefix)
             then concat('/mom/index/', tokenize(@key, ':')[1], '/', tokenize(@key, ':')[2])
             else ''"/>
-        <xsl:variable name="name" select="if (@reg) then @reg else string(.)"/>
         <xsl:choose>
             <xsl:when test="$has-pers-prefix">
                 <a href="{$index-url}">
-                    <xsl:value-of select="$name"/>
+                    <xsl:apply-templates mode="in-name"/>
                 </a>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:value-of select="$name"/>
+                <xsl:apply-templates mode="in-name"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
     <xsl:template match="cei:persName" mode="non-reg-li">
         <!--lists items of non-regularized names beneath the regularized name-->
         <li>
-            <xsl:apply-templates/>
+            <xsl:apply-templates mode="in-name"/>
         </li>
+    </xsl:template>
+    
+    <xsl:template match="cei:witDetail" mode="in-name"/>
+    <xsl:template match="cei:note" mode="in-name"/>
+    <xsl:template match="cei:lb" mode="in-name"/>
+    <xsl:template match="cei:persName" mode="in-name">
+        <xsl:apply-templates/>
+    </xsl:template>
+    <xsl:template match="cei:w" mode="in-name">
+        <xsl:value-of select="string-join(.//text()[normalize-space()], '')"/>
     </xsl:template>
     
     <xsl:template name="sucheperson">
