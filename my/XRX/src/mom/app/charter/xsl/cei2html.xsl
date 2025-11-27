@@ -1414,29 +1414,14 @@
         </xsl:if>
             <xsl:text>) </xsl:text>
     </xsl:template>
-    <xsl:template match="cei:arch | cei:institution">
-        <xsl:value-of select="normalize-space(replace(., ',', ''))"/>
-        <xsl:if test="following-sibling::*[1][. != '']">
-            <xsl:text>, </xsl:text>
-        </xsl:if>
-        <!--<xsl:apply-templates />
-    <br /> -->
-    </xsl:template>
     <xsl:template match="cei:archFonds">
         <xsl:apply-templates/>
         <br/>
     </xsl:template>
-    <xsl:template match="cei:settlement">
-        <span>
-            <xsl:value-of select="normalize-space(replace(., ',', ''))"/>
-            <xsl:if test="following-sibling::*">
-                <xsl:text>, </xsl:text>
-            </xsl:if>
-        </span>
-    </xsl:template>
-    <xsl:template match="cei:archFond">
-        <xsl:value-of select="normalize-space(replace(., ',', ''))"/>
-        <xsl:if test="following-sibling::*">
+    <xsl:template match="cei:arch | cei:institution | cei:settlement | cei:region | cei:country | cei:archFond">
+        <!--ignore existing final comma in element, add one if more elements follow-->
+        <xsl:value-of select="normalize-space(replace(., ',$', ''))"/>
+        <xsl:if test="following-sibling::*[1][. != '']">
             <xsl:text>, </xsl:text>
         </xsl:if>
     </xsl:template>
