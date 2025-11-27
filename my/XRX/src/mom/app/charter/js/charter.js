@@ -321,3 +321,18 @@ function addInfo(){
 	
 	}
 
+function getmd5hash() {
+    var btn = document.getElementById("md5-button");
+    var hash = btn.value;
+    navigator.clipboard.writeText(hash);
+    btn.textContent = "Copied!";
+}
+
+document.addEventListener("keydown", function(e) {
+    if (e.ctrlKey && e.shiftKey && e.code === "KeyC") {
+        // prevent interfering with text copying
+        e.preventDefault();
+        getmd5hash();
+    }
+});
+
