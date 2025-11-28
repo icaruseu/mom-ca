@@ -132,6 +132,17 @@ it leaves the active development stage.
       </xrx:expression>
     </xrx:variable>
     <xrx:variable>
+      <xrx:name>$wcharter:is-html-author</xrx:name>
+      <xrx:expression>
+        auth:matches(
+        <xrx:rule>
+          <xrx:user/>
+          <xrx:role>html-author</xrx:role>
+        </xrx:rule>
+        )
+      </xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
       <xrx:name>$wcharter:saved-by-current-user</xrx:name>
       <xrx:expression>publication:is-saved($xrx:user-xml, $wcharter:atom-id)</xrx:expression>
     </xrx:variable>
@@ -528,6 +539,10 @@ div.witness-graphic{{
 
 #decoDesc ul li[n]{{
     padding-top:10px;
+}}
+
+#md5-button {{
+margin-left:5px;
 }}
 
 <!-- #placeName, #item, #persName{{
@@ -1058,6 +1073,12 @@ p#first {{
               <xrx:default>PDF- Export</xrx:default>
             </xrx:i18n>
           </a>
+          {
+          if ($wcharter:is-html-author) then(
+          <button id="md5-button" title="Get the MD5 hash for this charter" onclick="getmd5hash()" value="{ util:hash($wcharter:atom-id, 'MD5') }">#</button>
+          )
+          else()
+          }
         </div>
       </xrx:view>
     </xrx:div>
