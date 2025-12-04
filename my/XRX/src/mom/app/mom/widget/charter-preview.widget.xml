@@ -561,7 +561,10 @@ span.block {{
                 </xrx:i18n>
                 <span>: </span>
               </b>
-              <span>{ $wcharter-preview:abstract }</span>
+              {
+              if ($wcharter-preview:abstract) then <span>{ $wcharter-preview:abstract }</span>
+              else <i>No abstract available.</i>
+              }
             </div>
             <br/>
             <xrx:div>original-context-div</xrx:div>
