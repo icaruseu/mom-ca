@@ -556,14 +556,22 @@ span.block {{
             <div data-demoid="f3a7d08c-8a7d-4d85-a8a3-ff80338cc28d">
               <b>
                 <xrx:i18n>
-                  <xrx:key>abstract</xrx:key>
+                  <xrx:key>Abstract</xrx:key>
                   <xrx:default>Abstract</xrx:default>
                 </xrx:i18n>
                 <span>: </span>
               </b>
               {
               if ($wcharter-preview:abstract) then <span>{ $wcharter-preview:abstract }</span>
-              else <i>No abstract available.</i>
+              else 
+              <span>
+                <i>
+                  <xrx:i18n>
+                    <xrx:key>no-abstract</xrx:key>
+                    <xrx:default>No abstract available.</xrx:default>
+                  </xrx:i18n>
+                </i>
+              </span>
               }
             </div>
             <br/>
