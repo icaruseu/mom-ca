@@ -69,9 +69,9 @@ In the person index a specific value in the @key is searched
 in other index a specific value in the @lemma is searched in the public collection
 :)
 
-declare function index:index-abfrage($term){
+declare function index:index-abfrage($term, $coll){
       let $treffergesamt := 
-          if (starts-with($term, 'P_')) then $index:chartercollection//cei:text[.//@key = $term] 
+          if ($coll = 'person') then $index:chartercollection//cei:text[.//@key = $term] 
           else( let $mehr :=  for $jeweils in index:narrower($term)
                               let $st := if(starts-with($jeweils, '#') ) then substring-after($jeweils, '#') else($jeweils)
                               return $index:chartercollection//cei:text[.//@lemma = $st]                   
@@ -122,9 +122,10 @@ declare function index:replace-multi
  (: function that reads terms from RDF :)
  declare function index:read-hierarchie($glossarlabel,$rdf, $label, $voc){       
              for $g in $glossarlabel//skos:Concept[skos:broader/@rdf:resource = $rdf]
-                  order by $g
                   let $newrdf := data($g/@rdf:about)
-                  let $newlabel := <a class="filter" href="{concat(conf:param('request-root'),'index/',$voc, '/',  replace($newrdf, '#', ''))}">{if($g/skos:prefLabel/@xml:lang= $index:sprache) then $g/skos:prefLabel[@xml:lang= $index:sprache]/text() else($g/skos:prefLabel[1]/text())}</a>
+                  let $display-name := if($g/skos:prefLabel/@xml:lang= $index:sprache) then $g/skos:prefLabel[@xml:lang= $index:sprache]/text() else($g/skos:prefLabel[1]/text())
+                  order by $display-name
+                  let $newlabel := <a class="filter" href="{concat(conf:param('request-root'),'index/',$voc, '/',  replace($newrdf, '#', ''))}">{$display-name}</a>
                
                   
             return  <div class="narrower">{$newlabel}<span>{index:read-hierarchie($glossarlabel, $newrdf, $newlabel, $voc)}</span></div>    
