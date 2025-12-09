@@ -1418,7 +1418,7 @@
         <xsl:apply-templates/>
         <br/>
     </xsl:template>
-    <xsl:template match="cei:arch | cei:institution | cei:settlement | cei:region | cei:country | cei:archFond">
+    <xsl:template match="cei:archIdentifier/*">
         <!--ignore existing final comma in element, add one if more elements follow-->
         <xsl:value-of select="normalize-space(replace(., ',$', ''))"/>
         <xsl:if test="following-sibling::*[1][. != '']">
