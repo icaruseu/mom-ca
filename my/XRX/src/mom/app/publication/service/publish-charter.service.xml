@@ -144,9 +144,15 @@ MOM-CA with the following role: user
 	  (: move saved charter to public area :)
 	  let $store-charter := 
 	    system:as-user('admin', conf:param('dba-password'), atom:PUTSILENT($feed, util:document-name($published-charter), $saved-charter))
+	    
+    (: send notification mail :)
+    let $sendmail :=
+    <xrx:sendmail>
+      <xrx:key>publish-charter-email</xrx:key>
+    </xrx:sendmail>
 
-	  	(: remove old cached pageview:) 
-	  	let $cache := cache:remove("liveview", $atomid)
+    (: remove old cached pageview:) 
+    let $cache := cache:remove("liveview", $atomid)
 	  
 		(: remove saved charter :)
 		let $remove-saved-charter :=
@@ -155,11 +161,6 @@ MOM-CA with the following role: user
 		(: save user xml :)
 		let $store-user-xml :=
 		  atom:PUT(conf:param('xrx-user-atom-base-uri'), util:document-name($user-xml), $update-user-xml)
-
-    let $sendmail :=
-    <xrx:sendmail>
-      <xrx:key>publish-charter-email</xrx:key>
-    </xrx:sendmail>
 
 		return
 		$update-user-xml
