@@ -58,17 +58,13 @@
             <xrx:expression>$user-xml/xrx:moderator/text()</xrx:expression>
         </xrx:variable>
         <xrx:variable>
-            <xrx:name>$skos-to-release</xrx:name>
-            <xrx:expression>$xrx:user-xml//xrx:saved[xrx:id=$atomid]/xrx:freigabe</xrx:expression>
-        </xrx:variable>
-<!--        <xrx:variable>
-            <xrx:name>$updated</xrx:name>
-            <xrx:expression>upd:replace-element-content($skos-to-release, text { 'yes' })</xrx:expression>
+            <xrx:name>$entry</xrx:name>
+            <xrx:expression>$xrx:user-xml//xrx:saved[xrx:id=$atomid]</xrx:expression>
         </xrx:variable>
         <xrx:variable>
-            <xrx:name>$updated-released</xrx:name>
-            <xrx:expression>upd:insert-after($updated//xrx:saved[xrx:id=$atomid]/xrx:freigabe, <xrx:released>{current-dateTime()}</xrx:released>)</xrx:expression>
-        </xrx:variable>-->
+            <xrx:name>$skos-to-release</xrx:name>
+            <xrx:expression>$entry/xrx:freigabe</xrx:expression>
+        </xrx:variable>
     </xrx:variables>
     <xrx:emails>
         <xrx:email>
@@ -99,19 +95,32 @@
     </xrx:emails>
     <xrx:body>
         {
-        if ($session-username != 'guest') then (
-            let $updated := update replace $skos-to-release with <xrx:freigabe>yes</xrx:freigabe>
-            let $updated-released := update insert <xrx:released>{current-dateTime()}</xrx:released> following $skos-to-release
+        let $success :=
+                <xrx:response>
+                    <xrx:status>200</xrx:status>
+                    <xrx:message>OK</xrx:message>
+                </xrx:response>
+        let $error :=
+            <xrx:response>
+                <xrx:status>403</xrx:status>
+                <xrx:message>Not authorized</xrx:message>
+            </xrx:response>
         
-            (: send email if document was stored :)
-            let $sendmail :=
-            <xrx:sendmail>
-                <xrx:key>release-skos-email</xrx:key>
-            </xrx:sendmail>
-            
-            return ()
+        return if ($session-username != 'guest') then (
+            let $updated := update replace $skos-to-release with <xrx:freigabe>yes</xrx:freigabe>
+            let $release-date := <xrx:released>{current-dateTime()}</xrx:released>
+            let $updated-released := update insert $release-date following $skos-to-release
+            return if ($skos-to-release/text() = 'yes' and $entry[$release-date]) then (
+             (: send email if document was stored :)
+             let $sendmail :=
+             <xrx:sendmail>
+                 <xrx:key>release-skos-email</xrx:key>
+             </xrx:sendmail>
+             return ($success)
+            )
+            else ($error)
         )
-        else ()
+        else ($error)
         }
     </xrx:body>
 </xrx:service>
