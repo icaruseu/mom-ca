@@ -61,14 +61,6 @@
             <xrx:name>$skos-to-release</xrx:name>
             <xrx:expression>$xrx:user-xml//xrx:saved[xrx:id=$atomid]/xrx:freigabe</xrx:expression>
         </xrx:variable>
-<!--        <xrx:variable>
-            <xrx:name>$updated</xrx:name>
-            <xrx:expression>upd:replace-element-content($skos-to-release, text { 'yes' })</xrx:expression>
-        </xrx:variable>
-        <xrx:variable>
-            <xrx:name>$updated-released</xrx:name>
-            <xrx:expression>upd:insert-after($updated//xrx:saved[xrx:id=$atomid]/xrx:freigabe, <xrx:released>{current-dateTime()}</xrx:released>)</xrx:expression>
-        </xrx:variable>-->
     </xrx:variables>
     <xrx:emails>
         <xrx:email>
@@ -99,19 +91,23 @@
     </xrx:emails>
     <xrx:body>
         {
-        if ($session-username != 'guest') then (
-            let $updated := update replace $skos-to-release with <xrx:freigabe>yes</xrx:freigabe>
-            let $updated-released := update insert <xrx:released>{current-dateTime()}</xrx:released> following $skos-to-release
-        
-            (: send email if document was stored :)
-            let $sendmail :=
-            <xrx:sendmail>
-                <xrx:key>release-skos-email</xrx:key>
-            </xrx:sendmail>
-            
-            return ()
+        let $error := 
+            <xrx:response>
+                <xrx:status>400</xrx:status>
+                <xrx:message>Bad Request</xrx:message>
+            </xrx:response>
+        let $success :=
+            <xrx:response>
+                <xrx:status>200</xrx:status>
+                <xrx:message>OK</xrx:message>
+            </xrx:response>
+        return if ($session-username = 'guest' or empty($skos-to-release)) then $error
+        else (
+            let $update-release := update replace $skos-to-release with <xrx:freigabe>yes</xrx:freigabe>
+            let $update-date := update insert <xrx:released>{current-dateTime()}</xrx:released> following $skos-to-release
+            let $sendmail := <xrx:sendmail> <xrx:key>release-skos-email</xrx:key> </xrx:sendmail>
+            return $success
         )
-        else ()
         }
     </xrx:body>
 </xrx:service>
