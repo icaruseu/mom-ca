@@ -1917,7 +1917,7 @@
             <xsl:sort select="@reg"/>
             <xsl:if test="./node()">
                 <li about="reg" id="{./@key}">
-                    <xsl:apply-templates mode="in-name"/>
+                    <xsl:apply-templates select="." mode="index"/>
                 </li>
                 <ul class="inline">
                     <xsl:call-template name="reg"/>
@@ -1936,18 +1936,24 @@
     </xsl:template>
     <xsl:template match="cei:persName" priority="-1" mode="index">
         <!--use regularized name and link to person index if available-->
-        <xsl:variable name="has-pers-prefix" select="contains(@key, ':')"/>
-        <xsl:variable name="index-url" select="if ($has-pers-prefix)
-            then concat('/mom/index/', tokenize(@key, ':')[1], '/', tokenize(@key, ':')[2])
-            else ''"/>
-        <xsl:choose>
-            <xsl:when test="$has-pers-prefix">
-                <a href="{$index-url}">
+        <xsl:variable name="label">
+            <xsl:choose>
+                <xsl:when test="@reg">
+                    <xsl:value-of select="@reg"/>
+                </xsl:when>
+                <xsl:otherwise>
                     <xsl:apply-templates mode="in-name"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:choose>
+            <xsl:when test="contains(@key, ':')">
+                <a href="{concat('/mom/index/', tokenize(@key, ':')[1], '/', tokenize(@key, ':')[2])}">
+                    <xsl:value-of select="$label"/>
                 </a>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:apply-templates mode="in-name"/>
+                <xsl:value-of select="$label"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
