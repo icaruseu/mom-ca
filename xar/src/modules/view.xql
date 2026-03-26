@@ -13,15 +13,32 @@ declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method "html5";
 declare option output:media-type "text/html";
 
-declare variable $app-root := substring-before(
-    system:get-module-load-path(), "/modules"
-);
+(:~
+ : Resolve the app root collection path.
+ : Tries multiple strategies since eXist-db versions differ.
+ :)
+declare function local:app-root() as xs:string {
+    let $module-path := system:get-module-load-path()
+    return
+        (: If loaded from the database :)
+        if (starts-with($module-path, "xmldb:exist://")) then
+            substring-before(
+                substring-after($module-path, "xmldb:exist://"),
+                "/modules"
+            )
+        else if (starts-with($module-path, "/db/")) then
+            substring-before($module-path, "/modules")
+        else
+            (: Fallback: standard app location :)
+            "/db/apps/mom-ca"
+};
 
 (:~
  : Render a page inside the default template.
  :)
 declare function local:render-page($page as xs:string) as node() {
 
+    let $app-root  := local:app-root()
     let $page-path := $app-root || "/pages/" || $page || ".html"
 
     let $page-content :=
@@ -31,6 +48,9 @@ declare function local:render-page($page as xs:string) as node() {
             <div class="page-placeholder">
                 <h2>{ $page }</h2>
                 <p>This page has not been migrated yet.</p>
+                <p>App root: { $app-root }</p>
+                <p>Tried: { $page-path }</p>
+                <p>Module path: { system:get-module-load-path() }</p>
                 <p><a href="home">Back to Home</a></p>
             </div>
 
