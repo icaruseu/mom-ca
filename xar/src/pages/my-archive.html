@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title data-i18n="my-archive">My archive</title>
+</head>
+<body>
+    <div id="my-archive">
+        <div data-template="app:auth-check" data-template-group="atom">
+            <div data-template="app:redirect" data-template-url="saved-charters"></div>
+        </div>
+        <div data-template="app:auth-fallback">
+            <div class="h2">
+                <span data-i18n="my-archive">My archive</span>
+            </div>
+            <span data-i18n="protected-page-message">Protected page. Please login first.</span>
+            <div data-template="app:include" data-template-path="login2.html"></div>
+        </div>
+    </div>
+</body>
+</html>

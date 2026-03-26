@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title data-i18n="publish-fond">Publish fond</title>
+</head>
+<body>
+    <div id="dpublish-fond" data-template="app:publish-fond-view">
+        <div class="h2">
+            <span data-i18n="publish-fond">Publish fond</span>
+        </div>
+        <div data-template="app:list-imported-fonds">
+            <h3 data-template="app:import-num"></h3>
+            <table>
+                <tr>
+                    <td>
+                        <span data-i18n="archive">Archive</span>
+                        <span>: </span>
+                    </td>
+                    <td data-template="app:import-archive-info"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span data-i18n="fond-preview">Fond (preview)</span>
+                        <span>: </span>
+                    </td>
+                    <td>
+                        <a data-template="app:import-fond-link"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <span data-i18n="imported">Imported</span>
+                        <span data-template="app:import-time"></span>
+                        <span data-i18n="by">by</span>
+                        <span data-template="app:import-user-name"></span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

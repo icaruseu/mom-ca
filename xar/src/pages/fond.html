@@ -1,0 +1,78 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+  <head>
+    <title data-i18n="fond">Fond</title>
+  </head>
+  <body>
+    <div data-template="fond:view">
+
+      <!-- Heading -->
+      <div class="h2">
+        <span data-i18n="fond">Fond</span>
+        <span>: </span>
+        <span data-template="fond:context-name"/>
+      </div>
+
+      <!-- My Functions (auth: atom group) -->
+      <div data-template="auth:if-logged-in" class="my-functions">
+        <h3 data-i18n="my-functions">MyFunctions</h3>
+        <div class="function-links">
+          <div data-template="auth:if-role" data-template-role="metadata-manager,community">
+            <div class="function-link">
+              <a data-template="fond:remove-link">
+                <span>&#8227; </span>
+                <span data-i18n="remove-fond">Remove fond</span>
+              </a>
+            </div>
+            <div class="function-link">
+              <a data-template="fond:import-charters-link">
+                <span>&#8227; </span>
+                <span data-i18n="import-charters">Import Charters</span>
+                <span> (Excel, CEI, EAD, XML, OAI, SQL)</span>
+              </a>
+            </div>
+            <div class="function-link">
+              <a href="fond-preferences">
+                <span>&#8227; </span>
+                <span data-i18n="preferences">Preferences</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Breadcrumb -->
+      <div data-template="fond:breadcrumb">
+        <a href="fonds" data-i18n="fonds">Fonds</a>
+        <span> &gt; </span>
+        <a data-template="fond:archive-breadcrumb-link"/>
+        <span> &gt; </span>
+        <a data-template="fond:fond-breadcrumb-link"/>
+        <!-- Link to imported fond if exists -->
+        <div data-template="fond:imported-fond-link">
+          <a href="imported-fond">
+            <span data-i18n="view-publish-imported-charters">View/publish imported charters</span>
+            <span> &gt;&gt;</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Goto Search -->
+      <div data-template="fond:goto-search"/>
+
+      <!-- Preface link -->
+      <div class="year-list" data-template="fond:preface-link-style">
+        <a href="fond" data-i18n="preface">Preface</a>
+      </div>
+
+      <!-- Preface content -->
+      <div id="preface" data-template="fond:preface"/>
+
+      <!-- Charter preview -->
+      <div id="dcharter-preview-main" data-template="fond:charter-preview-list">
+        <div data-template="fond:charter-preview-item"/>
+        <div data-template="fond:block-navigation"/>
+      </div>
+    </div>
+  </body>
+</html>

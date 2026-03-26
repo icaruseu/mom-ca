@@ -1,0 +1,142 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+  <head>
+    <title data-i18n="charter-versions">Charter Versions</title>
+    <link rel="stylesheet" type="text/css" href="css/charter-preview.css"/>
+    <style type="text/css">
+      #dcharter-preview-main {
+        float: left;
+        width: 800px;
+      }
+      #dcharter-preview-main .charter * {
+        line-height: 1.6em;
+      }
+      #dcharter-preview-main .charter {
+        position: relative;
+        width: 100%;
+        float: left;
+        background: rgb(245,245,245);
+      }
+      #dcharter-preview-main .charter-preview {
+        position: relative;
+        float: left;
+        width: 100%;
+        background: rgb(245,245,245);
+        border-bottom: solid white 5px;
+      }
+      #dcharter-preview-main .inner-charter-preview {
+        position: relative;
+        float: left;
+        width: 100%;
+        margin: 15px;
+      }
+      #dcharter-preview-main .charter-info-and-actions {
+        display: inline;
+        position: relative;
+        float: left;
+        width: 25%;
+        border-left: solid white 3px;
+        padding-left: 10px;
+      }
+      #dcharter-preview-main .container {
+        float: left;
+        width: 65%;
+        padding-right: 10px;
+      }
+      #dcharter-preview-main .charter-info-and-actions * {
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="dcharter-versions" data-template="publication:charter-versions-view">
+      <!-- Auth: atom group -->
+      <div data-template="auth:if-logged-in">
+        <div data-template="publication:charter-versions-content">
+          <a data-template="publication:back-link">
+            <span>&lt;&lt; </span>
+            <span data-i18n="back">back</span>
+          </a>
+          <div class="h2">
+            <span data-i18n="charter-versions">Charter versions</span>
+          </div>
+          <div data-template="publication:navigation"/>
+          <div id="dcharter-preview-main">
+            <!-- Charter common info -->
+            <div>
+              <b><span data-i18n="charter">Charter</span><span>: </span></b>
+              <span data-template="publication:charter-id"/>
+            </div>
+            <div>
+              <b><span data-i18n="date">Date</span><span>: </span></b>
+              <span data-template="publication:date-published"/>
+            </div>
+            <div>
+              <b><span data-i18n="revisions">Current amount of Revisions</span><span>: </span></b>
+              <span data-template="publication:revision-count"/>
+            </div>
+            <br/>
+
+            <!-- Restore base version -->
+            <div data-template="publication:restore-base-version">
+              <b><span data-i18n="original">Restore Baseversion of Charter</span><span>: </span></b>
+              <span>
+                <a data-template="publication:patch-base-link" data-i18n="patch-version">Patch Charter</a>
+              </span>
+              <span> |
+                <a data-template="publication:diff-base-link" data-i18n="version-difference">Version Difference</a>
+              </span>
+            </div>
+            <br/><br/>
+
+            <!-- Revision list -->
+            <div data-template="publication:revision-list" class="charter">
+              <div class="charter-preview">
+                <div class="inner-charter-preview">
+                  <div class="container">
+                    <div>
+                      <b data-i18n="revision-number">Revision Number</b>
+                      <span>: <span data-template="publication:revision-number"/></span>
+                    </div>
+                    <div>
+                      <b data-i18n="revision-date">Revision Date</b>
+                      <span>: <span data-template="publication:revision-date"/></span>
+                    </div>
+                    <div>
+                      <b data-i18n="revision-user">Revision by User</b>
+                      <span>: <span data-template="publication:revision-user"/></span>
+                    </div>
+                    <div>
+                      <b data-i18n="revision-cause">Cause of Revision</b>
+                      <div data-template="publication:revision-diff"/>
+                    </div>
+                  </div>
+                  <div class="charter-info-and-actions">
+                    <div>
+                      <a data-template="publication:revision-diff-link" data-i18n="version-difference">Version Difference</a>
+                    </div>
+                    <div>
+                      <a data-template="publication:revision-patch-link" data-i18n="patch-version">Patch Charter</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div data-template="publication:navigation"/>
+          </div>
+        </div>
+
+        <!-- Insufficient role -->
+        <div data-template="publication:insufficient-role">
+          <span data-i18n="insufficient-role">You are not authorized to see different Versions.</span>
+        </div>
+      </div>
+
+      <!-- Not logged in -->
+      <div data-template="auth:if-not-logged-in">
+        <span data-i18n="protected-page-message">Protected page. Please login first.</span>
+      </div>
+    </div>
+  </body>
+</html>

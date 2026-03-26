@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Breadcrumb</title>
+</head>
+<body>
+    <div id="breadcrumb" data-template="app:breadcrumb-view">
+        <!-- Fond context breadcrumb -->
+        <div data-template="app:breadcrumb-fond">
+            <a data-template="app:link" data-template-href="fonds">
+                <span data-i18n="fonds">Fonds</span>
+            </a>
+            <span> &gt; </span>
+            <a data-template="app:breadcrumb-archive-link"></a>
+            <span> &gt;</span>
+            <a data-template="app:breadcrumb-fond-link"></a>
+        </div>
+        <!-- Collection context breadcrumb -->
+        <div data-template="app:breadcrumb-collection">
+            <a data-template="app:link" data-template-href="collections">
+                <span data-i18n="collections">Collections</span>
+            </a>
+            <span> &gt; </span>
+            <a data-template="app:breadcrumb-collection-link"></a>
+        </div>
+        <!-- Linked archives info -->
+        <div id="dlinked-archives" data-template="app:breadcrumb-linked-archives" style="float:none;margin-top:15px">
+            <span data-i18n="collection-contains-charters-of-archival-fonds">This collection contains charters of the following archival fonds:</span>
+            <ul class="nostyle" data-template="app:breadcrumb-linked-archives-list"></ul>
+        </div>
+    </div>
+</body>
+</html>

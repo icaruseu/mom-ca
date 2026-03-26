@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Import Info EAD</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <td><span class="heading">EAD</span></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="icon"><img class="icon" src="resources/images/EAD.png" alt="EAD"/></td>
+            <td class="info">
+                <p><i><span data-i18n="ead-import-info-1">Import Metadata according to the XML standard 'Encoded Archival Description' (EAD). MOM-CA supports a subset of EAD called 'momEAD' which contains those parts of EAD useful for charters.</span></i></p>
+                <p><i><span data-i18n="ead-import-info-2">The import works smoothly if your EAD document is well-formed XML and if it is valid against the momEAD Schema below.</span></i></p>
+                <div data-template="app:include" data-template-path="useful-links-ead.html"></div>
+            </td>
+            <td data-template="app:import-info-recent" data-template-type="EAD"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td class="button">
+                <a class="button" data-template="app:import-info-link" data-template-type="ead">
+                    <span data-i18n="ead-import">EAD import</span> &gt;&gt;
+                </a>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

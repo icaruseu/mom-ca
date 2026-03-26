@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Tag Library</title>
+</head>
+<body>
+    <div id="dtag-library" data-template="app:tag-library-view">
+        <div class="h2">
+            <span data-i18n="tag-library">Tag library</span>
+            <span>: <span data-template="app:tag-library-label"></span></span>
+        </div>
+        <!-- Element view -->
+        <div data-template="app:tag-library-element-view">
+            <h1>
+                <span data-i18n="element">Element</span>
+                <span>: &lt;<span data-template="app:tag-library-element-name"></span>&gt;</span>
+            </h1>
+            <h2><span data-i18n="description">Description</span><span>:</span></h2>
+            <div data-template="app:tag-library-element-documentation"></div>
+            <br/><br/>
+            <h2>May contain:</h2>
+            <ul class="nostyle" data-template="app:tag-library-child-elements"></ul>
+            <br/><br/>
+            <h2><span data-i18n="may-occur-within">May occur within</span><span>:</span></h2>
+            <ul class="nostyle" data-template="app:tag-library-parent-elements"></ul>
+            <br/><br/>
+            <h2><span data-i18n="attributes">Attributes</span><span>:</span></h2>
+            <ul class="nostyle" data-template="app:tag-library-attributes"></ul>
+        </div>
+        <!-- Attribute view -->
+        <div data-template="app:tag-library-attribute-view">
+            <h1>
+                <span data-i18n="attribute">Attribute</span>
+                <span>: <span data-template="app:tag-library-attribute-name"></span></span>
+            </h1>
+            <h2><span data-i18n="description">Description</span><span>:</span></h2>
+            <div data-template="app:tag-library-attribute-documentation"></div>
+            <br/><br/>
+            <h2><span data-i18n="may-occur-within">May occur within</span><span>:</span></h2>
+            <ul class="nostyle" data-template="app:tag-library-attribute-parent-elements"></ul>
+            <br/><br/>
+        </div>
+    </div>
+</body>
+</html>

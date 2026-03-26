@@ -1,0 +1,157 @@
+<!--
+    MOM-CA Annotations Page
+    =======================
+    Converted from: my/XRX/src/mom/app/crop/widget/annotations.widget.xml
+
+    Personal annotations management. Lists user's cropped image annotations
+    grouped by author or annotation type. Includes writing analysis / comparison
+    tool with side-by-side viewports, zoom, brightness/contrast controls.
+    Uses jQuery UI slider, Jcrop, and pixastic for image editing.
+-->
+<div>
+    <div id="basic">
+        <h2 style="position:relative;">
+            <span data-i18n="annotations">Annotations</span>
+        </h2>
+
+        <!-- Navigation tabs -->
+        <div id="navcontainer">
+            <ul id="navlist">
+                <li onclick="$('#annolist').css('display', 'block');$('#compare').css('display', 'none');">
+                    <span data-i18n="list-annotations">List Annotations</span>
+                    <ul>
+                        <li id="active">
+                            <span data-i18n="sort-by">sort by</span> &gt;
+                            <ul id="dropdown">
+                                <li onclick="$('#annolist').css('display', 'block');$('#autor').css('display', 'block');$('#anno').css('display', 'none');$('#compare').css('display', 'none');">
+                                    <span data-i18n="authors">Authors</span>
+                                </li>
+                                <li onclick="$('#annolist').css('display', 'block');$('#autor').css('display', 'none');$('#anno').css('display', 'block');$('#compare').css('display', 'none');">
+                                    <span data-i18n="annotations">Annotations</span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li onclick="$('#annolist').css('display', 'none');$('#compare').css('display', 'block');">
+                    <span data-i18n="writing-analysis">Writing analysis</span>
+                </li>
+            </ul>
+        </div>
+        <br/><br/>
+
+        <div id="loadtext">text</div>
+
+        <!-- Annotation list views -->
+        <div id="annolist">
+            <div id="autor" style="position:relative;" data-template="annotations:by-author">
+                <!-- Author-grouped annotations rendered here -->
+            </div>
+            <div id="anno" style="display:none;" data-template="annotations:by-annotation">
+                <!-- Annotation-grouped entries rendered here -->
+            </div>
+        </div>
+
+        <!-- Comparison / writing analysis tool -->
+        <div id="compare" style="display:none;">
+            <div id="help">
+                <div id="helpAutorLeft">
+                    <span data-i18n="please-select-an-autor-in-the-left-dropdown-list">Please select an autor in the left Dropdown-list!</span>
+                </div>
+                <div id="helpAnnoLeft" style="display:none;">
+                    <span data-i18n="please-select-an-annotation-in-the-left-dropdown-list">Please select an annotation in the left Dropdown-list!</span>
+                </div>
+                <div id="helpAutorRight" style="display:none;">
+                    <span data-i18n="please-select-an-autor-in-the-right-dropdown-list">Please select an autor in the right Dropdown-list!</span>
+                </div>
+                <div id="helpAnnoRight" style="display:none;">
+                    <span data-i18n="please-select-an-annotation-in-the-right-dropdown-list">Please select an annotation in the right Dropdown-list!</span>
+                </div>
+                <div id="helpCompare" style="display:none;">
+                    <span data-i18n="now-you-can-compare-the-extracted-images">Now you can compare the extracted images!</span>
+                </div>
+            </div>
+
+            <!-- Left side viewport -->
+            <div id="left-side">
+                <select class="choose" id="authorlistleft" name="authorlistleft" data-template="annotations:author-options"></select>
+                <div id="annoleft"></div>
+                <div id="viewleft" style="display:none;">
+                    <div class="outerviewport"><div class="innerviewport" id="viewportleft"></div></div>
+                    <div id="zoomerleft" style="display:none;"></div>
+                </div>
+            </div>
+
+            <!-- Right side viewport -->
+            <div id="right-side">
+                <select class="choose" id="authorlistright" name="authorlistright" data-template="annotations:author-options"></select>
+                <div id="annoright"></div>
+                <div id="viewright" style="display:none;">
+                    <div class="outerviewport"><div class="innerviewport" id="viewportright"></div></div>
+                    <div id="zoomerright" style="display:none;"></div>
+                </div>
+            </div>
+
+            <!-- Image editor -->
+            <div id="editor" style="display:none;">
+                <div id="toolbar" style="position:absolute;top:2px;"></div>
+                <div class="outerviewport" style="top:65px;width:250px;height:200px;border:solid rgb(240,243,226) 1px;">
+                    <div class="innerviewport" id="editorviewport"></div>
+                </div>
+                <div id="BC" style="display:none;">
+                    <div id="contrast">
+                        <div style="width:150px;">
+                            <span style="float:left;"><span data-i18n="contrast">Contrast</span>:</span>
+                            <input id="value-contrast" style="width:30px;" type="text" value="0"/>
+                        </div>
+                        <div class="slider" id="slider-contrast"></div>
+                    </div>
+                    <div id="brightness" style="position:absolute;left:200px;">
+                        <div style="width:150px;">
+                            <span style="float:left;"><span data-i18n="brightness">Brightness</span>:</span>
+                            <input id="value-brightness" style="width:30px;" type="text" value="0"/>
+                        </div>
+                        <div class="slider" id="slider-brightness"></div>
+                    </div>
+                    <div id="editimage" style="position:absolute;top:60px;width:300px;">
+                        <span style="color:#999999;font-weight:bold;"><span data-i18n="choose-image">Choose image</span>:</span>
+                        <select id="imagelist"><option></option></select>
+                        <p class="hiddenButton" onclick="adjustBC();"><span data-i18n="adjust">Adjust</span></p>
+                        <p class="hiddenButton" onclick="reset();"><span data-i18n="reset">Reset</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #annolist { position: relative; }
+    #loadtext { display: none; left: -250px; top: 30px; position: relative; color: #CAC6C6; font-weight: bold; }
+    .annos { position: relative; width: 100px; text-align: center; vertical-align: middle; }
+    .labels { position: relative; text-align: center; color: #999999; font-weight: bold; }
+    .autorlabels { position: relative; color: #999999; font-weight: bold; left: 10px; }
+    .cropviewport { position: relative; overflow: auto; border: solid rgb(240,243,226) 1px; margin: 0px auto; vertical-align: bottom; }
+    .annotable { position: relative; top: 10px; border: solid rgb(240,243,226) 1px; width: 800px; }
+    .entry { position: relative; margin-top: 50px; }
+    .cropimg { position: relative; display: block; margin: 0px auto; }
+    #navcontainer { position: relative; }
+    #navcontainer ul { list-style: none; margin: 0; padding: 0; position: relative; z-index: 597; }
+    #navcontainer ul li { float: left; line-height: 1.3em; vertical-align: middle; background-color: #F6F6F6; border-color: #FFFFFF #D9D9D9 #D9D9D9; border-style: solid; border-width: 1px 1px 1px 0; color: #000000; padding: 7px 10px; }
+    #navcontainer ul li:hover { cursor: default; position: relative; z-index: 599; background-color: #EEEEEE; }
+    #navcontainer ul li:hover ul { visibility: visible; }
+    #navcontainer ul li ul { left: 0; position: absolute; top: 33px; visibility: hidden; z-index: 598; padding-right: 15px; }
+    .button { float: left; line-height: 1.3em; vertical-align: middle; background-color: #F6F6F6; border-color: #FFFFFF #D9D9D9 #D9D9D9; border-style: solid; border-width: 3px 3px 3px 0; color: #000000; padding: 7px 10px; border-radius: 10px; }
+    .button:hover { cursor: default; position: relative; z-index: 599; background-color: #EEEEEE; }
+    #compare { display: none; position: relative; width: 700px; height: 900px; top: -150px; }
+    #left-side { position: absolute; float: left; top: 200px; left: 50px; }
+    #right-side { position: absolute; float: left; left: 300px; top: 200px; }
+    .innerviewport { display: none; position: relative; width: 180px; height: 150px; text-align: center; vertical-align: middle; }
+    .outerviewport { display: none; position: absolute; overflow: auto; width: 180px; height: 150px; top: 35px; }
+    #basic { position: relative; float: left; }
+    #help { position: absolute; float: left; width: 700px; color: #999999; font-weight: bold; top: 160px; left: 10px; }
+    #editor { display: none; position: absolute; float: left; top: 480px; left: 145px; }
+    .hiddenButton { display: none; height: 20px; float: left; position: relative; background-color: #F6F6F6; border-color: #FFFFFF #D9D9D9 #D9D9D9; border-style: solid; border-width: 3px 3px 3px 0; color: #000000; padding: 7px 10px; border-radius: 10px; }
+    .hiddenButton:hover { cursor: default; z-index: 599; background-color: #EEEEEE; }
+    img { vertical-align: middle; }
+</style>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-i18n="how-to-cite">How to Cite</title>
+  <!-- Converted from how-to-cite.widget.xml -->
+  <!-- Original ID: tag:www.monasterium.net,2011:/mom/widget/how-to-cite -->
+  <!-- No xf: elements - plain HTML with data-template placeholders -->
+  <link rel="stylesheet" href="../css/charter.css"/>
+</head>
+<body>
+  <div class="inlinehead cat">
+    <a href="javascript:showHideDiv_neu('howToCite', '')">
+      <span data-i18n="how-to-cite">How to cite</span>
+    </a>
+  </div>
+  <div id="howToCite" style="display:none">
+    <div class="p">
+      <p>
+        <span data-template="how-to-cite:citation"
+              data-template-archive="$wcharter:archive"
+              data-template-fond="$wcharter:fond"
+              data-template-idno="$wcharter:idno"
+              data-template-volltext-bibl="$wcharter:volltext-bibl"
+              data-template-default-url="$wcharter:default-url">
+          <!-- Citation text rendered server-side:
+               {archive}, {fond} {idno},
+               {description/edition based on: bibl...}
+               in: Monasterium.net, URL <https://www.monasterium.net{default-url}/charter>, accessed {current-date}
+          -->
+        </span>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

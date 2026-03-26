@@ -1,0 +1,46 @@
+<!--
+    MOM-CA Search Result Page
+    =========================
+    Converted from: my/XRX/src/mom/app/search/widget/result.widget.xml
+
+    Subwidget/component for rendering a single search result.
+    Inherits from charter-preview. Constructor parameters:
+    charter, pos, terminus, vocabular, collectionType, resultType.
+    Displays charter info with context-dependent links and
+    bookmark/publication actions.
+-->
+<div class="search-result" data-template="search-result:entry">
+
+    <div class="charter-preview">
+        <div class="inner-charter-preview">
+            <div class="container">
+                <!-- Charter context link (fond or collection) -->
+                <div data-template="search-result:charter-link"></div>
+
+                <div>
+                    <b><span data-i18n="charter">Charter</span><span>: </span></b>
+                    <a data-template="search-result:charter-url">
+                        <span data-template="search-result:idno"></span>
+                    </a>
+                </div>
+                <div>
+                    <b><span data-i18n="date">Date</span><span>: </span></b>
+                    <span data-template="search-result:date"></span>
+                </div>
+                <div>
+                    <b><span data-i18n="abstract">Abstract</span><span>: </span></b>
+                    <span data-template="search-result:abstract"></span>
+                </div>
+            </div>
+
+            <div class="charter-info-and-actions">
+                <a data-template="search-result:charter-url">
+                    <span data-i18n="view-charter">View Charter</span>
+                </a>
+                <!-- Bookmark and publication actions -->
+                <div data-template="search-result:actions"></div>
+            </div>
+        </div>
+    </div>
+
+</div>

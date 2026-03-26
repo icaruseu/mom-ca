@@ -1,0 +1,26 @@
+<!--
+    MOM-CA Edit Htdoc Page
+    ======================
+    Converted from: my/XRX/src/mom/app/htdoc/widget/edit-htdoc.widget.xml
+
+    Inherits from core/widget/edit-htdoc. Provides an HTML content editor
+    for static pages (htdocs). Uses Dijit editor (betterFORM/XForms)
+    for WYSIWYG editing. Auth-protected for html-author role.
+-->
+<div id="dedit-htdoc" data-template="edit-htdoc:page">
+
+    <!-- The editor UI is inherited from core edit-htdoc widget.
+         It provides an XForms-based textarea with Dijit editor
+         and a save trigger. The atomid parameter identifies which
+         htdoc entry to edit. -->
+
+    <div data-template="edit-htdoc:editor">
+        <!-- XForms editor content rendered here -->
+    </div>
+
+</div>
+
+<style>
+    #dedit-htdoc { position: relative; float: left; width: 960px; }
+    #dedit-htdoc .save-trigger { position: absolute; right: 0px; }
+</style>

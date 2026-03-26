@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-i18n="charter-to-publish">Charter to Publish</title>
+  <!-- Converted from charter-to-publish.widget.xml -->
+  <!-- Original ID: tag:www.monasterium.net,2011:/mom/widget/charter-to-publish -->
+  <!-- Inherits: tag:www.monasterium.net,2011:/mom/widget/charter -->
+  <!-- No xrx:divs content (empty divs element) - variables-only widget -->
+  <!-- This widget provides variable overrides for the charter base widget -->
+  <link rel="stylesheet" href="../css/charter.css"/>
+</head>
+<body>
+  <div id="charter-to-publish"
+       data-template="charter-to-publish:init"
+       data-template-atom-id="$wcharter:atom-id"
+       data-template-context="$wcharter:context"
+       data-template-charter="$wcharter:charter">
+    <!--
+      This widget has no divs of its own (xrx:divs is empty).
+      It overrides variables from the parent charter widget to point
+      to saved charters for the publish workflow.
+      The actual rendering is done by the inherited charter widget structure.
+    -->
+    <p data-template="charter-to-publish:content">
+      <!-- Content rendered by inheriting charter widget divs -->
+    </p>
+  </div>
+
+  <script src="../js/charter.js"></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+  <head>
+    <title data-i18n="released-charters">Released Charters</title>
+    <link rel="stylesheet" type="text/css" href="css/charter-preview.css"/>
+    <style type="text/css">
+      #dcharter-preview-main {
+        float: left;
+        width: 800px;
+      }
+      #dcharter-preview-main .charter * {
+        line-height: 1.6em;
+      }
+      #dcharter-preview-main .charter {
+        position: relative;
+        width: 100%;
+        float: left;
+        background: rgb(245,245,245);
+      }
+      #dcharter-preview-main .charter-preview {
+        position: relative;
+        float: left;
+        width: 100%;
+        background: rgb(245,245,245);
+        border-bottom: solid white 5px;
+      }
+      #dcharter-preview-main .inner-charter-preview {
+        position: relative;
+        float: left;
+        width: 100%;
+        margin: 15px;
+      }
+      #dcharter-preview-main .charter-info-and-actions {
+        display: inline;
+        position: relative;
+        float: left;
+        width: 25%;
+        border-left: solid white 3px;
+        padding-left: 10px;
+      }
+      #dcharter-preview-main .container {
+        float: left;
+        width: 65%;
+        padding-right: 10px;
+      }
+      #dcharter-preview-main .charter-info-and-actions * {
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="dcharter-preview-main" data-template="publication:released-charters-view">
+      <div class="h2">
+        <span data-i18n="released-charters">Released Charters</span>
+      </div>
+      <div data-template="publication:navigation"/>
+      <div>
+        <p>These charters will soon be published by your moderator <b data-template="publication:moderator-name"/>.</p>
+      </div>
+
+      <div data-template="publication:released-charter-list" class="charter">
+        <div class="charter-preview">
+          <div class="inner-charter-preview">
+            <div class="container">
+              <!-- Context info -->
+              <div data-template="publication:charter-context-info"/>
+              <div>
+                <b><span data-i18n="charter">Charter</span><span>: </span></b>
+                <span data-template="publication:charter-idno"/>
+              </div>
+              <div>
+                <b><span data-i18n="date">Date</span><span>: </span></b>
+                <span data-template="publication:charter-date"/>
+              </div>
+              <div>
+                <b><span data-i18n="abstract">Abstract</span><span>: </span></b>
+                <span data-template="publication:charter-abstract"/>
+              </div>
+              <br/>
+            </div>
+            <div class="charter-info-and-actions" id="charter-info-and-actions">
+              <div>
+                <span><span data-i18n="images">Images</span><span>: </span></span>
+                <span data-template="publication:image-count"/>
+              </div>
+              <div>
+                <span><span data-i18n="transcription">Transcription</span><span>: </span></span>
+                <span data-template="publication:has-transcription"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-template="publication:navigation"/>
+    </div>
+  </body>
+</html>

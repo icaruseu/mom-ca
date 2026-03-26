@@ -1,0 +1,71 @@
+<!--
+    MOM-CA EditMOM Documentation Page
+    ==================================
+    Converted from: my/XRX/src/mom/app/EditMOM/widget/editmom-documentation.widget.xml
+
+    Auto-generated documentation for the EditMOM charter editor.
+    Reads the EditMOM template XML and renders documentation for
+    tabs, fields, menus, and their attributes. No XForms.
+    Color-coded by element type: tab (pink), menu (green),
+    input field (blue), menu item (yellow).
+-->
+<div id="deditmom-documentation" data-template="editmom-doc:page">
+
+    <div>
+        <div class="p">
+            <a name="top"></a>
+            <div class="h2">
+                <span data-i18n="documentation">Documentation</span>
+                <span> EditMOM</span>
+            </div>
+            <p class="Kommentar">
+                <span class="reiter" data-i18n="tab">tab</span><span>,</span>
+                <span class="menu" data-i18n="menu">menu</span><span>,</span>
+                <span class="field" data-i18n="input-field">input field</span><span>,</span>
+                <span class="fliess" data-i18n="menu-item">menu item</span>
+            </p>
+
+            <h3 data-i18n="table-of-contents">Table of contents</h3>
+            <div id="Inhaltsverzeichnis" data-template="editmom-doc:toc">
+                <!-- Table of contents links rendered here -->
+            </div>
+        </div>
+
+        <div class="p">
+            <h3 data-i18n="tabs">tabs</h3>
+            <!-- Tab documentation sections -->
+            <div data-template="editmom-doc:tabs">
+                <!-- Each tab with its fields, attributes, and descriptions -->
+            </div>
+
+            <!-- Menu documentation sections -->
+            <div>
+                <h3><span data-i18n="menu">menu</span><span>:</span></h3>
+                <div data-template="editmom-doc:menus">
+                    <!-- Each menu with its fields and descriptions -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    #deditmom-documentation { position: relative; float: left; width: 800px; }
+    div.p { position: relative; float: left; width: 100%; }
+    p, h1, h2, h3, h4, h5, h6 { margin-top: 0px; margin-bottom: 0px; font-size: 10pt; }
+    h4, .ZwUeberschrift { margin-left: 10px; }
+    div.element { margin-top: 10px; }
+    .Name { font-weight: bold; }
+    .Beschreibung { margin-left: 20px; font-size: 90%; }
+    .Attribute { font-size: 90%; }
+    .Contains, .Parent { margin-left: 20px; font-size: 80%; }
+    #Inhaltsverzeichnis { display: block; position: relative; float: none; width: 800px; font-size: 80%; margin-top: 6px; }
+    .l { position: relative; float: left; }
+    .backlink { font-size: 80%; }
+    .Kommentar { font-size: 80%; color: black; }
+    .reiter, .reiter:visited { background-color: #FFF0F0; text-decoration: none; }
+    #deditmom-documentation .menu, .menu:visited { background-color: #F0FFF0; text-decoration: none; }
+    .field, .field:visited { background-color: #F0F0FF; text-decoration: none; }
+    .fliess, .fliess:visited { background-color: #FFFFC0; text-decoration: none; }
+</style>

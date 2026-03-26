@@ -1,0 +1,26 @@
+<!--
+    MOM-CA Moderator Info Page
+    ===========================
+    Conversion of the legacy moderator-info.widget.xml.
+    This is a fragment loaded dynamically (embedded) to show moderator
+    details. The original used XQuery to look up a moderator by email
+    request parameter.
+
+    Uses data-template placeholders for the dynamic XQuery content.
+
+    Sources:
+        my/XRX/src/core/app/user/widget/moderator-info.widget.xml
+        my/XRX/src/mom/app/user/widget/moderator-info.widget.xml
+-->
+<div id="moderator-info">
+
+    <div data-template="user:moderator-info">
+        <h3 data-template="user:moderator-name-email">
+            <!-- Populated dynamically: "Firstname Lastname (email)" -->
+        </h3>
+        <span data-template="user:moderator-about">
+            <!-- Populated dynamically: moderator's info text -->
+        </span>
+    </div>
+
+</div>

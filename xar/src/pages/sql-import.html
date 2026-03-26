@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>SQL Import</title>
+</head>
+<body>
+    <div id="dcharter-import" data-template="app:charter-import-view">
+        <a data-template="app:charter-import-back-link"><span>&lt;&lt;</span><span data-i18n="back-to-fond">Back to fond</span></a>
+        <div class="h2">
+            <span data-i18n="sql-import">SQL Import</span>
+            <span>: <span data-template="app:charter-import-context-name"></span></span>
+        </div>
+        <div data-template="app:charter-import-breadcrumb" data-template-type="sql"></div>
+        <div data-template="app:auth-check" data-template-role="metadata-manager">
+            <fx-fore>
+                <fx-model id="mimport">
+                    <fx-instance>
+                        <data>
+                            <cacheid data-template="app:charter-import-cacheid"></cacheid>
+                            <processid></processid>
+                            <fileuri></fileuri>
+                            <uploadtype>local</uploadtype>
+                            <rownum>1</rownum>
+                            <driverclass data-template="app:sql-driverclass"></driverclass>
+                            <connectionURL data-template="app:sql-connectionURL"></connectionURL>
+                            <dbusername data-template="app:sql-dbusername"></dbusername>
+                            <dbpassword data-template="app:sql-dbpassword"></dbpassword>
+                            <context data-template="app:charter-import-context"></context>
+                            <archid data-template="app:charter-import-archid"></archid>
+                            <fondid data-template="app:charter-import-fondid"></fondid>
+                            <collectionid data-template="app:charter-import-collectionid"></collectionid>
+                            <schemaid></schemaid>
+                            <xsltid>xml2cei</xsltid>
+                            <type>XQuery</type>
+                        </data>
+                    </fx-instance>
+                    <fx-instance id="ivalidation-response"><data><status></status></data></fx-instance>
+                    <fx-instance id="itransform-response"><data><status></status></data></fx-instance>
+                    <fx-instance id="iimport-response"><data><status></status><message></message><icon></icon></data></fx-instance>
+                    <fx-submission id="svalidate" url="service/sql-validate" method="post" replace="instance" instance="ivalidation-response"></fx-submission>
+                    <fx-submission id="stransform" url="service/sql-transform" method="post" replace="instance" instance="itransform-response"></fx-submission>
+                    <fx-submission id="simport" url="service/sql-import" method="post" replace="instance" instance="iimport-response"></fx-submission>
+                </fx-model>
+                <div id="dwizard"><div id="dinner-wizard">
+                    <div style="position:absolute; right:0px;"><img class="icon" src="resources/images/SQL.png" alt="SQL"/></div>
+                    <!-- SQL import wizard steps -->
+                    <section id="cupload"><h3><span>1. </span><span data-i18n="configure-database-connection">Configure database connection</span></h3><br/><br/>
+                        <div class="long-input"><fx-control ref="driverclass"><label data-i18n="driver-class">Driver class</label></fx-control></div>
+                        <div class="long-input"><fx-control ref="connectionURL"><label data-i18n="connection-url">Connection URL</label></fx-control></div>
+                        <div class="long-input"><fx-control ref="dbusername"><label data-i18n="username">Username</label></fx-control></div>
+                        <div class="long-input"><fx-control ref="dbpassword"><label data-i18n="password">Password</label></fx-control></div>
+                        <div class="previous-next-trigger"><fx-trigger><button data-i18n="next">next</button></fx-trigger></div>
+                    </section>
+                    <section id="cvalidate"><h3><span>2. </span><span data-i18n="validate">Validate</span></h3><br/><br/>
+                        <fx-trigger><button><span data-i18n="validate-now">Validate now</span>!</button><fx-send submission="svalidate"></fx-send></fx-trigger>
+                        <div class="previous-next-trigger"><fx-trigger><button data-i18n="previous">previous</button></fx-trigger><fx-trigger><button data-i18n="cancel">Cancel</button></fx-trigger><fx-trigger><button data-i18n="next">next</button></fx-trigger></div>
+                    </section>
+                    <section id="csimulate"><h3><span>3. </span><span data-i18n="simulate-charter-import">Simulate charter import</span></h3><br/><br/>
+                        <fx-trigger><button><span data-i18n="simulate-now">Simulate now</span>!</button><fx-send submission="stransform"></fx-send></fx-trigger>
+                        <div class="previous-next-trigger"><fx-trigger><button data-i18n="previous">previous</button></fx-trigger><fx-trigger><button data-i18n="cancel">Cancel</button></fx-trigger><fx-trigger><button data-i18n="next">next</button></fx-trigger></div>
+                    </section>
+                    <section id="cimport"><h3><span>4. </span><span data-i18n="import">Import</span></h3><br/><br/>
+                        <fx-trigger><button><span data-i18n="import-now">Import now</span>!</button><fx-send submission="simport"></fx-send></fx-trigger><br/><br/>
+                        <div><fx-control ref="instance('iimport-response')//message"><label></label></fx-control></div>
+                        <div class="previous-next-trigger"><fx-trigger><button data-i18n="previous">previous</button></fx-trigger><fx-trigger><button data-i18n="cancel">Cancel</button></fx-trigger></div>
+                        <div id="dpreview-link"><a data-template="app:charter-import-preview-link"><span data-i18n="preview">Preview</span></a></div>
+                    </section>
+                </div></div>
+                <div data-template="app:include" data-template-path="useful-links-sql.html"></div>
+            </fx-fore>
+        </div>
+        <div data-template="app:auth-fallback"><span data-i18n="protected-page-message">Protected page. Please login first.</span></div>
+    </div>
+</body>
+</html>

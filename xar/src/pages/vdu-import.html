@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title data-i18n="xml-import">XML Import</title>
+    <style>
+        #dwizard { position:relative; float:left; width:600px; margin-left:185px; margin-top:50px; background:rgb(240,240,240); }
+        #dinner-wizard { margin:15px; }
+        #dinner-wizard .cell { position:relative; float:left; width:50%; }
+        #dinner-wizard .table { background:rgb(240,240,240); width:100%; margin-top:20px; }
+        #dinner-wizard .previous-next-trigger { width:100%; text-align:right; margin-top:30px; }
+        #reporttable td { border:none; }
+        #reporttable .red * { color:red; }
+        #dpreview-link { text-align:center; }
+        #dpreview-link * { font-size:30px; }
+        #transform-options { position:relative; top:8px; left:150px; }
+        #file-upload { position:relative; left:90px; }
+        #transform-list { position:relative; top:3px; }
+        #upload-button { position:relative; left:220px; }
+    </style>
+</head>
+<body>
+    <div id="dcharter-import" data-template="app:vdu-import-view">
+        <a data-template="app:vdu-import-back-link"><span>&lt;&lt;</span><span data-i18n="back-to-fond-view">Back to fond view</span></a>
+        <div class="h2">
+            <span data-i18n="xml-import">XML Import</span>
+            <span>: <span data-template="app:vdu-import-fond-name"></span></span>
+        </div>
+        <div data-template="app:auth-check" data-template-role="metadata-manager">
+            <fx-fore>
+                <fx-model id="mimport">
+                    <fx-instance>
+                        <data>
+                            <sessionid></sessionid>
+                            <fileuri></fileuri>
+                            <archid data-template="app:vdu-import-archid"></archid>
+                            <fondid data-template="app:vdu-import-fondid"></fondid>
+                            <transform></transform>
+                            <ctransform>false</ctransform>
+                            <extractfond>false</extractfond>
+                        </data>
+                    </fx-instance>
+                    <fx-instance id="ivalidation-response"><data><status></status><namespace></namespace><message></message><icon></icon></data></fx-instance>
+                    <fx-instance id="iupload-response"><data><status></status><message></message><icon></icon><sucess>false</sucess></data></fx-instance>
+                    <fx-instance id="transformations">
+                        <transformationlist>
+                            <transformation><name>Landesarchiv Baden-Wuerttemberg</name><id>stuttgart</id></transformation>
+                            <transformation><name>Landeshauptarchiv Koblenz</name><id>koblenz</id></transformation>
+                        </transformationlist>
+                    </fx-instance>
+                    <fx-instance id="iimport-response"><data><status></status><message></message><icon></icon></data></fx-instance>
+                    <fx-submission id="supload-cei" url="service/vdu-upload-ead2cei" method="post" replace="instance" instance="iupload-response"></fx-submission>
+                    <fx-submission id="svalidate" url="service/vdu-xml-validate" method="post" replace="instance" instance="ivalidation-response"></fx-submission>
+                    <fx-submission id="simport" url="service/vdu-xml-import" method="post" replace="instance" instance="iimport-response"></fx-submission>
+                </fx-model>
+                <div id="dwizard"><div id="dinner-wizard">
+                    <section id="cupload-charter">
+                        <h3><span>1. </span><span data-i18n="select-file">Select a file</span> (<span data-i18n="step">Step</span> 1 <span data-i18n="of">of</span> 3)</h3><br/><br/>
+                        <div id="file-upload"><span style="font-weight:bold;"><span data-i18n="file">File</span>: </span><fx-control ref="fileuri" type="file"><label></label></fx-control></div>
+                        <div id="transform-list"><span style="font-weight:bold;"><span data-i18n="transformation">Transformation</span>: </span>
+                            <fx-control ref="transform"><label></label><select><option value="stuttgart">Landesarchiv Baden-Wuerttemberg</option><option value="koblenz">Landeshauptarchiv Koblenz</option></select></fx-control>
+                        </div>
+                        <div id="transform-options">
+                            <fx-control ref="ctransform"><label></label><input type="checkbox"/></fx-control><span data-i18n="no-cei-transformation">No CEI-transformation</span><br/>
+                            <fx-control ref="extractfond"><label></label><input type="checkbox"/></fx-control><span data-i18n="extract-and-save-fond-information">Extract and save fond information</span>
+                        </div><br/><br/>
+                        <div id="upload-button"><fx-trigger><button><span data-i18n="upload-now">Upload now</span>!</button><fx-send submission="supload-cei"></fx-send></fx-trigger></div>
+                        <div class="previous-next-trigger"><fx-trigger><button data-i18n="next">next</button></fx-trigger></div>
+                    </section>
+                    <section id="cvalidate-charter">
+                        <h3><span>2. </span><span data-i18n="validate">Validate</span> (<span data-i18n="step">Step</span> 2 <span data-i18n="of">of</span> 3)</h3><br/><br/>
+                        <fx-trigger><button><span data-i18n="validate-now">Validate now</span>!</button><fx-send submission="svalidate"></fx-send></fx-trigger>
+                        <div class="previous-next-trigger"><fx-trigger><button data-i18n="previous">previous</button></fx-trigger><fx-trigger><button data-i18n="next">next</button></fx-trigger></div>
+                        <div class="report"><table id="reporttable"><tr><td><span data-i18n="status">Status</span>: </td><td><fx-control ref="instance('ivalidation-response')//status"><label></label></fx-control></td></tr><tr><td><span data-i18n="namespace">Namespace</span>: </td><td><fx-control ref="instance('ivalidation-response')//namespace"><label></label></fx-control></td></tr><tr><td><span data-i18n="message">Message</span>: </td><td><fx-control ref="instance('ivalidation-response')//message"><label></label></fx-control></td></tr></table></div>
+                    </section>
+                    <section id="cimport-charter">
+                        <h3><span>3. </span><span data-i18n="import">Import</span> (<span data-i18n="step">Step</span> 3 <span data-i18n="of">of</span> 3)</h3><br/><br/>
+                        <fx-trigger><button><span data-i18n="import-now">Import now</span>!</button><fx-send submission="simport"></fx-send></fx-trigger><br/><br/>
+                        <div><fx-control ref="instance('iimport-response')//message"><label></label></fx-control></div>
+                        <div id="dpreview-link"><a href="imported-charters"><span data-i18n="preview">Preview</span></a></div>
+                    </section>
+                </div></div>
+            </fx-fore>
+        </div>
+        <div data-template="app:auth-fallback"><span data-i18n="protected-page-message">Protected page. Please login first.</span></div>
+    </div>
+</body>
+</html>

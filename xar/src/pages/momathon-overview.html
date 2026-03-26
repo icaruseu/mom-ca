@@ -1,0 +1,35 @@
+<!--
+    MOM-CA MOMathon Overview Page
+    =============================
+    Converted from: my/XRX/src/mom/app/momathon/widget/momathon-overview.widget.xml
+
+    Lists all MOMathon events ordered by date (descending).
+    Auth-protected for moderators only. Links to individual
+    momathon-detail pages.
+-->
+<div data-template="auth:require-role" data-role="moderator">
+
+    <div id="dcharter-preview-main">
+        <div class="h2">
+            <a name="top"></a>
+            <span data-i18n="momathon">MOMathon</span>
+        </div>
+
+        <div class="inner-charter-preview" data-template="momathon-overview:list">
+            <!-- Server renders links to each MOMathon detail page -->
+        </div>
+
+        <a style="float:right;" href="#top">&raquo;Top</a>
+    </div>
+
+</div>
+
+<div data-template="auth:fallback">
+    <h3 data-i18n="protected-page-message">Protected page. Please login first.</h3>
+</div>
+
+<style>
+    #dcharter-preview-main { position: relative; float: left; width: 800px; }
+    #dcharter-preview-main .inner-charter-preview { position: relative; float: left; width: 100%; margin: 15px; }
+    img.displayed { display: block; margin-left: auto; margin-right: auto; }
+</style>

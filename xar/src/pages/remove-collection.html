@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-i18n="remove-collection">Remove collection</title>
+</head>
+<body>
+  <div>
+    <!-- Back link -->
+    <div data-template="remove-collection:back-link"/>
+
+    <!-- Heading -->
+    <div class="h2">
+      <span data-i18n="remove-collection">Remove collection</span>
+      <span>: <span data-template="remove-collection:name"/> [<span data-template="remove-collection:id"/>]</span>
+    </div>
+
+    <!-- Auth: community or metadata-manager -->
+    <div data-template="remove-collection:require-auth">
+      <div id="dremove-metadata">
+        <div data-template="remove-collection:request-div"/>
+        <div>
+          <br/><br/><br/><br/>
+          <div data-template="remove-collection:remove-public-entries"/>
+          <table>
+            <thead data-template="remove-collection:table-heading"/>
+            <tbody>
+              <tr data-template="remove-collection:collection-objects"/>
+              <tr data-template="remove-collection:charter-objects"/>
+              <tr data-template="remove-collection:published-charters"/>
+              <tr data-template="remove-collection:released-charters"/>
+              <tr data-template="remove-collection:saved-charters"/>
+              <tr data-template="remove-collection:bookmarks"/>
+              <tr data-template="remove-collection:imported-charters"/>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Not authorized -->
+    <div data-template="remove-collection:require-auth-else">
+      <span data-i18n="protected-page-message">Protected page. Please login first.</span>
+    </div>
+  </div>
+</body>
+</html>

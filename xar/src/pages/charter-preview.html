@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Charter Preview</title>
+  <!-- Converted from charter-preview.widget.xml (mom/app/mom/widget/) -->
+  <!-- Original ID: tag:www.monasterium.net,2011:/mom/widget/charter-preview -->
+  <!-- xf: elements present (xf:trigger, xf:textarea, xf:group, xf:send etc.) - uses Fore components -->
+  <!-- Portal: empty -->
+  <link rel="stylesheet" href="../css/charter.css"/>
+  <style>
+    #dcharter-preview-main { float: left; width: 800px; }
+    #dcharter-preview-main .charter * { line-height: 1.6em; }
+    #dcharter-preview-main .charter { position: relative; width: 100%; float: left; background: rgb(245,245,245); }
+    #dcharter-preview-main .charter-preview { position: relative; float: left; width: 100%; background: rgb(245,245,245); border-bottom: solid white 5px; }
+    #dcharter-preview-main .inner-charter-preview { position: relative; float: left; width: 100%; margin: 15px; }
+    #dcharter-preview-main .charter-info-and-actions { display: inline; position: relative; float: left; width: 25%; border-left: solid white 3px; padding-left: 10px; }
+    #dcharter-preview-main .container { float: left; width: 65%; padding-right: 10px; }
+    #dcharter-preview-main .charter-info-and-actions * { font-size: 13px; }
+    #dcharter-preview-main .fieldset { border: solid #C8C8C8 1px; margin-top: 10px; }
+    #dcharter-preview-main .inner-fieldset { margin: 5px; }
+    div.bookmark-icon { position: absolute; right: 220px; }
+    .note-field { position: relative; border: solid #C8C8C8 1px; padding: 3px; }
+    .noteBobble {
+      display: none; position: fixed; left: 400px; bottom: 35%; z-index: 20;
+      width: 400px; height: 160px; background-color: #F6F6F6; padding: 20px;
+      border-radius: 3px; box-shadow: 4px -3px 10px 1px #202020;
+    }
+    .noteBobble .xfLabel { color: rgb(142,163,132); font-weight: bold; }
+    .noteBobble .xfValue { top: 5px !important; position: relative; width: 400px !important; max-height: 100px !important; }
+    .noteBobble .xfTrigger { width: 30px !important; }
+    .edit-box { padding: 3px; }
+    span.block { display: block; width: 100%; }
+  </style>
+</head>
+<body>
+  <div id="dcharter-preview-main"
+       data-template="charter-preview:init"
+       data-template-charter="$constructor:charter"
+       data-template-all-user-xmls="$constructor:all-user-xmls"
+       data-template-charter-context="$constructor:charter-context"
+       data-template-illurkimages="$illurkimages">
+
+    <!-- Standard charter preview (when no illurkimages) -->
+    <div class="charter" data-template-if="no-illurkimages">
+      <div class="charter-preview">
+        <div class="inner-charter-preview">
+          <div class="container">
+            <div data-template-id="charter-preview:anchor-id"></div>
+
+            <!-- charter-link-div -->
+            <div>
+              <b>
+                <span data-i18n="charter">Charter</span>
+                <span>: </span>
+              </b>
+              <span>
+                <a data-template-href="$wcharter-preview:charter-url">
+                  <span data-template="charter-preview:idno"></span>
+                </a>
+              </span>
+            </div>
+
+            <!-- Date -->
+            <div>
+              <b>
+                <span data-i18n="date">Date</span>
+                <span>: </span>
+              </b>
+              <span data-template="charter-preview:date"></span>
+            </div>
+
+            <!-- Abstract -->
+            <div>
+              <b>
+                <span data-i18n="abstract">Abstract</span>
+                <span>: </span>
+              </b>
+              <span data-template="charter-preview:abstract"></span>
+            </div>
+            <br/>
+
+            <!-- original-context-div (from inherited divs) -->
+            <div data-template="charter-preview:original-context"></div>
+          </div>
+
+          <!-- Charter info and actions sidebar -->
+          <div class="charter-info-and-actions" id="charter-info-and-actions">
+            <!-- Images count -->
+            <div>
+              <span>
+                <span data-i18n="images">Images</span>
+                <span>: </span>
+              </span>
+              <span data-template="charter-preview:num-images"></span>
+            </div>
+
+            <!-- Transcription status -->
+            <div>
+              <span>
+                <span data-i18n="transcription">Transcription</span>
+                <span>: </span>
+              </span>
+              <span data-template="charter-preview:has-transcription">
+                <span data-i18n="yes">yes</span>
+              </span>
+            </div>
+
+            <div> </div>
+
+            <!-- view-charter-link-div -->
+            <div>
+              <a data-template-href="$wcharter-preview:charter-url">
+                <span data-i18n="view-charter">View Charter</span>
+              </a>
+              <br/>
+              <a data-template-href="charter-preview:pdf-export-url" target="blank">
+                <span data-i18n="pdf-export">PDF- Export</span>
+              </a>
+              <!-- Charter versions link (moderator only) -->
+              <div data-template-if="is-moderator">
+                <a data-template-href="charter-preview:versions-url">
+                  <span data-i18n="charter-versions">Charter versions</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- my-archive-functions-div (auth-gated) -->
+            <div data-template="charter-preview:my-archive-functions"
+                 data-template-atom-id="$wcharter-preview:atom-id"
+                 data-template-is-bookmarked="$wcharter-preview:is-bookmarked"
+                 data-template-is-moderator="$wcharter-preview:is-moderator">
+
+              <!-- Authenticated -->
+              <div class="fieldset" data-template-if="logged-in">
+                <div class="inner-fieldset">
+                  <span>
+                    <span data-i18n="my-archive">MyArchive</span>
+                  </span><br/>
+
+                  <!-- Bookmark trigger -->
+                  <div data-template="bookmark:trigger">
+                    <span data-i18n="add-bookmark">Add bookmark</span>
+                  </div>
+
+                  <!-- Bookmark note -->
+                  <div class="note-field" data-template-id="charter-preview:note-field-id"
+                       style="display:none">
+                    <div>
+                      <b>
+                        <span data-i18n="bookmark-note">Bookmark note</span>
+                        <span>: </span>
+                      </b>
+                      <br/>
+                      <span data-template-id="charter-preview:note-output-id"></span>
+                      <div class="edit-box">
+                        <fx-trigger data-template-id="charter-preview:note-edit-id" appearance="minimal">
+                          <fx-label>
+                            <span data-i18n="create-note">Create note</span>
+                          </fx-label>
+                        </fx-trigger>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Note bubble -->
+                  <div class="noteBobble" data-template-id="charter-preview:note-bobble-id">
+                    <div>
+                      <fx-fore>
+                        <fx-model id="mbookmark">
+                          <!-- Bookmark model -->
+                        </fx-model>
+                        <fx-control data-template-id="charter-preview:note-textarea-id"
+                                    ref="//xrx:bookmarkNote" type="textarea">
+                          <fx-label>
+                            <span data-i18n="bookmark-note">Bookmark note</span>:
+                          </fx-label>
+                        </fx-control>
+                        <div class="note-save-trigger">
+                          <fx-trigger>
+                            <fx-label>
+                              <span data-i18n="save">save</span>
+                            </fx-label>
+                          </fx-trigger>
+                        </div>
+                      </fx-fore>
+                    </div>
+                  </div>
+
+                  <!-- Publication actions -->
+                  <div data-template="publication:user-actions"
+                       data-template-atom-id="$wcharter-preview:atom-id"
+                       data-template-is-moderator="$wcharter-preview:is-moderator">
+                    <span data-i18n="save-and-edit-charter">Save and edit charter</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Not authenticated -->
+              <div data-template-if="not-logged-in">
+                <div class="light-grey">
+                  <span data-i18n="add-bookmark">Add bookmark</span>
+                </div>
+                <div class="light-grey">
+                  <span data-i18n="edit-charter">Edit charter</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Illuminated images variant (when illurkimages is set) -->
+    <div class="bilder" data-template-if="has-illurkimages">
+      <span class="meta">
+        <div>
+          <b>
+            <span data-i18n="charter">Charter</span>
+            <span>: </span>
+          </b>
+          <span>
+            <a data-template-href="charter-preview:charter-url-illurk">
+              <span data-template="charter-preview:idno"></span>
+            </a>
+          </span>
+        </div>
+        <div>
+          <b>
+            <span data-i18n="date">Date</span>
+            <span>: </span>
+          </b>
+          <span data-template="charter-preview:date"></span>
+        </div>
+        <span>
+          <b>
+            <span data-i18n="abstract">Abstract</span>
+            <span>: </span>
+          </b>
+          <span data-template="charter-preview:short-abstract"></span>
+        </span>
+        <div>
+          <a data-template-href="charter-preview:charter-url-illurk">
+            <span data-i18n="view-charter">View Charter</span>
+          </a>
+          <br/>
+          <a data-template-href="charter-preview:pdf-export-url" target="blank">
+            <span data-i18n="pdf-export">PDF- Export</span>
+          </a>
+        </div>
+      </span>
+      <span class="images"
+            data-template="charter-preview:illurk-images"
+            data-template-charter="$constructor:charter"
+            data-template-atom-id="$wcharter-preview:atom-id"
+            data-template-charter-context="$constructor:charter-context">
+        <span class="block">
+          <span data-i18n="images">Images</span>
+          <span>: </span>
+          <span data-template="charter-preview:num-images"></span>
+        </span>
+        <!-- Thumbnail images rendered dynamically -->
+      </span>
+    </div>
+  </div>
+
+  <script src="../js/charter.js"></script>
+</body>
+</html>

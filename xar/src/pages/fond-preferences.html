@@ -1,0 +1,101 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+  <head>
+    <title data-i18n="preferences">Preferences</title>
+    <style type="text/css">
+      .dpreferences {
+        background: rgb(245,245,245);
+        padding: 15px;
+      }
+      .dinner-preferences {
+        background: rgb(245,245,245);
+      }
+      .doptions {
+        margin-left: 10px;
+      }
+      .doption {
+        margin: 15px;
+      }
+      #idummy-url .xfValue, #iimage-server-base-url .xfValue {
+        width: 500px;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-template="fond:preferences-view">
+      <fore-model id="mfond-preferences">
+        <fore-instance data-template="fond:preferences-instance"/>
+        <fore-submission id="ssave" data-template="fond:preferences-save-submission" method="post" replace="none"/>
+        <fore-bind id="bimage-access" ref="//param[@name='image-access']"/>
+        <fore-bind id="bdummy-image-url" ref="//param[@name='dummy-image-url']"/>
+        <fore-bind id="bimage-server-base-url" ref="//param[@name='image-server-base-url']"/>
+      </fore-model>
+
+      <fore-group model="mfond-preferences">
+        <div>
+          <a href="fond">
+            <span>&lt;&lt; </span>
+            <span data-i18n="back">back</span>
+          </a>
+        </div>
+        <div class="h2">
+          <span data-i18n="preferences">Preferences</span>
+        </div>
+
+        <!-- Auth: metadata-manager or community -->
+        <div data-template="auth:if-role" data-template-role="metadata-manager,community">
+          <div>
+            <div><span data-template="fond:preferences-heading"/></div>
+            <div class="dpreferences">
+              <div class="dinner-preferences">
+                <h3 data-i18n="images">Images</h3>
+                <div class="doptions">
+                  <div class="doption">
+                    <span><span data-i18n="image-access">Image Access</span>: </span>
+                    <fore-select1 appearance="full" bind="bimage-access">
+                      <fore-item>
+                        <fore-label><span data-i18n="free">free</span></fore-label>
+                        <fore-value>free</fore-value>
+                      </fore-item>
+                      <fore-item>
+                        <fore-label data-i18n="restricted">restricted</fore-label>
+                        <fore-value>restricted</fore-value>
+                      </fore-item>
+                    </fore-select1>
+                  </div>
+                  <div class="doption">
+                    <fore-switch>
+                      <fore-case id="cfree">
+                        <span><span data-i18n="image-server-base-url">Image Server (base URL)</span>: </span>
+                        <fore-input bind="bimage-server-base-url" id="iimage-server-base-url">
+                          <fore-hint><span data-i18n="eg">e.g.</span> 'http://example.com/images/'</fore-hint>
+                        </fore-input>
+                      </fore-case>
+                      <fore-case id="crestricted">
+                        <span><span data-i18n="dummy-image-url">Dummy image (URL)</span>: </span>
+                        <fore-input bind="bdummy-image-url" id="idummy-url">
+                          <fore-hint><span data-i18n="eg">e.g.</span> 'http://www.monasterium.net/Diplomatico_Viewerbild.jpg'</fore-hint>
+                        </fore-input>
+                      </fore-case>
+                    </fore-switch>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <fore-trigger>
+                <fore-label data-i18n="save-changes">Save changes</fore-label>
+                <fore-send submission="ssave" event="activate"/>
+              </fore-trigger>
+            </div>
+          </div>
+        </div>
+
+        <!-- Not authorized -->
+        <div data-template="auth:if-not-logged-in">
+          <span data-i18n="protected-page-message">Protected page. Please login first.</span>
+        </div>
+      </fore-group>
+    </div>
+  </body>
+</html>

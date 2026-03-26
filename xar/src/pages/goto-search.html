@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Go to Search</title>
+</head>
+<body>
+    <!-- Fond context -->
+    <div data-template="app:goto-search-fond" id="goto-search" class="goto">
+        <div>
+            <div data-template="app:goto-search-fond-links">
+                <a data-template="app:goto-search-image-preview-link">
+                    <span data-i18n="image_preview">Image preview</span><span> &gt;&gt;</span>
+                </a><br/>
+                <a data-template="app:goto-search-charters-on-map-link">
+                    <span data-i18n="charters_on_map">Charters on map</span><span> &gt;&gt;</span>
+                </a><br/>
+                <a data-template="app:goto-search-register-link">
+                    <span data-i18n="collection-register">Register</span><span> &gt;&gt;</span>
+                </a>
+            </div>
+        </div>
+        <span data-i18n="search-in">Search in</span>
+        <span data-template="app:goto-search-context-label"></span>
+        <form style="padding:0;" data-template="app:goto-search-form">
+            <input id="search-field" name="q" type="text" value=""/>
+            <input type="hidden" name="context" data-template="app:goto-search-context-value"/>
+            <input id="search-trigger" type="submit" data-i18n-value="search" value="Search"/>
+        </form>
+    </div>
+
+    <!-- Collection context -->
+    <div data-template="app:goto-search-collection" id="goto-anno-overview" class="goto">
+        <div>
+            <div data-template="app:goto-search-collection-links">
+                <a data-template="app:goto-search-image-preview-link">
+                    <span data-i18n="image_preview">Image preview</span><span> &gt;&gt;</span>
+                </a><br/>
+                <a data-template="app:goto-search-register-link">
+                    <span data-i18n="collection-register">Register</span><span> &gt;&gt;</span>
+                </a><br/>
+                <a data-template="app:goto-search-charters-on-map-link">
+                    <span data-i18n="charters_on_map">Charters on map</span><span> &gt;&gt;</span>
+                </a>
+            </div>
+        </div>
+        <div>
+            <a data-template="app:goto-search-annotation-overview-link">
+                <span data-i18n="annotation-overview">Annotation overview</span>
+                <span>  &gt;&gt;</span>
+            </a>
+        </div>
+        <div>
+            <span data-i18n="search-in-collection">Search in this collection</span>
+            <form style="padding:0;" data-template="app:goto-search-form">
+                <input id="search-field" name="q" type="text" value=""/>
+                <input type="hidden" name="context" data-template="app:goto-search-context-value"/>
+                <input id="search-trigger" type="submit" data-i18n-value="search" value="Search"/>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

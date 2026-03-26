@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-i18n="imported-charter">Imported Charter</title>
+  <!-- Converted from imported-charter.widget.xml -->
+  <!-- Original ID: tag:www.monasterium.net,2011:/mom/widget/imported-charter -->
+  <!-- Inherits: tag:www.monasterium.net,2011:/mom/widget/charter -->
+  <!-- No xf: elements - plain HTML with data-template placeholders -->
+  <link rel="stylesheet" href="../css/charter.css"/>
+</head>
+<body>
+  <div id="charter"
+       data-template="imported-charter:init"
+       data-template-context="$wcharter:context"
+       data-template-atom-id="$wcharter:atom-id"
+       data-template-charter="$wcharter:charter">
+
+    <div class="p">
+      <!-- heading-center-div -->
+      <div class="heading-center h2">
+        <span data-i18n="imported-charter-preview">Imported Charter (Preview)</span>
+      </div>
+
+      <!-- breadcrumb (context-dependent: fond or collection) -->
+      <div data-template="imported-charter:breadcrumb"
+           data-template-context="$wcharter:context"
+           data-template-archive-id="$charter:rarchiveid"
+           data-template-fond-id="$charter:rfondid"
+           data-template-collection-id="$charter:rcollectionid"
+           data-template-block="$wcharter:block"
+           data-template-anchor="$wcharter:anchor"
+           data-template-idno="$wcharter:idno">
+        <!-- Fond breadcrumb -->
+        <div data-template-if="context-fond">
+          <a data-template-href="publish-fond">
+            <span data-i18n="imported-fonds">Imported fonds</span>
+          </a>
+          <span> &gt; </span>
+          <a data-template-href="imported-charter:archive-link">
+            <span data-template="imported-charter:archive-id"></span>
+          </a>
+          <span> &gt; </span>
+          <a data-template-href="imported-charter:fond-link">
+            <span data-template="imported-charter:fond-id"></span>
+          </a>
+          <span> &gt; </span>
+          <a data-template-href="imported-charter:imported-fond-link">
+            <span data-i18n="imported-fond-preview">Imported Fond (Preview)</span>
+          </a>
+          <span> &gt; </span>
+          <a data-template-href="imported-charter:self-link">
+            <span data-template="charter:idno"></span>
+          </a>
+        </div>
+        <!-- Collection breadcrumb -->
+        <div data-template-if="context-collection">
+          <a data-template-href="collections">
+            <span data-i18n="collections">Collections</span>
+          </a>
+          <span> &gt; </span>
+          <a data-template-href="imported-charter:collection-link">
+            <span data-template="imported-charter:collection-id-decoded"></span>
+          </a>
+          <span> &gt; </span>
+          <a data-template-href="imported-charter:imported-collection-link">
+            <span data-i18n="imported-collection-preview">Imported collection (preview)</span>
+          </a>
+          <span> &gt; </span>
+          <a data-template-href="imported-charter:self-link">
+            <span data-template="charter:idno"></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- my-archive actions -->
+      <div class="actions"
+           data-template="imported-charter:actions">
+        <!-- download-xml-link -->
+        <div data-template="imported-charter:download-xml"
+             data-template-atom-uri="$wcharter:atom-uri">
+          <a data-template-href="$wcharter:atom-uri" target="_blank">
+            <span data-i18n="download-xml">Download XML</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/charter.js"></script>
+</body>
+</html>

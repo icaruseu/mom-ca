@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Charter Import</title>
+    <link rel="stylesheet" href="resources/css/codemirror.css"/>
+    <style>
+        #dcharter-import {
+            position: relative;
+            float: none;
+            width: 100%;
+        }
+        #dcharter-import .long-input input {
+            width: 500px;
+        }
+        #duseful-links {
+            position: relative;
+            float: none;
+            width: 100%;
+            margin-top: 150px;
+        }
+        #dwizard {
+            position: relative;
+            display: block;
+            float: left;
+            width: 600px;
+            margin-left: 185px;
+            margin-top: 50px;
+            background: rgb(240,240,240);
+        }
+        #dinner-wizard {
+            margin: 15px;
+        }
+        #dinner-wizard .cell {
+            position: relative;
+            float: left;
+            width: 50%;
+        }
+        #dinner-wizard .table {
+            background: rgb(240,240,240);
+            width: 100%;
+            margin-top: 20px;
+        }
+        #dinner-wizard .previous-next-trigger {
+            width: 100%;
+            text-align: right;
+            margin-top: 30px;
+        }
+        .reporttable td {
+            border: none;
+        }
+        .reporttable .red * {
+            color: red;
+        }
+        #dpreview-link {
+            text-align: center;
+        }
+        #dpreview-link * {
+            font-size: 30px;
+        }
+        #dwizard .CodeMirror {
+            height: auto !important;
+            width: 900px;
+            border: solid rgb(240,240,240) 10px;
+            margin-left: -170px;
+            line-height: 1.5;
+        }
+        #dwizard .CodeMirror-scroll {
+            height: auto !important;
+            overflow-y: hidden !important;
+            overflow-x: auto !important;
+            background: white;
+        }
+        #dwizard .ui-progressbar {
+            position: relative;
+        }
+        #dwizard .progress-label {
+            position: absolute;
+            left: 4px;
+            top: 4px;
+            font-weight: bold;
+            text-shadow: 1px 1px 0 #fff;
+        }
+    </style>
+</head>
+<body>
+    <!-- This is the base/parent widget for all charter import types.
+         It provides shared styles and variables. Individual import pages
+         (cei-import, ead-import, etc.) inherit from this. -->
+    <div id="dcharter-import" data-template="app:charter-import-base">
+        <p>This is the base charter import page. Please navigate to a specific import type.</p>
+    </div>
+</body>
+</html>

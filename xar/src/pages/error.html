@@ -1,0 +1,45 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+  <head>
+    <title data-i18n="error">Error</title>
+  </head>
+  <body>
+    <div id="headline">
+      <h1>Error</h1>
+    </div>
+    <div id="error-content" data-template="error:view">
+      <!-- Collection not found -->
+      <div data-template="error:if-type" data-template-type="collection">
+        <span data-i18n="collection_not_found">Collection not found</span>
+        <span>.</span>
+      </div>
+
+      <!-- Charter not found -->
+      <div data-template="error:if-type" data-template-type="charter">
+        <span data-i18n="charter_not_found">Charter not found</span>
+        <span>: </span>
+        <a data-template="error:back-to-fond-link" data-i18n="go_back_to_fond">Go back to fond</a>
+        <a data-template="error:back-to-collection-link" data-i18n="go_back_to_collection">Go back to collection</a>
+      </div>
+
+      <!-- Fond not found -->
+      <div data-template="error:if-type" data-template-type="fond">
+        <span data-i18n="fond_not_found">Fond not found</span>
+        <span>: </span>
+        <a data-template="error:back-to-archive-link" data-i18n="go_back_to_archive">Go back to archive</a>
+      </div>
+
+      <!-- Archive not found -->
+      <div data-template="error:if-type" data-template-type="archive">
+        <span data-i18n="archive_not_found">Archive not found</span>
+        <span>.</span>
+      </div>
+
+      <!-- Generic not found -->
+      <div data-template="error:if-type" data-template-type="default">
+        <span data-i18n="content_not_found">Content not found</span>
+        <span>.</span>
+      </div>
+    </div>
+  </body>
+</html>

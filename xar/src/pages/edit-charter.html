@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-i18n="edit-charter">Edit Charter</title>
+  <!-- Converted from edit-charter.widget.xml -->
+  <!-- Original ID: tag:www.monasterium.net,2011:/mom/widget/edit-charter -->
+  <!-- xf: elements present (xf:model, xf:action, xf:load) - uses Fore components -->
+  <link rel="stylesheet" href="../css/charter.css"/>
+  <style>
+    .my-functions {
+      position: relative; float: right; margin-bottom: 30px; width: 32.5%; clear: right;
+    }
+    .my-functions span { color: var(--color6); }
+    div.inlinehead {
+      position: relative; float: left; font-weight: bold; width: 950px;
+      background-color: var(--color1); color: rgb(142,163,132);
+      margin: 0; margin-left: 5px; margin-top: 5px; line-height: 200%;
+    }
+    #change-image-links { float: right; width: 50%; overflow: auto; padding-top: 2px; text-align: right; }
+    #change-image-links a { float: left; }
+    #viewport {
+      position: relative; float: left; width: 950px; height: 300px; overflow: auto;
+      margin-top: 0; margin-left: 5px; margin-right: 5px; margin-bottom: 0;
+      padding: 0; border: solid rgb(240,243,226) 1px;
+    }
+    #img { position: absolute; width: 950px; z-index: 0; margin: 0; padding: 0; }
+    #graphic { width: 100%; }
+    div.no-graphic {
+      position: relative; float: right; right: 20px; top: 10px;
+      color: rgb(142,163,132); font-weight: bold; bottom: 50%; z-index: 2;
+    }
+    .open-viewer-link { float: right; }
+    #zoomsliderlabel { position: relative; float: left; margin: 10px; }
+    #zoomslider { position: relative; float: left; margin: 10px; width: 50%; }
+    .slider { float: left; }
+  </style>
+</head>
+<body>
+  <div id="edit-charter"
+       data-template="edit-charter:init"
+       data-template-atom-id="$charter:ratomid">
+
+    <!-- Auth gate: requires logged-in user in atom group -->
+    <div data-template="auth:require-group" data-template-group="atom">
+
+      <!-- Authenticated content -->
+      <div class="InlineRoundBordersAlert"
+           data-template="edit-charter:load"
+           data-template-atom-id="$charter:ratomid"
+           data-template-user="$xrx:user-id">
+
+        <!-- Header -->
+        <div class="h2">
+          <span data-i18n="edit-charter">Edit Charter</span>
+        </div>
+
+        <!-- Breadcrumbs (context-dependent: fond or collection) -->
+        <div id="breadcrumbb"
+             data-template="edit-charter:breadcrumb"
+             data-template-context="$charter-context"
+             data-template-archive-id="$archive-id"
+             data-template-fond-id="$fond-id"
+             data-template-collection-id="$collection-id"
+             data-template-charter-id="$charter-id">
+          <!-- Fond breadcrumb -->
+          <span data-template-if="context-fond">
+            <a data-template-href="fonds"><span data-i18n="fonds">Fonds</span></a>
+            <span> &gt; </span>
+            <a data-template-href="edit-charter:archive-link"><span data-template="edit-charter:archive-id"></span></a>
+            <span> &gt; </span>
+            <a data-template-href="edit-charter:fond-link"><span data-template="edit-charter:fond-id"></span></a>
+            <span> &gt; </span>
+            <a data-template-href="edit-charter:charter-link"><span data-template="edit-charter:charter-id"></span></a>
+          </span>
+          <!-- Collection breadcrumb -->
+          <span data-template-if="context-collection">
+            <a data-template-href="collections"><span data-i18n="collections">Collections</span></a>
+            <span> &gt; </span>
+            <a data-template-href="edit-charter:collection-link"><span data-template="edit-charter:collection-id"></span></a>
+            <span> &gt; </span>
+            <a data-template-href="edit-charter:charter-link"><span data-template="edit-charter:charter-id"></span></a>
+          </span>
+        </div>
+
+        <!-- Mode placeholder -->
+        <div class="my-functions">
+          <div style="color:white;">br</div>
+        </div>
+
+        <!-- Image section -->
+        <div class="inlinehead">
+          <div>
+            <div style="float:left;margin:5px;" id="graphicheader">
+              <a href="javascript:showHideDiv('viewerdiv','')">
+                <span data-i18n="graphics">Graphics</span><span>:</span>
+              </a>
+            </div>
+            <div id="change-image-links"
+                 data-template="edit-charter:image-links"
+                 data-template-img-urls="$img-urls">
+              <!-- Image number links rendered dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <div id="viewport"
+             data-template="edit-charter:viewport"
+             data-template-img-urls="$img-urls"
+             data-template-context="$charter-context">
+          <div class="no-graphic">
+            <span data-i18n="no-graphic-available">no graphic available</span>
+          </div>
+        </div>
+
+        <div id="zoomsliderlabel">
+          <span data-i18n="zoom-image">Zoom image</span><span>:</span>
+        </div>
+        <div id="zoomslider"></div>
+
+        <!-- Embedded charter editor via Fore -->
+        <fx-fore>
+          <fx-model id="embedded-charter-editor-model">
+            <fx-submission id="load-editor"
+                           data-template-url="edit-charter:editor-url"
+                           data-template-atom-id="$atom-id"
+                           data-template-token="$xrx:tokenized-uri[last()]">
+            </fx-submission>
+          </fx-model>
+        </fx-fore>
+
+        <div id="editor-div"
+             data-template="edit-charter:embed-editor"
+             data-template-atom-id="$atom-id"
+             data-template-token="$xrx:tokenized-uri[last()]">
+          <div align="center">
+            <span data-i18n="editor-is-loading">The Editor is loading. Please wait a moment!</span>
+            <br/>
+            <img src="/bfResources/images/indicator.gif" style="margin-top:10px;"/>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Not saved message -->
+      <div data-template-if="not-saved">
+        <div class="h2">
+          <span data-i18n="edit-charter">Edit Charter</span>
+        </div>
+        <span data-i18n="protected-page-message-not-saved">Protected page. You haven't saved this charter</span>
+      </div>
+    </div>
+
+    <!-- Not authenticated -->
+    <div data-template-if="not-logged-in">
+      <div class="h2">
+        <span data-i18n="edit-charter">Edit Charter</span>
+      </div>
+      <span data-i18n="protected-page-message">Protected page. Please login first.</span>
+    </div>
+  </div>
+
+  <script src="../js/charter.js"></script>
+</body>
+</html>

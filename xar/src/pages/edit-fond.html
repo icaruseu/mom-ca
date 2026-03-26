@@ -1,0 +1,41 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+  <head>
+    <title data-i18n="edit-fond">Edit Fond</title>
+    <link rel="stylesheet" type="text/css" href="css/xrxe.css"/>
+    <link rel="stylesheet" type="text/css" href="css/text-annotation.css"/>
+  </head>
+  <body>
+    <div id="edit-fond">
+      <!-- Auth: atom group -->
+      <div data-template="auth:if-logged-in">
+        <div class="standard-form InlineRoundBordersAlert" data-template="fond:edit-view">
+
+          <div class="h2">
+            <span data-i18n="edit-fond-info">Edit Fond Information</span>
+          </div>
+
+          <!-- Breadcrumbs -->
+          <div id="breadcrumb">
+            <a data-template="fond:fonds-link" data-i18n="fonds">Fonds</a>
+            <span> &gt; </span>
+            <a data-template="fond:archive-link"/>
+            <span> &gt; </span>
+            <a data-template="fond:fond-link"/>
+          </div>
+
+          <!-- XRXE Editor placeholder -->
+          <div data-template="fond:xrxe-editor"/>
+        </div>
+      </div>
+
+      <!-- Not authorized -->
+      <div data-template="auth:if-not-logged-in">
+        <div class="h2">
+          <span data-i18n="edit-fond">Edit Fond</span>
+        </div>
+        <span data-i18n="protected-page-message">Protected page. Please login first.</span>
+      </div>
+    </div>
+  </body>
+</html>

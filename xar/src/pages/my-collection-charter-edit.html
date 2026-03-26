@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Charter</title>
+  <style>
+    #dmy-collection-charter-edit, #dtextann, #dinner-textann {
+      position: relative;
+      float: none;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .xrx-layout {
+      display: block;
+      position: relative;
+      float: left;
+      width: 100%;
+      height: 100%;
+    }
+    .xrx-report * {
+      font-size: 0.9em;
+    }
+    .xrx-layout .ui-layout-center,
+    .xrx-layout .ui-layout-south,
+    .xrx-layout .ui-layout-east,
+    .xrx-layout .ui-layout-north {
+      padding: 0;
+      overflow: hidden;
+    }
+    .dlabel {
+      font-family: Courier, monospace;
+      margin-left: 2%;
+      margin-top: 2%;
+    }
+    .dlabel-text {
+      position: relative;
+    }
+    .xrx-repeat, .CodeMirror {
+      margin-left: 2%;
+    }
+    fieldset {
+      margin: 2%;
+    }
+    #dviewer-switch, .xrx-case, #icharter {
+      height: 100%;
+    }
+    #dui-imageann {
+      height: 100%;
+    }
+    #folio-links {
+      position: absolute;
+      right: 0px;
+      z-index: 99;
+      background: white;
+    }
+    #folio-links .folio-link {
+      margin: 0;
+    }
+    #selected-folio {
+      position: absolute;
+      left: 0px;
+      z-index: 99;
+      background: white;
+    }
+    #inner-selected-folio {
+      margin: 5px;
+    }
+    #s1viewer-choice {
+      position: absolute;
+      margin: 10px;
+      z-index: 99;
+      font-size: .6em;
+    }
+    #dcharter-instance {
+      white-space: pre-wrap;
+      overflow: auto !important;
+    }
+    form {
+      margin: 0;
+      padding: 0;
+    }
+    .table {
+      display: table;
+    }
+    .table-row {
+      display: table-row;
+    }
+    .table-cell {
+      width: 100%;
+      display: table-cell;
+    }
+    .table-cell-value {
+      width: 79%;
+    }
+    .table-cell-label {
+      width: 19%;
+    }
+    .ui-tabs-anchor {
+      font-size: .8em;
+    }
+    span#onoff {
+      padding-bottom: 1em;
+      padding-left: 2em;
+    }
+    div.forms-mixedcontent-attribute-droppable {
+      color: #E8E8E8;
+    }
+    div.controlledVocabulary {
+      font-size: 0.9em;
+    }
+    .ui-dialog {
+      position: absolute;
+      top: 430px;
+      left: 670px;
+    }
+    select .group {
+      font-weight: bold !important;
+    }
+    .autocompletelist {
+      position: relative;
+      border-width: 1px;
+      border-bottom-style: solid;
+      border-left-style: solid;
+      border-right-style: solid;
+      top: 98%;
+      width: 92.5%;
+      max-height: 500px;
+      z-index: 1;
+      overflow-y: scroll;
+      display: none;
+    }
+    .autocompletelistitem {
+      background-color: white;
+    }
+    .autocompletelistitem.focus {
+      background-color: #e9e9e9;
+    }
+    .minid {
+      position: relative;
+      font-size: 9px;
+      color: grey;
+    }
+  </style>
+</head>
+<body>
+  <div id="dmy-collection-charter-edit" data-template="my-collection-charter-edit:load">
+
+    <div id="forms-message"></div>
+
+    <!-- Header -->
+    <div id="dmy-collection-header">
+      <h2>Edit Charter</h2>
+      <div id="autoSaveStatus"></div>
+    </div>
+
+    <!-- Toolbar -->
+    <div id="dmy-collection-toolbar">
+      <div id="dmy-collection-inner-toolbar">
+        <div id="forms-mixedcontent-elements"></div>
+        <div id="forms-mixedcontent-tagname"></div>
+      </div>
+    </div>
+
+    <!-- Authenticated body -->
+    <div data-template="auth:require-group" data-group="atom">
+      <div id="dmy-collection-body">
+
+        <!-- XML instance (hidden) -->
+        <div class="xrx-forms-instance" id="forms-console" style="display:none"
+             data-template="my-collection-charter-edit:instance"/>
+
+        <!-- Main layout -->
+        <div class="xrx-layout" id="dxrx-layout">
+          <!-- Editor area -->
+          <div id="dtextann">
+            <div id="dinner-textann">
+              <!-- Charter fields rendered by template -->
+              <div data-template="my-collection-charter-edit:fields"/>
+            </div>
+          </div>
+
+          <!-- Image viewer area -->
+          <div id="dui-imageann" data-template="my-collection-charter-edit:image-viewer"/>
+
+          <!-- Context/attributes panel -->
+          <div id="dedit-my-collection-context">
+            <div id="forms-mixedcontent-attributes"></div>
+          </div>
+        </div>
+
+        <!-- Hidden data stores -->
+        <div class="xrx-forms-i18n-catalog" style="display:none"
+             data-template="my-collection-charter-edit:i18n-catalog"/>
+        <div class="xrx-forms-json-attribute-suggestions" style="display:none"
+             data-template="my-collection-charter-edit:attribute-suggestions"/>
+        <div class="xrx-forms-json-element-suggestions" style="display:none"
+             data-template="my-collection-charter-edit:element-suggestions"/>
+        <div class="xrx-forms-json-topics" style="display:none"
+             data-template="my-collection-charter-edit:topics"/>
+      </div>
+    </div>
+
+    <!-- Not authenticated -->
+    <div data-template="auth:require-group-else" data-group="atom" id="dlogin">
+      <span data-i18n="protected-page-message">Protected page. Please login first.</span>
+      <div data-template="login:form"/>
+    </div>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-i18n="charters_on_map">Charters on map</title>
+  <style>
+    #pageList {
+      list-style: none;
+      display: inline;
+      margin-left: -40px;
+    }
+    #pageList > li {
+      display: inline;
+      cursor: pointer;
+    }
+    #subheadline {
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h2>
+      <span data-i18n="charters_on_map">Charters on map</span>:
+    </h2>
+
+    <!-- Sub-headline with breadcrumb, rendered based on type (archive/fond/collection) -->
+    <div id="subheadline" data-template="charters-on-map:sub-headline"/>
+
+    <!-- Geo map widget -->
+    <div id="geomap_widget" data-template="charters-on-map:geomap"/>
+
+    <!-- Results (shown when place is selected) -->
+    <div id="results" data-template="charters-on-map:results">
+      <h2 data-template="charters-on-map:place-name"/>
+      <div id="searchinformations"></div>
+      <div id="resultpages" data-template="charters-on-map:page-list"/>
+      <!-- Charter preview items rendered by template -->
+      <div data-template="charters-on-map:charter-preview-items"/>
+    </div>
+
+  </div>
+</body>
+</html>

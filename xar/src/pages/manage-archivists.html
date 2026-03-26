@@ -1,0 +1,92 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+  <head>
+    <title data-i18n="manage-archivists">Manage Archivists</title>
+    <link rel="stylesheet" type="text/css" href="css/forms.css"/>
+    <style type="text/css">
+      #dform {
+        position: relative;
+        float: left;
+        width: 600px;
+        margin-left: 185px;
+        margin-top: 50px;
+        background: rgb(240,240,240);
+      }
+      #dinnerform {
+        margin: 20px;
+      }
+      #dsave {
+        position: relative;
+        float: left;
+        width: 100%;
+        text-align: right;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div>
+        <a href="archive">
+          <span>&lt;&lt; </span>
+          <span data-i18n="back">back</span>
+        </a>
+      </div>
+      <div class="h2">
+        <span data-i18n="manage-archivists">Manage Archivists</span>
+      </div>
+
+      <!-- Auth: user-administrator -->
+      <div data-template="auth:if-role" data-template-role="user-administrator">
+        <div id="dform">
+          <div id="dinnerform">
+            <fore-model id="mnominate-archivist">
+              <fore-instance id="iarchivists" data-template="archivists:instance"/>
+              <fore-instance id="itemplate">
+                <data><archivist/></data>
+              </fore-instance>
+              <fore-instance id="iresponse"><data/></fore-instance>
+              <fore-instance id="iusers" data-template="archivists:users-instance"/>
+              <fore-bind id="barchivists" ref="instance('iarchivists')//archivist"/>
+              <fore-bind id="bnewarchivist" ref="instance('itemplate')//archivist"/>
+              <fore-bind id="busers" ref="instance('iusers')//user"/>
+              <fore-submission id="ssave" action="service/manage-archivists" method="post" replace="instance" instance="iresponse"/>
+            </fore-model>
+
+            <fore-group model="mnominate-archivist">
+              <h2 data-template="archivists:heading"/>
+              <fore-repeat bind="barchivists" id="rarchivists" appearance="compact">
+                <fore-select1 ref=".">
+                  <fore-label/>
+                  <fore-itemset bind="busers">
+                    <fore-value ref="email"/>
+                    <fore-label ref="label"/>
+                  </fore-itemset>
+                </fore-select1>
+                <fore-trigger>
+                  <fore-label>-</fore-label>
+                  <fore-delete ref="//archivist[index('rarchivists')]" event="activate"/>
+                </fore-trigger>
+              </fore-repeat>
+              <fore-trigger>
+                <fore-label data-i18n="add-archivist">Add archivist</fore-label>
+                <fore-insert ref="//archivist" at="last" position="after" origin="instance('itemplate')//archivist" event="activate"/>
+              </fore-trigger>
+              <br/><br/>
+              <div id="dsave">
+                <fore-trigger>
+                  <fore-label data-i18n="save">Save</fore-label>
+                  <fore-send submission="ssave" event="activate"/>
+                </fore-trigger>
+              </div>
+            </fore-group>
+          </div>
+        </div>
+      </div>
+
+      <!-- Not authorized -->
+      <div data-template="auth:if-not-logged-in">
+        <span data-i18n="protected-page-message">Protected page. Please login first.</span>
+      </div>
+    </div>
+  </body>
+</html>

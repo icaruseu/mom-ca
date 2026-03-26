@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Charter Editor</title>
+  <!-- Converted from charter-editor.widget.xml -->
+  <!-- Original ID: tag:www.monasterium.net,2011:/mom/widget/charter-editor -->
+  <!-- xf: elements present (xrxe:editor with XForms model) - uses Fore components -->
+  <!-- Portal: subeditor -->
+  <link rel="stylesheet" href="../css/charter.css"/>
+</head>
+<body>
+  <div data-template="charter-editor:init"
+       data-template-atom-id="$charter:ratomid">
+
+    <!-- Fore-based editor replacing xrxe:editor -->
+    <fx-fore>
+      <fx-model id="charter-editor-model">
+        <fx-instance id="charter-instance"
+                     data-template-src="charter-editor:instance-url"
+                     data-template-atom-id="$atom-id">
+          <!-- Charter atom:entry loaded here -->
+        </fx-instance>
+
+        <fx-submission id="save-charter"
+                       data-template-url="charter-editor:save-url"
+                       data-template-atom-url="$atom-url"
+                       method="post"
+                       replace="none">
+        </fx-submission>
+      </fx-model>
+
+      <!-- Editor UI with tabs -->
+      <div id="charter-editor-ui"
+           data-template="charter-editor:ui"
+           data-template-atom-id="$atom-id"
+           data-template-save-url="$atom-url"
+           data-template-save-close-url="saved-charters"
+           data-template-services-url="xrxe-services.xql"
+           data-template-xsd="charter-editor:xsd-path">
+
+        <!-- Tab: Abstract -->
+        <div class="editor-tab" data-tab="abstract">
+          <button class="editor-tab-trigger" data-i18n="abstract">abstract</button>
+          <div class="editor-tab-case">
+            <div id="abstract-node-editor"
+                 data-template="charter-editor:node-editor"
+                 data-template-node-path="/cei:body/cei:chDesc/cei:abstract"
+                 data-template-atom-id="$atom-id"
+                 data-template-node="cei:abstract"
+                 data-template-context-path="/cei:text/cei:body/cei:chDesc">
+            </div>
+            <div id="issued-node-editor"
+                 data-template="charter-editor:node-editor"
+                 data-template-node-path="/cei:body/cei:chDesc/cei:issued"
+                 data-template-atom-id="$atom-id"
+                 data-template-node="cei:issued"
+                 data-template-context-path="/cei:text/cei:body/cei:chDesc">
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Fulltext -->
+        <div class="editor-tab" data-tab="fulltext">
+          <button class="editor-tab-trigger" data-i18n="fulltext">fulltext</button>
+          <div class="editor-tab-case">
+            <div id="tenor-node-editor"
+                 data-template="charter-editor:node-editor"
+                 data-template-node-path="/cei:body/cei:tenor"
+                 data-template-atom-id="$atom-id"
+                 data-template-node="cei:tenor"
+                 data-template-context-path="/cei:text/cei:body">
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Source -->
+        <div class="editor-tab" data-tab="source">
+          <button class="editor-tab-trigger" data-i18n="source">source</button>
+          <div class="editor-tab-case">
+            <div id="front-node-editor"
+                 data-template="charter-editor:node-editor"
+                 data-template-node-path="/cei:front"
+                 data-template-atom-id="$atom-id"
+                 data-template-node="cei:front"
+                 data-template-context-path="/cei:text">
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Description of Original -->
+        <div class="editor-tab" data-tab="description-of-original">
+          <button class="editor-tab-trigger" data-i18n="decription-of-original">decription of original</button>
+          <div class="editor-tab-case">
+            <div id="witnessOrig-node-editor"
+                 data-template="charter-editor:node-editor"
+                 data-template-node-path="/cei:body/cei:chDesc/cei:witnessOrig"
+                 data-template-atom-id="$atom-id"
+                 data-template-node="cei:witnessOrig"
+                 data-template-context-path="/cei:text/cei:body/cei:chDesc">
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Copies -->
+        <div class="editor-tab" data-tab="copies">
+          <button class="editor-tab-trigger" data-i18n="copies">copies</button>
+          <div class="editor-tab-case">
+            <div id="witListPar-node-editor"
+                 data-template="charter-editor:node-editor"
+                 data-template-node-path="/cei:body/cei:chDesc/cei:witListPar"
+                 data-template-atom-id="$atom-id"
+                 data-template-node="cei:witListPar"
+                 data-template-context-path="/cei:text/cei:body/cei:chDesc">
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Commentary -->
+        <div class="editor-tab" data-tab="commentary">
+          <button class="editor-tab-trigger" data-i18n="commantary">commantary</button>
+          <div class="editor-tab-case">
+            <div id="diplomaticAnalysis-node-editor"
+                 data-template="charter-editor:node-editor"
+                 data-template-node-path="/cei:body/cei:chDesc/cei:diplomaticAnalysis"
+                 data-template-atom-id="$atom-id"
+                 data-template-node="cei:diplomaticAnalysis"
+                 data-template-context-path="/cei:text/cei:body/cei:chDesc">
+            </div>
+            <div id="lang_MOM-node-editor"
+                 data-template="charter-editor:node-editor"
+                 data-template-node-path="/cei:body/cei:chDesc/cei:lang_MOM"
+                 data-template-atom-id="$atom-id"
+                 data-template-node="cei:lang_MOM"
+                 data-template-context-path="/cei:text/cei:body/cei:chDesc">
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Appendix -->
+        <div class="editor-tab" data-tab="appendix">
+          <button class="editor-tab-trigger" data-i18n="appendix">appendix</button>
+          <div class="editor-tab-case">
+            <div id="back-node-editor"
+                 data-template="charter-editor:node-editor"
+                 data-template-node-path="/cei:back"
+                 data-template-atom-id="$atom-id"
+                 data-template-node="cei:back"
+                 data-template-context-path="/cei:text">
+            </div>
+          </div>
+        </div>
+      </div>
+    </fx-fore>
+  </div>
+
+  <script src="../js/charter.js"></script>
+</body>
+</html>

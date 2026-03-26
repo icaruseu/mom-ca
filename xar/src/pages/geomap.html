@@ -1,0 +1,37 @@
+<!--
+    MOM-CA Geomap Page
+    ==================
+    Converted from: my/XRX/src/mom/app/geoservices/widget/geomap.widget.xml
+
+    Leaflet-based map subwidget for displaying archive/collection locations.
+    Uses Leaflet with MarkerCluster plugin. Constructor parameters:
+    serviceName, imagelink, mode (archive/collection), collection-path,
+    linklabel, latlng, zoom.
+-->
+<div id="mapbox" data-template="geomap:container">
+    <div id="map"></div>
+    <div class="loader inactive">Loading Map Please Wait</div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#map").GeoTool({
+            requestroot: "",
+            serviceLink: "",
+            imageLink: "",
+            mode: "",
+            collection: "",
+            linklabel: "",
+            lat: "0",
+            lng: "0",
+            zoom: "4"
+        });
+    });
+</script>
+
+<style>
+    #map { width: 800px; height: 500px; }
+    .loader { position: absolute; top: 85px; z-index: 1000; width: 800px; text-align: center; padding: 240px 0; background-color: rgba(0,0,0,0.2); }
+    .inactive { display: none; }
+    .active { display: block; }
+</style>

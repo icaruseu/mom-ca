@@ -1,0 +1,68 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+  <head>
+    <title data-i18n="imported-fond">Imported Fond</title>
+  </head>
+  <body>
+    <div data-template="fond:imported-view">
+
+      <!-- Heading -->
+      <div class="h2">
+        <span data-i18n="imported-fond-preview">Imported fond (preview)</span>
+        <span>: </span>
+        <span data-template="fond:context-name"/>
+      </div>
+
+      <!-- My Functions (auth: atom group) -->
+      <div data-template="auth:if-logged-in" class="my-functions">
+        <h3 data-i18n="my-functions">MyFunctions</h3>
+        <div data-template="auth:if-role" data-template-role="metadata-manager,community">
+          <div class="function-links">
+            <div class="function-link">
+              <a data-template="fond:edit-fond-link">
+                <span>&#8227; </span>
+                <span data-i18n="edit-fond-info">Edit Fond Information</span>
+              </a>
+            </div>
+            <div class="function-link">
+              <a data-template="fond:import-charters-link">
+                <span>&#8227; </span>
+                <span data-i18n="import-charters">Import Charters</span>
+                <span> (Excel, CEI, EAD, XML, OAI, SQL)</span>
+              </a>
+            </div>
+            <div class="function-link">
+              <a href="fond-preferences">
+                <span>&#8227; </span>
+                <span data-i18n="preferences">Preferences</span>
+              </a>
+            </div>
+            <div class="function-link" data-template="fond:publish-charters-trigger">
+              <span data-i18n="publish-charters">Publish charters</span>
+            </div>
+            <div class="function-link" data-template="fond:remove-imported-charters-trigger">
+              <span data-i18n="remove-imported-charters">Remove imported charters</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Breadcrumb -->
+      <div id="breadcrumb">
+        <a href="fonds" data-i18n="fonds">Fonds</a>
+        <span> &gt; </span>
+        <a data-template="fond:archive-breadcrumb-link"/>
+        <span> &gt; </span>
+        <a href="fond" data-template="fond:fond-breadcrumb-link"/>
+        <span> &gt; </span>
+        <a href="imported-fond" data-i18n="imported-fond-preview">Imported fond (preview)</a>
+      </div>
+
+      <!-- Charter preview -->
+      <div id="dcharter-preview-main" data-template="fond:imported-charter-preview-list">
+        <div data-template="fond:imported-charter-preview-item"/>
+        <div data-template="fond:block-navigation"/>
+      </div>
+    </div>
+  </body>
+</html>

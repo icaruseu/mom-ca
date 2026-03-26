@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title data-i18n="mailing-list">Mailing list</title>
+    <style>
+        #mailing-list {
+            position: relative;
+            float: left;
+            width: 800px;
+        }
+        #mailing-list .email-div {
+            height: 150px;
+            overflow: scroll;
+            border: solid 1px;
+            border-bottom: none;
+        }
+        #mailing-list .inner-email-div {
+            margin: 5px;
+        }
+        #mailing-list .heading {
+            color: white;
+            font-size: 1.5em;
+        }
+        #mailing-list .inner-heading {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="mailing-list">
+        <div class="h2">
+            <span data-i18n="mailing-lists">Mailing lists</span>
+        </div>
+        <h3 class="heading">
+            <div class="inner-heading">
+                <span data-i18n="all-users">All Users</span>
+            </div>
+        </h3>
+        <div class="email-div">
+            <div class="inner-email-div">
+                <span data-template="app:mailing-list-all-users"></span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

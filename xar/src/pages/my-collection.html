@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-i18n="my-collection">My Collection</title>
+</head>
+<body>
+  <div data-template="my-collection:load">
+
+    <!-- Breadcrumb -->
+    <div id="breadcrumb">
+      <a data-template="config:resolve-link" href="collections">
+        <span data-i18n="collections">Collections</span>
+      </a>
+      <span> &gt; </span>
+      <a data-template="config:resolve-link" href="my-collections">
+        <span data-i18n="my-collections">MyCollections</span>
+      </a>
+      <span> &gt; </span>
+      <a data-template="my-collection:self-link">
+        <span data-template="my-collection:context-name"/>
+      </a>
+    </div>
+
+    <!-- Heading -->
+    <div class="h2">
+      <span data-i18n="my-collection-preview">My Collection (Preview)</span>
+      <span>: </span>
+      <span data-template="my-collection:context-name"/>
+    </div>
+
+    <!-- My Functions (authenticated) -->
+    <div data-template="auth:require-group" data-group="atom">
+      <div class="my-functions">
+        <h3 data-i18n="my-functions">MyFunctions</h3>
+        <div class="function-links">
+          <div class="function-link">
+            <a href="edit-my-collection-info">
+              <span>&#8227; </span>
+              <span data-i18n="edit-preface">Edit Preface</span>
+            </a>
+          </div>
+          <div class="function-link">
+            <a data-template="my-collection:remove-href">
+              <span>&#8227; </span>
+              <span data-i18n="remove-collections">Remove Collection</span>
+            </a>
+          </div>
+          <div class="function-link">
+            <a data-template="my-collection:cei-download-href" target="_blank">
+              <span>&#8227; </span>
+              <span data-i18n="show-collection-cei-xml">Download collection as XML/CEI</span>
+            </a>
+          </div>
+          <div class="function-link">
+            <a data-template="config:resolve-link" href="my-collections-edit">
+              <span>&#8227; </span>
+              <span data-i18n="edit-my-collections">Edit my Collections</span>
+            </a>
+          </div>
+          <div class="function-link">
+            <a data-template="my-collection:register-search-href">
+              <span>&#8227; </span>
+              <span data-i18n="register_search">Register Search</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preface link -->
+    <div data-template="auth:require-group" data-group="atom">
+      <div class="year-list" data-template="my-collection:preface-link-style">
+        <a href="my-collection">
+          <span data-i18n="preface">Preface</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Year/block navigation -->
+    <div data-template="charters:year-navigation"/>
+
+    <!-- Goto search placeholder -->
+    <div id="goto-search">
+      <a href=""> </a>
+    </div>
+
+    <!-- Preface -->
+    <div id="preface">
+      <div data-template="my-collection:preface-content"/>
+    </div>
+
+    <!-- Charter previews -->
+    <div id="dcharter-preview-main">
+      <div data-template="my-collection:charter-preview-items"/>
+      <div data-template="charters:block-navigation"/>
+    </div>
+
+  </div>
+</body>
+</html>

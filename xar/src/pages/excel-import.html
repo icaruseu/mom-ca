@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title data-i18n="excel-import">Excel Import</title>
+</head>
+<body>
+    <div id="dcharter-import" data-template="app:charter-import-view">
+        <a data-template="app:charter-import-back-link"><span>&lt;&lt;</span><span data-i18n="back-to-fond">Back to fond</span></a>
+        <div class="h2">
+            <span data-i18n="excel-import">Excel Import</span>
+            <span>: <span data-template="app:charter-import-context-name"></span></span>
+        </div>
+        <div data-template="app:charter-import-breadcrumb" data-template-type="excel"></div>
+        <div data-template="app:auth-check" data-template-role="metadata-manager">
+            <fx-fore>
+                <fx-model id="mimport">
+                    <fx-instance>
+                        <data>
+                            <cacheid data-template="app:charter-import-cacheid"></cacheid>
+                            <processid></processid>
+                            <fileuri></fileuri>
+                            <fileurilocal></fileurilocal>
+                            <uploadtype>local</uploadtype>
+                            <sheetnum></sheetnum>
+                            <chooserow></chooserow>
+                            <chooserowdefault></chooserowdefault>
+                            <context data-template="app:charter-import-context"></context>
+                            <archid data-template="app:charter-import-archid"></archid>
+                            <fondid data-template="app:charter-import-fondid"></fondid>
+                            <collectionid data-template="app:charter-import-collectionid"></collectionid>
+                            <action>replace</action>
+                        </data>
+                    </fx-instance>
+                    <fx-instance id="iexcel-upload-sheet-response"><data><status></status></data></fx-instance>
+                    <fx-instance id="iexcel-choose-sheet-response"><data><status></status></data></fx-instance>
+                    <fx-instance id="iexcel-choose-row-response"><data><status></status></data></fx-instance>
+                    <fx-instance id="iexcel-validate-sheet-response"><data><status></status></data></fx-instance>
+                    <fx-instance id="iexcel-transform-sheet-response"><data><status></status></data></fx-instance>
+                    <fx-instance id="iexcel-import-sheet-response"><data><status></status><message></message><icon></icon></data></fx-instance>
+                    <fx-submission id="sexcel-upload-sheet" url="service/excel-upload-sheet" method="post" replace="instance" instance="iexcel-upload-sheet-response"></fx-submission>
+                    <fx-submission id="sexcel-choose-sheet" url="service/excel-choose-sheet" method="post" replace="instance" instance="iexcel-choose-sheet-response"></fx-submission>
+                    <fx-submission id="sexcel-choose-row" url="service/excel-choose-row" method="post" replace="instance" instance="iexcel-choose-row-response"></fx-submission>
+                    <fx-submission id="sexcel-validate-sheet" url="service/excel-validate-sheet" method="post" replace="instance" instance="iexcel-validate-sheet-response"></fx-submission>
+                    <fx-submission id="sexcel-transform-sheet" url="service/excel-transform-sheet" method="post" replace="instance" instance="iexcel-transform-sheet-response"></fx-submission>
+                    <fx-submission id="sexcel-import-sheet" url="service/excel-import-sheet" method="post" replace="instance" instance="iexcel-import-sheet-response"></fx-submission>
+                </fx-model>
+                <div id="dwizard"><div id="dinner-wizard">
+                    <div style="position:absolute; right:0px;"><img class="icon" src="resources/images/Excel.png" alt="Excel"/></div>
+                    <!-- Excel import wizard steps rendered by application logic -->
+                    <section id="cupload-charter">
+                        <h3><span>1. </span><span data-i18n="select-file">Select a file</span></h3><br/><br/>
+                        <fx-control ref="fileuri" type="file"><label></label></fx-control>
+                        <div class="previous-next-trigger"><fx-trigger><button data-i18n="next">next</button></fx-trigger></div>
+                    </section>
+                    <section id="cimport-charter">
+                        <h3><span data-i18n="import">Import</span></h3><br/><br/>
+                        <fx-trigger><button><span data-i18n="import-now">Import now</span>!</button><fx-send submission="sexcel-import-sheet"></fx-send></fx-trigger><br/><br/>
+                        <fieldset><legend><span data-i18n="status">Status</span></legend><div id="progressbar-import"><div class="progress-label">0%</div></div></fieldset><br/><br/>
+                        <div><fx-control ref="instance('iexcel-import-sheet-response')//message"><label></label></fx-control></div>
+                        <div id="dpreview-link"><a data-template="app:charter-import-preview-link"><span data-i18n="preview">Preview</span></a></div>
+                    </section>
+                </div></div>
+                <div data-template="app:include" data-template-path="useful-links-excel.html"></div>
+            </fx-fore>
+        </div>
+        <div data-template="app:auth-fallback"><span data-i18n="protected-page-message">Protected page. Please login first.</span></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!--
+    MOM-CA Bookmarks Page
+    =====================
+    Converted from: my/XRX/src/mom/app/bookmark/widget/bookmarks.widget.xml
+
+    Original widget used XForms (xf:group) with bookmark:model and
+    publication:model. Server-side variables provided bookmarked charters
+    with pagination. Charter previews were rendered via subwidgets.
+-->
+<div id="dcharter-preview-main">
+
+    <fx-fore>
+        <fx-model id="mbookmark">
+            <fx-instance>
+                <data>
+                    <xrx:bookmark xmlns:xrx="http://www.monasterium.net/NS/xrx"></xrx:bookmark>
+                </data>
+            </fx-instance>
+            <fx-submission id="sremove-bookmark"
+                           url="service/remove-bookmark"
+                           method="post"
+                           replace="none">
+            </fx-submission>
+        </fx-model>
+
+        <div class="h2">
+            <span data-i18n="bookmarks">Bookmarks</span>
+        </div>
+
+        <div class="my-functions">
+            <h3 data-i18n="my-functions">MyFunctions</h3>
+            <div class="function-links">
+                <div class="function-link">
+                    <a data-template="app:request-root-link"
+                       href="service/notes-as-pdf">
+                        <span>&#x2023; </span>
+                        <span data-i18n="export-notes-as-pdf">Export notes as PDF</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination placeholder -->
+        <div data-template="bookmarks:navigation"></div>
+
+        <!-- Charter preview list (server-rendered) -->
+        <div data-template="bookmarks:charter-previews" id="charter-preview-container">
+            <!-- Each bookmarked charter preview will be rendered here -->
+        </div>
+
+        <!-- Bottom pagination -->
+        <div data-template="bookmarks:navigation"></div>
+
+    </fx-fore>
+
+</div>
+
+<style>
+    #dcharter-preview-main {
+        position: relative;
+        float: left;
+        width: 800px;
+    }
+    .my-functions {
+        margin-top: -3em;
+    }
+    .note-field {
+        position: relative;
+        top: 10px;
+    }
+    .noteBobble {
+        display: none;
+        position: absolute;
+        left: -130px;
+        bottom: 30%;
+        z-index: 20;
+        width: 400px;
+        height: 160px;
+        background-color: #F6F6F6;
+        padding: 20px;
+        border-radius: 3px;
+        box-shadow: 4px -3px 10px 1px #202020;
+    }
+    .edit-box {
+        border: solid #C8C8C8 1px;
+        padding: 3px;
+    }
+</style>

@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+  <head>
+    <title data-i18n="remove-fond">Remove Fond</title>
+  </head>
+  <body>
+    <div>
+      <div data-template="fond:back-div"/>
+      <div class="h2">
+        <span data-i18n="remove-fond">Remove fond</span>
+        <span>: <span data-template="fond:remove-heading"/></span>
+      </div>
+
+      <!-- Auth: community or metadata-manager -->
+      <div data-template="auth:if-role" data-template-role="metadata-manager,community">
+        <div id="dremove-metadata">
+          <div data-template="fond:request-div"/>
+          <div>
+            <br/><br/><br/><br/>
+            <div data-template="fond:remove-public-entries-div"/>
+            <table>
+              <thead data-template="fond:table-heading-div"/>
+              <tbody>
+                <tr data-template="fond:fond-objects-div"/>
+                <tr data-template="fond:charter-objects-div"/>
+                <tr data-template="fond:published-charters-div"/>
+                <tr data-template="fond:released-charters-div"/>
+                <tr data-template="fond:saved-charters-div"/>
+                <tr data-template="fond:bookmarks-div"/>
+                <tr data-template="fond:imported-charters-div"/>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Not authorized -->
+      <div data-template="auth:if-not-logged-in">
+        <span data-template="fond:protected-page-div"/>
+      </div>
+    </div>
+  </body>
+</html>

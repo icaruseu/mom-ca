@@ -1,0 +1,44 @@
+<!--
+    MOM-CA MOMathon Charter Details Page
+    =====================================
+    Converted from: my/XRX/src/mom/app/momathon/widget/momathon-charter-details.widget.xml
+
+    Subwidget/component for showing charter details within a MOMathon context.
+    Constructor parameters: charter-id, user, charter-context.
+    Displays charter idno, date, abstract from saved collection,
+    with links to charter view and editing actions.
+-->
+<div class="charter-preview-momathon-detail" data-template="momathon-charter-details:entry">
+
+    <div class="container">
+        <!-- Charter context (fond or collection) -->
+        <div data-template="momathon-charter-details:context-info"></div>
+
+        <div>
+            <b><span data-i18n="charter">Charter</span><span>: </span></b>
+            <span data-template="momathon-charter-details:idno"></span>
+        </div>
+        <div>
+            <b><span data-i18n="date">Date</span><span>: </span></b>
+            <span data-template="momathon-charter-details:date"></span>
+        </div>
+        <div>
+            <b><span data-i18n="abstract">Abstract</span><span>: </span></b>
+            <span data-template="momathon-charter-details:abstract"></span>
+        </div>
+    </div>
+
+    <div class="charter-info-and-actions">
+        <a data-template="momathon-charter-details:view-editions-link">
+            <span data-i18n="view-editions">View Editions</span>
+        </a>
+        <div>
+            <a data-template="momathon-charter-details:version-diff-link">
+                <span data-i18n="version-difference">Version Difference</span>
+            </a>
+        </div>
+        <!-- Bookmark and publication actions -->
+        <div data-template="momathon-charter-details:actions"></div>
+    </div>
+
+</div>

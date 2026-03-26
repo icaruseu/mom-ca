@@ -1,0 +1,129 @@
+<!--
+    MOM-CA Index Page
+    =================
+    Converted from: my/XRX/src/mom/app/index/widget/index.widget.xml
+
+    Controlled vocabulary / person index page. Supports browsing by
+    alphabet, SKOS concepts, and person entries. Uses jQuery and
+    server-side variables for search results and pagination.
+-->
+<div id="this-main" data-template="index:page">
+
+    <!-- Breadcrumb -->
+    <div data-template="index:breadcrumb">
+        <span class="breadcrumb" data-template="index:breadcrumb-label"></span>
+    </div>
+
+    <!-- SKOS editor link (auth-protected) -->
+    <div data-template="auth:require-group" data-group="atom">
+        <div data-template="index:skos-editor-link"></div>
+    </div>
+
+    <div id="leftframe">
+        <!-- Alphabet navigation -->
+        <div data-template="index:alphabet-nav"></div>
+
+        <!-- Index use text -->
+        <div data-template="index:use-text"></div>
+    </div>
+
+    <div id="rightframe">
+        <!-- Hits / search results -->
+        <div data-template="index:results">
+            <div class="hits" data-template="index:hit-entry">
+                <!-- Individual hit entries rendered here -->
+            </div>
+        </div>
+
+        <!-- Block navigation -->
+        <div id="block-navi" data-template="index:block-navi"></div>
+
+        <!-- Charter preview area -->
+        <div id="dcharter-preview-main" data-template="index:charter-previews"></div>
+
+        <!-- Glossary entry area -->
+        <div class="glossary-entry" data-template="index:glossary-entry"></div>
+    </div>
+
+</div>
+
+<style>
+    div#this-main {
+        position: relative;
+    }
+    .ui-button {
+        padding: .4em 1em;
+        display: inline-block;
+        position: relative;
+        line-height: normal;
+        margin-right: .1em;
+        vertical-align: middle;
+        text-align: center;
+        user-select: none;
+    }
+    button#button {
+        width: 150px;
+        text-align: center;
+        padding: 20px;
+    }
+    #leftframe {
+        position: relative;
+        float: left;
+        width: 30%;
+        left: 5px;
+    }
+    #rightframe {
+        position: relative;
+        float: left;
+        width: 60%;
+    }
+    #rightframe p {
+        margin-top: 0;
+        font-size: 0.8em;
+        padding: 0 1em;
+    }
+    .hits {
+        position: relative;
+        float: left;
+        width: 100%;
+        padding: 5px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        background: rgb(245, 245, 245);
+        border-bottom: 3px solid #9e9e9e;
+        clear: both;
+    }
+    .hits span {
+        padding: 3px;
+    }
+    #block-navi a {
+        padding: 3px;
+    }
+    span.breadcrumb {
+        color: #72856C;
+    }
+    #dcharter-preview-main {
+        position: relative;
+        float: left;
+    }
+    #dcharter-preview-main .charter-preview {
+        position: relative;
+        float: left;
+        background: rgb(245,245,245);
+        border-bottom: solid white 5px;
+    }
+    #dcharter-preview-main .charter * {
+        line-height: 1.6em;
+    }
+    #dcharter-preview-main .charter {
+        position: relative;
+        width: 73% !important;
+        float: left;
+        background: rgb(245,245,245);
+    }
+    .glossary-entry {
+        background: rgb(245, 245, 245);
+        border-bottom: 3px solid #9e9e9e;
+        width: 101%;
+    }
+</style>

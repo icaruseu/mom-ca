@@ -1,0 +1,195 @@
+<!--
+    MOM-CA SKOS Editor Page
+    =======================
+    Converted from: my/XRX/src/mom/app/skos-editor/widget/skos-editor.widget.xml
+
+    SKOS vocabulary editor for Monasterium glossary files. Auth-protected.
+    No XForms. Uses jQuery AJAX calls to services for CRUD operations on
+    SKOS concepts, prefLabels, broader relations, and definitions.
+    Integrates CKEditor for definition editing.
+-->
+<div data-template="auth:require-group" data-group="atom">
+
+    <!-- Title -->
+    <div class="h2"><span>SKOS-Editor</span></div>
+
+    <!-- Concept selection -->
+    <p data-i18n="skos-select-concept">Choose an existing SKOS concept, or create a new one in the field below.</p>
+    <select id="concept-select" data-template="skos-editor:concept-options">
+        <option selected="selected" disabled="disabled" hidden="hidden" data-i18n="select-concept">Select Concept</option>
+    </select>
+    <p>
+        <div id="selected-concept">
+            <span data-i18n="skos-current-concept">The currently selected concept is: </span>
+            <span><b data-template="skos-editor:current-concept"></b></span>
+        </div>
+    </p>
+    <br/>
+
+    <!-- Create / delete concept -->
+    <b data-i18n="create-concept">Create or delete concept:</b>
+    <p data-i18n="skos-name-concept">To create a new concept, enter a name for it below (avoid spaces and special characters):</p>
+    <input type="text" id="concept-input" placeholder="FranzoesischeKoenigsurkunden" style="width: 350px;"/>
+    <button type="submit" id="add-concept" data-i18n="submit">Submit</button>
+    <br/>
+    <p>
+        <span data-i18n="skos-delete-concept">To delete the currently selected concept, click here: </span>
+        <button id="delete-concept" type="submit" data-i18n="delete">Delete</button>
+    </p>
+
+    <!-- prefLabel section -->
+    <hr/>
+    <h3>skos:prefLabel</h3>
+    <p data-i18n="skos-add-preflabel">Add an optional preferred label for a selected language to the current concept:</p>
+    <select id="lang-select">
+        <option value="de">de</option>
+        <option value="en">en</option>
+        <option value="es">es</option>
+        <option value="fr">fr</option>
+        <option value="hr">hr</option>
+        <option value="hu">hu</option>
+        <option value="it">it</option>
+    </select>
+    <input type="text" id="preflabel-input"/>
+    <button type="submit" id="add-label" data-i18n="submit">Submit</button>
+    <div id="existing-entries-pref">
+        <p data-i18n="skos-existing-pref">The following preferred labels for this concept already exist:</p>
+        <table id="pref-table" data-template="skos-editor:pref-labels">
+            <tr><th>skos:prefLabel</th><th>Sprache</th><th>Entfernen</th></tr>
+        </table>
+    </div>
+
+    <!-- broader section -->
+    <hr/>
+    <h3>skos:broader</h3>
+    <p data-i18n="skos-add-broader">Add an optional umbrella term (skos:broader) for the concept:</p>
+    <select id="broader-select" data-template="skos-editor:broader-options">
+        <option selected="selected" disabled="disabled" hidden="hidden" data-i18n="select-concept">Select Concept</option>
+    </select>
+    <button type="submit" id="add-broader" data-i18n="submit">Submit</button>
+    <div id="existing-entries-broader">
+        <p data-i18n="skos-existing-broader">The following umbrella term for this concept already exist:</p>
+        <table id="broader-table" data-template="skos-editor:broader-entries">
+            <tr><th>skos:broader</th><th>Entfernen</th></tr>
+        </table>
+    </div>
+
+    <!-- definition section -->
+    <hr/>
+    <h3>skos:definition</h3>
+    <p data-i18n="skos-modify-definition">Enter a description for the concept:</p>
+    <textarea id="editor" name="editor" data-template="skos-editor:definition-content"></textarea>
+    <button style="margin:10px;" id="submit-content" type="submit" data-i18n="save">Save definition to file</button>
+    <button style="margin:10px;float:right" id="release-skos" type="submit">
+        <b data-i18n="release-skos">Publish file</b>
+    </button>
+    <div id="submit-messages">
+        <div id="submit-msg-suc" style="color:green;display:none;margin:10px"><b data-i18n="success">Success</b></div>
+        <div id="submit-msg-err" style="color:red;display:none;margin:10px"><b data-i18n="error">Error</b></div>
+    </div>
+    <div id="release-messages" style="float:right">
+        <div id="release-msg-suc" style="color:green;display:none;margin:10px"><b data-i18n="success">Success</b></div>
+        <div id="release-msg-err" style="color:red;display:none;margin:10px"><b data-i18n="error">Error</b></div>
+    </div>
+
+</div>
+
+<!-- Fallback for unauthenticated users -->
+<div data-template="auth:fallback">
+    <span data-i18n="protected-page-message">Protected page. Please login first.</span>
+    <div data-template="app:login-form"></div>
+</div>
+
+<script type="text/javascript">
+    // SKOS editor client-side logic (migrated from inline widget script)
+    var url = window.location.href;
+    var baseUrl = url.split("&")[0];
+    var urlParams = new URLSearchParams(window.location.search);
+    var concept = urlParams.get('concept');
+    var vocab = urlParams.get('vocab');
+
+    if (concept === null) $('#selected-concept').hide();
+
+    $(':input[id="add-concept"]').prop('disabled', true);
+    $('input[id="concept-input"]').keyup(function () {
+        if ($(this).val() != '') { $(':input[id="add-concept"]').prop('disabled', false); }
+    });
+
+    $('#concept-select').on('change', function () {
+        var redirectUrl = baseUrl + "&concept=" + $(this).val();
+        return (redirectUrl ? window.location = redirectUrl : console.log("Invalid URL!"));
+    });
+
+    $('button#add-concept').click(function () {
+        var conceptName = $('#concept-input').val();
+        $.ajax({ url: "service/add-concept?vocab=" + vocab, type: "POST", data: conceptName, contentType: "application/xml", dataType: "text",
+            success: function (data) { window.location.href = baseUrl + '&concept=' + conceptName; }
+        });
+    });
+
+    $('button#delete-concept').click(function () {
+        $.ajax({ url: "service/remove-concept?vocab=" + vocab, type: "POST", data: concept, contentType: "application/xml", dataType: "text",
+            success: function (data) { window.location.href = baseUrl; }
+        });
+    });
+
+    var tbl = $('#pref-table tr');
+    if (tbl.length == 1) { $('#existing-entries-pref').hide(); }
+
+    function htmlDecode(input) { var doc = new DOMParser().parseFromString(input, "text/html"); return doc.documentElement.textContent; }
+
+    $('button#add-label').click(function () {
+        var labelLang = $('#lang-select').val();
+        var labelName = $('#preflabel-input').val();
+        $.ajax({ url: htmlDecode("service/add-preflabel?concept=" + concept + "&lang=" + labelLang) + "&vocab=" + vocab,
+            type: "POST", data: labelName, contentType: "application/xml", dataType: "text",
+            success: function (data) { window.location.reload(); }
+        });
+    });
+
+    $('input.remove-preflabel').click(function () {
+        var labelLang = $(this).closest('td').prev().html();
+        $.ajax({ url: htmlDecode("service/remove-label?concept=" + concept + "&lang=" + labelLang) + "&vocab=" + vocab,
+            success: function (data) { window.location.reload(); }
+        });
+    });
+
+    var tbl2 = $('#broader-table tr');
+    if (tbl2.length == 1) { $('#existing-entries-broader').hide(); }
+
+    $('button#add-broader').click(function () {
+        var selectBroaderName = $('#broader-select').val();
+        $.ajax({ url: htmlDecode("service/add-broader?concept=" + concept) + "&vocab=" + vocab,
+            type: "POST", data: selectBroaderName, contentType: "application/xml", dataType: "text",
+            success: function (data) { window.location.reload(); }
+        });
+    });
+
+    $('input.remove-broader').click(function () {
+        var currentBroaderName = $(this).closest('td').prev().html().substring(1);
+        $.ajax({ url: htmlDecode("service/remove-label?concept=" + concept + "&broader=" + currentBroaderName) + "&vocab=" + vocab,
+            success: function (data) { window.location.reload(); }
+        });
+    });
+
+    $('button#submit-content').click(function () {
+        var editorContent = CKEDITOR.instances.editor.document.getBody().getHtml();
+        $.ajax({ url: "service/edit-definition?concept=" + concept + "&vocab=" + vocab,
+            type: "PUT", contentType: "application/xml", data: editorContent, dataType: "xml",
+            success: function(response) {
+                if($(response).find("result").text()=='true') {
+                    $('#submit-msg-suc').css({opacity: 0, display: "inline"}).animate({opacity: 1},'slow').delay(5000).fadeOut('slow');
+                } else {
+                    $('#submit-msg-err').css({opacity: 0, display: "inline"}).animate({opacity: 1},'slow').delay(5000).fadeOut('slow');
+                }
+            }
+        });
+    });
+
+    $('#release-skos').click(function () {
+        $.ajax({ url: "service/my-collection-release-skos?vocab=" + vocab,
+            success: function (data) { $('#release-msg-suc').css({opacity: 0, display: "block"}).animate({opacity: 1},'slow').delay(5000).fadeOut('slow'); },
+            error: function (data) { $('#release-msg-err').css({opacity: 0, display: "block"}).animate({opacity: 1},'slow').delay(5000).fadeOut('slow'); }
+        });
+    });
+</script>

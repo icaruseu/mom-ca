@@ -1,0 +1,242 @@
+<!--
+    MOM-CA My Account Page (Fore Web Components)
+    ==============================================
+    Conversion of the legacy my-account.widget.xml from XForms to Fore
+    web components.
+
+    The page requires authentication (xrx:auth with dbgroup=atom).
+    Unauthenticated users see a "please login" message.
+
+    Sources:
+        my/XRX/src/core/app/user/widget/my-account.widget.xml
+        my/XRX/src/mom/app/user/widget/my-account.widget.xml
+-->
+<div id="my-account-page">
+
+    <h2 data-i18n="my-account">My Account</h2>
+
+    <!-- Unauthenticated state -->
+    <div id="my-account-guest" class="auth-false" hidden="hidden">
+        <p data-i18n="protected-page-message">
+            Protected page. Please login first.
+        </p>
+    </div>
+
+    <!-- Authenticated state -->
+    <div id="my-account" class="standard-form auth-true">
+
+        <!-- Role and moderator info (populated by XQuery) -->
+        <div>
+            <b>
+                <span data-i18n="my-roles">My Roles</span><span>: </span>
+                <span data-template="user:roles"></span>
+            </b>
+            <br/>
+            <b>
+                <span data-i18n="my-moderator">My Moderator</span><span>: </span>
+                <span data-template="user:moderator-label"></span>
+            </b>
+        </div>
+
+        <fx-fore>
+            <fx-model id="my-account">
+
+                <fx-instance id="user-data" src="/api/user/current">
+                    <data>
+                        <firstname></firstname>
+                        <name></name>
+                        <email></email>
+                        <phone></phone>
+                        <institution></institution>
+                        <street></street>
+                        <zip></zip>
+                        <town></town>
+                        <moderator></moderator>
+                        <info></info>
+                    </data>
+                </fx-instance>
+
+                <fx-instance id="resp">
+                    <data>
+                        <status></status>
+                        <message></message>
+                        <icon></icon>
+                    </data>
+                </fx-instance>
+
+                <fx-bind ref="firstname" required="true()" constraint="string-length(.) > 0"></fx-bind>
+                <fx-bind ref="name" required="true()" constraint="string-length(.) > 0"></fx-bind>
+                <fx-bind ref="email" readonly="true()"></fx-bind>
+                <fx-bind ref="phone"></fx-bind>
+                <fx-bind ref="institution"></fx-bind>
+                <fx-bind ref="street"></fx-bind>
+                <fx-bind ref="zip"></fx-bind>
+                <fx-bind ref="town"></fx-bind>
+                <fx-bind ref="moderator" required="true()" constraint="string-length(.) > 0"></fx-bind>
+                <fx-bind ref="info"></fx-bind>
+
+                <fx-submission id="supdate-account"
+                               url="/api/user/update-account"
+                               method="POST"
+                               replace="instance"
+                               instance="resp">
+                </fx-submission>
+
+            </fx-model>
+
+            <div class="delete-account-trigger">
+                <a href="change-password" data-i18n="change-my-password-message">
+                    Change my password
+                </a>
+                <br/>
+            </div>
+
+            <div class="InlineRoundBordersAlert vertical-table">
+
+                <!-- Firstname -->
+                <fx-control ref="firstname" class="form-field">
+                    <label slot="label">
+                        <span data-i18n="firstname">Firstname</span><span>*:&nbsp;</span>
+                    </label>
+                    <input type="text"
+                           placeholder="Enter your Firstname"
+                           data-i18n-placeholder="enter-your-firstname"/>
+                    <fx-alert data-i18n="required-field">Required Field.</fx-alert>
+                </fx-control>
+
+                <!-- Lastname -->
+                <fx-control ref="name" class="form-field">
+                    <label slot="label">
+                        <span data-i18n="lastname">Lastname</span><span>*:&nbsp;</span>
+                    </label>
+                    <input type="text"
+                           placeholder="Enter your Lastname"
+                           data-i18n-placeholder="enter-your-lastname"/>
+                    <fx-alert data-i18n="required-field">Required Field.</fx-alert>
+                </fx-control>
+
+                <!-- Email (readonly) -->
+                <fx-control ref="email" class="form-field">
+                    <label slot="label">
+                        <span data-i18n="email">Email</span><span>*:&nbsp;</span>
+                    </label>
+                    <input type="email" readonly="readonly"/>
+                </fx-control>
+
+                <!-- Phone -->
+                <fx-control ref="phone" class="form-field">
+                    <label slot="label">
+                        <span data-i18n="phone">Phone</span><span>:</span>
+                    </label>
+                    <input type="text"
+                           placeholder="Enter Phone Number"
+                           data-i18n-placeholder="enter-phone-number-message"/>
+                </fx-control>
+
+                <!-- Institution -->
+                <fx-control ref="institution" class="form-field">
+                    <label slot="label">
+                        <span data-i18n="institution">Institution</span><span>:</span>
+                    </label>
+                    <input type="text"
+                           placeholder="The Name of your Institution"
+                           data-i18n-placeholder="name-of-institution-message"/>
+                </fx-control>
+
+                <!-- Street -->
+                <fx-control ref="street" class="form-field">
+                    <label slot="label">
+                        <span data-i18n="street">Street</span><span>:</span>
+                    </label>
+                    <input type="text"
+                           placeholder="Enter Street Name"
+                           data-i18n-placeholder="enter-street-name-message"/>
+                </fx-control>
+
+                <!-- ZIP -->
+                <fx-control ref="zip" class="form-field">
+                    <label slot="label">
+                        <span data-i18n="zip">ZIP</span><span>:</span>
+                    </label>
+                    <input type="text"
+                           placeholder="Enter ZIP Code"
+                           data-i18n-placeholder="enter-zip-code-message"/>
+                </fx-control>
+
+                <!-- City -->
+                <fx-control ref="town" class="form-field">
+                    <label slot="label">
+                        <span data-i18n="city">City</span><span>:</span>
+                    </label>
+                    <input type="text"
+                           placeholder="Enter Name of your City"
+                           data-i18n-placeholder="enter-city-name-message"/>
+                </fx-control>
+
+                <!-- About me -->
+                <fx-control ref="info" class="form-field">
+                    <label slot="label">
+                        <span data-i18n="about-me">About me</span><span>:</span>
+                    </label>
+                    <textarea rows="4"></textarea>
+                </fx-control>
+
+            </div>
+
+            <div id="moderator-div" class="moderator-info"></div>
+            <br/>
+            <br/>
+
+            <fx-trigger>
+                <button data-i18n="apply-changes">Apply Changes</button>
+                <fx-send submission="supdate-account" event="click"></fx-send>
+            </fx-trigger>
+
+            <fx-message event="submit-done" level="ephemeral">
+                Entry successfully saved.
+            </fx-message>
+
+        </fx-fore>
+
+        <div>
+            <br/>
+            <br/>
+            <br/>
+            <span data-i18n="required-field-message">Fields marked with * are required fields.</span>
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+    #my-account {
+        position: relative;
+        float: left;
+        width: 800px;
+    }
+
+    .delete-account-trigger {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    #my-account .form-field {
+        margin-bottom: 0.75rem;
+    }
+
+    #my-account .vertical-table {
+        display: flex;
+        flex-direction: column;
+    }
+</style>
+
+<script type="module">
+    // Toggle authenticated / unauthenticated views based on session state
+    // This will be driven by the app's auth module at runtime
+    const isGuest = document.documentElement.dataset.user === 'guest';
+    if (isGuest) {
+        document.getElementById('my-account').hidden = true;
+        document.getElementById('my-account-guest').hidden = false;
+    }
+</script>

@@ -1,0 +1,55 @@
+<!--
+    MOM-CA Glossar Page
+    ===================
+    Converted from: my/XRX/src/mom/app/glossar/widget/glossar.widget.xml
+
+    Illuminated Charters Glossary. Uses jQuery AJAX to load glossary
+    entries from the getGlossar service. No XForms elements.
+-->
+<div id="illumlogo">
+    <img src="resources/images/illum.jpg" alt="IlluminatedCharters" id="illum"/>
+</div>
+
+<div id="header">
+    <h2>Illuminierte Urkunden</h2>
+    <h1>Glossar</h1>
+</div>
+
+<div id="momlogo">
+    <img src="resources/images/mom-logo.png" alt="mom" id="mom"/>
+</div>
+
+<div class="entry"></div>
+
+<script type="text/javascript">
+(function($, undefined) {
+    var dieurl = window.location.href;
+    var parameter = dieurl.indexOf('pm=') + 3;
+    var gesamt = dieurl.length;
+    var pm = dieurl.substring(parameter, gesamt);
+    $.ajax({
+        url: "service/getGlossar",
+        type: "GET",
+        dataType: "html",
+        data: { pm: pm },
+        success: function(data, textStatus, jqXHR) {
+            $('div.entry').append(data);
+            return true;
+        },
+        error: function() {
+            console.log("failed");
+            return false;
+        }
+    });
+})(jQuery);
+</script>
+
+<style>
+    div.port {
+        overflow: hidden;
+        font-family: Trebuchet MS, regular, sans-serif;
+        font-size: 16px;
+        text-align: justify;
+        clear: both;
+    }
+</style>

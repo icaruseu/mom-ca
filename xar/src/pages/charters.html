@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Charters</title>
+    <style>
+        #charters {
+            position: relative;
+            float: left;
+            width: 960px;
+            padding: 0;
+            margin: 0;
+            margin-bottom: 20px;
+        }
+        #year-navi {
+            position: relative;
+            float: left;
+            width: 120px;
+            margin: 0;
+            margin-top: 0;
+            padding-right: 37px;
+        }
+        .year-list {
+            margin: 10px;
+        }
+        .year-list * {
+            line-height: 2em;
+            color: black;
+            text-decoration: none;
+        }
+        #block-navi {
+            padding-bottom: 20px;
+            float: left;
+            left: 20px;
+        }
+        #block-navi b a, #block-navi b span {
+            padding: 5px;
+        }
+        #goto-search {
+            margin-top: -3em;
+            float: right;
+        }
+        #goto-anno-overview {
+            margin-top: -3em;
+            float: right;
+        }
+        #heading {
+            margin-top: 30px;
+        }
+        #preface {
+            position: relative;
+            width: 800px;
+            float: left;
+        }
+        div.clear {
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+    <div id="charters" data-template="app:charters-view">
+        <div>
+            <!-- Heading -->
+            <div data-template="app:charters-heading"></div>
+            <!-- Breadcrumb -->
+            <div data-template="app:charters-breadcrumb"></div>
+            <!-- My functions -->
+            <div data-template="app:charters-my-functions"></div>
+
+            <!-- Year navigation -->
+            <div id="year-navi">
+                <div data-template="app:charters-preface-link"></div>
+                <div class="year-list">
+                    <p class="navi-heading">
+                        <span data-i18n="Years">Years</span>
+                    </p>
+                    <div data-template="app:charters-year-blocks"></div>
+                </div>
+            </div>
+
+            <!-- Block navigation and search -->
+            <div id="heading">
+                <div id="container">
+                    <div data-template="app:charters-block-navi"></div>
+                    <div data-template="app:charters-goto-search"></div>
+                </div>
+            </div>
+
+            <!-- Preface or charter preview -->
+            <div data-template="app:charters-content"></div>
+        </div>
+    </div>
+
+    <!-- Copy legal popup -->
+    <div id="copy-legal-popUp" style="display:none">
+        <div id="dialogcontent">
+            <span data-i18n="you-are-copying-a-text-from">You are copying a text from</span>
+            <span id="insertOwner"></span>
+            <span data-i18n="end-legal-text">into your own collection. Please be aware that reusing it might infringe intellectual property rights, so please check individual licences and cite the source of your information when you publish your data</span>
+        </div>
+    </div>
+    <div id="select-collection-popUp" style="display:none">
+        <div id="dialogcontent">
+            <select id="collectionSelect"></select>
+        </div>
+    </div>
+</body>
+</html>

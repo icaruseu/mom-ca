@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Imported Charter Preview</title>
+</head>
+<body>
+  <div data-template="charter-preview-importedcollection:load" class="charter-preview">
+
+    <!-- Charter link -->
+    <div>
+      <b>
+        <span data-i18n="imported-charter-preview">Imported Charter (Preview)</span>
+        <span>: </span>
+      </b>
+      <span>
+        <a data-template="charter-preview-importedcollection:charter-href">
+          <span data-template="charter-preview-importedcollection:idno"/>
+        </a>
+      </span>
+    </div>
+
+    <!-- Date -->
+    <div data-template="charter-preview:date"/>
+
+    <!-- Abstract -->
+    <div data-template="charter-preview:abstract"/>
+
+    <!-- Image count -->
+    <div data-template="charter-preview:num-images"/>
+
+    <!-- View charter link -->
+    <div>
+      <a data-template="charter-preview-importedcollection:charter-href">
+        <span data-i18n="view-charter">View Charter</span>
+      </a>
+    </div>
+
+  </div>
+</body>
+</html>

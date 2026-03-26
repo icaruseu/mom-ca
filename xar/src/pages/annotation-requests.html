@@ -1,0 +1,37 @@
+<!--
+    MOM-CA Annotation Requests Page
+    ===============================
+    Converted from: my/XRX/src/mom/app/crop/widget/annotation-requests.widget.xml
+
+    Lists annotation requests for moderators. Auth-protected.
+    Moderators can accept/reject annotation submissions.
+-->
+<div data-template="auth:require-group" data-group="atom">
+    <div id="basic">
+        <div class="h2">
+            <span data-i18n="annotation-requests">Annotation Requests</span>
+        </div>
+        <br/><br/>
+        <div id="loadtext" style="display:none;"></div>
+        <div id="annolist" data-template="annotation-requests:list">
+            <!-- Annotation request entries rendered by server -->
+        </div>
+    </div>
+</div>
+
+<div data-template="auth:fallback">
+    <div class="h2">
+        <span data-i18n="annotation-requests">Annotation Requests</span>
+    </div>
+    <span data-i18n="protected-page-message">Protected page. Please login first.</span>
+    <div data-template="app:login-form"></div>
+</div>
+
+<style>
+    #desktop-left-menu { float: left; width: 150px; }
+    #loadtext { display: none; top: 30px; position: relative; color: #CAC6C6; font-weight: bold; }
+    .button { float: left; line-height: 1.3em; vertical-align: middle; background-color: #F6F6F6; border-color: #FFFFFF #D9D9D9 #D9D9D9; border-style: solid; border-width: 3px 3px 3px 0; color: #000000; padding: 7px 10px; border-radius: 10px; }
+    .button:hover { cursor: default; position: relative; z-index: 599; background-color: #EEEEEE; color: #000000; }
+    .hiddenButton { display: none; height: 20px; float: left; position: relative; background-color: #F6F6F6; border-color: #FFFFFF #D9D9D9 #D9D9D9; border-style: solid; border-width: 3px 3px 3px 0; color: #000000; padding: 7px 10px; border-radius: 10px; }
+    .hiddenButton:hover { cursor: default; z-index: 599; background-color: #EEEEEE; color: #000000; }
+</style>

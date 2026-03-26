@@ -1,0 +1,37 @@
+<!--
+    MOM-CA Static Htdoc Page
+    ========================
+    Converted from: my/XRX/src/mom/app/htdoc/widget/static-htdoc.widget.xml
+
+    Displays a static HTML document (htdoc) by atom ID. Shows the title,
+    an edit link for html-authors, and the processed htdoc content.
+    No XForms. Uses jQuery.
+-->
+<div id="dwidget" data-template="static-htdoc:page">
+
+    <div class="h2">
+        <span data-template="static-htdoc:title"></span>
+        <!-- Edit link for html-authors -->
+        <span data-template="auth:require-role" data-role="html-author">
+            <a class="edit-link" data-template="static-htdoc:edit-link">
+                <span>[</span><span data-i18n="edit">Edit</span><span>]</span>
+            </a>
+        </span>
+    </div>
+
+    <div id="static-htdoc">
+        <div id="inner-static-htdoc">
+            <div data-template="static-htdoc:content">
+                <!-- Processed htdoc HTML content rendered here -->
+            </div>
+            <br/><br/>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    #dwidget .edit-link { font-size: 11px; }
+    #dwidget .edit-link * { color: rgb(114,133,108); font-size: 11px; }
+    #static-htdoc { margin-top: 40px; margin-right: 100px; }
+</style>

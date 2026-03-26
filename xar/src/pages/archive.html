@@ -1,0 +1,189 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+  <head>
+    <title data-i18n="archive">Archive</title>
+    <style type="text/css">
+      #archive {
+        position: relative;
+        float: left;
+        width: 960px;
+      }
+      #goto-search {
+        float: right;
+        margin-bottom: 10px;
+        margin-top: -3em;
+      }
+      #logo {
+        text-align: right;
+        width: 100%;
+        background: white;
+      }
+      #logo img {
+        width: 100%;
+      }
+      #about {
+        position: relative;
+        float: right;
+        background: rgb(240,240,240);
+        width: 32.5%;
+        margin: 0px;
+        padding: 0px;
+      }
+      #inner-about {
+        margin: 20px;
+        text-align: center;
+      }
+      p.left {
+        text-align: left;
+      }
+      #dfonds {
+        position: relative;
+        float: left;
+        width: 65%;
+        margin: 0px;
+        padding: 0px;
+      }
+      .fondlink {
+        margin-bottom: 7px;
+      }
+      #dfonds .light-grey {
+        color: grey;
+      }
+      div.clear {
+        clear: both;
+      }
+      div#archive div#container {
+        margin-top: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="dwidget">
+      <div id="archive" data-template="archive:view">
+
+        <div class="h2">
+          <span data-i18n="archive">Archive</span>
+          <span>: <span data-template="archive:name"/> (<span data-template="archive:short-name"/>)</span>
+        </div>
+
+        <!-- My Functions (auth required: atom group) -->
+        <div data-template="auth:if-logged-in" class="my-functions">
+          <div class="my-functions-label">
+            <span data-i18n="my-functions">MyFunctions</span>
+          </div>
+          <div class="function-links">
+            <!-- Links for metadata-manager or community member -->
+            <div data-template="auth:if-role" data-template-role="metadata-manager,community">
+              <div class="function-link">
+                <a data-template="archive:edit-link">
+                  <span>&#8227; </span>
+                  <span data-i18n="edit-archive-info">Edit archive information</span>
+                  <span> (ISDIAH)</span>
+                </a>
+              </div>
+              <div class="function-link">
+                <a data-template="archive:remove-link">
+                  <span>&#8227; </span>
+                  <span data-i18n="remove-archive">Remove Archive</span>
+                </a>
+              </div>
+              <div class="function-link">
+                <a data-template="archive:new-fond-link">
+                  <span>&#8227; </span>
+                  <span data-i18n="new-fond">New fond</span>
+                </a>
+              </div>
+              <div class="function-link">
+                <a data-template="archive:oai-link">
+                  <span>&#8227; </span>
+                  <span data-i18n="oai-interface">OAI Interface</span>
+                </a>
+              </div>
+            </div>
+            <!-- Link for user-administrator -->
+            <div data-template="auth:if-role" data-template-role="user-administrator">
+              <div class="function-link">
+                <a data-template="archive:manage-archivists-link">
+                  <span>&#8227; </span>
+                  <span data-i18n="manage-archivists">Manage Archivists</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Breadcrumb -->
+        <div id="breadcrumb">
+          <a href="fonds" data-i18n="fonds">Fonds</a>
+          <span> &gt; </span>
+          <a data-template="archive:breadcrumb-link"/>
+        </div>
+
+        <div id="container">
+          <!-- Search within archive -->
+          <div id="goto-search">
+            <span data-i18n="search-in">Search in</span>
+            <span data-template="archive:search-context"> &gt;&gt;</span>
+            <form style="padding:0;" data-template="archive:search-form">
+              <input id="search-field" name="q" type="text"/>
+              <input type="hidden" name="context" data-template="archive:context-value"/>
+              <input id="search-trigger" type="submit" data-i18n="search" value="Search"/>
+            </form>
+          </div>
+        </div>
+
+        <!-- Imported charters (preview) - auth required -->
+        <div id="dfonds">
+          <div data-template="auth:if-role" data-template-role="metadata-manager,community">
+            <div data-template="archive:imported-fonds">
+              <h3 data-i18n="imported-charters-preview">Imported charters (preview)</h3>
+              <div data-template="archive:imported-fond-list"/>
+            </div>
+          </div>
+          <br/><br/>
+          <h3 data-i18n="fonds2">Fonds</h3>
+          <div data-template="archive:fond-list" class="fondlink"/>
+        </div>
+
+        <!-- About / Contact -->
+        <div id="about">
+          <div id="logo">
+            <img data-template="archive:logo-img"/>
+          </div>
+          <div id="inner-about">
+            <h3 data-i18n="contact">Contact</h3>
+            <p class="left" data-i18n="contact-info-message">For detailed information and usage of the archival charter collections please contact:</p>
+            <div>
+              <div><span data-template="archive:contactperson"/></div>
+              <div><span data-template="archive:archive-name"/></div>
+              <div><span data-template="archive:street"/></div>
+              <div><span data-template="archive:zip-city"/></div>
+              <div data-template="archive:telephone">
+                <span data-i18n="telephone">Telephone</span>
+                <span>: <span data-template="archive:telephone-value"/></span>
+              </div>
+              <div data-template="archive:fax">
+                <span data-i18n="fax">Fax</span>
+                <span>: <span data-template="archive:fax-value"/></span>
+              </div>
+              <div>
+                <a data-template="archive:email-link"/>
+              </div>
+              <div data-template="archive:webpage">
+                <a data-template="archive:webpage-link" target="_blank" data-i18n="homepage">Homepage</a>
+              </div>
+            </div>
+            <br/>
+            <div>
+              <h3>
+                <span data-i18n="archivists">Archivists</span>
+              </h3>
+              <div data-template="archive:archivist-list" style="margin-bottom:8px"/>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </body>
+</html>

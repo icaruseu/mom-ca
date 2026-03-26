@@ -1,0 +1,101 @@
+<!--
+    MOM-CA Search Page (Legacy)
+    ===========================
+    Converted from: my/XRX/src/mom/app/search/widget/search.widget.xml
+
+    Legacy full-text search page. Uses XForms for search input, confine
+    options (date range, archive/fond/collection filters), sorting, and
+    image filter. Results are rendered via the result subwidget.
+-->
+<div id="search">
+
+    <fx-fore>
+        <fx-model id="msearch">
+            <fx-instance id="isearch">
+                <data>
+                    <query></query>
+                    <sort>date</sort>
+                    <img>false</img>
+                    <arch></arch>
+                    <col></col>
+                    <dateFrom></dateFrom>
+                    <dateTo></dateTo>
+                </data>
+            </fx-instance>
+            <fx-submission id="ssearch"
+                           url="search"
+                           method="get"
+                           replace="all">
+            </fx-submission>
+        </fx-model>
+
+        <div class="h2">
+            <span data-i18n="search">Search</span>
+        </div>
+
+        <!-- Search input -->
+        <div id="input">
+            <div id="input-search">
+                <fx-control ref="query">
+                    <label data-i18n="search-query">Search query</label>
+                </fx-control>
+                <fx-trigger>
+                    <button data-i18n="search">Search</button>
+                </fx-trigger>
+            </div>
+        </div>
+
+        <!-- Search options -->
+        <div id="search-options">
+            <div id="confine">
+                <h3 data-i18n="confine-search">Confine search</h3>
+                <div>
+                    <fx-control ref="arch">
+                        <label data-i18n="archive-fond">Archive/Fond</label>
+                    </fx-control>
+                </div>
+                <div>
+                    <fx-control ref="col">
+                        <label data-i18n="collection">Collection</label>
+                    </fx-control>
+                </div>
+                <div>
+                    <fx-control ref="dateFrom">
+                        <label data-i18n="date-from">Date from</label>
+                    </fx-control>
+                    <fx-control ref="dateTo">
+                        <label data-i18n="date-to">Date to</label>
+                    </fx-control>
+                </div>
+                <div>
+                    <label>
+                        <input type="checkbox" id="img-filter"/>
+                        <span data-i18n="only-with-images">Only with images</span>
+                    </label>
+                </div>
+                <div>
+                    <span data-i18n="sort-by">Sort by</span>:
+                    <select id="sort-select">
+                        <option value="date" data-i18n="date">Date</option>
+                        <option value="relevance" data-i18n="relevance">Relevance</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results area -->
+        <div id="result" data-template="search:results">
+            <!-- Search result charter previews rendered here -->
+        </div>
+
+    </fx-fore>
+
+</div>
+
+<style>
+    #search { position: relative; float: left; width: 960px; text-align: left; }
+    #search-options { margin-top: 20px; }
+    #result { position: relative; float: left; text-align: left; }
+    #result .hi { background: yellow; }
+    #confine { text-align: left; }
+</style>

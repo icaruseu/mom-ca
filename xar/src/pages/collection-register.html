@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Collection Register Search</title>
+  <style>
+    #SearchOptions {
+      background-color: lightgrey;
+      margin-left: 190px;
+      margin-top: -35px;
+      position: absolute;
+    }
+    #leftFrame {
+      width: 25%;
+      height: 1500px;
+    }
+    #divSearchType {
+      display: inline;
+      margin-top: 10px;
+    }
+    .typeTab.active {
+      background-color: aliceblue;
+    }
+    #contentTab {
+      width: 33%;
+    }
+    #keyTab {
+      width: 25%;
+      margin-left: 80px;
+      margin-top: -21px;
+    }
+    #regTab {
+      width: 40%;
+      margin-left: 142px;
+      margin-top: -21px;
+    }
+    #searchOptions {
+      margin-left: 5px;
+      margin-bottom: 7px;
+    }
+    .list {
+      direction: ltr;
+      margin-left: -20px;
+      overflow-x: auto;
+    }
+    .resultsListItem {
+      margin-bottom: 5px;
+    }
+    .list.inactive {
+      display: none;
+    }
+    #elementName {
+      margin-top: 10px;
+    }
+    #elementNameField {
+      width: 55%;
+      margin-left: 10px;
+    }
+    #firstCharacter {
+      margin-top: 10px;
+    }
+    #firstCharacterSelect {
+      margin-left: 10px;
+    }
+    #key {
+      margin-top: 10px;
+      margin-left: -18px;
+    }
+    #keyLabel {
+      line-height: 9px;
+      vertical-align: text-top;
+    }
+    #searchButton {
+      margin-left: 65px;
+    }
+    #termResults {
+      direction: rtl;
+      overflow-y: auto;
+      overflow-x: hidden;
+      max-height: 600px;
+      margin-top: 10px;
+      background-color: white;
+    }
+    #keyField {
+      margin-left: 10px;
+      width: 72%;
+    }
+    #searchResults {
+      position: absolute;
+      top: 20px;
+      left: 270px;
+      width: 700px;
+    }
+    #resultIframe {
+      width: 715px;
+      height: 1000px;
+      overflow: hidden;
+    }
+    #dcharter-preview-main {
+      width: 690px !important;
+    }
+    #searchResultsHead {
+      width: 690px;
+      background-color: #f5f5f5;
+    }
+    #resultsDiv {
+      height: 100%;
+      margin-top: 10px;
+    }
+    .results {
+      overflow: auto;
+      max-height: 1450px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Left frame: search controls -->
+  <div id="leftFrame">
+    <div id="searchOptions">
+      <div id="elementName">
+        <span>Element:</span>
+        <select id="elementNameSelect">
+          <option value="cei:persName" data-i18n="person_name">Persons</option>
+          <option value="cei:placeName" data-i18n="place_name">Places</option>
+          <option value="cei:orgName" data-i18n="organisiation">Organisations</option>
+          <option value="cei:issuer" data-i18n="issueres">Issuers</option>
+          <option value="cei:testis" data-i18n="witnisses">Witnesses</option>
+          <option value="cei:rolename" data-i18n="role">Roles</option>
+        </select>
+      </div>
+      <div id="contentSearch">
+        <div id="firstCharacter">
+          <span><span data-i18n="first_character">First Character</span>:</span>
+          <select id="firstCharacterSelect">
+            <option>A</option><option>B</option><option>C</option><option>D</option>
+            <option>E</option><option>F</option><option>G</option><option>H</option>
+            <option>I</option><option>J</option><option>K</option><option>L</option>
+            <option>M</option><option>N</option><option>O</option><option>P</option>
+            <option>Q</option><option>R</option><option>S</option><option>T</option>
+            <option>U</option><option>V</option><option>W</option><option>X</option>
+            <option>Y</option><option>Z</option><option>All</option>
+          </select>
+        </div>
+        <div>
+          <span data-i18n="attention_takes_time">Attention, depending on the amount of markup, this can take quite a while!</span>
+        </div>
+        <button id="contentSearchButton">Search</button>
+      </div>
+    </div>
+    <div id="divSearchType">
+      <div id="contentTab" class="typeTab active">Content</div>
+      <div id="keyTab" class="typeTab inactive">Key</div>
+      <div id="regTab" class="typeTab inactive">Normalized</div>
+    </div>
+    <div id="termResults">
+      <ul id="contentResultsList" class="list active"></ul>
+      <ul id="keyResultList" class="list inactive"></ul>
+      <ul id="regResultList" class="list inactive"></ul>
+    </div>
+  </div>
+
+  <!-- Right frame: search results -->
+  <div id="rightFrame">
+    <div id="searchResults">
+      <!-- Search results rendered by template -->
+      <div data-template="collection-register:search-results"/>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    jQuery(document).ready(function(){
+      var el = document.getElementById('leftFrame');
+      var root = document.querySelector('[data-request-root]');
+      var requestRoot = root ? root.dataset.requestRoot : '/';
+      $(el).collectionIndexSearch({
+        requestRoot: requestRoot,
+        collectionId: el.dataset.collectionId || '',
+        termsearch: '',
+        collectionType: el.dataset.collectionType || '',
+        fondId: el.dataset.fondId || ''
+      });
+    });
+  </script>
+</body>
+</html>

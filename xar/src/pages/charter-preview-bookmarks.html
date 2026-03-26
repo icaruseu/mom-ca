@@ -1,0 +1,81 @@
+<!--
+    MOM-CA Charter Preview (Bookmarks context)
+    ===========================================
+    Converted from: my/XRX/src/mom/app/bookmark/widget/charter-preview-bookmarks.widget.xml
+
+    This is a subwidget/component used within the bookmarks page. It
+    inherits from charter-preview and adds bookmark-specific actions
+    (remove bookmark, notes). Uses XForms for bookmark/publication models.
+-->
+<div class="charter-preview-bookmarks" data-template="charter-preview:bookmarks">
+
+    <!-- Charter link: fond or collection context -->
+    <div data-template="charter-preview:charter-link">
+        <a data-template="charter-preview:archive-link"></a>
+        <span> - </span>
+        <a data-template="charter-preview:fond-link"></a>
+        <span class="light-grey">
+            <span> (<span data-i18n="fond">Fond</span>)</span>
+        </span>
+    </div>
+
+    <div>
+        <b><span data-i18n="charter">Charter</span><span>: </span></b>
+        <span><a data-template="charter-preview:charter-url"></a></span>
+    </div>
+
+    <!-- View charter link -->
+    <div>
+        <a data-template="charter-preview:charter-url">
+            <span data-i18n="view-charter">View Charter</span>
+        </a>
+    </div>
+
+    <!-- Archive functions (auth-protected) -->
+    <div data-template="auth:require-group" data-group="atom">
+        <div class="fieldset">
+            <div class="inner-fieldset" style="padding-bottom:8px;">
+                <span data-i18n="my-archive">MyArchive</span>
+
+                <div>
+                    <fx-trigger class="btn-minimal">
+                        <button data-i18n="remove-bookmark">Remove bookmark</button>
+                    </fx-trigger>
+                </div>
+
+                <!-- Publication user actions placeholder -->
+                <div data-template="publication:user-actions"></div>
+
+                <!-- Bookmark note section -->
+                <div class="note-field">
+                    <div>
+                        <b><span data-i18n="bookmark-note">Bookmark note</span><span>: </span></b>
+                        <br/>
+                        <span data-template="bookmark:note-output"></span>
+                        <div class="edit-box">
+                            <button data-i18n="edit-note">Edit note</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Note bubble popup -->
+            <div class="noteBobble" style="display:none;">
+                <fx-control ref="bookmarkNote" label-i18n="bookmark-note">
+                    <label data-i18n="bookmark-note">Bookmark note</label>
+                </fx-control>
+                <div class="note-save-trigger">
+                    <fx-trigger>
+                        <button data-i18n="save">save</button>
+                    </fx-trigger>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Not logged in fallback -->
+    <div data-template="auth:fallback" class="light-grey">
+        <span data-i18n="add-bookmark">Add bookmark</span>
+    </div>
+
+</div>

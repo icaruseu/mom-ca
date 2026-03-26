@@ -1,0 +1,235 @@
+<!--
+    MOM-CA Registration Page (Fore Web Components)
+    ================================================
+    Conversion of the legacy registration.widget.xml from XForms to Fore
+    web components.
+
+    Mapping applied:
+        xf:model       -> fx-fore > fx-model
+        xf:instance    -> fx-instance
+        xf:bind        -> fx-bind
+        xf:submission  -> fx-submission
+        xf:input       -> fx-control wrapping <input>
+        xf:secret      -> fx-control wrapping <input type="password">
+        xf:select1     -> fx-control wrapping <select>
+        xf:trigger     -> fx-trigger wrapping <button>
+        xf:switch/case -> fx-switch / fx-case
+        xrx:i18n       -> data-i18n attributes
+
+    Sources:
+        my/XRX/src/core/app/user/widget/registration.widget.xml
+        my/XRX/src/mom/app/user/widget/registration.widget.xml
+-->
+<div id="dregistration">
+
+    <h2 data-i18n="registration">Registration</h2>
+
+    <fx-fore>
+        <fx-model id="registration">
+
+            <fx-instance id="user-data">
+                <data>
+                    <username></username>
+                    <password></password>
+                    <firstname></firstname>
+                    <name></name>
+                    <email></email>
+                    <moderator></moderator>
+                    <street></street>
+                    <zip></zip>
+                    <town></town>
+                    <phone></phone>
+                    <institution></institution>
+                    <info></info>
+                </data>
+            </fx-instance>
+
+            <fx-instance id="iresponse">
+                <data>
+                    <status></status>
+                    <message></message>
+                    <icon></icon>
+                </data>
+            </fx-instance>
+
+            <fx-bind ref="firstname" required="true()" constraint="string-length(.) > 0"></fx-bind>
+            <fx-bind ref="name" required="true()" constraint="string-length(.) > 0"></fx-bind>
+            <fx-bind ref="email" required="true()" type="email" constraint="string-length(.) > 0"></fx-bind>
+            <fx-bind ref="password" required="true()" constraint="string-length(.) >= 6"></fx-bind>
+            <fx-bind ref="username" required="true()" constraint=". = ../password"></fx-bind>
+            <fx-bind ref="moderator" required="true()" constraint="string-length(.) > 0"></fx-bind>
+
+            <fx-submission id="screate-account"
+                           url="/api/user/create-account"
+                           method="POST"
+                           replace="instance"
+                           instance="iresponse">
+            </fx-submission>
+
+        </fx-model>
+
+        <div class="InlineRoundBordersAlert standard-form">
+
+            <div class="entry-info" data-i18n="registration-info-message">
+                Type in here some info about the registration with the translation tool.
+            </div>
+            <br/>
+
+            <!-- Response messages -->
+            <div id="dresponse-info-div">
+                <div>
+                    <fx-output ref="instance('iresponse')/icon" media-type="image/*"></fx-output>
+                </div>
+                <div>
+                    <fx-output ref="instance('iresponse')/message"></fx-output>
+                </div>
+            </div>
+
+            <fx-switch>
+                <fx-case id="cuserinput" selected="true">
+
+                    <div id="registration-div" class="InlineRoundBordersAlert vertical-table">
+
+                        <!-- Firstname -->
+                        <fx-control ref="firstname" class="form-field">
+                            <label slot="label">
+                                <span data-i18n="firstname">Firstname</span><span>*:&nbsp;</span>
+                            </label>
+                            <input type="text"
+                                   placeholder="Enter your Firstname"
+                                   data-i18n-placeholder="enter-your-firstname"/>
+                            <fx-alert data-i18n="required-field">Required Field.</fx-alert>
+                        </fx-control>
+
+                        <!-- Lastname -->
+                        <fx-control ref="name" class="form-field">
+                            <label slot="label">
+                                <span data-i18n="lastname">Lastname</span><span>*:&nbsp;</span>
+                            </label>
+                            <input type="text"
+                                   placeholder="Enter your Lastname"
+                                   data-i18n-placeholder="enter-your-lastname"/>
+                            <fx-alert data-i18n="required-field">Required Field.</fx-alert>
+                        </fx-control>
+
+                        <!-- Email -->
+                        <fx-control ref="email" class="form-field">
+                            <label slot="label">
+                                <span data-i18n="email">Email</span><span>*:&nbsp;</span>
+                            </label>
+                            <input type="email"
+                                   placeholder="Enter your Email Address"
+                                   data-i18n-placeholder="enter-your-email"/>
+                            <fx-alert data-i18n="email-isnt-valid">Email Address isn't valid.</fx-alert>
+                        </fx-control>
+
+                        <!-- Password -->
+                        <fx-control ref="password" class="form-field">
+                            <label slot="label">
+                                <span data-i18n="password">Password</span><span>*:&nbsp;</span>
+                            </label>
+                            <input type="password"
+                                   placeholder="Must be at least 6 characters"
+                                   data-i18n-placeholder="must-be-6-characters"
+                                   autocomplete="new-password"/>
+                            <fx-alert data-i18n="more-than-6-required">More than 6 characters required.</fx-alert>
+                        </fx-control>
+
+                        <!-- Repeat Password -->
+                        <fx-control ref="username" class="form-field">
+                            <label slot="label">
+                                <span data-i18n="repeat-password">Repeat Password</span><span>*:&nbsp;</span>
+                            </label>
+                            <input type="password"
+                                   placeholder="Repeat Password"
+                                   data-i18n-placeholder="repeat-password"
+                                   autocomplete="new-password"/>
+                            <fx-alert data-i18n="password-does-not-match">Password does not match.</fx-alert>
+                        </fx-control>
+
+                        <!-- Moderator selection -->
+                        <fx-control ref="moderator" class="form-field">
+                            <label slot="label">
+                                <span data-i18n="moderator">Moderator</span><span>*:&nbsp;</span>
+                            </label>
+                            <select data-template="user:moderator-options">
+                                <option value="">-- Choose a Moderator --</option>
+                                <!-- Options populated dynamically by XQuery module -->
+                            </select>
+                            <fx-alert data-i18n="no-moderator-selected">No Moderator selected.</fx-alert>
+                        </fx-control>
+
+                        <!-- Submit -->
+                        <div id="register-trigger">
+                            <fx-trigger>
+                                <button data-i18n="create-account">Create Account</button>
+                                <fx-send submission="screate-account" event="click"></fx-send>
+                            </fx-trigger>
+                        </div>
+
+                        <!-- Moderator info embed target -->
+                        <div id="moderator-div" class="moderator-info"></div>
+                    </div>
+
+                    <div>
+                        <br/>
+                        <br/>
+                        <a href="request-password" data-i18n="forgot-password-message">
+                            Forgot your password? Get a new one here.
+                        </a>
+                        <br/>
+                        <br/>
+                        <span data-i18n="required-field-message">Fields marked with * are required fields.</span>
+                    </div>
+
+                </fx-case>
+
+                <fx-case id="csuccess">
+                    <div>
+                        <!-- Registration was successful; user can now log in -->
+                    </div>
+                </fx-case>
+            </fx-switch>
+
+        </div>
+
+    </fx-fore>
+
+    <!-- Member info link (preserved from MOM override) -->
+    <div class="member-info" data-template="user:member-info">
+    </div>
+
+</div>
+
+<style>
+    #dregistration {
+        width: 990px;
+    }
+
+    #register-trigger {
+        text-align: right;
+    }
+
+    .moderator-info {
+        color: grey;
+    }
+
+    .member-info {
+        text-align: right;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .member-info * {
+        font-size: 11px;
+    }
+
+    #dregistration .form-field {
+        margin-bottom: 0.75rem;
+    }
+
+    #dregistration .vertical-table {
+        display: flex;
+        flex-direction: column;
+    }
+</style>

@@ -1,0 +1,103 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+  <head>
+    <title data-i18n="new-archive">New Archive</title>
+    <link rel="stylesheet" type="text/css" href="css/forms.css"/>
+    <style type="text/css">
+      #dnew-archive {
+        width: 100%;
+      }
+      #dnew-archive .result {
+        position: relative;
+        float: none;
+        background: rgb(240,240,240);
+        border: solid grey 1px;
+        margin-top: 30px;
+        margin-bottom: 10px;
+      }
+      #dnew-archive .inner-result {
+        margin: 10px;
+      }
+      #dnew-archive .result * {
+        font-weight: bold;
+        font-size: 1.4em;
+      }
+      #dnew-archive .trigger {
+        text-align: right;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="dnew-archive">
+      <div>
+        <a href="fonds">
+          <span>&lt;&lt;</span>
+          <span data-i18n="back">back</span>
+        </a>
+      </div>
+      <div class="h2">
+        <span data-i18n="new-archive">New archive</span>
+      </div>
+
+      <fore-model id="mnew-archive">
+        <fore-instance id="ientry" data-template="archive:new-entry-instance"/>
+        <fore-instance id="idata">
+          <data>
+            <countrycode/>
+            <archid/>
+          </data>
+        </fore-instance>
+        <fore-instance id="iresponse">
+          <response status="">
+            <message/>
+            <icon/>
+          </response>
+        </fore-instance>
+        <fore-instance id="icountries" data-template="archive:countries-instance"/>
+        <fore-submission id="screate" action="service/new-archive" method="post" replace="instance" instance="iresponse"/>
+        <fore-bind id="bcountrycode" ref="instance('idata')//countrycode" required="true" constraint="string-length(.) &gt; 0"/>
+        <fore-bind id="barchid" ref="instance('idata')//archid" required="true" constraint="matches(., '^[a-zA-Z]{1,10}$')"/>
+      </fore-model>
+
+      <fore-group model="mnew-archive">
+        <div id="dresponse-info-div">
+          <div><fore-output class="icon" mediatype="image/*" ref="instance('iresponse')//icon"/></div>
+          <div><fore-output ref="instance('iresponse')//message"/></div>
+        </div>
+      </fore-group>
+
+      <div class="standard-form InlineRoundBordersAlert">
+        <fore-group appearance="vertical" class="InlineRoundBordersAlert" model="mnew-archive">
+          <fore-select1 ref="instance('idata')//countrycode">
+            <fore-label><span data-i18n="country">Country</span><span>: </span></fore-label>
+            <fore-hint><span data-i18n="required-field">Required field</span><span>.</span></fore-hint>
+            <fore-alert><span data-i18n="required-field">Required field</span><span>.</span></fore-alert>
+            <fore-itemset ref="instance('icountries')//country">
+              <fore-label ref="nativeform"/>
+              <fore-value ref="code"/>
+            </fore-itemset>
+          </fore-select1>
+
+          <fore-input ref="instance('idata')//archid">
+            <fore-label><span data-i18n="archive-id">Archive ID</span><span>: </span></fore-label>
+            <fore-hint><span data-i18n="only-upper-and-lower-case">Only upper and lower case characters</span><span>.</span></fore-hint>
+            <fore-alert><span data-i18n="only-upper-and-lower-case">Only upper and lower case characters</span><span>.</span></fore-alert>
+          </fore-input>
+
+          <div class="result">
+            <div class="inner-result">
+              <fore-output value="concat(instance('idata')//countrycode, '-', instance('idata')//archid)"/>
+            </div>
+          </div>
+
+          <div class="trigger">
+            <fore-trigger>
+              <fore-label data-i18n="create">Create</fore-label>
+              <fore-send submission="screate" event="activate"/>
+            </fore-trigger>
+          </div>
+        </fore-group>
+      </div>
+    </div>
+  </body>
+</html>

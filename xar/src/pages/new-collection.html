@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-i18n="new-collection">New collection</title>
+  <style>
+    #dnew-collection {
+      width: 100%;
+    }
+    #dnew-collection .result {
+      position: relative;
+      float: none;
+      background: rgb(240,240,240);
+      border: solid grey 1px;
+      margin-top: 30px;
+      margin-bottom: 10px;
+    }
+    #dnew-collection .inner-result {
+      margin: 10px;
+    }
+    #dnew-collection .result * {
+      font-weight: bold;
+      font-size: 1.4em;
+    }
+    #dnew-collection .trigger {
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <div id="dnew-collection">
+
+    <div>
+      <a data-template="config:resolve-link" href="collections">
+        <span>&lt;&lt;</span>
+        <span data-i18n="back">back</span>
+      </a>
+    </div>
+
+    <div class="h2">
+      <span data-i18n="new-collection">New collection</span>
+    </div>
+
+    <!-- Fore form for creating a new collection -->
+    <fx-fore>
+      <fx-model id="mnew-collection">
+        <fx-instance>
+          <data>
+            <collectionid/>
+          </data>
+        </fx-instance>
+        <fx-instance id="iresponse">
+          <data>
+            <response status="">
+              <message/>
+            </response>
+          </data>
+        </fx-instance>
+        <fx-submission id="snew-collection"
+                       url="service/new-collection"
+                       method="POST"
+                       replace="instance"
+                       instance="iresponse"/>
+        <fx-bind ref="collectionid" constraint="matches(.,'^[A-Za-z]+$')"/>
+      </fx-model>
+
+      <!-- Response info -->
+      <div id="dresponse-info-div">
+        <div>
+          <fx-output ref="instance('iresponse')//message"/>
+        </div>
+      </div>
+
+      <!-- Auth: metadata-manager only -->
+      <div data-template="auth:require-role" data-role="metadata-manager">
+        <div class="standard-form InlineRoundBordersAlert">
+          <fx-control ref="collectionid">
+            <label>
+              <span data-i18n="collection-id">Collection ID</span><span>: </span>
+            </label>
+            <fx-hint>
+              <span data-i18n="only-upper-and-lower-case">Only upper and lower case characters</span><span>.</span>
+            </fx-hint>
+            <fx-alert>
+              <span data-i18n="only-upper-and-lower-case">Only upper and lower case characters</span><span>.</span>
+            </fx-alert>
+          </fx-control>
+
+          <div class="result">
+            <div class="inner-result">
+              <span> </span>
+              <fx-output ref="collectionid"/>
+            </div>
+          </div>
+
+          <div class="trigger">
+            <fx-trigger>
+              <button>
+                <span data-i18n="create">Create</span>
+              </button>
+              <fx-send submission="snew-collection"/>
+            </fx-trigger>
+          </div>
+        </div>
+      </div>
+
+      <!-- Not authorized fallback -->
+      <div data-template="auth:require-role-else" data-role="metadata-manager">
+        <span data-i18n="protected-page-message">Protected page. Please login first.</span>
+      </div>
+    </fx-fore>
+
+  </div>
+</body>
+</html>
