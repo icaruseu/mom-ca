@@ -40,25 +40,44 @@ declare function local:app-root() as xs:string {
 (:~
  : Render a page inside the default template.
  :)
-declare function local:render-page($page as xs:string) as node() {
+declare function local:render-page($page as xs:string) {
 
     let $app-root  := local:app-root()
     let $page-path := $app-root || "/pages/" || $page || ".html"
 
-    let $page-content :=
-        if (doc-available($page-path)) then
+    return
+        if (util:binary-doc-available($page-path)) then
+            (: HTML pages stored as binary — serve as raw HTML :)
+            let $binary := util:binary-doc($page-path)
+            let $html := util:binary-to-string($binary, "UTF-8")
+            return
+                response:stream(
+                    <html xmlns="http://www.w3.org/1999/xhtml">
+                        <head>
+                            <meta charset="UTF-8"/>
+                            <title>MOM-CA — { $page }</title>
+                            <script type="module" src="../resources/fore/fore.js"/>
+                            <link rel="stylesheet" href="../resources/fore/fore.css"/>
+                            <style>body {{ font-family: sans-serif; margin: 20px; }}</style>
+                        </head>
+                        <body>
+                            { util:parse-html($html) }
+                        </body>
+                    </html>,
+                    "method=html5 media-type=text/html"
+                )
+        else if (doc-available($page-path)) then
+            (: XML pages stored as XML — return directly :)
             doc($page-path)
         else
-            <div class="page-placeholder">
-                <h2>{ $page }</h2>
-                <p>This page has not been migrated yet.</p>
-                <p>App root: { $app-root }</p>
-                <p>Tried: { $page-path }</p>
-                <p>Module path: { system:get-module-load-path() }</p>
-                <p><a href="home">Back to Home</a></p>
-            </div>
-
-    return $page-content
+            <html xmlns="http://www.w3.org/1999/xhtml">
+                <head><meta charset="UTF-8"/><title>MOM-CA — { $page }</title></head>
+                <body>
+                    <h2>{ $page }</h2>
+                    <p>This page has not been migrated yet.</p>
+                    <p><a href="home">Back to Home</a></p>
+                </body>
+            </html>
 };
 
 (: Entry point — read "page" parameter from controller.xql :)
