@@ -33,9 +33,3 @@ EXPOSE 8080
 # Copy the built .xar into eXist-db's autodeploy directory
 # Packages placed here are installed automatically on first startup
 COPY --from=builder /app/dist/*.xar /exist/autodeploy/
-
-# Optional: seed data directory for mounting
-RUN mkdir -p /exist/data
-
-# Set admin password via environment variable (default: empty)
-ENV EXIST_ENV=development

@@ -1,32 +1,41 @@
-version: "3.8"
-
 services:
+  caddy:
+    image: caddy:2-alpine
+    container_name: mom-ca-proxy
+    ports:
+      - "8888:80"          # MOM-CA erreichbar unter http://localhost:8888/mom/
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+    depends_on:
+      existdb:
+        condition: service_healthy
+    restart: unless-stopped
+
   existdb:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: mom-ca-existdb
-    ports:
-      - "8080:8080"       # eXist-db HTTP (Dashboard, REST, WebDAV)
-      - "8443:8443"       # eXist-db HTTPS (optional)
+    # Port 8080 nur intern für Caddy erreichbar, NICHT nach außen gemappt
+    # Für direkten eXist-db Zugriff: ports section einkommentieren
+    # ports:
+    #   - "8080:8080"
+    expose:
+      - "8080"
     volumes:
-      # Persist database data across restarts
       - existdb-data:/exist/data
-      # Mount mom-data seed files (optional, for importing existing data)
-      # - ../mom-data:/exist/import-data:ro
     environment:
-      EXIST_ENV: development
       JAVA_OPTS: >-
         -Xms512m
         -Xmx2048m
         -Djava.awt.headless=true
         -Dfile.encoding=UTF-8
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/exist/status"]
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:8080/exist/status || exit 1"]
       interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 60s
+      timeout: 15s
+      retries: 10
+      start_period: 90s
     restart: unless-stopped
 
 volumes:

@@ -7,12 +7,12 @@ cd xar
 docker compose up --build
 ```
 
-eXist-db startet auf **http://localhost:8080**
+Caddy Reverse Proxy auf **http://localhost:8888** mappt `/mom/` auf eXist-db:
 
-- Dashboard: http://localhost:8080/exist/apps/dashboard/
-- MOM-CA App: http://localhost:8080/exist/apps/mom-ca/
-- Login-Seite (Fore): http://localhost:8080/exist/apps/mom-ca/login
-- REST API: http://localhost:8080/exist/apps/mom-ca/api/health
+- MOM-CA Home: http://localhost:8888/mom/home
+- Login (Fore): http://localhost:8888/mom/login
+- REST API: http://localhost:8888/mom/api/health
+- eXist-db Dashboard: http://localhost:8888/exist/apps/dashboard/
 
 Default-Login: `admin` / (kein Passwort)
 

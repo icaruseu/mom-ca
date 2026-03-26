@@ -15,7 +15,7 @@
     "devDependencies": {
         "@existdb/gulp-exist": "^4.0.0",
         "gulp": "^4.0.2",
-        "gulp-zip": "^6.0.0",
-        "del": "^7.0.0"
+        "gulp-zip": "^5.1.0",
+        "del": "^6.1.1"
     }
 }

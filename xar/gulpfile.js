@@ -1,7 +1,7 @@
 const { src, dest, series, parallel, watch } = require('gulp');
 const zip = require('gulp-zip');
 const { createClient } = require('@existdb/gulp-exist');
-const { deleteAsync } = require('del');
+const del = require('del');
 const fs = require('fs');
 
 const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
@@ -20,7 +20,7 @@ const exist = createClient({
 });
 
 function clean() {
-    return deleteAsync(['build', 'dist']);
+    return del(['build', 'dist']);
 }
 
 function copySource() {

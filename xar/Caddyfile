@@ -1,0 +1,18 @@
+:80 {
+	# /mom → redirect to /mom/home
+	redir /mom /mom/home permanent
+
+	# /mom/* → strip /mom prefix, rewrite to /exist/apps/mom-ca/*, proxy to eXist-db
+	handle_path /mom/* {
+		rewrite * /exist/apps/mom-ca{path}
+		reverse_proxy existdb:8080
+	}
+
+	# Direct eXist-db access (Dashboard, Package Manager, etc.)
+	handle /exist/* {
+		reverse_proxy existdb:8080
+	}
+
+	# Root → redirect to /mom/home
+	redir / /mom/home permanent
+}
