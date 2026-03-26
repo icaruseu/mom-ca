@@ -19,17 +19,21 @@ declare option output:media-type "text/html";
  :)
 declare function local:app-root() as xs:string {
     let $module-path := system:get-module-load-path()
-    return
-        (: If loaded from the database :)
+    let $db-path :=
         if (starts-with($module-path, "xmldb:exist://")) then
-            substring-before(
-                substring-after($module-path, "xmldb:exist://"),
-                "/modules"
-            )
-        else if (starts-with($module-path, "/db/")) then
-            substring-before($module-path, "/modules")
+            (: Strip xmldb:exist://embedded-eXist-server or xmldb:exist:// :)
+            let $after := substring-after($module-path, "xmldb:exist://")
+            return
+                if (contains($after, "/db/")) then
+                    "/db/" || substring-after($after, "/db/")
+                else
+                    $after
         else
-            (: Fallback: standard app location :)
+            $module-path
+    return
+        if (contains($db-path, "/modules")) then
+            substring-before($db-path, "/modules")
+        else
             "/db/apps/mom-ca"
 };
 
