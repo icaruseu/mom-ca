@@ -233,14 +233,16 @@ else if (starts-with($path, '/atom/') or $path = '/atom') then
     </dispatch>
 
 (: -----------------------------------------------------------------
-   9. CSS aggregation — /css/* → modules/css.xql (placeholder)
+   9. CSS static files — /css/* → resources/css/*
    ----------------------------------------------------------------- :)
 else if (starts-with($path, '/css/')) then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{$exist:controller}/modules/css.xql">
-            <add-parameter name="request-path" value="{$path}"/>
-        </forward>
-    </dispatch>
+    let $css-path := substring-after($path, '/css/')
+    return
+        <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+            <forward url="{$exist:controller}/modules/static.xql">
+                <add-parameter name="path" value="css/{$css-path}"/>
+            </forward>
+        </dispatch>
 
 (: -----------------------------------------------------------------
    10. Default fallback → error page
