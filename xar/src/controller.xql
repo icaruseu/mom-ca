@@ -78,7 +78,7 @@ declare variable $local:page-routes := (
     'search', 'search-result',
 
     (: Authentication and user accounts :)
-    'login2', 'registration', 'registration-successful',
+    'login', 'login2', 'registration', 'registration-successful',
     'my-account', 'change-password', 'remove-account',
     'request-password', 'reset-password',
 
@@ -157,9 +157,24 @@ if ($path = ('', '/')) then
    ----------------------------------------------------------------- :)
 else if (local:is-static-resource($resource)) then
     let $rel-path := replace($path, '^/', '')
+    let $ext := local:get-extension($resource)
+    let $mime := switch ($ext)
+        case 'js'    return 'application/javascript'
+        case 'mjs'   return 'application/javascript'
+        case 'css'   return 'text/css'
+        case 'json'  return 'application/json'
+        case 'svg'   return 'image/svg+xml'
+        case 'map'   return 'application/json'
+        case 'woff'  return 'font/woff'
+        case 'woff2' return 'font/woff2'
+        case 'ttf'   return 'font/ttf'
+        default      return ()
     return
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-            <forward url="{$exist:controller}/resources/{$rel-path}"/>
+            <forward url="{$exist:controller}/resources/{$rel-path}">
+                { if ($mime) then <set-header name="Content-Type" value="{$mime}"/> else () }
+                <cache-control cache="yes"/>
+            </forward>
         </dispatch>
 
 (: -----------------------------------------------------------------
@@ -167,9 +182,16 @@ else if (local:is-static-resource($resource)) then
    ----------------------------------------------------------------- :)
 else if (starts-with($path, '/fore/')) then
     let $fore-path := substring-after($path, '/fore/')
+    let $ext := local:get-extension($fore-path)
+    let $mime := if ($ext = 'js') then 'application/javascript'
+                 else if ($ext = 'css') then 'text/css'
+                 else ()
     return
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-            <forward url="{$exist:controller}/resources/fore/{$fore-path}"/>
+            <forward url="{$exist:controller}/resources/fore/{$fore-path}">
+                { if ($mime) then <set-header name="Content-Type" value="{$mime}"/> else () }
+                <cache-control cache="yes"/>
+            </forward>
         </dispatch>
 
 (: -----------------------------------------------------------------
