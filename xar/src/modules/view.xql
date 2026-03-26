@@ -6,52 +6,37 @@ xquery version "3.1";
  : Replaces the legacy main.xql mode-mainwidget dispatcher. Receives a
  : "page" parameter from controller.xql, loads the default HTML template,
  : and injects page-specific content into it.
- :
- : This is a minimal dispatcher that will be extended as more pages are
- : migrated from XRX widgets to Fore-based HTML pages.
  :)
 
-module namespace view = "http://www.monasterium.net/NS/view";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
-import module namespace config = "http://www.monasterium.net/NS/config"
-    at "config.xqm";
+declare option output:method "html5";
+declare option output:media-type "text/html";
+
+declare variable $app-root := substring-before(
+    system:get-module-load-path(), "/modules"
+);
 
 (:~
  : Render a page inside the default template.
- :
- : @param $page  the page identifier passed by controller.xql
- : @return       a complete HTML document
  :)
-declare function view:render-page($page as xs:string) as node() {
+declare function local:render-page($page as xs:string) as node() {
 
-    let $app-root  := $config:app-root
     let $page-path := $app-root || "/pages/" || $page || ".html"
 
-    (: Try to load the page-specific HTML fragment from pages/ :)
     let $page-content :=
         if (doc-available($page-path)) then
             doc($page-path)
         else
             <div class="page-placeholder">
-                <h1>{ $page }</h1>
+                <h2>{ $page }</h2>
                 <p>This page has not been migrated yet.</p>
+                <p><a href="home">Back to Home</a></p>
             </div>
 
-    (: Load the default HTML shell :)
-    let $template := doc($app-root || "/templates/default.html")
-
-    return $template
+    return $page-content
 };
 
-(:~
- : Entry point called by controller.xql via forward.
- :
- : Reads the "page" request parameter and delegates to view:render-page().
- :)
-declare function view:dispatch() {
-    let $page := request:get-parameter("page", "home")
-    return view:render-page($page)
-};
-
-(: Self-invocation when called as a main module :)
-view:dispatch()
+(: Entry point — read "page" parameter from controller.xql :)
+let $page := request:get-parameter("page", "home")
+return local:render-page($page)
