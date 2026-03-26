@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title data-template="config:app-title">MOM-CA</title>
+    <title>MOM-CA — Monasterium Collaborative Archive</title>
 
     <!-- Fore web-component runtime (XForms replacement) -->
     <script type="module" src="resources/fore/fore.js"></script>
@@ -14,43 +14,42 @@
 </head>
 <body>
 
-    <!-- ============================================================
-         Header: logo area and navigation placeholder
-         ============================================================ -->
     <header id="app-header">
         <div class="header-inner">
-            <a href="" class="logo" data-template="config:app-root-link">
-                <img src="resources/images/mom-logo.png"
-                     alt="MOM-CA - Monasterium Collaborative Archive"/>
+            <a href="home" class="logo">
+                <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="40" height="40" rx="4" fill="#8b2500" opacity="0.9"/>
+                    <text x="20" y="28" text-anchor="middle" font-family="Georgia,serif" font-size="22" font-weight="700" fill="#faf8f4">M</text>
+                </svg>
+                <span class="logo-text">
+                    Monasterium
+                    <small>Collaborative Archive</small>
+                </span>
             </a>
-            <nav id="main-nav" data-template="templates:include"
-                 data-template-path="templates/nav.html">
-                <!-- Navigation will be injected here; static fallback: -->
+            <nav id="main-nav">
                 <ul>
                     <li><a href="home">Home</a></li>
+                    <li><a href="fonds">Fonds</a></li>
                     <li><a href="collections">Collections</a></li>
                     <li><a href="search">Search</a></li>
-                    <li><a href="login2">Login</a></li>
+                    <li><a href="my-collections">My Collections</a></li>
+                    <li><a href="bookmarks">Bookmarks</a></li>
+                    <li><a href="help">Help</a></li>
+                    <li><a href="login" class="nav-cta">Login</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- ============================================================
-         Main content area: pages are injected here by view.xql
-         ============================================================ -->
-    <main id="content" data-template="view:render-page">
-        <!-- Page content placeholder -->
+    <main id="content">
+        <!-- Page content injected by view.xql -->
     </main>
 
-    <!-- ============================================================
-         Footer
-         ============================================================ -->
     <footer id="app-footer">
         <div class="footer-inner">
-            <p>&copy; <span data-template="config:current-year">2026</span>
-               <a href="https://www.monasterium.net">Monasterium.net</a> &ndash;
-               ICARUS &ndash; International Centre for Archival Research</p>
+            <p>&copy; 2026
+               <a href="https://www.monasterium.net">Monasterium.net</a> —
+               ICARUS — International Centre for Archival Research</p>
             <nav class="footer-nav">
                 <a href="contact">Contact</a>
                 <a href="help">Help</a>

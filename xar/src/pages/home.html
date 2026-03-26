@@ -1,122 +1,107 @@
-<!--
-    MOM-CA Home Page
-    ================
-    Proof-of-concept conversion of the legacy home.widget.xml.
+<!-- MOM-CA Home Page -->
+<div class="hero">
+    <h1>Monasterium.net</h1>
+    <p class="subtitle">The largest virtual archive for medieval and early-modern charters in Europe</p>
+    <div class="hero-actions">
+        <a href="fonds" class="btn btn--primary">Browse Fonds</a>
+        <a href="collections" class="btn">Explore Collections</a>
+        <a href="search" class="btn">Search Charters</a>
+    </div>
+</div>
 
-    The original widget used XRX variables ($whome:htdoc-entry,
-    $whome:statistics) and xrx:i18n elements. This static HTML version
-    demonstrates how a non-XForms widget becomes a plain HTML page inside
-    the new eXist-db app package.
+<div class="page-layout">
+    <div class="main-content">
+        <h2>Welcome to the Collaborative Archive</h2>
+        <p>
+            The Collaborative Archive (MOM-CA) provides scholars, archivists, and students
+            with tools to browse, edit, and publish charter descriptions following the
+            <abbr title="Charters Encoding Initiative">CEI</abbr> standard. With contributions
+            from archives across Europe, Monasterium.net offers unprecedented access to
+            medieval documentary heritage.
+        </p>
+        <p>
+            Whether you are researching a specific charter, exploring the holdings of an archive,
+            or contributing your own transcriptions, MOM-CA provides the tools you need.
+        </p>
 
-    Source: my/XRX/src/mom/app/mom/widget/home.widget.xml
--->
-<div id="dhome">
-
-    <h2>Welcome to MOM-CA</h2>
-
-    <!-- Static content area (replaces htdoc:process() call) -->
-    <section id="static-htdoc">
-        <div id="inner-static-htdoc">
-            <p>
-                Monasterium.net is the largest virtual archive for medieval
-                and early-modern charters in Europe. The Collaborative Archive
-                (MOM-CA) provides scholars, archivists, and students with tools
-                to browse, edit, and publish charter descriptions following the
-                <abbr title="Charters Encoding Initiative">CEI</abbr> standard.
-            </p>
-        </div>
-    </section>
-
-    <!-- Sidebar: statistics and recent fonds (replaces dynamic XQuery blocks) -->
-    <aside class="side-menu">
-
-        <!-- Statistics block -->
-        <div class="side-menu-block">
-            <div class="side-menu-block-inner">
-                <span class="side-menu-heading">Currently online</span>
-                <ul class="nostyle" data-template="app:statistics">
-                    <!-- Will be populated dynamically once the statistics
-                         module is migrated. Placeholder values for now. -->
-                    <li><strong data-stat="archives">--</strong> archives</li>
-                    <li><strong data-stat="fonds">--</strong> fonds</li>
-                    <li><strong data-stat="collections">--</strong> collections</li>
-                    <li><strong data-stat="charters">--</strong> charters</li>
-                    <li><strong data-stat="graphics">--</strong> images</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Recent fonds block -->
-        <div class="side-menu-block">
-            <div class="side-menu-block-inner">
-                <span class="side-menu-heading">New fonds online</span>
-                <ul class="nostyle" data-template="app:recent-fonds">
-                    <!-- Populated dynamically once fonds module is migrated -->
-                    <li><em>Loading...</em></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Import charters link -->
-        <div class="side-menu-block">
-            <a class="button" href="import-charters">
-                Import charters &raquo;
+        <h3>Getting Started</h3>
+        <div class="quick-stats">
+            <a href="fonds" class="stat-card" style="text-decoration:none">
+                <span class="stat-number" data-stat="archives">170+</span>
+                <span class="stat-label">Archives</span>
+            </a>
+            <a href="fonds" class="stat-card" style="text-decoration:none">
+                <span class="stat-number" data-stat="fonds">800+</span>
+                <span class="stat-label">Fonds</span>
+            </a>
+            <a href="collections" class="stat-card" style="text-decoration:none">
+                <span class="stat-number" data-stat="collections">50+</span>
+                <span class="stat-label">Collections</span>
+            </a>
+            <a href="search" class="stat-card" style="text-decoration:none">
+                <span class="stat-number" data-stat="charters">650k+</span>
+                <span class="stat-label">Charters</span>
+            </a>
+            <a href="search" class="stat-card" style="text-decoration:none">
+                <span class="stat-number" data-stat="images">500k+</span>
+                <span class="stat-label">Images</span>
             </a>
         </div>
 
-    </aside>
+        <h3>Recent Activity</h3>
+        <div class="card">
+            <div class="card-body">
+                <ul class="nostyle" data-template="app:recent-fonds">
+                    <li style="padding:4px 0; border-bottom:1px solid var(--color-border-light)">
+                        <span class="text-muted text-small">New fonds and collections are added regularly.</span>
+                    </li>
+                    <li style="padding:4px 0">
+                        <a href="fonds">View all fonds &rarr;</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
+    <div class="sidebar">
+        <div class="card">
+            <div class="card-header">Quick Links</div>
+            <div class="card-body">
+                <ul>
+                    <li><a href="fonds">Browse by Archive</a></li>
+                    <li><a href="collections">Browse by Collection</a></li>
+                    <li><a href="search">Full-Text Search</a></li>
+                    <li><a href="import-charters">Import Charters</a></li>
+                    <li><a href="my-collections">My Collections</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">For Researchers</div>
+            <div class="card-body">
+                <p class="text-small text-muted mb-0">
+                    Create an account to bookmark charters, add personal notes,
+                    build your own collections, and contribute transcriptions.
+                </p>
+                <div style="margin-top:var(--space-md)">
+                    <a href="registration" class="btn btn--primary" style="width:100%; justify-content:center">
+                        Create Account
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">About the Project</div>
+            <div class="card-body">
+                <p class="text-small text-muted mb-0">
+                    Monasterium.net is maintained by
+                    <a href="https://icar-us.eu" target="_blank">ICARUS</a> —
+                    the International Centre for Archival Research, with support
+                    from archives and research institutions across Europe.
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
-
-<style>
-    #dhome {
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
-    }
-
-    #static-htdoc {
-        flex: 1 1 580px;
-        margin-top: 40px;
-    }
-
-    #dhome .side-menu {
-        flex: 0 0 310px;
-        margin-top: 40px;
-        margin-bottom: 40px;
-        background: rgb(240, 240, 240);
-    }
-
-    #dhome .side-menu-block {
-        border-top: solid grey 1px;
-        background: rgb(240, 240, 240);
-        overflow: hidden;
-    }
-
-    #dhome .side-menu-block-inner {
-        margin: 15px;
-    }
-
-    #dhome .side-menu-heading {
-        font-variant: small-caps;
-    }
-
-    ul.nostyle {
-        list-style: none;
-        padding-left: 0;
-    }
-
-    #dhome a.button {
-        display: inline-block;
-        cursor: pointer;
-        font-weight: bold;
-        color: #212121;
-        padding: 10px 15px;
-        border: 2px solid #ffffff;
-        border-radius: 8px;
-        background: linear-gradient(to top, rgb(224,224,224) 49%, rgb(237,237,237) 50%);
-        box-shadow: 0 0 3px rgba(0, 0, 0, 1);
-        text-decoration: none;
-    }
-</style>
