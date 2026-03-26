@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta xmlns="http://exist-db.org/xquery/repo">
+    <description>Monasterium.net Collaborative Archive - Virtual Research Environment for Medieval Charters</description>
+    <author>ICARUS - International Centre for Archival Research</author>
+    <website>https://www.monasterium.net</website>
+    <status>alpha</status>
+    <license>GPL-3.0</license>
+    <copyright>true</copyright>
+    <type>application</type>
+    <target>mom-ca</target>
+    <prepare>pre-install.xql</prepare>
+    <finish/>
+    <permissions user="admin" group="dba" mode="rwxrwxr-x"/>
+</meta>

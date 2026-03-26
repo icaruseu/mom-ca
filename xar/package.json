@@ -1,0 +1,21 @@
+{
+    "name": "mom-ca",
+    "version": "2.0.0-alpha.1",
+    "description": "Monasterium.net Collaborative Archive - eXist-db Application",
+    "scripts": {
+        "postinstall": "cp node_modules/@jinntec/fore/dist/fore.js src/resources/fore/ && cp node_modules/@jinntec/fore/dist/fore.css src/resources/fore/ 2>/dev/null || true",
+        "build": "gulp build",
+        "xar": "gulp xar",
+        "deploy": "gulp deploy",
+        "watch": "gulp"
+    },
+    "dependencies": {
+        "@jinntec/fore": "^3.0.0"
+    },
+    "devDependencies": {
+        "@existdb/gulp-exist": "^4.0.0",
+        "gulp": "^4.0.2",
+        "gulp-zip": "^6.0.0",
+        "del": "^7.0.0"
+    }
+}

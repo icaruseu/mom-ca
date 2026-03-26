@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://expath.org/ns/pkg"
+    name="http://www.monasterium.net/mom-ca"
+    abbrev="mom-ca"
+    version="2.0.0-alpha.1"
+    spec="1.0">
+    <title>MOM-CA - Monasterium Collaborative Archive</title>
+    <dependency processor="http://exist-db.org" semver-min="5.0.0"/>
+</package>

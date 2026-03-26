@@ -1,0 +1,23 @@
+{
+    "servers": {
+        "localhost": {
+            "server": "http://localhost:8181/exist",
+            "user": "admin",
+            "password": "",
+            "root": "/db/apps/mom-ca"
+        }
+    },
+    "sync": {
+        "server": "localhost",
+        "dir": "src",
+        "ignore": [
+            ".existdb.json",
+            ".git/**",
+            "node_modules/**",
+            "build/**",
+            "dist/**",
+            "package*.json",
+            "gulpfile.js"
+        ]
+    }
+}

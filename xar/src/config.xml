@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Consolidated MOM-CA configuration.
+    Migrated from distributed xrx:conf sections across *.app.xml files.
+
+    Source files:
+      - mom/app/xrx/xrx.app.xml
+      - mom/app/data/data.app.xml
+      - mom/app/mom/mom.app.xml
+      - mom/app/i18n/i18n.app.xml
+      - mom/app/user/user.app.xml
+      - mom/app/annotation/annotation.app.xml
+      - mom/app/crop/crop.app.xml
+      - mom/app/htdoc/htdoc.app.xml
+      - mom/app/auth/auth.app.xml
+      - mom/app/css/css.app.xml
+      - xrx.conf.xml (build-time)
+-->
+<xrx:conf xmlns:xrx="http://www.monasterium.net/NS/xrx">
+
+    <!-- ===== Platform / build-time settings (from xrx.conf.xml) ===== -->
+    <xrx:param name="project-name">mom</xrx:param>
+    <xrx:param name="xrx-live-collection-name">XRX.live</xrx:param>
+    <xrx:param name="jetty-port">8181</xrx:param>
+    <xrx:param name="jetty-servername">www.monasterium.net</xrx:param>
+
+    <!-- ===== Core XRX paths (from xrx.app.xml) ===== -->
+    <xrx:param name="xrx-src-db-base-collection-path">/db/XRX.src</xrx:param>
+    <xrx:param name="xrx-live-db-base-collection-path">/db/XRX.live</xrx:param>
+    <xrx:param name="xrx-platform-db-base-uri">/db/XRX.live/mom/</xrx:param>
+    <xrx:param name="css-request-base-uri">/mom/css/</xrx:param>
+    <xrx:param name="xrx-user-db-base-uri">/db/mom-data/xrx.user/</xrx:param>
+    <xrx:param name="data-db-base-uri">/db/mom-data/</xrx:param>
+    <xrx:param name="saved-data-atom-base-uri">/metadata.charter.saved/</xrx:param>
+    <xrx:param name="timeout-in-ms">720000</xrx:param>
+
+    <!-- ===== Atom / data layer (from data.app.xml) ===== -->
+    <xrx:param name="atom-db-base-uri">/db/mom-data</xrx:param>
+    <xrx:param name="atom-tag-name">tag:www.monasterium.net,2011:</xrx:param>
+
+    <!-- ===== MOM application (from mom.app.xml) ===== -->
+    <xrx:param name="request-root">/mom/</xrx:param>
+    <xrx:param name="platform-browser-title">Monasterium.net</xrx:param>
+
+    <!-- ===== User management (from user.app.xml) ===== -->
+    <xrx:param name="xrx-user-atom-base-uri">/xrx.user/</xrx:param>
+    <xrx:param name="old-user-db-base-uri">/db/mom-user-old/</xrx:param>
+
+    <!-- ===== i18n (from i18n.app.xml) ===== -->
+    <xrx:param name="default-lang">eng</xrx:param>
+    <xrx:param name="xrx-i18n-db-base-uri">/db/mom-data/xrx.i18n/</xrx:param>
+    <xrx:param name="xrx-i18n-atom-base-uri">/xrx.i18n/</xrx:param>
+    <xrx:param name="xrx-i18n-catalogs">
+        <xrx:catalogs>
+            <xrx:catalog name="mom" default="true">
+                <xrx:label>
+                    <xrx:i18n>
+                        <xrx:key>mom-application-messages</xrx:key>
+                        <xrx:default>MOM-CA application messages</xrx:default>
+                    </xrx:i18n>
+                </xrx:label>
+                <xrx:record>tag:www.monasterium.net,2011:/mom/app/mom</xrx:record>
+            </xrx:catalog>
+            <xrx:catalog name="cei">
+                <xrx:label>
+                    <xrx:i18n>
+                        <xrx:key>cei-vocabulary</xrx:key>
+                        <xrx:default>Charter Encoding Initiative Vocabulary</xrx:default>
+                    </xrx:i18n>
+                </xrx:label>
+                <xrx:record>tag:www.monasterium.net,2011:/mom/app/cei</xrx:record>
+            </xrx:catalog>
+            <xrx:catalog name="ead">
+                <xrx:label>
+                    <xrx:i18n>
+                        <xrx:key>ead-vocabulary</xrx:key>
+                        <xrx:default>Encoded Archival Description Vocabulary</xrx:default>
+                    </xrx:i18n>
+                </xrx:label>
+                <xrx:record>tag:www.monasterium.net,2011:/mom/app/ead</xrx:record>
+            </xrx:catalog>
+            <xrx:catalog name="xml">
+                <xrx:label>
+                    <xrx:i18n>
+                        <xrx:key>xml-vocabulary</xrx:key>
+                        <xrx:default>XML Vocabulary</xrx:default>
+                    </xrx:i18n>
+                </xrx:label>
+                <xrx:record>tag:www.monasterium.net,2011:/mom/app/xml</xrx:record>
+            </xrx:catalog>
+            <xrx:catalog name="xlink">
+                <xrx:label>
+                    <xrx:i18n>
+                        <xrx:key>xlink-vocabulary</xrx:key>
+                        <xrx:default>XLink Vocabulary</xrx:default>
+                    </xrx:i18n>
+                </xrx:label>
+                <xrx:record>tag:www.monasterium.net,2011:/mom/app/xlink</xrx:record>
+            </xrx:catalog>
+        </xrx:catalogs>
+    </xrx:param>
+    <xrx:param name="languages">
+        <xrx:languages>
+            <xrx:lang key="ces" old="cz" name="cesky"/>
+            <xrx:lang key="deu" old="de" name="deutsch"/>
+            <xrx:lang key="est" old="et" name="eesti"/>
+            <xrx:lang key="eng" old="en" name="english"/>
+            <xrx:lang key="spa" old="es" name="español"/>
+            <xrx:lang key="fra" old="fr" name="français"/>
+            <xrx:lang key="hrv" old="hr" name="hrvatski"/>
+            <xrx:lang key="ita" old="it" name="italiano"/>
+            <xrx:lang key="hun" old="hu" name="magyar"/>
+            <xrx:lang key="pol" old="pl" name="polski"/>
+            <xrx:lang key="por" old="pt" name="português"/>
+            <xrx:lang key="rum" old="ro" name="română"/>
+            <xrx:lang key="slv" old="si" name="slovenscina"/>
+            <xrx:lang key="slk" old="sk" name="slovensky"/>
+        </xrx:languages>
+    </xrx:param>
+
+    <!-- ===== Annotation (from annotation.app.xml) ===== -->
+    <xrx:param name="svg-db-base-uri">/db/mom-data/metadata.annotation/svg/</xrx:param>
+    <xrx:param name="svg-atom-base-uri">/metadata.annotation/svg/</xrx:param>
+    <xrx:param name="cropped-anno-db-base-uri">/db/mom-data/metadata.annotation/cropped-annotations/</xrx:param>
+    <xrx:param name="cropped-anno-atom-base-uri">/metadata.annotation/cropped-annotations/</xrx:param>
+
+    <!-- ===== Crop / image tools (from crop.app.xml) ===== -->
+    <xrx:param name="annotation-db-base-uri">/db/mom-data/metadata.annotation/</xrx:param>
+
+    <!-- ===== Static HTML documents (from htdoc.app.xml) ===== -->
+    <xrx:param name="xrx-htdoc-main-widget">tag:www.monasterium.net,2011:/mom/widget/static-htdoc</xrx:param>
+    <xrx:param name="xrx-htdoc-atom-base-uri">/xrx.htdoc/</xrx:param>
+    <xrx:param name="xrx-htdoc-db-base-uri">/db/mom-data/xrx.htdoc/</xrx:param>
+
+    <!-- ===== Authentication roles (from auth.app.xml) ===== -->
+    <xrx:param name="roles">
+        <xrx:roles>
+            <xrx:role>
+                <xrx:i18n>
+                    <xrx:key>moderator</xrx:key>
+                    <xrx:default>Moderator</xrx:default>
+                </xrx:i18n>
+            </xrx:role>
+            <xrx:role>
+                <xrx:i18n>
+                    <xrx:key>translator</xrx:key>
+                    <xrx:default>Translator</xrx:default>
+                </xrx:i18n>
+            </xrx:role>
+            <xrx:role>
+                <xrx:i18n>
+                    <xrx:key>html-author</xrx:key>
+                    <xrx:default>Html Author</xrx:default>
+                </xrx:i18n>
+            </xrx:role>
+            <xrx:role>
+                <xrx:i18n>
+                    <xrx:key>user-administrator</xrx:key>
+                    <xrx:default>User Administrator</xrx:default>
+                </xrx:i18n>
+            </xrx:role>
+            <xrx:role>
+                <xrx:i18n>
+                    <xrx:key>metadata-manager</xrx:key>
+                    <xrx:default>Metadata manager</xrx:default>
+                </xrx:i18n>
+            </xrx:role>
+            <xrx:role>
+                <xrx:i18n>
+                    <xrx:key>archivist</xrx:key>
+                    <xrx:default>Archivists</xrx:default>
+                </xrx:i18n>
+            </xrx:role>
+        </xrx:roles>
+    </xrx:param>
+
+    <!-- ===== CSS theme colors (from css.app.xml) ===== -->
+    <xrx:param name="color1">#EFF3E1</xrx:param>
+    <xrx:param name="color2">#72856C</xrx:param>
+    <xrx:param name="color3">#8EA384</xrx:param>
+    <xrx:param name="color4">#F0FEE9</xrx:param>
+    <xrx:param name="color5">#BABABA</xrx:param>
+    <xrx:param name="color6">#282828</xrx:param>
+    <xrx:param name="color7">#FFE3D9</xrx:param>
+
+</xrx:conf>

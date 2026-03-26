@@ -1,0 +1,11 @@
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+    <!--
+        Index configuration for /db/mom-data/metadata.controlledVocabulary.public.
+        No source file was found in the legacy system; this is a minimal
+        placeholder that can be extended once vocabulary indexing needs are
+        determined.
+    -->
+    <index>
+        <fulltext default="none" attributes="no"/>
+    </index>
+</collection>

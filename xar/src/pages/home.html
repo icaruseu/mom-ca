@@ -1,0 +1,122 @@
+<!--
+    MOM-CA Home Page
+    ================
+    Proof-of-concept conversion of the legacy home.widget.xml.
+
+    The original widget used XRX variables ($whome:htdoc-entry,
+    $whome:statistics) and xrx:i18n elements. This static HTML version
+    demonstrates how a non-XForms widget becomes a plain HTML page inside
+    the new eXist-db app package.
+
+    Source: my/XRX/src/mom/app/mom/widget/home.widget.xml
+-->
+<div id="dhome">
+
+    <h2>Welcome to MOM-CA</h2>
+
+    <!-- Static content area (replaces htdoc:process() call) -->
+    <section id="static-htdoc">
+        <div id="inner-static-htdoc">
+            <p>
+                Monasterium.net is the largest virtual archive for medieval
+                and early-modern charters in Europe. The Collaborative Archive
+                (MOM-CA) provides scholars, archivists, and students with tools
+                to browse, edit, and publish charter descriptions following the
+                <abbr title="Charters Encoding Initiative">CEI</abbr> standard.
+            </p>
+        </div>
+    </section>
+
+    <!-- Sidebar: statistics and recent fonds (replaces dynamic XQuery blocks) -->
+    <aside class="side-menu">
+
+        <!-- Statistics block -->
+        <div class="side-menu-block">
+            <div class="side-menu-block-inner">
+                <span class="side-menu-heading">Currently online</span>
+                <ul class="nostyle" data-template="app:statistics">
+                    <!-- Will be populated dynamically once the statistics
+                         module is migrated. Placeholder values for now. -->
+                    <li><strong data-stat="archives">--</strong> archives</li>
+                    <li><strong data-stat="fonds">--</strong> fonds</li>
+                    <li><strong data-stat="collections">--</strong> collections</li>
+                    <li><strong data-stat="charters">--</strong> charters</li>
+                    <li><strong data-stat="graphics">--</strong> images</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Recent fonds block -->
+        <div class="side-menu-block">
+            <div class="side-menu-block-inner">
+                <span class="side-menu-heading">New fonds online</span>
+                <ul class="nostyle" data-template="app:recent-fonds">
+                    <!-- Populated dynamically once fonds module is migrated -->
+                    <li><em>Loading...</em></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Import charters link -->
+        <div class="side-menu-block">
+            <a class="button" href="import-charters">
+                Import charters &raquo;
+            </a>
+        </div>
+
+    </aside>
+
+</div>
+
+<style>
+    #dhome {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+    }
+
+    #static-htdoc {
+        flex: 1 1 580px;
+        margin-top: 40px;
+    }
+
+    #dhome .side-menu {
+        flex: 0 0 310px;
+        margin-top: 40px;
+        margin-bottom: 40px;
+        background: rgb(240, 240, 240);
+    }
+
+    #dhome .side-menu-block {
+        border-top: solid grey 1px;
+        background: rgb(240, 240, 240);
+        overflow: hidden;
+    }
+
+    #dhome .side-menu-block-inner {
+        margin: 15px;
+    }
+
+    #dhome .side-menu-heading {
+        font-variant: small-caps;
+    }
+
+    ul.nostyle {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    #dhome a.button {
+        display: inline-block;
+        cursor: pointer;
+        font-weight: bold;
+        color: #212121;
+        padding: 10px 15px;
+        border: 2px solid #ffffff;
+        border-radius: 8px;
+        background: linear-gradient(to top, rgb(224,224,224) 49%, rgb(237,237,237) 50%);
+        box-shadow: 0 0 3px rgba(0, 0, 0, 1);
+        text-decoration: none;
+    }
+</style>
