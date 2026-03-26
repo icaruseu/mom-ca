@@ -54,8 +54,8 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
             let $tokens := tokenize(util:collection-name($shared), '/')
             let $collectionid := $tokens[last()]
             let $atomid := metadata:atomid('mycollection', $collectionid)
-            let $entry := $user:db-base-collection//atom:id[.=$atomid]/parent::atom:entry
-            let $collection-name := $entry//cei:titleStmt/cei:title/text()
+            let $entry := ($user:db-base-collection//atom:id[.=$atomid]/parent::atom:entry)[1]
+            let $collection-name := normalize-space($entry//cei:titleStmt/cei:title)
             order by $collection-name
             return
             jsonx:pair(
@@ -63,7 +63,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
               jsonx:object(
                 jsonx:pair(
                   jsonx:string("title"),
-                  jsonx:string(concat($collection-name, ''))
+                  jsonx:string($collection-name)
                 )          
               )
             )

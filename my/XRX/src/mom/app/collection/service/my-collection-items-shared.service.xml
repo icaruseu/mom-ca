@@ -43,8 +43,12 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
       <xrx:expression>metadata:atomid('mycollection', $mycollection-objectid)</xrx:expression>
     </xrx:variable>
     <xrx:variable>
+      <xrx:name>$mycollection-entry</xrx:name>
+      <xrx:expression>($user:db-base-collection//atom:id[.=$mycollection-atomid]/parent::atom:entry)[1]</xrx:expression>
+    </xrx:variable>
+    <xrx:variable>
       <xrx:name>$base-collection-path-mycollection</xrx:name>
-      <xrx:expression>util:collection-name($user:db-base-collection//atom:id[.=$mycollection-atomid]/parent::atom:entry)</xrx:expression>
+      <xrx:expression>util:collection-name($mycollection-entry)</xrx:expression>
     </xrx:variable>
     <xrx:variable>
       <xrx:name>$base-collection-path-charter</xrx:name>
