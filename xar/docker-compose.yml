@@ -20,6 +20,7 @@ services:
       - "8080:8080"
     volumes:
       - existdb-data:/exist/data
+      - /Users/stephan/Downloads/full20260310-0400-2:/exist/import-data:ro
     environment:
       JAVA_OPTS: >-
         -Xms512m
