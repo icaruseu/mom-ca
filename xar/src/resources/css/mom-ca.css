@@ -262,6 +262,15 @@ ul.nostyle {
     padding: var(--space-lg);
 }
 
+a.card {
+    transition: box-shadow 0.15s, transform 0.15s;
+}
+
+a.card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
 .card + .card {
     margin-top: var(--space-md);
 }
