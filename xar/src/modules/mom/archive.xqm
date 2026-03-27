@@ -11,9 +11,9 @@ declare namespace atom = "http://www.w3.org/2005/Atom";
 declare namespace eag = "http://www.archivgut-online.de/eag";
 
 import module namespace conf = "http://www.monasterium.net/NS/conf"
-    at "../core/conf.xqm";
+    at "/db/apps/mom-ca/modules/core/conf.xqm";
 import module namespace metadata = "http://www.monasterium.net/NS/metadata"
-    at "../metadata/metadata.xqm";
+    at "/db/apps/mom-ca/modules/metadata/metadata.xqm";
 
 declare variable $archive:metadata-object-type := 'archive';
 

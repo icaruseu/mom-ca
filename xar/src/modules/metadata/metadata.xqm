@@ -11,9 +11,9 @@ declare namespace atom = "http://www.w3.org/2005/Atom";
 declare namespace xrx = "http://www.monasterium.net/NS/xrx";
 
 import module namespace data = "http://www.monasterium.net/NS/data"
-    at "../data/data.xqm";
+    at "/db/apps/mom-ca/modules/data/data.xqm";
 import module namespace conf = "http://www.monasterium.net/NS/conf"
-    at "../core/conf.xqm";
+    at "/db/apps/mom-ca/modules/core/conf.xqm";
 
 declare variable $metadata:datatype := <xrx:metadata/>;
 

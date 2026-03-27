@@ -11,7 +11,7 @@ module namespace xrx = "http://www.monasterium.net/NS/xrx";
 declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
 import module namespace conf = "http://www.monasterium.net/NS/conf"
-    at "conf.xqm";
+    at "/db/apps/mom-ca/modules/core/conf.xqm";
 
 (: --- User session --- :)
 declare variable $xrx:user-id :=

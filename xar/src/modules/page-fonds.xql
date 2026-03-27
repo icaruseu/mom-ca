@@ -11,9 +11,9 @@ declare namespace ead = "urn:isbn:1-931666-22-9";
 declare namespace eag = "http://www.archivgut-online.de/eag";
 
 import module namespace metadata = "http://www.monasterium.net/NS/metadata"
-    at "metadata/metadata.xqm";
+    at "/db/apps/mom-ca/modules/metadata/metadata.xqm";
 import module namespace conf = "http://www.monasterium.net/NS/conf"
-    at "core/conf.xqm";
+    at "/db/apps/mom-ca/modules/core/conf.xqm";
 
 let $archives := metadata:base-collection('archive', 'public')/atom:entry
 let $countries :=

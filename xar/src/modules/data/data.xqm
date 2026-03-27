@@ -11,7 +11,7 @@ declare namespace atom = "http://www.w3.org/2005/Atom";
 declare namespace xrx = "http://www.monasterium.net/NS/xrx";
 
 import module namespace conf = "http://www.monasterium.net/NS/conf"
-    at "../core/conf.xqm";
+    at "/db/apps/mom-ca/modules/core/conf.xqm";
 
 (:~
  : Extract the object ID (last URI token) from an atom ID.
