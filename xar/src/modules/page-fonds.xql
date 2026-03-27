@@ -89,7 +89,7 @@ return
             </p>
 
             <!-- Archive cards grid -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-md);">
+            <div class="archive-grid">
             {
                 for $archive in $page-archives
                 let $autform := normalize-space($archive//eag:autform)
