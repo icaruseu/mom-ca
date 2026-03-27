@@ -38,7 +38,7 @@ let $title := normalize-space(($coll-entry//cei:sourceDesc/cei:title)[1])
 let $author := normalize-space(($coll-entry//cei:sourceDesc/cei:author)[1])
 let $prov := normalize-space(($coll-entry//cei:provenance/text())[1])
 let $country := normalize-space(($coll-entry//cei:country)[1])
-let $preface := normalize-space(($coll-entry//*[local-name()='div'][@type='preface'])[1])
+let $preface := ($coll-entry//*[local-name()='div'][@type='preface'])[1]
 let $display-name := if ($title ne '') then $title else if ($prov ne '') then $prov else $coll-key
 
 (: Pagination :)
@@ -89,11 +89,11 @@ return
             <p class="text-muted">{$total} charters</p>
 
             {
-                if ($preface ne '') then
+                if (exists($preface) and normalize-space($preface) ne '') then
                     <div class="card" style="margin-bottom: var(--space-lg);">
                         <div class="card-header">Preface</div>
-                        <div class="card-body">
-                            <p>{$preface}</p>
+                        <div class="card-body preface-content">
+                            {$preface/node()}
                         </div>
                     </div>
                 else ()
