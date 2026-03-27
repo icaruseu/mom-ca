@@ -126,9 +126,9 @@ return
     <!-- Image Viewer -->
     {
         if (count($image-urls) gt 0 and ($image-access = 'free' or $image-access = '')) then
-            <div class="card" style="margin-bottom: var(--space-lg);">
-                <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
-                    <span>Images ({count($image-urls)})</span>
+            <details class="card" style="margin-bottom: var(--space-lg);" open="open">
+                <summary class="card-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none;">
+                    <span>&#x1F4F7; Images ({count($image-urls)}) <span class="text-small text-muted">&#x2014; click to collapse</span></span>
                     <div id="image-nav" style="display: flex; gap: var(--space-xs);">
                         {
                             for $url at $pos in $image-urls
@@ -136,14 +136,14 @@ return
                                          else if (ends-with($url, '_v.jpg') or ends-with($url, '_v.png')) then 'verso'
                                          else 'Image ' || $pos
                             return
-                                <button class="btn{if ($pos = 1) then ' btn--primary' else ''}" onclick="switchImage({$pos - 1})" style="font-size: 0.8rem; padding: 4px 12px;">{$label}</button>
+                                <button class="btn{if ($pos = 1) then ' btn--primary' else ''}" onclick="event.stopPropagation(); switchImage({$pos - 1})" style="font-size: 0.8rem; padding: 4px 12px;">{$label}</button>
                         }
                     </div>
-                </div>
+                </summary>
                 <div class="card-body" style="padding: 0;">
                     <div id="openseadragon-viewer" style="width: 100%; height: 600px; background: #1a1a1a;"></div>
                 </div>
-            </div>
+            </details>
         else if (count($images) gt 0 and $image-access ne 'free') then
             <div class="card" style="margin-bottom: var(--space-lg);">
                 <div class="card-header">Images</div>

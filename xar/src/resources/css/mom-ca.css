@@ -690,6 +690,27 @@ tr:hover td {
     color: var(--color-text-light);
 }
 
+/* --- Collapsible cards (details/summary) ----------------------- */
+details.card > summary {
+    list-style: none;
+}
+
+details.card > summary::-webkit-details-marker {
+    display: none;
+}
+
+details.card > summary::after {
+    content: '▼';
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    margin-left: var(--space-sm);
+    transition: transform 0.2s;
+}
+
+details.card[open] > summary::after {
+    transform: rotate(180deg);
+}
+
 /* --- Utility --------------------------------------------------- */
 .text-muted { color: var(--color-text-muted); }
 .text-small { font-size: 0.85rem; }
