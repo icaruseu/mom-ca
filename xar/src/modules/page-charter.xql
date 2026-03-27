@@ -335,6 +335,13 @@ return
                     </div>
                 else ()
             }
+            {if ($is-private and $current-user ne '') then
+                <div class="card">
+                    <div class="card-body">
+                        <a href="/mom/{$collection-key}/{$charter-id}/edit-charter" class="btn btn--primary" style="width:100%;justify-content:center;">Edit Charter</a>
+                    </div>
+                </div>
+            else ()}
             <div class="card">
                 <div class="card-body">
                     {
