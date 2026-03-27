@@ -448,12 +448,12 @@ function initTabs() {
 
   buttons.forEach(function(btn) {
     btn.addEventListener('click', function() {
-      var target = btn.dataset.tabBtn;
+      var target = btn.dataset.tab;
       tabs.forEach(function(t) {
         t.classList.toggle('active', t.dataset.tab === target);
       });
       buttons.forEach(function(b) {
-        b.classList.toggle('active', b.dataset.tabBtn === target);
+        b.classList.toggle('active', b.dataset.tab === target);
       });
     });
   });
