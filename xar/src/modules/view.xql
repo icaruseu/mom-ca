@@ -75,8 +75,26 @@ let $content :=
 let $template-path := $local:app-root || "/templates/default.html"
 let $template-str := util:binary-to-string(util:binary-doc($template-path), "UTF-8")
 let $content-str := serialize($content, map { "method": "html", "indent": true() })
+
+(: User nav :)
+let $session-user := try { string(session:get-attribute('mom.user')) } catch * { '' }
+let $xquery-user := string(request:get-attribute('xquery.user'))
+let $is-logged-in := ($session-user != '' and $session-user != ())
+    or ($xquery-user != 'guest' and $xquery-user != '')
+let $session-user := if ($session-user != '' and $session-user != ()) then $session-user else $xquery-user
+let $user-nav :=
+    if ($is-logged-in) then
+        '<li class="text-small" style="display:flex;align-items:center;gap:8px;">'
+        || '<span style="color:var(--color-text-muted);">' || $session-user || '</span>'
+        || '<a href="#" onclick="fetch(''/mom/api/auth/logout'',{method:''POST''}).then(function(){window.location.href=''/mom/home'';});return false;" class="nav-cta">Logout</a>'
+        || '</li>'
+    else
+        '<li><a href="/mom/login" class="nav-cta">Login</a></li>'
+
 let $placeholder := "<!-- Page content injected by view.xql -->"
+let $user-placeholder := "<!-- user-nav injected by view.xql -->"
 let $merged := substring-before($template-str, $placeholder) || $content-str || substring-after($template-str, $placeholder)
+let $merged := substring-before($merged, $user-placeholder) || $user-nav || substring-after($merged, $user-placeholder)
 
 return
     response:stream(

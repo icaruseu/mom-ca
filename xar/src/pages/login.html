@@ -1,114 +1,77 @@
 <!--
-    MOM-CA Login Page (Fore Web Components)
-    ========================================
-    Proof-of-concept conversion of the legacy login2.widget.xml from
-    XForms to Fore web components.
-
-    Mapping applied:
-        xf:model      -> fx-fore > fx-model
-        xf:instance   -> fx-instance
-        xf:bind       -> fx-bind
-        xf:submission  -> fx-submission  (POST to /api/auth/login)
-        xf:input       -> fx-control wrapping <input>
-        xf:secret      -> fx-control wrapping <input type="password">
-        xf:trigger     -> fx-trigger wrapping <button>
-
-    Source: my/XRX/src/core/app/user/widget/login2.widget.xml
+    MOM-CA Login Page
+    Uses plain HTML form + fetch() to POST to /api/auth/login
 -->
-<div class="page-layout--full" style="max-width:400px;margin:2rem auto">
-
+<div style="max-width:400px;margin:2rem auto">
     <div class="card">
         <div class="card-header">
-            <h2 class="mb-0">Login</h2>
+            <h2 style="margin:0">Login</h2>
         </div>
         <div class="card-body">
+            <div id="login-message" style="display:none; padding:8px 12px; border-radius:4px; margin-bottom:var(--space-md);"></div>
 
-            <!-- Status messages (replaces the XQuery status-code conditional blocks) -->
-            <div id="login-messages" hidden="hidden">
-                <!-- Populated client-side based on URL ?status= parameter or
-                     server response from /api/auth/login -->
-            </div>
-
-            <!-- Fore form -->
-            <fx-fore>
-                <fx-model id="login-model">
-
-                    <fx-instance id="credentials">
-                        <data>
-                            <username></username>
-                            <password></password>
-                        </data>
-                    </fx-instance>
-
-                    <fx-bind ref="username" required="true()"></fx-bind>
-                    <fx-bind ref="password" required="true()"></fx-bind>
-
-                    <fx-submission id="do-login"
-                                   url="/api/auth/login"
-                                   method="POST"
-                                   replace="none"
-                                   serialization="application/json">
-                    </fx-submission>
-
-                </fx-model>
-
-                <div class="form-group">
-                    <fx-control ref="username">
-                        <label slot="label">Email</label>
-                        <input type="text" placeholder="you@example.com"
-                               autocomplete="username"/>
-                    </fx-control>
+            <form id="login-form" onsubmit="return false;">
+                <div style="margin-bottom: var(--space-md);">
+                    <label for="username" style="display:block; margin-bottom:4px; font-weight:600;">Email</label>
+                    <input id="username" name="username" type="text" placeholder="you@example.com"
+                           autocomplete="username"
+                           style="width:100%; padding:8px 12px; border:1px solid var(--color-border); border-radius:4px;" />
                 </div>
-
-                <div class="form-group">
-                    <fx-control ref="password">
-                        <label slot="label">Password</label>
-                        <input type="password" placeholder="Password"
-                               autocomplete="current-password"/>
-                    </fx-control>
+                <div style="margin-bottom: var(--space-md);">
+                    <label for="password" style="display:block; margin-bottom:4px; font-weight:600;">Password</label>
+                    <input id="password" name="password" type="password" placeholder="Password"
+                           autocomplete="current-password"
+                           style="width:100%; padding:8px 12px; border:1px solid var(--color-border); border-radius:4px;" />
                 </div>
+                <button type="submit" class="btn btn--primary" style="width:100%; justify-content:center;">Login</button>
+            </form>
 
-                <div class="form-group">
-                    <fx-trigger>
-                        <button class="btn btn--primary">Login</button>
-                        <fx-send submission="do-login"></fx-send>
-                    </fx-trigger>
-                </div>
-
-                <!-- Success / error handling -->
-                <fx-message event="submit-done" level="ephemeral">
-                    Login successful. Redirecting...
-                </fx-message>
-                <fx-message event="submit-error" level="modal">
-                    Login failed. Please check your credentials and try again.
-                </fx-message>
-
-            </fx-fore>
-
-            <!-- Forgot password link -->
-            <p class="text-small">
-                <a href="request-password">Forgot your password? Get a new one here.</a>
+            <p class="text-small" style="margin-top: var(--space-md);">
+                <a href="request-password">Forgot your password?</a>
             </p>
-
         </div>
     </div>
-
 </div>
 
-<script type="module">
-    // Show status messages based on URL parameter (mirrors legacy XQuery logic)
-    const params = new URLSearchParams(window.location.search);
-    const status = params.get('status');
-    const messages = {
-        '1': 'Welcome! We apologize that your account got inoperative due to the new version of MOM-CA. Please create a new account or contact support.',
-        '2': 'Your account is not yet activated.',
-        '3': 'Unknown username.',
-        '4': 'Wrong password, please try again.',
-        '5': 'An error occurred.'
-    };
-    if (status && messages[status]) {
-        const el = document.getElementById('login-messages');
-        el.textContent = messages[status];
-        el.hidden = false;
+<script>
+document.getElementById('login-form').addEventListener('submit', function() {
+    var msg = document.getElementById('login-message');
+    var username = document.getElementById('username').value;
+    var password = document.getElementById('password').value;
+    if (!username || !password) {
+        msg.style.display = 'block';
+        msg.style.background = '#fce4e4';
+        msg.style.color = '#8b2500';
+        msg.textContent = 'Please enter email and password.';
+        return;
     }
+    msg.style.display = 'block';
+    msg.style.background = '#e8f0fe';
+    msg.style.color = '#333';
+    msg.textContent = 'Logging in...';
+
+    fetch('/mom/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: username, password: password })
+    })
+    .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
+    .then(function(res) {
+        if (res.ok) {
+            msg.style.background = '#e6f4ea';
+            msg.style.color = '#1a7431';
+            msg.textContent = 'Login successful. Redirecting...';
+            setTimeout(function() { window.location.href = '/mom/home'; }, 500);
+        } else {
+            msg.style.background = '#fce4e4';
+            msg.style.color = '#8b2500';
+            msg.textContent = res.data.message || 'Login failed.';
+        }
+    })
+    .catch(function() {
+        msg.style.background = '#fce4e4';
+        msg.style.color = '#8b2500';
+        msg.textContent = 'Connection error. Please try again.';
+    });
+});
 </script>

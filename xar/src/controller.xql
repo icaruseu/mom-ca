@@ -142,14 +142,18 @@ let $resource := $exist:resource
 let $segments    := tokenize(replace($path, '^/|/$', ''), '/')
 let $last-segment := $segments[last()]
 
-(: Allow guest access for all read-only pages.
-   Authenticated users keep their session. :)
-let $user := request:get-attribute("org.exist.login.user")
+(: Restore login from session if available :)
+let $session-user := try { session:get-attribute('mom.user') } catch * { () }
+let $session-pass := try { session:get-attribute('mom.pass') } catch * { () }
 let $_ :=
-    if (empty($user) or $user = '') then (
+    if ($session-user and $session-user != '') then (
+        xmldb:login('/db', $session-user, $session-pass),
+        request:set-attribute("xquery.user", $session-user),
+        request:set-attribute("xquery.password", $session-pass)
+    ) else (
         request:set-attribute("xquery.user", "guest"),
         request:set-attribute("xquery.password", "guest")
-    ) else ()
+    )
 
 return
 
