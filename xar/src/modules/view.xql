@@ -35,7 +35,7 @@ declare function local:exec-xql($page as xs:string) as node()* {
     return
         if (util:binary-doc-available($xql-path)) then
             try {
-                util:eval(util:binary-doc($xql-path), false(),
+                util:eval(xs:anyURI($xql-path), false(),
                     (xs:QName("request-path"), request:get-parameter("request-path", "")))
             } catch * {
                 <div class="card" style="border-left:4px solid var(--color-accent)">
@@ -75,7 +75,8 @@ let $content :=
 let $template-path := $local:app-root || "/templates/default.html"
 let $template-str := util:binary-to-string(util:binary-doc($template-path), "UTF-8")
 let $content-str := serialize($content, map { "method": "html", "indent": true() })
-let $merged := replace($template-str, "<!-- Page content injected by view.xql -->", $content-str)
+let $placeholder := "<!-- Page content injected by view.xql -->"
+let $merged := substring-before($template-str, $placeholder) || $content-str || substring-after($template-str, $placeholder)
 
 return
     response:stream(
