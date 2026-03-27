@@ -122,7 +122,7 @@ return
 
                     if ($total-pages gt 1) then
                         <nav class="pagination" style="justify-content: center;">
-                            {if ($block gt 1) then <a href="{local:page-url($block - 1, $coll-key)}">&#x2190; Prev</a> else ()}
+                            {if ($block gt 1) then <a href="{local:page-url($block - 1, $coll-key)}">Prev</a> else ()}
                             {
                                 for $p in 1 to $total-pages
                                 return
@@ -132,7 +132,7 @@ return
                                     else if (abs($p - $block) = 3) then <span class="text-muted">...</span>
                                     else ()
                             }
-                            {if ($block lt $total-pages) then <a href="{local:page-url($block + 1, $coll-key)}">Next &#x2192;</a> else ()}
+                            {if ($block lt $total-pages) then <a href="{local:page-url($block + 1, $coll-key)}">Next</a> else ()}
                         </nav>
                     else ()
                 )
