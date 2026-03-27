@@ -5,19 +5,21 @@
     <title>Year Navigation</title>
 </head>
 <body>
-    <div id="year-navi">
-        <div class="year-list">
-            <p class="navi-heading">
-                <span data-i18n="Years">Years</span>
-            </p>
-            <div data-template="app:year-navi-blocks">
-                <div class="block">
-                    <a data-template="app:year-navi-block-link">
-                        <span data-template="app:year-navi-block-label"></span>
-                    </a>
-                </div>
+    <aside id="year-navi" class="sidebar">
+        <div class="card">
+            <div class="card-header">
+                <h4 data-i18n="Years">Years</h4>
+            </div>
+            <div class="card-body">
+                <ul class="nostyle" data-template="app:year-navi-blocks">
+                    <li>
+                        <a data-template="app:year-navi-block-link">
+                            <span data-template="app:year-navi-block-label"></span>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
-    </div>
+    </aside>
 </body>
 </html>

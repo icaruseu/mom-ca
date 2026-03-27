@@ -3,98 +3,78 @@
 <head>
     <meta charset="UTF-8"/>
     <title>How to encode in CEI</title>
-    <style>
-        #dhow-to-encode-in-cei * {
-            line-height: 1.5;
-            font-size: 14px;
-        }
-        #dhow-to-encode-in-cei .CodeMirror {
-            height: auto !important;
-        }
-        #dhow-to-encode-in-cei .CodeMirror-scroll {
-            height: auto !important;
-            overflow-y: hidden !important;
-            overflow-x: auto !important;
-        }
-        #dhow-to-encode-in-cei .chapter {
-            font-weight: bold;
-            font-size: 1.3em;
-            margin-top: 30px;
-        }
-        #dhow-to-encode-in-cei table {
-            margin: 5%;
-            width: 90%;
-        }
-        #dhow-to-encode-in-cei td {
-            padding: 10px;
-        }
-        #dhow-to-encode-in-cei th {
-            background: rgb(240, 240, 240);
-        }
-        #dhow-to-encode-in-cei table, tr, td {
-            border: 1px solid #eee;
-            border-collapse: collapse;
-        }
-    </style>
 </head>
 <body>
-    <div class="h2">
-        <span data-i18n="how-to-enocde-in-cei">How-to encode charters in CEI</span>
-    </div>
-    <div id="dhow-to-encode-in-cei">
-        <div class="chapter">
-            <span data-i18n="cei_idno">signature</span>
-        </div>
-        <table>
-            <tr><th colspan="3"><span data-i18n="cei_idno">Signature</span></th></tr>
-            <tr>
-                <td><span data-i18n="description">Description</span></td>
-                <td data-template="app:cei-schema-description" data-template-element="idno"></td>
-            </tr>
-            <tr>
-                <td><span data-i18n="example">Example</span></td>
-                <td data-template="app:cei-schema-example" data-template-element="idno"></td>
-            </tr>
-        </table>
+    <div class="page-layout--full">
+        <h2 data-i18n="how-to-enocde-in-cei">How-to encode charters in CEI</h2>
 
-        <div class="chapter">
-            <span data-i18n="cei_abstract">signature</span>
-        </div>
-        <table>
-            <tr><th colspan="3"><span data-i18n="cei_abstract">abstract</span></th></tr>
-            <tr>
-                <td><span data-i18n="description">Description</span></td>
-                <td data-template="app:cei-schema-description" data-template-element="abstract"></td>
-            </tr>
-            <tr>
-                <td><span data-i18n="example">Example</span></td>
-                <td data-template="app:cei-schema-example" data-template-element="abstract"></td>
-            </tr>
-        </table>
-        <table>
-            <tr><th colspan="3"><span data-i18n="cei_date">Date</span></th></tr>
-            <tr>
-                <td><span data-i18n="description">Description</span></td>
-                <td data-template="app:cei-schema-description" data-template-element="date"></td>
-            </tr>
-            <tr>
-                <td><span data-i18n="description">Description</span></td>
-                <td data-template="app:cei-schema-example" data-template-element="date"></td>
-            </tr>
-        </table>
-        <table>
-            <tr><th colspan="3"><span data-i18n="cei_dateRange">date range</span></th></tr>
-        </table>
-        <table>
-            <tr><th colspan="3"><span data-i18n="cei_placeName">Place name</span></th></tr>
-        </table>
+        <div id="dhow-to-encode-in-cei">
+            <div class="card">
+                <div class="card-header">
+                    <h3 data-i18n="cei_idno">signature</h3>
+                </div>
+                <div class="card-body">
+                    <table>
+                        <tr><th colspan="3"><span data-i18n="cei_idno">Signature</span></th></tr>
+                        <tr>
+                            <td><span data-i18n="description">Description</span></td>
+                            <td data-template="app:cei-schema-description" data-template-element="idno"></td>
+                        </tr>
+                        <tr>
+                            <td><span data-i18n="example">Example</span></td>
+                            <td data-template="app:cei-schema-example" data-template-element="idno"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
 
-        <div class="chapter"><span data-i18n="cei_tenor">Fulltext</span></div>
-        <div class="chapter"><span data-i18n="cei_sourceDesc">Sources</span></div>
-        <div class="chapter"><span data-i18n="cei_witnessOrig">Original</span></div>
-        <div class="chapter"><span data-i18n="cei_witListPar">Copies</span></div>
-        <div class="chapter"><span data-i18n="cei_diplomaticAnalysis">Commentary</span></div>
-        <div class="chapter"><span data-i18n="cei_index">Index</span></div>
+            <div class="card">
+                <div class="card-header">
+                    <h3 data-i18n="cei_abstract">abstract</h3>
+                </div>
+                <div class="card-body">
+                    <table>
+                        <tr><th colspan="3"><span data-i18n="cei_abstract">abstract</span></th></tr>
+                        <tr>
+                            <td><span data-i18n="description">Description</span></td>
+                            <td data-template="app:cei-schema-description" data-template-element="abstract"></td>
+                        </tr>
+                        <tr>
+                            <td><span data-i18n="example">Example</span></td>
+                            <td data-template="app:cei-schema-example" data-template-element="abstract"></td>
+                        </tr>
+                    </table>
+                    <table>
+                        <tr><th colspan="3"><span data-i18n="cei_date">Date</span></th></tr>
+                        <tr>
+                            <td><span data-i18n="description">Description</span></td>
+                            <td data-template="app:cei-schema-description" data-template-element="date"></td>
+                        </tr>
+                        <tr>
+                            <td><span data-i18n="description">Description</span></td>
+                            <td data-template="app:cei-schema-example" data-template-element="date"></td>
+                        </tr>
+                    </table>
+                    <table>
+                        <tr><th colspan="3"><span data-i18n="cei_dateRange">date range</span></th></tr>
+                    </table>
+                    <table>
+                        <tr><th colspan="3"><span data-i18n="cei_placeName">Place name</span></th></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 data-i18n="cei_tenor">Fulltext</h4>
+                    <h4 data-i18n="cei_sourceDesc">Sources</h4>
+                    <h4 data-i18n="cei_witnessOrig">Original</h4>
+                    <h4 data-i18n="cei_witListPar">Copies</h4>
+                    <h4 data-i18n="cei_diplomaticAnalysis">Commentary</h4>
+                    <h4 data-i18n="cei_index">Index</h4>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

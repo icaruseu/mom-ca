@@ -2,11 +2,8 @@
     MOM-CA Annotation Overview Page
     ===============================
     Converted from: my/XRX/src/mom/app/annotation/widget/annotation-overview.widget.xml
-
-    Displays annotation overview using jQuery roundabout carousel.
-    No XForms. Uses jQuery plugins for carousel display and i18n.
 -->
-<div data-template="annotation:overview-page">
+<div class="page-layout--full" data-template="annotation:overview-page">
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -23,70 +20,58 @@
         });
     </script>
 
-    <div id="back">
+    <div>
         <a href="collection">
             <span>&lt;&lt; </span>
             <span data-i18n="back">back</span>
         </a>
     </div>
 
-    <div>
-        <span id="loading" style="text-align:center; display:none;">
-            <img src="resources/images/ajax-loader.gif" alt="loading"/>
-        </span>
-        <span id="no-annos" style="display:none;">
-            <span data-i18n="no-annos-in-collection">There are no annotations available for this collection!</span>
-        </span>
-    </div>
+    <div class="card">
+        <div class="card-header">
+            <h2 data-i18n="annotations">Annotations</h2>
+        </div>
+        <div class="card-body">
+            <div>
+                <span id="loading" hidden>
+                    <img src="resources/images/ajax-loader.gif" alt="loading"/>
+                </span>
+                <span id="no-annos" hidden>
+                    <span data-i18n="no-annos-in-collection">There are no annotations available for this collection!</span>
+                </span>
+            </div>
 
-    <div id="scrollBox"></div>
-    <br/>
+            <div id="scrollBox"></div>
 
-    <div id="select-arrows">
-        <img class="r-arrow" id="arrow-selector-left" style="float:left;" title="Previous"
-             src="resources/images/arrow_l_roundabout.png"/>
-        <img class="r-arrow" id="arrow-selector-right" style="float:left;" title="Next"
-             src="resources/images/arrow_r_roundabout.png"/>
-    </div>
+            <div id="select-arrows">
+                <img class="r-arrow" id="arrow-selector-left" title="Previous"
+                     src="resources/images/arrow_l_roundabout.png"/>
+                <img class="r-arrow" id="arrow-selector-right" title="Next"
+                     src="resources/images/arrow_r_roundabout.png"/>
+            </div>
 
-    <div id="metadata">
-        <table id="data-table">
-            <tr>
-                <td><span class="meta-caption"><span data-i18n="charter">Charter</span>:</span></td>
-                <td class="data-field"><a href="#" id="charter-data"></a></td>
-            </tr>
-            <tr>
-                <td><span class="meta-caption"><span data-i18n="related-to">Related to</span>:</span></td>
-                <td class="data-field" id="related-to-data"></td>
-            </tr>
-            <tr>
-                <td><span class="meta-caption"><span data-i18n="content">Content</span>:</span></td>
-                <td class="data-field" id="content-data"></td>
-            </tr>
-            <tr>
-                <td><span class="meta-caption"><span data-i18n="additional-description">Additional Description</span>:</span></td>
-                <td class="data-field" id="desc-data"></td>
-            </tr>
-        </table>
-        <span id="data-broken" style="display:none;">
-            <span data-i18n="broken-anno">The annotation you selected is not linked to a markup element!</span>
-        </span>
+            <table id="data-table">
+                <tr>
+                    <td><strong><span data-i18n="charter">Charter</span>:</strong></td>
+                    <td><a href="#" id="charter-data"></a></td>
+                </tr>
+                <tr>
+                    <td><strong><span data-i18n="related-to">Related to</span>:</strong></td>
+                    <td id="related-to-data"></td>
+                </tr>
+                <tr>
+                    <td><strong><span data-i18n="content">Content</span>:</strong></td>
+                    <td id="content-data"></td>
+                </tr>
+                <tr>
+                    <td><strong><span data-i18n="additional-description">Additional Description</span>:</strong></td>
+                    <td id="desc-data"></td>
+                </tr>
+            </table>
+            <span id="data-broken" hidden>
+                <span data-i18n="broken-anno">The annotation you selected is not linked to a markup element!</span>
+            </span>
+        </div>
     </div>
 
 </div>
-
-<style>
-    #loading { display: none; }
-    .roundabout-holder { list-style: none; padding: 0; margin: 0; }
-    .roundabout-moveable-item { cursor: pointer; background-color: #ccc; border: 1px solid #999; }
-    .roundabout-in-focus { cursor: auto; }
-    .cropped-img { width: 100%; max-height: 300px; }
-    #select-arrows { float: left; position: relative; top: -30px; left: 400px; }
-    .r-arrow { margin: 5px; cursor: pointer; }
-    #metadata { float: left; width: 100%; position: relative; top: -100px; }
-    .meta-caption { font-weight: bold; font-size: 14px; font-family: Trebuchet MS, regular, sans-serif; }
-    #data-table { margin: auto; text-align: right; }
-    .data-field { text-align: left; }
-    #data-broken { display: none; font-family: Trebuchet MS, regular, sans-serif; font-size: 13px; font-weight: bold; }
-    #no-annos { display: none; position: relative; top: 100px; font-family: Trebuchet MS, regular, sans-serif; font-size: 16px; font-weight: bold; margin: auto; text-align: center; }
-</style>

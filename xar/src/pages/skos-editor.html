@@ -2,102 +2,119 @@
     MOM-CA SKOS Editor Page
     =======================
     Converted from: my/XRX/src/mom/app/skos-editor/widget/skos-editor.widget.xml
-
-    SKOS vocabulary editor for Monasterium glossary files. Auth-protected.
-    No XForms. Uses jQuery AJAX calls to services for CRUD operations on
-    SKOS concepts, prefLabels, broader relations, and definitions.
-    Integrates CKEditor for definition editing.
 -->
 <div data-template="auth:require-group" data-group="atom">
 
-    <!-- Title -->
-    <div class="h2"><span>SKOS-Editor</span></div>
+    <div class="page-layout--full">
+        <div class="card">
+            <div class="card-header">
+                <h2>SKOS-Editor</h2>
+            </div>
+            <div class="card-body">
 
-    <!-- Concept selection -->
-    <p data-i18n="skos-select-concept">Choose an existing SKOS concept, or create a new one in the field below.</p>
-    <select id="concept-select" data-template="skos-editor:concept-options">
-        <option selected="selected" disabled="disabled" hidden="hidden" data-i18n="select-concept">Select Concept</option>
-    </select>
-    <p>
-        <div id="selected-concept">
-            <span data-i18n="skos-current-concept">The currently selected concept is: </span>
-            <span><b data-template="skos-editor:current-concept"></b></span>
+                <!-- Concept selection -->
+                <div class="form-group">
+                    <p data-i18n="skos-select-concept">Choose an existing SKOS concept, or create a new one in the field below.</p>
+                    <select id="concept-select" data-template="skos-editor:concept-options">
+                        <option selected="selected" disabled="disabled" hidden="hidden" data-i18n="select-concept">Select Concept</option>
+                    </select>
+                </div>
+                <p>
+                    <div id="selected-concept">
+                        <span data-i18n="skos-current-concept">The currently selected concept is: </span>
+                        <span><b data-template="skos-editor:current-concept"></b></span>
+                    </div>
+                </p>
+
+                <!-- Create / delete concept -->
+                <h3 data-i18n="create-concept">Create or delete concept:</h3>
+                <p data-i18n="skos-name-concept">To create a new concept, enter a name for it below (avoid spaces and special characters):</p>
+                <div class="form-group">
+                    <input type="text" id="concept-input" placeholder="FranzoesischeKoenigsurkunden"/>
+                    <button type="submit" id="add-concept" class="btn btn--primary" data-i18n="submit">Submit</button>
+                </div>
+                <p>
+                    <span data-i18n="skos-delete-concept">To delete the currently selected concept, click here: </span>
+                    <button id="delete-concept" type="submit" class="btn" data-i18n="delete">Delete</button>
+                </p>
+
+                <!-- prefLabel section -->
+                <hr/>
+                <h3>skos:prefLabel</h3>
+                <p data-i18n="skos-add-preflabel">Add an optional preferred label for a selected language to the current concept:</p>
+                <div class="form-group">
+                    <select id="lang-select">
+                        <option value="de">de</option>
+                        <option value="en">en</option>
+                        <option value="es">es</option>
+                        <option value="fr">fr</option>
+                        <option value="hr">hr</option>
+                        <option value="hu">hu</option>
+                        <option value="it">it</option>
+                    </select>
+                    <input type="text" id="preflabel-input"/>
+                    <button type="submit" id="add-label" class="btn btn--primary" data-i18n="submit">Submit</button>
+                </div>
+                <div id="existing-entries-pref">
+                    <p data-i18n="skos-existing-pref">The following preferred labels for this concept already exist:</p>
+                    <table id="pref-table" data-template="skos-editor:pref-labels">
+                        <tr><th>skos:prefLabel</th><th>Sprache</th><th>Entfernen</th></tr>
+                    </table>
+                </div>
+
+                <!-- broader section -->
+                <hr/>
+                <h3>skos:broader</h3>
+                <p data-i18n="skos-add-broader">Add an optional umbrella term (skos:broader) for the concept:</p>
+                <div class="form-group">
+                    <select id="broader-select" data-template="skos-editor:broader-options">
+                        <option selected="selected" disabled="disabled" hidden="hidden" data-i18n="select-concept">Select Concept</option>
+                    </select>
+                    <button type="submit" id="add-broader" class="btn btn--primary" data-i18n="submit">Submit</button>
+                </div>
+                <div id="existing-entries-broader">
+                    <p data-i18n="skos-existing-broader">The following umbrella term for this concept already exist:</p>
+                    <table id="broader-table" data-template="skos-editor:broader-entries">
+                        <tr><th>skos:broader</th><th>Entfernen</th></tr>
+                    </table>
+                </div>
+
+                <!-- definition section -->
+                <hr/>
+                <h3>skos:definition</h3>
+                <p data-i18n="skos-modify-definition">Enter a description for the concept:</p>
+                <div class="form-group">
+                    <textarea id="editor" name="editor" data-template="skos-editor:definition-content"></textarea>
+                </div>
+                <div>
+                    <button id="submit-content" type="submit" class="btn btn--primary" data-i18n="save">Save definition to file</button>
+                    <button id="release-skos" type="submit" class="btn">
+                        <b data-i18n="release-skos">Publish file</b>
+                    </button>
+                </div>
+                <div id="submit-messages">
+                    <div id="submit-msg-suc" hidden><b data-i18n="success">Success</b></div>
+                    <div id="submit-msg-err" hidden><b data-i18n="error">Error</b></div>
+                </div>
+                <div id="release-messages">
+                    <div id="release-msg-suc" hidden><b data-i18n="success">Success</b></div>
+                    <div id="release-msg-err" hidden><b data-i18n="error">Error</b></div>
+                </div>
+
+            </div>
         </div>
-    </p>
-    <br/>
-
-    <!-- Create / delete concept -->
-    <b data-i18n="create-concept">Create or delete concept:</b>
-    <p data-i18n="skos-name-concept">To create a new concept, enter a name for it below (avoid spaces and special characters):</p>
-    <input type="text" id="concept-input" placeholder="FranzoesischeKoenigsurkunden" style="width: 350px;"/>
-    <button type="submit" id="add-concept" data-i18n="submit">Submit</button>
-    <br/>
-    <p>
-        <span data-i18n="skos-delete-concept">To delete the currently selected concept, click here: </span>
-        <button id="delete-concept" type="submit" data-i18n="delete">Delete</button>
-    </p>
-
-    <!-- prefLabel section -->
-    <hr/>
-    <h3>skos:prefLabel</h3>
-    <p data-i18n="skos-add-preflabel">Add an optional preferred label for a selected language to the current concept:</p>
-    <select id="lang-select">
-        <option value="de">de</option>
-        <option value="en">en</option>
-        <option value="es">es</option>
-        <option value="fr">fr</option>
-        <option value="hr">hr</option>
-        <option value="hu">hu</option>
-        <option value="it">it</option>
-    </select>
-    <input type="text" id="preflabel-input"/>
-    <button type="submit" id="add-label" data-i18n="submit">Submit</button>
-    <div id="existing-entries-pref">
-        <p data-i18n="skos-existing-pref">The following preferred labels for this concept already exist:</p>
-        <table id="pref-table" data-template="skos-editor:pref-labels">
-            <tr><th>skos:prefLabel</th><th>Sprache</th><th>Entfernen</th></tr>
-        </table>
-    </div>
-
-    <!-- broader section -->
-    <hr/>
-    <h3>skos:broader</h3>
-    <p data-i18n="skos-add-broader">Add an optional umbrella term (skos:broader) for the concept:</p>
-    <select id="broader-select" data-template="skos-editor:broader-options">
-        <option selected="selected" disabled="disabled" hidden="hidden" data-i18n="select-concept">Select Concept</option>
-    </select>
-    <button type="submit" id="add-broader" data-i18n="submit">Submit</button>
-    <div id="existing-entries-broader">
-        <p data-i18n="skos-existing-broader">The following umbrella term for this concept already exist:</p>
-        <table id="broader-table" data-template="skos-editor:broader-entries">
-            <tr><th>skos:broader</th><th>Entfernen</th></tr>
-        </table>
-    </div>
-
-    <!-- definition section -->
-    <hr/>
-    <h3>skos:definition</h3>
-    <p data-i18n="skos-modify-definition">Enter a description for the concept:</p>
-    <textarea id="editor" name="editor" data-template="skos-editor:definition-content"></textarea>
-    <button style="margin:10px;" id="submit-content" type="submit" data-i18n="save">Save definition to file</button>
-    <button style="margin:10px;float:right" id="release-skos" type="submit">
-        <b data-i18n="release-skos">Publish file</b>
-    </button>
-    <div id="submit-messages">
-        <div id="submit-msg-suc" style="color:green;display:none;margin:10px"><b data-i18n="success">Success</b></div>
-        <div id="submit-msg-err" style="color:red;display:none;margin:10px"><b data-i18n="error">Error</b></div>
-    </div>
-    <div id="release-messages" style="float:right">
-        <div id="release-msg-suc" style="color:green;display:none;margin:10px"><b data-i18n="success">Success</b></div>
-        <div id="release-msg-err" style="color:red;display:none;margin:10px"><b data-i18n="error">Error</b></div>
     </div>
 
 </div>
 
 <!-- Fallback for unauthenticated users -->
 <div data-template="auth:fallback">
-    <span data-i18n="protected-page-message">Protected page. Please login first.</span>
-    <div data-template="app:login-form"></div>
+    <div class="card">
+        <div class="card-body">
+            <span data-i18n="protected-page-message">Protected page. Please login first.</span>
+            <div data-template="app:login-form"></div>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">

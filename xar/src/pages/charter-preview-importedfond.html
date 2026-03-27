@@ -1,27 +1,20 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-      data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
-  <head>
-    <title data-i18n="imported-charter-preview">Imported Charter (Preview)</title>
-  </head>
-  <body>
-    <div data-template="charter:imported-preview">
-      <!-- Charter link -->
-      <div>
-        <b>
-          <span data-i18n="imported-charter-preview">Imported Charter (Preview)</span>
-          <span>: </span>
-        </b>
-        <span>
-          <a data-template="charter:imported-charter-link">
-            <span data-template="charter:idno"/>
-          </a>
-        </span>
-      </div>
+<div class="charter-item" data-template="charter:imported-preview">
 
-      <!-- View charter link -->
-      <div>
-        <a data-template="charter:imported-charter-link" data-i18n="view-charter">View Charter</a>
-      </div>
-    </div>
-  </body>
-</html>
+  <!-- Charter link -->
+  <div class="charter-idno">
+    <b>
+      <span data-i18n="imported-charter-preview">Imported Charter (Preview)</span>
+      <span>: </span>
+    </b>
+    <span>
+      <a data-template="charter:imported-charter-link">
+        <span data-template="charter:idno"/>
+      </a>
+    </span>
+  </div>
+
+  <!-- View charter link -->
+  <div class="charter-meta">
+    <a data-template="charter:imported-charter-link" class="btn" data-i18n="view-charter">View Charter</a>
+  </div>
+</div>

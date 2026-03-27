@@ -1,126 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Charter Image Viewer</title>
-  <!-- Converted from charter-image-viewer.widget.xml -->
-  <!-- Original ID: tag:www.monasterium.net,2011:/mom/widget/charter-image-viewer -->
-  <!-- No xf: elements - plain HTML with data-template placeholders -->
-  <link rel="stylesheet" href="../css/image-tools.css"/>
-  <style>
-    #viewport {
-      position: relative; float: left; width: 940px; height: 300px;
-      overflow: auto; z-index: 1;
-      margin-top: 0; margin-left: 5px; margin-right: 5px; margin-bottom: 0;
-      padding: 0; border: solid rgb(240,243,226) 1px;
-    }
-    #img { position: absolute; width: 950px; z-index: 0; margin: 0; padding: 0; }
-    #change-image-links { float: right; width: 50%; overflow: auto; padding-top: 2px; text-align: right; }
-    #change-image-links a { padding: 2px; }
-    .open-viewer-link { margin: 10px; float: right; }
-    .image-tools-link { clear: right; margin: 10px; float: right; }
-    #zoomsliderlabel { position: relative; float: left; margin: 10px; }
-    #zoomslider { position: relative; float: left; margin: 10px; width: 50%; }
-    #mode {
-      position: relative; border: solid rgb(142,163,132) 1px; top: 7px; left: 300px;
-      height: 25px; width: 190px; float: left; color: rgb(142,163,132);
-      z-index: 1; text-align: center; font-weight: bold;
-    }
-    a#gelb { color: #72856C !important; border: 1px solid #72856C; }
-    img#ein, img#aus { margin-right: 10px; margin-top: 5px; position: relative; float: left; }
-  </style>
-</head>
-<body>
-  <div data-template="charter-image-viewer:init"
-       data-template-context="$constructor:context"
-       data-template-charter="$constructor:charter"
-       data-template-image-base-uri="$constructor:image-base-uri"
-       data-template-preferences="$constructor:preferences"
-       data-template-link-to-archive="$constructor:link-to-charter-in-archive"
-       data-template-linked-charter="$constructor:linked-charter"
-       data-template-linked-charter-image-base-uri="$constructor:linked-charter-image-base-uri"
-       data-template-just-linked="$constructor:just-linked">
+<div class="card"
+     data-template="charter-image-viewer:init"
+     data-template-context="$constructor:context"
+     data-template-charter="$constructor:charter"
+     data-template-image-base-uri="$constructor:image-base-uri"
+     data-template-preferences="$constructor:preferences"
+     data-template-link-to-archive="$constructor:link-to-charter-in-archive"
+     data-template-linked-charter="$constructor:linked-charter"
+     data-template-linked-charter-image-base-uri="$constructor:linked-charter-image-base-uri"
+     data-template-just-linked="$constructor:just-linked">
 
-    <!-- Header: image access forbidden or graphics header -->
-    <div class="inlinehead cat"
-         data-template="charter-image-viewer:header"
-         data-template-image-access-forbidden="$wcharter-image-viewer:image-access-forbidden-flag"
-         data-template-link-to-archive="$constructor:link-to-charter-in-archive">
+  <!-- Header: image access forbidden or graphics header -->
+  <div class="card-header"
+       data-template="charter-image-viewer:header"
+       data-template-image-access-forbidden="$wcharter-image-viewer:image-access-forbidden-flag"
+       data-template-link-to-archive="$constructor:link-to-charter-in-archive">
 
-      <!-- Restricted access link -->
-      <a data-template-if="image-access-forbidden"
-         data-template-href="$constructor:link-to-charter-in-archive" target="_blank">
-        <span data-i18n="follow-link-to-image-message">To view the charter images, please visit the archive's homepage.</span>
-        <span> &gt;&gt;</span>
-      </a>
+    <!-- Restricted access link -->
+    <a data-template-if="image-access-forbidden"
+       data-template-href="$constructor:link-to-charter-in-archive" target="_blank">
+      <span data-i18n="follow-link-to-image-message">To view the charter images, please visit the archive's homepage.</span>
+      <span> &gt;&gt;</span>
+    </a>
 
-      <!-- Normal graphics header -->
-      <div data-template-if="image-access-allowed">
-        <div id="graphicheader">
-          <a href="javascript:showHideDiv_neu('graphics','')">
-            <span data-i18n="graphics">Graphics</span>
-          </a>
-        </div>
-        <div id="change-image-links"
-             data-template="charter-image-viewer:image-links"
-             data-template-img-urls="$wcharter-image-viewer:img-urls"
-             data-template-archive-id="$charter:rarchiveid">
-          <!-- Image number links rendered dynamically -->
-        </div>
+    <!-- Normal graphics header -->
+    <div data-template-if="image-access-allowed">
+      <div id="graphicheader">
+        <a href="javascript:showHideDiv_neu('graphics','')">
+          <span data-i18n="graphics">Graphics</span>
+        </a>
       </div>
-    </div>
-
-    <!-- Graphics area -->
-    <div id="graphics">
-      <div id="viewport"
-           data-template="charter-image-viewer:viewport"
+      <div id="change-image-links"
+           data-template="charter-image-viewer:image-links"
            data-template-img-urls="$wcharter-image-viewer:img-urls"
-           data-template-image-access-forbidden="$wcharter-image-viewer:image-access-forbidden-flag"
-           data-template-archive-id="$charter:rarchiveid"
-           data-template-context="$constructor:context"
-           data-template-labw-url="$wcharter-image-viewer:labw-url"
-           data-template-labw-link="$wcharter-image-viewer:labw-link"
-           data-template-dummy-image-url="$wcharter-image-viewer:dummy-image-url">
-
-        <!-- Normal image display -->
-        <div data-template-if="has-images">
-          <div id="img-svg"></div>
-          <div id="img-img">
-            <a data-template-href="charter-image-viewer:first-image-url" id="img-link" target="_blank">
-              <img id="img" name="image"
-                   data-template-src="charter-image-viewer:first-image-url"
-                   data-template-title="charter-image-viewer:first-image-url"/>
-            </a>
-          </div>
-        </div>
-
-        <!-- No graphic available -->
-        <div class="no-graphic" data-template-if="no-images">
-          <span data-i18n="no-graphic-available">no graphic available</span>
-        </div>
-      </div>
-
-      <!-- Zoom bar -->
-      <div id="zoomerbar">
-        <div id="zoomsliderlabel">
-          <span><span data-i18n="zoom-image">Zoom image</span>:</span>
-        </div>
-        <div id="zoomslider"></div>
-      </div>
-
-      <!-- Image tools link (conditional on charter context) -->
-      <div data-template="charter-image-viewer:image-tools-link"
-           data-template-token="$xrx:tokenized-uri[last()]">
-        <div class="image-tools-link" data-template-if="is-charter-view">
-          <button id="open-image-tool-button">
-            <span data-i18n="open-image-tools">Open Image Tools</span>
-          </button>
-        </div>
+           data-template-archive-id="$charter:rarchiveid">
+        <!-- Image number links rendered dynamically -->
       </div>
     </div>
   </div>
 
-  <script src="../js/charter.js"></script>
-</body>
-</html>
+  <!-- Graphics area -->
+  <div class="card-body" id="graphics">
+    <div id="viewport"
+         data-template="charter-image-viewer:viewport"
+         data-template-img-urls="$wcharter-image-viewer:img-urls"
+         data-template-image-access-forbidden="$wcharter-image-viewer:image-access-forbidden-flag"
+         data-template-archive-id="$charter:rarchiveid"
+         data-template-context="$constructor:context"
+         data-template-labw-url="$wcharter-image-viewer:labw-url"
+         data-template-labw-link="$wcharter-image-viewer:labw-link"
+         data-template-dummy-image-url="$wcharter-image-viewer:dummy-image-url">
+
+      <!-- Normal image display -->
+      <div data-template-if="has-images">
+        <div id="img-svg"></div>
+        <div id="img-img">
+          <a data-template-href="charter-image-viewer:first-image-url" id="img-link" target="_blank">
+            <img id="img" name="image"
+                 data-template-src="charter-image-viewer:first-image-url"
+                 data-template-title="charter-image-viewer:first-image-url"/>
+          </a>
+        </div>
+      </div>
+
+      <!-- No graphic available -->
+      <div class="text-muted" data-template-if="no-images">
+        <span data-i18n="no-graphic-available">no graphic available</span>
+      </div>
+    </div>
+
+    <!-- Zoom bar -->
+    <div id="zoomerbar">
+      <div id="zoomsliderlabel">
+        <span><span data-i18n="zoom-image">Zoom image</span>:</span>
+      </div>
+      <div id="zoomslider"></div>
+    </div>
+
+    <!-- Image tools link (conditional on charter context) -->
+    <div data-template="charter-image-viewer:image-tools-link"
+         data-template-token="$xrx:tokenized-uri[last()]">
+      <div data-template-if="is-charter-view">
+        <button class="btn btn--primary" id="open-image-tool-button">
+          <span data-i18n="open-image-tools">Open Image Tools</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/charter.js"></script>

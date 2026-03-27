@@ -3,53 +3,25 @@
 <head>
     <meta charset="UTF-8"/>
     <title data-i18n="import-charters">Import charters</title>
-    <style>
-        #dimport-charters-howto .border {
-            border-radius: 10px;
-            border-collapse: collapse;
-            border-spacing: 0;
-            border: solid #e9eae8 1px;
-            box-shadow: 10px 10px 5px #888;
-            width: 500px;
-            margin-left: 235px;
-            margin-top: 100px;
-        }
-        #dimport-charters-howto .border-inner {
-            margin: 15px;
-        }
-        #dimport-charters-howto p {
-            color: rgb(80,80,80);
-        }
-        #dimport-charters-howto .icon {
-            text-align: right;
-        }
-        #dimport-charters-howto .type {
-            position: absolute;
-            font-weight: bold;
-            font-size: 2em;
-        }
-    </style>
 </head>
 <body>
-    <div id="dimport-charters-howto" data-template="app:import-charters-howto-view">
+    <div id="dimport-charters-howto" data-template="app:import-charters-howto-view" class="page-layout--full">
         <a href="import-charters">
             <span>&lt;&lt;</span>
             <span data-i18n="back">Back</span>
         </a>
-        <div class="h2">
+        <h2>
             <span data-i18n="import-charters">Import charters</span>
             <span> (<span data-template="app:import-type"></span>)</span>
-        </div>
-        <div class="border">
-            <div class="border-inner">
-                <div class="type" data-template="app:import-type"></div>
-                <div class="icon">
-                    <img data-template="app:import-type-icon" class="icon"/>
-                </div>
-                <div>
-                    <p>For detailed instructions on how to import charters please contact the Monasterium metadata management.</p>
-                    <p>metadata(at)monasterium.net</p>
-                </div>
+        </h2>
+        <div class="card">
+            <div class="card-header">
+                <h3 data-template="app:import-type"></h3>
+            </div>
+            <div class="card-body">
+                <img data-template="app:import-type-icon"/>
+                <p>For detailed instructions on how to import charters please contact the Monasterium metadata management.</p>
+                <p>metadata(at)monasterium.net</p>
             </div>
         </div>
     </div>

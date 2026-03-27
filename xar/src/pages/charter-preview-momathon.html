@@ -8,32 +8,32 @@
     Displays idno, date, abstract, images count, with bookmark and
     publication actions.
 -->
-<div class="charter-preview-momathon" data-template="charter-preview:momathon-entry">
+<div class="charter-item" data-template="charter-preview:momathon-entry">
 
-    <div class="container">
-        <div data-template="charter-preview:charter-link"></div>
-        <div>
-            <b><span data-i18n="charter">Charter</span><span>: </span></b>
-            <a data-template="charter-preview:charter-url">
-                <span data-template="charter-preview:idno"></span>
-            </a>
-        </div>
-        <div>
-            <b><span data-i18n="date">Date</span><span>: </span></b>
-            <span data-template="charter-preview:date"></span>
-        </div>
-        <div>
-            <b><span data-i18n="abstract">Abstract</span><span>: </span></b>
-            <span data-template="charter-preview:abstract"></span>
-        </div>
-    </div>
+  <div data-template="charter-preview:charter-link"></div>
 
-    <div class="charter-info-and-actions">
-        <a data-template="charter-preview:charter-url">
-            <span data-i18n="view-charter">View Charter</span>
-        </a>
-        <!-- Bookmark and publication actions -->
-        <div data-template="charter-preview:actions"></div>
-    </div>
+  <div class="charter-idno">
+    <b><span data-i18n="charter">Charter</span><span>: </span></b>
+    <a data-template="charter-preview:charter-url">
+      <span data-template="charter-preview:idno"></span>
+    </a>
+  </div>
 
+  <div class="charter-date">
+    <b><span data-i18n="date">Date</span><span>: </span></b>
+    <span data-template="charter-preview:date"></span>
+  </div>
+
+  <div class="charter-abstract">
+    <b><span data-i18n="abstract">Abstract</span><span>: </span></b>
+    <span data-template="charter-preview:abstract"></span>
+  </div>
+
+  <div class="charter-meta">
+    <a data-template="charter-preview:charter-url" class="btn">
+      <span data-i18n="view-charter">View Charter</span>
+    </a>
+    <!-- Bookmark and publication actions -->
+    <div data-template="charter-preview:actions"></div>
+  </div>
 </div>

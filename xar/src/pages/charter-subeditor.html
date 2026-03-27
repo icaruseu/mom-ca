@@ -1,42 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Charter Subeditor</title>
-  <!-- Converted from charter-subeditor.widget.xml -->
-  <!-- Original ID: tag:www.monasterium.net,2011:/mom/widget/charter-subeditor -->
-  <!-- Portal: subeditor -->
-  <!-- No xf: elements in view, but uses xrxe:subeditor function call -->
-  <link rel="stylesheet" href="../css/charter.css"/>
-</head>
-<body>
-  <div id="subeditor"
-       data-template="charter-subeditor:init"
-       data-template-atom-id="$charter:ratomid"
-       data-template-context-path="$context-path"
-       data-template-node="$node">
+<div class="card" id="subeditor"
+     data-template="charter-subeditor:init"
+     data-template-atom-id="$charter:ratomid"
+     data-template-context-path="$context-path"
+     data-template-node="$node">
 
-    <!-- Fore-based subeditor replacing xrxe:subeditor -->
-    <fx-fore>
-      <fx-model id="subeditor-model">
-        <fx-instance id="subeditor-instance"
-                     data-template-src="charter-subeditor:instance-url"
-                     data-template-atom-id="$atom-id">
-          <!-- Charter atom:entry loaded here -->
-        </fx-instance>
-      </fx-model>
+  <!-- Fore-based subeditor replacing xrxe:subeditor -->
+  <fx-fore>
+    <fx-model id="subeditor-model">
+      <fx-instance id="subeditor-instance"
+                   data-template-src="charter-subeditor:instance-url"
+                   data-template-atom-id="$atom-id">
+        <!-- Charter atom:entry loaded here -->
+      </fx-instance>
+    </fx-model>
 
-      <div data-template="charter-subeditor:editor"
-           data-template-node-path="$context-path/$node"
-           data-template-services-url="xrxe-services.xql"
-           data-template-xsd="charter-subeditor:xsd-path"
-           data-template-wrapper="/atom:entry/atom:content">
-        <!-- Subeditor content for the specified CEI node -->
-      </div>
-    </fx-fore>
-  </div>
+    <div class="card-body" data-template="charter-subeditor:editor"
+         data-template-node-path="$context-path/$node"
+         data-template-services-url="xrxe-services.xql"
+         data-template-xsd="charter-subeditor:xsd-path"
+         data-template-wrapper="/atom:entry/atom:content">
+      <!-- Subeditor content for the specified CEI node -->
+    </div>
+  </fx-fore>
+</div>
 
-  <script src="../js/charter.js"></script>
-</body>
-</html>
+<script src="../js/charter.js"></script>

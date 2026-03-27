@@ -1,61 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-i18n="my-collection">My Collection - Remove</title>
-  <style>
-    #dremove-trigger {
-      margin-top: 200px;
-      margin-left: 45%;
-    }
-  </style>
-</head>
-<body>
-  <div>
-    <!-- Back link -->
-    <div>
-      <a href="my-collection">
-        <span>&lt;&lt; </span>
-        <span data-i18n="back">back</span>
-      </a>
+<div>
+
+  <nav class="breadcrumb">
+    <a href="my-collection">
+      <span data-i18n="back">back</span>
+    </a>
+  </nav>
+
+  <h1>
+    <span data-i18n="remove-my-collection">Remove My Collection</span>: <span data-template="my-collection-remove:name"/>
+  </h1>
+
+  <div class="card">
+    <div class="card-header" data-i18n="remove-my-collection">Remove My Collection</div>
+    <div class="card-body">
+
+      <p class="text-muted">
+        <strong>Warning:</strong> This action will permanently remove this collection and cannot be undone.
+      </p>
+
+      <fx-fore>
+        <fx-model id="mmy-collection-remove">
+          <fx-instance>
+            <data>
+              <collectionid data-template="my-collection-remove:collection-id"/>
+            </data>
+          </fx-instance>
+          <fx-instance id="iresponse">
+            <data>
+              <response/>
+            </data>
+          </fx-instance>
+          <fx-submission id="smy-collection-remove"
+                         url="service/my-collection-remove"
+                         method="POST"
+                         replace="instance"
+                         instance="iresponse"/>
+        </fx-model>
+
+        <div class="form-group">
+          <fx-trigger>
+            <button class="btn btn--primary">
+              <span data-i18n="remove-now">Remove now</span>!
+            </button>
+            <fx-send submission="smy-collection-remove"/>
+          </fx-trigger>
+        </div>
+      </fx-fore>
+
     </div>
-
-    <!-- Heading -->
-    <div class="h2">
-      <span data-i18n="remove-my-collection">Remove My Collection</span>: <span data-template="my-collection-remove:name"/>
-    </div>
-
-    <!-- Fore form for removing collection -->
-    <fx-fore>
-      <fx-model id="mmy-collection-remove">
-        <fx-instance>
-          <data>
-            <collectionid data-template="my-collection-remove:collection-id"/>
-          </data>
-        </fx-instance>
-        <fx-instance id="iresponse">
-          <data>
-            <response/>
-          </data>
-        </fx-instance>
-        <fx-submission id="smy-collection-remove"
-                       url="service/my-collection-remove"
-                       method="POST"
-                       replace="instance"
-                       instance="iresponse"/>
-      </fx-model>
-
-      <div id="dremove-trigger">
-        <fx-trigger>
-          <button>
-            <span data-i18n="remove-now">Remove now</span>!
-          </button>
-          <fx-send submission="smy-collection-remove"/>
-        </fx-trigger>
-      </div>
-    </fx-fore>
-
   </div>
-</body>
-</html>
+</div>

@@ -6,40 +6,39 @@
   <body>
     <div data-template="search:result-view">
 
-      <!-- Heading -->
-      <div class="heading-center h2">
-        <span data-i18n="results">Results</span>
-      </div>
+      <h1 data-i18n="results">Results</h1>
 
-      <!-- Breadcrumb / Navigation -->
-      <div>
-        <div class="browse">
-          <a data-template="search:previous-link" data-i18n="previous">Previous</a>
-          <span data-template="search:position"/>
-          <span data-i18n="to">to</span>
-          <span data-template="search:total-count"/>
-          <a data-template="search:next-link" data-i18n="next">Next</a>
-          <span class="back">
-            <a data-template="search:back-to-results-link" data-i18n="result_overview">Back to results</a>
-          </span>
-        </div>
+      <!-- Navigation -->
+      <div class="card">
+        <div class="card-body">
+          <nav>
+            <a data-template="search:previous-link" data-i18n="previous">Previous</a>
+            <span data-template="search:position"/>
+            <span data-i18n="to">to</span>
+            <span data-template="search:total-count"/>
+            <a data-template="search:next-link" data-i18n="next">Next</a>
+            <span>
+              <a data-template="search:back-to-results-link" data-i18n="result_overview">Back to results</a>
+            </span>
+          </nav>
 
-        <!-- Original context breadcrumb -->
-        <div data-template="search:original-context-breadcrumb">
-          <b>
-            <span data-i18n="original-context">Original context</span>
-            <span>: </span>
-          </b>
-          <!-- Fond context -->
-          <span data-template="search:fond-breadcrumb"/>
-          <!-- Collection context -->
-          <span data-template="search:collection-breadcrumb"/>
+          <!-- Original context breadcrumb -->
+          <div data-template="search:original-context-breadcrumb">
+            <b>
+              <span data-i18n="original-context">Original context</span>
+              <span>: </span>
+            </b>
+            <!-- Fond context -->
+            <span data-template="search:fond-breadcrumb"/>
+            <!-- Collection context -->
+            <span data-template="search:collection-breadcrumb"/>
+          </div>
         </div>
       </div>
 
       <!-- Actions -->
-      <div class="actions">
-        <div class="p">
+      <div class="charter-list">
+        <div class="charter-item">
           <a data-template="search:download-xml-link" target="_blank" data-i18n="download-xml">Download XML</a>
         </div>
       </div>

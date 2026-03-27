@@ -1,142 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <title data-i18n="fonds">Fonds</title>
-    <style>
-        #fonds {
-            position: relative;
-            float: left;
-            width: 100%;
-        }
-        #inner-fonds {
-            position: relative;
-            margin: 0;
-            padding: 0;
-        }
-        #fonds .country-div {
-            position: relative;
-            float: left;
-            width: 33%;
-            background: rgb(240,240,240);
-            border-left: solid white 2px;
-            border-top: solid white 2px;
-            margin: 0;
-            padding: 0;
-        }
-        #fonds .inner-country-div {
-            position: relative;
-            float: left;
-            background: rgb(240,240,240);
-            margin: 10px;
-        }
-        #fonds .country-name {
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-        #fonds .region-name {
-            font-size: 1.2em;
-        }
-        #fonds .draft-marker {
-            color: red;
-        }
-        #fonds .region-link {
-            font-size: 0.6em;
-        }
-        #fonds .region-div {
-            margin-top: 10px;
-        }
-        #fonds .fonds-list {
-            list-style-type: circle;
-            margin-top: 0;
-            margin-left: 0.6em;
-            padding-left: 0.6em;
-        }
-        div.clear {
-            clear: both;
-        }
-        .my-functions {
-            position: relative;
-            float: right;
-            margin-bottom: 30px;
-            width: 32.5%;
-        }
-        div.inlinehead, div.greyinlinehead, div.light-green, div.light-green:visited {
-            position: relative;
-            float: left;
-            font-weight: bold;
-            width: 954px;
-            color: rgb(255,255,255);
-            margin: 0;
-            margin-left: 2px;
-            margin-top: 5px;
-            line-height: 200%;
-            margin-bottom: 1px;
-        }
-        .headlineIcon {
-            height: 12px;
-            margin-right: 3px;
-            margin-left: 2px;
-        }
-        .headlineIcon#open {
-            transform: rotate(180deg);
-        }
-        .headlineIcon#closed {
-            transform: rotate(90deg);
-        }
-        #fonds-map {
-            margin-left: 75px;
-        }
-    </style>
-</head>
-<body>
-    <!-- Map section -->
-    <div class="inlinehead cat abs" onclick="showHideDiv('fonds-map',this)">
-        <img alt="ausklappen" class="headlineIcon" id="closed" src="resources/images/path_up.png"/>
-        <span data-i18n="geomap">Map</span>
-    </div>
-    <div id="fonds-map" style="display:none;">
-        <!-- Geomap subwidget placeholder -->
-        <div data-template="app:include-geomap" data-template-service="geolocations-archives" data-template-mode="fonds"></div>
-    </div>
+<div>
 
-    <!-- Archives section -->
-    <div id="dwidget">
-        <div class="inlinehead cat abs" onclick="showHideDiv('fonds',this)">
-            <img alt="ausklappen" class="headlineIcon" id="open" src="resources/images/path_up.png"/>
-            <span data-i18n="archives">Archives</span>
-        </div>
-        <div id="fonds">
-            <div id="inner-fonds">
-                <!-- My Functions (auth: metadata-manager) -->
-                <div data-template="app:auth-check" data-template-role="metadata-manager">
-                    <div class="my-functions">
-                        <div class="my-functions-label">
-                            <span data-i18n="my-functions">MyFunctions</span>
-                        </div>
-                        <div class="function-links">
-                            <div class="function-link">
-                                <a data-template="app:link" data-template-href="new-archive">
-                                    <span>&#8227; </span>
-                                    <span data-i18n="new-archive">New Archive</span>
-                                </a>
-                            </div>
-                            <div class="function-link">
-                                <a data-template="app:link" data-template-href="publish-fond">
-                                    <span>&#8227; </span>
-                                    <span data-i18n="publish-fond">Publish fond</span>
-                                    <span data-template="app:count-imported-fonds"></span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="clear"></div>
-                </div>
-
-                <!-- Country listing - server rendered -->
-                <div data-template="app:list-countries-with-archives"></div>
-            </div>
-        </div>
+  <!-- Map section -->
+  <div class="card">
+    <div class="card-header" onclick="showHideDiv('fonds-map',this)">
+      <img alt="ausklappen" class="headlineIcon" id="closed" src="resources/images/path_up.png"/>
+      <span data-i18n="geomap">Map</span>
     </div>
-</body>
-</html>
+    <div class="card-body" id="fonds-map" style="display:none;">
+      <div data-template="app:include-geomap" data-template-service="geolocations-archives" data-template-mode="fonds"></div>
+    </div>
+  </div>
+
+  <!-- Archives section -->
+  <div class="card">
+    <div class="card-header" onclick="showHideDiv('fonds',this)">
+      <img alt="ausklappen" class="headlineIcon" id="open" src="resources/images/path_up.png"/>
+      <span data-i18n="archives">Archives</span>
+    </div>
+  </div>
+
+  <div class="page-layout" id="fonds">
+
+    <main id="inner-fonds">
+      <!-- Country listing - server rendered -->
+      <div data-template="app:list-countries-with-archives"></div>
+    </main>
+
+    <aside class="sidebar">
+      <!-- My Functions (auth: metadata-manager) -->
+      <div data-template="app:auth-check" data-template-role="metadata-manager">
+        <div class="card">
+          <div class="card-header" data-i18n="my-functions">MyFunctions</div>
+          <div class="card-body">
+            <a class="btn" data-template="app:link" data-template-href="new-archive">
+              <span data-i18n="new-archive">New Archive</span>
+            </a>
+            <a class="btn" data-template="app:link" data-template-href="publish-fond">
+              <span data-i18n="publish-fond">Publish fond</span>
+              <span data-template="app:count-imported-fonds"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</div>

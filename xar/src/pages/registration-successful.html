@@ -8,12 +8,18 @@
         my/XRX/src/core/app/user/widget/registration-successful.widget.xml
         my/XRX/src/mom/app/user/widget/registration-successful.widget.xml
 -->
-<div id="registration-successful">
+<div class="page-layout--full" style="max-width:400px;margin:2rem auto">
 
-    <h2 data-i18n="welcome">Welcome</h2>
-
-    <p data-i18n="registration-successful-message">
-        Your registration was successful. You can login now.
-    </p>
+    <div class="card text-center">
+        <div class="card-header">
+            <h2 class="mb-0" data-i18n="welcome">Welcome</h2>
+        </div>
+        <div class="card-body">
+            <p data-i18n="registration-successful-message">
+                Your registration was successful. You can login now.
+            </p>
+            <a href="login" class="btn btn--primary">Login</a>
+        </div>
+    </div>
 
 </div>

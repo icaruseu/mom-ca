@@ -6,17 +6,18 @@
   <body>
     <div>
       <div data-template="fond:back-div"/>
-      <div class="h2">
-        <span data-i18n="remove-fond">Remove fond</span>
-        <span>: <span data-template="fond:remove-heading"/></span>
-      </div>
 
-      <!-- Auth: community or metadata-manager -->
-      <div data-template="auth:if-role" data-template-role="metadata-manager,community">
-        <div id="dremove-metadata">
-          <div data-template="fond:request-div"/>
-          <div>
-            <br/><br/><br/><br/>
+      <div class="card">
+        <div class="card-header">
+          <h1>
+            <span data-i18n="remove-fond">Remove fond</span>
+            <span>: <span data-template="fond:remove-heading"/></span>
+          </h1>
+        </div>
+        <div class="card-body">
+          <!-- Auth: community or metadata-manager -->
+          <div data-template="auth:if-role" data-template-role="metadata-manager,community">
+            <div data-template="fond:request-div"/>
             <div data-template="fond:remove-public-entries-div"/>
             <table>
               <thead data-template="fond:table-heading-div"/>
@@ -31,12 +32,12 @@
               </tbody>
             </table>
           </div>
-        </div>
-      </div>
 
-      <!-- Not authorized -->
-      <div data-template="auth:if-not-logged-in">
-        <span data-template="fond:protected-page-div"/>
+          <!-- Not authorized -->
+          <div data-template="auth:if-not-logged-in">
+            <span data-template="fond:protected-page-div"/>
+          </div>
+        </div>
       </div>
     </div>
   </body>

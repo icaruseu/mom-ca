@@ -5,30 +5,20 @@
     <title>Import Info SQL</title>
 </head>
 <body>
-    <table>
-        <tr>
-            <td><span class="heading">SQL</span></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td class="icon"><img class="icon" src="resources/images/SQL.png" alt="SQL"/></td>
-            <td class="info">
-                <p><i><span data-i18n="sql-import-info-1">Directly connect your database with MOM-CA. The SQL import is straightforward since you can synchronize your database and the MOM-CA database with few clicks at any time.</span></i></p>
-                <p><i><span data-i18n="sql-import-info-2">To make the import work you have to configure a database connection. You need a SQL script which reads out your database row by row and a XSLT script which transforms the database rows into CEI.</span></i></p>
-                <div data-template="app:include" data-template-path="useful-links-sql.html"></div>
-            </td>
-            <td class="recent" data-template="app:import-info-recent" data-template-type="SQL"></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td class="button">
-                <a class="button" data-template="app:import-info-link" data-template-type="sql">
-                    <span data-i18n="sql-import">SQL import</span> &gt;&gt;
-                </a>
-            </td>
-        </tr>
-    </table>
+    <div class="card">
+        <div class="card-header">
+            <h3>SQL</h3>
+        </div>
+        <div class="card-body">
+            <img src="resources/images/SQL.png" alt="SQL"/>
+            <p class="text-muted" data-i18n="sql-import-info-1">Directly connect your database with MOM-CA. The SQL import is straightforward since you can synchronize your database and the MOM-CA database with few clicks at any time.</p>
+            <p class="text-muted" data-i18n="sql-import-info-2">To make the import work you have to configure a database connection. You need a SQL script which reads out your database row by row and a XSLT script which transforms the database rows into CEI.</p>
+            <div data-template="app:include" data-template-path="useful-links-sql.html"></div>
+            <div data-template="app:import-info-recent" data-template-type="SQL"></div>
+            <a class="btn btn--primary" data-template="app:import-info-link" data-template-type="sql">
+                <span data-i18n="sql-import">SQL import</span> &gt;&gt;
+            </a>
+        </div>
+    </div>
 </body>
 </html>

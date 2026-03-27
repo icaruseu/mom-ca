@@ -2,92 +2,38 @@
       data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
   <head>
     <title data-i18n="saved-vocabularies">Saved Vocabularies</title>
-    <link rel="stylesheet" type="text/css" href="css/charter-preview.css"/>
-    <style type="text/css">
-      #dcharter-preview-main {
-        float: left;
-        width: 800px;
-      }
-      #dcharter-preview-main .charter * {
-        line-height: 1.6em;
-      }
-      #dcharter-preview-main .charter {
-        position: relative;
-        width: 100%;
-        float: left;
-        background: rgb(245,245,245);
-      }
-      #dcharter-preview-main .charter-preview {
-        position: relative;
-        float: left;
-        width: 100%;
-        background: rgb(245,245,245);
-        border-bottom: solid white 5px;
-      }
-      #dcharter-preview-main .inner-charter-preview {
-        position: relative;
-        float: left;
-        width: 100%;
-        margin: 15px;
-      }
-      #dcharter-preview-main .charter-info-and-actions {
-        display: inline;
-        position: relative;
-        float: left;
-        width: 25%;
-        border-left: solid white 3px;
-        padding-left: 10px;
-      }
-      #dcharter-preview-main .container {
-        float: left;
-        width: 65%;
-        padding-right: 10px;
-      }
-      #dcharter-preview-main .charter-info-and-actions * {
-        font-size: 13px;
-      }
-      .note-field {
-        position: relative;
-        border: solid #C8C8C8 1px;
-        padding: 3px;
-      }
-      .edit-box {
-        padding: 3px;
-      }
-    </style>
   </head>
   <body>
-    <div id="dsaved-vocabs" data-template="publication:saved-vocabularies-view">
-      <div class="h2">
-        <span data-i18n="saved-vocabularies">Saved Vocabularies</span>
-      </div>
-      <div data-template="publication:navigation"/>
-      <div id="dcharter-preview-main">
-        <div data-template="publication:saved-vocabulary-list" class="charter">
-          <div class="charter-preview">
-            <div class="inner-charter-preview">
-              <!-- Vocabulary info -->
+    <div data-template="publication:saved-vocabularies-view">
+
+      <div class="card">
+        <div class="card-header">
+          <h1 data-i18n="saved-vocabularies">Saved Vocabularies</h1>
+        </div>
+        <div class="card-body">
+          <div data-template="publication:navigation"/>
+
+          <div class="charter-list">
+            <div data-template="publication:saved-vocabulary-list" class="charter-item">
               <div>
                 <b><span data-i18n="vocabulary">Vocabulary</span><span>: </span></b>
                 <span data-template="publication:vocabulary-name"/>
               </div>
-              <br/><br/>
-              <div class="charter-info-and-actions">
-                <div>
-                  <a data-template="publication:open-in-skos-editor-link" data-i18n="open-in-skosedit">Open Vocabulary in SKOS-Editor</a>
-                </div>
-                <div>
-                  <a data-template="publication:version-diff-link" data-i18n="version-difference">Version Difference</a>
-                </div>
-                <div>
-                  <a data-template="publication:remove-vocabulary-link" class="delete-local-copy" data-i18n="remove-vocabulary">Remove Vocabulary</a>
-                </div>
-                <div data-template="publication:bookmark-trigger"/>
+              <div>
+                <a data-template="publication:open-in-skos-editor-link" data-i18n="open-in-skosedit">Open Vocabulary in SKOS-Editor</a>
               </div>
+              <div>
+                <a data-template="publication:version-diff-link" data-i18n="version-difference">Version Difference</a>
+              </div>
+              <div>
+                <a data-template="publication:remove-vocabulary-link" data-i18n="remove-vocabulary">Remove Vocabulary</a>
+              </div>
+              <div data-template="publication:bookmark-trigger"/>
             </div>
           </div>
+
+          <div data-template="publication:navigation"/>
         </div>
-        <div data-template="publication:navigation"/>
       </div>
     </div>
   </body>

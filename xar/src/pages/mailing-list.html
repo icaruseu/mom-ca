@@ -1,47 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <title data-i18n="mailing-list">Mailing list</title>
-    <style>
-        #mailing-list {
-            position: relative;
-            float: left;
-            width: 800px;
-        }
-        #mailing-list .email-div {
-            height: 150px;
-            overflow: scroll;
-            border: solid 1px;
-            border-bottom: none;
-        }
-        #mailing-list .inner-email-div {
-            margin: 5px;
-        }
-        #mailing-list .heading {
-            color: white;
-            font-size: 1.5em;
-        }
-        #mailing-list .inner-heading {
-            margin: 5px;
-        }
-    </style>
-</head>
-<body>
-    <div id="mailing-list">
-        <div class="h2">
-            <span data-i18n="mailing-lists">Mailing lists</span>
+<!--
+    MOM-CA Mailing List Page
+    ========================
+    Converted from: my/XRX/src/mom/app/user/widget/mailing-list.widget.xml
+-->
+<div class="page-layout--full">
+    <div class="card">
+        <div class="card-header">
+            <h2 data-i18n="mailing-lists">Mailing lists</h2>
         </div>
-        <h3 class="heading">
-            <div class="inner-heading">
-                <span data-i18n="all-users">All Users</span>
-            </div>
-        </h3>
-        <div class="email-div">
-            <div class="inner-email-div">
+        <div class="card-body">
+            <h3 data-i18n="all-users">All Users</h3>
+            <div>
                 <span data-template="app:mailing-list-all-users"></span>
             </div>
         </div>
     </div>
-</body>
-</html>
+</div>

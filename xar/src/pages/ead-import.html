@@ -5,12 +5,12 @@
     <title>EAD Import</title>
 </head>
 <body>
-    <div id="dcharter-import" data-template="app:charter-import-view">
+    <div id="dcharter-import" data-template="app:charter-import-view" class="page-layout--full">
         <a data-template="app:charter-import-back-link"><span>&lt;&lt;</span><span data-i18n="back-to-fond">Back to fond</span></a>
-        <div class="h2">
+        <h2>
             <span data-i18n="ead-import">EAD Import</span>
             <span>: <span data-template="app:charter-import-context-name"></span></span>
-        </div>
+        </h2>
         <div data-template="app:charter-import-breadcrumb" data-template-type="ead"></div>
         <div data-template="app:auth-check" data-template-role="metadata-manager">
             <fx-fore>
@@ -36,34 +36,90 @@
                     <fx-submission id="stransform" url="service/xml-transform" method="post" replace="instance" instance="itransform-response"></fx-submission>
                     <fx-submission id="simport" url="service/xml-import" method="post" replace="instance" instance="iimport-response"></fx-submission>
                 </fx-model>
-                <div id="dwizard"><div id="dinner-wizard">
-                    <div style="position:absolute; right:0px;"><img class="icon" src="resources/images/EAD.png" alt="EAD"/></div>
-                    <!-- Step 1: Upload -->
-                    <section id="cupload"><h3><span>1. </span><span data-i18n="select-file">Select a file</span> (<span data-i18n="step">Step</span> 1 <span data-i18n="of">of</span> 4)</h3><br/><br/>
-                        <fx-control ref="fileuri" type="file"><label></label></fx-control>
-                        <div class="previous-next-trigger"><fx-trigger><button data-i18n="next">next</button></fx-trigger></div>
-                    </section>
-                    <!-- Step 2: Validate -->
-                    <section id="cvalidate"><h3><span>2. </span><span data-i18n="validate">Validate</span> (<span data-i18n="step">Step</span> 2 <span data-i18n="of">of</span> 4)</h3><br/><br/>
-                        <fx-trigger><button><span data-i18n="validate-now">Validate now</span>!</button><fx-send submission="svalidate"></fx-send></fx-trigger>
-                        <div class="previous-next-trigger"><fx-trigger><button data-i18n="previous">previous</button></fx-trigger><fx-trigger><button data-i18n="cancel">Cancel</button></fx-trigger><fx-trigger><button data-i18n="next">next</button></fx-trigger></div>
-                        <div class="report"><table class="reporttable"><tr><td><span data-i18n="status">Status</span>: </td><td><fx-control ref="instance('ivalidation-response')//status"><label></label></fx-control></td></tr><tr><td><span data-i18n="namespace">Namespace</span>: </td><td><fx-control ref="instance('ivalidation-response')//namespace"><label></label></fx-control></td></tr><tr><td><span data-i18n="message">Message</span>: </td><td><fx-control ref="instance('ivalidation-response')//message"><label></label></fx-control></td></tr></table></div>
-                    </section>
-                    <!-- Step 3: Simulate -->
-                    <section id="csimulate"><h3><span>3. </span><span data-i18n="simulate-charter-import">Simulate charter import</span> (<span data-i18n="step">Step</span> 3 <span data-i18n="of">of</span> 4)</h3><br/><br/>
-                        <fx-trigger><button><span data-i18n="simulate-now">Simulate now</span>!</button><fx-send submission="stransform"></fx-send></fx-trigger>
-                        <div class="previous-next-trigger"><fx-trigger><button data-i18n="previous">previous</button></fx-trigger><fx-trigger><button data-i18n="cancel">Cancel</button></fx-trigger><fx-trigger><button data-i18n="next">next</button></fx-trigger></div>
-                        <div class="report"><table class="reporttable"><tr><td><span data-i18n="status">Status</span>: </td><td><fx-control ref="instance('itransform-response')//status"><label></label></fx-control></td></tr><tr><td><span data-i18n="namespace">Namespace</span>: </td><td><fx-control ref="instance('itransform-response')//namespace"><label></label></fx-control></td></tr><tr><td><span data-i18n="message">Message</span>: </td><td><fx-control ref="instance('itransform-response')//message"><label></label></fx-control></td></tr></table></div>
-                    </section>
-                    <!-- Step 4: Import -->
-                    <section id="cimport"><h3><span>4. </span><span data-i18n="import">Import</span> (<span data-i18n="step">Step</span> 4 <span data-i18n="of">of</span> 4)</h3><br/><br/>
-                        <fx-trigger><button><span data-i18n="import-now">Import now</span>!</button><fx-send submission="simport"></fx-send></fx-trigger><br/><br/>
-                        <fieldset><legend><span data-i18n="status">Status</span></legend><div id="progressbar-import"><div class="progress-label">0%</div></div></fieldset><br/><br/>
-                        <div><fx-control ref="instance('iimport-response')//message"><label></label></fx-control></div>
-                        <div class="previous-next-trigger"><fx-trigger><button data-i18n="previous">previous</button></fx-trigger><fx-trigger><button data-i18n="cancel">Cancel</button></fx-trigger></div>
-                        <div id="dpreview-link"><a data-template="app:charter-import-preview-link"><span data-i18n="preview">Preview</span></a></div>
-                    </section>
-                </div></div>
+
+                <!-- Step 1: Upload -->
+                <div class="card" id="cupload">
+                    <div class="card-header">
+                        <h3><span>1. </span><span data-i18n="select-file">Select a file</span> <span class="text-muted text-small">(<span data-i18n="step">Step</span> 1 <span data-i18n="of">of</span> 4)</span></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <fx-control ref="fileuri" type="file"><label></label></fx-control>
+                        </div>
+                        <div class="previous-next-trigger">
+                            <fx-trigger><button class="btn btn--primary" data-i18n="next">next</button></fx-trigger>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Validate -->
+                <div class="card" id="cvalidate">
+                    <div class="card-header">
+                        <h3><span>2. </span><span data-i18n="validate">Validate</span> <span class="text-muted text-small">(<span data-i18n="step">Step</span> 2 <span data-i18n="of">of</span> 4)</span></h3>
+                    </div>
+                    <div class="card-body">
+                        <fx-trigger><button class="btn btn--primary"><span data-i18n="validate-now">Validate now</span>!</button><fx-send submission="svalidate"></fx-send></fx-trigger>
+                        <div class="previous-next-trigger">
+                            <fx-trigger><button class="btn" data-i18n="previous">previous</button></fx-trigger>
+                            <fx-trigger><button class="btn" data-i18n="cancel">Cancel</button></fx-trigger>
+                            <fx-trigger><button class="btn btn--primary" data-i18n="next">next</button></fx-trigger>
+                        </div>
+                        <div class="report">
+                            <table class="reporttable">
+                                <tr><td><span data-i18n="status">Status</span>: </td><td><fx-control ref="instance('ivalidation-response')//status"><label></label></fx-control></td></tr>
+                                <tr><td><span data-i18n="namespace">Namespace</span>: </td><td><fx-control ref="instance('ivalidation-response')//namespace"><label></label></fx-control></td></tr>
+                                <tr><td><span data-i18n="message">Message</span>: </td><td><fx-control ref="instance('ivalidation-response')//message"><label></label></fx-control></td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Simulate -->
+                <div class="card" id="csimulate">
+                    <div class="card-header">
+                        <h3><span>3. </span><span data-i18n="simulate-charter-import">Simulate charter import</span> <span class="text-muted text-small">(<span data-i18n="step">Step</span> 3 <span data-i18n="of">of</span> 4)</span></h3>
+                    </div>
+                    <div class="card-body">
+                        <fx-trigger><button class="btn btn--primary"><span data-i18n="simulate-now">Simulate now</span>!</button><fx-send submission="stransform"></fx-send></fx-trigger>
+                        <div class="previous-next-trigger">
+                            <fx-trigger><button class="btn" data-i18n="previous">previous</button></fx-trigger>
+                            <fx-trigger><button class="btn" data-i18n="cancel">Cancel</button></fx-trigger>
+                            <fx-trigger><button class="btn btn--primary" data-i18n="next">next</button></fx-trigger>
+                        </div>
+                        <div class="report">
+                            <table class="reporttable">
+                                <tr><td><span data-i18n="status">Status</span>: </td><td><fx-control ref="instance('itransform-response')//status"><label></label></fx-control></td></tr>
+                                <tr><td><span data-i18n="namespace">Namespace</span>: </td><td><fx-control ref="instance('itransform-response')//namespace"><label></label></fx-control></td></tr>
+                                <tr><td><span data-i18n="message">Message</span>: </td><td><fx-control ref="instance('itransform-response')//message"><label></label></fx-control></td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Import -->
+                <div class="card" id="cimport">
+                    <div class="card-header">
+                        <h3><span>4. </span><span data-i18n="import">Import</span> <span class="text-muted text-small">(<span data-i18n="step">Step</span> 4 <span data-i18n="of">of</span> 4)</span></h3>
+                    </div>
+                    <div class="card-body">
+                        <fx-trigger><button class="btn btn--primary"><span data-i18n="import-now">Import now</span>!</button><fx-send submission="simport"></fx-send></fx-trigger>
+                        <fieldset>
+                            <legend><span data-i18n="status">Status</span></legend>
+                            <div id="progressbar-import"><div class="progress-label">0%</div></div>
+                        </fieldset>
+                        <div>
+                            <fx-control ref="instance('iimport-response')//message"><label></label></fx-control>
+                        </div>
+                        <div class="previous-next-trigger">
+                            <fx-trigger><button class="btn" data-i18n="previous">previous</button></fx-trigger>
+                            <fx-trigger><button class="btn" data-i18n="cancel">Cancel</button></fx-trigger>
+                        </div>
+                        <div id="dpreview-link">
+                            <a class="btn btn--primary" data-template="app:charter-import-preview-link"><span data-i18n="preview">Preview</span></a>
+                        </div>
+                    </div>
+                </div>
+
                 <div data-template="app:include" data-template-path="useful-links-ead.html"></div>
             </fx-fore>
         </div>

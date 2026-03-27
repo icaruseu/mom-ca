@@ -2,141 +2,153 @@
       data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
   <head>
     <title data-i18n="edit-archive">Edit Archive</title>
-    <link rel="stylesheet" type="text/css" href="css/forms.css"/>
-    <style type="text/css">
-      #dedit-archive-info {
-        width: 100%;
-      }
-      #dedit-archive-info .trigger {
-        text-align: right;
-      }
-    </style>
   </head>
   <body>
-    <div id="dedit-archive-info">
-      <div>
+    <div class="page-layout">
+      <main>
         <div>
           <a data-template="archive:back-link">
             <span>&lt;&lt;</span>
             <span data-i18n="back">back</span>
           </a>
         </div>
-        <div class="h2">
+        <h1>
           <span data-i18n="edit-archive-info">Edit archive information</span>
           <span> (ISDIAH)</span>
-        </div>
-      </div>
+        </h1>
 
-      <!-- Auth check: metadata-manager or community -->
-      <div data-template="auth:if-role" data-template-role="metadata-manager,community">
-        <div class="standard-form InlineRoundBordersAlert">
-          <fore-model id="medit-archive-info">
-            <fore-instance id="ientry" data-template="archive:eag-instance"/>
-            <fore-instance id="ihelper">
-              <data>
-                <country/>
-                <regions data-template="archive:region-options"/>
-              </data>
-            </fore-instance>
-            <fore-submission id="ssave" data-template="archive:save-submission" method="post" replace="none"/>
-            <fore-bind id="bautform" ref="//eag:autform" required="true" constraint=". != ''"/>
-            <fore-bind id="brepositorid" ref="//eag:repositorid" readonly="true"/>
-            <fore-bind id="bfirstdem" ref="//eag:firstdem"/>
-            <fore-bind id="bstreet" ref="//eag:street"/>
-            <fore-bind id="bpostalcode" ref="//eag:postalcode"/>
-            <fore-bind id="bmunicipality" ref="//eag:municipality"/>
-            <fore-bind id="btelephone" ref="//eag:telephone"/>
-            <fore-bind id="bfax" ref="//eag:fax"/>
-            <fore-bind id="bemail" ref="//eag:email"/>
-            <fore-bind id="bwebpage" ref="//eag:webpage"/>
-            <fore-bind id="blogourl" ref="//eag:extptr/@href"/>
-            <fore-bind id="bcontactperson" ref="//eag:contactperson"/>
-          </fore-model>
+        <!-- Auth check: metadata-manager or community -->
+        <div data-template="auth:if-role" data-template-role="metadata-manager,community">
+          <div class="card">
+            <div class="card-body">
+              <fore-model id="medit-archive-info">
+                <fore-instance id="ientry" data-template="archive:eag-instance"/>
+                <fore-instance id="ihelper">
+                  <data>
+                    <country/>
+                    <regions data-template="archive:region-options"/>
+                  </data>
+                </fore-instance>
+                <fore-submission id="ssave" data-template="archive:save-submission" method="post" replace="none"/>
+                <fore-bind id="bautform" ref="//eag:autform" required="true" constraint=". != ''"/>
+                <fore-bind id="brepositorid" ref="//eag:repositorid" readonly="true"/>
+                <fore-bind id="bfirstdem" ref="//eag:firstdem"/>
+                <fore-bind id="bstreet" ref="//eag:street"/>
+                <fore-bind id="bpostalcode" ref="//eag:postalcode"/>
+                <fore-bind id="bmunicipality" ref="//eag:municipality"/>
+                <fore-bind id="btelephone" ref="//eag:telephone"/>
+                <fore-bind id="bfax" ref="//eag:fax"/>
+                <fore-bind id="bemail" ref="//eag:email"/>
+                <fore-bind id="bwebpage" ref="//eag:webpage"/>
+                <fore-bind id="blogourl" ref="//eag:extptr/@href"/>
+                <fore-bind id="bcontactperson" ref="//eag:contactperson"/>
+              </fore-model>
 
-          <fore-group appearance="vertical" model="medit-archive-info">
-            <!-- Name -->
-            <fore-input bind="bautform">
-              <fore-label><span data-i18n="name">Name</span><span>: </span></fore-label>
-              <fore-hint><span data-i18n="required-field">Required field</span><span>.</span></fore-hint>
-              <fore-alert><span data-i18n="required-field">Required field</span><span>.</span></fore-alert>
-            </fore-input>
+              <fore-group appearance="vertical" model="medit-archive-info">
+                <div class="form-group">
+                  <fore-input bind="bautform">
+                    <fore-label><span data-i18n="name">Name</span><span>: </span></fore-label>
+                    <fore-hint><span data-i18n="required-field">Required field</span><span>.</span></fore-hint>
+                    <fore-alert><span data-i18n="required-field">Required field</span><span>.</span></fore-alert>
+                  </fore-input>
+                </div>
 
-            <!-- Archive ID (readonly) -->
-            <fore-input bind="brepositorid">
-              <fore-label><span data-i18n="archive-id">Archive ID</span><span>: </span></fore-label>
-            </fore-input>
+                <div class="form-group">
+                  <fore-input bind="brepositorid">
+                    <fore-label><span data-i18n="archive-id">Archive ID</span><span>: </span></fore-label>
+                  </fore-input>
+                </div>
 
-            <!-- Region -->
-            <fore-select1 bind="bfirstdem">
-              <fore-label><span data-i18n="region">Region</span><span>: </span></fore-label>
-              <fore-itemset ref="instance('ihelper')//region">
-                <fore-label ref="."/>
-                <fore-value ref="."/>
-              </fore-itemset>
-            </fore-select1>
+                <div class="form-group">
+                  <fore-select1 bind="bfirstdem">
+                    <fore-label><span data-i18n="region">Region</span><span>: </span></fore-label>
+                    <fore-itemset ref="instance('ihelper')//region">
+                      <fore-label ref="."/>
+                      <fore-value ref="."/>
+                    </fore-itemset>
+                  </fore-select1>
+                </div>
 
-            <!-- ZIP -->
-            <fore-input bind="bpostalcode">
-              <fore-label><span data-i18n="zip">ZIP</span><span>: </span></fore-label>
-              <fore-hint><span data-i18n="optional-field">Optional field</span><span>.</span></fore-hint>
-            </fore-input>
+                <div class="form-group">
+                  <fore-input bind="bpostalcode">
+                    <fore-label><span data-i18n="zip">ZIP</span><span>: </span></fore-label>
+                    <fore-hint><span data-i18n="optional-field">Optional field</span><span>.</span></fore-hint>
+                  </fore-input>
+                </div>
 
-            <!-- City -->
-            <fore-input bind="bmunicipality">
-              <fore-label><span data-i18n="city">City</span><span>: </span></fore-label>
-              <fore-hint><span data-i18n="optional-field">Optional field</span><span>.</span></fore-hint>
-            </fore-input>
+                <div class="form-group">
+                  <fore-input bind="bmunicipality">
+                    <fore-label><span data-i18n="city">City</span><span>: </span></fore-label>
+                    <fore-hint><span data-i18n="optional-field">Optional field</span><span>.</span></fore-hint>
+                  </fore-input>
+                </div>
 
-            <!-- Street -->
-            <fore-input bind="bstreet">
-              <fore-label><span data-i18n="street">Street</span><span>: </span></fore-label>
-              <fore-hint><span data-i18n="optional-field">Optional field</span><span>.</span></fore-hint>
-            </fore-input>
+                <div class="form-group">
+                  <fore-input bind="bstreet">
+                    <fore-label><span data-i18n="street">Street</span><span>: </span></fore-label>
+                    <fore-hint><span data-i18n="optional-field">Optional field</span><span>.</span></fore-hint>
+                  </fore-input>
+                </div>
 
-            <!-- Phone -->
-            <fore-input bind="btelephone">
-              <fore-label><span data-i18n="phone">Phone</span><span>: </span></fore-label>
-            </fore-input>
+                <div class="form-group">
+                  <fore-input bind="btelephone">
+                    <fore-label><span data-i18n="phone">Phone</span><span>: </span></fore-label>
+                  </fore-input>
+                </div>
 
-            <!-- Fax -->
-            <fore-input bind="bfax">
-              <fore-label><span data-i18n="fax">Fax</span><span>: </span></fore-label>
-              <fore-hint><span data-i18n="optional-field">Optional field</span><span>.</span></fore-hint>
-            </fore-input>
+                <div class="form-group">
+                  <fore-input bind="bfax">
+                    <fore-label><span data-i18n="fax">Fax</span><span>: </span></fore-label>
+                    <fore-hint><span data-i18n="optional-field">Optional field</span><span>.</span></fore-hint>
+                  </fore-input>
+                </div>
 
-            <!-- Email -->
-            <fore-input bind="bemail">
-              <fore-label><span data-i18n="email">Email</span><span>: </span></fore-label>
-              <fore-hint><span data-i18n="optional-field">Optional field</span><span>.</span></fore-hint>
-            </fore-input>
+                <div class="form-group">
+                  <fore-input bind="bemail">
+                    <fore-label><span data-i18n="email">Email</span><span>: </span></fore-label>
+                    <fore-hint><span data-i18n="optional-field">Optional field</span><span>.</span></fore-hint>
+                  </fore-input>
+                </div>
 
-            <!-- Webpage -->
-            <fore-input bind="bwebpage">
-              <fore-label><span data-i18n="webpage">Webpage</span><span>: </span></fore-label>
-              <fore-hint><span data-i18n="optional-field">Optional field</span><span>.</span></fore-hint>
-            </fore-input>
+                <div class="form-group">
+                  <fore-input bind="bwebpage">
+                    <fore-label><span data-i18n="webpage">Webpage</span><span>: </span></fore-label>
+                    <fore-hint><span data-i18n="optional-field">Optional field</span><span>.</span></fore-hint>
+                  </fore-input>
+                </div>
 
-            <!-- Logo URL -->
-            <fore-input bind="blogourl">
-              <fore-label><span data-i18n="logo-url">Logo (URL)</span><span>: </span></fore-label>
-              <fore-hint><span data-i18n="optional-field">Optional field</span><span>.</span></fore-hint>
-            </fore-input>
+                <div class="form-group">
+                  <fore-input bind="blogourl">
+                    <fore-label><span data-i18n="logo-url">Logo (URL)</span><span>: </span></fore-label>
+                    <fore-hint><span data-i18n="optional-field">Optional field</span><span>.</span></fore-hint>
+                  </fore-input>
+                </div>
 
-            <!-- Save button -->
-            <div class="trigger">
-              <fore-trigger>
-                <fore-label data-i18n="save">Save</fore-label>
-                <fore-send submission="ssave" event="activate"/>
-              </fore-trigger>
+                <fore-trigger>
+                  <fore-label data-i18n="save">Save</fore-label>
+                  <fore-send submission="ssave" event="activate"/>
+                </fore-trigger>
+              </fore-group>
             </div>
-          </fore-group>
+          </div>
         </div>
-      </div>
 
-      <!-- Not authorized -->
-      <div data-template="auth:if-not-logged-in">
-        <span data-i18n="proteceted-page-message">Protected page. Please login first.</span>
-      </div>
+        <!-- Not authorized -->
+        <div data-template="auth:if-not-logged-in">
+          <span data-i18n="proteceted-page-message">Protected page. Please login first.</span>
+        </div>
+      </main>
+
+      <aside class="sidebar">
+        <div class="card">
+          <div class="card-header">
+            <h3 data-i18n="help">Help</h3>
+          </div>
+          <div class="card-body">
+            <p class="text-muted" data-i18n="edit-archive-help">Fill in the archive details according to the ISDIAH standard. Required fields are marked.</p>
+          </div>
+        </div>
+      </aside>
     </div>
   </body>
 </html>

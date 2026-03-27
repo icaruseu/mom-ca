@@ -10,141 +10,117 @@
         my/XRX/src/core/app/user/widget/remove-account.widget.xml
         my/XRX/src/mom/app/user/widget/remove-account.widget.xml
 -->
-<div id="dremove-account-page">
-
-    <h2 data-i18n="remove-account">Remove Account</h2>
+<div class="page-layout--full" style="max-width:480px;margin:2rem auto">
 
     <!-- Unauthenticated state -->
     <div id="remove-account-guest" class="auth-false" hidden="hidden">
-        <p data-i18n="protected-page-message">
-            Protected page. Please login first.
-        </p>
+        <div class="card">
+            <div class="card-body">
+                <p data-i18n="protected-page-message">
+                    Protected page. Please login first.
+                </p>
+            </div>
+        </div>
     </div>
 
     <!-- Authenticated state -->
-    <div id="dremove-account" class="standard-form auth-true">
+    <div id="dremove-account" class="auth-true">
 
-        <p data-i18n="remove-this-account-question">
-            Do you really want to remove this Account?
-        </p>
-
-        <fx-fore>
-            <fx-model id="mremove-account">
-
-                <fx-instance id="iremove-account">
-                    <data>
-                        <userid data-template="user:current-id"></userid>
-                        <password></password>
-                        <repeatpassword></repeatpassword>
-                    </data>
-                </fx-instance>
-
-                <fx-instance id="iresponse">
-                    <data>
-                        <status></status>
-                        <message></message>
-                        <icon></icon>
-                    </data>
-                </fx-instance>
-
-                <fx-bind ref="repeatpassword" required="true()" constraint=". = ../password"></fx-bind>
-
-                <fx-submission id="sremove-account"
-                               url="/api/user/remove-account"
-                               method="POST"
-                               replace="instance"
-                               instance="iresponse">
-                </fx-submission>
-
-            </fx-model>
-
-            <!-- Response messages -->
-            <div id="dresponse-info-div">
-                <div>
-                    <fx-output ref="instance('iresponse')/icon" media-type="image/*"></fx-output>
-                </div>
-                <div>
-                    <fx-output ref="instance('iresponse')/message"></fx-output>
-                </div>
+        <div class="card" style="border-left:4px solid var(--color-accent)">
+            <div class="card-header">
+                <h2 class="mb-0" data-i18n="remove-account">Remove Account</h2>
             </div>
+            <div class="card-body">
 
-            <div class="InlineRoundBordersAlert standard-form vertical-table">
+                <p data-i18n="remove-this-account-question">
+                    Do you really want to remove this Account?
+                </p>
 
-                <!-- Password -->
-                <fx-control ref="password" class="form-field">
-                    <label slot="label">
-                        <span data-i18n="password-twice">Password (twice)</span><span>:</span>
-                    </label>
-                    <input type="password" autocomplete="current-password"/>
-                </fx-control>
+                <fx-fore>
+                    <fx-model id="mremove-account">
 
-                <!-- Repeat password -->
-                <fx-control ref="repeatpassword" class="form-field">
-                    <label slot="label"></label>
-                    <input type="password" autocomplete="current-password"/>
-                    <fx-alert data-i18n="password-does-not-match">Password does not match.</fx-alert>
-                </fx-control>
+                        <fx-instance id="iremove-account">
+                            <data>
+                                <userid data-template="user:current-id"></userid>
+                                <password></password>
+                                <repeatpassword></repeatpassword>
+                            </data>
+                        </fx-instance>
+
+                        <fx-instance id="iresponse">
+                            <data>
+                                <status></status>
+                                <message></message>
+                                <icon></icon>
+                            </data>
+                        </fx-instance>
+
+                        <fx-bind ref="repeatpassword" required="true()" constraint=". = ../password"></fx-bind>
+
+                        <fx-submission id="sremove-account"
+                                       url="/api/user/remove-account"
+                                       method="POST"
+                                       replace="instance"
+                                       instance="iresponse">
+                        </fx-submission>
+
+                    </fx-model>
+
+                    <!-- Response messages -->
+                    <div id="dresponse-info-div">
+                        <div>
+                            <fx-output ref="instance('iresponse')/icon" media-type="image/*"></fx-output>
+                        </div>
+                        <div>
+                            <fx-output ref="instance('iresponse')/message"></fx-output>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <fx-control ref="password">
+                            <label slot="label">
+                                <span data-i18n="password-twice">Password (twice)</span>
+                            </label>
+                            <input type="password" autocomplete="current-password"/>
+                        </fx-control>
+                    </div>
+
+                    <div class="form-group">
+                        <fx-control ref="repeatpassword">
+                            <label slot="label">
+                                <span class="sr-only">Repeat password</span>
+                            </label>
+                            <input type="password" autocomplete="current-password"/>
+                            <fx-alert data-i18n="password-does-not-match">Password does not match.</fx-alert>
+                        </fx-control>
+                    </div>
+
+                    <p style="color:var(--color-accent);font-weight:bold" data-i18n="removing-account-cant-be-undone">
+                        Removing your account can not be undone
+                    </p>
+
+                    <div style="display:flex;gap:0.5rem">
+                        <fx-trigger>
+                            <button class="btn" data-i18n="cancel">Cancel</button>
+                            <fx-action event="click">
+                                <fx-load url="my-account"></fx-load>
+                            </fx-action>
+                        </fx-trigger>
+
+                        <fx-trigger>
+                            <button class="btn btn--primary" data-i18n="remove">Remove</button>
+                            <fx-send submission="sremove-account" event="click"></fx-send>
+                        </fx-trigger>
+                    </div>
+
+                </fx-fore>
 
             </div>
-
-            <div class="warning-text" data-i18n="removing-account-cant-be-undone">
-                Removing your account can not be undone
-            </div>
-
-            <div class="action-buttons">
-                <fx-trigger>
-                    <button data-i18n="cancel" class="btn-cancel">Cancel</button>
-                    <fx-action event="click">
-                        <fx-load url="my-account"></fx-load>
-                    </fx-action>
-                </fx-trigger>
-
-                <fx-trigger>
-                    <button data-i18n="remove" class="btn-danger">Remove</button>
-                    <fx-send submission="sremove-account" event="click"></fx-send>
-                </fx-trigger>
-            </div>
-
-        </fx-fore>
+        </div>
 
     </div>
 
 </div>
-
-<style>
-    #dremove-account-page .warning-text {
-        color: red;
-        margin: 1rem 0;
-    }
-
-    #dremove-account-page .action-buttons {
-        display: flex;
-        gap: 0.5rem;
-        margin-top: 1rem;
-    }
-
-    #dremove-account-page .form-field {
-        margin-bottom: 0.75rem;
-    }
-
-    #dremove-account-page .vertical-table {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .btn-danger {
-        background: #c9302c;
-        color: white;
-        border: none;
-        padding: 6px 16px;
-        cursor: pointer;
-    }
-
-    .btn-cancel {
-        padding: 6px 16px;
-        cursor: pointer;
-    }
-</style>
 
 <script type="module">
     // Toggle authenticated / unauthenticated views

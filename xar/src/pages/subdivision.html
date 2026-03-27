@@ -1,21 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <title data-i18n="fonds">Fonds</title>
-</head>
-<body>
-    <div data-template="app:subdivision-view">
-        <div class="h2">
-            <span data-i18n="region">Region</span>
-            <span>: <span data-template="app:region-name"></span> (<span data-template="app:region-id"></span>)</span>
-        </div>
-        <div id="dsubdivision">
-            <h3>
-                <span data-i18n="archives">Archives</span>
-            </h3>
-            <div data-template="app:archives-by-region"></div>
-        </div>
+<div data-template="app:subdivision-view">
+
+  <h1>
+    <span data-i18n="region">Region</span>
+    <span>: <span data-template="app:region-name"></span> (<span data-template="app:region-id"></span>)</span>
+  </h1>
+
+  <div class="card">
+    <div class="card-header" data-i18n="archives">Archives</div>
+    <div class="card-body">
+      <div data-template="app:archives-by-region"></div>
     </div>
-</body>
-</html>
+  </div>
+</div>

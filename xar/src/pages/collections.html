@@ -1,99 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-i18n="collections">Collections</title>
-  <style>
-    div.clear {
-      clear: left;
-    }
-    #collections {
-      position: relative;
-      display: block;
-      float: left;
-      width: 100%;
-    }
-    #collections .country-name {
-      font-size: 1.1em;
-      font-weight: bold;
-    }
-    #collections .collections-menu {
-      clear: both;
-      position: relative;
-      float: right;
-      background: rgb(240,240,240);
-    }
-    #collections .collections-menu-block {
-      border-top: solid grey 1px;
-      background: rgb(240,240,240);
-      max-width: 310px;
-      overflow: hidden;
-    }
-    #collections .collections-menu-block-inner {
-      margin: 15px;
-    }
-    #collections .collections-menu-heading {
-      font-variant: small-caps;
-    }
-    #collections .show-link {
-      width: 100%;
-      text-align: right;
-    }
-    #collections .collections-date {
-      color: grey;
-      font-size: .8em;
-    }
-    #collections .nobr {
-      white-space: nowrap;
-    }
-    button.image-overview {
-      margin-left: 1em;
-      padding: 0;
-      font-size: 7px !important;
-      width: 5em;
-    }
-  </style>
-</head>
-<body>
-  <div id="collections">
+<div id="collections">
 
-    <!-- Page heading -->
-    <div class="h2">
-      <span data-i18n="collections">Collections</span>
-      <span> </span>
-      <!-- Dynamic sub-heading based on route -->
-      <span data-template="collections:sub-heading"/>
-    </div>
+  <h1>
+    <span data-i18n="collections">Collections</span>
+    <span> </span>
+    <span data-template="collections:sub-heading"/>
+  </h1>
 
-    <!-- Authenticated user functions -->
-    <div data-template="auth:require-group" data-group="atom">
-      <div class="my-functions">
-        <div class="my-functions-label" data-i18n="my-functions">MyFunctions</div>
-        <div class="function-links">
-          <div class="function-link">
-            <a data-template="config:resolve-link" href="my-collections">
-              <span>&#8227; </span>
+  <div class="page-layout">
+
+    <main>
+      <!-- Authenticated user functions -->
+      <div data-template="auth:require-group" data-group="atom">
+        <div class="card">
+          <div class="card-header" data-i18n="my-functions">MyFunctions</div>
+          <div class="card-body">
+            <a class="btn" data-template="config:resolve-link" href="my-collections">
               <span data-i18n="my-collections-preview">My Collections (Preview)</span>
             </a>
-          </div>
-          <div class="function-link">
-            <a data-template="config:resolve-link" href="my-collections-edit">
-              <span>&#8227; </span>
+            <a class="btn" data-template="config:resolve-link" href="my-collections-edit">
               <span data-i18n="edit-my-collections">Edit my Collections</span>
             </a>
-          </div>
-          <!-- Metadata manager only -->
-          <div data-template="auth:require-role" data-role="metadata-manager">
-            <div class="function-link">
-              <a data-template="config:resolve-link" href="new-collection">
-                <span>&#8227; </span>
+            <!-- Metadata manager only -->
+            <div data-template="auth:require-role" data-role="metadata-manager">
+              <a class="btn btn--primary" data-template="config:resolve-link" href="new-collection">
                 <span data-i18n="new-collection">New collection</span>
               </a>
-            </div>
-            <div class="function-link">
-              <a data-template="config:resolve-link" href="publish-collection">
-                <span>&#8227; </span>
+              <a class="btn" data-template="config:resolve-link" href="publish-collection">
                 <span data-i18n="publish-collection">Publish collection</span>
                 <span> (<span data-template="collections:imported-count"/>)</span>
               </a>
@@ -101,79 +33,68 @@
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Right-side menu -->
-    <div class="collections-menu">
-      <div class="collections-menu-block">
-        <div class="collections-menu-block-inner">
-          <span class="collections-menu-heading">
-            <a data-template="config:resolve-link" href="collections/recently-added">
-              <span data-i18n="recently-added">Recently added</span>
-            </a>
-          </span>
+      <!-- Main content area -->
+      <div data-template="collections:content"/>
+    </main>
+
+    <aside class="sidebar">
+      <div class="card">
+        <div class="card-header">
+          <a data-template="config:resolve-link" href="collections/recently-added">
+            <span data-i18n="recently-added">Recently added</span>
+          </a>
+        </div>
+        <div class="card-body">
           <ul class="nostyle" data-template="collections:recently-added-list"/>
-          <div class="show-link">
-            <a data-template="config:resolve-link" href="collections/recently-added">
-              <span data-i18n="show">show</span>
-              <span> &gt;&gt;</span>
-            </a>
-          </div>
+          <a data-template="config:resolve-link" href="collections/recently-added">
+            <span data-i18n="show">show</span> &gt;&gt;
+          </a>
         </div>
       </div>
-      <div class="collections-menu-block">
-        <div class="collections-menu-block-inner">
-          <span class="collections-menu-heading">
-            <a data-template="config:resolve-link" href="collections/by-country">
-              <span data-i18n="discover-by-country">Discover by country</span>
-            </a>
-          </span>
-          <ul class="nostyle" data-template="collections:countries-list"/>
-          <div class="show-link">
-            <a data-template="config:resolve-link" href="collections/by-country">
-              <span data-i18n="show">show</span>
-              <span> &gt;&gt;</span>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="collections-menu-block">
-        <div class="collections-menu-block-inner">
-          <span class="collections-menu-heading">
-            <a data-template="config:resolve-link" href="collections/by-category">
-              <span data-i18n="discover-by-category">Discover by category</span>
-            </a>
-          </span>
-          <ul class="nostyle" data-template="collections:categories-list"/>
-          <div class="show-link">
-            <a data-template="config:resolve-link" href="collections/by-category">
-              <span data-i18n="show">show</span>
-              <span> &gt;&gt;</span>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="collections-menu-block">
-        <div class="collections-menu-block-inner">
-          <span class="collections-menu-heading">
-            <a data-template="config:resolve-link" href="collections/by-user">
-              <span data-i18n="discover-by-user">Discover by user</span>
-            </a>
-          </span>
-          <ul class="nostyle" data-template="collections:users-list"/>
-          <div class="show-link">
-            <a data-template="config:resolve-link" href="collections/by-user">
-              <span data-i18n="show">show</span>
-              <span> &gt;&gt;</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Main content area -->
-    <div data-template="collections:content"/>
+      <div class="card">
+        <div class="card-header">
+          <a data-template="config:resolve-link" href="collections/by-country">
+            <span data-i18n="discover-by-country">Discover by country</span>
+          </a>
+        </div>
+        <div class="card-body">
+          <ul class="nostyle" data-template="collections:countries-list"/>
+          <a data-template="config:resolve-link" href="collections/by-country">
+            <span data-i18n="show">show</span> &gt;&gt;
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <a data-template="config:resolve-link" href="collections/by-category">
+            <span data-i18n="discover-by-category">Discover by category</span>
+          </a>
+        </div>
+        <div class="card-body">
+          <ul class="nostyle" data-template="collections:categories-list"/>
+          <a data-template="config:resolve-link" href="collections/by-category">
+            <span data-i18n="show">show</span> &gt;&gt;
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <a data-template="config:resolve-link" href="collections/by-user">
+            <span data-i18n="discover-by-user">Discover by user</span>
+          </a>
+        </div>
+        <div class="card-body">
+          <ul class="nostyle" data-template="collections:users-list"/>
+          <a data-template="config:resolve-link" href="collections/by-user">
+            <span data-i18n="show">show</span> &gt;&gt;
+          </a>
+        </div>
+      </div>
+    </aside>
 
   </div>
-</body>
-</html>
+</div>

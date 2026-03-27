@@ -1,59 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-i18n="my-charter">My Charter</title>
-  <!-- Converted from my-charter.widget.xml -->
-  <!-- Original ID: tag:www.monasterium.net,2011:/mom/widget/my-charter -->
-  <!-- Inherits: tag:www.monasterium.net,2011:/mom/widget/charter -->
-  <!-- No xf: elements in own divs - plain HTML with data-template placeholders -->
-  <link rel="stylesheet" href="../css/charter.css"/>
-</head>
-<body>
-  <div id="charter"
-       data-template="my-charter:init"
-       data-template-context="collection"
-       data-template-atom-id="$wcharter:atom-id"
-       data-template-charter="$wcharter:charter">
+<div id="charter"
+     class="page-layout"
+     data-template="my-charter:init"
+     data-template-context="collection"
+     data-template-atom-id="$wcharter:atom-id"
+     data-template-charter="$wcharter:charter">
 
-    <div class="p">
-      <!-- heading-div -->
-      <div class="h2">
-        <span data-i18n="my-charter-preview">Charter Preview</span>
-        <span>: <span data-template="charter:idno"></span></span>
-      </div>
+  <!-- Main content area -->
+  <main>
+    <!-- Heading -->
+    <h2>
+      <span data-i18n="my-charter-preview">Charter Preview</span>
+      <span>: <span data-template="charter:idno"></span></span>
+    </h2>
 
-      <!-- breadcrumb -->
-      <div data-template="my-charter:breadcrumb"
-           data-template-collection-id="$charter:rcollectionid"
-           data-template-block="$wcharter:block"
-           data-template-anchor="$wcharter:anchor"
-           data-template-fond="$wcharter:fond"
-           data-template-idno="$wcharter:idno">
-        <a data-template-href="collections">
-          <span data-i18n="collections">Collections</span>
-        </a>
-        <span> &gt; </span>
-        <a data-template-href="my-collections">
-          <span data-i18n="my-collections">My Collections</span>
-        </a>
-        <span> &gt; </span>
-        <a data-template-href="my-charter:fond-link">
-          <span data-template="charter:fond"></span>
-        </a>
-        <span> &gt; </span>
-        <a data-template-href="my-charter:self-link">
-          <span data-template="charter:idno"></span>
-        </a>
-      </div>
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" data-template="my-charter:breadcrumb"
+         data-template-collection-id="$charter:rcollectionid"
+         data-template-block="$wcharter:block"
+         data-template-anchor="$wcharter:anchor"
+         data-template-fond="$wcharter:fond"
+         data-template-idno="$wcharter:idno">
+      <a data-template-href="collections">
+        <span data-i18n="collections">Collections</span>
+      </a>
+      <span class="sep"> &gt; </span>
+      <a data-template-href="my-collections">
+        <span data-i18n="my-collections">My Collections</span>
+      </a>
+      <span class="sep"> &gt; </span>
+      <a data-template-href="my-charter:fond-link">
+        <span data-template="charter:fond"></span>
+      </a>
+      <span class="sep"> &gt; </span>
+      <a data-template-href="my-charter:self-link">
+        <span data-template="charter:idno"></span>
+      </a>
+    </nav>
 
-      <!-- signature -->
-      <div data-template="charter:signature"
-           data-template-fond-id="$charter:rfondid"
-           data-template-idno="$wcharter:idno"
-           data-template-is-bookmarked="$wcharter:is-bookmarked">
-        <div class="idno" id="idno-num">
+    <!-- Signature -->
+    <div class="card" data-template="charter:signature"
+         data-template-fond-id="$charter:rfondid"
+         data-template-idno="$wcharter:idno"
+         data-template-is-bookmarked="$wcharter:is-bookmarked">
+      <div class="card-body">
+        <div class="charter-idno" id="idno-num">
           <span data-i18n="signature">Signature</span>
           <span>: <span data-template="charter:idno"></span></span>
         </div>
@@ -61,57 +51,59 @@
         <span>:&nbsp;</span>
         <form>
           <div id="radio">
-            <a data-template-href="my-charter:edit-link" target="_blank">
+            <a data-template-href="my-charter:edit-link" target="_blank" class="btn btn--primary">
               <span>EditMOM</span>
             </a>
           </div>
         </form>
       </div>
-
-      <!-- prev-next -->
-      <div id="prev-next"
-           data-template="charter:prev-next"
-           data-template-previous="$wcharter:previous"
-           data-template-next="$wcharter:next"
-           data-template-pos="$wcharter:pos"
-           data-template-count="$wcharter:count">
-        <div id="prev">
-          <a data-template-href="$wcharter:previous">
-            <span>&lt; </span>
-            <span data-i18n="previous-charter">Previous Charter</span>
-          </a>
-        </div>
-        <div id="next">
-          <span data-template="charter:pos"></span>
-          <span data-i18n="of">of</span>
-          <span data-template="charter:count"></span>
-          <span>   </span>
-          <a data-template-href="$wcharter:next">
-            <span data-i18n="next-charter">Next Charter</span>
-            <span> &gt;</span>
-          </a>
-        </div>
-      </div>
     </div>
 
-    <!-- how-to-cite (subwidget) -->
+    <!-- Prev/Next navigation -->
+    <div id="prev-next"
+         data-template="charter:prev-next"
+         data-template-previous="$wcharter:previous"
+         data-template-next="$wcharter:next"
+         data-template-pos="$wcharter:pos"
+         data-template-count="$wcharter:count">
+      <span id="prev">
+        <a data-template-href="$wcharter:previous" class="btn">
+          <span>&lt; </span>
+          <span data-i18n="previous-charter">Previous Charter</span>
+        </a>
+      </span>
+      <span id="next">
+        <span data-template="charter:pos"></span>
+        <span data-i18n="of">of</span>
+        <span data-template="charter:count"></span>
+        <span>   </span>
+        <a data-template-href="$wcharter:next" class="btn">
+          <span data-i18n="next-charter">Next Charter</span>
+          <span> &gt;</span>
+        </a>
+      </span>
+    </div>
+
+    <!-- How to cite (subwidget) -->
     <div data-template="charter:how-to-cite">
       <!-- Included from how-to-cite.html -->
     </div>
-  </div>
+  </main>
 
-  <script src="../js/charter.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      document.querySelector('.open-viewer-link')?.style.setProperty('display', 'none');
-      document.getElementById('zoomsliderlabel')?.style.setProperty('display', 'none');
+  <!-- Sidebar (empty placeholder for layout consistency) -->
+  <aside class="sidebar"></aside>
+</div>
 
-      var linked = document.querySelector('div#graphics a#img-link');
-      var graphics = document.getElementById('graphics');
-      if (graphics) {
-        graphics.style.display = linked ? 'block' : 'none';
-      }
-    });
-  </script>
-</body>
-</html>
+<script src="../js/charter.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('.open-viewer-link')?.style.setProperty('display', 'none');
+    document.getElementById('zoomsliderlabel')?.style.setProperty('display', 'none');
+
+    var linked = document.querySelector('div#graphics a#img-link');
+    var graphics = document.getElementById('graphics');
+    if (graphics) {
+      graphics.style.display = linked ? 'block' : 'none';
+    }
+  });
+</script>

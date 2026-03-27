@@ -1,62 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Charter Preview (Collection)</title>
-</head>
-<body>
-  <div data-template="charter-preview-collection:load" class="charter-preview">
+<div class="charter-item" data-template="charter-preview-collection:load">
 
-    <!-- Charter link -->
-    <div data-template="charter-preview-collection:charter-link-div">
-      <!-- Standard collection charter -->
-      <div data-template="charter-preview-collection:standard-link">
-        <b>
-          <span data-i18n="charter">Charter</span>
-          <span>: </span>
-        </b>
-        <span>
-          <a data-template="charter-preview-collection:charter-href">
-            <span data-template="charter-preview-collection:idno"/>
-          </a>
-        </span>
-      </div>
-      <!-- Linked fond charter (sequential number) -->
-      <div data-template="charter-preview-collection:linked-fond-link">
-        <b>
-          <span data-i18n="sequential-number">Sequential number</span>
-          <span>: </span>
-        </b>
-        <span>
-          <a data-template="charter-preview-collection:charter-href">
-            <span data-template="charter-preview-collection:sequential-number"/>
-          </a>
-        </span>
-      </div>
+  <!-- Charter link -->
+  <div class="charter-idno" data-template="charter-preview-collection:charter-link-div">
+    <!-- Standard collection charter -->
+    <div data-template="charter-preview-collection:standard-link">
+      <b>
+        <span data-i18n="charter">Charter</span>
+        <span>: </span>
+      </b>
+      <span>
+        <a data-template="charter-preview-collection:charter-href">
+          <span data-template="charter-preview-collection:idno"/>
+        </a>
+      </span>
     </div>
+    <!-- Linked fond charter (sequential number) -->
+    <div data-template="charter-preview-collection:linked-fond-link">
+      <b>
+        <span data-i18n="sequential-number">Sequential number</span>
+        <span>: </span>
+      </b>
+      <span>
+        <a data-template="charter-preview-collection:charter-href">
+          <span data-template="charter-preview-collection:sequential-number"/>
+        </a>
+      </span>
+    </div>
+  </div>
 
-    <!-- Date -->
-    <div data-template="charter-preview:date"/>
+  <!-- Date -->
+  <div class="charter-date" data-template="charter-preview:date"/>
 
-    <!-- Abstract -->
-    <div data-template="charter-preview:abstract"/>
+  <!-- Abstract -->
+  <div class="charter-abstract" data-template="charter-preview:abstract"/>
 
+  <!-- Charter meta -->
+  <div class="charter-meta">
     <!-- Image count -->
     <div data-template="charter-preview:num-images"/>
 
     <!-- View charter link -->
     <div>
-      <a data-template="charter-preview-collection:charter-href">
+      <a data-template="charter-preview-collection:charter-href" class="btn">
         <span data-i18n="view-charter">View Charter</span>
       </a>
       <br/>
-      <a data-template="charter-preview-collection:pdf-href" target="blank">
+      <a data-template="charter-preview-collection:pdf-href" target="blank" class="btn">
         <span data-i18n="pdf-export">PDF- Export</span>
       </a>
       <!-- Charter versions (moderator only) -->
       <div data-template="charter-preview-collection:versions-link">
-        <a data-template="charter-preview-collection:versions-href">
+        <a data-template="charter-preview-collection:versions-href" class="btn">
           <span data-i18n="charter-versions">Charter versions</span>
         </a>
       </div>
@@ -64,28 +58,26 @@
 
     <!-- MyArchive functions (authenticated) -->
     <div data-template="auth:require-group" data-group="atom">
-      <div class="fieldset">
-        <div class="inner-fieldset">
-          <span data-i18n="my-archive">MyArchive</span><br/>
+      <div>
+        <span class="text-small" data-i18n="my-archive">MyArchive</span><br/>
 
-          <!-- Bookmark trigger -->
-          <div data-template="charter-preview-collection:bookmark-trigger"/>
+        <!-- Bookmark trigger -->
+        <div data-template="charter-preview-collection:bookmark-trigger"/>
 
-          <!-- Bookmark note -->
-          <div data-template="charter-preview-collection:bookmark-note"/>
+        <!-- Bookmark note -->
+        <div data-template="charter-preview-collection:bookmark-note"/>
 
-          <!-- Publication user actions (save/edit/release/remove/publish) -->
-          <div data-template="charter-preview-collection:publication-actions"/>
-        </div>
+        <!-- Publication user actions (save/edit/release/remove/publish) -->
+        <div data-template="charter-preview-collection:publication-actions"/>
       </div>
     </div>
 
     <!-- Not authenticated: greyed-out actions -->
     <div data-template="auth:require-group-else" data-group="atom">
-      <div class="light-grey" data-template="charter-preview-collection:bookmark-placeholder">
+      <div class="text-muted" data-template="charter-preview-collection:bookmark-placeholder">
         <span data-i18n="add-bookmark">Add bookmark</span>
       </div>
-      <div class="light-grey" data-template="charter-preview-collection:edit-placeholder">
+      <div class="text-muted" data-template="charter-preview-collection:edit-placeholder">
         <span data-i18n="edit-charter">Edit charter</span>
       </div>
     </div>
@@ -97,12 +89,10 @@
         <span>: </span>
       </b>
       <a data-template="charter-preview-collection:archive-link"/>
-      <span> &gt; </span>
+      <span class="sep"> &gt; </span>
       <a data-template="charter-preview-collection:fond-link"/>
-      <span> &gt; </span>
+      <span class="sep"> &gt; </span>
       <a data-template="charter-preview-collection:original-charter-link"/>
     </div>
-
   </div>
-</body>
-</html>
+</div>

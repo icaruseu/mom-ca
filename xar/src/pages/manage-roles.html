@@ -14,65 +14,61 @@
         my/XRX/src/core/app/auth/widget/manage-roles.widget.xml
         my/XRX/src/mom/app/auth/widget/manage-roles.widget.xml
 -->
-<div id="dmanage-roles">
+<div class="page-layout--full">
 
     <h2 data-i18n="manage-roles">Manage roles</h2>
 
     <!-- Unauthenticated / unauthorized state -->
     <div id="manage-roles-guest" class="auth-false" hidden="hidden">
-        <p data-i18n="protected-page-message">
-            Protected page. Please login first.
-        </p>
+        <div class="card">
+            <div class="card-body">
+                <p data-i18n="protected-page-message">
+                    Protected page. Please login first.
+                </p>
+            </div>
+        </div>
     </div>
 
     <!-- Authorized state (user-administrator) -->
     <div id="manage-roles-list" class="auth-true">
 
-        <!-- Role list: populated dynamically by XQuery template module.
-             Each role entry is rendered as a block with a link to apply-role. -->
-        <div data-template="auth:list-roles">
-            <!--
-                Template generates one block per configured role:
+        <div class="card">
+            <div class="card-header">
+                <h3 class="mb-0" data-i18n="configured-roles">Configured Roles</h3>
+            </div>
+            <div class="card-body">
 
-                <div class="drole">
-                    <div class="dinner-role">
-                        <h3>{role-name}</h3>
-                        <div>
-                            <a href="apply-role/{role-key}">
-                                <span data-i18n="apply-role">apply role</span>
-                                <span>&nbsp;&gt;&gt;</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            -->
+                <!-- Role list: populated dynamically by XQuery template module.
+                     Each role entry is rendered as a table row with a link to apply-role. -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th data-i18n="role-name">Role</th>
+                            <th data-i18n="actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody data-template="auth:list-roles">
+                        <!--
+                            Template generates one row per configured role:
+
+                            <tr>
+                                <td><h4>{role-name}</h4></td>
+                                <td>
+                                    <a href="apply-role/{role-key}" class="btn btn--primary">
+                                        <span data-i18n="apply-role">apply role</span>
+                                    </a>
+                                </td>
+                            </tr>
+                        -->
+                    </tbody>
+                </table>
+
+            </div>
         </div>
 
     </div>
 
 </div>
-
-<style>
-    #dmanage-roles {
-        position: relative;
-        float: left;
-        width: 800px;
-    }
-
-    #dmanage-roles .drole {
-        position: relative;
-        float: left;
-        width: 100%;
-        background: rgb(220, 220, 220);
-        border-bottom: solid white 3px;
-    }
-
-    #dmanage-roles .dinner-role {
-        position: relative;
-        float: left;
-        margin: 10px;
-    }
-</style>
 
 <script type="module">
     // Toggle authorized / unauthorized views

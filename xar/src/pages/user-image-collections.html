@@ -2,43 +2,31 @@
     MOM-CA User Image Collections Page
     ===================================
     Converted from: my/XRX/src/mom/app/crop/widget/user-image-collections.widget.xml
-
-    Shows image collections saved by the current user. Similar structure
-    to image-collections but scoped to user-specific data.
-    Auth-protected for atom group users.
 -->
 <div data-template="auth:require-group" data-group="atom">
-    <div id="basic">
-        <div class="h2">
-            <span data-i18n="user-image-collections">User Image Collections</span>
-        </div>
-        <br/><br/>
-        <div id="loadtext"></div>
-        <div id="annolist">
-            <div id="anno" data-template="user-image-collections:list">
-                <!-- User's saved image collections rendered here -->
+    <div class="page-layout--full">
+        <div class="card">
+            <div class="card-header">
+                <h2 data-i18n="user-image-collections">User Image Collections</h2>
+            </div>
+            <div class="card-body">
+                <div id="loadtext" hidden></div>
+                <div id="annolist" data-template="user-image-collections:list">
+                    <!-- User's saved image collections rendered here -->
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <div data-template="auth:fallback">
-    <div class="h2">
-        <span data-i18n="user-image-collections">User Image Collections</span>
+    <div class="card">
+        <div class="card-header">
+            <h2 data-i18n="user-image-collections">User Image Collections</h2>
+        </div>
+        <div class="card-body">
+            <span data-i18n="protected-page-message">Protected page. Please login first.</span>
+            <div data-template="app:login-form"></div>
+        </div>
     </div>
-    <span data-i18n="protected-page-message">Protected page. Please login first.</span>
-    <div data-template="app:login-form"></div>
 </div>
-
-<style>
-    #annolist { position: relative; }
-    #loadtext { display: none; width: 800px; position: relative; color: #CAC6C6; font-weight: bold; }
-    .autorlabels { position: relative; color: #999999; margin: 5px; font-weight: bold; font-size: 14px; }
-    .cropviewport { position: relative; margin: 0px auto; z-index: 14; float: left; height: 200px; width: 90%; overflow: auto; border: solid rgb(240,243,226) 1px; }
-    .annotable { position: relative; float: left; width: 800px; height: 100%; border: solid #F0F0F0 3px; }
-    .entry { position: relative; margin-bottom: 30px; width: 800px; float: none; height: 100%; }
-    .cropimg { max-height: 100%; display: block; margin-left: auto; margin-right: auto; }
-    .button { float: left; line-height: 1.3em; vertical-align: middle; border-radius: 10px; background-color: #F6F6F6; border-color: #FFFFFF #D9D9D9 #D9D9D9; border-style: solid; border-width: 3px 3px 3px 0; color: #000000; padding: 7px 10px; }
-    .button:hover { cursor: default; background-color: #EEEEEE; }
-    #basic { position: relative; float: left; }
-</style>

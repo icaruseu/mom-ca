@@ -2,44 +2,44 @@
     MOM-CA MOMathon Result Page
     ===========================
     Converted from: my/XRX/src/mom/app/momathon/widget/momathon-result.widget.xml
-
-    Shows MOMathon results: participants table with charter counts.
-    Auth-protected (atom group). Supports sorting by alphabetical
-    or most-charters-first. Moderators see released charter counts.
 -->
 <div data-template="auth:require-group" data-group="atom">
 
-    <div id="dcharter-preview-main">
-        <div class="h2">
-            <a name="top"></a>
-            <span data-template="momathon-result:header">
-                MOMathon-Participants | Total number of edited charters: <b data-template="momathon-result:total"></b>
-            </span>
+    <div class="page-layout--full">
+        <div class="card">
+            <div class="card-header">
+                <h2>
+                    <a name="top"></a>
+                    <span data-template="momathon-result:header">
+                        MOMathon-Participants | Total number of edited charters: <b data-template="momathon-result:total"></b>
+                    </span>
+                </h2>
+            </div>
+            <div class="card-body">
+                <table data-template="momathon-result:participants-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>MOMathon-User</th>
+                            <th>Edited Charters</th>
+                            <th>Released</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Participant rows rendered by server -->
+                    </tbody>
+                </table>
+                <a href="#top">&raquo;Top</a>
+            </div>
         </div>
-
-        <div class="inner-charter-preview">
-            <table border="1" data-template="momathon-result:participants-table">
-                <tr>
-                    <th>ID</th>
-                    <th>MOMathon-User</th>
-                    <th>Edited Charters</th>
-                    <th>Released</th>
-                </tr>
-                <!-- Participant rows rendered by server -->
-            </table>
-        </div>
-
-        <a style="float:right;" href="#top">&raquo;Top</a>
     </div>
 
 </div>
 
 <div data-template="auth:fallback">
-    <h3 data-i18n="protected-page-message">Protected page. Please login first.</h3>
+    <div class="card">
+        <div class="card-body">
+            <h3 data-i18n="protected-page-message">Protected page. Please login first.</h3>
+        </div>
+    </div>
 </div>
-
-<style>
-    #dcharter-preview-main { position: relative; float: left; width: 800px; }
-    #dcharter-preview-main .inner-charter-preview { position: relative; float: left; width: 100%; margin: 15px; }
-    img.displayed { display: block; margin-left: auto; margin-right: auto; }
-</style>

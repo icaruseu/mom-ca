@@ -1,39 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-i18n="edit-collection-info">Edit Collection Info</title>
-  <style>
-    #edit-collection-info .icon img {
-      width: 32px;
-    }
-    #edit-collection-info textarea {
-      width: 650px;
-    }
-    #edit-collection-info {
-      width: 700px;
-    }
-    #preface-div .xfValue {
-      width: 630px;
-    }
-  </style>
-</head>
-<body>
-  <div class="standard-form InlineRoundBordersAlert" id="edit-collection-info">
+<div id="edit-collection-info">
 
-    <div>
-      <a data-template="edit-collection-info:back-link">
-        <span>&lt; </span>
-        <span data-i18n="back-to-collection">Back to collection</span>
-      </a>
+  <nav class="breadcrumb">
+    <a data-template="edit-collection-info:back-link">
+      <span data-i18n="back-to-collection">Back to collection</span>
+    </a>
+  </nav>
 
-      <div class="h2">
-        <span data-i18n="edit-collection-info">Edit Collection Info</span>
-      </div>
-      <br/><br/>
+  <h1 data-i18n="edit-collection-info">Edit Collection Info</h1>
 
-      <!-- Fore form for editing collection info -->
+  <div class="card">
+    <div class="card-header" data-i18n="edit-collection-info">Edit Collection Info</div>
+    <div class="card-body">
+
       <fx-fore>
         <fx-model id="mcollection-info">
           <fx-instance id="icollection-info" data-template="edit-collection-info:instance"/>
@@ -50,63 +28,69 @@
         </fx-model>
 
         <!-- Collection name -->
-        <fx-control ref="//cei:provenance/text()">
-          <label>
-            <span data-i18n="collection-name">Collection Name</span><span>: </span>
-          </label>
-          <fx-hint>
-            <span data-i18n="eg">e.g.</span><span> Serbische Herrscherurkunden (1306-1388)</span>
-          </fx-hint>
-          <fx-alert>
-            <span data-i18n="required-field">Required field</span><span>.</span>
-          </fx-alert>
-        </fx-control>
+        <div class="form-group">
+          <fx-control ref="//cei:provenance/text()">
+            <label>
+              <span data-i18n="collection-name">Collection Name</span><span>: </span>
+            </label>
+            <fx-hint>
+              <span data-i18n="eg">e.g.</span><span> Serbische Herrscherurkunden (1306-1388)</span>
+            </fx-hint>
+            <fx-alert>
+              <span data-i18n="required-field">Required field</span><span>.</span>
+            </fx-alert>
+          </fx-control>
+        </div>
 
         <!-- Collection ID (readonly) -->
-        <fx-control ref="//cei:provenance/@pid">
-          <label>
-            <span data-i18n="collection-id">Collection ID</span><span>: </span>
-          </label>
-          <fx-hint>
-            <span data-i18n="eg">e.g.</span><span> BISANU</span>
-          </fx-hint>
-          <fx-alert>
-            <span data-i18n="only-upper-and-lower-case">Only upper and lower case characters</span><span>.</span>
-          </fx-alert>
-        </fx-control>
+        <div class="form-group">
+          <fx-control ref="//cei:provenance/@pid">
+            <label>
+              <span data-i18n="collection-id">Collection ID</span><span>: </span>
+            </label>
+            <fx-hint>
+              <span data-i18n="eg">e.g.</span><span> BISANU</span>
+            </fx-hint>
+            <fx-alert>
+              <span data-i18n="only-upper-and-lower-case">Only upper and lower case characters</span><span>.</span>
+            </fx-alert>
+          </fx-control>
+        </div>
 
         <!-- Image server -->
-        <fx-control ref="//cei:image_server_address">
-          <label>
-            <span data-i18n="image-server-address">Image server</span><span>: </span>
-          </label>
-          <fx-hint>
-            <span data-i18n="eg">e.g.</span><span> www.monasterium.net</span>
-          </fx-hint>
-        </fx-control>
+        <div class="form-group">
+          <fx-control ref="//cei:image_server_address">
+            <label>
+              <span data-i18n="image-server-address">Image server</span><span>: </span>
+            </label>
+            <fx-hint>
+              <span data-i18n="eg">e.g.</span><span> www.monasterium.net</span>
+            </fx-hint>
+          </fx-control>
+        </div>
 
         <!-- Image server folder -->
-        <fx-control ref="//cei:image_server_folder">
-          <label>
-            <span data-i18n="image-server-folder">Folder</span><span>: </span>
-          </label>
-          <fx-hint>
-            <span data-i18n="eg">e.g.</span><span> pics/BISANU</span>
-          </fx-hint>
-        </fx-control>
+        <div class="form-group">
+          <fx-control ref="//cei:image_server_folder">
+            <label>
+              <span data-i18n="image-server-folder">Folder</span><span>: </span>
+            </label>
+            <fx-hint>
+              <span data-i18n="eg">e.g.</span><span> pics/BISANU</span>
+            </fx-hint>
+          </fx-control>
+        </div>
 
         <!-- Save button -->
-        <div style="text-align:right">
-          <h2>
-            <fx-trigger>
-              <button><span data-i18n="save">Save</span></button>
-              <fx-send submission="ssave"/>
-            </fx-trigger>
-          </h2>
+        <div class="form-group">
+          <fx-trigger>
+            <button class="btn btn--primary"><span data-i18n="save">Save</span></button>
+            <fx-send submission="ssave"/>
+          </fx-trigger>
         </div>
 
         <!-- Preface textarea -->
-        <div>
+        <div class="form-group">
           <fx-control ref="//cei:div[@type='preface']" id="preface-div" type="textarea">
             <label>
               <span data-i18n="preface">Preface</span><span>:</span>
@@ -117,5 +101,4 @@
 
     </div>
   </div>
-</body>
-</html>
+</div>

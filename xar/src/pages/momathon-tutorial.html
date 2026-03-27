@@ -2,10 +2,6 @@
     MOM-CA MOMathon Tutorial Page
     =============================
     Converted from: my/XRX/src/mom/app/momathon/widget/momathon-tutorial.widget.xml
-
-    MOMathon tutorial page with links to the MOM-CA framework tutorial
-    and the EditMOM3 tutorial. Auth-protected (atom group).
-    Uses XForms group wrapper.
 -->
 <div data-template="auth:require-group" data-group="atom">
 
@@ -14,30 +10,27 @@
             <fx-instance><data></data></fx-instance>
         </fx-model>
 
-        <div id="dcharter-preview-main">
-            <div class="h2">
-                <a name="top"></a>
-                <span data-i18n="momathon">MOMathon</span>
-            </div>
-
-            <div class="inner-charter-preview">
-                <div>
-                    <h2>MOMathon-Tutorial</h2>
+        <div class="page-layout--full">
+            <div class="card">
+                <div class="card-header">
+                    <h2>
+                        <a name="top"></a>
+                        <span data-i18n="momathon">MOMathon</span> - Tutorial
+                    </h2>
                 </div>
-                <div>
-                    On this page, you will find the tutorials for this event.<br/><br/>
+                <div class="card-body">
+                    <p>On this page, you will find the tutorials for this event.</p>
                     <ul>
                         <li>The first tutorial is for a first impression of the entire MOM-CA-Framework.<br/>
                             <b>&raquo; <a href="http://monasterium.net/tut_mom" target="_blank">Tutorial "MOM-CA-Framework"</a></b>
-                        </li><br/><br/>
+                        </li>
                         <li>The second tutorial is especially for working with EditMOM3.<br/>
-                            <b>&raquo; <a href="http://monasterium.net/tut_edit" target="_blank">Tutorial "EditMOM3"</a></b><br/>
+                            <b>&raquo; <a href="http://monasterium.net/tut_edit" target="_blank">Tutorial "EditMOM3"</a></b>
                         </li>
                     </ul>
+                    <a href="#top">&raquo;Top</a>
                 </div>
             </div>
-
-            <a style="float:right;" href="#top">&raquo;Top</a>
         </div>
 
     </fx-fore>
@@ -45,11 +38,9 @@
 </div>
 
 <div data-template="auth:fallback">
-    <h3 data-i18n="protected-page-message">Protected page. Please login first.</h3>
+    <div class="card">
+        <div class="card-body">
+            <h3 data-i18n="protected-page-message">Protected page. Please login first.</h3>
+        </div>
+    </div>
 </div>
-
-<style>
-    #dcharter-preview-main { position: relative; float: left; width: 800px; }
-    #dcharter-preview-main .inner-charter-preview { position: relative; float: left; width: 100%; margin: 15px; }
-    img.displayed { display: block; margin-left: auto; margin-right: auto; }
-</style>

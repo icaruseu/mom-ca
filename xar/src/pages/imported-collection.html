@@ -1,72 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-i18n="imported-collection">Imported collection</title>
-</head>
-<body>
-  <div data-template="imported-collection:load">
+<div data-template="imported-collection:load">
 
-    <!-- Breadcrumb -->
-    <div id="breadcrumb">
-      <a data-template="config:resolve-link" href="collections">
-        <span data-i18n="collections">Collections</span>
-      </a>
-      <span> &gt; </span>
-      <a data-template="imported-collection:parent-link">
-        <span data-template="imported-collection:collection-id"/>
-      </a>
-      <span> &gt; </span>
-      <a href="imported-collection">
-        <span data-i18n="imported-collection-preview">Imported collection (preview)</span>
-      </a>
-    </div>
-
-    <!-- Heading -->
-    <div class="h2">
+  <nav class="breadcrumb">
+    <a data-template="config:resolve-link" href="collections">
+      <span data-i18n="collections">Collections</span>
+    </a>
+    <span class="sep">/</span>
+    <a data-template="imported-collection:parent-link">
+      <span data-template="imported-collection:collection-id"/>
+    </a>
+    <span class="sep">/</span>
+    <a href="imported-collection">
       <span data-i18n="imported-collection-preview">Imported collection (preview)</span>
-      <span>: </span>
-      <span data-template="imported-collection:context-name"/>
-    </div>
+    </a>
+  </nav>
 
-    <!-- My Functions (authenticated) -->
-    <div data-template="auth:require-group" data-group="atom">
-      <div class="my-functions">
-        <h3 data-i18n="my-functions">MyFunctions</h3>
-        <!-- Metadata manager functions -->
-        <div data-template="auth:require-role" data-role="metadata-manager">
-          <div class="function-links">
-            <div class="function-link">
-              <a data-template="imported-collection:edit-info-href">
-                <span>&#8227; </span>
+  <h1>
+    <span data-i18n="imported-collection-preview">Imported collection (preview)</span>
+    <span>: </span>
+    <span data-template="imported-collection:context-name"/>
+  </h1>
+
+  <div class="page-layout">
+
+    <main>
+      <!-- Charter previews -->
+      <div class="charter-list">
+        <div data-template="imported-collection:charter-preview-items"/>
+        <div data-template="charters:block-navigation"/>
+      </div>
+    </main>
+
+    <aside class="sidebar">
+      <!-- My Functions (authenticated) -->
+      <div data-template="auth:require-group" data-group="atom">
+        <div class="card">
+          <div class="card-header" data-i18n="my-functions">MyFunctions</div>
+          <div class="card-body">
+            <!-- Metadata manager functions -->
+            <div data-template="auth:require-role" data-role="metadata-manager">
+              <a class="btn" data-template="imported-collection:edit-info-href">
                 <span data-i18n="edit-collection-info">Edit collection Information</span>
               </a>
-            </div>
-            <div class="function-link">
-              <a data-template="imported-collection:import-charters-href">
-                <span>&#8227; </span>
+              <a class="btn" data-template="imported-collection:import-charters-href">
                 <span data-i18n="import-charters">Import Charters</span>
-                <span> (Excel, CEI, EAD, XML, OAI, SQL)</span>
+                <span class="text-small"> (Excel, CEI, EAD, XML, OAI, SQL)</span>
               </a>
-            </div>
-            <div class="function-link" data-template="imported-collection:publish-trigger">
-              <span data-i18n="publish-charters">Publish charters</span>
-            </div>
-            <div class="function-link" data-template="imported-collection:remove-trigger">
-              <span data-i18n="remove-imported-charters">Remove imported charters</span>
+              <div data-template="imported-collection:publish-trigger">
+                <button class="btn btn--primary" data-i18n="publish-charters">Publish charters</button>
+              </div>
+              <div data-template="imported-collection:remove-trigger">
+                <button class="btn" data-i18n="remove-imported-charters">Remove imported charters</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- Charter previews -->
-    <div id="dcharter-preview-main">
-      <div data-template="imported-collection:charter-preview-items"/>
-      <div data-template="charters:block-navigation"/>
-    </div>
+    </aside>
 
   </div>
-</body>
-</html>
+</div>

@@ -1,47 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-i18n="publish-collection">Publish collection</title>
-</head>
-<body>
-  <div id="dpublish-collection">
+<div id="dpublish-collection">
 
-    <div class="h2">
-      <span data-i18n="publish-collection">Publish collection</span>
-    </div>
+  <h1 data-i18n="publish-collection">Publish collection</h1>
 
-    <!-- List of imported collections to publish, rendered by template -->
-    <div data-template="publish-collection:import-list">
-      <!-- Each item template -->
-      <div data-template="publish-collection:import-item">
-        <h3 data-template="publish-collection:item-num"/>
-        <table>
-          <tr>
-            <td>
+  <div class="card">
+    <div class="card-header" data-i18n="publish-collection">Publish collection</div>
+    <div class="card-body">
+
+      <div data-template="publish-collection:import-list">
+        <div class="charter-list" data-template="publish-collection:import-item">
+          <div class="charter-item">
+            <h3 data-template="publish-collection:item-num"/>
+            <div class="charter-idno">
               <span data-i18n="collection-preview">Collection (preview)</span>
               <span>: </span>
-            </td>
-            <td>
               <a data-template="publish-collection:preview-link">
                 <span data-template="publish-collection:collection-label"/>
               </a>
-            </td>
-          </tr>
-          <tr>
-            <td/>
-            <td>
+            </div>
+            <div class="charter-date text-muted text-small">
               <span data-i18n="imported">Imported</span>
               <span data-template="publish-collection:time"/>
               <span data-i18n="by">by</span>
               <span data-template="publish-collection:user-name"/>
-            </td>
-          </tr>
-        </table>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
 
+    </div>
   </div>
-</body>
-</html>
+</div>

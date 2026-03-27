@@ -2,23 +2,18 @@
     MOM-CA Translate Page
     =====================
     Converted from: my/XRX/src/mom/app/i18n/widget/translate.widget.xml
-
-    Inherits from core/widget/translate. Provides the i18n translation
-    interface for translating UI strings. The actual UI is defined in the
-    core translate widget with XForms-based controls for editing
-    translation entries.
 -->
-<div id="translate-page" data-template="translate:page">
+<div class="page-layout--full" id="translate-page" data-template="translate:page">
 
-    <!-- The translation UI is inherited from the core translate widget.
-         It provides:
-         - Language selector
-         - Filterable list of i18n keys
-         - XForms controls for editing translations
-         - Save functionality -->
-
-    <div data-template="translate:editor">
-        <!-- Core translate widget content rendered here -->
+    <div class="card">
+        <div class="card-header">
+            <h2 data-i18n="translate">Translate</h2>
+        </div>
+        <div class="card-body">
+            <div data-template="translate:editor">
+                <!-- Core translate widget content rendered here -->
+            </div>
+        </div>
     </div>
 
 </div>

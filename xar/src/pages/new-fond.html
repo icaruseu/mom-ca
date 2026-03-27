@@ -2,90 +2,74 @@
       data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
   <head>
     <title data-i18n="new-fond">New Fond</title>
-    <link rel="stylesheet" type="text/css" href="css/forms.css"/>
-    <style type="text/css">
-      #dnew-fond {
-        width: 100%;
-      }
-      #dnew-fond .result {
-        position: relative;
-        float: none;
-        background: rgb(240,240,240);
-        border: solid grey 1px;
-        margin-top: 30px;
-        margin-bottom: 10px;
-      }
-      #dnew-fond .inner-result {
-        margin: 10px;
-      }
-      #dnew-fond .result * {
-        font-weight: bold;
-        font-size: 1.4em;
-      }
-      #dnew-fond .trigger {
-        text-align: right;
-      }
-    </style>
   </head>
   <body>
-    <div id="dnew-fond" data-template="fond:new-view">
+    <div data-template="fond:new-view">
       <div>
         <a href="archive">
           <span>&lt;&lt;</span>
           <span data-i18n="back">back</span>
         </a>
       </div>
-      <div class="h2">
-        <span data-i18n="new-fond">New fond</span>
-        <span> (<span data-template="fond:archive-id"/>)</span>
-      </div>
 
-      <fore-model id="mnew-fond">
-        <fore-instance data-template="fond:new-fond-instance"/>
-        <fore-instance id="iresponse">
-          <response status="">
-            <message/>
-            <icon/>
-          </response>
-        </fore-instance>
-        <fore-submission id="snew-fond" action="service/new-fond" method="post" replace="instance" instance="iresponse"/>
-        <fore-bind id="bfondid" ref="fondid" constraint="matches(.,'^[A-Za-z0-9_-]+$')"/>
-      </fore-model>
-
-      <fore-group model="mnew-fond">
-        <div id="dresponse-info-div">
-          <div><fore-output class="icon" mediatype="image/*" ref="instance('iresponse')//icon"/></div>
-          <div><fore-output ref="instance('iresponse')//message"/></div>
+      <div class="card">
+        <div class="card-header">
+          <h1>
+            <span data-i18n="new-fond">New fond</span>
+            <span> (<span data-template="fond:archive-id"/>)</span>
+          </h1>
         </div>
-      </fore-group>
+        <div class="card-body">
+          <fore-model id="mnew-fond">
+            <fore-instance data-template="fond:new-fond-instance"/>
+            <fore-instance id="iresponse">
+              <response status="">
+                <message/>
+                <icon/>
+              </response>
+            </fore-instance>
+            <fore-submission id="snew-fond" action="service/new-fond" method="post" replace="instance" instance="iresponse"/>
+            <fore-bind id="bfondid" ref="fondid" constraint="matches(.,'^[A-Za-z0-9_-]+$')"/>
+          </fore-model>
 
-      <!-- Auth: metadata-manager or community -->
-      <div data-template="auth:if-role" data-template-role="metadata-manager,community">
-        <div class="standard-form InlineRoundBordersAlert">
-          <fore-group appearance="vertical" class="InlineRoundBordersAlert" model="mnew-fond">
-            <fore-input bind="bfondid">
-              <fore-label><span data-i18n="fond-id">Fond ID</span><span>: </span></fore-label>
-              <fore-hint><span data-i18n="only-upper-and-lower-case">Only upper and lower case characters</span><span>.</span></fore-hint>
-              <fore-alert><span data-i18n="only-upper-and-lower-case">Only upper and lower case characters</span><span>.</span></fore-alert>
-            </fore-input>
-            <div class="result">
-              <div class="inner-result">
-                <fore-output bind="bfondid"/>
-              </div>
-            </div>
-            <div class="trigger">
-              <fore-trigger>
-                <fore-label data-i18n="create">Create</fore-label>
-                <fore-send submission="snew-fond" event="activate"/>
-              </fore-trigger>
+          <fore-group model="mnew-fond">
+            <div>
+              <div><fore-output class="icon" mediatype="image/*" ref="instance('iresponse')//icon"/></div>
+              <div><fore-output ref="instance('iresponse')//message"/></div>
             </div>
           </fore-group>
-        </div>
-      </div>
 
-      <!-- Not authorized -->
-      <div data-template="auth:if-not-logged-in">
-        <span data-i18n="protected-page-message">Protected page. Please login first.</span>
+          <!-- Auth: metadata-manager or community -->
+          <div data-template="auth:if-role" data-template-role="metadata-manager,community">
+            <fore-group appearance="vertical" model="mnew-fond">
+              <div class="form-group">
+                <fore-input bind="bfondid">
+                  <fore-label><span data-i18n="fond-id">Fond ID</span><span>: </span></fore-label>
+                  <fore-hint><span data-i18n="only-upper-and-lower-case">Only upper and lower case characters</span><span>.</span></fore-hint>
+                  <fore-alert><span data-i18n="only-upper-and-lower-case">Only upper and lower case characters</span><span>.</span></fore-alert>
+                </fore-input>
+              </div>
+
+              <div class="card">
+                <div class="card-body">
+                  <fore-output bind="bfondid"/>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <fore-trigger>
+                  <fore-label data-i18n="create">Create</fore-label>
+                  <fore-send submission="snew-fond" event="activate"/>
+                </fore-trigger>
+              </div>
+            </fore-group>
+          </div>
+
+          <!-- Not authorized -->
+          <div data-template="auth:if-not-logged-in">
+            <span data-i18n="protected-page-message">Protected page. Please login first.</span>
+          </div>
+        </div>
       </div>
     </div>
   </body>

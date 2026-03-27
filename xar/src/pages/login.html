@@ -15,143 +15,85 @@
 
     Source: my/XRX/src/core/app/user/widget/login2.widget.xml
 -->
-<div id="login-page">
+<div class="page-layout--full" style="max-width:400px;margin:2rem auto">
 
-    <h2>Login</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="mb-0">Login</h2>
+        </div>
+        <div class="card-body">
 
-    <!-- Status messages (replaces the XQuery status-code conditional blocks) -->
-    <div id="login-messages" class="login-messages" hidden="hidden">
-        <!-- Populated client-side based on URL ?status= parameter or
-             server response from /api/auth/login -->
+            <!-- Status messages (replaces the XQuery status-code conditional blocks) -->
+            <div id="login-messages" hidden="hidden">
+                <!-- Populated client-side based on URL ?status= parameter or
+                     server response from /api/auth/login -->
+            </div>
+
+            <!-- Fore form -->
+            <fx-fore>
+                <fx-model id="login-model">
+
+                    <fx-instance id="credentials">
+                        <data>
+                            <username></username>
+                            <password></password>
+                        </data>
+                    </fx-instance>
+
+                    <fx-bind ref="username" required="true()"></fx-bind>
+                    <fx-bind ref="password" required="true()"></fx-bind>
+
+                    <fx-submission id="do-login"
+                                   url="/api/auth/login"
+                                   method="POST"
+                                   replace="none"
+                                   serialization="application/json">
+                    </fx-submission>
+
+                </fx-model>
+
+                <div class="form-group">
+                    <fx-control ref="username">
+                        <label slot="label">Email</label>
+                        <input type="text" placeholder="you@example.com"
+                               autocomplete="username"/>
+                    </fx-control>
+                </div>
+
+                <div class="form-group">
+                    <fx-control ref="password">
+                        <label slot="label">Password</label>
+                        <input type="password" placeholder="Password"
+                               autocomplete="current-password"/>
+                    </fx-control>
+                </div>
+
+                <div class="form-group">
+                    <fx-trigger>
+                        <button class="btn btn--primary">Login</button>
+                        <fx-send submission="do-login"></fx-send>
+                    </fx-trigger>
+                </div>
+
+                <!-- Success / error handling -->
+                <fx-message event="submit-done" level="ephemeral">
+                    Login successful. Redirecting...
+                </fx-message>
+                <fx-message event="submit-error" level="modal">
+                    Login failed. Please check your credentials and try again.
+                </fx-message>
+
+            </fx-fore>
+
+            <!-- Forgot password link -->
+            <p class="text-small">
+                <a href="request-password">Forgot your password? Get a new one here.</a>
+            </p>
+
+        </div>
     </div>
 
-    <!-- ================================================================
-         Fore form: replaces the XForms model + HTML form in the original
-         ================================================================ -->
-    <fx-fore>
-        <fx-model id="login-model">
-
-            <!-- Instance data: mirrors what the old HTML form POSTed -->
-            <fx-instance id="credentials">
-                <data>
-                    <username></username>
-                    <password></password>
-                </data>
-            </fx-instance>
-
-            <!-- Bind: both fields required -->
-            <fx-bind ref="username" required="true()"></fx-bind>
-            <fx-bind ref="password" required="true()"></fx-bind>
-
-            <!-- Submission: POST JSON to the new REST endpoint -->
-            <fx-submission id="do-login"
-                           url="/api/auth/login"
-                           method="POST"
-                           replace="none"
-                           serialization="application/json">
-            </fx-submission>
-
-        </fx-model>
-
-        <!-- ============================================================
-             Form UI
-             ============================================================ -->
-        <fieldset class="login-fieldset">
-            <table class="login" cellpadding="5">
-                <tr>
-                    <td class="label">Email:&nbsp;</td>
-                    <td>
-                        <fx-control ref="username" class="input-field">
-                            <label slot="label">Email</label>
-                            <input type="text" placeholder="you@example.com"
-                                   autocomplete="username"/>
-                        </fx-control>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label">Password:&nbsp;</td>
-                    <td>
-                        <fx-control ref="password" class="input-field">
-                            <label slot="label">Password</label>
-                            <input type="password" placeholder="Password"
-                                   autocomplete="current-password"/>
-                        </fx-control>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <fx-trigger class="submit-button">
-                            <button>Login</button>
-                            <fx-send submission="do-login"></fx-send>
-                        </fx-trigger>
-                    </td>
-                </tr>
-            </table>
-        </fieldset>
-
-        <!-- Success / error handling -->
-        <fx-message event="submit-done" level="ephemeral">
-            Login successful. Redirecting...
-        </fx-message>
-        <fx-message event="submit-error" level="modal">
-            Login failed. Please check your credentials and try again.
-        </fx-message>
-
-    </fx-fore>
-
-    <!-- Forgot password link (preserved from original widget) -->
-    <p class="forgot-password">
-        <a href="request-password">Forgot your password? Get a new one here.</a>
-    </p>
-
 </div>
-
-<style>
-    #login-page {
-        max-width: 480px;
-        margin: 2rem auto;
-    }
-
-    #login-page .login-fieldset {
-        width: 350px;
-        padding: 1rem;
-    }
-
-    #login-page .label {
-        text-align: right;
-        white-space: nowrap;
-    }
-
-    #login-page .input-field input {
-        padding: 4px;
-        margin: 0;
-        width: 250px;
-        box-sizing: border-box;
-    }
-
-    #login-page .submit-button {
-        float: right;
-        padding: 4px;
-    }
-
-    #login-page .submit-button button {
-        padding: 6px 20px;
-        cursor: pointer;
-    }
-
-    #login-page .forgot-password {
-        margin-top: 1.5rem;
-    }
-
-    #login-page .login-messages:not([hidden]) {
-        padding: 10px;
-        margin-bottom: 1rem;
-        border: 1px solid #c9302c;
-        border-radius: 4px;
-        background: #fcf0f0;
-        color: #a94442;
-    }
-</style>
 
 <script type="module">
     // Show status messages based on URL parameter (mirrors legacy XQuery logic)

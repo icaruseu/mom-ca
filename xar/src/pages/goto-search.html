@@ -11,10 +11,10 @@
             <div data-template="app:goto-search-fond-links">
                 <a data-template="app:goto-search-image-preview-link">
                     <span data-i18n="image_preview">Image preview</span><span> &gt;&gt;</span>
-                </a><br/>
+                </a>
                 <a data-template="app:goto-search-charters-on-map-link">
                     <span data-i18n="charters_on_map">Charters on map</span><span> &gt;&gt;</span>
-                </a><br/>
+                </a>
                 <a data-template="app:goto-search-register-link">
                     <span data-i18n="collection-register">Register</span><span> &gt;&gt;</span>
                 </a>
@@ -22,10 +22,12 @@
         </div>
         <span data-i18n="search-in">Search in</span>
         <span data-template="app:goto-search-context-label"></span>
-        <form style="padding:0;" data-template="app:goto-search-form">
-            <input id="search-field" name="q" type="text" value=""/>
-            <input type="hidden" name="context" data-template="app:goto-search-context-value"/>
-            <input id="search-trigger" type="submit" data-i18n-value="search" value="Search"/>
+        <form data-template="app:goto-search-form">
+            <div class="form-group">
+                <input id="search-field" name="q" type="text" value=""/>
+                <input type="hidden" name="context" data-template="app:goto-search-context-value"/>
+                <button class="btn btn--primary" id="search-trigger" type="submit" data-i18n="search">Search</button>
+            </div>
         </form>
     </div>
 
@@ -35,10 +37,10 @@
             <div data-template="app:goto-search-collection-links">
                 <a data-template="app:goto-search-image-preview-link">
                     <span data-i18n="image_preview">Image preview</span><span> &gt;&gt;</span>
-                </a><br/>
+                </a>
                 <a data-template="app:goto-search-register-link">
                     <span data-i18n="collection-register">Register</span><span> &gt;&gt;</span>
-                </a><br/>
+                </a>
                 <a data-template="app:goto-search-charters-on-map-link">
                     <span data-i18n="charters_on_map">Charters on map</span><span> &gt;&gt;</span>
                 </a>
@@ -52,10 +54,12 @@
         </div>
         <div>
             <span data-i18n="search-in-collection">Search in this collection</span>
-            <form style="padding:0;" data-template="app:goto-search-form">
-                <input id="search-field" name="q" type="text" value=""/>
-                <input type="hidden" name="context" data-template="app:goto-search-context-value"/>
-                <input id="search-trigger" type="submit" data-i18n-value="search" value="Search"/>
+            <form data-template="app:goto-search-form">
+                <div class="form-group">
+                    <input id="search-field" name="q" type="text" value=""/>
+                    <input type="hidden" name="context" data-template="app:goto-search-context-value"/>
+                    <button class="btn btn--primary" id="search-trigger" type="submit" data-i18n="search">Search</button>
+                </div>
             </form>
         </div>
     </div>

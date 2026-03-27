@@ -5,15 +5,15 @@
     <title>Breadcrumb</title>
 </head>
 <body>
-    <div id="breadcrumb" data-template="app:breadcrumb-view">
+    <nav id="breadcrumb" class="breadcrumb" data-template="app:breadcrumb-view">
         <!-- Fond context breadcrumb -->
         <div data-template="app:breadcrumb-fond">
             <a data-template="app:link" data-template-href="fonds">
                 <span data-i18n="fonds">Fonds</span>
             </a>
-            <span> &gt; </span>
+            <span class="sep"> &gt; </span>
             <a data-template="app:breadcrumb-archive-link"></a>
-            <span> &gt;</span>
+            <span class="sep"> &gt; </span>
             <a data-template="app:breadcrumb-fond-link"></a>
         </div>
         <!-- Collection context breadcrumb -->
@@ -21,14 +21,14 @@
             <a data-template="app:link" data-template-href="collections">
                 <span data-i18n="collections">Collections</span>
             </a>
-            <span> &gt; </span>
+            <span class="sep"> &gt; </span>
             <a data-template="app:breadcrumb-collection-link"></a>
         </div>
         <!-- Linked archives info -->
-        <div id="dlinked-archives" data-template="app:breadcrumb-linked-archives" style="float:none;margin-top:15px">
-            <span data-i18n="collection-contains-charters-of-archival-fonds">This collection contains charters of the following archival fonds:</span>
+        <div id="dlinked-archives" data-template="app:breadcrumb-linked-archives">
+            <p class="text-muted text-small" data-i18n="collection-contains-charters-of-archival-fonds">This collection contains charters of the following archival fonds:</p>
             <ul class="nostyle" data-template="app:breadcrumb-linked-archives-list"></ul>
         </div>
-    </div>
+    </nav>
 </body>
 </html>

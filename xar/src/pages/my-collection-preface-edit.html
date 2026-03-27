@@ -1,85 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Edit Preface</title>
-  <style>
-    #dmy-collection-body {
-      font-family: Courier, monospace;
-      position: relative;
-      float: left;
-      width: 100%;
-      background: rgb(230, 230, 230);
-    }
-    #dmy-collection-inner-preface {
-      margin: 3%;
-    }
-    #dpreface {
-      position: relative;
-      float: left;
-      width: 68%;
-      margin: 1%;
-      background: white;
-    }
-    #dedit-my-collection-context {
-      position: relative;
-      float: left;
-      width: 26%;
-      margin: 1%;
-      padding: 1%;
-      background: white;
-    }
-    .p {
-      margin-bottom: 10px;
-    }
-  </style>
-</head>
-<body>
-  <div data-template="my-collection-preface-edit:load">
+<div data-template="my-collection-preface-edit:load">
 
-    <div id="forms-message"></div>
+  <div id="forms-message"></div>
 
-    <!-- Header -->
-    <div id="dmy-collection-header">
-      <h2>Edit Preface</h2>
-      <div id="autoSaveStatus"></div>
+  <!-- Header -->
+  <h2>Edit Preface</h2>
+  <div id="autoSaveStatus"></div>
+
+  <!-- Toolbar -->
+  <div id="dmy-collection-toolbar">
+    <div id="dmy-collection-inner-toolbar">
+      <div id="forms-mixedcontent-elements"></div>
+      <div id="forms-mixedcontent-tagname"></div>
     </div>
+  </div>
 
-    <!-- Toolbar -->
-    <div id="dmy-collection-toolbar">
-      <div id="dmy-collection-inner-toolbar">
-        <div id="forms-mixedcontent-elements"></div>
-        <div id="forms-mixedcontent-tagname"></div>
-      </div>
-    </div>
-
-    <!-- Authenticated body -->
-    <div data-template="auth:require-group" data-group="atom">
-      <div id="dmy-collection-body">
+  <!-- Authenticated body -->
+  <div data-template="auth:require-group" data-group="atom">
+    <div class="card">
+      <div class="card-header">Edit Preface</div>
+      <div class="card-body">
 
         <!-- XML instance (hidden) -->
         <div class="xrx-forms-instance" id="forms-console" style="display:none"
              data-template="my-collection-preface-edit:instance"/>
 
-        <div id="dpreface">
-          <div id="dmy-collection-inner-preface">
-            <div class="p">
-              <div>Title Statement</div>
-              <textarea class="forms-mixedcontent" name="textarea1"
-                        data-ref="/atom:entry/atom:content/cei:cei/cei:teiHeader/cei:fileDesc/cei:titleStmt"/>
-            </div>
-            <div class="p">
-              <div>Publication Statement</div>
-              <textarea class="forms-mixedcontent" name="textarea2"
-                        data-ref="/atom:entry/atom:content/cei:cei/cei:teiHeader/cei:fileDesc/cei:publicationStmt"/>
-            </div>
-            <div class="p">
-              <div>Preface</div>
-              <textarea class="forms-mixedcontent" name="textarea3"
-                        data-ref="/atom:entry/atom:content/cei:cei/cei:text/cei:front"/>
-            </div>
-          </div>
+        <div class="form-group">
+          <label>Title Statement</label>
+          <textarea class="forms-mixedcontent" name="textarea1"
+                    data-ref="/atom:entry/atom:content/cei:cei/cei:teiHeader/cei:fileDesc/cei:titleStmt"/>
+        </div>
+
+        <div class="form-group">
+          <label>Publication Statement</label>
+          <textarea class="forms-mixedcontent" name="textarea2"
+                    data-ref="/atom:entry/atom:content/cei:cei/cei:teiHeader/cei:fileDesc/cei:publicationStmt"/>
+        </div>
+
+        <div class="form-group">
+          <label>Preface</label>
+          <textarea class="forms-mixedcontent" name="textarea3"
+                    data-ref="/atom:entry/atom:content/cei:cei/cei:text/cei:front"/>
         </div>
 
         <div id="dedit-my-collection-context">
@@ -97,13 +57,16 @@
              data-template="my-collection-preface-edit:topics"/>
       </div>
     </div>
-
-    <!-- Not authenticated -->
-    <div data-template="auth:require-group-else" data-group="atom" id="dlogin">
-      <span data-i18n="protected-page-message">Protected page. Please login first.</span>
-      <div data-template="login:form"/>
-    </div>
-
   </div>
-</body>
-</html>
+
+  <!-- Not authenticated -->
+  <div data-template="auth:require-group-else" data-group="atom" id="dlogin">
+    <div class="card">
+      <div class="card-body">
+        <p class="text-muted" data-i18n="protected-page-message">Protected page. Please login first.</p>
+        <div data-template="login:form"/>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -2,52 +2,42 @@
     MOM-CA MOMathon Charters Page
     =============================
     Converted from: my/XRX/src/mom/app/momathon/widget/momathon-charters.widget.xml
-
-    Inherits from charters-mom widget. Displays charters associated with
-    a MOMathon event with block navigation. Uses charter-preview-momathon
-    subwidget for individual charter rendering.
 -->
-<div data-template="momathon-charters:page">
+<div class="page-layout--full" data-template="momathon-charters:page">
 
-    <!-- Heading -->
-    <div class="h2">
-        <span data-i18n="momathon">MOMathon</span>
-        <span>: </span>
-        <span data-template="momathon-charters:mode-label"></span>
-    </div>
+    <div class="card">
+        <div class="card-header">
+            <h2>
+                <span data-i18n="momathon">MOMathon</span>
+                <span>: </span>
+                <span data-template="momathon-charters:mode-label"></span>
+            </h2>
+        </div>
+        <div class="card-body">
+            <!-- Breadcrumb -->
+            <div>
+                <a data-template="app:link" href="momathon">
+                    <span data-i18n="momathon">MOMathon</span>
+                </a>
+                <span> &gt; </span>
+                <span>Charter-Overview</span>
+                <span> &gt; </span>
+                <a data-template="momathon-charters:fond-link"></a>
+            </div>
 
-    <!-- My functions (empty placeholder) -->
-    <div class="my-functions"></div>
+            <!-- Goto search placeholder -->
+            <div id="goto-search"></div>
 
-    <!-- Breadcrumb -->
-    <div>
-        <a data-template="app:link" href="momathon">
-            <span data-i18n="momathon">MOMathon</span>
-        </a>
-        <span> &gt; </span>
-        <span>Charter-Overview</span>
-        <span> &gt; </span>
-        <a data-template="momathon-charters:fond-link"></a>
-    </div>
+            <!-- Preface / no charters message -->
+            <div id="preface" data-template="momathon-charters:preface">
+                <span data-i18n="charters-soon-available-message">The charters of this fond will be available soon.</span>
+            </div>
 
-    <!-- Goto search placeholder -->
-    <div id="goto-search"></div>
-
-    <!-- Preface / no charters message -->
-    <div id="preface" data-template="momathon-charters:preface">
-        <span data-i18n="charters-soon-available-message">The charters of this fond will be available soon.</span>
-    </div>
-
-    <!-- Charter previews -->
-    <div id="dcharter-preview-main" data-template="momathon-charters:preview-list">
-        <!-- MOMathon charter previews rendered here -->
+            <!-- Charter previews -->
+            <div class="charter-list" data-template="momathon-charters:preview-list">
+                <!-- MOMathon charter previews rendered here -->
+            </div>
+        </div>
     </div>
 
 </div>
-
-<style>
-    #charters { position: relative; float: left; width: 960px; padding: 0px; margin: 0px; margin-bottom: 20px; }
-    #year-navi { position: relative; float: left; width: 120px; margin: 0px; margin-top: 100px; }
-    .year-list { margin: 10px; }
-    .year-list * { line-height: 2em; color: black; text-decoration: none; }
-</style>

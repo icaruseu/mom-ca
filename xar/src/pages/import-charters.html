@@ -3,68 +3,14 @@
 <head>
     <meta charset="UTF-8"/>
     <title data-i18n="import-charters">Import charters</title>
-    <style>
-        #dimport-charters table {
-            width: 100%;
-            background: rgba(105,115,100,.15);
-            border-radius: 10px;
-            border-collapse: collapse;
-            border-spacing: 0;
-            margin-top: 30px;
-        }
-        #dimport-charters td {
-            padding: 5px;
-        }
-        #dimport-charters td.icon {
-            width: 122px;
-        }
-        #dimport-charters td.info {
-            padding-left: 20px;
-            width: 50%;
-        }
-        #dimport-charters img.icon {
-            margin: 1px;
-        }
-        #dimport-charters .heading {
-            font-size: 2em;
-            margin: 5px;
-        }
-        #dimport-charters td.button {
-            text-align: right;
-            display: box;
-            width: auto;
-        }
-        #dimport-charters a.button {
-            cursor: pointer;
-            font-weight: bold;
-            color: #212121;
-            text-shadow: 1px 1px 1px rgba(255,255,255,1);
-            padding: 10px 15px;
-            border: 2px solid #ffffff;
-            border-radius: 8px;
-            background: rgb(224,224,224);
-            box-shadow: 0px 0px 3px rgba(0,0,0,1);
-        }
-        #dimport-charters fieldset {
-            background: #ffe3d9 !important;
-            border: solid #ef6a2f 1px;
-        }
-        #dimport-charters legend {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #ef6a2f;
-        }
-    </style>
 </head>
 <body>
     <div data-template="app:import-charters-auth">
-        <div id="dimport-charters">
+        <div id="dimport-charters" class="page-layout--full">
             <!-- Back link -->
             <div data-template="app:import-charters-back-link"></div>
 
-            <div class="h2">
-                <span data-i18n="import-charters">Import charters</span>
-            </div>
+            <h2 data-i18n="import-charters">Import charters</h2>
 
             <!-- Breadcrumb -->
             <div data-template="app:import-charters-breadcrumb"></div>

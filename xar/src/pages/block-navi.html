@@ -5,22 +5,17 @@
     <title>Block Navigation</title>
 </head>
 <body>
-    <div id="block-navi" data-template="app:block-navi-view">
-        <b>
-            <a data-template="app:block-navi-previous-link">
-                <span>&lt; </span>
-                <span data-i18n="previous">previous</span>
-            </a>
-            <span>   </span>
-            <span data-i18n="charters">Charters</span>
-            <span>   </span>
-            <span data-template="app:block-navi-current-range"></span>
-            <span>   </span>
-            <a data-template="app:block-navi-next-link">
-                <span data-i18n="next">next</span>
-                <span> &gt;</span>
-            </a>
-        </b>
-    </div>
+    <nav id="block-navi" class="pagination" data-template="app:block-navi-view">
+        <a data-template="app:block-navi-previous-link">
+            <span>&lt; </span>
+            <span data-i18n="previous">previous</span>
+        </a>
+        <span data-i18n="charters">Charters</span>
+        <span data-template="app:block-navi-current-range"></span>
+        <a data-template="app:block-navi-next-link">
+            <span data-i18n="next">next</span>
+            <span> &gt;</span>
+        </a>
+    </nav>
 </body>
 </html>

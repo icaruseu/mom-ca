@@ -2,139 +2,35 @@
       data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
   <head>
     <title data-i18n="search">Search</title>
-    <style type="text/css">
-      #dsearch {
-        position: relative;
-        float: left;
-        width: 960px;
-        text-align: left;
-      }
-      #search-form {
-        margin-left: 25%;
-        margin-top: 100px;
-      }
-      #search-options {
-        margin-top: 20px;
-        font-size: .9em;
-      }
-      #result {
-        width: 960px;
-        position: relative;
-        float: left;
-        text-align: left;
-      }
-      #result .hi {
-        background: yellow;
-      }
-      #search-field, #search-trigger {
-        height: 40px;
-        font-size: 110%;
-      }
-      #search-field {
-        width: 50%;
-      }
-      #result .select-block {
-        position: relative;
-        float: right;
-        margin-top: 10px;
-        margin-bottom: 20px;
-        margin-right: 10px;
-      }
-      #result .hits {
-        position: relative;
-        float: right;
-        margin-right: 10px;
-      }
-      .hits b {
-        padding: 0.2em;
-      }
-      #result .block-navi-link {
-        float: left;
-      }
-      .block-navi-link a {
-        padding: 0.1em;
-      }
-      #result-options {
-        position: relative;
-        float: left;
-        width: 150px;
-        overflow-x: auto;
-      }
-      #result-options div {
-        position: relative;
-      }
-      #result-options * {
-        font-size: .9em;
-      }
-      .light-grey {
-        color: rgb(160, 160, 160);
-      }
-      #result .charter-context * {
-        font-size: .8em;
-      }
-      #result .archive-label {
-        margin-top: 8px;
-        text-decoration: underline;
-      }
-      .confine-label {
-        width: 200px;
-      }
-      .confine-trigger-div {
-        width: 100%;
-        text-align: right;
-        margin-bottom: 20px;
-      }
-      .confine-trigger {
-        margin-right: 10px;
-      }
-      div.inlinehead, div.greyinlinehead, div.light-green, div.light-green:visited {
-        position: relative;
-        float: left;
-        font-weight: bold;
-        width: 800px;
-        color: rgb(255,255,255);
-        margin: 0px;
-        margin-top: 5px;
-        line-height: 200%;
-        margin-bottom: 5px;
-      }
-      .headlineIcon {
-        height: 12px;
-        margin-right: 3px;
-        margin-left: 2px;
-      }
-      .headlineIcon#open {
-        transform: rotate(180deg);
-      }
-      .headlineIcon#closed {
-        transform: rotate(90deg);
-      }
-    </style>
   </head>
   <body>
-    <div id="dsearch" data-template="search:view">
+    <div class="page-layout--full" data-template="search:view">
+
       <!-- Search form (shown when no results) -->
       <form id="search-form" method="get" name="search-form" data-template="search:form-visibility">
-        <div id="input">
-          <div class="h2">
-            <span data-i18n="search">Search</span>
+        <div class="card">
+          <div class="card-header">
+            <h1 data-i18n="search">Search</h1>
           </div>
-          <div data-template="search:no-result-message">
-            <span data-i18n="no-results-message">No results were found for your search.</span>
-          </div>
-          <div id="search-trigger-div">
-            <input id="search-field" name="q" type="text" data-template="search:query-value"/>
-            <input id="search-trigger" type="submit" data-i18n="search" value="Search"/>
+          <div class="card-body">
+            <div data-template="search:no-result-message">
+              <span data-i18n="no-results-message">No results were found for your search.</span>
+            </div>
+
+            <div class="form-group">
+              <input id="search-field" name="q" type="text" data-template="search:query-value"/>
+              <input id="search-trigger" class="btn btn--primary" type="submit" data-i18n="search" value="Search"/>
+            </div>
 
             <!-- Search options -->
-            <div id="search-options">
+            <div class="form-group">
               <input checked="checked" name="option" type="radio" value="and"/>
               <span data-i18n="conjunction">conjunction</span>
               <input name="option" type="radio" value="or"/>
               <span data-i18n="disjunction">disjunction</span>
               <input name="option" type="radio" value="phrase"/>
               <span data-i18n="phrase">phrase</span>
-              <div style="display: none">
+              <div hidden="hidden">
                 <input id="search-only-image" name="img" type="hidden"/>
                 <input id="search-only-annotations" name="annotations" type="hidden"/>
                 <input id="search-sort-date" name="sort" type="radio" value="date"/>
@@ -143,69 +39,82 @@
             </div>
 
             <!-- Search hints -->
-            <div>
+            <div class="text-muted text-small">
               <p data-i18n="search-hints">Hints on search syntax</p>
               <p data-i18n="search2-hints-details">You can use the asterisk (*) as a wildcard...</p>
             </div>
+
+            <input id="categories-search" name="categories" type="hidden" value=""/>
+            <input id="context-search" name="context" type="hidden" value=""/>
           </div>
-          <span>   </span>
-          <br/><br/>
-          <input id="categories-search" name="categories" type="hidden" value=""/>
-          <input id="context-search" name="context" type="hidden" value=""/>
         </div>
       </form>
 
       <!-- Results area (shown when results exist) -->
-      <div id="result" data-template="search:result-area">
-        <div id="back">
+      <div data-template="search:result-area">
+        <div>
           <a href="search">
             <span>&lt;&lt; </span>
             <span data-i18n="back">back</span>
           </a>
         </div>
-        <div class="h2">
+
+        <h1>
           <span data-i18n="results">Results</span>
           <span>, </span>
           <span data-i18n="page">Page</span>
           <span data-template="search:block-number"/>
-        </div>
-        <div class="hits">
+        </h1>
+
+        <p class="text-muted">
           <span data-i18n="hits">Hits</span>
           <b data-template="search:start"/>
           <span data-i18n="to">to</span>
           <b data-template="search:stop"/>
           <span data-i18n="of">of</span>
           <b data-template="search:count-filtered"/>
-          <b class="light-grey" data-template="search:count-total"/>
-        </div>
-        <br/>
+          <b class="text-muted" data-template="search:count-total"/>
+        </p>
+
         <!-- Block navigation -->
-        <div class="select-block" data-template="search:block-navigation"/>
+        <div data-template="search:block-navigation"/>
         <div data-template="search:query-display"/>
-        <br/><br/>
 
-        <!-- Sort options -->
-        <div id="result-options">
-          <b data-i18n="sort">sort</b>
-          <div>
-            <input id="result-sort-date" name="sort" type="radio" value="date"/>
-            <span data-i18n="by-date">by date</span>
-          </div>
-          <div>
-            <input id="result-sort-ranking" name="sort" type="radio" value="ranking"/>
-            <span data-i18n="by-ranking">by ranking</span>
-          </div>
-          <br/>
-          <!-- Context / category filters -->
-          <div data-template="search:context-filter"/>
-          <div data-template="search:category-filter"/>
+        <div class="page-layout">
+          <main>
+            <!-- Charter results -->
+            <div class="charter-list" data-template="search:charter-results"/>
+
+            <!-- Bottom block navigation -->
+            <div data-template="search:block-navigation"/>
+          </main>
+
+          <!-- Filter sidebar -->
+          <aside class="sidebar">
+            <div class="card">
+              <div class="card-header">
+                <h3 data-i18n="sort">sort</h3>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <input id="result-sort-date" name="sort" type="radio" value="date"/>
+                  <span data-i18n="by-date">by date</span>
+                </div>
+                <div class="form-group">
+                  <input id="result-sort-ranking" name="sort" type="radio" value="ranking"/>
+                  <span data-i18n="by-ranking">by ranking</span>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <!-- Context / category filters -->
+                <div data-template="search:context-filter"/>
+                <div data-template="search:category-filter"/>
+              </div>
+            </div>
+          </aside>
         </div>
-
-        <!-- Charter results -->
-        <div data-template="search:charter-results"/>
-
-        <!-- Bottom block navigation -->
-        <div class="select-block" data-template="search:block-navigation"/>
       </div>
     </div>
   </body>

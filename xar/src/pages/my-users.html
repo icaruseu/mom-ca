@@ -1,47 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <title data-i18n="my-users">My users</title>
-</head>
-<body>
-    <div>
-        <div class="h2">
-            <span data-i18n="my-users">My Users</span>
+<!--
+    MOM-CA My Users Page
+    ====================
+    Converted from: my/XRX/src/mom/app/user/widget/my-users.widget.xml
+-->
+<div class="page-layout--full">
+    <div class="card">
+        <div class="card-header">
+            <h2 data-i18n="my-users">My Users</h2>
         </div>
-        <ol data-template="app:list-my-users">
-            <li class="user-info-div">
-                <div>
-                    <b data-template="app:user-fullname"></b>
-                </div>
-                <table>
+        <div class="card-body">
+            <table>
+                <thead>
                     <tr>
-                        <td><span data-i18n="email">Email</span><span>:</span></td>
+                        <th data-i18n="name">Name</th>
+                        <th data-i18n="email">Email</th>
+                        <th data-i18n="phone">Phone</th>
+                        <th data-i18n="institution">Institution</th>
+                        <th data-i18n="street">Street</th>
+                        <th data-i18n="zip">ZIP</th>
+                        <th data-i18n="city">City</th>
+                    </tr>
+                </thead>
+                <tbody data-template="app:list-my-users">
+                    <tr>
+                        <td><b data-template="app:user-fullname"></b></td>
                         <td data-template="app:user-email"></td>
-                    </tr>
-                    <tr>
-                        <td><span data-i18n="phone">Phone</span><span>:</span></td>
                         <td data-template="app:user-phone"></td>
-                    </tr>
-                    <tr>
-                        <td><span data-i18n="institution">Institution</span><span>:</span></td>
                         <td data-template="app:user-institution"></td>
-                    </tr>
-                    <tr>
-                        <td><span data-i18n="street">Street</span><span>:</span></td>
                         <td data-template="app:user-street"></td>
-                    </tr>
-                    <tr>
-                        <td><span data-i18n="zip">ZIP</span><span>:</span></td>
                         <td data-template="app:user-zip"></td>
-                    </tr>
-                    <tr>
-                        <td><span data-i18n="city">City</span><span>:</span></td>
                         <td data-template="app:user-town"></td>
                     </tr>
-                </table>
-            </li>
-        </ol>
+                </tbody>
+            </table>
+        </div>
     </div>
-</body>
-</html>
+</div>

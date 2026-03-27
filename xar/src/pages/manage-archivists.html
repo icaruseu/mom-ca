@@ -2,26 +2,6 @@
       data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
   <head>
     <title data-i18n="manage-archivists">Manage Archivists</title>
-    <link rel="stylesheet" type="text/css" href="css/forms.css"/>
-    <style type="text/css">
-      #dform {
-        position: relative;
-        float: left;
-        width: 600px;
-        margin-left: 185px;
-        margin-top: 50px;
-        background: rgb(240,240,240);
-      }
-      #dinnerform {
-        margin: 20px;
-      }
-      #dsave {
-        position: relative;
-        float: left;
-        width: 100%;
-        text-align: right;
-      }
-    </style>
   </head>
   <body>
     <div>
@@ -31,14 +11,15 @@
           <span data-i18n="back">back</span>
         </a>
       </div>
-      <div class="h2">
-        <span data-i18n="manage-archivists">Manage Archivists</span>
-      </div>
+      <h1 data-i18n="manage-archivists">Manage Archivists</h1>
 
       <!-- Auth: user-administrator -->
       <div data-template="auth:if-role" data-template-role="user-administrator">
-        <div id="dform">
-          <div id="dinnerform">
+        <div class="card">
+          <div class="card-header">
+            <h2 data-template="archivists:heading"/>
+          </div>
+          <div class="card-body">
             <fore-model id="mnominate-archivist">
               <fore-instance id="iarchivists" data-template="archivists:instance"/>
               <fore-instance id="itemplate">
@@ -53,26 +34,36 @@
             </fore-model>
 
             <fore-group model="mnominate-archivist">
-              <h2 data-template="archivists:heading"/>
-              <fore-repeat bind="barchivists" id="rarchivists" appearance="compact">
-                <fore-select1 ref=".">
-                  <fore-label/>
-                  <fore-itemset bind="busers">
-                    <fore-value ref="email"/>
-                    <fore-label ref="label"/>
-                  </fore-itemset>
-                </fore-select1>
-                <fore-trigger>
-                  <fore-label>-</fore-label>
-                  <fore-delete ref="//archivist[index('rarchivists')]" event="activate"/>
-                </fore-trigger>
-              </fore-repeat>
+              <table>
+                <tbody>
+                  <fore-repeat bind="barchivists" id="rarchivists" appearance="compact">
+                    <tr>
+                      <td>
+                        <fore-select1 ref=".">
+                          <fore-label/>
+                          <fore-itemset bind="busers">
+                            <fore-value ref="email"/>
+                            <fore-label ref="label"/>
+                          </fore-itemset>
+                        </fore-select1>
+                      </td>
+                      <td>
+                        <fore-trigger>
+                          <fore-label>-</fore-label>
+                          <fore-delete ref="//archivist[index('rarchivists')]" event="activate"/>
+                        </fore-trigger>
+                      </td>
+                    </tr>
+                  </fore-repeat>
+                </tbody>
+              </table>
+
               <fore-trigger>
                 <fore-label data-i18n="add-archivist">Add archivist</fore-label>
                 <fore-insert ref="//archivist" at="last" position="after" origin="instance('itemplate')//archivist" event="activate"/>
               </fore-trigger>
-              <br/><br/>
-              <div id="dsave">
+
+              <div class="form-group">
                 <fore-trigger>
                   <fore-label data-i18n="save">Save</fore-label>
                   <fore-send submission="ssave" event="activate"/>

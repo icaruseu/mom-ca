@@ -4,41 +4,22 @@
     <title data-i18n="charter-version-difference">Charter Version Difference</title>
     <link rel="stylesheet" type="text/css" href="vendor/codemirror/lib/codemirror.css"/>
     <link rel="stylesheet" type="text/css" href="css/momtextdiff.css"/>
-    <style type="text/css">
-      #dcharter-version-difference {
-        position: relative;
-        float: left;
-        width: 800px;
-      }
-      .CodeMirror {
-        line-height: 1.4em;
-        font-family: "Trebuchet MS", regular, sans-serif;
-        font-size: 18px;
-      }
-      .CodeMirror-scroll {
-        height: auto;
-        overflow-y: hidden;
-        overflow-x: auto;
-        position: relative;
-        border: solid white 1px;
-      }
-    </style>
     <script src="vendor/codemirror/lib/codemirror.js"></script>
     <script src="js/momtextdiff.js"></script>
   </head>
   <body>
-    <div id="dcharter-version-difference" data-template="publication:version-difference-view">
+    <div class="page-layout--full" data-template="publication:version-difference-view">
       <div>
         <a data-template="publication:back-link">
           <span>&lt;&lt; </span>
           <span data-i18n="back">back</span>
         </a>
       </div>
-      <div class="h2">
-        <span data-i18n="charter-version-difference">Charter Version Difference</span>
-      </div>
-      <div class="ddiff">
-        <textarea id="tdiff" name="tdiff" data-template="publication:diff-content"></textarea>
+      <h1 data-i18n="charter-version-difference">Charter Version Difference</h1>
+      <div class="card">
+        <div class="card-body">
+          <textarea id="tdiff" name="tdiff" data-template="publication:diff-content"></textarea>
+        </div>
       </div>
     </div>
   </body>

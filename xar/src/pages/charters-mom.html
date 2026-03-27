@@ -2,47 +2,31 @@
     MOM-CA Charters MOM Page
     ========================
     Converted from: my/XRX/src/mom/app/momathon/widget/charters-mom.widget.xml
-
-    Base widget for charter listings with block/year navigation.
-    Used as a parent for momathon-charters. Provides layout with
-    year navigation sidebar, block navigation, and charter preview area.
 -->
-<div data-template="charters-mom:page">
+<div class="page-layout" data-template="charters-mom:page">
 
-    <div id="charters">
-        <!-- Year navigation sidebar -->
-        <div id="year-navi" data-template="charters-mom:year-navi">
+    <main>
+        <div class="card">
+            <div class="card-body">
+                <!-- Block navigation (top) -->
+                <div data-template="charters-mom:block-navi"></div>
+
+                <!-- Charter previews -->
+                <div class="charter-list" data-template="charters-mom:charter-previews">
+                    <!-- Individual charter previews rendered by subwidgets -->
+                </div>
+
+                <!-- Block navigation (bottom) -->
+                <div data-template="charters-mom:block-navi"></div>
+            </div>
+        </div>
+    </main>
+
+    <aside class="sidebar">
+        <!-- Year navigation -->
+        <div data-template="charters-mom:year-navi">
             <!-- Year links rendered here -->
         </div>
-
-        <!-- Main content area -->
-        <div id="dcharter-preview-main">
-            <!-- Block navigation (top) -->
-            <div id="block-navi" data-template="charters-mom:block-navi"></div>
-
-            <!-- Charter previews -->
-            <div data-template="charters-mom:charter-previews">
-                <!-- Individual charter previews rendered by subwidgets -->
-            </div>
-
-            <!-- Block navigation (bottom) -->
-            <div id="block-navi" data-template="charters-mom:block-navi"></div>
-        </div>
-    </div>
+    </aside>
 
 </div>
-
-<style>
-    #charters { position: relative; float: left; width: 960px; padding: 0px; margin: 0px; margin-bottom: 20px; }
-    #year-navi { position: relative; float: left; width: 120px; margin: 0px; margin-top: 100px; }
-    .year-list { margin: 10px; }
-    .year-list * { line-height: 2em; color: black; text-decoration: none; }
-    #dcharter-preview-main { position: relative; float: left; width: 800px; }
-    #dcharter-preview-main .charter * { line-height: 1.6em; }
-    #dcharter-preview-main .charter { position: relative; width: 100%; float: left; background: rgb(245,245,245); }
-    #dcharter-preview-main .charter-preview { position: relative; float: left; width: 100%; background: rgb(245,245,245); border-bottom: solid white 5px; }
-    #dcharter-preview-main .inner-charter-preview { position: relative; float: left; width: 100%; margin: 15px; }
-    #dcharter-preview-main .charter-info-and-actions { display: inline; position: relative; float: left; width: 25%; border-left: solid white 3px; padding-left: 10px; }
-    #dcharter-preview-main .container { float: left; width: 65%; padding-right: 10px; }
-    .my-functions { margin-top: -3em; }
-</style>

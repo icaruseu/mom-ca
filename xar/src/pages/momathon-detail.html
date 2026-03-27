@@ -2,12 +2,8 @@
     MOM-CA MOMathon Detail Page
     ===========================
     Converted from: my/XRX/src/mom/app/momathon/widget/momathon-detail.widget.xml
-
-    Shows details of a specific MOMathon event (by id parameter).
-    Lists charters to publish with edit/publish/bookmark actions.
-    Uses XForms models for bookmark, publication, and saved charters.
 -->
-<div data-template="momathon-detail:page">
+<div class="page-layout--full" data-template="momathon-detail:page">
 
     <fx-fore>
         <fx-model id="mbookmark">
@@ -15,60 +11,47 @@
             <fx-submission id="ssave-note" url="service/save-bookmark-note" method="post" replace="none"></fx-submission>
         </fx-model>
 
-        <div id="dcharter-preview-main">
-            <div class="h2">
-                <span data-i18n="charters-to-publish">Charters to publish</span>
+        <div class="card">
+            <div class="card-header">
+                <h2 data-i18n="charters-to-publish">Charters to publish</h2>
             </div>
+            <div class="card-body">
 
-            <!-- Pagination -->
-            <div data-template="momathon-detail:navigation"></div>
+                <!-- Pagination -->
+                <div data-template="momathon-detail:navigation"></div>
 
-            <!-- MOMathon info header -->
-            <div id="momathon-header" data-template="momathon-detail:header">
-                <h2>MOMathon Details</h2>
-                <br/>
-                <b>Anzahl beteiligter User: <span data-template="momathon-detail:user-count"></span></b><br/>
-                <b>Anzahl bearbeitete Urkunden: <span data-template="momathon-detail:charter-count"></span></b><br/>
-                <b>Noch freizuschaltende Urkunden: <span data-template="momathon-detail:pending-count"></span></b><br/>
-            </div>
-
-            <!-- Note bubble popup -->
-            <div id="noteBobble" style="display:none;">
-                <fx-control ref="bookmarkNote">
-                    <label data-i18n="bookmark-note">Bookmark note</label>
-                </fx-control>
-                <div id="note-save-trigger">
-                    <fx-trigger>
-                        <button data-i18n="save">save</button>
-                    </fx-trigger>
+                <!-- MOMathon info header -->
+                <div class="card" data-template="momathon-detail:header">
+                    <div class="card-body">
+                        <h3>MOMathon Details</h3>
+                        <p><b>Anzahl beteiligter User: <span data-template="momathon-detail:user-count"></span></b></p>
+                        <p><b>Anzahl bearbeitete Urkunden: <span data-template="momathon-detail:charter-count"></span></b></p>
+                        <p><b>Noch freizuschaltende Urkunden: <span data-template="momathon-detail:pending-count"></span></b></p>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Charter list -->
-            <div data-template="momathon-detail:charter-list">
-                <!-- Each charter rendered with preview, actions, bookmark/publish controls -->
-            </div>
+                <!-- Note bubble popup -->
+                <div id="noteBobble" hidden>
+                    <fx-control ref="bookmarkNote">
+                        <label data-i18n="bookmark-note">Bookmark note</label>
+                    </fx-control>
+                    <div id="note-save-trigger">
+                        <fx-trigger>
+                            <button class="btn btn--primary" data-i18n="save">save</button>
+                        </fx-trigger>
+                    </div>
+                </div>
 
-            <!-- Bottom pagination -->
-            <div data-template="momathon-detail:navigation"></div>
+                <!-- Charter list -->
+                <div class="charter-list" data-template="momathon-detail:charter-list">
+                    <!-- Each charter rendered with preview, actions, bookmark/publish controls -->
+                </div>
+
+                <!-- Bottom pagination -->
+                <div data-template="momathon-detail:navigation"></div>
+            </div>
         </div>
 
     </fx-fore>
 
 </div>
-
-<style>
-    #dcharter-preview-main { position: relative; float: left; width: 800px; }
-    #dcharter-preview-main .charter * { line-height: 1.6em; }
-    #dcharter-preview-main .charter { position: relative; width: 100%; float: left; background: rgb(245,245,245); }
-    #dcharter-preview-main .charter-preview { position: relative; float: left; width: 100%; background: rgb(245,245,245); border-bottom: solid white 5px; }
-    #dcharter-preview-main .inner-charter-preview { position: relative; float: left; width: 100%; margin: 15px; }
-    #dcharter-preview-main .charter-info-and-actions { display: inline; position: relative; float: left; width: 25%; border-left: solid white 3px; padding-left: 10px; }
-    #dcharter-preview-main .container { float: left; width: 65%; padding-right: 10px; }
-    #dcharter-preview-main .charter-info-and-actions * { font-size: 13px; }
-    #dcharter-preview-main .fieldset { border: solid #C8C8C8 1px; margin-top: 10px; }
-    #dcharter-preview-main .inner-fieldset { margin: 5px; }
-    div.bookmark-icon { position: absolute; right: 220px; }
-    #noteBobble { display: none; position: fixed; left: 400px; bottom: 35%; z-index: 20; width: 400px; height: 150px; background-color: #F6F6F6; padding: 20px; border-radius: 3px; box-shadow: 4px -3px 10px 1px #202020; }
-    #edit-box { border: solid #C8C8C8 1px; padding: 3px; }
-</style>

@@ -1,84 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-i18n="saved-charter">Saved Charter</title>
-  <!-- Converted from saved-charter.widget.xml -->
-  <!-- Original ID: tag:www.monasterium.net,2011:/mom/widget/saved-charter -->
-  <!-- Inherits: tag:www.monasterium.net,2011:/mom/widget/charter -->
-  <!-- No xf: elements in own divs - plain HTML with data-template placeholders -->
-  <link rel="stylesheet" href="../css/charter.css"/>
-</head>
-<body>
-  <div id="charter"
-       data-template="saved-charter:init"
-       data-template-atom-id="$wcharter:atom-id"
-       data-template-charter="$wcharter:charter">
+<div id="charter"
+     class="page-layout"
+     data-template="saved-charter:init"
+     data-template-atom-id="$wcharter:atom-id"
+     data-template-charter="$wcharter:charter">
 
-    <div class="p">
-      <!-- breadcrumb -->
-      <div data-template="saved-charter:breadcrumb"
-           data-template-collection-id="$charter:rcollectionid"
-           data-template-block="$wcharter:block"
-           data-template-anchor="$wcharter:anchor"
-           data-template-fond="$wcharter:fond"
-           data-template-idno="$wcharter:idno">
-        <a data-template-href="saved-charters">
-          <span data-i18n="saved-charters">Saved Charters</span>
-        </a>
-        <span> &gt; </span>
-        <a data-template-href="saved-charter:fond-link">
-          <span data-template="charter:fond"></span>
-        </a>
-        <span> &gt; </span>
-        <a data-template-href="saved-charter:self-link">
-          <span data-template="charter:idno"></span>
-        </a>
-      </div>
+  <!-- Main content area -->
+  <main>
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" data-template="saved-charter:breadcrumb"
+         data-template-collection-id="$charter:rcollectionid"
+         data-template-block="$wcharter:block"
+         data-template-anchor="$wcharter:anchor"
+         data-template-fond="$wcharter:fond"
+         data-template-idno="$wcharter:idno">
+      <a data-template-href="saved-charters">
+        <span data-i18n="saved-charters">Saved Charters</span>
+      </a>
+      <span class="sep"> &gt; </span>
+      <a data-template-href="saved-charter:fond-link">
+        <span data-template="charter:fond"></span>
+      </a>
+      <span class="sep"> &gt; </span>
+      <a data-template-href="saved-charter:self-link">
+        <span data-template="charter:idno"></span>
+      </a>
+    </nav>
 
-      <!-- signature -->
-      <div data-template="charter:signature"
-           data-template-idno="$wcharter:idno"
-           data-template-is-bookmarked="$wcharter:is-bookmarked">
-        <div class="idno" id="idno-num">
+    <!-- Signature -->
+    <div class="card" data-template="charter:signature"
+         data-template-idno="$wcharter:idno"
+         data-template-is-bookmarked="$wcharter:is-bookmarked">
+      <div class="card-body">
+        <div class="charter-idno" id="idno-num">
           <span data-i18n="signature">Signature</span>
           <span>: <span data-template="charter:idno"></span></span>
         </div>
       </div>
-
-      <!-- prev-next -->
-      <div id="prev-next"
-           data-template="charter:prev-next"
-           data-template-previous="$wcharter:previous"
-           data-template-next="$wcharter:next"
-           data-template-pos="$wcharter:pos"
-           data-template-count="$wcharter:count">
-        <div id="prev">
-          <a data-template-href="$wcharter:previous">
-            <span>&lt; </span>
-            <span data-i18n="previous-charter">Previous Charter</span>
-          </a>
-        </div>
-        <div id="next">
-          <span data-template="charter:pos"></span>
-          <span data-i18n="of">of</span>
-          <span data-template="charter:count"></span>
-          <span>   </span>
-          <a data-template-href="$wcharter:next">
-            <span data-i18n="next-charter">Next Charter</span>
-            <span> &gt;</span>
-          </a>
-        </div>
-      </div>
     </div>
 
-    <!-- how-to-cite (subwidget) -->
+    <!-- Prev/Next navigation -->
+    <div id="prev-next"
+         data-template="charter:prev-next"
+         data-template-previous="$wcharter:previous"
+         data-template-next="$wcharter:next"
+         data-template-pos="$wcharter:pos"
+         data-template-count="$wcharter:count">
+      <span id="prev">
+        <a data-template-href="$wcharter:previous" class="btn">
+          <span>&lt; </span>
+          <span data-i18n="previous-charter">Previous Charter</span>
+        </a>
+      </span>
+      <span id="next">
+        <span data-template="charter:pos"></span>
+        <span data-i18n="of">of</span>
+        <span data-template="charter:count"></span>
+        <span>   </span>
+        <a data-template-href="$wcharter:next" class="btn">
+          <span data-i18n="next-charter">Next Charter</span>
+          <span> &gt;</span>
+        </a>
+      </span>
+    </div>
+
+    <!-- How to cite (subwidget) -->
     <div data-template="charter:how-to-cite">
       <!-- Included from how-to-cite.html -->
     </div>
-  </div>
+  </main>
 
-  <script src="../js/charter.js"></script>
-</body>
-</html>
+  <!-- Sidebar -->
+  <aside class="sidebar"></aside>
+</div>
+
+<script src="../js/charter.js"></script>

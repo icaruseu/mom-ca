@@ -1,264 +1,117 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Edit My Collections</title>
-  <style>
-    button {
-      margin: 3px !important;
-      padding: 0px !important;
-    }
-    .ui-button-text {
-      font-size: 13px !important;
-    }
-    .ui-dialog-title, .ui-dialog-content * {
-      font-size: 13px;
-    }
-    #momlogo {
-      position: absolute;
-      right: 40px;
-      top: 0px;
-    }
-    .xrx-translate-page-link {
-      z-index: 9999;
-    }
-    #dmy-collection-new-button {
-      margin: 0px;
-      padding: 0px;
-      background: rgb(211,72,54);
-    }
-    #dmy-collection-new-button .ui-button-text {
-      font-size: 13px;
-      font-weight: bold;
-      color: white;
-    }
-    #dmy-collection-new-dialog button {
-      margin: 0px !important;
-      padding: 0px !important;
-    }
-    #dmy-collection-new-dialog .ui-button-text {
-      font-size: 13px !important;
-    }
-    #dmy-collection-left-menu {
-      position: relative;
-      float: left;
-      margin: 1%;
-      width: 18%;
-    }
-    #dmy-collections-tree, #dmy-collections-shared {
-      margin-left: 20px;
-    }
-    .dmenu-button {
-      margin-top: 5px;
-      padding: 5px;
-    }
-    .my-collections-tree-item {
-      margin: 5px;
-      padding: 5px;
-    }
-    .my-collections-tree-item:hover {
-      background: rgb(240,240,240);
-      cursor: pointer;
-    }
-    .selected-collections-tree-item {
-      color: rgb(211,72,54);
-      font-weight: bold;
-    }
-    #dmy-collection-items-toolbar {
-      position: relative;
-      float: left;
-      width: 98%;
-      margin: 1%;
-    }
-    #dmy-collection-breadcrumb {
-      position: absolute;
-      margin-left: 21%;
-      top: -1.3em;
-    }
-    #dmy-collection-items {
-      position: relative;
-      float: left;
-      width: 80%;
-      margin-top: 2%;
-    }
-    .my-collection-item {
-      position: relative;
-      float: left;
-      border-bottom: solid rgb(230,230,230) 1px;
-      width: 98%;
-      padding: 1%;
-    }
-    .forms-table {
-      width: 100%;
-    }
-    .forms-table-row {
-      width: 100%;
-    }
-    .forms-table-cell {
-      padding: 1%;
-      border-bottom: solid rgb(230,230,230) 1px;
-    }
-    .my-collection-item-hover {
-      background: rgb(255,255,214);
-    }
-    .myCollectionItem input {
-      margin-right: 5%;
-    }
-    .my-collection-tree-item-hover {
-      background: rgb(240,240,240);
-      cursor: pointer;
-    }
-    .my-collection-item-draggable-helper {
-      font-size: 12px;
-      font-weight: bold;
-      color: black;
-      background: white;
-      border: solid 1px grey;
-      padding: 5px;
-    }
-    .my-collection-item-dragstart {
-      background: rgb(255,255,214);
-    }
-    .just-linked * {
-      font-size: 9px !important;
-    }
-    #dinvite-user .iinvite-user {
-      width: 80%;
-    }
-    div.invited-user {
-      position: relative;
-      float: left;
-      width: 100%;
-      display: block;
-      border-bottom: solid rgb(240,240,240) 1px;
-    }
-    span.invited-user {
-      position: relative;
-      float: left;
-      width: 100%;
-      display: block;
-      margin: 10px;
-    }
-  </style>
-</head>
-<body>
-  <div id="dmy-collections" data-template="my-collections-edit:load">
+<div id="dmy-collections" class="page-layout--full" data-template="my-collections-edit:load">
 
-    <div class="xrx-message"></div>
+  <div class="xrx-message"></div>
 
-    <!-- Remove dialog -->
-    <div id="dmy-collection-items-remove-dialog" style="display:none" title="Remove selected Charter(s)">
-      <p>
-        <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
-        <span>These items will be permanently deleted and cannot be recovered. Are you sure?</span>
-      </p>
-    </div>
+  <!-- Remove dialog -->
+  <div id="dmy-collection-items-remove-dialog" style="display:none" title="Remove selected Charter(s)">
+    <p>
+      <span>These items will be permanently deleted and cannot be recovered. Are you sure?</span>
+    </p>
+  </div>
 
-    <!-- Share dialog -->
-    <div id="dmy-collection-items-share-dialog" style="display:none" title="Share selected Charter(s)">
-      <p>
-        <div>
-          <span data-i18n="who-may-edit">Who may edit</span>:
-        </div>
-        <div class="invited-user">
-          <span class="invited-user">
-            <b data-template="my-collections-edit:owner-label"/>
-            <span>    (owner)</span>
-          </span>
-          <div id="dshared-users"></div>
-        </div>
-        <div id="duser-exists"></div>
-        <div> </div>
-        <div> </div>
-        <div> </div>
-        <div> </div>
-        <div>
-          <span data-i18n="invite-people">Invite people</span>:
-        </div>
-        <div id="dinvite-user">
-          <input class="iinvite-user" id="iinvite-user" name="invited-user" placeholder="Email address of a registered MOM-CA user." value=""/>
-          <button id="binvite-user">Invite</button>
-        </div>
-      </p>
-    </div>
-
-    <!-- Publish dialog -->
-    <div id="dmy-collection-publish-dialog" style="display:none" title="Publish My Collection">
-      <p><span>Click on Button "Publish now" to publish all Charters of this Collection.</span></p>
-      <div id="dpublish-progress" style="display:none">Please wait ...</div>
-    </div>
-
-    <!-- Header -->
-    <div id="dmy-collection-header">
-      <h2>Edit My Collections</h2>
-    </div>
-
-    <!-- Toolbar / breadcrumb -->
-    <div id="dmy-collection-toolbar">
-      <div id="dmy-collection-inner-toolbar"> </div>
-      <div id="dmy-collection-breadcrumb">
-        <a href="/mom">MOM-CA</a>
-        <span> &gt; </span>
-        <a data-template="config:resolve-link" href="my-collections">My Collections (preview)</a>
-        <span> &gt; </span>
-        <a data-template="my-collections-edit:first-collection-link"/>
+  <!-- Share dialog -->
+  <div id="dmy-collection-items-share-dialog" style="display:none" title="Share selected Charter(s)">
+    <p>
+      <div>
+        <span data-i18n="who-may-edit">Who may edit</span>:
       </div>
-    </div>
+      <div class="invited-user">
+        <span class="invited-user">
+          <b data-template="my-collections-edit:owner-label"/>
+          <span>    (owner)</span>
+        </span>
+        <div id="dshared-users"></div>
+      </div>
+      <div id="duser-exists"></div>
+      <div>
+        <span data-i18n="invite-people">Invite people</span>:
+      </div>
+      <div id="dinvite-user">
+        <input class="iinvite-user" id="iinvite-user" name="invited-user" placeholder="Email address of a registered MOM-CA user." value=""/>
+        <button class="btn" id="binvite-user">Invite</button>
+      </div>
+    </p>
+  </div>
 
-    <!-- Authenticated body -->
-    <div data-template="auth:require-group" data-group="atom">
-      <div id="dmy-collection-body">
-        <div id="dmy-collection-left-menu">
-          <div>
-            <button id="dmy-collection-new-button">
+  <!-- Publish dialog -->
+  <div id="dmy-collection-publish-dialog" style="display:none" title="Publish My Collection">
+    <p><span>Click on Button "Publish now" to publish all Charters of this Collection.</span></p>
+    <div id="dpublish-progress" style="display:none">Please wait ...</div>
+  </div>
+
+  <!-- Header -->
+  <h1>Edit My Collections</h1>
+
+  <!-- Toolbar / breadcrumb -->
+  <nav class="breadcrumb">
+    <a href="/mom">MOM-CA</a>
+    <span class="sep">/</span>
+    <a data-template="config:resolve-link" href="my-collections">My Collections (preview)</a>
+    <span class="sep">/</span>
+    <a data-template="my-collections-edit:first-collection-link"/>
+  </nav>
+
+  <div id="dmy-collection-toolbar">
+    <div id="dmy-collection-inner-toolbar"> </div>
+  </div>
+
+  <!-- Authenticated body -->
+  <div data-template="auth:require-group" data-group="atom">
+    <div id="dmy-collection-body" class="page-layout">
+      <aside class="sidebar" id="dmy-collection-left-menu">
+        <div class="card">
+          <div class="card-body">
+            <button class="btn btn--primary" id="dmy-collection-new-button">
               <span data-i18n="create-collection-uppercase-letter">CREATE COLLECTION</span>
             </button>
-            <div class="table" id="dmy-collection-new-dialog">
-              <div class="table-row">
-                <div class="forms-table-cell"><span>Name:</span></div>
-                <div class="forms-table-cell">
-                  <form id="fmy-collection-new-dialog" data-template="my-collections-edit:new-form-action">
-                    <input name="title" type="text"/>
-                  </form>
-                </div>
-                <div class="forms-table-cell">
-                  <button class="ok-button">Create</button>
-                </div>
+            <div id="dmy-collection-new-dialog">
+              <div class="form-group">
+                <form id="fmy-collection-new-dialog" data-template="my-collections-edit:new-form-action">
+                  <label>Name:</label>
+                  <input name="title" type="text"/>
+                  <button class="btn ok-button">Create</button>
+                </form>
               </div>
             </div>
           </div>
-          <div class="dmenu-button" id="dmy-collection-bookmarks-button">
-            <div><b>Bookmarks</b></div>
-          </div>
-          <div class="dmenu-button my-collections-tree-item" id="dmy-collections-button">
-            <div><b>My Collections</b></div>
-          </div>
-          <div id="dmy-collections-tree"></div>
-          <div class="dmenu-button my-collections-tree-item" id="dmy-collections-shared-button">
-            <div><b>Shared Collections</b></div>
-          </div>
-          <div id="dmy-collections-shared"></div>
         </div>
-        <div id="dmy-collection-items"></div>
+
+        <div class="card">
+          <div class="card-header" id="dmy-collection-bookmarks-button">Bookmarks</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header" id="dmy-collections-button">My Collections</div>
+          <div class="card-body" id="dmy-collections-tree"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header" id="dmy-collections-shared-button">Shared Collections</div>
+          <div class="card-body" id="dmy-collections-shared"></div>
+        </div>
+      </aside>
+
+      <main id="dmy-collection-items"></main>
+    </div>
+  </div>
+
+  <!-- Not authenticated -->
+  <div data-template="auth:require-group-else" data-group="atom" id="dlogin">
+    <div class="card">
+      <div class="card-body">
+        <p class="text-muted" data-i18n="protected-page-message">Protected page. Please login first.</p>
+        <div data-template="login:form"/>
       </div>
     </div>
-
-    <!-- Not authenticated -->
-    <div data-template="auth:require-group-else" data-group="atom" id="dlogin">
-      <span data-i18n="protected-page-message">Protected page. Please login first.</span>
-      <div data-template="login:form"/>
-    </div>
-
-    <script type="text/javascript">
-      jQuery(document).ready(function(){
-        $.ajaxSetup({ cache: false });
-        $("#dmy-collections").myCollectionsEdit({
-          requestRoot: document.querySelector('[data-request-root]')?.dataset.requestRoot || '/',
-          userid: document.querySelector('[data-user-id]')?.dataset.userId || ''
-        });
-      });
-    </script>
   </div>
-</body>
-</html>
+
+  <script type="text/javascript">
+    jQuery(document).ready(function(){
+      $.ajaxSetup({ cache: false });
+      $("#dmy-collections").myCollectionsEdit({
+        requestRoot: document.querySelector('[data-request-root]')?.dataset.requestRoot || '/',
+        userid: document.querySelector('[data-user-id]')?.dataset.userId || ''
+      });
+    });
+  </script>
+</div>

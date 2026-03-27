@@ -5,41 +5,52 @@
     <title>Tag Library</title>
 </head>
 <body>
-    <div id="dtag-library" data-template="app:tag-library-view">
-        <div class="h2">
+    <div id="dtag-library" data-template="app:tag-library-view" class="page-layout--full">
+        <h2>
             <span data-i18n="tag-library">Tag library</span>
             <span>: <span data-template="app:tag-library-label"></span></span>
-        </div>
+        </h2>
         <!-- Element view -->
         <div data-template="app:tag-library-element-view">
-            <h1>
-                <span data-i18n="element">Element</span>
-                <span>: &lt;<span data-template="app:tag-library-element-name"></span>&gt;</span>
-            </h1>
-            <h2><span data-i18n="description">Description</span><span>:</span></h2>
-            <div data-template="app:tag-library-element-documentation"></div>
-            <br/><br/>
-            <h2>May contain:</h2>
-            <ul class="nostyle" data-template="app:tag-library-child-elements"></ul>
-            <br/><br/>
-            <h2><span data-i18n="may-occur-within">May occur within</span><span>:</span></h2>
-            <ul class="nostyle" data-template="app:tag-library-parent-elements"></ul>
-            <br/><br/>
-            <h2><span data-i18n="attributes">Attributes</span><span>:</span></h2>
-            <ul class="nostyle" data-template="app:tag-library-attributes"></ul>
+            <div class="card">
+                <div class="card-header">
+                    <h3>
+                        <span data-i18n="element">Element</span>
+                        <span>: &lt;<span data-template="app:tag-library-element-name"></span>&gt;</span>
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <h4><span data-i18n="description">Description</span>:</h4>
+                    <div data-template="app:tag-library-element-documentation"></div>
+
+                    <h4>May contain:</h4>
+                    <ul class="nostyle" data-template="app:tag-library-child-elements"></ul>
+
+                    <h4><span data-i18n="may-occur-within">May occur within</span>:</h4>
+                    <ul class="nostyle" data-template="app:tag-library-parent-elements"></ul>
+
+                    <h4><span data-i18n="attributes">Attributes</span>:</h4>
+                    <ul class="nostyle" data-template="app:tag-library-attributes"></ul>
+                </div>
+            </div>
         </div>
         <!-- Attribute view -->
         <div data-template="app:tag-library-attribute-view">
-            <h1>
-                <span data-i18n="attribute">Attribute</span>
-                <span>: <span data-template="app:tag-library-attribute-name"></span></span>
-            </h1>
-            <h2><span data-i18n="description">Description</span><span>:</span></h2>
-            <div data-template="app:tag-library-attribute-documentation"></div>
-            <br/><br/>
-            <h2><span data-i18n="may-occur-within">May occur within</span><span>:</span></h2>
-            <ul class="nostyle" data-template="app:tag-library-attribute-parent-elements"></ul>
-            <br/><br/>
+            <div class="card">
+                <div class="card-header">
+                    <h3>
+                        <span data-i18n="attribute">Attribute</span>
+                        <span>: <span data-template="app:tag-library-attribute-name"></span></span>
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <h4><span data-i18n="description">Description</span>:</h4>
+                    <div data-template="app:tag-library-attribute-documentation"></div>
+
+                    <h4><span data-i18n="may-occur-within">May occur within</span>:</h4>
+                    <ul class="nostyle" data-template="app:tag-library-attribute-parent-elements"></ul>
+                </div>
+            </div>
         </div>
     </div>
 </body>

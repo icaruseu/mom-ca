@@ -1,134 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <title data-i18n="remove-archive">Remove Archive</title>
-    <style>
-        #dremove-metadata table {
-            width: 100%;
-            border: solid rgb(100,100,100) 1px;
-            border-collapse: collapse;
-        }
-        #dremove-metadata th, #dremove-metadata tr {
-            padding: 10px;
-        }
-        #dremove-metadata th {
-            background: rgb(230,230,230);
-        }
-        #dremove-metadata td {
-            border-right: solid rgb(100,100,100) 1px;
-            padding: 10px;
-        }
-        #dremove-metadata tr.heading {
-            background: rgb(100,100,100);
-            color: white;
-            font-weight: bold;
-        }
-        #dremove-metadata .request {
-            position: relative;
-            float: none;
-            width: 600px;
-            margin-left: 200px;
-            margin-top: 50px;
-            background: rgb(245,245,245);
-        }
-        #dremove-metadata .request-inner {
-            position: relative;
-            float: left;
-            margin: 40px;
-        }
-        #dremove-metadata .send-trigger {
-            text-align: right;
-        }
-        #dremove-metadata legend {
-            font-size: 1.5em;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-    <div id="dremove-metadata" data-template="app:remove-metadata-view">
-        <!-- Back link -->
-        <div>
-            <a data-template="app:remove-metadata-back-link">
-                <span>&lt;&lt; </span>
-                <span data-i18n="back">back</span>
-            </a>
+<!--
+    MOM-CA Remove Metadata Page
+    ===========================
+    Converted from: my/XRX/src/mom/app/metadata/widget/remove-metadata.widget.xml
+-->
+<div class="page-layout--full" data-template="app:remove-metadata-view">
+    <!-- Back link -->
+    <div>
+        <a data-template="app:remove-metadata-back-link">
+            <span>&lt;&lt; </span>
+            <span data-i18n="back">back</span>
+        </a>
+    </div>
+
+    <!-- Request form with Fore -->
+    <div class="card">
+        <div class="card-header">
+            <h2 data-i18n="remove-public-database-entries">Remove public database entries</h2>
         </div>
+        <div class="card-body">
+            <fx-fore>
+                <fx-model id="mremove-metadata">
+                    <fx-instance>
+                        <data>
+                            <url data-template="app:current-url"></url>
+                            <note></note>
+                        </data>
+                    </fx-instance>
+                    <fx-instance id="iresponse">
+                        <data>
+                            <icon></icon>
+                            <message></message>
+                        </data>
+                    </fx-instance>
+                    <fx-submission id="sremove-metadata" url="service/remove-metadata" method="post" replace="instance" instance="iresponse">
+                    </fx-submission>
+                </fx-model>
 
-        <!-- Request form with Fore -->
-        <fx-fore>
-            <fx-model id="mremove-metadata">
-                <fx-instance>
-                    <data>
-                        <url data-template="app:current-url"></url>
-                        <note></note>
-                    </data>
-                </fx-instance>
-                <fx-instance id="iresponse">
-                    <data>
-                        <icon></icon>
-                        <message></message>
-                    </data>
-                </fx-instance>
-                <fx-submission id="sremove-metadata" url="service/remove-metadata" method="post" replace="instance" instance="iresponse">
-                </fx-submission>
-            </fx-model>
-
-            <div class="request">
-                <fieldset>
-                    <legend>
-                        <span data-i18n="remove-public-database-entries">Remove public database entries</span>
-                    </legend>
-                    <div class="send-request">
-                        <p>
-                            <span data-i18n="remove-public-entries-info1">Please give a short note why you want to delete the entries listed below.</span>
-                        </p>
-                    </div>
-                    <div>
-                        <fx-control ref="note">
-                            <label></label>
-                            <textarea placeholder="Please give a short note."></textarea>
-                        </fx-control>
-                    </div>
-                    <div>
-                        <fx-control ref="instance('iresponse')//message">
-                            <label></label>
-                        </fx-control>
-                    </div>
-                    <br/><br/>
-                    <div class="send-trigger">
-                        <fx-trigger>
-                            <button>
-                                <span data-i18n="send-request">Send request</span>
-                            </button>
-                            <fx-send submission="sremove-metadata"></fx-send>
-                        </fx-trigger>
-                    </div>
-                </fieldset>
-            </div>
-        </fx-fore>
-
-        <!-- Info text -->
-        <div>
-            <span data-i18n="remove-public-entries-info2">You are sending a request to remove the following database entries</span>:
-        </div>
-
-        <!-- Table of entries to remove - rendered server-side -->
-        <table>
-            <tr class="heading">
-                <td>Atom ID</td>
-                <td><span data-i18n="name">Name</span></td>
-                <td><span data-i18n="user">User</span></td>
-            </tr>
-            <div data-template="app:remove-metadata-table"></div>
-        </table>
-
-        <!-- Protected page fallback -->
-        <div data-template="app:auth-fallback">
-            <span data-i18n="protected-page-message">Protected page. Please login first.</span>
-            <div data-template="app:include" data-template-path="login2.html"></div>
+                <p>
+                    <span data-i18n="remove-public-entries-info1">Please give a short note why you want to delete the entries listed below.</span>
+                </p>
+                <div class="form-group">
+                    <fx-control ref="note">
+                        <label></label>
+                        <textarea placeholder="Please give a short note."></textarea>
+                    </fx-control>
+                </div>
+                <div>
+                    <fx-control ref="instance('iresponse')//message">
+                        <label></label>
+                    </fx-control>
+                </div>
+                <div>
+                    <fx-trigger>
+                        <button class="btn btn--primary">
+                            <span data-i18n="send-request">Send request</span>
+                        </button>
+                        <fx-send submission="sremove-metadata"></fx-send>
+                    </fx-trigger>
+                </div>
+            </fx-fore>
         </div>
     </div>
-</body>
-</html>
+
+    <!-- Info text -->
+    <div class="card">
+        <div class="card-body">
+            <p>
+                <span data-i18n="remove-public-entries-info2">You are sending a request to remove the following database entries</span>:
+            </p>
+
+            <!-- Table of entries to remove -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Atom ID</th>
+                        <th><span data-i18n="name">Name</span></th>
+                        <th><span data-i18n="user">User</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <div data-template="app:remove-metadata-table"></div>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Protected page fallback -->
+    <div data-template="app:auth-fallback">
+        <div class="card">
+            <div class="card-body">
+                <span data-i18n="protected-page-message">Protected page. Please login first.</span>
+                <div data-template="app:include" data-template-path="login2.html"></div>
+            </div>
+        </div>
+    </div>
+</div>

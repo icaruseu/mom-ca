@@ -2,20 +2,18 @@
     MOM-CA Translation Progress Page
     =================================
     Converted from: my/XRX/src/mom/app/i18n/widget/translation-progress.widget.xml
-
-    Inherits from core/widget/translation-progress. Shows the completion
-    status of translations across all supported languages.
 -->
-<div id="translation-progress-page" data-template="translation-progress:page">
+<div class="page-layout--full" id="translation-progress-page" data-template="translation-progress:page">
 
-    <!-- The translation progress UI is inherited from the core widget.
-         It provides:
-         - Language completion percentages
-         - Overview of missing translations per language
-         - Links to the translate page for each language -->
-
-    <div data-template="translation-progress:overview">
-        <!-- Core translation-progress widget content rendered here -->
+    <div class="card">
+        <div class="card-header">
+            <h2 data-i18n="translation-progress">Translation Progress</h2>
+        </div>
+        <div class="card-body">
+            <div data-template="translation-progress:overview">
+                <!-- Core translation-progress widget content rendered here -->
+            </div>
+        </div>
     </div>
 
 </div>

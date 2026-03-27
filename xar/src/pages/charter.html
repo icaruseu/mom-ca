@@ -1,168 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-i18n="charter">Charter</title>
-  <!-- Converted from charter.widget.xml -->
-  <!-- Original ID: tag:www.monasterium.net,2011:/mom/widget/charter -->
-  <!-- xf: elements present - uses Fore components for XForms functionality -->
-  <link rel="stylesheet" href="../css/charter.css"/>
-  <style>
-    div { cursor: default; }
-    #charter { position: relative; width: 100%; }
-    #charter .idno * { font-size: 130%; }
-    #graphicheader { position: relative; float: left; }
-    #graphics, #diplomaticAnalysis, #index, #versions, #tenor, #abstract, #decoDesc, #witList, #howToCite, #bibltenor, .witness {
-      position: relative; float: left; border: solid rgb(240,243,226) 1px;
-      width: 950px; margin-left: 5px; margin-right: 5px; margin-top: 0px; margin-bottom: 10px;
-    }
-    #biblabstract { position: relative; text-align: left; font-size: 0.8em; line-height: normal; padding-top: 10px; }
-    #tenor, #abstract { line-height: 190%; }
-    #witList { overflow: auto; padding: 0; }
-    #diplomaticAnalysis div.p div { padding-top: 10px; line-height: 1.5em; }
-    div.witness-text { position: relative; float: left; width: 51%; font-size: 90%; margin: 0; padding: 0; border-top: solid rgb(240,243,226) 1px; }
-    div.witness-graphic { overflow: auto; width: 49%; border-top: 1px solid #F0F3E2; }
-    #graphic { height: 150px; padding: 10px; }
-    #issued { text-align: right; margin: 0; margin-bottom: 10px; padding: 0; }
-    #decoDesc ul li[n] { padding-top: 10px; }
-    div#indexlist { position: relative; width: 40%; float: left; }
-    div.port { padding: 10px 10px 10px 50px; overflow-y: scroll; height: 600px; text-align: justify; margin-top: 10px; }
-    span.bishop { display: block; }
-    i.bishop { font-style: italic; color: grey; }
-    span.info_i { color: white; background-color: #BABABA; font-size: small; vertical-align: super; font-weight: bold; padding: 0 4px; margin-left: 10px; }
-    span.back { margin-left: 3em; }
-    div.browse { padding-bottom: 20px; }
-    div.inlinehead, div.greyinlinehead, div.light-green, div.light-green:visited {
-      position: relative; float: left; font-weight: bold; width: 950px;
-      background-color: var(--color5); color: rgb(255,255,255);
-      margin: 0; margin-left: 5px; margin-top: 5px; line-height: 200%;
-    }
-    div.inlinehead { margin-bottom: 1px; padding: 5px; width: 942px !important; }
-    div.inlinehead div div a, div.inlinehead a { color: #ffffff !important; text-decoration: none !important; font-weight: normal !important; font-size: 1.2em !important; }
-    div.p { padding: 7px; }
-    div#persName, div#placeName, div#item { padding: 10px; }
-    div.no-graphic { position: relative; float: right; right: 20px; top: 10px; color: rgb(0,0,0); font-weight: bold; bottom: 50%; z-index: 2; }
-    span.num { position: relative; font-weight: bold; font-size: 150%; color: rgb(255,255,255); }
-    .fn-link { vertical-align: super; font-size: 0.9em; text-decoration: none; padding-left: 0.1em; }
-    div.lang-select { top: 600px; }
-    #breadcrumb { float: left; position: relative; width: auto; }
-    #prev-next { margin-top: 10px; }
-    #prev { float: left; margin-right: 10px; }
-    #next { float: left; }
-    .interpretation { clear: both; padding-top: 10px; }
-    img#ein, img#aus { margin-right: 10px; margin-top: 5px; position: relative; float: left; }
-    #downloads { margin-top: -4em; clear: left; float: right; }
-    #downloads a { padding: 5px; }
-    #change-graphic-links span { padding: 5px; }
-    #change-graphic-links a { float: none !important; }
-    .actions { clear: right; position: relative; float: right; width: 32.5%; background-color: #ffe3d9; padding: 10px; margin-right: 3px; margin-top: 5px; }
-    .actions a { color: #ef6a2f !important; }
-    .slider { float: left; }
-    #charter .light-grey { color: rgb(150,150,150); }
-    #witList a { float: left; }
-    p#first { padding-top: 30px !important; margin-top: 30px !important; }
-    .heading-center { position: relative; text-align: center; }
-    .heading-center * { font-size: 150%; font-weight: bold; text-align: center; }
-    #note-field-1 { position: relative; border: solid #C8C8C8 1px; padding: 3px; }
-    #noteBobble-1 { display: none; position: fixed; left: 400px; bottom: 35%; z-index: 20; width: 400px; height: 150px; background-color: #F6F6F6; padding: 20px; border-radius: 3px; box-shadow: 4px -3px 10px 1px #202020; }
-    #noteBobble-1 .xfLabel { color: rgb(255,255,255); font-weight: bold; }
-    #noteBobble-1 .xfValue { top: 5px !important; position: relative; width: 400px !important; max-height: 100px !important; }
-    #noteBobble-1 .xfTrigger { width: 30px !important; }
-    #edit-box { border: solid #C8C8C8 1px; padding: 3px; }
-    .ocr-hint { border: solid #FFCC00 1px; background: rgb(250,250,250); margin-top: 20px; margin-bottom: 20px; }
-    .ocr-hint-inner { margin: 10px; margin-top: 30px; margin-bottom: 30px; }
-    .cei-lb, .cei-add, .cei-reg { display: none; }
-    .cei-issuer { letter-spacing: 2px; }
-    .cei-recipient { letter-spacing: 2px; }
-  </style>
-</head>
-<body>
-  <div id="charter">
-    <div class="p">
-      <!-- heading-div -->
-      <div class="h2"
-           data-template="charter:heading"
-           data-template-fond="$wcharter:fond"
-           data-template-idno="$wcharter:idno">
-        <span data-i18n="charter">Charter</span>
-        <span>: <span data-template="charter:fond-and-idno"></span></span>
-      </div>
+<div id="charter"
+     class="page-layout">
 
-      <!-- breadcrumb -->
-      <div id="breadcrumb" data-template="charter:breadcrumb"
-           data-template-context="$wcharter:context"
-           data-template-archive-id="$charter:rarchiveid"
-           data-template-fond-id="$charter:rfondid"
-           data-template-collection-id="$charter:rcollectionid"
-           data-template-block="$wcharter:block"
-           data-template-anchor="$wcharter:anchor"
-           data-template-idno="$wcharter:idno"
-           data-template-idnoid="$wcharter:idnoid">
-        <!-- Breadcrumb rendered server-side depending on context (fond/collection/linked-fond) -->
-      </div>
+  <!-- Main content area -->
+  <main>
+    <!-- Heading -->
+    <h2 data-template="charter:heading"
+        data-template-fond="$wcharter:fond"
+        data-template-idno="$wcharter:idno">
+      <span data-i18n="charter">Charter</span>
+      <span>: <span data-template="charter:fond-and-idno"></span></span>
+    </h2>
 
-      <!-- signature -->
-      <div data-template="charter:signature"
-           data-template-fond-id="$charter:rfondid"
-           data-template-idno="$wcharter:idno"
-           data-template-is-bookmarked="$wcharter:is-bookmarked">
-        <div class="idno" id="idno-num">
-          <span data-i18n="signature">Signature</span>
-          <span>: <span data-template="charter:idno"></span></span>
-        </div>
-      </div>
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" data-template="charter:breadcrumb"
+         data-template-context="$wcharter:context"
+         data-template-archive-id="$charter:rarchiveid"
+         data-template-fond-id="$charter:rfondid"
+         data-template-collection-id="$charter:rcollectionid"
+         data-template-block="$wcharter:block"
+         data-template-anchor="$wcharter:anchor"
+         data-template-idno="$wcharter:idno"
+         data-template-idnoid="$wcharter:idnoid">
+      <!-- Breadcrumb rendered server-side depending on context (fond/collection/linked-fond) -->
+    </nav>
 
-      <!-- prev-next -->
-      <div id="prev-next" data-template="charter:prev-next"
-           data-template-previous="$wcharter:previous"
-           data-template-next="$wcharter:next"
-           data-template-pos="$wcharter:pos"
-           data-template-count="$wcharter:count">
-        <div id="prev">
-          <a data-template-href="$wcharter:previous">
-            <span>&lt; </span>
-            <span data-i18n="previous-charter">Previous Charter</span>
-          </a>
-        </div>
-        <div id="next">
-          <span data-template="charter:pos"></span>
-          <span data-i18n="of">of</span>
-          <span data-template="charter:count"></span>
-          <span>   </span>
-          <a data-template-href="$wcharter:next">
-            <span data-i18n="next-charter">Next Charter</span>
-            <span> &gt;</span>
-          </a>
-        </div>
+    <!-- Signature -->
+    <div data-template="charter:signature"
+         data-template-fond-id="$charter:rfondid"
+         data-template-idno="$wcharter:idno"
+         data-template-is-bookmarked="$wcharter:is-bookmarked">
+      <div class="charter-idno" id="idno-num">
+        <span data-i18n="signature">Signature</span>
+        <span>: <span data-template="charter:idno"></span></span>
       </div>
+    </div>
+
+    <!-- Prev/Next navigation -->
+    <div id="prev-next" data-template="charter:prev-next"
+         data-template-previous="$wcharter:previous"
+         data-template-next="$wcharter:next"
+         data-template-pos="$wcharter:pos"
+         data-template-count="$wcharter:count">
+      <span id="prev">
+        <a data-template-href="$wcharter:previous" class="btn">
+          <span>&lt; </span>
+          <span data-i18n="previous-charter">Previous Charter</span>
+        </a>
+      </span>
+      <span id="next">
+        <span data-template="charter:pos"></span>
+        <span data-i18n="of">of</span>
+        <span data-template="charter:count"></span>
+        <span>   </span>
+        <a data-template-href="$wcharter:next" class="btn">
+          <span data-i18n="next-charter">Next Charter</span>
+          <span> &gt;</span>
+        </a>
+      </span>
     </div>
 
     <!-- OCR hint (conditional) -->
     <div data-template="charter:ocr-hint" style="display:none">
-      <br/>
-      <div class="p ocr-hint">
-        <div class="ocr-hint-inner">
+      <div class="card">
+        <div class="card-body text-muted">
           <span data-i18n="ocr-scanned-message">The transcription and metadata of this charter are scanned by a OCR tool and thus may have low quality.</span>
         </div>
       </div>
-      <br/>
     </div>
 
-    <!-- download-xml-link -->
+    <!-- Download links -->
     <div id="downloads" data-template="charter:download-links"
          data-template-atom-uri="$wcharter:atom-uri"
          data-template-atom-id="$wcharter:atom-id"
          data-template-lang="$xrx:lang">
-      <a data-template-href="$wcharter:atom-uri" target="_blank">
+      <a data-template-href="$wcharter:atom-uri" target="_blank" class="btn">
         <span data-i18n="download-xml">Download XML</span>
       </a>
-      <a data-template-href="charter:pdf-export-url" target="blank">
+      <a data-template-href="charter:pdf-export-url" target="blank" class="btn">
         <span data-i18n="pdf-export">PDF- Export</span>
       </a>
     </div>
 
-    <!-- charter-image-viewer (subwidget) -->
+    <!-- Charter image viewer (subwidget) -->
     <div data-template="charter:image-viewer"
          data-template-context="$wcharter:context"
          data-template-charter="$wcharter:charter"
@@ -181,87 +100,96 @@
       <img alt="einklappen" id="ein" class="ic" src="../images/path_down.png"/>
     </div>
 
-    <div>
-      <!-- my-archive (actions sidebar) -->
-      <div class="actions" data-template="charter:my-archive"
-           data-template-atom-id="$wcharter:atom-id"
-           data-template-is-bookmarked="$wcharter:is-bookmarked"
-           data-template-is-moderator="$wcharter:is-moderator"
-           data-template-context="$wcharter:context"
-           data-template-collection-context="$wcharter:collection-context"
-           data-template-owner="$wcharter:owner">
-        <!-- Auth-gated: logged-in users see bookmark/edit actions -->
-        <div class="fieldset" data-template-if="logged-in">
-          <div class="inner-fieldset">
-            <!-- Bookmark trigger -->
-            <div data-template="bookmark:trigger">
-              <span data-i18n="add-bookmark">Add bookmark</span>
-            </div>
-            <!-- Bookmark note -->
-            <div id="note-field-1" style="display:none">
-              <div>
-                <b><span data-i18n="bookmark-note">Bookmark note</span><span>: </span></b>
-                <br/>
-                <span id="note-output-1"></span>
-                <div class="edit-box">
-                  <fx-trigger id="note-edit-1" appearance="minimal">
-                    <fx-label><span data-i18n="create-note">Create note</span></fx-label>
-                  </fx-trigger>
-                </div>
-              </div>
-            </div>
-            <!-- Publication actions -->
-            <div data-template="publication:user-actions">
-              <span data-i18n="save-and-edit-charter">Save and edit charter</span>
-            </div>
-            <!-- Copy to collection -->
-            <a id="copycollection">
-              <span data-i18n="copy-to-collection">Copy to Collection</span>
-            </a><br/>
-          </div>
-        </div>
-        <!-- Not logged in -->
-        <div data-template-if="not-logged-in">
-          <div class="light-grey">
-            <span data-i18n="add-bookmark">Add bookmark</span>
-          </div>
-          <div class="light-grey">
-            <span data-i18n="edit-charter">Edit charter</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Charter view (XSLT transformed content) -->
-      <div data-template="charter:view"
+    <!-- Charter view (XSLT transformed content) -->
+    <div class="card">
+      <div class="card-body" data-template="charter:view"
            data-template-charter="$wcharter:charter"
            data-template-xsl="$wcharter:xsl"
            data-template-params="$wcharter:params">
         <!-- CEI-to-HTML transformed charter content rendered here -->
       </div>
+    </div>
 
-      <!-- how-to-cite (subwidget) -->
-      <div data-template="charter:how-to-cite">
-        <!-- Included from how-to-cite.html -->
+    <!-- How to cite (subwidget) -->
+    <div data-template="charter:how-to-cite">
+      <!-- Included from how-to-cite.html -->
+    </div>
+  </main>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <!-- Actions -->
+    <div class="card" data-template="charter:my-archive"
+         data-template-atom-id="$wcharter:atom-id"
+         data-template-is-bookmarked="$wcharter:is-bookmarked"
+         data-template-is-moderator="$wcharter:is-moderator"
+         data-template-context="$wcharter:context"
+         data-template-collection-context="$wcharter:collection-context"
+         data-template-owner="$wcharter:owner">
+      <div class="card-header">
+        <span data-i18n="my-archive">MyArchive</span>
+      </div>
+      <div class="card-body">
+        <!-- Auth-gated: logged-in users see bookmark/edit actions -->
+        <div data-template-if="logged-in">
+          <!-- Bookmark trigger -->
+          <div data-template="bookmark:trigger">
+            <span data-i18n="add-bookmark">Add bookmark</span>
+          </div>
+          <!-- Bookmark note -->
+          <div id="note-field-1" style="display:none">
+            <div>
+              <b><span data-i18n="bookmark-note">Bookmark note</span><span>: </span></b>
+              <br/>
+              <span id="note-output-1"></span>
+              <div>
+                <fx-trigger id="note-edit-1" appearance="minimal">
+                  <fx-label><span data-i18n="create-note">Create note</span></fx-label>
+                </fx-trigger>
+              </div>
+            </div>
+          </div>
+          <!-- Publication actions -->
+          <div data-template="publication:user-actions">
+            <span data-i18n="save-and-edit-charter">Save and edit charter</span>
+          </div>
+          <!-- Copy to collection -->
+          <a id="copycollection" class="btn btn--primary">
+            <span data-i18n="copy-to-collection">Copy to Collection</span>
+          </a>
+        </div>
+        <!-- Not logged in -->
+        <div data-template-if="not-logged-in">
+          <div class="text-muted">
+            <span data-i18n="add-bookmark">Add bookmark</span>
+          </div>
+          <div class="text-muted">
+            <span data-i18n="edit-charter">Edit charter</span>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Image tool widget (conditional on charter context) -->
-    <div data-template="charter:image-tool-widget"
+    <div class="card" data-template="charter:image-tool-widget"
          data-template-context="$wcharter:context"
          data-template-charter-id="$charter:rcharterid"
          data-template-collection-id="$charter:rcollectionid"
          data-template-lang="$xrx:lang"
          style="display:none">
-      <div id="image-tool-widget">
+      <div class="card-header">
+        <span data-i18n="image-tools">Image Tools</span>
+      </div>
+      <div class="card-body" id="image-tool-widget">
         <div id="image-tool-widget-button-bar">
-          <button class="image-tool-widget-button" id="show-anno-button">
+          <button class="btn" id="show-anno-button">
             <span data-i18n="show-annotation">Show annotation</span>
           </button>
-          <a class="image-tool-widget-button" id="open-image-editor"
+          <a class="btn" id="open-image-editor"
              data-template-href="$image-tools-url">
             <span data-i18n="open-image-editor">Open image editor</span>
           </a>
-          <button class="image-tool-widget-button" id="help-anno-button">
+          <button class="btn" id="help-anno-button">
             <span data-i18n="help">Help</span>
           </button>
         </div>
@@ -273,11 +201,11 @@
             <span data-i18n="broken-anno">The annotation you selected is not linked to a markup element!</span>
           </div>
           <div id="metadata-field">
-            <span class="meta-caption"><span data-i18n="related-to">Related to</span>:</span>
+            <span class="text-muted"><span data-i18n="related-to">Related to</span>:</span>
             <a href="#" id="related-to"></a><br/>
-            <span class="meta-caption"><span data-i18n="content">Content</span>:</span>
+            <span class="text-muted"><span data-i18n="content">Content</span>:</span>
             <span id="anno-content"></span><br/>
-            <span class="meta-caption"><span data-i18n="additional-description">Additional Description</span>:</span><br/>
+            <span class="text-muted"><span data-i18n="additional-description">Additional Description</span>:</span><br/>
             <div id="anno-desc"></div>
           </div>
         </div>
@@ -289,40 +217,33 @@
         <div id="bobblecorner"></div>
       </div>
     </div>
-  </div>
+  </aside>
+</div>
 
-  <!-- Fore model for bookmark functionality -->
-  <fx-fore>
-    <fx-model id="mbookmark" data-template="bookmark:model">
-      <!-- Bookmark model loaded dynamically -->
-    </fx-model>
-    <fx-model id="mpublication" data-template="publication:model">
-      <!-- Publication model loaded dynamically -->
-    </fx-model>
-  </fx-fore>
+<!-- Fore model for bookmark functionality -->
+<fx-fore>
+  <fx-model id="mbookmark" data-template="bookmark:model">
+    <!-- Bookmark model loaded dynamically -->
+  </fx-model>
+  <fx-model id="mpublication" data-template="publication:model">
+    <!-- Publication model loaded dynamically -->
+  </fx-model>
+</fx-fore>
 
-  <script src="../js/charter.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Image visibility logic
-      var linked = document.querySelector('div#graphics a#img-link');
-      var graphics = document.getElementById('graphics');
-      if (graphics) {
-        graphics.style.display = linked ? 'block' : 'none';
-      }
-      // Hide empty index
-      var indexlist = document.getElementById('indexlist');
-      var index = document.getElementById('index');
-      if (indexlist && index && indexlist.children.length === 0) {
-        index.style.display = 'none';
-      }
-      // Move actions after downloads
-      var actions = document.querySelector('div.actions');
-      var downloads = document.getElementById('downloads');
-      if (actions && downloads) {
-        downloads.parentNode.insertBefore(actions, downloads.nextSibling);
-      }
-    });
-  </script>
-</body>
-</html>
+<script src="../js/charter.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Image visibility logic
+    var linked = document.querySelector('div#graphics a#img-link');
+    var graphics = document.getElementById('graphics');
+    if (graphics) {
+      graphics.style.display = linked ? 'block' : 'none';
+    }
+    // Hide empty index
+    var indexlist = document.getElementById('indexlist');
+    var index = document.getElementById('index');
+    if (indexlist && index && indexlist.children.length === 0) {
+      index.style.display = 'none';
+    }
+  });
+</script>

@@ -2,68 +2,25 @@
       data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
   <head>
     <title data-i18n="charter-versions">Charter Versions</title>
-    <link rel="stylesheet" type="text/css" href="css/charter-patch.css"/>
-    <style type="text/css">
-      #vcharter-preview-main {
-        float: left;
-        width: 800px;
-      }
-      #vcharter-preview-main .charter * {
-        line-height: 1.6em;
-      }
-      #vcharter-preview-main .charter {
-        position: relative;
-        width: 100%;
-        float: left;
-        background: rgb(245,245,245);
-      }
-      #vcharter-preview-main .charter-preview {
-        position: relative;
-        float: left;
-        width: 100%;
-        background: rgb(245,245,245);
-        border-bottom: solid white 5px;
-      }
-      #vcharter-preview-main .inner-charter-preview {
-        position: relative;
-        float: left;
-        width: 100%;
-        margin: 15px;
-      }
-      #vcharter-preview-main .charter-info-and-actions {
-        display: inline;
-        position: relative;
-        float: left;
-        width: 25%;
-        border-left: solid white 3px;
-        padding-left: 10px;
-      }
-      #vcharter-preview-main .container {
-        float: left;
-        width: 65%;
-        padding-right: 10px;
-      }
-      #vcharter-preview-main .charter-info-and-actions * {
-        font-size: 13px;
-      }
-    </style>
   </head>
   <body>
-    <div id="vcharter-versions" data-template="publication:patch-charter-view">
+    <div data-template="publication:patch-charter-view">
       <a data-template="publication:back-link">
         <span>&lt;&lt; </span>
         <span data-i18n="back">back</span>
       </a>
-      <div data-template="publication:patch-result">
-        <div>
-          <br/>
-          <!-- Success message -->
-          <div data-template="publication:patch-success">
-            <span data-i18n="patching-done">Success! The former state of these Document was successfully restored!</span>
-          </div>
-          <!-- Error message -->
-          <div data-template="publication:patch-error">
-            <span data-i18n="patching-error">Error! The former state of these Document could not be restored!</span>
+
+      <div class="card">
+        <div class="card-body">
+          <div data-template="publication:patch-result">
+            <!-- Success message -->
+            <div data-template="publication:patch-success">
+              <span data-i18n="patching-done">Success! The former state of these Document was successfully restored!</span>
+            </div>
+            <!-- Error message -->
+            <div data-template="publication:patch-error">
+              <span data-i18n="patching-error">Error! The former state of these Document could not be restored!</span>
+            </div>
           </div>
         </div>
       </div>

@@ -6,173 +6,153 @@
 
     Requires authentication with role=user-administrator.
 
-    Mapping applied:
-        xf:model       -> fx-fore > fx-model
-        xf:instance    -> fx-instance
-        xf:bind        -> fx-bind
-        xf:submission  -> fx-submission
-        xf:repeat      -> fx-repeat
-        xf:select1     -> fx-control wrapping <select>
-        xf:trigger     -> fx-trigger wrapping <button>
-
     Sources:
         my/XRX/src/core/app/auth/widget/apply-role.widget.xml
         my/XRX/src/mom/app/auth/widget/apply-role.widget.xml
 -->
-<div id="apply-role-page">
+<div class="page-layout">
 
+    <!-- Main content -->
     <div>
-        <a href="manage-roles">
-            <span>&lt;&lt;&nbsp;</span>
-            <span data-i18n="back">back</span>
-        </a>
-    </div>
+        <nav class="breadcrumb">
+            <a href="manage-roles" data-i18n="manage-roles">Manage roles</a>
+            <span class="sep">/</span>
+            <span data-i18n="apply-role">Apply role</span>
+        </nav>
 
-    <h2 data-i18n="apply-role">Apply role</h2>
+        <h2 data-i18n="apply-role">Apply role</h2>
 
-    <!-- Unauthenticated / unauthorized state -->
-    <div id="apply-role-guest" class="auth-false" hidden="hidden">
-        <p data-i18n="protected-page-message">
-            Protected page. Please login first.
-        </p>
-    </div>
+        <!-- Unauthenticated / unauthorized state -->
+        <div id="apply-role-guest" class="auth-false" hidden="hidden">
+            <div class="card">
+                <div class="card-body">
+                    <p data-i18n="protected-page-message">
+                        Protected page. Please login first.
+                    </p>
+                </div>
+            </div>
+        </div>
 
-    <!-- Authorized state (user-administrator) -->
-    <div id="dform" class="auth-true">
-        <div id="dinnerform">
+        <!-- Authorized state (user-administrator) -->
+        <div id="dform" class="auth-true">
 
-            <h2 data-template="auth:role-name-label">
-                <!-- Populated dynamically: "Role Name (role-key)" -->
-            </h2>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0" data-template="auth:role-name-label">
+                        <!-- Populated dynamically: "Role Name (role-key)" -->
+                    </h3>
+                </div>
+                <div class="card-body">
 
-            <fx-fore>
-                <fx-model id="mapply-role">
+                    <fx-fore>
+                        <fx-model id="mapply-role">
 
-                    <fx-instance id="imembers" src="/api/auth/role-members">
-                        <data>
-                            <roleid></roleid>
-                            <!-- member elements populated dynamically -->
-                        </data>
-                    </fx-instance>
+                            <fx-instance id="imembers" src="/api/auth/role-members">
+                                <data>
+                                    <roleid></roleid>
+                                    <!-- member elements populated dynamically -->
+                                </data>
+                            </fx-instance>
 
-                    <fx-instance id="itemplate">
-                        <data>
-                            <member></member>
-                        </data>
-                    </fx-instance>
+                            <fx-instance id="itemplate">
+                                <data>
+                                    <member></member>
+                                </data>
+                            </fx-instance>
 
-                    <fx-instance id="iresponse">
-                        <data></data>
-                    </fx-instance>
+                            <fx-instance id="iresponse">
+                                <data></data>
+                            </fx-instance>
 
-                    <fx-instance id="iusers" src="/api/user/list">
-                        <data>
-                            <!-- user elements populated dynamically -->
-                        </data>
-                    </fx-instance>
+                            <fx-instance id="iusers" src="/api/user/list">
+                                <data>
+                                    <!-- user elements populated dynamically -->
+                                </data>
+                            </fx-instance>
 
-                    <fx-bind ref="instance('imembers')//member"></fx-bind>
-                    <fx-bind ref="instance('itemplate')//member"></fx-bind>
-                    <fx-bind ref="instance('iusers')//user"></fx-bind>
+                            <fx-bind ref="instance('imembers')//member"></fx-bind>
+                            <fx-bind ref="instance('itemplate')//member"></fx-bind>
+                            <fx-bind ref="instance('iusers')//user"></fx-bind>
 
-                    <fx-submission id="ssave"
-                                   url="/api/auth/apply-role"
-                                   method="POST"
-                                   replace="instance"
-                                   instance="iresponse">
-                    </fx-submission>
+                            <fx-submission id="ssave"
+                                           url="/api/auth/apply-role"
+                                           method="POST"
+                                           replace="instance"
+                                           instance="iresponse">
+                            </fx-submission>
 
-                </fx-model>
+                        </fx-model>
 
-                <!-- Repeat: one row per member -->
-                <fx-repeat ref="instance('imembers')//member" id="rmembers">
-                    <template>
-                        <div class="member-row">
-                            <fx-control ref="." class="member-select">
-                                <select>
-                                    <fx-items ref="instance('iusers')//user">
-                                        <template>
-                                            <option value="{email}">{label}</option>
-                                        </template>
-                                    </fx-items>
-                                </select>
-                            </fx-control>
-                            <fx-trigger class="btn-remove-member">
-                                <button>-</button>
-                                <fx-delete ref="." event="click"></fx-delete>
+                        <!-- Repeat: one row per member -->
+                        <fx-repeat ref="instance('imembers')//member" id="rmembers">
+                            <template>
+                                <div class="form-group" style="display:flex;align-items:center;gap:0.5rem">
+                                    <fx-control ref="." style="flex:1">
+                                        <select>
+                                            <fx-items ref="instance('iusers')//user">
+                                                <template>
+                                                    <option value="{email}">{label}</option>
+                                                </template>
+                                            </fx-items>
+                                        </select>
+                                    </fx-control>
+                                    <fx-trigger>
+                                        <button class="btn">-</button>
+                                        <fx-delete ref="." event="click"></fx-delete>
+                                    </fx-trigger>
+                                </div>
+                            </template>
+                        </fx-repeat>
+
+                        <!-- Add member -->
+                        <div class="form-group">
+                            <fx-trigger>
+                                <button class="btn" data-i18n="add-member">Add member</button>
+                                <fx-insert ref="instance('imembers')//member"
+                                           origin="instance('itemplate')//member"
+                                           at="last()"
+                                           position="after"
+                                           event="click">
+                                </fx-insert>
                             </fx-trigger>
                         </div>
-                    </template>
-                </fx-repeat>
 
-                <!-- Add member -->
-                <fx-trigger>
-                    <button data-i18n="add-member">Add member</button>
-                    <fx-insert ref="instance('imembers')//member"
-                               origin="instance('itemplate')//member"
-                               at="last()"
-                               position="after"
-                               event="click">
-                    </fx-insert>
-                </fx-trigger>
+                        <!-- Save -->
+                        <div class="form-group">
+                            <fx-trigger>
+                                <button class="btn btn--primary" data-i18n="save">Save</button>
+                                <fx-send submission="ssave" event="click"></fx-send>
+                            </fx-trigger>
+                        </div>
 
-                <br/>
-                <br/>
+                        <fx-message event="submit-done" level="ephemeral">OK</fx-message>
+                        <fx-message event="submit-error" level="ephemeral">Error</fx-message>
 
-                <!-- Save -->
-                <div id="dsave">
-                    <fx-trigger>
-                        <button data-i18n="save">Save</button>
-                        <fx-send submission="ssave" event="click"></fx-send>
-                    </fx-trigger>
+                    </fx-fore>
+
                 </div>
-
-                <fx-message event="submit-done" level="ephemeral">OK</fx-message>
-                <fx-message event="submit-error" level="ephemeral">Error</fx-message>
-
-            </fx-fore>
+            </div>
 
         </div>
     </div>
 
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0" data-i18n="navigation">Navigation</h4>
+            </div>
+            <div class="card-body">
+                <ul class="nostyle">
+                    <li>
+                        <a href="manage-roles" data-i18n="back-to-roles">Back to role list</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+
 </div>
-
-<style>
-    #dform {
-        position: relative;
-        float: left;
-        width: 600px;
-        margin-left: 185px;
-        margin-top: 50px;
-        background: rgb(240, 240, 240);
-    }
-
-    #dinnerform {
-        margin: 20px;
-    }
-
-    #dsave {
-        position: relative;
-        float: left;
-        width: 100%;
-        text-align: right;
-    }
-
-    .member-row {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin-bottom: 0.25rem;
-    }
-
-    .member-select select {
-        min-width: 350px;
-    }
-
-    .btn-remove-member button {
-        cursor: pointer;
-    }
-</style>
 
 <script type="module">
     // Toggle authorized / unauthorized views

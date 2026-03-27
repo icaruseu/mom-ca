@@ -1,108 +1,100 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-i18n="collection">Collection</title>
-</head>
-<body>
-  <div data-template="collection:load">
+<div data-template="collection:load">
 
-    <!-- Breadcrumb -->
-    <div id="breadcrumb">
-      <a data-template="config:resolve-link" href="collections">
-        <span data-i18n="collections">Collections</span>
-      </a>
-      <span> &gt; </span>
-      <a data-template="collection:self-link">
-        <span data-template="collection:short-name"/>
-      </a>
+  <nav class="breadcrumb">
+    <a data-template="config:resolve-link" href="collections">
+      <span data-i18n="collections">Collections</span>
+    </a>
+    <span class="sep">/</span>
+    <a data-template="collection:self-link">
+      <span data-template="collection:short-name"/>
+    </a>
+  </nav>
+
+  <h1>
+    <span data-i18n="collection">Collection</span>
+    <span>: </span>
+    <span data-template="collection:context-name"/>
+  </h1>
+
+  <div class="page-layout">
+
+    <main>
       <!-- Linked archival fonds -->
-      <div data-template="collection:linked-fonds" id="dlinked-archives" style="float:none;margin-top:15px">
-        <span data-i18n="collection-contains-charters-of-archival-fonds">This collection contains charters of the following archival fonds:</span>
-        <ul class="nostyle" data-template="collection:linked-fonds-list"/>
+      <div data-template="collection:linked-fonds">
+        <div class="card">
+          <div class="card-body">
+            <span data-i18n="collection-contains-charters-of-archival-fonds">This collection contains charters of the following archival fonds:</span>
+            <ul class="nostyle" data-template="collection:linked-fonds-list"/>
+          </div>
+        </div>
       </div>
+
       <!-- View/publish imported charters link (metadata-manager only) -->
       <div data-template="auth:require-role" data-role="metadata-manager">
         <div data-template="collection:imported-link">
-          <a href="imported-collection">
-            <span data-i18n="view-publish-imported-charters">View/publish imported charters</span>
-            <span> &gt;&gt;</span>
+          <a class="btn" href="imported-collection">
+            <span data-i18n="view-publish-imported-charters">View/publish imported charters</span> &gt;&gt;
           </a>
         </div>
       </div>
-    </div>
 
-    <!-- Heading -->
-    <div id="heading">
-      <div class="h2">
-        <span data-i18n="collection">Collection</span>
-        <span>: </span>
-        <span data-template="collection:context-name"/>
+      <!-- Goto search subwidget -->
+      <div data-template="collection:goto-search"/>
+
+      <!-- Preface link in year navigation -->
+      <div data-template="collection:preface-link-style">
+        <a class="btn" href="collection">
+          <span data-i18n="preface">Preface</span>
+        </a>
       </div>
-    </div>
 
-    <!-- My Functions (metadata-manager) -->
-    <div data-template="auth:require-role" data-role="metadata-manager">
-      <div class="my-functions">
-        <h3 data-i18n="my-functions">MyFunctions</h3>
-        <div class="function-links">
-          <div class="function-link" data-template="collection:edit-info-link">
-            <a href="edit-collection-info">
-              <span>&#8227; </span>
-              <span data-i18n="edit-collection-info">Edit Collection Information</span>
-            </a>
-          </div>
-          <div class="function-link" data-template="collection:remove-link">
-            <a data-template="collection:remove-href">
-              <span>&#8227; </span>
-              <span data-i18n="remove-collection">Remove collection</span>
-            </a>
-          </div>
-          <div class="function-link" data-template="collection:import-link">
-            <a data-template="collection:import-href">
-              <span>&#8227; </span>
-              <span data-i18n="import-charters">Import Charters</span>
-              <span> (Excel, CEI, EAD, XML, OAI, SQL)</span>
-            </a>
+      <!-- Year/block navigation -->
+      <div data-template="charters:year-navigation"/>
+
+      <!-- Preface content -->
+      <div id="preface" data-template="collection:preface">
+        <div data-template="collection:no-charters-message">
+          <p class="text-muted" data-i18n="charters-soon-available-message">The charters of this fond will be available soon.</p>
+        </div>
+        <div data-template="collection:preface-content"/>
+      </div>
+
+      <!-- Charter previews -->
+      <div class="charter-list" data-template="collection:charter-previews">
+        <div data-template="collection:no-preface-message">
+          <p class="text-muted" data-i18n="a-preface-will-be-available-soon">A preface will be available soon.</p>
+        </div>
+        <div data-template="collection:charter-preview-items"/>
+        <div data-template="charters:block-navigation"/>
+      </div>
+    </main>
+
+    <aside class="sidebar">
+      <!-- My Functions (metadata-manager) -->
+      <div data-template="auth:require-role" data-role="metadata-manager">
+        <div class="card">
+          <div class="card-header" data-i18n="my-functions">MyFunctions</div>
+          <div class="card-body">
+            <div data-template="collection:edit-info-link">
+              <a class="btn" href="edit-collection-info">
+                <span data-i18n="edit-collection-info">Edit Collection Information</span>
+              </a>
+            </div>
+            <div data-template="collection:remove-link">
+              <a class="btn" data-template="collection:remove-href">
+                <span data-i18n="remove-collection">Remove collection</span>
+              </a>
+            </div>
+            <div data-template="collection:import-link">
+              <a class="btn" data-template="collection:import-href">
+                <span data-i18n="import-charters">Import Charters</span>
+                <span class="text-small"> (Excel, CEI, EAD, XML, OAI, SQL)</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- Goto search subwidget -->
-    <div data-template="collection:goto-search"/>
-
-    <!-- Preface link in year navigation -->
-    <div class="year-list" data-template="collection:preface-link-style">
-      <a href="collection">
-        <span data-i18n="preface">Preface</span>
-      </a>
-    </div>
-
-    <!-- Year/block navigation -->
-    <div data-template="charters:year-navigation"/>
-
-    <!-- Preface content -->
-    <div id="preface" data-template="collection:preface">
-      <div data-template="collection:no-charters-message">
-        <span data-i18n="charters-soon-available-message">The charters of this fond will be available soon.</span>
-        <br/><br/>
-      </div>
-      <div data-template="collection:preface-content"/>
-    </div>
-
-    <!-- Charter previews -->
-    <div id="dcharter-preview-main" data-template="collection:charter-previews">
-      <div data-template="collection:no-preface-message">
-        <span data-i18n="a-preface-will-be-available-soon">A preface will be available soon.</span>
-      </div>
-      <!-- Charter preview items rendered by template -->
-      <div data-template="collection:charter-preview-items"/>
-      <!-- Block navigation -->
-      <div data-template="charters:block-navigation"/>
-    </div>
+    </aside>
 
   </div>
-</body>
-</html>
+</div>

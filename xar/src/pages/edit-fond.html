@@ -6,23 +6,21 @@
     <link rel="stylesheet" type="text/css" href="css/text-annotation.css"/>
   </head>
   <body>
-    <div id="edit-fond">
+    <div class="page-layout--full">
       <!-- Auth: atom group -->
       <div data-template="auth:if-logged-in">
-        <div class="standard-form InlineRoundBordersAlert" data-template="fond:edit-view">
+        <div data-template="fond:edit-view">
 
-          <div class="h2">
-            <span data-i18n="edit-fond-info">Edit Fond Information</span>
-          </div>
+          <h1 data-i18n="edit-fond-info">Edit Fond Information</h1>
 
           <!-- Breadcrumbs -->
-          <div id="breadcrumb">
+          <nav class="breadcrumb">
             <a data-template="fond:fonds-link" data-i18n="fonds">Fonds</a>
-            <span> &gt; </span>
+            <span class="sep">/</span>
             <a data-template="fond:archive-link"/>
-            <span> &gt; </span>
+            <span class="sep">/</span>
             <a data-template="fond:fond-link"/>
-          </div>
+          </nav>
 
           <!-- XRXE Editor placeholder -->
           <div data-template="fond:xrxe-editor"/>
@@ -31,9 +29,7 @@
 
       <!-- Not authorized -->
       <div data-template="auth:if-not-logged-in">
-        <div class="h2">
-          <span data-i18n="edit-fond">Edit Fond</span>
-        </div>
+        <h1 data-i18n="edit-fond">Edit Fond</h1>
         <span data-i18n="protected-page-message">Protected page. Please login first.</span>
       </div>
     </div>

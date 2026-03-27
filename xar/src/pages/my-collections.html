@@ -1,58 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-i18n="my-collections">My Collections</title>
-  <style>
-    #dmy-collections .heading {
-      position: relative;
-      float: left;
-      margin-top: 20px;
-      margin-bottom: 10px;
-      width: 100%;
-    }
-    #dmy-collections .heading * {
-      font-size: 1.2em;
-      font-weight: bold;
-    }
-  </style>
-</head>
-<body>
-  <div id="dmy-collections">
+<div id="dmy-collections">
 
-    <div class="h2">
+  <nav class="breadcrumb">
+    <a data-template="config:resolve-link" href="collections">
+      <span data-i18n="collections">Collections</span>
+    </a>
+    <span class="sep">/</span>
+    <a data-template="config:resolve-link" href="my-collections">
       <span data-i18n="my-collections-preview">MyCollections (Preview)</span>
-    </div>
+    </a>
+  </nav>
 
-    <!-- Breadcrumb -->
-    <div id="breadcrumb">
-      <a data-template="config:resolve-link" href="collections">
-        <span data-i18n="collections">Collections</span>
-      </a>
-      <span> &gt; </span>
-      <a data-template="config:resolve-link" href="my-collections">
-        <span data-i18n="my-collections-preview">MyCollections (Preview)</span>
-      </a>
-    </div>
+  <h1 data-i18n="my-collections-preview">MyCollections (Preview)</h1>
 
-    <!-- Authenticated content -->
-    <div data-template="auth:require-group" data-group="atom">
-      <div class="heading">
-        <span><span data-i18n="owned-by-me">Owned by me</span>:</span>
+  <div class="page-layout">
+
+    <main>
+      <!-- Authenticated content -->
+      <div data-template="auth:require-group" data-group="atom">
+        <div class="card">
+          <div class="card-header" data-i18n="owned-by-me">Owned by me</div>
+          <div class="card-body">
+            <ul class="nostyle" data-template="my-collections:owned-list"/>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header" data-i18n="shared-with-me">Shared with me</div>
+          <div class="card-body">
+            <!-- Shared collections rendered by template -->
+          </div>
+        </div>
       </div>
-      <ul class="nostyle" data-template="my-collections:owned-list"/>
-      <div class="heading">
-        <span><span data-i18n="shared-with-me">Shared with me</span>:</span>
-      </div>
-    </div>
 
-    <!-- Not authenticated fallback -->
-    <div data-template="auth:require-group-else" data-group="atom">
-      <span data-i18n="protected-page-message">Protected page. Please login first.</span>
-      <div data-template="login:form"/>
-    </div>
+      <!-- Not authenticated fallback -->
+      <div data-template="auth:require-group-else" data-group="atom">
+        <div class="card">
+          <div class="card-body">
+            <p class="text-muted" data-i18n="protected-page-message">Protected page. Please login first.</p>
+            <div data-template="login:form"/>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <aside class="sidebar">
+      <div class="card">
+        <div class="card-header" data-i18n="my-functions">Actions</div>
+        <div class="card-body">
+          <a class="btn" data-template="config:resolve-link" href="my-collections-edit">
+            <span data-i18n="edit-my-collections">Edit my Collections</span>
+          </a>
+          <a class="btn" data-template="config:resolve-link" href="collections">
+            <span data-i18n="collections">Collections</span>
+          </a>
+        </div>
+      </div>
+    </aside>
 
   </div>
-</body>
-</html>
+</div>

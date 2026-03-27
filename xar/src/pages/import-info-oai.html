@@ -5,29 +5,19 @@
     <title>Import Info OAI</title>
 </head>
 <body>
-    <table>
-        <tr>
-            <td><span class="heading">OAI</span></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td class="icon"><img class="icon" src="resources/images/OAI.png" alt="OAI"/></td>
-            <td class="info">
-                <p><i><span data-i18n="oai-import-info-1">Import Metadata via your institutions OAI interface.</span></i></p>
-                <p><i><span data-i18n="oai-import-info-2">To make the import work, you need a XSLT Script which transforms the OAI metadata format - mostly a subset of 'Dublin Core' (DC) - into CEI.</span></i></p>
-                <div data-template="app:include" data-template-path="useful-links-oai.html"></div>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td class="button">
-                <a class="button" data-template="app:import-info-link" data-template-type="oai">
-                    <span data-i18n="oai-import">OAI import</span> &gt;&gt;
-                </a>
-            </td>
-        </tr>
-    </table>
+    <div class="card">
+        <div class="card-header">
+            <h3>OAI</h3>
+        </div>
+        <div class="card-body">
+            <img src="resources/images/OAI.png" alt="OAI"/>
+            <p class="text-muted" data-i18n="oai-import-info-1">Import Metadata via your institutions OAI interface.</p>
+            <p class="text-muted" data-i18n="oai-import-info-2">To make the import work, you need a XSLT Script which transforms the OAI metadata format - mostly a subset of 'Dublin Core' (DC) - into CEI.</p>
+            <div data-template="app:include" data-template-path="useful-links-oai.html"></div>
+            <a class="btn btn--primary" data-template="app:import-info-link" data-template-type="oai">
+                <span data-i18n="oai-import">OAI import</span> &gt;&gt;
+            </a>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,45 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title data-i18n="charters_on_map">Charters on map</title>
-  <style>
-    #pageList {
-      list-style: none;
-      display: inline;
-      margin-left: -40px;
-    }
-    #pageList > li {
-      display: inline;
-      cursor: pointer;
-    }
-    #subheadline {
-      margin-bottom: 15px;
-    }
-  </style>
-</head>
-<body>
-  <div>
-    <h2>
-      <span data-i18n="charters_on_map">Charters on map</span>:
-    </h2>
+<div class="page-layout--full">
 
-    <!-- Sub-headline with breadcrumb, rendered based on type (archive/fond/collection) -->
-    <div id="subheadline" data-template="charters-on-map:sub-headline"/>
+  <h1>
+    <span data-i18n="charters_on_map">Charters on map</span>:
+  </h1>
 
-    <!-- Geo map widget -->
-    <div id="geomap_widget" data-template="charters-on-map:geomap"/>
+  <!-- Sub-headline with breadcrumb, rendered based on type (archive/fond/collection) -->
+  <div id="subheadline" data-template="charters-on-map:sub-headline"/>
 
-    <!-- Results (shown when place is selected) -->
-    <div id="results" data-template="charters-on-map:results">
-      <h2 data-template="charters-on-map:place-name"/>
-      <div id="searchinformations"></div>
-      <div id="resultpages" data-template="charters-on-map:page-list"/>
-      <!-- Charter preview items rendered by template -->
-      <div data-template="charters-on-map:charter-preview-items"/>
-    </div>
+  <!-- Geo map widget -->
+  <div id="geomap_widget" data-template="charters-on-map:geomap"/>
 
+  <!-- Results (shown when place is selected) -->
+  <div id="results" data-template="charters-on-map:results">
+    <h2 data-template="charters-on-map:place-name"/>
+    <div id="searchinformations"></div>
+    <div id="resultpages" data-template="charters-on-map:page-list"/>
+    <!-- Charter preview items rendered by template -->
+    <div class="charter-list" data-template="charters-on-map:charter-preview-items"/>
   </div>
-</body>
-</html>
+
+</div>
