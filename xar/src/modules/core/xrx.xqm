@@ -9,13 +9,14 @@ xquery version "3.1";
 module namespace xrx = "http://www.monasterium.net/NS/xrx";
 
 declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
+declare namespace sm = "http://exist-db.org/xquery/securitymanager";
 
 import module namespace conf = "http://www.monasterium.net/NS/conf"
     at "/db/apps/mom-ca/modules/core/conf.xqm";
 
 (: --- User session --- :)
 declare variable $xrx:user-id :=
-    let $session-user := xmldb:get-current-user()
+    let $session-user := sm:id()//sm:username/string()
     return
         if ($session-user = 'guest') then ''
         else $session-user;

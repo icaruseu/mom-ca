@@ -9,6 +9,7 @@ module namespace metadata = "http://www.monasterium.net/NS/metadata";
 
 declare namespace atom = "http://www.w3.org/2005/Atom";
 declare namespace xrx = "http://www.monasterium.net/NS/xrx";
+declare namespace sm = "http://exist-db.org/xquery/securitymanager";
 
 import module namespace data = "http://www.monasterium.net/NS/data"
     at "/db/apps/mom-ca/modules/data/data.xqm";
@@ -96,7 +97,7 @@ declare function metadata:base-collection-path(
         if ($metadata-scope = 'private') then
             concat(
                 conf:param('xrx-user-db-base-uri'),
-                xmldb:get-current-user(),
+                sm:id()//sm:username/string(),
                 '/metadata.', $object-type
             )
         else
