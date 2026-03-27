@@ -154,12 +154,10 @@ function convertNodeToHtml(node) {
   return html;
 }
 
-// ─── Toolbar ────────────────────────────────────────────────────────────
+// ─── Toolbar (mode toggle only) + Context Menu ─────────────────────────
 
 function buildToolbar(container, context) {
-  var groups = TOOLBAR_GROUPS[context] || TOOLBAR_GROUPS.abstract;
-
-  // Mode toggle
+  // Mode toggle only in toolbar
   var modeDiv = document.createElement('div');
   modeDiv.className = 'mode-toggle';
   var btnVisual = document.createElement('button');
@@ -173,48 +171,99 @@ function buildToolbar(container, context) {
   modeDiv.appendChild(btnXml);
   container.appendChild(modeDiv);
 
-  // Separator
-  var sep = document.createElement('span');
-  sep.className = 'toolbar-sep';
-  container.appendChild(sep);
-
-  // Element buttons grouped in dropdowns
-  groups.forEach(function(group) {
-    if (group.items.length <= 3) {
-      // Flat buttons for small groups
-      group.items.forEach(function(elem) {
-        var btn = document.createElement('button');
-        btn.className = 'toolbar-btn';
-        btn.textContent = elem;
-        btn.dataset.insert = elem;
-        btn.type = 'button';
-        btn.title = 'Insert <cei:' + elem + '>';
-        container.appendChild(btn);
-      });
-    } else {
-      // Dropdown for larger groups
-      var dd = document.createElement('div');
-      dd.className = 'toolbar-dropdown';
-      var trigger = document.createElement('button');
-      trigger.className = 'toolbar-btn';
-      trigger.textContent = group.label + ' \u25BE';
-      trigger.type = 'button';
-      dd.appendChild(trigger);
-      var content = document.createElement('div');
-      content.className = 'toolbar-dropdown-content';
-      group.items.forEach(function(elem) {
-        var btn = document.createElement('button');
-        btn.textContent = elem;
-        btn.dataset.insert = elem;
-        btn.type = 'button';
-        content.appendChild(btn);
-      });
-      dd.appendChild(content);
-      container.appendChild(dd);
-    }
-  });
+  var hint = document.createElement('span');
+  hint.className = 'text-small text-muted';
+  hint.style.marginLeft = '12px';
+  hint.textContent = 'Select text \u2192 right-click to annotate';
+  container.appendChild(hint);
 
   return { btnVisual: btnVisual, btnXml: btnXml };
+}
+
+// ─── Context Menu ───────────────────────────────────────────────────────
+
+var activeContextMenu = null;
+
+function hideContextMenu() {
+  if (activeContextMenu) {
+    activeContextMenu.remove();
+    activeContextMenu = null;
+  }
+}
+
+function showContextMenu(x, y, groups, editorDiv) {
+  hideContextMenu();
+
+  var menu = document.createElement('div');
+  menu.className = 'cei-context-menu';
+  menu.style.left = x + 'px';
+  menu.style.top = y + 'px';
+
+  groups.forEach(function(group, gi) {
+    if (gi > 0) {
+      var sep = document.createElement('div');
+      sep.className = 'cei-ctx-sep';
+      menu.appendChild(sep);
+    }
+    var header = document.createElement('div');
+    header.className = 'cei-ctx-header';
+    header.textContent = group.label;
+    menu.appendChild(header);
+
+    group.items.forEach(function(elem) {
+      var item = document.createElement('button');
+      item.className = 'cei-ctx-item';
+      item.textContent = elem;
+      item.type = 'button';
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        insertAnnotation(elem, editorDiv);
+        hideContextMenu();
+      });
+      menu.appendChild(item);
+    });
+  });
+
+  document.body.appendChild(menu);
+  activeContextMenu = menu;
+
+  // Adjust position if off-screen
+  var rect = menu.getBoundingClientRect();
+  if (rect.right > window.innerWidth) menu.style.left = (x - rect.width) + 'px';
+  if (rect.bottom > window.innerHeight) menu.style.top = (y - rect.height) + 'px';
+
+  // Close on outside click
+  setTimeout(function() {
+    document.addEventListener('click', hideContextMenu, { once: true });
+  }, 10);
+}
+
+function insertAnnotation(elemName, editorDiv) {
+  var sel = window.getSelection();
+  if (!sel.rangeCount) return;
+  var range = sel.getRangeAt(0);
+  if (!editorDiv.contains(range.commonAncestorContainer)) return;
+
+  if (EMPTY_ELEMENTS.indexOf(elemName) !== -1) {
+    var emptySpan = document.createElement('span');
+    emptySpan.className = 'cei-anno cei-empty';
+    emptySpan.dataset.cei = elemName;
+    emptySpan.innerHTML = '\u23CE';
+    range.insertNode(emptySpan);
+  } else {
+    var selectedText = range.toString();
+    if (!selectedText) selectedText = elemName;
+    var span = document.createElement('span');
+    span.className = 'cei-anno';
+    span.dataset.cei = elemName;
+    range.deleteContents();
+    span.textContent = selectedText;
+    range.insertNode(span);
+    // Auto-open attr dialog if element has attributes
+    if (CEI_ATTRIBUTES[elemName] && CEI_ATTRIBUTES[elemName].length > 0) {
+      setTimeout(function() { showAttrDialog(span); }, 50);
+    }
+  }
 }
 
 // ─── Attribute Dialog ───────────────────────────────────────────────────
@@ -372,50 +421,21 @@ function initMixedEditor(wrapper) {
     }
   };
 
-  // Toolbar insert buttons
-  toolbar.addEventListener('click', function(e) {
-    var insertElem = e.target.dataset && e.target.dataset.insert;
-    if (!insertElem) return;
+  // Right-click context menu for inserting CEI elements
+  var groups = TOOLBAR_GROUPS[context] || TOOLBAR_GROUPS.abstract;
+  editorDiv.addEventListener('contextmenu', function(e) {
+    // Only in visual mode
+    if (editorDiv.style.display === 'none') return;
     e.preventDefault();
 
-    // Only works in visual mode
-    if (editorDiv.style.display === 'none') return;
-
-    var sel = window.getSelection();
-    if (!sel.rangeCount) return;
-    var range = sel.getRangeAt(0);
-
-    // Check selection is within this editor
-    if (!editorDiv.contains(range.commonAncestorContainer)) {
-      editorDiv.focus();
+    // If right-clicking on an existing annotation, show attr dialog instead
+    var anno = e.target.closest('.cei-anno');
+    if (anno && anno !== editorDiv) {
+      showAttrDialog(anno);
       return;
     }
 
-    if (EMPTY_ELEMENTS.indexOf(insertElem) !== -1) {
-      var emptySpan = document.createElement('span');
-      emptySpan.className = 'cei-anno cei-empty';
-      emptySpan.dataset.cei = insertElem;
-      emptySpan.innerHTML = '\u23CE';
-      range.insertNode(emptySpan);
-    } else {
-      var selectedText = range.toString();
-      if (!selectedText && insertElem !== 'lb') {
-        // If nothing selected, insert placeholder
-        selectedText = insertElem;
-      }
-      var span = document.createElement('span');
-      span.className = 'cei-anno';
-      span.dataset.cei = insertElem;
-      if (selectedText) {
-        range.deleteContents();
-        span.textContent = selectedText;
-        range.insertNode(span);
-      }
-      // Auto-open attr dialog if element has attributes
-      if (CEI_ATTRIBUTES[insertElem] && CEI_ATTRIBUTES[insertElem].length > 0) {
-        setTimeout(function() { showAttrDialog(span); }, 50);
-      }
-    }
+    showContextMenu(e.pageX, e.pageY, groups, editorDiv);
   });
 
   // Click on annotation → show attr dialog

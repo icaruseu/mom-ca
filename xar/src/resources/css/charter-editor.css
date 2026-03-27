@@ -245,6 +245,50 @@
 .cei-anno[data-cei="supplied"] { border-bottom: 2px dashed #3498db; }
 .cei-anno[data-cei="unclear"]  { border-bottom: 2px dotted #e74c3c; opacity: 0.7; }
 
+/* Context menu */
+.cei-context-menu {
+    position: absolute;
+    z-index: 2000;
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    min-width: 180px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 4px 0;
+    font-size: 0.85rem;
+}
+.cei-ctx-header {
+    padding: 4px 12px 2px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+}
+.cei-ctx-sep {
+    height: 1px;
+    background: var(--color-border-light, #e8e4dc);
+    margin: 4px 0;
+}
+.cei-ctx-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 5px 12px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: 'SFMono-Regular', 'Consolas', monospace;
+    font-size: 0.82rem;
+    color: var(--color-text);
+}
+.cei-ctx-item:hover {
+    background: var(--color-accent);
+    color: white;
+}
+
 /* Selected annotation */
 .cei-anno.selected {
     outline: 2px solid var(--color-accent);
