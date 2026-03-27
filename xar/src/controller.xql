@@ -142,6 +142,15 @@ let $resource := $exist:resource
 let $segments    := tokenize(replace($path, '^/|/$', ''), '/')
 let $last-segment := $segments[last()]
 
+(: Allow guest access for all read-only pages.
+   Authenticated users keep their session. :)
+let $user := request:get-attribute("org.exist.login.user")
+let $_ :=
+    if (empty($user) or $user = '') then (
+        request:set-attribute("xquery.user", "guest"),
+        request:set-attribute("xquery.password", "guest")
+    ) else ()
+
 return
 
 (: -----------------------------------------------------------------

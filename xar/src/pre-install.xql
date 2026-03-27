@@ -84,4 +84,27 @@ local:deploy-xconf(
 (: /db/mom-data/xrx.user :)
 local:deploy-xconf(
     "user.xconf",
-    "/db/system/config/db/mom-data/xrx.user")
+    "/db/system/config/db/mom-data/xrx.user"),
+
+(: ===== Create mom-data collections with guest-readable permissions ===== :)
+let $mom-data-colls := (
+    "/db/mom-data",
+    "/db/mom-data/metadata.archive.public",
+    "/db/mom-data/metadata.fond.public",
+    "/db/mom-data/metadata.charter.public",
+    "/db/mom-data/metadata.collection.public",
+    "/db/mom-data/metadata.imagecollections",
+    "/db/mom-data/xrx.i18n",
+    "/db/mom-data/xrx.user"
+)
+return
+    for $coll in $mom-data-colls
+    let $parts := tokenize($coll, '/')[. ne '']
+    let $parent := '/' || string-join(subsequence($parts, 1, count($parts) - 1), '/')
+    let $child := $parts[last()]
+    return (
+        if (not(xmldb:collection-available($coll))) then
+            xmldb:create-collection($parent, $child)
+        else (),
+        sm:chmod(xs:anyURI($coll), "rwxrwxr-x")
+    )
