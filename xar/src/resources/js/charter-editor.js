@@ -161,10 +161,12 @@ function buildToolbar(container, context) {
   var modeDiv = document.createElement('div');
   modeDiv.className = 'mode-toggle';
   var btnVisual = document.createElement('button');
+  btnVisual.type = 'button';
   btnVisual.textContent = 'Standard';
   btnVisual.className = 'active';
   btnVisual.dataset.mode = 'visual';
   var btnXml = document.createElement('button');
+  btnXml.type = 'button';
   btnXml.textContent = 'XML';
   btnXml.dataset.mode = 'xml';
   modeDiv.appendChild(btnVisual);
