@@ -13,6 +13,13 @@ import module namespace metadata = "http://www.monasterium.net/NS/metadata"
 import module namespace conf = "http://www.monasterium.net/NS/conf"
     at "/db/apps/mom-ca/modules/core/conf.xqm";
 
+declare function local:page-url($p as xs:integer, $country as xs:string) as xs:string {
+    let $base := "fonds?p=" || $p
+    return
+        if ($country != '') then $base || codepoints-to-string(38) || "country=" || encode-for-uri($country)
+        else $base
+};
+
 (: Pagination params :)
 let $page := xs:integer(request:get-parameter('p', '1'))
 let $per-page := 12
@@ -55,7 +62,7 @@ return
 <div>
     <!-- Hero header -->
     <div class="hero" style="padding: var(--space-xl) 0; margin-bottom: var(--space-xl);">
-        <h1>Archives &amp; Fonds</h1>
+        <h1>Archives and Fonds</h1>
         <p class="subtitle">
             { count($all-archives) } archives with { $total-fonds } fonds from across Europe
         </p>
@@ -119,7 +126,7 @@ return
                     <nav class="pagination" style="margin-top: var(--space-xl); justify-content: center;">
                         {
                             if ($page > 1) then
-                                <a href="fonds?p={ $page - 1 }{ if ($filter-country != '') then concat('&amp;country=', $filter-country) else '' }">&#8592; Prev</a>
+                                <a href="{ local:page-url($page - 1, $filter-country) }">&#x2190; Prev</a>
                             else ()
                         }
                         {
@@ -127,15 +134,15 @@ return
                             return
                                 if ($p = $page) then
                                     <span class="active">{ $p }</span>
-                                else if (abs($p - $page) <= 2 or $p = 1 or $p = $total-pages) then
-                                    <a href="fonds?p={ $p }{ if ($filter-country != '') then concat('&amp;country=', $filter-country) else '' }">{ $p }</a>
+                                else if (abs($p - $page) le 2 or $p = 1 or $p = $total-pages) then
+                                    <a href="{ local:page-url($p, $filter-country) }">{ $p }</a>
                                 else if (abs($p - $page) = 3) then
-                                    <span class="text-muted">…</span>
+                                    <span class="text-muted">...</span>
                                 else ()
                         }
                         {
-                            if ($page &lt; $total-pages) then
-                                <a href="fonds?p={ $page + 1 }{ if ($filter-country != '') then concat('&amp;country=', $filter-country) else '' }">Next &#8594;</a>
+                            if ($page lt $total-pages) then
+                                <a href="{ local:page-url($page + 1, $filter-country) }">Next &#x2192;</a>
                             else ()
                         }
                     </nav>
