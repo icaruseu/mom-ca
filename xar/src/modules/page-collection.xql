@@ -20,8 +20,21 @@ let $request-path := request:get-parameter("request-path", "")
 let $tokens := tokenize(replace($request-path, '^/+|/+$', ''), '/')[. ne 'collection']
 let $coll-key := $tokens[1]
 
-(: Collection metadata :)
-let $coll-entry := (collection(concat("/db/mom-data/metadata.collection.public/", $coll-key))/atom:entry)[1]
+(: Determine current user :)
+let $session-user := try { string(session:get-attribute('mom.user')) } catch * { '' }
+let $xquery-user := string(request:get-attribute('xquery.user'))
+let $current-user := if ($session-user ne '') then $session-user
+    else if ($xquery-user ne 'guest' and $xquery-user ne '') then $xquery-user else ''
+
+(: Try public collection first, then user's private mycollection :)
+let $pub-path := concat("/db/mom-data/metadata.collection.public/", $coll-key)
+let $coll-entry := (collection($pub-path)/atom:entry)[1]
+let $is-private := empty($coll-entry) and $current-user ne ''
+let $coll-entry :=
+    if ($is-private) then
+        let $priv-path := '/db/mom-data/xrx.user/' || $current-user || '/metadata.mycollection'
+        return (collection($priv-path)/atom:entry[ends-with(atom:id, '/' || $coll-key)])[1]
+    else $coll-entry
 
 return
     if (empty($coll-entry)) then
@@ -49,8 +62,12 @@ let $block := xs:integer(request:get-parameter('block', '1'))
 let $page-size := 30
 let $start := ($block - 1) * $page-size + 1
 
-(: Load charters :)
-let $charter-coll := collection(concat("/db/mom-data/metadata.charter.public/", $coll-key))
+(: Load charters — public or private :)
+let $charter-coll :=
+    if ($is-private) then
+        collection('/db/mom-data/xrx.user/' || $current-user || '/metadata.charter/' || $coll-key)
+    else
+        collection(concat("/db/mom-data/metadata.charter.public/", $coll-key))
 let $all-charters :=
     for $entry in $charter-coll/atom:entry
     let $date := ($entry//cei:issued/cei:date/@value/string(), $entry//cei:issued/cei:dateRange/@from/string(), '99999999')[1]
@@ -80,7 +97,11 @@ let $charter-cards :=
 return
 <div>
     <nav class="breadcrumb">
-        <a href="/mom/collections">Collections</a>
+        {if ($is-private) then
+            <a href="/mom/my-collections">My Collections</a>
+        else
+            <a href="/mom/collections">Collections</a>
+        }
         <span class="sep">/</span>
         <span>{$display-name}</span>
     </nav>
@@ -152,6 +173,7 @@ return
                         {if ($title ne '') then <li><strong>Title:</strong> {$title}</li> else ()}
                         {if ($author ne '') then <li><strong>Author:</strong> {$author}</li> else ()}
                         {if ($country ne '') then <li><strong>Country:</strong> {$country}</li> else ()}
+                        {if ($is-private) then <li><strong>Type:</strong> <span style="color:var(--color-accent);">Private Collection</span></li> else ()}
                         <li><strong>Charters:</strong> {$total}</li>
                         <li><strong>Key:</strong> <span class="text-small">{$coll-key}</span></li>
                     </ul>
@@ -159,7 +181,11 @@ return
             </div>
             <div class="card">
                 <div class="card-body">
-                    <a href="/mom/collections" class="btn" style="width:100%;justify-content:center;">Back to Collections</a>
+                    {if ($is-private) then
+                        <a href="/mom/my-collections" class="btn" style="width:100%;justify-content:center;">Back to My Collections</a>
+                    else
+                        <a href="/mom/collections" class="btn" style="width:100%;justify-content:center;">Back to Collections</a>
+                    }
                 </div>
             </div>
         </aside>

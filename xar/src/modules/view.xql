@@ -91,9 +91,17 @@ let $user-nav :=
     else
         '<li><a href="/mom/login" class="nav-cta">Login</a></li>'
 
+let $auth-nav :=
+    if ($is-logged-in) then
+        '<li><a href="/mom/my-collections">My Collections</a></li>'
+        || '<li><a href="/mom/bookmarks">Bookmarks</a></li>'
+    else ''
+
 let $placeholder := "<!-- Page content injected by view.xql -->"
 let $user-placeholder := "<!-- user-nav injected by view.xql -->"
+let $auth-placeholder := "<!-- auth-nav injected by view.xql -->"
 let $merged := substring-before($template-str, $placeholder) || $content-str || substring-after($template-str, $placeholder)
+let $merged := substring-before($merged, $auth-placeholder) || $auth-nav || substring-after($merged, $auth-placeholder)
 let $merged := substring-before($merged, $user-placeholder) || $user-nav || substring-after($merged, $user-placeholder)
 
 return
