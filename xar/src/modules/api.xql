@@ -55,6 +55,106 @@ declare function local:logout() {
     }
 };
 
+declare namespace atom = "http://www.w3.org/2005/Atom";
+declare namespace cei = "http://www.monasterium.net/NS/cei";
+
+(:~ Save a public charter to the user's private mycollection :)
+declare function local:save-charter() {
+    let $user := try { string(session:get-attribute('mom.user')) } catch * { '' }
+    return
+        if ($user = '') then (
+            response:set-status-code(401),
+            map { "status": "error", "message": "Login required" }
+        )
+        else
+            let $body := parse-json(util:binary-to-string(request:get-data()))
+            let $charter-atom-id := $body?charterId
+            let $target-coll := $body?collectionId
+            return
+                if (not($charter-atom-id) or not($target-coll)) then (
+                    response:set-status-code(400),
+                    map { "status": "error", "message": "charterId and collectionId required" }
+                )
+                else
+                    (: Find the public charter by atom:id :)
+                    let $tag := conf:param('atom-tag-name')
+                    let $tokens := tokenize(substring-after($charter-atom-id, $tag), '/')[. ne '']
+                    let $source-context := string-join(subsequence($tokens, 1, count($tokens) - 1), '/')
+                    let $charter-key := $tokens[last()]
+
+                    (: Try to find the charter in public collections :)
+                    let $source-entry := (
+                        collection('/db/mom-data/metadata.charter.public')/atom:entry[atom:id = $charter-atom-id],
+                        collection('/db/mom-data/metadata.fond.public')/atom:entry[atom:id = $charter-atom-id]
+                    )[1]
+
+                    return
+                        if (empty($source-entry)) then (
+                            response:set-status-code(404),
+                            map { "status": "error", "message": "Charter not found" }
+                        )
+                        else
+                            (: Create target collection if needed :)
+                            let $user-base := '/db/mom-data/xrx.user/' || $user || '/metadata.charter'
+                            let $target-path := $user-base || '/' || $target-coll
+                            let $_ := if (not(xmldb:collection-available($user-base))) then
+                                xmldb:create-collection('/db/mom-data/xrx.user/' || $user, 'metadata.charter') else ()
+                            let $_ := if (not(xmldb:collection-available($target-path))) then
+                                xmldb:create-collection($user-base, $target-coll) else ()
+
+                            (: Generate new charter ID and build private copy :)
+                            let $new-id := util:uuid()
+                            let $new-atom-id := $tag || '/charter/' || $target-coll || '/' || $new-id
+
+                            let $private-entry :=
+                                <atom:entry xmlns:atom="http://www.w3.org/2005/Atom">
+                                    <atom:id>{$new-atom-id}</atom:id>
+                                    <atom:title/>
+                                    <atom:published>{current-dateTime()}</atom:published>
+                                    <atom:updated>{current-dateTime()}</atom:updated>
+                                    <atom:author><atom:email>{$user}</atom:email></atom:author>
+                                    <app:control xmlns:app="http://www.w3.org/2007/app">
+                                        <app:draft>yes</app:draft>
+                                    </app:control>
+                                    {$source-entry/atom:content}
+                                </atom:entry>
+
+                            let $filename := $new-id || '.cei.xml'
+                            let $_ := xmldb:store($target-path, $filename, $private-entry)
+                            return map {
+                                "status": "ok",
+                                "message": "Charter saved to your collection",
+                                "charterId": $new-atom-id,
+                                "url": "/mom/" || $target-coll || "/" || $new-id || "/charter"
+                            }
+};
+
+(:~ List the user's mycollections (for the save dialog) :)
+declare function local:my-collections() {
+    let $user := try { string(session:get-attribute('mom.user')) } catch * { '' }
+    return
+        if ($user = '') then (
+            response:set-status-code(401),
+            map { "status": "error", "message": "Login required" }
+        )
+        else
+            let $mycoll-path := '/db/mom-data/xrx.user/' || $user || '/metadata.mycollection'
+            let $entries := if (xmldb:collection-available($mycoll-path)) then
+                collection($mycoll-path)/atom:entry else ()
+            return map {
+                "status": "ok",
+                "collections": array {
+                    for $e in $entries
+                    let $id := tokenize($e/atom:id/text(), '/')[last()]
+                    let $title := normalize-space(($e//cei:titleStmt/cei:title, $e//cei:title)[1])
+                    return map {
+                        "id": $id,
+                        "title": if ($title ne '') then $title else $id
+                    }
+                }
+            }
+};
+
 declare function local:health() {
     map {
         "status":  "ok",
@@ -74,6 +174,10 @@ return (
         serialize(local:login(), map { "method": "json" })
     else if ($request-path = "/api/auth/logout" and $method = "POST") then
         serialize(local:logout(), map { "method": "json" })
+    else if ($request-path = "/api/charter/save" and $method = "POST") then
+        serialize(local:save-charter(), map { "method": "json" })
+    else if ($request-path = "/api/my-collections" and $method = "GET") then
+        serialize(local:my-collections(), map { "method": "json" })
     else
         (
             response:set-status-code(404),
