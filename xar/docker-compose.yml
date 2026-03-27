@@ -16,12 +16,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: mom-ca-existdb
-    # Port 8080 nur intern für Caddy erreichbar, NICHT nach außen gemappt
-    # Für direkten eXist-db Zugriff: ports section einkommentieren
-    # ports:
-    #   - "8080:8080"
-    expose:
-      - "8080"
+    ports:
+      - "8080:8080"
     volumes:
       - existdb-data:/exist/data
     environment:
