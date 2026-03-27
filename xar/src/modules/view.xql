@@ -34,8 +34,19 @@ declare function local:exec-xql($page as xs:string) as node()* {
     let $xql-path := $local:app-root || "/modules/pages/" || $page || ".xql"
     return
         if (util:binary-doc-available($xql-path)) then
-            util:eval(util:binary-doc($xql-path), false(),
-                (xs:QName("request-path"), request:get-parameter("request-path", "")))
+            try {
+                util:eval(util:binary-doc($xql-path), false(),
+                    (xs:QName("request-path"), request:get-parameter("request-path", "")))
+            } catch * {
+                <div class="card" style="border-left:4px solid var(--color-accent)">
+                    <div class="card-header">Error in {$page}.xql</div>
+                    <div class="card-body">
+                        <p><strong>{$err:code}</strong></p>
+                        <p>{$err:description}</p>
+                        <p class="text-small text-muted">XQL path: {$xql-path}</p>
+                    </div>
+                </div>
+            }
         else ()
 };
 
