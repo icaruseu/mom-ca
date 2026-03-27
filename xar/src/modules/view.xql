@@ -86,7 +86,7 @@ let $user-nav :=
     if ($is-logged-in) then
         '<li class="text-small" style="display:flex;align-items:center;gap:8px;">'
         || '<span style="color:var(--color-text-muted);">' || $session-user || '</span>'
-        || '<a href="#" onclick="fetch(''/mom/api/auth/logout'',{method:''POST''}).then(function(){window.location.href=''/mom/home'';});return false;" class="nav-cta">Logout</a>'
+        || '<a href="#" onclick="fetch(''/mom/api/auth/logout'',{method:''POST'',credentials:''same-origin''}).then(function(){window.location.href=''/mom/home'';});return false;" class="nav-cta">Logout</a>'
         || '</li>'
     else
         '<li><a href="/mom/login" class="nav-cta">Login</a></li>'
@@ -103,6 +103,9 @@ let $auth-placeholder := "<!-- auth-nav injected by view.xql -->"
 let $merged := substring-before($template-str, $placeholder) || $content-str || substring-after($template-str, $placeholder)
 let $merged := substring-before($merged, $auth-placeholder) || $auth-nav || substring-after($merged, $auth-placeholder)
 let $merged := substring-before($merged, $user-placeholder) || $user-nav || substring-after($merged, $user-placeholder)
+
+let $_ := response:set-header("Cache-Control", "no-cache, no-store, must-revalidate")
+let $_ := response:set-header("Pragma", "no-cache")
 
 return
     response:stream(
