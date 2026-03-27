@@ -78,6 +78,28 @@ declare function local:save-charter() {
                     map { "status": "error", "message": "charterId and collectionId required" }
                 )
                 else
+                    (: Check if charter is already locked by another user :)
+                    let $lock-path := '/db/mom-data/charter-locks'
+                    let $lock-doc := collection($lock-path)//*[local-name()='lock'][*[local-name()='charter-id'] = $charter-atom-id]
+                    let $locked-by := string($lock-doc/*[local-name()='user'])
+                    return
+                        if ($locked-by ne '' and $locked-by ne $user) then (
+                            response:set-status-code(409),
+                            map { "status": "error", "message": "Charter is locked by " || $locked-by }
+                        )
+                        else if ($locked-by = $user) then
+                            let $existing-private-id := string($lock-doc/*[local-name()='private-id'])
+                            let $priv-tokens := tokenize(substring-after($existing-private-id, conf:param('atom-tag-name')), '/')[. ne '']
+                            let $priv-coll := $priv-tokens[2]
+                            let $priv-id := $priv-tokens[last()]
+                            return map {
+                                "status": "ok",
+                                "message": "You already have a private copy of this charter",
+                                "charterId": $existing-private-id,
+                                "url": "/mom/" || $priv-coll || "/" || $priv-id || "/charter"
+                            }
+                        else
+
                     (: Parse atom:id to find source charter efficiently :)
                     let $tag := conf:param('atom-tag-name')
                     let $tokens := tokenize(substring-after($charter-atom-id, $tag), '/')[. ne '']
@@ -111,9 +133,25 @@ declare function local:save-charter() {
                             let $_ := if (not(xmldb:collection-available($target-path))) then
                                 xmldb:create-collection($user-base, $target-coll) else ()
 
-                            (: Generate new charter ID and build private copy :)
+                            (: Generate new charter ID and build private copy with sameAs :)
                             let $new-id := util:uuid()
                             let $new-atom-id := $tag || '/charter/' || $target-coll || '/' || $new-id
+
+                            (: Add @sameAs to cei:text pointing back to original :)
+                            let $source-content := $source-entry/atom:content
+                            let $modified-content :=
+                                element { node-name($source-content) } {
+                                    $source-content/@*,
+                                    for $child in $source-content/node()
+                                    return
+                                        if ($child instance of element() and local-name($child) = 'text' and namespace-uri($child) = 'http://www.monasterium.net/NS/cei') then
+                                            element { node-name($child) } {
+                                                $child/@* except $child/@sameAs,
+                                                attribute sameAs { $charter-atom-id },
+                                                $child/node()
+                                            }
+                                        else $child
+                                }
 
                             let $private-entry :=
                                 <atom:entry xmlns:atom="http://www.w3.org/2005/Atom">
@@ -125,11 +163,23 @@ declare function local:save-charter() {
                                     <app:control xmlns:app="http://www.w3.org/2007/app">
                                         <app:draft>yes</app:draft>
                                     </app:control>
-                                    {$source-entry/atom:content}
+                                    {$modified-content}
                                 </atom:entry>
 
                             let $filename := $new-id || '.cei.xml'
                             let $_ := xmldb:store($target-path, $filename, $private-entry)
+
+                            (: Create lock file :)
+                            let $lock-filename := xmldb:encode($charter-atom-id) || '.xml'
+                            let $lock-xml :=
+                                <lock xmlns="http://www.monasterium.net/NS/lock">
+                                    <charter-id>{$charter-atom-id}</charter-id>
+                                    <user>{$user}</user>
+                                    <date>{current-dateTime()}</date>
+                                    <private-id>{$new-atom-id}</private-id>
+                                </lock>
+                            let $_ := xmldb:store($lock-path, $lock-filename, $lock-xml)
+
                             return map {
                                 "status": "ok",
                                 "message": "Charter saved to your collection",

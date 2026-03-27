@@ -278,6 +278,34 @@ return
             }
             {
                 if (not($is-private) and $current-user ne '') then
+                    let $charter-atom-id := $charter-entry/atom:id/text()
+                    let $lock-path := '/db/mom-data/charter-locks'
+                    let $lock-doc := collection($lock-path)//*[local-name()='lock'][*[local-name()='charter-id'] = $charter-atom-id]
+                    let $locked-by := string($lock-doc/*[local-name()='user'])
+                    let $private-id := string($lock-doc/*[local-name()='private-id'])
+                    return
+                        if ($locked-by ne '' and $locked-by ne $current-user) then
+                            <div class="card">
+                                <div class="card-header">Actions</div>
+                                <div class="card-body">
+                                    <p style="color: var(--color-warning, #e67e22); font-weight: 600;">&#x1F512; Locked by {$locked-by}</p>
+                                    <p class="text-muted text-small">This charter is being edited and cannot be saved to your collection right now.</p>
+                                </div>
+                            </div>
+                        else if ($locked-by = $current-user) then
+                            let $tag := conf:param('atom-tag-name')
+                            let $priv-tokens := tokenize(substring-after($private-id, $tag), '/')[. ne '']
+                            let $priv-coll := $priv-tokens[2]
+                            let $priv-id := $priv-tokens[last()]
+                            return
+                            <div class="card">
+                                <div class="card-header">Actions</div>
+                                <div class="card-body">
+                                    <p style="color: var(--color-success, #27ae60); font-weight: 600;">&#x2705; You have a private copy</p>
+                                    <a href="/mom/{$priv-coll}/{$priv-id}/charter" class="btn btn--primary" style="width:100%;justify-content:center;">Go to Private Copy</a>
+                                </div>
+                            </div>
+                        else
                     let $mycoll-path := '/db/mom-data/xrx.user/' || $current-user || '/metadata.mycollection'
                     let $my-colls :=
                         if (xmldb:collection-available($mycoll-path)) then
@@ -292,7 +320,7 @@ return
                         <div class="card-body">
                             {if (exists($my-colls)) then
                                 <form method="POST" action="/mom/save-charter">
-                                    <input type="hidden" name="charter-id" value="{$charter-entry/atom:id/text()}" />
+                                    <input type="hidden" name="charter-id" value="{$charter-atom-id}" />
                                     <select name="collection-id" style="width:100%; padding:6px 8px; margin-bottom:8px; border:1px solid var(--color-border); border-radius:4px;">
                                         {for $c in $my-colls return
                                             <option value="{$c?id}">{$c?title}</option>

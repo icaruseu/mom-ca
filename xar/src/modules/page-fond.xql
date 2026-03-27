@@ -53,6 +53,10 @@ let $total := count($all-charters)
 let $total-pages := xs:integer(ceiling($total div $page-size))
 let $page-charters := subsequence($all-charters, $start, $page-size)
 
+(: Load all locks at once for performance :)
+let $lock-path := '/db/mom-data/charter-locks'
+let $all-locks := collection($lock-path)//*[local-name()='lock']
+
 let $charter-cards :=
     for $entry in $page-charters
     let $idno := normalize-space($entry//cei:body/cei:idno)
@@ -61,12 +65,16 @@ let $charter-cards :=
     let $charter-tokens := tokenize(substring-after($entry/atom:id/text(), conf:param('atom-tag-name')), '/')[. ne '']
     let $charter-id := $charter-tokens[last()]
     let $img-count := count($entry//cei:graphic/@url)
+    let $atom-id := $entry/atom:id/text()
+    let $lock := $all-locks[*[local-name()='charter-id'] = $atom-id]
+    let $locked-by := string($lock/*[local-name()='user'])
     return map {
         "idno": if ($idno ne '') then $idno else $charter-id,
         "id": $charter-id,
         "date": $date-text,
         "abstract": $abstract,
-        "images": $img-count
+        "images": $img-count,
+        "locked-by": $locked-by
     }
 
 return
@@ -94,6 +102,9 @@ return
                                 <div class="charter-date">{$c?date}</div>
                                 <div class="charter-idno">
                                     <a href="/mom/{$archive-key}/{$fond-key}/{xmldb:encode($c?id)}/charter">{$c?idno}</a>
+                                    {if ($c?("locked-by") ne '') then
+                                        <span style="margin-left: 8px; font-size: 0.8rem; color: var(--color-warning, #e67e22);" title="Locked by {$c?('locked-by')}">&#x1F512; {$c?("locked-by")}</span>
+                                    else ()}
                                 </div>
                                 {if ($c?abstract ne '') then
                                     <div class="charter-abstract">{$c?abstract}{if (string-length($c?abstract) ge 200) then '...' else ()}</div>
