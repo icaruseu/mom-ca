@@ -31,7 +31,7 @@ declare function local:load-html($path as xs:string) as node()* {
  : Returns the result or empty if no .xql exists.
  :)
 declare function local:exec-xql($page as xs:string) as node()* {
-    let $xql-path := $local:app-root || "/modules/pages/" || $page || ".xql"
+    let $xql-path := $local:app-root || "/modules/page-" || $page || ".xql"
     return
         if (util:binary-doc-available($xql-path)) then
             try {
