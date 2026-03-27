@@ -25,7 +25,7 @@ RUN npx gulp build && npx gulp xar
 ########################################
 # Stage 2: eXist-db with the .xar
 ########################################
-FROM existdb/existdb:release
+FROM existdb/existdb:6.4.1
 
 # eXist-db runs on 8080 inside the container
 EXPOSE 8080
