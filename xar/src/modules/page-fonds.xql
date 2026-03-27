@@ -12,11 +12,12 @@ import module namespace metadata = "http://www.monasterium.net/NS/metadata"
 import module namespace conf = "http://www.monasterium.net/NS/conf"
     at "/db/apps/mom-ca/modules/core/conf.xqm";
 
-declare function local:page-url($p as xs:integer, $country as xs:string) as xs:string {
+declare function local:page-url($p as xs:integer, $country as xs:string, $q as xs:string) as xs:string {
     let $base := "fonds?p=" || $p
+    let $with-country := if ($country ne '') then $base || codepoints-to-string(38) || "country=" || encode-for-uri($country) else $base
     return
-        if ($country ne '') then $base || codepoints-to-string(38) || "country=" || encode-for-uri($country)
-        else $base
+        if ($q ne '') then $with-country || codepoints-to-string(38) || "q=" || encode-for-uri($q)
+        else $with-country
 };
 
 declare function local:archive-name($entry as element(atom:entry)) as xs:string {
@@ -44,6 +45,7 @@ declare function local:archive-key($entry as element(atom:entry)) as xs:string {
 let $page := xs:integer(request:get-parameter('p', '1'))
 let $per-page := 12
 let $filter-country := request:get-parameter('country', '')
+let $search-query := request:get-parameter('q', '')
 
 let $all-archives := metadata:base-collection('archive', 'public')/atom:entry[.//*[local-name()='eag']]
 
@@ -56,12 +58,25 @@ let $country-list :=
     order by $c
     return map { "name": $c, "count": count($entry) }
 
-let $filtered :=
+let $country-filtered :=
     if ($filter-country ne '') then
         for $a in $all-archives
         where local:archive-country($a) = $filter-country
         return $a
     else $all-archives
+
+let $search-lower := lower-case($search-query)
+let $filtered :=
+    if ($search-query ne '') then
+        for $a in $country-filtered
+        let $name := lower-case(local:archive-name($a))
+        let $repoid := lower-case(local:archive-repoid($a))
+        let $city := lower-case(local:archive-city($a))
+        let $key := lower-case(local:archive-key($a))
+        where contains($name, $search-lower) or contains($repoid, $search-lower)
+              or contains($city, $search-lower) or contains($key, $search-lower)
+        return $a
+    else $country-filtered
 
 let $sorted :=
     for $a in $filtered
@@ -112,9 +127,15 @@ return
                 else ()
             }
 
-            <p class="text-muted text-small" style="margin-bottom: var(--space-lg);">
-                Showing {$start}&#x2013;{min(($start + $per-page - 1, $total))} of {$total} archives
-            </p>
+            <form method="get" action="fonds" style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg);">
+                {if ($filter-country ne '') then <input type="hidden" name="country" value="{$filter-country}" /> else ()}
+                <input type="text" name="q" value="{$search-query}" placeholder="Search archives by name, ID, city..." style="flex:1; padding: 8px 12px; border: 1px solid var(--color-border); border-radius: 4px; font-size: 0.95rem;" />
+                <button type="submit" class="btn">Search</button>
+                {if ($search-query ne '') then <a href="fonds{if ($filter-country ne '') then '?country=' || encode-for-uri($filter-country) else ''}" class="btn">Clear</a> else ()}
+                <span class="text-muted text-small">
+                    {$total} result{if ($total ne 1) then 's' else ()}
+                </span>
+            </form>
 
             <div class="archive-grid">
             {
@@ -141,17 +162,17 @@ return
             {
                 if ($total-pages gt 1) then
                     <nav class="pagination" style="margin-top: var(--space-xl); justify-content: center;">
-                        {if ($page gt 1) then <a href="{local:page-url($page - 1, $filter-country)}">&#x2190; Prev</a> else ()}
+                        {if ($page gt 1) then <a href="{local:page-url($page - 1, $filter-country, $search-query)}">&#x2190; Prev</a> else ()}
                         {
                             for $p in 1 to $total-pages
                             return
                                 if ($p = $page) then <span class="active">{$p}</span>
                                 else if (abs($p - $page) le 2 or $p = 1 or $p = $total-pages) then
-                                    <a href="{local:page-url($p, $filter-country)}">{$p}</a>
+                                    <a href="{local:page-url($p, $filter-country, $search-query)}">{$p}</a>
                                 else if (abs($p - $page) = 3) then <span class="text-muted">...</span>
                                 else ()
                         }
-                        {if ($page lt $total-pages) then <a href="{local:page-url($page + 1, $filter-country)}">Next &#x2192;</a> else ()}
+                        {if ($page lt $total-pages) then <a href="{local:page-url($page + 1, $filter-country, $search-query)}">Next &#x2192;</a> else ()}
                     </nav>
                 else ()
             }
