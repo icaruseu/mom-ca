@@ -99,17 +99,20 @@ return
                 let $archive-key := $tokens[last()]
                 let $fond-count := count(metadata:base-collection('fond', $archive-key, 'public')/atom:entry[.//ead:ead])
                 return
-                    <a href="{ $archive-key }/archive" class="card" style="text-decoration: none; color: inherit; transition: box-shadow 0.15s, transform 0.15s; display: block;">
-                        <div class="card-body" style="padding: var(--space-lg);">
-                            <h4 style="margin-bottom: var(--space-xs); font-size: 1rem; color: var(--color-text);">
+                    <a href="{ $archive-key }/archive" class="card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
+                        <div class="card-body" style="padding: var(--space-lg); flex: 1; display: flex; flex-direction: column;">
+                            <div style="font-weight: 700; font-family: var(--font-heading); font-size: 1.05rem; line-height: 1.3; margin-bottom: var(--space-xs); color: var(--color-text);">
                                 { if ($name != '') then $name else $archive-key }
-                            </h4>
-                            <div style="font-size: 0.8rem; color: var(--color-text-muted); margin-bottom: var(--space-sm);">
+                            </div>
+                            <div style="font-size: 0.85rem; color: var(--color-text-muted); font-weight: 400; margin-bottom: var(--space-sm);">
+                                { $archive-key }
+                            </div>
+                            <div style="font-size: 0.8rem; color: var(--color-text-light); margin-bottom: auto;">
                                 { if ($city != '') then <span>{ $city }</span> else () }
                                 { if ($city != '' and $country != '') then <span> · </span> else () }
                                 { if ($country != '') then <span>{ $country }</span> else () }
                             </div>
-                            <div style="display: flex; align-items: center; gap: var(--space-sm); margin-top: var(--space-sm);">
+                            <div style="display: flex; align-items: center; gap: var(--space-sm); margin-top: var(--space-md); padding-top: var(--space-sm); border-top: 1px solid var(--color-border-light);">
                                 <span style="background: var(--color-accent); color: #fff; font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: var(--radius);">
                                     { $fond-count }
                                 </span>
