@@ -41,11 +41,26 @@ return
         </div>
     else
 
-(: Find source charter in public data :)
-let $source-entry := (
-    collection('/db/mom-data/metadata.charter.public')/atom:entry[atom:id = $charter-atom-id],
-    collection('/db/mom-data/metadata.fond.public')/atom:entry[atom:id = $charter-atom-id]
-)[1]
+(: Parse atom:id to find source charter efficiently :)
+let $tag := conf:param('atom-tag-name')
+let $tokens := tokenize(substring-after($charter-atom-id, $tag), '/')[. ne '']
+(: tokens: ('charter', 'context1', ['context2',] 'charter-key') :)
+let $ctx-tokens := subsequence($tokens, 2, count($tokens) - 2)
+let $charter-key := $tokens[last()]
+let $source-path :=
+    if (count($ctx-tokens) = 1) then
+        '/db/mom-data/metadata.charter.public/' || $ctx-tokens[1]
+    else
+        '/db/mom-data/metadata.charter.public/' || string-join($ctx-tokens, '/')
+let $source-entry :=
+    if (xmldb:collection-available($source-path)) then
+        (collection($source-path)/atom:entry[ends-with(atom:id, '/' || $charter-key)])[1]
+    else
+        (: Try fond path :)
+        let $fond-path := '/db/mom-data/metadata.fond.public/' || string-join($ctx-tokens, '/')
+        return if (xmldb:collection-available($fond-path)) then
+            (collection($fond-path)/atom:entry[ends-with(atom:id, '/' || $charter-key)])[1]
+        else ()
 
 return
     if (empty($source-entry)) then
@@ -67,7 +82,6 @@ let $_ := if (not(xmldb:collection-available($target-path))) then
     xmldb:create-collection($user-base, $target-coll) else ()
 
 (: Build private copy :)
-let $tag := conf:param('atom-tag-name')
 let $new-id := util:uuid()
 let $new-atom-id := $tag || '/charter/' || $target-coll || '/' || $new-id
 

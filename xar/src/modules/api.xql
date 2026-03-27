@@ -78,17 +78,24 @@ declare function local:save-charter() {
                     map { "status": "error", "message": "charterId and collectionId required" }
                 )
                 else
-                    (: Find the public charter by atom:id :)
+                    (: Parse atom:id to find source charter efficiently :)
                     let $tag := conf:param('atom-tag-name')
                     let $tokens := tokenize(substring-after($charter-atom-id, $tag), '/')[. ne '']
-                    let $source-context := string-join(subsequence($tokens, 1, count($tokens) - 1), '/')
+                    let $ctx-tokens := subsequence($tokens, 2, count($tokens) - 2)
                     let $charter-key := $tokens[last()]
-
-                    (: Try to find the charter in public collections :)
-                    let $source-entry := (
-                        collection('/db/mom-data/metadata.charter.public')/atom:entry[atom:id = $charter-atom-id],
-                        collection('/db/mom-data/metadata.fond.public')/atom:entry[atom:id = $charter-atom-id]
-                    )[1]
+                    let $source-path :=
+                        if (count($ctx-tokens) = 1) then
+                            '/db/mom-data/metadata.charter.public/' || $ctx-tokens[1]
+                        else
+                            '/db/mom-data/metadata.charter.public/' || string-join($ctx-tokens, '/')
+                    let $source-entry :=
+                        if (xmldb:collection-available($source-path)) then
+                            (collection($source-path)/atom:entry[ends-with(atom:id, '/' || $charter-key)])[1]
+                        else
+                            let $fond-path := '/db/mom-data/metadata.fond.public/' || string-join($ctx-tokens, '/')
+                            return if (xmldb:collection-available($fond-path)) then
+                                (collection($fond-path)/atom:entry[ends-with(atom:id, '/' || $charter-key)])[1]
+                            else ()
 
                     return
                         if (empty($source-entry)) then (
