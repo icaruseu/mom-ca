@@ -120,7 +120,7 @@ return
             {
                 for $c in $cards
                 return
-                    <a href="{$c?key}/archive" class="card archive-card">
+                    <a href="/mom/{$c?key}/archive" class="card archive-card">
                         <div class="card-body archive-card-body">
                             <div class="archive-card-name">{$c?name}</div>
                             <div class="archive-card-id">{$c?repoid}</div>
