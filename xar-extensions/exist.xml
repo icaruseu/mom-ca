@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<exist xmlns="http://exist.sourceforge.net/NS/exist">
+    <!-- Main extensions JAR -->
+    <jar>mom-ca-extensions.jar</jar>
+
+    <!-- Apache POI for Excel support -->
+    <jar>lib/poi-5.2.5.jar</jar>
+    <jar>lib/poi-ooxml-5.2.5.jar</jar>
+    <jar>lib/commons-io-2.15.1.jar</jar>
+
+    <!-- Register XQuery extension modules -->
+    <java>
+        <namespace uri="http://exist-db.org/xquery/excel"
+                   class="org.exist.xquery.modules.excel.ExcelModule"/>
+    </java>
+</exist>

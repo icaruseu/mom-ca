@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta xmlns="http://exist-db.org/xquery/repo">
+    <description>Java extension modules for MOM-CA: Excel reading (Apache POI) and image cropping</description>
+    <author>ICARUS</author>
+    <website>https://www.monasterium.net</website>
+    <status>stable</status>
+    <license>GPL-3.0</license>
+    <copyright>true</copyright>
+    <type>library</type>
+</meta>

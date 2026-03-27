@@ -1,0 +1,44 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.2.0 http://maven.apache.org/xsd/assembly-2.2.0.xsd">
+
+    <id>xar</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <fileSets>
+        <!-- Package descriptors at root -->
+        <fileSet>
+            <directory>${project.basedir}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>expath-pkg.xml</include>
+                <include>repo.xml</include>
+                <include>exist.xml</include>
+            </includes>
+        </fileSet>
+
+        <!-- Main JAR -->
+        <fileSet>
+            <directory>${project.build.directory}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>mom-ca-extensions.jar</include>
+            </includes>
+        </fileSet>
+
+        <!-- Dependency JARs -->
+        <fileSet>
+            <directory>${project.build.directory}/lib</directory>
+            <outputDirectory>/lib</outputDirectory>
+            <includes>
+                <include>poi-*.jar</include>
+                <include>commons-io-*.jar</include>
+                <include>commons-math3-*.jar</include>
+                <include>SparseBitSet-*.jar</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+</assembly>
