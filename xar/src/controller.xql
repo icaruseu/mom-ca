@@ -213,13 +213,25 @@ else if ($last-segment = $local:htdoc-routes) then
 (: -----------------------------------------------------------------
    6. Page routes — all mainwidget patterns
       The last URI segment determines the page name.
+      Dynamic XQL pages (modules/page-{name}.xql) are forwarded directly
+      and wrapped in the template via a view pipeline.
+      Static HTML pages fall back to view.xql.
    ----------------------------------------------------------------- :)
 else if ($last-segment = $local:page-routes) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{$exist:controller}/modules/view.xql">
+        <forward url="{$exist:controller}/modules/page-{$last-segment}.xql">
             <add-parameter name="page" value="{$last-segment}"/>
             <add-parameter name="request-path" value="{$path}"/>
         </forward>
+        <view>
+            <forward url="{$exist:controller}/modules/view-wrap.xql"/>
+        </view>
+        <error-handler>
+            <forward url="{$exist:controller}/modules/view.xql">
+                <add-parameter name="page" value="{$last-segment}"/>
+                <add-parameter name="request-path" value="{$path}"/>
+            </forward>
+        </error-handler>
     </dispatch>
 
 (: -----------------------------------------------------------------
