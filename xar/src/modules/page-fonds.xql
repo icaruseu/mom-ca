@@ -92,30 +92,27 @@ return
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-md);">
             {
                 for $archive in $page-archives
-                let $name := normalize-space($archive//eag:autform/text())
-                let $country := normalize-space($archive//eag:country/text())
-                let $city := normalize-space($archive//eag:municipalityPostalcode/text())
+                let $autform := normalize-space($archive//eag:autform)
+                let $repoid := normalize-space($archive//eag:repositorid)
+                let $country := normalize-space($archive//eag:country)
+                let $city := normalize-space($archive//eag:municipalityPostalcode)
                 let $tokens := tokenize(substring-after($archive/atom:id/text(), conf:param('atom-tag-name')), '/')[. != '']
                 let $archive-key := $tokens[last()]
                 let $fond-count := count(metadata:base-collection('fond', $archive-key, 'public')/atom:entry[.//ead:ead])
+                let $display-name := if ($autform != '') then $autform else $archive-key
+                let $display-id := if ($repoid != '') then $repoid else $archive-key
                 return
-                    <a href="{ $archive-key }/archive" class="card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-                        <div class="card-body" style="padding: var(--space-lg); flex: 1; display: flex; flex-direction: column;">
-                            <div style="font-weight: 700; font-family: var(--font-heading); font-size: 1.05rem; line-height: 1.3; margin-bottom: var(--space-xs); color: var(--color-text);">
-                                { if ($name != '') then $name else $archive-key }
-                            </div>
-                            <div style="font-size: 0.85rem; color: var(--color-text-muted); font-weight: 400; margin-bottom: var(--space-sm);">
-                                { $archive-key }
-                            </div>
-                            <div style="font-size: 0.8rem; color: var(--color-text-light); margin-bottom: auto;">
+                    <a href="{ $archive-key }/archive" class="card archive-card">
+                        <div class="card-body archive-card-body">
+                            <div class="archive-card-name">{ $display-name }</div>
+                            <div class="archive-card-id">{ $display-id }</div>
+                            <div class="archive-card-location">
                                 { if ($city != '') then <span>{ $city }</span> else () }
                                 { if ($city != '' and $country != '') then <span> · </span> else () }
                                 { if ($country != '') then <span>{ $country }</span> else () }
                             </div>
-                            <div style="display: flex; align-items: center; gap: var(--space-sm); margin-top: var(--space-md); padding-top: var(--space-sm); border-top: 1px solid var(--color-border-light);">
-                                <span style="background: var(--color-accent); color: #fff; font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: var(--radius);">
-                                    { $fond-count }
-                                </span>
+                            <div class="archive-card-footer">
+                                <span class="archive-card-badge">{ $fond-count }</span>
                                 <span class="text-small text-muted">fond{ if ($fond-count != 1) then 's' else () }</span>
                             </div>
                         </div>
