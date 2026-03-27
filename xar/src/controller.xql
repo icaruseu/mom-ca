@@ -78,7 +78,7 @@ declare variable $local:page-routes := (
     'search', 'search-result',
 
     (: Authentication and user accounts :)
-    'login', 'login2', 'registration', 'registration-successful',
+    'login', 'login2', 'save-charter', 'registration', 'registration-successful',
     'my-account', 'change-password', 'remove-account',
     'request-password', 'reset-password',
 

@@ -18,8 +18,8 @@ let $error :=
                 let $_ := session:set-attribute('mom.user', $username)
                 let $_ := session:set-attribute('mom.pass', $password)
                 let $sid := session:get-id()
-                let $_ := response:set-header('Set-Cookie',
-                    'JSESSIONID=' || $sid || '; Path=/; HttpOnly; SameSite=Lax')
+                let $cookie := 'JSESSIONID=' || $sid || '; Path=/; HttpOnly; SameSite=Lax'
+                let $_ := response:set-header('Set-Cookie', $cookie)
                 let $_ := response:redirect-to(xs:anyURI('/mom/home'))
                 return ()
             else

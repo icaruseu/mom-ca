@@ -278,61 +278,31 @@ return
             }
             {
                 if (not($is-private) and $current-user ne '') then
+                    let $mycoll-path := '/db/mom-data/xrx.user/' || $current-user || '/metadata.mycollection'
+                    let $my-colls :=
+                        if (xmldb:collection-available($mycoll-path)) then
+                            for $e in collection($mycoll-path)/atom:entry
+                            let $cid := tokenize($e/atom:id/text(), '/')[last()]
+                            let $ctitle := normalize-space(($e//cei:titleStmt/cei:title, $e//cei:title)[1])
+                            return map { "id": $cid, "title": if ($ctitle ne '') then $ctitle else $cid }
+                        else ()
+                    return
                     <div class="card">
                         <div class="card-header">Actions</div>
                         <div class="card-body">
-                            <div id="save-charter-ui">
-                                <select id="save-target-coll" style="width:100%; padding:6px 8px; margin-bottom:8px; border:1px solid var(--color-border); border-radius:4px;">
-                                    <option value="">Loading collections...</option>
-                                </select>
-                                <button id="save-charter-btn" class="btn btn--primary" style="width:100%;justify-content:center;">Save to My Collection</button>
-                                <div id="save-charter-msg" style="display:none; margin-top:8px; padding:6px 8px; border-radius:4px; font-size:0.85rem;"></div>
-                            </div>
-                            <script>
-                                (function() {{
-                                    var charterId = "{$charter-entry/atom:id/text()}";
-                                    var sel = document.getElementById('save-target-coll');
-                                    var btn = document.getElementById('save-charter-btn');
-                                    var msg = document.getElementById('save-charter-msg');
-                                    fetch('/mom/api/my-collections', {{credentials:'same-origin'}})
-                                        .then(function(r) {{ return r.json(); }})
-                                        .then(function(d) {{
-                                            sel.innerHTML = '';
-                                            if (d.collections &amp;&amp; d.collections.length > 0) {{
-                                                d.collections.forEach(function(c) {{
-                                                    var o = document.createElement('option');
-                                                    o.value = c.id; o.textContent = c.title;
-                                                    sel.appendChild(o);
-                                                }});
-                                            }} else {{
-                                                sel.innerHTML = '&lt;option value=""&gt;No collections — create one first&lt;/option&gt;';
-                                                btn.disabled = true;
-                                            }}
-                                        }});
-                                    btn.addEventListener('click', function() {{
-                                        if (!sel.value) return;
-                                        btn.disabled = true;
-                                        btn.textContent = 'Saving...';
-                                        fetch('/mom/api/charter/save', {{
-                                            method: 'POST', credentials: 'same-origin',
-                                            headers: {{'Content-Type': 'application/json'}},
-                                            body: JSON.stringify({{charterId: charterId, collectionId: sel.value}})
-                                        }})
-                                        .then(function(r) {{ return r.json(); }})
-                                        .then(function(d) {{
-                                            msg.style.display = 'block';
-                                            if (d.status === 'ok') {{
-                                                msg.style.background = '#e6f4ea'; msg.style.color = '#1a7431';
-                                                msg.innerHTML = 'Saved! &lt;a href="' + d.url + '"&gt;Open private copy&lt;/a&gt;';
-                                            }} else {{
-                                                msg.style.background = '#fce4e4'; msg.style.color = '#8b2500';
-                                                msg.textContent = d.message || 'Error saving charter.';
-                                            }}
-                                            btn.disabled = false; btn.textContent = 'Save to My Collection';
-                                        }});
-                                    }});
-                                }})();
-                            </script>
+                            {if (exists($my-colls)) then
+                                <form method="POST" action="/mom/save-charter">
+                                    <input type="hidden" name="charter-id" value="{$charter-entry/atom:id/text()}" />
+                                    <select name="collection-id" style="width:100%; padding:6px 8px; margin-bottom:8px; border:1px solid var(--color-border); border-radius:4px;">
+                                        {for $c in $my-colls return
+                                            <option value="{$c?id}">{$c?title}</option>
+                                        }
+                                    </select>
+                                    <button type="submit" class="btn btn--primary" style="width:100%;justify-content:center;">Save to My Collection</button>
+                                </form>
+                            else
+                                <p class="text-muted text-small">No collections yet.</p>
+                            }
                         </div>
                     </div>
                 else ()
