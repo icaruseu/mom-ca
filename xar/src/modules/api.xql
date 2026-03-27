@@ -12,8 +12,13 @@ xquery version "3.1";
  :   GET  /api/health       - application health check
  :)
 
+declare namespace atom = "http://www.w3.org/2005/Atom";
+declare namespace cei = "http://www.monasterium.net/NS/cei";
+
 import module namespace config = "http://www.monasterium.net/NS/config"
     at "config.xqm";
+import module namespace conf = "http://www.monasterium.net/NS/conf"
+    at "/db/apps/mom-ca/modules/core/conf.xqm";
 
 declare function local:login() {
     let $body     := util:binary-to-string(request:get-data())
@@ -54,9 +59,6 @@ declare function local:logout() {
         "message": "Logged out"
     }
 };
-
-declare namespace atom = "http://www.w3.org/2005/Atom";
-declare namespace cei = "http://www.monasterium.net/NS/cei";
 
 (:~ Save a public charter to the user's private mycollection :)
 declare function local:save-charter() {
