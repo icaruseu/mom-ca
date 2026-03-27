@@ -12,5 +12,7 @@
     <java>
         <namespace uri="http://exist-db.org/xquery/excel"
                    class="org.exist.xquery.modules.excel.ExcelModule"/>
+        <namespace uri="http://exist-db.org/xquery/text"
+                   class="org.exist.xquery.modules.text.TextDiffModule"/>
     </java>
 </exist>
