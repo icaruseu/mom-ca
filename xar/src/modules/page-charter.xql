@@ -26,7 +26,13 @@ let $fond-key := if ($context = 'fond') then $tokens[2] else ()
 let $collection-key := if ($context = 'collection') then $tokens[1] else ()
 let $charter-id := $tokens[last()]
 
-(: Find the charter :)
+(: Determine current user :)
+let $session-user := try { string(session:get-attribute('mom.user')) } catch * { '' }
+let $xquery-user := string(request:get-attribute('xquery.user'))
+let $current-user := if ($session-user ne '') then $session-user
+    else if ($xquery-user ne 'guest' and $xquery-user ne '') then $xquery-user else ''
+
+(: Find the charter — public first, then user's private :)
 let $charter-collection :=
     if ($context = 'fond') then
         metadata:base-collection('charter', ($archive-key, $fond-key), 'public')
@@ -34,6 +40,16 @@ let $charter-collection :=
         metadata:base-collection('charter', $collection-key, 'public')
 
 let $charter-entry := ($charter-collection/atom:entry[ends-with(atom:id, '/' || $charter-id)])[1]
+
+let $is-private := empty($charter-entry) and $current-user ne '' and $context = 'collection'
+let $charter-entry :=
+    if ($is-private) then
+        let $priv-path := '/db/mom-data/xrx.user/' || $current-user || '/metadata.charter/' || $collection-key
+        return
+            if (xmldb:collection-available($priv-path)) then
+                (collection($priv-path)/atom:entry[ends-with(atom:id, '/' || $charter-id)])[1]
+            else ()
+    else $charter-entry
 
 return
     if (empty($charter-entry)) then
@@ -94,7 +110,11 @@ let $witnessOrig := $cei//cei:witnessOrig
 return
 <div>
     <nav class="breadcrumb">
-        <a href="/mom/fonds">Archives</a>
+        {if ($is-private) then
+            <a href="/mom/my-collections">My Collections</a>
+        else
+            <a href="/mom/fonds">Archives</a>
+        }
         {
             if ($context = 'fond') then (
                 <span class="sep">/</span>,
@@ -261,6 +281,8 @@ return
                     {
                         if ($context = 'fond') then
                             <a href="/mom/{$archive-key}/{$fond-key}/fond" class="btn" style="width:100%;justify-content:center;">Back to Fond</a>
+                        else if ($is-private) then
+                            <a href="/mom/{$collection-key}/collection" class="btn" style="width:100%;justify-content:center;">Back to My Collection</a>
                         else
                             <a href="/mom/{$collection-key}/collection" class="btn" style="width:100%;justify-content:center;">Back to Collection</a>
                     }
