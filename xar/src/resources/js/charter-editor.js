@@ -252,19 +252,38 @@ function insertAnnotation(elemName, editorDiv) {
     emptySpan.dataset.cei = elemName;
     emptySpan.innerHTML = '\u23CE';
     range.insertNode(emptySpan);
-  } else {
-    var selectedText = range.toString();
-    if (!selectedText) selectedText = elemName;
-    var span = document.createElement('span');
-    span.className = 'cei-anno';
-    span.dataset.cei = elemName;
-    range.deleteContents();
-    span.textContent = selectedText;
+    return;
+  }
+
+  var selectedText = range.toString();
+  if (!selectedText) selectedText = elemName;
+
+  // Use surroundContents if selection is within a single node (supports nesting)
+  // Falls back to extract+insert for cross-node selections
+  var span = document.createElement('span');
+  span.className = 'cei-anno';
+  span.dataset.cei = elemName;
+
+  try {
+    // surroundContents works perfectly for nesting within a parent element
+    range.surroundContents(span);
+  } catch(e) {
+    // Cross-element selection: extract, wrap, insert
+    var fragment = range.extractContents();
+    span.appendChild(fragment);
     range.insertNode(span);
-    // Auto-open attr dialog if element has attributes
-    if (CEI_ATTRIBUTES[elemName] && CEI_ATTRIBUTES[elemName].length > 0) {
-      setTimeout(function() { showAttrDialog(span); }, 50);
-    }
+  }
+
+  // Collapse selection after the new element
+  sel.removeAllRanges();
+  var newRange = document.createRange();
+  newRange.setStartAfter(span);
+  newRange.collapse(true);
+  sel.addRange(newRange);
+
+  // Auto-open attr dialog if element has attributes
+  if (CEI_ATTRIBUTES[elemName] && CEI_ATTRIBUTES[elemName].length > 0) {
+    setTimeout(function() { showAttrDialog(span); }, 50);
   }
 }
 
