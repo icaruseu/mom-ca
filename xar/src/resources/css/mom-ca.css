@@ -468,13 +468,22 @@ a.card:hover {
 .charter-abstract {
     font-size: 0.9rem;
     color: var(--color-text-muted);
-    max-width: 60ch;
+    max-width: 70ch;
+    line-height: 1.6;
+}
+.kwic-line {
+    display: block;
+    margin-bottom: 2px;
+}
+.kwic-line .previous,
+.kwic-line .following {
+    color: var(--color-text-muted);
 }
 .charter-abstract mark,
 .kwic-line mark {
     background: #fff3cd;
     color: #8b2500;
-    padding: 1px 2px;
+    padding: 1px 3px;
     border-radius: 2px;
     font-weight: 600;
 }

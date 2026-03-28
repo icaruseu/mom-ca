@@ -72,13 +72,22 @@ declare function local:render-result($hit as element(), $tag as xs:string) as el
     let $tokens := tokenize(substring-after($atom-id, $tag), '/')[. ne '']
     let $context-tokens := subsequence($tokens, 2, count($tokens) - 2)
     let $charter-id := $tokens[last()]
-    let $context := string-join($context-tokens, '/')
+    let $context := string-join($context-tokens, ' / ')
     let $idno := normalize-space(($hit//cei:body/cei:idno)[1])
     let $date-text := normalize-space(($hit//cei:issued/cei:date/text(), $hit//cei:issued/cei:dateRange/text())[1])
-    let $url := '/mom/' || $context || '/' || xmldb:encode($charter-id) || '/charter'
+    let $date-value := string(($hit//cei:issued/cei:date/@value, $hit//cei:issued/cei:dateRange/@from)[1])
+    (: Show human date if available, otherwise try to format the value :)
+    let $display-date :=
+        if ($date-text ne '') then $date-text
+        else if (string-length($date-value) = 8 and $date-value ne '99999999') then
+            substring($date-value, 7, 2) || '.' || substring($date-value, 5, 2) || '.' || substring($date-value, 1, 4)
+        else ''
+    let $url := '/mom/' || string-join($context-tokens, '/') || '/' || xmldb:encode($charter-id) || '/charter'
     return
         <div class="charter-item">
-            <div class="charter-date">{$date-text}</div>
+            {if ($display-date ne '') then
+                <div class="charter-date">{$display-date}</div>
+            else ()}
             <div class="charter-idno">
                 <a href="{$url}">{if ($idno ne '') then $idno else $charter-id}</a>
             </div>
