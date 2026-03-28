@@ -281,16 +281,14 @@ return
             )
         }
 
-    (: Sort :)
+    (: Sort — Lucene already returns by score desc, only re-sort for date :)
     let $sorted := if ($sort = 'date') then
         for $h in $filtered
         let $d := string(($h//cei:issued/cei:date/@value, $h//cei:issued/cei:dateRange/@from, '99999999')[1])
         order by $d ascending
         return $h
     else
-        for $h in $filtered
-        order by ft:score($h) descending
-        return $h
+        $filtered (: already sorted by Lucene score :)
 
     (: Pagination :)
     let $total := count($sorted)
