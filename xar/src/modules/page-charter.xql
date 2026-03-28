@@ -91,6 +91,34 @@ return
 
 let $cei := $charter-entry//cei:text
 
+(: Prev/Next navigation within the same fond/collection :)
+let $sibling-collection :=
+    if ($is-private) then
+        collection('/db/mom-data/xrx.user/' || $current-user || '/metadata.charter/' || $collection-key)
+    else $charter-collection
+let $all-siblings :=
+    for $e in $sibling-collection/atom:entry
+    let $d := ($e//cei:issued/cei:date/@value/string(), $e//cei:issued/cei:dateRange/@from/string(), '99999999')[1]
+    order by $d
+    return $e
+let $current-pos := for $e at $p in $all-siblings
+    where $e/atom:id = $charter-entry/atom:id
+    return $p
+let $current-pos := $current-pos[1]
+let $prev-entry := if ($current-pos gt 1) then $all-siblings[$current-pos - 1] else ()
+let $next-entry := if ($current-pos lt count($all-siblings)) then $all-siblings[$current-pos + 1] else ()
+let $tag := conf:param('atom-tag-name')
+let $prev-id := if (exists($prev-entry)) then tokenize(substring-after($prev-entry/atom:id, $tag), '/')[last()] else ''
+let $next-id := if (exists($next-entry)) then tokenize(substring-after($next-entry/atom:id, $tag), '/')[last()] else ''
+let $prev-url := if ($prev-id ne '') then
+    if ($context = 'fond') then '/mom/' || $archive-key || '/' || $fond-key || '/' || xmldb:encode($prev-id) || '/charter'
+    else '/mom/' || $collection-key || '/' || xmldb:encode($prev-id) || '/charter'
+else ''
+let $next-url := if ($next-id ne '') then
+    if ($context = 'fond') then '/mom/' || $archive-key || '/' || $fond-key || '/' || xmldb:encode($next-id) || '/charter'
+    else '/mom/' || $collection-key || '/' || xmldb:encode($next-id) || '/charter'
+else ''
+
 (: Metadata :)
 let $idno := normalize-space($cei//cei:body/cei:idno)
 let $date-text := normalize-space(($cei//cei:issued/cei:date/text(), $cei//cei:issued/cei:dateRange/text())[1])
@@ -156,6 +184,27 @@ return
         <span class="sep">/</span>
         <span>{if ($idno ne '') then $idno else $charter-id}</span>
     </nav>
+
+    <!-- Prev/Next Navigation -->
+    {if ($prev-url ne '' or $next-url ne '') then
+        <nav class="charter-nav" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-md);">
+            {if ($prev-url ne '') then
+                <a href="{$prev-url}" style="display:flex; align-items:center; gap:6px; text-decoration:none; color:var(--color-text-muted); font-size:0.9rem;">
+                    <span>&#x2190;</span>
+                    <span>Previous charter</span>
+                </a>
+            else <span/>}
+            {if (exists($current-pos)) then
+                <span class="text-small text-muted">{$current-pos} of {count($all-siblings)}</span>
+            else ()}
+            {if ($next-url ne '') then
+                <a href="{$next-url}" style="display:flex; align-items:center; gap:6px; text-decoration:none; color:var(--color-text-muted); font-size:0.9rem;">
+                    <span>Next charter</span>
+                    <span>&#x2192;</span>
+                </a>
+            else <span/>}
+        </nav>
+    else ()}
 
     <!-- Charter Header -->
     <div class="card" style="margin-bottom: var(--space-lg);">
