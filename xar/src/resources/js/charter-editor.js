@@ -487,8 +487,8 @@ function initMixedEditor(wrapper) {
     showContextMenu(e.pageX, e.pageY, menuGroups, editorDiv);
   });
 
-  // Click on annotation → show attr dialog
-  editorDiv.addEventListener('click', function(e) {
+  // Double-click on annotation → show attr dialog (single click = normal cursor)
+  editorDiv.addEventListener('dblclick', function(e) {
     var anno = e.target.closest('.cei-anno');
     if (anno && anno !== editorDiv) {
       e.preventDefault();
