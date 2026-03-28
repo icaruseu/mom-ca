@@ -66,7 +66,6 @@
             <text qname="cei:subscriptio"/>
             <text qname="cei:tenor"/>
             <text qname="cei:testis"/>
-            <text qname="cei:text"/>
             <text qname="cei:traditioForm"/>
             <text qname="cei:witListPar"/>
             <text qname="cei:witnessOrig"/>
@@ -93,6 +92,21 @@
             <text qname="tei:surfaceGrp"/>
             <text qname="tei:surface"/>
             <text qname="tei:span"/>
+
+            <!-- Fulltext + Facets on the charter root element -->
+            <text qname="cei:text">
+                <!-- Facets for filtering -->
+                <facet dimension="country" expression="ancestor::atom:entry/descendant::cei:country"/>
+                <facet dimension="language" expression="descendant::cei:lang_MOM"/>
+                <facet dimension="place" expression="descendant::cei:issued/cei:placeName/@reg"/>
+                <facet dimension="person" expression="ancestor::atom:entry/descendant::cei:back/cei:persName/@reg"/>
+                <facet dimension="indexPlace" expression="ancestor::atom:entry/descendant::cei:back/cei:placeName/@reg"/>
+
+                <!-- Fields for range queries on dates -->
+                <field name="date-value" expression="descendant::cei:issued/cei:date/@value" type="xs:integer"/>
+                <field name="date-from" expression="descendant::cei:issued/cei:dateRange/@from" type="xs:integer"/>
+                <field name="date-to" expression="descendant::cei:issued/cei:dateRange/@to" type="xs:integer"/>
+            </text>
         </lucene>
         <range>
             <create qname="@from" type="xs:integer"/>
