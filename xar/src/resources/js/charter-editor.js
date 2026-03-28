@@ -40,62 +40,14 @@ const TOOLBAR_GROUPS = {
   ]
 };
 
-// ─── CEI Attribute definitions per element ─────────────────────────────
+// ─── CEI Schema data (loaded from server) ──────────────────────────────
 
-const CEI_ATTRIBUTES = {
-  persName:  [{name:'reg',label:'Regularized'},{name:'type',label:'Type'},{name:'key',label:'Key/ID'},{name:'certainty',label:'Certainty'}],
-  placeName: [{name:'reg',label:'Regularized'},{name:'type',label:'Type'},{name:'key',label:'Key/ID'},{name:'existent',label:'Existent'}],
-  orgName:   [{name:'reg',label:'Regularized'},{name:'type',label:'Type'},{name:'key',label:'Key/ID'},{name:'certainty',label:'Certainty'}],
-  geogName:  [{name:'reg',label:'Regularized'},{name:'key',label:'Key/ID'},{name:'existent',label:'Existent'}],
-  foreign:   [{name:'lang',label:'Language'}],
-  date:      [{name:'value',label:'Normalized (YYYYMMDD)',pattern:'\\d{8}'}],
-  dateRange: [{name:'from',label:'From (YYYYMMDD)',pattern:'\\d{8}'},{name:'to',label:'To (YYYYMMDD)',pattern:'\\d{8}'}],
-  num:       [{name:'value',label:'Value'},{name:'type',label:'Type'}],
-  measure:   [{name:'type',label:'Type'}],
-  hi:        [{name:'rend',label:'Rendition'}],
-  index:     [{name:'indexName',label:'Index name'},{name:'lemma',label:'Lemma'},{name:'sublemma',label:'Sub-lemma'}],
-  issuer:    [],
-  recipient: [],
-  invocatio: [], intitulatio: [], inscriptio: [], arenga: [], publicatio: [],
-  narratio: [], dispositio: [], sanctio: [], corroboratio: [], datatio: [], subscriptio: [],
-  expan:     [], sic: [{name:'hand',label:'Hand'}], corr: [],
-  del:       [{name:'hand',label:'Hand'}], add: [], supplied: [],
-  unclear:   [], seal: [], legend: [], sigillant: [],
-  sup: [], lb: [], note: [], bibl: []
-};
+var CEI_ATTRIBUTES = {};  // populated by loadSchema()
 
 // Empty (self-closing) elements
 const EMPTY_ELEMENTS = ['lb'];
 
-// ─── Allowed children per element (from CEI XSD) ───────────────────────
-// Used for context-sensitive right-click menus inside annotations.
-const ALLOWED_CHILDREN = {
-  persName:  ['persName','placeName','orgName','geogName','foreign','rolename','note','hi','sup'],
-  placeName: ['persName','placeName','orgName','foreign','index','note','hi','sup'],
-  orgName:   ['persName','placeName','orgName','geogName','foreign','note','hi','sup'],
-  geogName:  ['placeName','foreign','note','hi','sup'],
-  index:     ['hi','sup'],
-  foreign:   ['persName','placeName','orgName','geogName','index','date','dateRange','num','measure','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
-  hi:        ['persName','placeName','orgName','geogName','foreign','date','dateRange','num','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
-  sup:       [],
-  issuer:    ['persName','placeName','orgName','geogName','foreign','hi','sup'],
-  recipient: ['persName','placeName','orgName','geogName','foreign','hi','sup'],
-  invocatio: ['persName','placeName','orgName','geogName','foreign','date','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
-  intitulatio: ['persName','placeName','orgName','geogName','foreign','date','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
-  inscriptio: ['persName','placeName','orgName','geogName','foreign','date','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
-  arenga: ['persName','placeName','orgName','geogName','foreign','date','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
-  publicatio: ['persName','placeName','orgName','geogName','foreign','date','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
-  narratio: ['persName','placeName','orgName','geogName','foreign','date','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
-  dispositio: ['persName','placeName','orgName','geogName','foreign','date','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
-  sanctio: ['persName','placeName','orgName','geogName','foreign','date','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
-  corroboratio: ['persName','placeName','orgName','geogName','foreign','date','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
-  datatio: ['persName','placeName','orgName','geogName','foreign','date','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
-  subscriptio: ['persName','placeName','orgName','geogName','foreign','date','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
-  expan: ['hi','sup'], sic: ['hi','sup'], corr: ['hi','sup'],
-  del: ['hi','sup'], add: ['hi','sup'], supplied: ['hi','sup'], unclear: ['hi','sup'],
-  date: ['foreign','num','hi','sup'], dateRange: ['foreign','num'],
-  num: [], measure: [], note: ['persName','placeName','foreign','hi','sup'], bibl: ['hi','sup']
-};
+var ALLOWED_CHILDREN = {};  // populated by loadSchema()
 
 // ─── HTML ↔ CEI-XML Conversion ─────────────────────────────────────────
 
@@ -598,15 +550,65 @@ function initRepeatables() {
   });
 }
 
+// ─── Schema Loading ─────────────────────────────────────────────────────
+
+function loadSchema(callback) {
+  fetch('/mom/api/editor/schema', { credentials: 'same-origin' })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.children) ALLOWED_CHILDREN = data.children;
+      if (data.attributes) CEI_ATTRIBUTES = data.attributes;
+      // Also rebuild TOOLBAR_GROUPS from schema children for top-level contexts
+      if (data.children.abstract) {
+        TOOLBAR_GROUPS.abstract = buildGroupsFromChildren(data.children.abstract, 'abstract');
+      }
+      if (data.children.tenor) {
+        TOOLBAR_GROUPS.tenor = buildGroupsFromChildren(data.children.tenor, 'tenor');
+      }
+      callback();
+    })
+    .catch(function(err) {
+      console.warn('Could not load CEI schema, using defaults:', err);
+      callback();
+    });
+}
+
+function buildGroupsFromChildren(children, context) {
+  var indexing = [], layout = [], roles = [], diplomatics = [], transcription = [];
+  var indexItems = ['persName','placeName','orgName','geogName','foreign','index','date','dateRange','num','measure','testis','rolename'];
+  var layoutItems = ['hi','sup','lb','pb'];
+  var roleItems = ['issuer','recipient'];
+  var diplItems = ['invocatio','intitulatio','inscriptio','arenga','publicatio','narratio','rogatio','intercessio','dispositio','sanctio','corroboratio','datatio','subscriptio','notariusSub','setPhrase'];
+  var transItems = ['expan','sic','corr','del','add','supplied','unclear','app'];
+
+  children.forEach(function(c) {
+    if (indexItems.indexOf(c) !== -1) indexing.push(c);
+    else if (layoutItems.indexOf(c) !== -1) layout.push(c);
+    else if (roleItems.indexOf(c) !== -1) roles.push(c);
+    else if (diplItems.indexOf(c) !== -1) diplomatics.push(c);
+    else if (transItems.indexOf(c) !== -1) transcription.push(c);
+  });
+
+  var groups = [];
+  if (indexing.length) groups.push({ label: 'Indexing', items: indexing });
+  if (layout.length) groups.push({ label: 'Layout', items: layout });
+  if (roles.length) groups.push({ label: 'Roles', items: roles });
+  if (diplomatics.length) groups.push({ label: 'Diplomatics', items: diplomatics });
+  if (transcription.length) groups.push({ label: 'Transcription', items: transcription });
+  return groups;
+}
+
 // ─── Init ───────────────────────────────────────────────────────────────
 
 function init() {
   initTabs();
   initRepeatables();
 
-  // Init all mixed content editors
-  document.querySelectorAll('.mixed-editor-wrapper').forEach(function(w) {
-    initMixedEditor(w);
+  // Load schema from server, then init mixed editors
+  loadSchema(function() {
+    document.querySelectorAll('.mixed-editor-wrapper').forEach(function(w) {
+      initMixedEditor(w);
+    });
   });
 }
 

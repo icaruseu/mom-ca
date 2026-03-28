@@ -190,7 +190,17 @@ else if (starts-with($path, '/fore/')) then
         </dispatch>
 
 (: -----------------------------------------------------------------
-   4. API / Service endpoints → modules/api.xql
+   4a. Editor API → modules/api-editor.xql
+   ----------------------------------------------------------------- :)
+else if (starts-with($path, '/api/editor/')) then
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{$exist:controller}/modules/api-editor.xql">
+            <add-parameter name="request-path" value="{$path}"/>
+        </forward>
+    </dispatch>
+
+(: -----------------------------------------------------------------
+   4b. API / Service endpoints → modules/api.xql
    ----------------------------------------------------------------- :)
 else if (starts-with($path, '/service/') or starts-with($path, '/api/')) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
