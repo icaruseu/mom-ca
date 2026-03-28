@@ -173,9 +173,15 @@ return
                                style="flex:1; padding:10px 14px; border:1px solid var(--color-border); border-radius:4px; font-size:1rem;"/>
                         <button type="submit" class="btn btn--primary">Search</button>
                     </div>
-                    <div style="display:flex; gap:var(--space-md); flex-wrap:wrap; font-size:0.85rem; justify-content:center;">
-                        <label>From: <input type="text" name="from" value="" placeholder="YYYYMMDD" style="width:100px; padding:4px 8px; border:1px solid var(--color-border); border-radius:3px;"/></label>
-                        <label>To: <input type="text" name="to" value="" placeholder="YYYYMMDD" style="width:100px; padding:4px 8px; border:1px solid var(--color-border); border-radius:3px;"/></label>
+                    <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap; font-size:0.85rem; justify-content:center; margin-top:var(--space-sm);">
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <span class="text-muted">From</span>
+                            <input type="text" name="from" value="" placeholder="YYYYMMDD" style="width:100px; padding:6px 10px; border:1px solid var(--color-border); border-radius:4px; font-size:0.85rem;"/>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <span class="text-muted">To</span>
+                            <input type="text" name="to" value="" placeholder="YYYYMMDD" style="width:100px; padding:6px 10px; border:1px solid var(--color-border); border-radius:4px; font-size:0.85rem;"/>
+                        </div>
                     </div>
                 </form>
                 <p class="text-muted" style="margin-top: var(--space-md);">Full-text search across all public charters in Monasterium.net</p>
@@ -305,21 +311,28 @@ return
                                style="flex:1; padding:10px 14px; border:1px solid var(--color-border); border-radius:4px; font-size:1rem;"/>
                         <button type="submit" class="btn btn--primary">Search</button>
                     </div>
-                    <div style="display:flex; gap:var(--space-md); flex-wrap:wrap; font-size:0.85rem; justify-content:center;">
-                        <label>From: <input type="text" name="from" value="{$from}" placeholder="YYYYMMDD" style="width:100px; padding:4px 8px; border:1px solid var(--color-border); border-radius:3px;"/></label>
-                        <label>To: <input type="text" name="to" value="{$to}" placeholder="YYYYMMDD" style="width:100px; padding:4px 8px; border:1px solid var(--color-border); border-radius:3px;"/></label>
-                        <label>Sort:
-                            <select name="sort" style="padding:4px 8px; border:1px solid var(--color-border); border-radius:3px;">
+                    <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap; font-size:0.85rem; justify-content:center; margin-top:var(--space-sm);">
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <span class="text-muted">From</span>
+                            <input type="text" name="from" value="{$from}" placeholder="YYYYMMDD" style="width:100px; padding:6px 10px; border:1px solid var(--color-border); border-radius:4px; font-size:0.85rem;"/>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <span class="text-muted">To</span>
+                            <input type="text" name="to" value="{$to}" placeholder="YYYYMMDD" style="width:100px; padding:6px 10px; border:1px solid var(--color-border); border-radius:4px; font-size:0.85rem;"/>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <span class="text-muted">Sort</span>
+                            <select name="sort" style="padding:6px 10px; border:1px solid var(--color-border); border-radius:4px; font-size:0.85rem; background:white;">
                                 <option value="relevance">{if ($sort ne 'date') then attribute selected {'selected'} else ()}Relevance</option>
                                 <option value="date">{if ($sort = 'date') then attribute selected {'selected'} else ()}Date</option>
                             </select>
-                        </label>
-                        {if ($filter-country ne '') then <input type="hidden" name="country" value="{$filter-country}"/> else ()}
-                        {if ($filter-language ne '') then <input type="hidden" name="language" value="{$filter-language}"/> else ()}
-                        {if ($filter-place ne '') then <input type="hidden" name="place" value="{$filter-place}"/> else ()}
-                        {if ($filter-person ne '') then <input type="hidden" name="person" value="{$filter-person}"/> else ()}
-                        {if ($filter-indexPlace ne '') then <input type="hidden" name="indexPlace" value="{$filter-indexPlace}"/> else ()}
+                        </div>
                     </div>
+                    {if ($filter-country ne '') then <input type="hidden" name="country" value="{$filter-country}"/> else ()}
+                    {if ($filter-language ne '') then <input type="hidden" name="language" value="{$filter-language}"/> else ()}
+                    {if ($filter-place ne '') then <input type="hidden" name="place" value="{$filter-place}"/> else ()}
+                    {if ($filter-person ne '') then <input type="hidden" name="person" value="{$filter-person}"/> else ()}
+                    {if ($filter-indexPlace ne '') then <input type="hidden" name="indexPlace" value="{$filter-indexPlace}"/> else ()}
                 </form>
             </div>
 
