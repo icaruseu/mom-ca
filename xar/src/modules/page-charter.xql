@@ -15,6 +15,33 @@ import module namespace metadata = "http://www.monasterium.net/NS/metadata"
 import module namespace conf = "http://www.monasterium.net/NS/conf"
     at "/db/apps/mom-ca/modules/core/conf.xqm";
 
+(:~ Render mixed content with inline CEI annotations visible :)
+declare function local:render-mixed($nodes as node()*) as node()* {
+    for $node in $nodes
+    return
+        if ($node instance of text()) then $node
+        else if ($node instance of element()) then
+            let $name := local-name($node)
+            let $known := ('persName','placeName','orgName','geogName','foreign','date','dateRange',
+                           'num','measure','hi','sup','lb','index','issuer','recipient',
+                           'invocatio','intitulatio','inscriptio','arenga','publicatio','narratio',
+                           'dispositio','sanctio','corroboratio','datatio','subscriptio',
+                           'expan','sic','corr','del','add','supplied','unclear','rolename','testis')
+            let $reg := string($node/@reg)
+            let $tooltip := if ($reg ne '') then $name || ': ' || $reg else $name
+            return
+                if ($name = $known) then
+                    if ($name = 'lb') then
+                        <br/>
+                    else if ($name = 'sup') then
+                        <sup title="sup">{local:render-mixed($node/node())}</sup>
+                    else
+                        <span class="cei-inline" title="{$tooltip}" data-cei="{$name}">{local:render-mixed($node/node())}</span>
+                else
+                    local:render-mixed($node/node())
+        else ()
+};
+
 (: Parse URL tokens :)
 let $request-path := request:get-parameter("request-path", "")
 let $tokens := tokenize(replace($request-path, '^/+|/+$', ''), '/')[. ne 'charter']
@@ -181,8 +208,8 @@ return
                 if (exists($abstract) and normalize-space($abstract) ne '') then
                     <div class="card" style="margin-bottom: var(--space-lg);">
                         <div class="card-header">Abstract</div>
-                        <div class="card-body">
-                            <p>{normalize-space(string-join($abstract//text(), ' '))}</p>
+                        <div class="card-body" style="line-height:1.8;">
+                            <p>{local:render-mixed($abstract/node())}</p>
                         </div>
                     </div>
                 else ()
@@ -194,7 +221,7 @@ return
                     <div class="card" style="margin-bottom: var(--space-lg);">
                         <div class="card-header">Full Text (Tenor)</div>
                         <div class="card-body" style="line-height: 1.8; font-size: 1.05rem;">
-                            {$tenor/node()}
+                            {local:render-mixed($tenor/node())}
                         </div>
                     </div>
                 else ()

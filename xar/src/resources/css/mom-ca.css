@@ -465,6 +465,23 @@ a.card:hover {
     text-decoration: none;
 }
 
+/* Inline CEI annotations in charter view (read-only) */
+.cei-inline {
+    text-decoration: underline dotted;
+    text-decoration-color: #999;
+    text-underline-offset: 3px;
+    cursor: help;
+}
+.cei-inline[data-cei="persName"]  { text-decoration-color: #e74c3c; }
+.cei-inline[data-cei="placeName"] { text-decoration-color: #3498db; }
+.cei-inline[data-cei="orgName"]   { text-decoration-color: #e67e22; }
+.cei-inline[data-cei="geogName"]  { text-decoration-color: #16a085; }
+.cei-inline[data-cei="date"],
+.cei-inline[data-cei="dateRange"] { text-decoration-color: #27ae60; }
+.cei-inline[data-cei="foreign"]   { font-style: italic; text-decoration-color: #9b59b6; }
+.cei-inline[data-cei="issuer"]    { text-decoration-color: #c0392b; }
+.cei-inline[data-cei="recipient"] { text-decoration-color: #2980b9; }
+
 .charter-abstract {
     font-size: 0.9rem;
     color: var(--color-text-muted);
