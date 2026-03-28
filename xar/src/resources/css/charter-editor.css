@@ -295,13 +295,24 @@
     outline-offset: 1px;
 }
 
-/* CodeMirror wrapper */
+/* XML textarea (pro mode) */
 .cm-wrapper { display: none; }
-.cm-wrapper.active { display: block; }
-.cm-wrapper .cm-editor {
-    font-size: 0.85rem;
-    min-height: 120px;
+.xml-textarea {
+    width: 100%;
+    min-height: 200px;
     max-height: 500px;
+    padding: 12px;
+    font-family: 'SFMono-Regular', 'Consolas', 'Liberation Mono', 'Menlo', monospace;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    border: none;
+    outline: none;
+    resize: vertical;
+    background: #1e1e2e;
+    color: #cdd6f4;
+    tab-size: 2;
+    white-space: pre;
+    overflow-x: auto;
 }
 
 /* Attribute dialog */

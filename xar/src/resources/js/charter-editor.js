@@ -391,18 +391,16 @@ function initMixedEditor(wrapper) {
   var btnXml = toolbar.querySelector('[data-mode="xml"]');
   var tb = { btnVisual: btnVisual, btnXml: btnXml };
 
-  // CodeMirror setup (lazy load)
-  var cmView = null;
+  // XML textarea for pro mode
+  var xmlTextarea = null;
 
   // Mode switching
   tb.btnVisual.onclick = function() {
-    if (cmView) {
-      var xml = cmView.state.doc.toString();
-      editorDiv.innerHTML = ceiToHtml(xml);
+    if (xmlTextarea) {
+      editorDiv.innerHTML = ceiToHtml(xmlTextarea.value);
     }
     editorDiv.style.display = '';
     cmWrapper.style.display = 'none';
-    cmWrapper.classList.remove('active');
     tb.btnVisual.classList.add('active');
     tb.btnXml.classList.remove('active');
   };
@@ -411,18 +409,16 @@ function initMixedEditor(wrapper) {
     var xml = serializeToCEI(editorDiv);
     editorDiv.style.display = 'none';
     cmWrapper.style.display = 'block';
-    cmWrapper.classList.add('active');
     tb.btnXml.classList.add('active');
     tb.btnVisual.classList.remove('active');
 
-    if (!cmView && window.cmSetup) {
-      cmView = window.cmSetup(cmWrapper, xml);
-      cmInstances[fieldName] = cmView;
-    } else if (cmView) {
-      cmView.dispatch({
-        changes: { from: 0, to: cmView.state.doc.length, insert: xml }
-      });
+    if (!xmlTextarea) {
+      xmlTextarea = document.createElement('textarea');
+      xmlTextarea.className = 'xml-textarea';
+      xmlTextarea.spellcheck = false;
+      cmWrapper.appendChild(xmlTextarea);
     }
+    xmlTextarea.value = xml;
   };
 
   // Right-click context menu for inserting CEI elements
@@ -455,8 +451,8 @@ function initMixedEditor(wrapper) {
   var form = wrapper.closest('form');
   if (form) {
     form.addEventListener('submit', function() {
-      if (cmWrapper.classList.contains('active') && cmView) {
-        hiddenInput.value = cmView.state.doc.toString();
+      if (xmlTextarea && cmWrapper.style.display !== 'none') {
+        hiddenInput.value = xmlTextarea.value;
       } else {
         hiddenInput.value = serializeToCEI(editorDiv);
       }
@@ -510,42 +506,11 @@ function initRepeatables() {
   });
 }
 
-// ─── CodeMirror Setup (loaded from CDN) ─────────────────────────────────
-
-function loadCodeMirror(callback) {
-  if (window.cmSetup) { callback(); return; }
-
-  // Use the pre-built codemirror bundle that includes everything
-  var script = document.createElement('script');
-  script.type = 'module';
-  script.textContent = `
-    import {EditorView, basicSetup} from "https://cdn.jsdelivr.net/npm/codemirror@6/+esm";
-    import {xml} from "https://cdn.jsdelivr.net/npm/@codemirror/lang-xml@6/+esm";
-
-    window.cmSetup = function(container, content) {
-      return new EditorView({
-        doc: content || '',
-        extensions: [basicSetup, xml(), EditorView.lineWrapping],
-        parent: container
-      });
-    };
-    document.dispatchEvent(new Event('cm-ready'));
-  `;
-  document.head.appendChild(script);
-
-  document.addEventListener('cm-ready', function() { callback(); }, { once: true });
-}
-
 // ─── Init ───────────────────────────────────────────────────────────────
 
 function init() {
   initTabs();
   initRepeatables();
-
-  // Load CodeMirror in background
-  loadCodeMirror(function() {
-    // CM is ready — mixed editors can now switch to XML mode
-  });
 
   // Init all mixed content editors
   document.querySelectorAll('.mixed-editor-wrapper').forEach(function(w) {
