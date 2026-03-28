@@ -424,15 +424,23 @@ function initMixedEditor(wrapper) {
 
   // Right-click context menu for inserting CEI elements
   var fieldGroups = TOOLBAR_GROUPS[context] || TOOLBAR_GROUPS.abstract;
+  // Track selection state before contextmenu fires (browser may collapse it)
+  var savedSelection = '';
+  editorDiv.addEventListener('mouseup', function() {
+    var sel = window.getSelection();
+    savedSelection = sel ? sel.toString().trim() : '';
+  });
+  editorDiv.addEventListener('keyup', function() {
+    var sel = window.getSelection();
+    savedSelection = sel ? sel.toString().trim() : '';
+  });
+
   editorDiv.addEventListener('contextmenu', function(e) {
     // Only in visual mode
     if (editorDiv.style.display === 'none') return;
     e.preventDefault();
 
-    // Check if we have a text selection
-    var sel = window.getSelection();
-    var selText = sel ? sel.toString().trim() : '';
-    var hasSelection = selText.length > 0;
+    var hasSelection = savedSelection.length > 0;
 
     // Determine context: are we inside an annotation?
     var parentAnno = e.target.closest('.cei-anno');
@@ -440,7 +448,6 @@ function initMixedEditor(wrapper) {
 
     // DECISION: selection → always show insert menu, no selection → attr dialog
     if (!hasSelection && parentAnno && parentAnno !== editorDiv) {
-      // No selection, clicked on annotation → edit attributes
       showAttrDialog(parentAnno);
       return;
     }
@@ -450,10 +457,7 @@ function initMixedEditor(wrapper) {
     if (parentElem && ALLOWED_CHILDREN[parentElem] !== undefined) {
       allowedItems = ALLOWED_CHILDREN[parentElem];
       if (allowedItems.length === 0) {
-        // No children allowed in this element
-        if (!hasSelection) {
-          showAttrDialog(parentAnno);
-        }
+        if (!hasSelection) showAttrDialog(parentAnno);
         return;
       }
     }
