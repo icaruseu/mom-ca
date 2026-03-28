@@ -315,7 +315,13 @@ return
             <div class="form-group">
                 <label>Abstract</label>
                 <div class="mixed-editor-wrapper" data-context="abstract" data-field="abstract">
-                    <div class="mixed-editor-toolbar"></div>
+                    <div class="mixed-editor-toolbar">
+                        <div class="mode-toggle">
+                            <button type="button" class="mode-btn active" data-mode="visual">Standard</button>
+                            <button type="button" class="mode-btn" data-mode="xml">XML</button>
+                        </div>
+                        <span class="text-small text-muted" style="margin-left:12px;">Select text &#x2192; right-click to annotate</span>
+                    </div>
                     <div class="cei-editor" contenteditable="true">{local:cei-to-html($abstract/node())}</div>
                     <div class="cm-wrapper"></div>
                     <input type="hidden" name="abstract" value=""/>
@@ -340,7 +346,13 @@ return
             <div class="form-group">
                 <label>Tenor (Full Text)</label>
                 <div class="mixed-editor-wrapper" data-context="tenor" data-field="tenor">
-                    <div class="mixed-editor-toolbar"></div>
+                    <div class="mixed-editor-toolbar">
+                        <div class="mode-toggle">
+                            <button type="button" class="mode-btn active" data-mode="visual">Standard</button>
+                            <button type="button" class="mode-btn" data-mode="xml">XML</button>
+                        </div>
+                        <span class="text-small text-muted" style="margin-left:12px;">Select text &#x2192; right-click to annotate</span>
+                    </div>
                     <div class="cei-editor" contenteditable="true">{if (exists($tenor)) then local:cei-to-html($tenor/node()) else ()}</div>
                     <div class="cm-wrapper"></div>
                     <input type="hidden" name="tenor" value=""/>

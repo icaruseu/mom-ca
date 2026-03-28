@@ -386,8 +386,10 @@ function initMixedEditor(wrapper) {
   var cmWrapper = wrapper.querySelector('.cm-wrapper');
   var hiddenInput = wrapper.querySelector('input[type="hidden"]');
 
-  // Build toolbar
-  var tb = buildToolbar(toolbar, context);
+  // Find mode toggle buttons (already in HTML)
+  var btnVisual = toolbar.querySelector('[data-mode="visual"]');
+  var btnXml = toolbar.querySelector('[data-mode="xml"]');
+  var tb = { btnVisual: btnVisual, btnXml: btnXml };
 
   // CodeMirror setup (lazy load)
   var cmView = null;
