@@ -54,9 +54,12 @@ declare function local:render-kwic($hit as element()) as node()* {
                 <span class="kwic-line">
                     {for $node in $s/node()
                      return
-                        typeswitch($node)
-                        case element(exist:match) return <mark>{$node/text()}</mark>
-                        default return $node
+                        if ($node instance of element() and (
+                            local-name($node) = 'match' or
+                            ($node/@class = 'hi')
+                        )) then
+                            <mark>{$node/string()}</mark>
+                        else $node
                     }
                 </span>
         else
