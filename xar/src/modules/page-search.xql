@@ -131,6 +131,9 @@ declare function local:render-active-filter($label as xs:string, $value as xs:st
     else ()
 };
 
+(: Signal to view-wrap.xql that this page should be cacheable :)
+let $_ := request:set-attribute("mom.cacheable", "true")
+
 (: === URL Parameters === :)
 let $query := request:get-parameter('q', '')
 let $filter-country := request:get-parameter('country', '')

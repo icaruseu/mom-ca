@@ -56,7 +56,11 @@ let $merged := substring-before($template-str, $placeholder) || $content-str || 
 let $merged := substring-before($merged, $auth-placeholder) || $auth-nav || substring-after($merged, $auth-placeholder)
 let $merged := substring-before($merged, $user-placeholder) || $user-nav || substring-after($merged, $user-placeholder)
 
-let $_ := response:set-header("Cache-Control", "no-cache, no-store, must-revalidate")
+let $cacheable := request:get-attribute("mom.cacheable")
+let $_ := if ($cacheable = "true") then
+    response:set-header("Cache-Control", "private, max-age=300")
+else
+    response:set-header("Cache-Control", "no-cache, no-store, must-revalidate")
 
 return
     response:stream(
