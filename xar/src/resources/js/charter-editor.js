@@ -424,15 +424,14 @@ function initMixedEditor(wrapper) {
 
   // Right-click context menu for inserting CEI elements
   var fieldGroups = TOOLBAR_GROUPS[context] || TOOLBAR_GROUPS.abstract;
-  // Track selection state before contextmenu fires (browser may collapse it)
+  // Track selection continuously — Safari clears it on right-click
   var savedSelection = '';
-  editorDiv.addEventListener('mouseup', function() {
+  document.addEventListener('selectionchange', function() {
     var sel = window.getSelection();
-    savedSelection = sel ? sel.toString().trim() : '';
-  });
-  editorDiv.addEventListener('keyup', function() {
-    var sel = window.getSelection();
-    savedSelection = sel ? sel.toString().trim() : '';
+    if (sel && editorDiv.contains(sel.anchorNode)) {
+      var text = sel.toString().trim();
+      if (text.length > 0) savedSelection = text;
+    }
   });
 
   editorDiv.addEventListener('contextmenu', function(e) {
@@ -485,6 +484,7 @@ function initMixedEditor(wrapper) {
     }
 
     showContextMenu(e.pageX, e.pageY, menuGroups, editorDiv);
+    savedSelection = ''; // reset after showing menu
   });
 
   // Double-click on annotation → show attr dialog (single click = normal cursor)
