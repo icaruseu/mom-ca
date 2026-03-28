@@ -431,28 +431,29 @@ function initMixedEditor(wrapper) {
 
     // Check if we have a text selection
     var sel = window.getSelection();
-    var hasSelection = sel && sel.toString().length > 0;
-
-    // If no selection and right-clicking on an annotation, show attr dialog
-    if (!hasSelection) {
-      var anno = e.target.closest('.cei-anno');
-      if (anno && anno !== editorDiv) {
-        showAttrDialog(anno);
-        return;
-      }
-    }
+    var selText = sel ? sel.toString().trim() : '';
+    var hasSelection = selText.length > 0;
 
     // Determine context: are we inside an annotation?
     var parentAnno = e.target.closest('.cei-anno');
     var parentElem = parentAnno ? parentAnno.dataset.cei : null;
+
+    // DECISION: selection → always show insert menu, no selection → attr dialog
+    if (!hasSelection && parentAnno && parentAnno !== editorDiv) {
+      // No selection, clicked on annotation → edit attributes
+      showAttrDialog(parentAnno);
+      return;
+    }
 
     // Get allowed children for this context
     var allowedItems = null;
     if (parentElem && ALLOWED_CHILDREN[parentElem] !== undefined) {
       allowedItems = ALLOWED_CHILDREN[parentElem];
       if (allowedItems.length === 0) {
-        // No children allowed — show attr dialog for parent instead
-        showAttrDialog(parentAnno);
+        // No children allowed in this element
+        if (!hasSelection) {
+          showAttrDialog(parentAnno);
+        }
         return;
       }
     }
