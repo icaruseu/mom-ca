@@ -515,38 +515,19 @@ function initRepeatables() {
 function loadCodeMirror(callback) {
   if (window.cmSetup) { callback(); return; }
 
-  var modules = [
-    'https://cdn.jsdelivr.net/npm/@codemirror/state@6/dist/index.js',
-    'https://cdn.jsdelivr.net/npm/@codemirror/view@6/dist/index.js',
-    'https://cdn.jsdelivr.net/npm/@codemirror/language@6/dist/index.js',
-    'https://cdn.jsdelivr.net/npm/@codemirror/lang-xml@6/dist/index.js',
-    'https://cdn.jsdelivr.net/npm/@codemirror/commands@6/dist/index.js'
-  ];
-
-  // Use importmap approach via a single ESM bundle
+  // Use the pre-built codemirror bundle that includes everything
   var script = document.createElement('script');
   script.type = 'module';
   script.textContent = `
-    import {EditorState} from "https://cdn.jsdelivr.net/npm/@codemirror/state@6/+esm";
-    import {EditorView, keymap, lineNumbers} from "https://cdn.jsdelivr.net/npm/@codemirror/view@6/+esm";
-    import {defaultKeymap, history, historyKeymap} from "https://cdn.jsdelivr.net/npm/@codemirror/commands@6/+esm";
+    import {EditorView, basicSetup} from "https://cdn.jsdelivr.net/npm/codemirror@6/+esm";
     import {xml} from "https://cdn.jsdelivr.net/npm/@codemirror/lang-xml@6/+esm";
-    import {syntaxHighlighting, defaultHighlightStyle, bracketMatching} from "https://cdn.jsdelivr.net/npm/@codemirror/language@6/+esm";
 
     window.cmSetup = function(container, content) {
-      var state = EditorState.create({
+      return new EditorView({
         doc: content || '',
-        extensions: [
-          lineNumbers(),
-          history(),
-          bracketMatching(),
-          xml(),
-          syntaxHighlighting(defaultHighlightStyle),
-          keymap.of([...defaultKeymap, ...historyKeymap]),
-          EditorView.lineWrapping
-        ]
+        extensions: [basicSetup, xml(), EditorView.lineWrapping],
+        parent: container
       });
-      return new EditorView({ state: state, parent: container });
     };
     document.dispatchEvent(new Event('cm-ready'));
   `;
