@@ -67,6 +67,36 @@ const CEI_ATTRIBUTES = {
 // Empty (self-closing) elements
 const EMPTY_ELEMENTS = ['lb'];
 
+// ─── Allowed children per element (from CEI XSD) ───────────────────────
+// Used for context-sensitive right-click menus inside annotations.
+const ALLOWED_CHILDREN = {
+  persName:  ['persName','placeName','orgName','geogName','foreign','rolename','note','hi','sup'],
+  placeName: ['persName','placeName','orgName','foreign','index','note','hi','sup'],
+  orgName:   ['persName','placeName','orgName','geogName','foreign','note','hi','sup'],
+  geogName:  ['placeName','foreign','note','hi','sup'],
+  index:     ['hi','sup'],
+  foreign:   ['persName','placeName','orgName','geogName','index','date','dateRange','num','measure','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
+  hi:        ['persName','placeName','orgName','geogName','foreign','date','dateRange','num','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
+  sup:       [],
+  issuer:    ['persName','placeName','orgName','geogName','foreign','hi','sup'],
+  recipient: ['persName','placeName','orgName','geogName','foreign','hi','sup'],
+  invocatio: ['persName','placeName','orgName','geogName','foreign','date','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
+  intitulatio: ['persName','placeName','orgName','geogName','foreign','date','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
+  inscriptio: ['persName','placeName','orgName','geogName','foreign','date','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
+  arenga: ['persName','placeName','orgName','geogName','foreign','date','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
+  publicatio: ['persName','placeName','orgName','geogName','foreign','date','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
+  narratio: ['persName','placeName','orgName','geogName','foreign','date','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
+  dispositio: ['persName','placeName','orgName','geogName','foreign','date','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
+  sanctio: ['persName','placeName','orgName','geogName','foreign','date','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
+  corroboratio: ['persName','placeName','orgName','geogName','foreign','date','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
+  datatio: ['persName','placeName','orgName','geogName','foreign','date','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
+  subscriptio: ['persName','placeName','orgName','geogName','foreign','date','hi','sup','lb','expan','sic','corr','del','add','supplied','unclear'],
+  expan: ['hi','sup'], sic: ['hi','sup'], corr: ['hi','sup'],
+  del: ['hi','sup'], add: ['hi','sup'], supplied: ['hi','sup'], unclear: ['hi','sup'],
+  date: ['foreign','num','hi','sup'], dateRange: ['foreign','num'],
+  num: [], measure: [], note: ['persName','placeName','foreign','hi','sup'], bibl: ['hi','sup']
+};
+
 // ─── HTML ↔ CEI-XML Conversion ─────────────────────────────────────────
 
 function escapeXml(s) {
@@ -441,20 +471,63 @@ function initMixedEditor(wrapper) {
   };
 
   // Right-click context menu for inserting CEI elements
-  var groups = TOOLBAR_GROUPS[context] || TOOLBAR_GROUPS.abstract;
+  var fieldGroups = TOOLBAR_GROUPS[context] || TOOLBAR_GROUPS.abstract;
   editorDiv.addEventListener('contextmenu', function(e) {
     // Only in visual mode
     if (editorDiv.style.display === 'none') return;
     e.preventDefault();
 
-    // If right-clicking on an existing annotation, show attr dialog instead
-    var anno = e.target.closest('.cei-anno');
-    if (anno && anno !== editorDiv) {
-      showAttrDialog(anno);
-      return;
+    // Check if we have a text selection
+    var sel = window.getSelection();
+    var hasSelection = sel && sel.toString().length > 0;
+
+    // If no selection and right-clicking on an annotation, show attr dialog
+    if (!hasSelection) {
+      var anno = e.target.closest('.cei-anno');
+      if (anno && anno !== editorDiv) {
+        showAttrDialog(anno);
+        return;
+      }
     }
 
-    showContextMenu(e.pageX, e.pageY, groups, editorDiv);
+    // Determine context: are we inside an annotation?
+    var parentAnno = e.target.closest('.cei-anno');
+    var parentElem = parentAnno ? parentAnno.dataset.cei : null;
+
+    // Get allowed children for this context
+    var allowedItems = null;
+    if (parentElem && ALLOWED_CHILDREN[parentElem] !== undefined) {
+      allowedItems = ALLOWED_CHILDREN[parentElem];
+      if (allowedItems.length === 0) {
+        // No children allowed — show attr dialog for parent instead
+        showAttrDialog(parentAnno);
+        return;
+      }
+    }
+
+    // Build context-sensitive menu groups
+    var menuGroups;
+    if (allowedItems) {
+      // Filter field groups to only allowed items
+      menuGroups = [];
+      fieldGroups.forEach(function(group) {
+        var filtered = group.items.filter(function(item) {
+          return allowedItems.indexOf(item) !== -1;
+        });
+        if (filtered.length > 0) {
+          menuGroups.push({ label: group.label + ' (in ' + parentElem + ')', items: filtered });
+        }
+      });
+      if (menuGroups.length === 0) {
+        // Fallback: flat list of allowed items
+        menuGroups = [{ label: 'Allowed in ' + parentElem, items: allowedItems }];
+      }
+    } else {
+      // Top-level: use full field groups
+      menuGroups = fieldGroups;
+    }
+
+    showContextMenu(e.pageX, e.pageY, menuGroups, editorDiv);
   });
 
   // Click on annotation → show attr dialog
