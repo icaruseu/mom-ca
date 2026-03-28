@@ -196,32 +196,34 @@ return
         <filter-rewrite>yes</filter-rewrite>
     </options>
 
-    let $hits := collection('/db/mom-data/metadata.charter.public')//cei:text[ft:query(., $query, $options)]
+    (: Build combined Lucene query with all filters in one call :)
+    let $base := collection('/db/mom-data/metadata.charter.public')
+    let $hits := $base//cei:text[ft:query(., $query, $options)]
 
-    (: Apply facet filters :)
+    (: Apply filters using chained ft:query on indexed elements — faster than XPath :)
     let $filtered := $hits
     let $filtered := if ($filter-country ne '') then
-        $filtered[ancestor::atom:entry//cei:country = $filter-country]
+        $filtered[ft:query(ancestor::atom:entry//cei:country, '"' || $filter-country || '"')]
     else $filtered
     let $filtered := if ($filter-language ne '') then
-        $filtered[.//cei:lang_MOM = $filter-language]
+        $filtered[ft:query(.//cei:lang_MOM, '"' || $filter-language || '"')]
     else $filtered
     let $filtered := if ($filter-place ne '') then
-        $filtered[.//cei:issued/cei:placeName/@reg = $filter-place]
+        $filtered[ft:query(.//cei:issued//cei:placeName//@reg, '"' || $filter-place || '"')]
     else $filtered
     let $filtered := if ($filter-person ne '') then
-        $filtered[ancestor::atom:entry//cei:back/cei:persName/@reg = $filter-person]
+        $filtered[ft:query(ancestor::atom:entry//cei:persName//@reg, '"' || $filter-person || '"')]
     else $filtered
     let $filtered := if ($filter-indexPlace ne '') then
-        $filtered[ancestor::atom:entry//cei:back/cei:placeName/@reg = $filter-indexPlace]
+        $filtered[ft:query(ancestor::atom:entry//cei:back//cei:placeName//@reg, '"' || $filter-indexPlace || '"')]
     else $filtered
 
-    (: Date range filter :)
+    (: Date range filter — use range index :)
     let $filtered := if ($from ne '') then
-        $filtered[ancestor::atom:entry//cei:issued/(cei:date/@value|cei:dateRange/@from) >= $from]
+        $filtered[ancestor::atom:entry//cei:issued/(cei:date[@value >= $from]|cei:dateRange[@from >= $from])]
     else $filtered
     let $filtered := if ($to ne '') then
-        $filtered[ancestor::atom:entry//cei:issued/(cei:date/@value|cei:dateRange/@to) <= $to]
+        $filtered[ancestor::atom:entry//cei:issued/(cei:date[@value <= $to]|cei:dateRange[@to <= $to])]
     else $filtered
 
     (: Facet counts with try/catch fallback :)
