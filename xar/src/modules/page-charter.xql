@@ -359,6 +359,19 @@ return
                     let $lock-doc := collection($lock-path)//*[local-name()='lock'][*[local-name()='charter-id'] = $charter-atom-id]
                     let $locked-by := string($lock-doc/*[local-name()='user'])
                     let $private-id := string($lock-doc/*[local-name()='private-id'])
+                    (: Fallback: check sameAs in user's private charters :)
+                    let $user-has-copy :=
+                        if ($locked-by = '' and $current-user ne '') then
+                            let $ucp := '/db/mom-data/xrx.user/' || xmldb:encode($current-user) || '/metadata.charter'
+                            return if (xmldb:collection-available($ucp)) then
+                                let $sub := xmldb:get-child-collections($ucp)
+                                return (for $s in $sub return collection($ucp || '/' || $s)/atom:entry[.//cei:text/@sameAs = $charter-atom-id])[1]
+                            else ()
+                        else ()
+                    let $locked-by := if ($locked-by ne '') then $locked-by
+                        else if (exists($user-has-copy)) then $current-user else ''
+                    let $private-id := if ($private-id ne '') then $private-id
+                        else if (exists($user-has-copy)) then string($user-has-copy/atom:id) else ''
                     return
                         if ($locked-by ne '' and $locked-by ne $current-user) then
                             <div class="card">

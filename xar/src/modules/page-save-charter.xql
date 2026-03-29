@@ -41,10 +41,26 @@ return
         </div>
     else
 
-(: Check if charter is already locked by another user :)
+(: Check if charter is already locked :)
 let $lock-path := '/db/mom-data/charter-locks'
+let $_ := if (not(xmldb:collection-available($lock-path))) then
+    xmldb:create-collection('/db/mom-data', 'charter-locks') else ()
 let $lock-doc := collection($lock-path)//*[local-name()='lock'][*[local-name()='charter-id'] = $charter-atom-id]
 let $locked-by := string($lock-doc/*[local-name()='user'])
+
+(: Fallback: check if user already has a private copy with sameAs matching this charter :)
+let $existing-copy :=
+    if ($locked-by = '') then
+        let $user-charter-path := '/db/mom-data/xrx.user/' || xmldb:encode($user) || '/metadata.charter'
+        return if (xmldb:collection-available($user-charter-path)) then
+            let $sub-colls := xmldb:get-child-collections($user-charter-path)
+            return (
+                for $sc in $sub-colls
+                let $sc-path := $user-charter-path || '/' || $sc
+                return collection($sc-path)/atom:entry[.//cei:text/@sameAs = $charter-atom-id]
+            )[1]
+        else ()
+    else ()
 
 return
     if ($locked-by ne '' and $locked-by ne $user) then
@@ -55,13 +71,15 @@ return
                 <a href="javascript:history.back()" class="btn">Go Back</a>
             </div>
         </div>
-    else if ($locked-by = $user) then
-        let $existing-private-id := string($lock-doc/*[local-name()='private-id'])
-        let $priv-tokens := tokenize(substring-after($existing-private-id, conf:param('atom-tag-name')), '/')[. ne '']
+    else if ($locked-by = $user or exists($existing-copy)) then
+        let $existing-id := if ($locked-by = $user) then
+            string($lock-doc/*[local-name()='private-id'])
+        else string($existing-copy/atom:id)
+        let $priv-tokens := tokenize(substring-after($existing-id, conf:param('atom-tag-name')), '/')[. ne '']
         let $priv-coll := $priv-tokens[2]
         let $priv-id := $priv-tokens[last()]
         let $_ := response:redirect-to(xs:anyURI('/mom/' || $priv-coll || '/' || $priv-id || '/charter'))
-        return ()
+        return <div>Redirecting to existing copy...</div>
     else
 
 (: Parse atom:id to find source charter efficiently :)
