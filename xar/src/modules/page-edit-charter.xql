@@ -247,7 +247,7 @@ if (request:get-method() = 'POST') then
     let $doc-name := replace($doc-uri, '^.*/', '')
     let $_ := xmldb:store($doc-coll, $doc-name, $new-entry)
     let $_ := response:redirect-to(xs:anyURI('/mom/' || $collection-key || '/' || $charter-key || '/charter'))
-    return ()
+    return <div>Saved. Redirecting...</div>
 
 (: ---- GET: render editor form ---- :)
 else
