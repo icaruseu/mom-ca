@@ -58,6 +58,7 @@
           <group>google</group>
           <group>date</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field>
       <editor_field>
@@ -74,6 +75,7 @@
           <group>google</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field>
       <editor_field>
@@ -89,7 +91,8 @@
           <group>date</group>
           <group>google</group>
           <group>illurk</group>
-          <group>max</group> 
+          <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field>
       <editor_field>
@@ -105,6 +108,7 @@
           <group>date</group>
           <group>google</group>
           <group>illurk</group>
+          <group>archival</group>
 		  <group>max</group>         
         </groups>
       </editor_field>
@@ -121,6 +125,7 @@
           <group>google</group>
           <group>date</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field>
       <!-- Tab-Page 2 Fields -->
@@ -153,6 +158,7 @@
           <group>frontEditor</group>
           <group>google</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field>
       <editor_field>
@@ -169,6 +175,7 @@
           <group>google</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field>
 
@@ -186,6 +193,7 @@
           <group>frontEditor</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field> 
       <editor_field>
@@ -201,6 +209,7 @@
           <group>witnessEditor</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field>
       <editor_field>
@@ -216,6 +225,7 @@
           <group>witnessEditor</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field>
       <editor_field> 
@@ -231,6 +241,7 @@
           <group>witnessEditor</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field>
       
@@ -247,6 +258,7 @@
           <group>witnessEditor</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field> 
  
@@ -263,6 +275,7 @@
           <group>witnessEditor</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field>
       
@@ -279,6 +292,7 @@
           <group>witnessEditor</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field> 
       <editor_field>
@@ -294,6 +308,7 @@
           <group>witnessEditor</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field> 
       <editor_field>
@@ -309,6 +324,7 @@
           <group>witnessEditor</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field>
       <editor_field>
@@ -324,6 +340,7 @@
           <group>witnessEditor</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field> 
       <!-- Tab-Page DecoDescription -->
@@ -339,6 +356,7 @@
         <groups>          
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field>
       
@@ -477,6 +495,7 @@
           <group>full</group>
           <group>witnessEditor</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field> 
       <!-- Tab-Page 6 Fields -->
@@ -493,6 +512,7 @@
           <group>witnessEditor</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field>   
       <editor_field>
@@ -523,6 +543,7 @@
           <group>witnessEditor</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field> 
       <editor_field>
@@ -538,6 +559,7 @@
           <group>witnessEditor</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field> 
       <editor_field>
@@ -553,6 +575,7 @@
           <group>witnessEditor</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field> 
       <editor_field>
@@ -568,6 +591,7 @@
           <group>witnessEditor</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field> 
       <editor_field>
@@ -583,6 +607,7 @@
           <group>diplomaticEditor</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field> 
       <editor_field>
@@ -597,6 +622,7 @@
           <group>full</group>
           <group>diplomaticEditor</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field>
       <editor_field>
@@ -611,6 +637,7 @@
           <group>full</group>
           <group>diplomaticEditor</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field>
       <editor_field>
@@ -626,6 +653,7 @@
           <group>witnessEditor</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field>
       <editor_field>
@@ -641,6 +669,7 @@
           <group>diplomaticEditor</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field> 
       <!-- Tab-Page 7 Fields -->
@@ -657,6 +686,7 @@
           <group>personEditor</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field>
       <editor_field>
@@ -672,6 +702,7 @@
           <group>placeEditor</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field> 
       <editor_field>
@@ -687,6 +718,7 @@
           <group>indexEditor</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field>
       <editor_field>
@@ -701,6 +733,7 @@
           <group>full</group>
           <group>illurk</group>
           <group>max</group>
+          <group>archival</group>
         </groups>
       </editor_field>
     </editor_fields>
