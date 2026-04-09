@@ -554,10 +554,25 @@
       <xrx:true>
         <xrx:view>
           <xrx:div>title-div</xrx:div>
-          <xrx:div>select-concept-div</xrx:div>
-          <xrx:div>preflabel-div</xrx:div>
-          <xrx:div>broader-div</xrx:div>
-          <xrx:div>description-div</xrx:div>
+          {
+          if ($vocab = '') then 
+          (
+            <div>No vocabulary selected.</div>
+          )
+          else if (empty($skosfile)) then
+          (
+            <div>Please create a private copy of this vocabulary to edit it.</div>
+          )
+          else
+          (
+            <div>
+              <xrx:div>select-concept-div</xrx:div>
+              <xrx:div>preflabel-div</xrx:div>
+              <xrx:div>broader-div</xrx:div>
+              <xrx:div>description-div</xrx:div>
+            </div>
+          )
+          }
         </xrx:view>
       </xrx:true>
       <xrx:false>
