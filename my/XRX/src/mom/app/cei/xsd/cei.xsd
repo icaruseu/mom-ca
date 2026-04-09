@@ -3186,6 +3186,8 @@
                             <xs:element ref="del"/>
                             <xs:element ref="app"/>
                             <xs:element ref="unclear"/>
+                            <xs:element ref="add"/>
+                            <xs:element ref="expan"/>
                         </xs:choice>
                         <xs:attributeGroup ref="wit"/>
                         <xs:attributeGroup ref="standard"/>
