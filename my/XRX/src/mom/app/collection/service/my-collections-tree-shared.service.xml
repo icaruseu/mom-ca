@@ -54,7 +54,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
             let $tokens := tokenize(util:collection-name($shared), '/')
             let $collectionid := $tokens[last()]
             let $atomid := metadata:atomid('mycollection', $collectionid)
-            let $entry := $user:db-base-collection//atom:id[.=$atomid]/parent::atom:entry[cei:cei]
+            let $entry := $user:db-base-collection//atom:id[.=$atomid]/parent::atom:entry
             let $collection-name := $entry//cei:titleStmt/cei:title/text()
             order by $collection-name
             return
