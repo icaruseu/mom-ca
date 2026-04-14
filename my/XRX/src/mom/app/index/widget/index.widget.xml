@@ -795,8 +795,8 @@ ul.namelist {{
               return
               if ($parameter != '') then
               let $personenliste := $index:personcollection/atom:entry[contains(atom:id, $voc)]//tei:listPerson
-              let $eintrag := if($parameter != '' and $parameter != 'A-Z') then $personenliste//tei:person[starts-with(descendant::text()[normalize-space()][1], $parameter)] 
-                              else if($parameter = 'A-Z') then $personenliste//tei:person
+              let $eintrag := if($parameter != '' and $parameter != 'A-Z') then $personenliste/tei:person[starts-with(descendant::text()[normalize-space()][1], $parameter)] 
+                              else if($parameter = 'A-Z') then $personenliste/tei:person
                               else()
 
               let $zahlen := count($eintrag)              
@@ -842,16 +842,16 @@ ul.namelist {{
          <ul class="choose-menu">
             {           
          for $i in $index:vocabularycollection
-         let $text := if($i//atom:content//skos:ConceptScheme/skos:prefLabel/@xml:lang = $sprache) 
-         then $i//atom:content//skos:ConceptScheme/skos:prefLabel[@xml:lang = $sprache]/text()
-         else($i//atom:content//skos:ConceptScheme/skos:prefLabel[1]/text())
+         let $text := if($i/atom:entry/atom:content/rdf:RDF/skos:ConceptScheme/skos:prefLabel/@xml:lang = $sprache) 
+         then $i/atom:entry/atom:content/rdf:RDF/skos:ConceptScheme/skos:prefLabel[@xml:lang = $sprache]/text()
+         else($i/atom:entry/atom:content/rdf:RDF/skos:ConceptScheme/skos:prefLabel[1]/text())
 
-         let $name := tokenize($i//atom:id/text(), '/')[last()]
+         let $name := tokenize($i/atom:entry/atom:id/text(), '/')[last()]
          let $memo := if($name != "") then session:set-attribute($name, $text) else ()
         
          return          
          
-         <li><a class="ui-button ui-widget ui-corner-all" href="{concat(conf:param('request-root'), 'index/',tokenize($i//atom:id/text(), 'controlledVocabulary/')[2])}">{$text}</a></li>
+         <li><a class="ui-button ui-widget ui-corner-all" href="{concat(conf:param('request-root'), 'index/',tokenize($i/atom:entry/atom:id/text(), 'controlledVocabulary/')[2])}">{$text}</a></li>
          
              
          }
@@ -859,15 +859,15 @@ ul.namelist {{
         
          for $p in $index:personcollection
          let $files := util:document-name($p)         
-         let $text := if($p//atom:content//tei:title[@xml:lang=$sprache]/text() !='')
-          then $p//atom:content//tei:title[@xml:lang=$sprache]/text()
-         else($p//atom:content//tei:title[1]/text())
-         let $name := tokenize($p//atom:id/text(), '/')[last()]         
+         let $text := if($p/atom:entry/atom:content//tei:title[@xml:lang=$sprache]/text() !='')
+          then $p/atom:entry/atom:content//tei:title[@xml:lang=$sprache]/text()
+         else($p/atom:entry/atom:content//tei:title[1]/text())
+         let $name := tokenize($p/atom:entry/atom:id/text(), '/')[last()]         
          let $memo := if($name != "") then session:set-attribute($name, $text) else ()
          
          return        
          
-         <li><a class="ui-button ui-widget ui-corner-all" href="{concat(conf:param('request-root'), 'index/',tokenize($p//atom:id/text(), 'person/')[2])}">{$text}</a></li>
+         <li><a class="ui-button ui-widget ui-corner-all" href="{concat(conf:param('request-root'), 'index/',tokenize($p/atom:entry/atom:id/text(), 'person/')[2])}">{$text}</a></li>
         
          
          }
