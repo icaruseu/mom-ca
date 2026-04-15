@@ -52,16 +52,6 @@ declare variable $index:vocabularycollection := collection(concat(conf:param("da
 declare variable $index:sprache := substring($xrx:lang, 0,3);
 
 
-
- declare function index:index-check($voc){
-    for $file in $index:personcollection   
-    let $file-lastname := tokenize($file//atom:id, '/')[last()]      
-    return
-     if ($file-lastname = $voc)
-     then true()
-     else()    
-};
-
 (: function searches hits of a lemma in @ of published charters. 
 and searches hits from narrower terms as well.
 It returns the entries (atom:entry):
@@ -70,28 +60,29 @@ in other index a specific value in the @lemma is searched in the public collecti
 :)
 
 declare function index:index-abfrage($term, $coll){
-      let $treffergesamt := 
-          if ($coll = 'person') then $index:chartercollection//cei:text[.//@key = $term] 
-          else( let $mehr :=  for $jeweils in index:narrower($term)
-                              let $st := if(starts-with($jeweils, '#') ) then substring-after($jeweils, '#') else($jeweils)
-                              return $index:chartercollection//cei:text[.//@lemma = $st]                   
-                let $treffer := $index:chartercollection//cei:text[.//@lemma = substring-after($term, '#')]
-                return $treffer union $mehr
+      let $all-hits := 
+          if ($coll = 'person') then $index:chartercollection//cei:persName[@key = $term]/ancestor::cei:text[@type='charter']
+          else (
+            let $lemma-hits := $index:chartercollection//cei:index[@lemma = substring-after($term, '#')]/ancestor::cei:text[@type='charter']
+            let $narrower-terms := 
+                for $n in index:narrower($term)
+                return if (starts-with($n, '#')) then substring-after($n, '#') else $n                  
+            let $lemma-values := ($term, $narrower-terms)
+            for $dlv in distinct-values($lemma-values)
+            return $index:chartercollection//@lemma[data() = $dlv]/ancestor::cei:text[@type='charter']
                 )            
-      for $treffer in $treffergesamt
-        let $date := charters:date-selector($treffer//cei:issued, 'from')
-        order by number($date) ascending
-        return 
-          $treffer/ancestor::atom:entry 
+      for $hit in $all-hits
+        let $date := charters:date-selector($hit/cei:body/cei:chDesc/cei:issued, 'from')
+        order by number($date)
+        return $hit/ancestor::atom:entry 
 };
 
- 
- declare function index:narrower($term as xs:string) {
-           let $suchterm := if(starts-with($term, '#')) then  $term else (concat('#', $term))
-           let $voc := if( $index:vocabularycollection//skos:Concept[@rdf:about= $suchterm]/skos:narrower) then $index:vocabularycollection//skos:Concept[@rdf:about= $suchterm]/skos:narrower else ()
-           let $narrow := data($voc/@rdf:resource)          
-           return $narrow
- }; (: $narrow ist eine Sequenz an Strings, die auch gesucht werden sollen :)
+declare function index:narrower($term as xs:string) as xs:string* {
+  let $concepts := $index:vocabularycollection//skos:Concept
+  let $uri := if (starts-with($term, '#')) then $term else concat('#', $term)
+  let $voc := $concepts[@rdf:about = $uri]/skos:narrower
+  return data($voc/@rdf:resource)
+}; (: $narrow ist eine Sequenz an Strings, die auch gesucht werden sollen :)
  
 
 (: the following two functions are needed to cut TEI data in order to get a userfriendly representation of the text in the UI :)
