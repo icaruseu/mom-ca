@@ -52,16 +52,6 @@ declare variable $index:vocabularycollection := collection(concat(conf:param("da
 declare variable $index:sprache := substring($xrx:lang, 0,3);
 
 
-
- declare function index:index-check($voc){
-    for $file in $index:personcollection   
-    let $file-lastname := tokenize($file//atom:id, '/')[last()]      
-    return
-     if ($file-lastname = $voc)
-     then true()
-     else()    
-};
-
 (: function searches hits of a lemma in @ of published charters. 
 and searches hits from narrower terms as well.
 It returns the entries (atom:entry):

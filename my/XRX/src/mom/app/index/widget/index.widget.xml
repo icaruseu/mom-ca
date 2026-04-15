@@ -37,7 +37,7 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
      </xrx:variable>   
      <xrx:variable>
        <xrx:name>$coll</xrx:name>
-       <xrx:expression>if(index:index-check($voc))then ('person') else('controlledVocabulary')</xrx:expression>
+       <xrx:expression>if(exists($index:personcollection/atom:entry/atom:id[ends-with(., concat('/', $voc))])) then ('person') else('controlledVocabulary')</xrx:expression>
      </xrx:variable>
      <xrx:variable>
       <xrx:name>$indexterm</xrx:name>
