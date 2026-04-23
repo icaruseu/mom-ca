@@ -232,6 +232,14 @@ right:220px;
                                   </xrx:i18n>
                               </a>
                           </div>
+                          <div data-demoid="download-skos">
+                              <a class="" href="{ conf:param('request-root') }atom/GET{ metadata:feed('controlledVocabulary', 'private') }/{ skos-edit:get-vocab-filename($vocab) }.xml">
+                                  <xrx:i18n>
+                                      <xrx:key>Download saved SKOS</xrx:key>
+                                      <xrx:default>Download saved SKOS</xrx:default>
+                                  </xrx:i18n>
+                              </a>
+                          </div>                              
 
                           { 
                           bookmark:trigger(
