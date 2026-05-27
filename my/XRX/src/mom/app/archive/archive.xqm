@@ -31,7 +31,7 @@ import module namespace conf="http://www.monasterium.net/NS/conf"
 
 declare variable $archive:metadata-object-type := 'archive';
 
-declare function archive:permalink($entry as element(atom:entry)) as xs:string {
+declare function archive:permalink($entry) as xs:string {
 
     let $archive-key := tokenize($entry//atom:id/text(), '/')[last()]
     return

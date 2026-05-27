@@ -336,7 +336,7 @@ div#archive div#container {{
                   let $fond-name := ($fond/ead:did/ead:unittitle/text(), concat('[', tokenize(root($fond)//atom:id/text(), '/')[last()], ']'))[1]
                   let $fond-atomid := root($fond)//atom:id/text()
                   let $fond-id-encoded := tokenize($fond-atomid, '/')[last()]
-                  order by $fond collation "?lang=de-DE"
+                  order by $fond-name collation "?lang=de-DE"
                   return
                   <div data-demoid="60286722-27cf-45cd-9218-141feca81ce9">
                     <div class="fondlink" data-demoid="86115f46-879c-4c0c-9cf6-b97e0f5d1a68">
@@ -399,7 +399,7 @@ div#archive div#container {{
 					let $fond-name := ($fond/ead:did/ead:unittitle/text(), concat('[', tokenize(root($fond)//atom:id/text(), '/')[last()], ']'))[1]
 					let $fond-atomid := root($fond)//atom:id/text()
 					let $fond-id-encoded := tokenize($fond-atomid, '/')[last()]
-					order by $fond collation "?lang=de-DE"
+					order by $fond-name collation "?lang=de-DE"
 					return
 					<div class="fondlink" data-demoid="704f12b3-e101-43d2-82cb-7b04da231ab6">
 						<a href="{ concat($fond-id-encoded, '/fond') }">{ $fond-name }</a>

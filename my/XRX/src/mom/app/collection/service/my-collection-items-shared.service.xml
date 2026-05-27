@@ -79,7 +79,7 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
           jsonx:object(
             for $entry at $num in $entries
             let $objectid := metadata:objectid($entry/atom:id/text())
-            let $date := $entry//cei:dateRange/@from/string()
+            let $date := $entry//cei:issued/cei:dateRange/@from/string()
             let $idno := $entry//cei:body/cei:idno/text()
             let $title := 
               let $charter-title := concat(substring(string-join($entry//cei:abstract//text(), ''), 1, 50), ' ...')

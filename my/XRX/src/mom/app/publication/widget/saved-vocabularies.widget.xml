@@ -147,10 +147,10 @@ right:220px;
     <xrx:view>
   {
     (: saved vocabularies :)
-    let $saved-vocabs := $xrx:user-xml//xrx:saved[xrx:freigabe='no']/xrx:id/text()[contains(., 'controlledVocabulary')]
+    let $unreleased-vocabs := $xrx:user-xml//xrx:saved[xrx:freigabe='no']/xrx:id/text()[contains(., 'controlledVocabulary')]
 
     (: pagination :)
-    let $numentries := count($saved-vocabs)
+    let $numentries := count($unreleased-vocabs)
     let $startstop := pagination:startstop($numentries)
     let $navigation := pagination:navi($numentries)
     
@@ -166,7 +166,7 @@ right:220px;
             <xf:group>
                 <div data-demoid="5a92598b-dcbf-4cf7-8449-d55a272d614e" id="dcharter-preview-main">
           {
-          for $vocab at $num in $saved-vocabs[position() = $startstop]
+          for $vocab at $num in $unreleased-vocabs[position() = $startstop]
           
           (: get vocab from public area :)
           let $published-vocab := root(metadata:base-collection('controlledVocabulary', 'public')//atom:id[.=$vocab])
@@ -258,6 +258,31 @@ right:220px;
               </div>
           </div>
                     }
+        {
+        (: display message for released vocabularies that they are awaiting review by the moderator :)
+        let $released-vocabs := $xrx:user-xml//xrx:saved[xrx:freigabe='yes']/xrx:id/text()[contains(., 'controlledVocabulary')]
+        for $vocab in $released-vocabs
+        let $published-vocab := root(metadata:base-collection('controlledVocabulary', 'public')//atom:id[.=$vocab])
+        let $vocab-name := $published-vocab//atom:content/rdf:RDF/skos:ConceptScheme/skos:prefLabel[1] (: TODO: generalize and make language-dynamic :)
+        return 
+        <div class="charter">
+            <div class="charter-preview">
+                <div class="inner-charter-preview">
+                    <div data-demoid="vocab-under-review">
+                        <b>
+                            <xrx:i18n>
+                                <xrx:key>vocabulary</xrx:key>
+                                <xrx:default>Vocabulary</xrx:default>
+                            </xrx:i18n>
+                            <span>: </span>
+                        </b>
+                        <span>{ $vocab-name }</span>
+                    </div>
+                    {concat('This vocabulary is currently under review by the following moderator: ', $xrx:user-xml/xrx:moderator/text())}
+                </div>
+            </div>
+        </div>
+        }
                     <script type="text/javascript">
                         $('.delete-local-copy').click(function () {{
                         var vocabID = $(this).attr("href");

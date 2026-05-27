@@ -5,6 +5,7 @@
             <create qname="xrx:email" type="xs:string"/>
             <create qname="xrx:id" type="xs:string"/>
             <create qname="atom:id" type="xs:string"/>
+            <create qname="xrx:freigabe" type="xs:string"/>
         </range>
   </index>
 </collection>

@@ -6,6 +6,11 @@
                 doctype-public="-//Mort Bay Consulting//DTD Configure 1.2//EN"
                 doctype-system="http://jetty.mortbay.org/configure_1_2.dtd"/>
 
+    <!-- Override outputBufferSize default to 1MB to prevent response committed errors on large collections -->
+    <xsl:template match="//New[@id='httpConfig']/Set[@name='outputBufferSize']/Property/@default">
+        <xsl:attribute name="default">1048576</xsl:attribute>
+    </xsl:template>
+
     <xsl:template match="//New[@id='httpConfig']">
         <xsl:copy>
             <xsl:apply-templates select="@*|node()"/>

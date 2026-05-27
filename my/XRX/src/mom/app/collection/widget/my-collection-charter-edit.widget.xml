@@ -544,6 +544,7 @@ font-weight: bold !important;
                                 <option value="">Standard</option>
                                 <option value="?mode=illurk">Illurk</option>
                                 <option value="?mode=max">Full</option>
+                                <option value="?mode=archival">Archival</option>
                             </select>
                         </div>
                         <div data-demoid="4e751e31-7e32-42cd-96a3-ce571b5ea97a" id="image-tool-div">

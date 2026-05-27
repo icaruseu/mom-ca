@@ -55,7 +55,7 @@ declare function pagination:navi($numitems as xs:integer) as element() {
         <div class="dnavigation-item">
           <a href="{ $xrx:tokenized-uri[last()] }?page={ $numstring }&amp;perpage={ $pagination:rperpage }&amp;{ $copy-parameter }">
             {(
-                if($num != $pagination:rpage) then () else attribute id { "selecteda" }, 
+                if($num != $pagination:rpage) then () else (attribute id { "selecteda" }, attribute style { "font-weight:bold;background-color:#f1f4f1" }),
                 $numstring 
             )}
           </a>

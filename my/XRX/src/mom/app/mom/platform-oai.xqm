@@ -26,24 +26,46 @@ declare option exist:serialize "method=xml media-type=text/xml omit-xml-declarat
 (: produce the headers and content of oai record:)
 declare function platform-oai:transform($verb as xs:string, $document as node()*, $metadata-prefix as xs:string) as node()*{
     (: XSLT for content transformation :)
-    let $content-xsl := 
-                        if(fn:compare($metadata-prefix,"oai_dc")=0)then
-                            collection($platform-oai:platform-base-uri)//xsl:stylesheet[@id ='cei2oaidc']
-                        else if(fn:compare($metadata-prefix,"ese")=0)then
-                            collection($platform-oai:platform-base-uri)//xsl:stylesheet[@id ='cei2ese']
-                        else collection($platform-oai:platform-base-uri)//xsl:stylesheet[@id ='cei2oaidc']
+    let $script-id := switch ($metadata-prefix)
+        case "oai_dc" return "cei2oaidc"
+        case "ese" return "cei2ese"
+        case "edm" return "cei2edm"
+        default return "cei2oaidc"
+    let $content-xsl := collection($platform-oai:platform-base-uri)//xsl:stylesheet[@id =$script-id]
     (: XSLT for header transformation :)
     let $header-xsl := collection($platform-oai:platform-base-uri)//xsl:stylesheet[@id ='cei2oaiheader']
     (: define data provider and image URL (in addiction to archive/ collection/ fonds) :)
     let $data-provider := local:search-for-data-provider($document//atom:entry/atom:id/text())
-    let $fondid := local:object-uri-tokens($document//atom:entry/atom:id/text())[2]
-    let $base-image-url := local:search-for-image-url($document//atom:entry/atom:id/text())
+    let $tokens := local:object-uri-tokens($document//atom:entry/atom:id/text())
+    let $fondid := $tokens[2]
+    (: The name of the parent object for archival and collection charters to be used in EDM :)
+    let $parent-title := if ($metadata-prefix != "edm") then
+        ()
+    else
+        if(count($tokens) = 3) then
+            (: Archival charter :)
+            let $archive := collection("/db/mom-data/metadata.archive.public")//atom:entry[./atom:id = "tag:www.monasterium.net,2011:/archive/" || $tokens[1]]//eag:autform
+            let $fond := collection("/db/mom-data/metadata.fond.public")//atom:entry[./atom:id = "tag:www.monasterium.net,2011:/fond/" || $tokens[1] || "/" || $tokens[2]]//ead:unittitle
+            return
+                concat(normalize-space($archive), '; ', normalize-space($fond))
+        else
+            (: Collection charter :)
+            let $collection-id := $tokens[1]
+            let $mycollection := collection("/db/mom-data/metadata.mycollection.public")//atom:entry[./atom:id = "tag:www.monasterium.net,2011:/mycollection/" || $collection-id]
+            let $coll-document := if (exists($mycollection)) then 
+                    $mycollection
+                else
+                    collection("/db/mom-data/metadata.collection.public")//atom:entry[./atom:id = "tag:www.monasterium.net,2011:/collection/" || $collection-id]
+            return
+                normalize-space($coll-document//cei:title)
+    let $base-image-url := local:get-image-base-url($document//atom:entry/atom:id)
     (: specific params for XSLT Transformation :)
     let $xsl-content-params := <parameters>
                                       <param name="platform-id" value="{ $conf:project-name }"/>
                                       <param name="data-provider" value="{ $data-provider }"/>
                                       <param name="base-image-url" value="{ $base-image-url}"/>
                                       <param name="fond-id" value="{ $fondid }"/>
+                                      <param name="parent-title" value="{ $parent-title }"/>
                                </parameters> 
     let $xsl-header-params := <parameters>
                                       <param name="platform-id" value="{ $conf:project-name }"/>
@@ -59,6 +81,21 @@ declare function platform-oai:transform($verb as xs:string, $document as node()*
                              transform:transform($document, $header-xsl, $xsl-header-params)
     return     
          $transformed-object   
+};
+
+(: Converts the provided input sequence to a path by joining its items with separating slashes. Returned paths start with 'http' or '/' always end in a '/' :)
+declare function local:to-path($parts as xs:string*) as xs:string? {
+    if (not(exists($parts))) then
+        ()
+    else
+        let $normalized-parts := for $part at $pos in $parts
+            return replace(normalize-space($part), '^/*|/*$', '')
+        let $path := xmldb:decode(fn:string-join($normalized-parts, '/'))
+        return
+            concat(
+                if (starts-with($path, 'http')) then $path else concat('/', $path),
+                '/'
+            )
 };
 
 (: search for DataProvider because of the atom- ID:)
@@ -101,48 +138,28 @@ return
     $data-provider
 };
 
-(: search for ImageUrl because of atom- ID :)
-declare function local:search-for-image-url($atom-id as xs:string){
-let $tokens := local:object-uri-tokens($atom-id)
-(: distinguish between fond and collection :)
-let $image-url := 
-    if(count($tokens) = 3) then
-       concat(collection(xmldb:encode-uri(
-            xmldb:decode(
-                concat(
-                conf:param('atom-db-base-uri'),
-                '/metadata.fond.public/',
-                $tokens[1],
-                '/',
-                $tokens[2]))))/xrx:preferences/xrx:param[@name='image-server-base-url']/text(), 
-                '/')
-    else
-       concat(collection(xmldb:encode-uri(
-              xmldb:decode(
-                concat(
-                conf:param('atom-db-base-uri'),
-                '/metadata.collection.public/',
-                $tokens[1]))))//cei:text/cei:front/cei:image_server_address,
-                '/',
-              collection(xmldb:encode-uri(
-              xmldb:decode(
-                concat(
-                conf:param('atom-db-base-uri'),
-                '/metadata.collection.public/',
-                $tokens[1]))))//cei:text/cei:front/cei:image_server_folder,
-                '/')
-
-(: Für Europeana alle images.monasterium.net Images über IIIF schleifen:)
-
-let $image-url := if(contains($image-url, "http://images.monasterium.net")) then
-    let $rest := substring-after($image-url,"http://images.monasterium.net/")
-    let $encoded := encode-for-uri($rest)
-    return concat("http://images.icar-us.eu/iiif/2/", $encoded)
-else $image-url
-
-
-return
-    $image-url
+(: Get the base url for image links based on their atom:id. Base urls end with a '/' :)
+declare function local:get-image-base-url($atom-id as xs:string) {
+    let $tokens := local:object-uri-tokens($atom-id)
+    (: Distinguish between fond and collection :)
+    let $image-url := if(count($tokens) = 3)
+        (: Fond :)
+        then
+            let $fond-path := local:to-path((conf:param('atom-db-base-uri'), 'metadata.fond.public', $tokens[1], $tokens[2]))
+            return
+                (: Get the defined image-server-base-url as a path with a trailing slash :)
+                local:to-path(collection($fond-path)/xrx:preferences/xrx:param[@name='image-server-base-url'])
+        (: Collection :)
+        else
+            let $col-path := local:to-path((conf:param('atom-db-base-uri'), 'metadata.collection.public', $tokens[1]))
+            let $mycol-path := local:to-path((conf:param('atom-db-base-uri'), 'metadata.mycollection.public', $tokens[1]))
+            let $xml-collection := collection(if(xmldb:collection-available($col-path)) then $col-path else $mycol-path)
+            let $server-url := $xml-collection//cei:text/cei:front/cei:image_server_address
+            let $image-folder-url := $xml-collection//cei:text/cei:front/cei:image_server_folder
+            return
+                (: Get the combination of the server URL and the image folder URL as a path with a trailing slash :)
+                local:to-path(($server-url, $image-folder-url))
+    return $image-url
 };
 
 (: Helper- function to analyze atomID - ToDo in eXist 2.0: use charter:- functions directly!  :)
@@ -317,7 +334,12 @@ declare function platform-oai:get-context($object-id as xs:string) as xs:string 
                   xs:string('collection')
                  else
                   xs:string('noMatch')
-            else    
+            else  if(exists(doc(concat(conf:param('data-db-base-uri'), 'metadata.mycollection.public/', $object-id, '/oai.xml'))//oei:collection))then
+                if(exists(doc(concat(conf:param('data-db-base-uri'), 'metadata.mycollection.public/', $object-id, '/oai.xml'))//oei:collection[xmldb:encode(string(./@id)) = $object-id][./@status = 'enable']))then
+                  xs:string('collection')
+                 else
+                  xs:string('noMatch')
+            else   
                 xs:string('noMatch')
     return
         $archive-or-collection
@@ -365,17 +387,16 @@ declare function platform-oai:create-file($object-id as xs:string, $context as x
 declare function platform-oai:error-message($base-url as xs:string) {
     let $message :=
                 (: OAI- PMH informations - have to be defined:)
-                <OAI_PMH xmlns="http://www.openarchives.org/OAI/2.0/" 
+                <oai:OAI_PMH xmlns:oai="http://www.openarchives.org/OAI/2.0/" 
                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                     xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/
-                     http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
-                <responseDate>{current-dateTime()}</responseDate>
-                <request> {(for $parameter in request:get-parameter-names()
+                     xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+                <oai:responseDate>{current-dateTime()}</oai:responseDate>
+                <oai:request> {(for $parameter in request:get-parameter-names()
                             return
                                 attribute {$parameter}{request:get-parameter(string($parameter),0)})
-                            ,$base-url}</request>
-                 <error code="noRecordsMatch">Base- URL has not been released yet! Please check your URL or contact the metadata manager of the archive!</error>
-                 </OAI_PMH> 
+                            ,$base-url}</oai:request>
+                 <oai:error code="noRecordsMatch">Base- URL has not been released yet! Please check your URL or contact the metadata manager of the archive!</oai:error>
+                 </oai:OAI_PMH> 
         return
             $message
 };

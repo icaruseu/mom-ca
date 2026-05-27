@@ -26,6 +26,15 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
 	<xrx:csss>
     <xrx:css>tag:www.monasterium.net,2011:/mom/css/global</xrx:css>
 	</xrx:csss>
+	  <xrx:jss>
+    <script async="true" src="https://www.googletagmanager.com/gtag/js?id=G-1GDQBEQZH4"></script>
+    <script type="text/javascript">
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){{dataLayer.push(arguments);}}
+      gtag('js', new Date());
+      gtag('config', 'G-1GDQBEQZH4');
+    </script>
+  </xrx:jss>
 	<xrx:model/>
 	<xrx:view>
 		<div id="main">

@@ -65,10 +65,8 @@ http://images.monasterium.net/pics/AES<
 :)
 
 declare function img:get-url($url as xs:string, $atomid  as xs:string?, $context as xs:string){     
-      if(starts-with($url, 'http://images.monasterium.net')) then
-          let $cropend := string-length($url)          
-          let $cropstart := string-length('http://images.monasterium.net/')+1
-          let $imageurl := substring($url, $cropstart, $cropend)      
+      if(contains($url, 'images.monasterium.net')) then
+          let $imageurl := substring-after($url, 'images.monasterium.net/')
           return img:iiif($imageurl)
      else if($context = 'collection' and not(starts-with($url, 'http')))then
        let $collectionname := tokenize($atomid, '/')[3]

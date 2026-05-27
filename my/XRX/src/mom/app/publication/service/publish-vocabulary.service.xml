@@ -111,6 +111,11 @@
         let $store-vocab :=
             system:as-user('admin', conf:param('dba-password'), atom:PUTSILENT($feed, util:document-name($published-skos), $saved-skos))
         
+        let $sendmail :=
+        <xrx:sendmail>
+            <xrx:key>publish-vocab-email</xrx:key>
+        </xrx:sendmail>
+        
         (: remove saved vocabulary :)
         let $remove-saved-vocab :=
             system:as-user('admin', conf:param('dba-password'), atom:DELETE(concat($userfolder, '/metadata.controlledVocabulary'), util:document-name($saved-skos)))
@@ -118,11 +123,6 @@
         (: save user xml :)
         let $store-user-xml :=
             atom:PUT(conf:param('xrx-user-atom-base-uri'), util:document-name($user-xml), $update-user-xml)
-        
-        let $sendmail :=
-        <xrx:sendmail>
-            <xrx:key>publish-vocab-email</xrx:key>
-        </xrx:sendmail>
         
         return
         $update-user-xml

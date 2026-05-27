@@ -597,7 +597,7 @@
 
     <target name="install-daemon">
         <log message="Installing the eXist daemon"/>
-        <exec executable="${wrapper-home}/bin/installDaemon.sh"/>
+        <exec executable="${wrapper-home}/bin/installDaemonNoPriv.sh"/>
     </target>
 
     <target name="uninstall-daemon">
