@@ -526,7 +526,7 @@
                     release_skos(vocab);
                     }}
                   else {{
-                  var errorMessage = '<strong>SKOS not valid!</strong><br/>' + $(response).find('message').text();
+                  var errorMessage = '<strong>SKOS not valid!</strong><br/>' + 'At line: ' + $(response).find('message').attr('line') + '<br/>' + $(response).find('message').text();
                   $('#release-msg-invalid').html(errorMessage).show();
                   $('#release-msg-invalid').css({{
                         opacity: 0, display: "block"
