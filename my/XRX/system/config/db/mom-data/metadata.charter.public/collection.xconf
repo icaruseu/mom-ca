@@ -99,6 +99,8 @@
             <create qname="@to" type="xs:integer"/>
             <create qname="@value" type="xs:double"/>
             <create qname="atom:id" type="xs:string"/>
+            <create qname="@key" type="xs:string"/>
+            <create qname="cei:persName" type="xs:string"/>
         </range>
     </index>
 </collection>
