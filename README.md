@@ -138,3 +138,6 @@ networks:
 ### Email
 
 For a live server it is advisable to configure an smtp server so that MOM-CA can send notification emails. This can be achieved by setting the appropriate .env parameters (see above).
+
+# References
+This is a fork of https://github.com/HKIKoeln/MOM-CA/, where you can find credits to its original developper [Jochen Graz](https://github.com/JochenGraf). The software is now maintained by the [ICARus](https://www.icar-us.eu/) technical team, in particular [Stephan Makowski](https://github.com/StephanMa) and [Daniel Jeller](https://github.com/yngwi). Contributions are supported by various projects from [FWF](https://www.fwf.ac.at/) and in particular the [ERC project DiDip](https://github.com/Didip-eu/).
