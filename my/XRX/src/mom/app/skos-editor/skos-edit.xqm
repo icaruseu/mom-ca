@@ -81,3 +81,8 @@ declare function skos-edit:get-vocab-filename($atomid as xs:string) as xs:string
     return
         $vocab-name
 };
+
+(: check well-formedness of an XML element:)
+declare function skos-edit:is-wellformed($xml as element()){
+    try { $xml/* } catch * { <error>{ $err:description }</error> }
+};
