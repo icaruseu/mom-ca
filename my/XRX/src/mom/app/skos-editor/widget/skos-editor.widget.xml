@@ -518,10 +518,10 @@
         // submits contents of the textarea to the edit-definition service, reload
         $('button#submit-content').click(function () {{
             var editorContent = CKEDITOR.instances.editor.document.getBody().getHtml();
-            var editDefinitionUrl = "/mom/service/edit-definition?concept=" + concept;
+            var editDefinitionUrl = htmlDecode("/mom/service/edit-definition?vocab=" + vocab + "&amp;concept=" + concept);
             
             $.ajax({{
-                url: editDefinitionUrl + "&amp;vocab=" + vocab,
+                url: editDefinitionUrl,
                 type: "PUT",
                 contentType: "application/xml",
                 data: editorContent,
