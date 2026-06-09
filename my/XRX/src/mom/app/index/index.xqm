@@ -63,13 +63,14 @@ declare function index:index-abfrage($term, $coll){
       let $all-hits := 
           if ($coll = 'person') then $index:chartercollection//cei:persName[@key = $term]/ancestor::cei:text[@type='charter']
           else (
-            let $lemma-hits := $index:chartercollection//cei:index[@lemma = substring-after($term, '#')]/ancestor::cei:text[@type='charter']
-            let $narrower-terms := 
+            let $term-string := substring-after($term, '#')
+            let $narrower-strings := 
                 for $n in index:narrower($term)
-                return if (starts-with($n, '#')) then substring-after($n, '#') else $n                  
-            let $lemma-values := ($term, $narrower-terms)
-            for $dlv in distinct-values($lemma-values)
-            return $index:chartercollection//@lemma[data() = $dlv]/ancestor::cei:text[@type='charter']
+                return substring-after($n, '#')
+            let $indices := $index:chartercollection/atom:entry/atom:content/cei:text/cei:back/cei:index
+            let $term-hits := $indices[@lemma = $term-string]/ancestor::cei:text[@type='charter']
+            let $narrower-hits := $indices[@lemma = $narrower-strings]/ancestor::cei:text[@type='charter']
+            return $term-hits union $narrower-hits
                 )            
       for $hit in $all-hits
         let $date := charters:date-selector($hit/cei:body/cei:chDesc/cei:issued, 'from')
