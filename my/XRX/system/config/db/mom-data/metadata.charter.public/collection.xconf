@@ -101,6 +101,7 @@
             <create qname="atom:id" type="xs:string"/>
             <create qname="@key" type="xs:string"/>
             <create qname="cei:persName" type="xs:string"/>
+			<create qname="cei:index" type="xs:string"/>
         </range>
     </index>
 </collection>
