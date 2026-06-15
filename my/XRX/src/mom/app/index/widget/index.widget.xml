@@ -75,8 +75,12 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
     <xrx:variable>
       <xrx:name>$wcharters:next-block-pos</xrx:name>
       <xrx:expression>if($windex:block = $windex:hits div 30) then 1 else $windex:block + 1</xrx:expression>
-    </xrx:variable> 
-    
+    </xrx:variable>
+    <!-- save search results (full atom:entry) for browsing -->
+    <xrx:variable>
+      <xrx:name>$setresults</xrx:name>
+      <xrx:expression>if ($search:RESULT) then search:set-result($windex:index) else () </xrx:expression>
+    </xrx:variable>
     <!-- Sortierung der Suchergebnisse passiert in index.xqm,
      dann kann in der korrekten Reihefolge geblättert werden (browse search results)-->
     <xrx:variable>
