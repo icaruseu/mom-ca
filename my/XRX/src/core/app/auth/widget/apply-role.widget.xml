@@ -142,55 +142,70 @@ We expect VdU/VRET to be distributed in the future with a license more lenient t
             <xrx:user/>
             <xrx:role>user-administrator</xrx:role>
           </xrx:rule>
-        </xrx:rules>
-        <xrx:true>
-          <div id="dform"><div id="dinnerform">
-            <xf:group model="mapply-role">
-              <h2>{ $rolename } ({ $roleid })</h2>
-              <xf:repeat id="rmembers" bind="bmembers" appearance="compact">
-                <xf:select1 ref="." incremental="true">
-                  <xf:label/>
-                  <xf:itemset bind="busers">
-                    <xf:value ref="email"/>
-                    <xf:label ref="label"/>
-                  </xf:itemset>
-                </xf:select1>
-                <xf:trigger>
-                  <xf:label>-</xf:label>
-                  <xf:action ev:event="DOMActivate">
-                    <xf:delete nodeset="//member[index('rmembers')]"/>
-                  </xf:action>
-                </xf:trigger>
-              </xf:repeat>
-              <xf:trigger>
-                <xf:label>
-                  <xrx:i18n>
-                    <xrx:key>add-member</xrx:key>
-                    <xrx:default>Add member</xrx:default>
-                  </xrx:i18n>
-                </xf:label>
-                <xf:action ev:event="DOMActivate">
-                  <xf:insert origin="instance('itemplate')//member" nodeset="//member" at="last()" position="after"/>
-                </xf:action>
-              </xf:trigger>
-              <br/>
-              <br/>
-              <div id="dsave">
-                <xf:trigger>
-                  <xf:label>
-                    <xrx:i18n>
-                      <xrx:key>save</xrx:key>
-                      <xrx:default>Save</xrx:default>
-                    </xrx:i18n>
-                  </xf:label>
-                  <xf:action ev:event="DOMActivate">
-                    <xf:send submission="ssave"/>
-                  </xf:action>
-                </xf:trigger>
-              </div>
-            </xf:group>
-          </div></div>
-        </xrx:true>
+  </xrx:rules>
+  <xrx:true>
+  <div id="dform"><div id="dinnerform">
+    <xf:group model="mapply-role" xmlns:xf="http://www.w3.org/2002/xforms">
+      <h2>{ $rolename } ({ $roleid })</h2>
+
+      <!-- bereits zugewiesene Mitglieder: nur Anzeige + Entfernen, KEIN itemset -->
+      <xf:repeat id="rmembers" bind="bmembers" appearance="compact">
+        <xf:output ref="."/>
+        <xf:trigger>
+          <xf:label>-</xf:label>
+          <xf:action ev:event="DOMActivate">
+            <xf:delete nodeset="//member[index('rmembers')]"/>
+          </xf:action>
+        </xf:trigger>
+      </xf:repeat>
+
+      <!-- EIN Auswahlfeld; das itemset wird genau einmal gerendert -->
+      <xf:select1 ref="instance('itemplate')//member" incremental="true">
+        <xf:label>
+          <xrx:i18n>
+            <xrx:key>select-user</xrx:key>
+            <xrx:default>User</xrx:default>
+          </xrx:i18n>
+        </xf:label>
+        <xf:itemset bind="busers">
+          <xf:value ref="email"/>
+          <xf:label ref="label"/>
+        </xf:itemset>
+      </xf:select1>
+
+      <xf:trigger>
+        <xf:label>
+          <xrx:i18n>
+            <xrx:key>add-member</xrx:key>
+            <xrx:default>Add member</xrx:default>
+          </xrx:i18n>
+        </xf:label>
+        <xf:action ev:event="DOMActivate">
+          <xf:insert context="instance('imembers')"
+                     nodeset="member"
+                     origin="instance('itemplate')//member"
+                     at="last()" position="after"/>
+          <xf:setvalue ref="instance('itemplate')//member"/>
+        </xf:action>
+      </xf:trigger>
+
+      <br/><br/>
+      <div id="dsave">
+        <xf:trigger>
+          <xf:label>
+            <xrx:i18n>
+              <xrx:key>save</xrx:key>
+              <xrx:default>Save</xrx:default>
+            </xrx:i18n>
+          </xf:label>
+          <xf:action ev:event="DOMActivate">
+            <xf:send submission="ssave"/>
+          </xf:action>
+        </xf:trigger>
+      </div>
+    </xf:group>
+  </div></div>
+</xrx:true>
         <xrx:false>
           <div>
             <xrx:i18n>
