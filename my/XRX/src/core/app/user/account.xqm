@@ -117,6 +117,9 @@ declare function account:confirmation-code($email) {
 
     let $email-as-binary := util:string-to-binary($email, 'UTF-8')
     let $confirmation-code := util:hash($account:current-date-time, 'MD5')
+    let $userreset-config := map { "maximumSize": "1"}
+    let $userreset-cache := cache:create('userreset', $userreset-config)
+    let $userreset-put := cache:put('userreset', $email, $confirmation-code)
     return
     concat($email-as-binary, ',', $confirmation-code)
 
@@ -176,16 +179,20 @@ declare function account:reset-password($code) {
 
     let $code1 := substring-before($code, ',')
     let $confirmation-code := substring-after($code, ',')
-    let $new-password := account:new-password($code)
-    let $email := util:binary-to-string(xs:base64Binary($code1))
-    let $change-user := 
-        system:as-user(
-            $account:admin-user,
-            $account:admin-pass,
-            xmldb:change-user($email, $new-password, $account:user-groups, '')
-        )
-    return
-    $new-password
+    let $userreset-code := cache:get('userreset', xmldb:get-current-user())
+    return if ($confirmation-code = $userreset-code) then (
+        let $new-password := account:new-password($code)
+        let $email := util:binary-to-string(xs:base64Binary($code1))
+        let $change-user := 
+            system:as-user(
+                $account:admin-user,
+                $account:admin-pass,
+                xmldb:change-user($email, $new-password, $account:user-groups, '')
+            )
+        let $remove-cache := cache:destroy('userreset')
+        return
+        $new-password)
+    else ()
 };
 
 (: 

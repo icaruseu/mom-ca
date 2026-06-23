@@ -67,7 +67,7 @@ declare function index:index-abfrage($term, $coll){
             let $narrower-strings := 
                 for $n in index:narrower($term)
                 return substring-after($n, '#')
-            let $indices := $index:chartercollection/atom:entry/atom:content/cei:text/cei:back/cei:index
+            let $indices := $index:chartercollection//cei:index
             let $term-hits := $indices[@lemma = $term-string]/ancestor::cei:text[@type='charter']
             let $narrower-hits := $indices[@lemma = $narrower-strings]/ancestor::cei:text[@type='charter']
             return $term-hits union $narrower-hits
