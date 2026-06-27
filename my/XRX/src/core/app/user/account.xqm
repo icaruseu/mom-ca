@@ -112,19 +112,23 @@ declare function account:is-known-user($email, $password) {
     helper function which creates a char salad
     which can be appended as a request parameter 
     by the account email service
+    also saves confirmation code and timestamp to
+    cache for validation
 :)
 declare function account:confirmation-code($email) {
 
     let $email-as-binary := util:string-to-binary($email, 'UTF-8')
-    let $confirmation-code := util:hash($account:current-date-time, 'MD5')
-    let $userreset-config := map { "maximumSize": "1"}
-    let $userreset-cache := cache:create('userreset', $userreset-config)
-    let $userreset-put := cache:put('userreset', $email, $confirmation-code)
+    let $confirmation-code := util:uuid()
+    let $userreset-config := map { "maximumSize": "100"}
+    let $userreset-cache := if (cache:names() != 'userreset') then cache:create('userreset', $userreset-config) else ()
+    let $userreset-entry := map {
+        "code": $confirmation-code,
+        "expires": current-dateTime() + xs:dayTimeDuration('PT1H')
+    }
+    let $userreset-put := cache:put('userreset', $email, $userreset-entry)
     return
-    concat($email-as-binary, ',', $confirmation-code)
-
+        concat($email-as-binary, ',', $confirmation-code)
 };
-
 (: 
     function creates a new account which has then 
     to be activated  
@@ -176,23 +180,29 @@ declare function account:confirm($code as xs:string) as xs:string {
     sended by the account email service
 :)
 declare function account:reset-password($code) {
-
     let $code1 := substring-before($code, ',')
     let $confirmation-code := substring-after($code, ',')
-    let $userreset-code := cache:get('userreset', xmldb:get-current-user())
-    return if ($confirmation-code = $userreset-code) then (
-        let $new-password := account:new-password($code)
-        let $email := util:binary-to-string(xs:base64Binary($code1))
-        let $change-user := 
-            system:as-user(
-                $account:admin-user,
-                $account:admin-pass,
-                xmldb:change-user($email, $new-password, $account:user-groups, '')
-            )
-        let $remove-cache := cache:destroy('userreset')
-        return
-        $new-password)
-    else ()
+    let $email := util:binary-to-string(xs:base64Binary($code1))
+    let $entry := cache:get('userreset', $email)
+    return
+        if (empty($entry)) then ()
+        else if (not($entry?code = $confirmation-code)) then ()
+        else if (current-dateTime() gt $entry?expires) then (
+            let $remove-cache := cache:remove('userreset', $email)
+            return ()
+        )
+        else (
+            let $new-password := account:new-password($code)
+            let $change-user :=
+                system:as-user(
+                    $account:admin-user,
+                    $account:admin-pass,
+                    xmldb:change-user($email, $new-password, $account:user-groups, '')
+                )
+            let $remove-cache := cache:remove('userreset', $email)
+            return
+                $new-password
+        )
 };
 
 (: 
