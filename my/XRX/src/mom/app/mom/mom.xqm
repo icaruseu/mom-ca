@@ -5,6 +5,7 @@ module namespace mom="http://www.monasterium.net/NS/mom";
 declare namespace xrx="http://www.monasterium.net/NS/xrx";
 declare namespace cei="http://www.monasterium.net/NS/cei";
 declare namespace ead="urn:isbn:1-931666-22-9";
+declare namespace eag="http://www.archivgut-online.de/eag";
 
 import module namespace metadata="http://www.monasterium.net/NS/metadata"
     at "../metadata/metadata.xqm";
@@ -23,9 +24,9 @@ declare function mom:statistics() {
             let $metadata-collection-collection := metadata:base-collection('collection', 'public')
             let $metadata-charter-collection := metadata:base-collection('charter', 'public')
             (: statistics :)
-            let $archives := count($metadata-archive-collection)
+            let $archives := count($metadata-archive-collection[.//eag:eag])
             let $fonds := count($metadata-fond-collection[.//ead:ead])
-            let $collections := count($metadata-collection-collection)
+            let $collections := count($metadata-collection-collection[.//cei:cei])
             let $charters := count($metadata-charter-collection)
             let $graphics := count($metadata-charter-collection//cei:graphic/@url)
             let $statistics := 
