@@ -1417,6 +1417,7 @@
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element ref="foreign"/>
+                <xs:element ref="note"/>
                 <xs:group ref="layout"/>
             </xs:choice>
             <xs:attributeGroup ref="lang"/>
@@ -4705,6 +4706,7 @@
                     <xs:annotation>
                         <xs:documentation xml:lang="deu">Geographische Angaben </xs:documentation>
                     </xs:annotation>
+                    <xs:element ref="index"/>
                     <xs:element ref="name"/>
                     <xs:element ref="addName"/>
                     <xs:element ref="persName"/>
