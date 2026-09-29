@@ -49,7 +49,8 @@ along with VdU/VRET.  If not, see http://www.gnu.org/licenses.
 		let $email-already-exists :=
 		  exists($user:db-base-collection/xrx:user[xrx:email=$requested-email])
 		let $create-account :=
-			if($email-already-exists) then ()
+		  if($email-already-exists) then
+		    cache:remove('userreset', $requested-email)
 			else
 			(
 			  account:create-user($data),
