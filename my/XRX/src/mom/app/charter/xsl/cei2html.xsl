@@ -1868,6 +1868,12 @@
     <xsl:template match="cei:tenor">
         <xsl:apply-templates/>
     </xsl:template>
+    <xsl:template match="cei:subscriptio">
+        <xsl:apply-templates/>
+        <xsl:if test="not(position() = last())">
+            <br/>
+        </xsl:if>
+    </xsl:template>
     <xsl:template name="bibltenor">
         <!-- <div id="bibltenor"> -->
         <xrx:i18n>
