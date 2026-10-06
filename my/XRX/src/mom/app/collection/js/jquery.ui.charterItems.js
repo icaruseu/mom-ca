@@ -167,8 +167,6 @@ $.widget( "ui.charterItems", {
 	            .text("Editor") )
                 
               );
-          console.log('Das ist ein ajax test');
-          console.log(self._serviceUrl(serviceMyCollectionItems));
           var itemLinkDisplay = $('<div></div>')
               .addClass("forms-table-cell");
           if (versionOfTitle !== '') {
