@@ -1,0 +1,50 @@
+<xs:schema targetNamespace="http://www.w3.org/2004/02/skos/core#"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    id="skos">
+    <xs:import namespace="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        schemaLocation="rdf.xsd"/>
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
+    <xs:element name="ConceptScheme">
+        <xs:complexType>
+            <xs:all>
+                <xs:element maxOccurs="unbounded" name="prefLabel"> </xs:element>
+                <xs:element maxOccurs="unbounded" minOccurs="0" name="note"/>
+                <xs:element maxOccurs="unbounded" name="hasTopConcept">
+                    <xs:complexType>
+                        <xs:attribute ref="rdf:resource" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:all>
+            <xs:attribute ref="rdf:about" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Concept">
+        <xs:complexType>
+            <xs:all>
+                <xs:element maxOccurs="unbounded" name="prefLabel">
+                    <xs:complexType mixed="true">
+                        <xs:attribute ref="xml:lang"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element maxOccurs="unbounded" minOccurs="0" name="definition"/>
+                <xs:element minOccurs="0" name="broader" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:attribute ref="rdf:resource" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element minOccurs="0" name="narrower" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:attribute ref="rdf:resource" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element minOccurs="0" name="inScheme">
+                    <xs:complexType>
+                        <xs:attribute ref="rdf:resource" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:all>
+            <xs:attribute ref="rdf:about" use="required"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
