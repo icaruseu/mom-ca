@@ -373,7 +373,7 @@
 							            {
 							            for $img-url at $num in $img-urls
 							            return
-							            <a href="#" data-url="{ $img-url }" data-num="{ $num }" onclick="changeImage(this.dataset.url, this.dataset.num); return false;">{ $num } </a>
+							            <a href="#" data-url="{ $img-url }" onclick="changeImage(this.dataset.url); return false;">{ $num } </a>
 							            }
 							          </div>
                             </div>
