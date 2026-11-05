@@ -530,7 +530,8 @@
                 <p>
                     <xsl:value-of select="$image-base-uri"/>
                 </p>
-                <a href="javascript:changeImage('{concat($image-base-uri, .)}, 'position()')" class="imageLink">
+                <a href="#" class="imageLink" data-url="{concat($image-base-uri, .)}" data-num="{position()}"
+                    onclick="changeImage(this.dataset.url, this.dataset.num); return false;">
                     <xsl:value-of select="position()"/>
                 </a>
                 <xsl:text>&#160;</xsl:text>

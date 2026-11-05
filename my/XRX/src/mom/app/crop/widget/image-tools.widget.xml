@@ -802,7 +802,7 @@ div.no-graphic{{
                         for $img-url at $num in $img-urls
                         return
                         if($charter:rarchiveid != 'DE-LABW') then
-                        <a href="javascript:changeImage('{ $img-url }')">{ $num } </a>
+                        <a href="#" data-url="{ $img-url }" onclick="changeImage(this.dataset.url); return false;">{ $num } </a>
                         else()
                         }
                     </div>

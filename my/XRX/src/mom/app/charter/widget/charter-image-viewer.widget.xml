@@ -298,12 +298,8 @@ img#aus {{
 		  				let $trimmed := replace(replace($img-url,'\s+$',''),'^\s+','')
 						return
 						if($charter:rarchiveid != 'DE-LABW') then
-						  if ($num = 1) then
-						  <a class="imageLink" title="{$trimmed}" href="javascript:changeImage('{ $trimmed }', '{$num}')" id="gelb">{ $num }</a>
-						  else (
-						  <a class="imageLink" title="{$trimmed}" href="javascript:changeImage('{ $trimmed }', '{$num}')" id="schwarz">{ $num }</a>
-						  )
-						
+						  <a class="imageLink" title="{$trimmed}" data-url="{$trimmed}" data-num="{$num}" href="#"
+						    onclick="changeImage(this.dataset.url, this.dataset.num); return false;" id="{ if ($num = 1) then 'gelb' else 'schwarz' }">{ $num }</a>
 						else()
 						}
 					</div>
